@@ -1,0 +1,6 @@
+.DS_Store
+/admin/configuration.ini
+/archive/*
+/logs/*
+/sushistore/*
+*.bak
