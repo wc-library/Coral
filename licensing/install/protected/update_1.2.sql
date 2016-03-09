@@ -1,0 +1,14 @@
+ALTER TABLE `Attachment` ADD INDEX `licenseID` ( `licenseID` );
+ALTER TABLE `Document` ADD INDEX `licenseID` ( `licenseID` );
+ALTER TABLE `Document` ADD INDEX `documentTypeID` ( `documentTypeID` );
+ALTER TABLE `Document` ADD INDEX `parentDocumentID` ( `parentDocumentID` );
+ALTER TABLE `Expression` ADD INDEX `documentID` ( `documentID` );
+ALTER TABLE `Expression` ADD INDEX `expressionTypeID` ( `expressionTypeID` );
+ALTER TABLE `ExpressionNote` ADD INDEX `expressionID` ( `expressionID` );
+ALTER TABLE `License` ADD INDEX `organizationID` ( `organizationID` );
+ALTER TABLE `License` ADD INDEX `consortiumID` ( `consortiumID` );
+ALTER TABLE `License` ADD INDEX `statusID` ( `statusID` );
+ALTER TABLE `SFXProvider` ADD INDEX `documentID` ( `documentID` );
+ALTER TABLE `Signature` ADD INDEX `documentID` ( `documentID` );
+ALTER TABLE `Signature` ADD INDEX `signatureTypeID` ( `signatureTypeID` );
+ALTER TABLE `Qualifier` ADD INDEX `expressionTypeID` ( `expressionTypeID` );
