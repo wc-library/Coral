@@ -887,7 +887,7 @@ function bind_routing(){
    });
 
    $(".removeResourceStep").unbind('click').click(function () {
-        if (confirm("Do you really want to delete this step? If other steps depended on this one, they will be started upon deletion. This action cannot be undone") == true) {
+        if (confirm(_("Do you really want to delete this step? If other steps depended on this one, they will be started upon deletion. This action cannot be undone")) == true) {
             $.ajax({
                 type:       "GET",
                 url:        "ajax_processing.php",
