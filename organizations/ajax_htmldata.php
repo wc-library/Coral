@@ -133,7 +133,7 @@ switch ($_GET['action']) {
 
 		//fix company url in case http is missing
 		if ($organization->companyURL){
-			if (strpos(strtolower($organization->companyURL), 'http:') === false){
+			if (strpos(strtolower($organization->companyURL), 'http') === false){
 				$companyURL = "http://" . $organization->companyURL;
 			}else{
 				$companyURL = $organization->companyURL;
