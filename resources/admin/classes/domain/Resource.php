@@ -2041,7 +2041,7 @@ class Resource extends DatabaseObject {
 
 		$query = "DELETE
 			FROM ResourceStep
-			WHERE resourceID = '" . $this->resourceID . "'";
+			WHERE resourceID = '" . $this->resourceID . "' AND archivingDate IS NOT NULL";
 
 		$result = $this->db->processQuery($query);
 	}
@@ -2146,7 +2146,7 @@ class Resource extends DatabaseObject {
 
 		$query = "SELECT * FROM ResourceStep
 					WHERE resourceID = '" . $this->resourceID . "'
-					ORDER BY displayOrderSequence, stepID";
+					ORDER BY archivingDate DESC, displayOrderSequence, stepID";
 
 		$result = $this->db->processQuery($query, 'assoc');
 
@@ -2166,6 +2166,10 @@ class Resource extends DatabaseObject {
 		return $objects;
 
 	}
+
+    public function getArchivedResourceSteps() {
+        return $this->getResourceSteps(true);
+    }
 
 
 
@@ -2220,14 +2224,17 @@ class Resource extends DatabaseObject {
 
 	}
 
-
+    public function archiveWorkflow() {
+        $query = "UPDATE ResourceStep SET archivingDate=NOW() WHERE archivingDate IS NULL AND resourceID = '" . $this->resourceID . "'";
+		$result = $this->db->processQuery($query);
+    }
 
 	//enters resource into new workflow
 	public function enterNewWorkflow(){
 		$config = new Configuration();
 
 		//remove any current workflow steps
-		$this->removeResourceSteps();
+		//$this->removeResourceSteps();
 
 		//make sure this resource is marked in progress in case it was archived
 		$status = new Status();

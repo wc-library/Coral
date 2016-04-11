@@ -871,6 +871,10 @@ function bind_routing(){
 	  }
    });
 
+   $(".displayArchivedWorkflows").unbind('click').click(function () {
+   console.log("toto");
+      $(".archivedWorkflow").show();
+   });
 
    $(".markResourceComplete").unbind('click').click(function () {
 	  if (confirm(_("Do you really want to mark this resource complete?  This action cannot be undone.")) == true) {   

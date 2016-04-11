@@ -9,6 +9,7 @@
 
 			try {
 				$resource->save();
+                $resource->archiveWorkflow();
 				$resource->enterNewWorkflow();
 			} catch (Exception $e) {
 				echo $e->getMessage();

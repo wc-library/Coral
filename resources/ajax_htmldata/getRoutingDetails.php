@@ -23,10 +23,12 @@
 				<th style='background-color:#dad8d8;width:150px;'><?php echo _("Group");?></th>
 				<th style='background-color:#dad8d8;width:120px;'><?php echo _("Start Date");?></th>
 				<th style='background-color:#dad8d8;width:250px;'><?php echo _("Complete");?></th>
+				<th style='background-color:#dad8d8;width:250px;'><?php echo _("Archiving Date");?></th>
 					<th style='background-color:#dad8d8;'><?php echo _("Delete");?></th>
 				</tr>
 			<?php
 			$openStep=0;
+            $archivingDate = 'init';
 			foreach($resourceSteps as $resourceStep){
 				$userGroup = new UserGroup(new NamedArguments(array('primaryKey' => $resourceStep->userGroupID)));
 				$eUser = new User(new NamedArguments(array('primaryKey' => $resourceStep->endLoginID)));
@@ -38,8 +40,17 @@
 				}
 
 
+                $stepClass = $resourceStep->archivingDate ? " class='archivedWorkflow' style='display:none'"  : '';
 				?>
-				<tr>
+				<tr<?php echo $stepClass; ?>>
+                <?php
+                if ($archivingDate != $resourceStep->archivingDate) {
+                    $archivingDate = $resourceStep->archivingDate;
+                    $stepIndication = $resourceStep->archivingDate ? _("Workflow archived on") . " $archivingDate" : _("Current workflow");
+                    echo "<td colspan='6'><em>$stepIndication</em></td>";
+                } else {
+                ?> 
+
 				<td <?php echo $classAdd; ?> ><?php echo $resourceStep->stepName; ?></td>
 				<td <?php echo $classAdd; ?> ><?php if (is_null_date($resourceStep->stepEndDate)){
 						echo '<a href="ajax_forms.php?action=getResourceStepForm&amp;resourceStepID='.$resourceStep->resourceStepID.'&amp;height=250&amp;width=750&amp;modal=true" class="thickbox"><img src="images/edit.gif" alt="edit" title="edit"></a>';
@@ -63,12 +74,14 @@
 						$openStep++;
 					}?>
 				</td>
+                <td><?php echo $resourceStep->archivingDate; ?></td>
 				<td style="text-align:center;"> <?php
 					//add a delete step option, there will be a modal confirmation before delete.
 					if (!$resourceStep->stepEndDate){
 						echo '<a href="javascript:void(0);" class="removeResourceStep" id="'. $resourceStep->resourceStepID .'"><img src="images/cross.gif" alt="delete" title="delete"></a>';
 					} ?>
 				</td>
+                <?php } ?>
 				</tr>
 				<?php
 
@@ -104,6 +117,7 @@
 		if ($user->canEdit()){
 			if (($resource->statusID != $completeStatusID) && ($resource->statusID != $archiveStatusID)){
 				echo "<img src='images/pencil.gif' />&nbsp;&nbsp;<a href='javascript:void(0);' class='restartWorkflow' id='" . $resourceID . "'>"._("restart workflow")."</a><br />";
+				echo "<img src='images/pencil.gif' />&nbsp;&nbsp;<a href='javascript:void(0);' class='displayArchivedWorkflows' id='" . $resourceID . "'>"._("display archived workflows")."</a><br />";
 				echo "<img src='images/pencil.gif' />&nbsp;&nbsp;<a href='javascript:void(0);' class='markResourceComplete' id='" . $resourceID . "'>"._("mark entire workflow complete")."</a><br />";
 			}
 		}
