@@ -2167,11 +2167,22 @@ class Resource extends DatabaseObject {
 
 	}
 
-    public function getArchivedResourceSteps() {
-        return $this->getResourceSteps(true);
+    public function getDistinctWorkflows() {
+        $query = "SELECT DISTINCT archivingDate FROM ResourceStep
+					WHERE resourceID = '" . $this->resourceID . "'
+                    AND archivingDate IS NOT NULL
+					ORDER BY archivingDate ASC";
+
+		$result = $this->db->processQuery($query, 'assoc');
+
+		return $result;
+
     }
 
 
+    public function getArchivedResourceSteps() {
+        return $this->getResourceSteps(true);
+    }
 
 
 	//returns current step location in the workflow for this resource

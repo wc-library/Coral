@@ -23,7 +23,6 @@
 				<th style='background-color:#dad8d8;width:150px;'><?php echo _("Group");?></th>
 				<th style='background-color:#dad8d8;width:120px;'><?php echo _("Start Date");?></th>
 				<th style='background-color:#dad8d8;width:250px;'><?php echo _("Complete");?></th>
-				<th style='background-color:#dad8d8;width:250px;'><?php echo _("Archiving Date");?></th>
 					<th style='background-color:#dad8d8;'><?php echo _("Delete");?></th>
 				</tr>
 			<?php
@@ -74,7 +73,6 @@
 						$openStep++;
 					}?>
 				</td>
-                <td><?php echo $resourceStep->archivingDate; ?></td>
 				<td style="text-align:center;"> <?php
 					//add a delete step option, there will be a modal confirmation before delete.
 					if (!$resourceStep->stepEndDate){
@@ -116,7 +114,35 @@
 
 		if ($user->canEdit()){
 			if (($resource->statusID != $completeStatusID) && ($resource->statusID != $archiveStatusID)){
-				echo "<img src='images/pencil.gif' />&nbsp;&nbsp;<a href='javascript:void(0);' class='restartWorkflow' id='" . $resourceID . "'>"._("restart workflow")."</a><br />";
+				echo "<img src='images/pencil.gif' />&nbsp;&nbsp;<a href='javascript:void(0);' class='restartWorkflow'>"._("restart workflow")."</a><br />";
+                ?>
+                <div class="restartWorkflowDiv" id="restartWorkflowDiv" style="display:none;">
+                    <form name="restartWorkflowForm" id="restartWorkflowForm">
+                        <input type="radio" value="archive" name="archiveOrDeleteWorkflow" id="archiveWorkflow" checked="checked" />
+                        <label for="archiveWorkflow">Archive the completed workflow</label><br />
+
+                        <input type="radio" value="delete" name="archiveOrDeleteWorkflow" id="deleteWorkflow" />
+                        <label for="deleteWorkflow">Delete the completed workflow</label><br />
+
+                        <input type="checkbox" id="restartWorkflowCheck" name="restartWorkflowCheck" />
+                        <label for="restartWorkflowCheck">Restart completed workflow</label>
+
+                        OR <label for="workflowArchivingDate">Select a workflow</label>: 
+                        <select id="workflowArchivingDate">
+                            <option value="">Current workflow</option>
+                            <?php
+                            $distinctWorkflows = $resource->getDistinctWorkflows();
+                            foreach ($distinctWorkflows as $distinctWorkflow) {
+                                echo "<option value=\"" . $distinctWorkflow['archivingDate'] . '">' . $distinctWorkflow['archivingDate'] . '</option>';
+                                //echo '<option value="toto">titi</option>';
+                            }
+                            ?>
+                        </select><br />
+                        <input type="button" value="submit" class="restartWorkflowSubmit" id="<?php echo $resourceID; ?>" />
+                    </form>
+                    <br />
+                </div>
+                <?php
 				echo "<img src='images/pencil.gif' />&nbsp;&nbsp;<a href='javascript:void(0);' class='displayArchivedWorkflows' id='" . $resourceID . "'>"._("display archived workflows")."</a><br />";
 				echo "<img src='images/pencil.gif' />&nbsp;&nbsp;<a href='javascript:void(0);' class='markResourceComplete' id='" . $resourceID . "'>"._("mark entire workflow complete")."</a><br />";
 			}

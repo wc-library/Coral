@@ -20,7 +20,7 @@ $(document).ready(function(){
  	updateRightPanel();
  	updateAttachmentsNumber();
 
-
+    
 
 	$(".showProduct").click(function () {
 	  $('.resource_tab_content').hide();
@@ -232,6 +232,7 @@ $(document).ready(function(){
 		$('#div_routing').show();
 		$('#div_fullRightPanel').hide();
 		updateRouting();
+        $('#restartWorkflowDiv').hide();
 		return false;
 	});
 	
@@ -269,7 +270,7 @@ function updateProduct(){
 	 cache:      false,
 	 data:       "action=getProductDetails&resourceID=" + $("#resourceID").val(),
 	 success:    function(html) {
-		$(".div_mainContent").html(html);
+		$("#div_product .div_mainContent").html(html);
 		bind_removes();
 		tb_reinit();
 		$("#icon_product").html("<img src='images/butterflyfishicon.jpg' />");
@@ -291,7 +292,7 @@ function updateAcquisitions(){
 	 cache:      false,
 	 data:       "action=getAcquisitionsDetails&resourceID=" + $("#resourceID").val(),
 	 success:    function(html) {
-		$(".div_mainContent").html(html);
+		$("#div_acquisitions .div_mainContent").html(html);
 		bind_removes();
 		tb_reinit();
 		$("#icon_acquisitions").html("<img src='images/acquisitions.gif' />");
@@ -312,7 +313,7 @@ function updateAccess(){
 	 cache:      false,
 	 data:       "action=getAccessDetails&resourceID=" + $("#resourceID").val(),
 	 success:    function(html) {
-		$(".div_mainContent").html(html);
+		$("#div_access .div_mainContent").html(html);
 		bind_removes();
 		tb_reinit();
 		$("#icon_access").html("<img src='images/key.gif' />");
@@ -335,7 +336,7 @@ function updateContacts(){
 	 cache:      false,
 	 data:       "action=getContactDetails&resourceID=" + $("#resourceID").val(),
 	 success:    function(html) {
-		$(".div_mainContent").html(html);
+		$("#div_contacts .div_mainContent").html(html);
 		bind_removes();
 		tb_reinit();
 		$("#icon_contacts").html("<img src='images/contacts.gif' />");
@@ -575,7 +576,7 @@ function updateAccounts(){
 	 cache:      false,
 	 data:       "action=getAccountDetails&resourceID=" + $("#resourceID").val(),
 	 success:    function(html) {
-		$(".div_mainContent").html(html);
+		$("#div_accounts .div_mainContent").html(html);
 		bind_removes();
 		tb_reinit();
 		$("#icon_accounts").html("<img src='images/lock.gif' />");
@@ -595,7 +596,7 @@ function updateAttachments(){
 	 cache:      false,
 	 data:       "action=getAttachmentDetails&resourceID=" + $("#resourceID").val(),
 	 success:    function(html) {
-		$(".div_mainContent").html(html);
+		$("#div_attachments .div_mainContent").html(html);
 		bind_removes();
 		tb_reinit();
 		$("#icon_attachments").html("<img src='images/attachment.gif' />");
@@ -632,7 +633,7 @@ function updateRouting(){
 	 cache:      false,
 	 data:       "action=getRoutingDetails&resourceID=" + $("#resourceID").val(),
 	 success:    function(html) {
-		$(".div_mainContent").html(html);
+		$("#div_routing .div_mainContent").html(html);
 		tb_reinit();
 		bind_routing();
 		$("#icon_routing").html("<img src='images/routing.gif' />");
@@ -651,7 +652,7 @@ function updateCataloging(){
 	 cache:      false,
 	 data:       "resourceID=" + $("#resourceID").val(),
 	 success:    function(html) {
-		$(".div_mainContent").html(html);
+		$("#div_cataloging .div_mainContent").html(html);
 		bind_removes();
 		tb_reinit();
 		$("#icon_cataloging").html("<img src='images/cataloging.gif' />");
@@ -854,14 +855,22 @@ function bind_routing(){
    });
 
 
+   $(".restartWorkflow").unbind('click').click(function() {
+        $('#restartWorkflowDiv').show();
+   });
 
-   $(".restartWorkflow").unbind('click').click(function () {
+
+$("select").change(function() {
+    console.log($("#restartWorkflowForm select").val());
+});
+
+   $(".restartWorkflowSubmit").unbind('click').click(function () {
 	  if (confirm(_("Warning!  You are about to remove any steps that have been started and completed.  Are you sure you wish to continue?")) == true) {
 		  $.ajax({
 			 type:       "GET",
 			 url:        "ajax_processing.php",
 			 cache:      false,
-			 data:       "action=restartWorkflow&resourceID=" + $(this).attr("id"),
+			 data:       "action=restartWorkflow&resourceID=" + $(this).attr("id") + "&action=" + $("input[name=archiveOrDeleteWorkflow]:checked").val() + "&workflow=" + $("#workflowArchivingDate").val(),
 			 success:    function(html) {
 				updateRouting();
 			 }
@@ -872,8 +881,7 @@ function bind_routing(){
    });
 
    $(".displayArchivedWorkflows").unbind('click').click(function () {
-   console.log("toto");
-      $(".archivedWorkflow").show();
+      $(".archivedWorkflow").toggle();
    });
 
    $(".markResourceComplete").unbind('click').click(function () {
