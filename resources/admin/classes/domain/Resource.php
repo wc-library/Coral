@@ -801,34 +801,6 @@ class Resource extends DatabaseObject {
 		return $objects;
 	}
 
-	public function getDowntime($archivedOnly=false){
-		$query = "SELECT d.*
-				  FROM Downtime d
-				  WHERE d.entityID={$this->resourceID} AND d.entityTypeID=2";
-		if ($archivedOnly) {
-			$query .= " AND d.endDate < CURDATE()";
-		} else {
-			$query .= " AND (d.endDate >= CURDATE() OR d.endDate IS NULL)";
-		}
-		$query .= "	ORDER BY d.dateCreated DESC";
-
-		$result = $this->db->processQuery($query, 'assoc');
-
-		$objects = array();
-
-		//need to do this since it could be that there's only one request and this is how the dbservice returns result
-		if (isset($result['downtimeID'])){
-			$object = new Downtime(new NamedArguments(array('primaryKey' => $result['downtimeID'])));
-			array_push($objects, $object);
-		}else{
-			foreach ($result as $row) {
-				$object = new Downtime(new NamedArguments(array('primaryKey' => $row['downtimeID'])));
-				array_push($objects, $object);
-			}
-		}
-		return $objects;
-	}
-
 	public function getExportableIssues($archivedOnly=false){
 		if ($this->db->config->settings->organizationsModule == 'Y' && $this->db->config->settings->organizationsDatabaseName) {
 			$contactsDB = $this->db->config->settings->organizationsDatabaseName;
@@ -869,19 +841,40 @@ class Resource extends DatabaseObject {
 		}
 	}
 
-	public function getExportableDowntimes($archivedOnly=false){
-		
+	private function getDownTimeResults($archivedOnly=false) {
 		$query = "SELECT d.*
 				  FROM Downtime d
 				  WHERE d.entityID={$this->resourceID} AND d.entityTypeID=2";
 		if ($archivedOnly) {
 			$query .= " AND d.endDate < CURDATE()";
 		} else {
-			$query .= " AND d.endDate >= CURDATE()";
+			$query .= " AND (d.endDate >= CURDATE() OR d.endDate IS NULL)";
 		}
 		$query .= "	ORDER BY d.dateCreated DESC";
 
-		$result = $this->db->processQuery($query, 'assoc');
+		return $this->db->processQuery($query, 'assoc');
+	}
+
+	public function getDowntime($archivedOnly=false){
+		$result = $this->getDownTimeResults($archivedOnly);
+
+		$objects = array();
+
+		//need to do this since it could be that there's only one request and this is how the dbservice returns result
+		if (isset($result['downtimeID'])){
+			$object = new Downtime(new NamedArguments(array('primaryKey' => $result['downtimeID'])));
+			array_push($objects, $object);
+		}else{
+			foreach ($result as $row) {
+				$object = new Downtime(new NamedArguments(array('primaryKey' => $row['downtimeID'])));
+				array_push($objects, $object);
+			}
+		}
+		return $objects;
+	}
+
+	public function getExportableDowntimes($archivedOnly=false){
+		$result = $this->getDownTimeResults($archivedOnly);
 
 		$objects = array();
 
