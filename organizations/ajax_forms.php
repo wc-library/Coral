@@ -579,7 +579,7 @@ switch ($_GET['action']) {
 		$organizationID = $_GET["organizationID"];
 
 		$organization = new Organization(new NamedArguments(array('primaryKey' => $organizationID))); 
-		$organizationContactsArray = $organization->getContacts();
+		$organizationContactsArray = $organization->getUnarchivedContacts();
 		$organizationResourcesArray = $organization->getResources(5);
 ?>
 
