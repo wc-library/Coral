@@ -161,13 +161,6 @@
 			});
 		} 
 
-		if($("#endDate").val()=="") {	
-			errors.push({
-				message: "Must set a date.",
-				target: '#span_error_endDate'
-			});
-		} 
-
 		if(errors.length == 0) {
 			submitNewDowntime();
 		} else {

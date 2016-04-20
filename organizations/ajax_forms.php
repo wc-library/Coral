@@ -707,7 +707,6 @@ switch ($_GET['action']) {
 	$downtimeTypeNames = $downtimeObj->getDowntimeTypesArray();
 
 	$defaultStart = date("Y-m-d\TH:i");
-	$defaultEnd = date("Y-m-d\TH:i", strtotime("+1 day"));
 
 ?>
 
@@ -729,7 +728,7 @@ switch ($_GET['action']) {
 		<tr>
 			<td><label>Downtime Resolution:</label></td>
 			<td>
-				<input value="<?php echo $defaultEnd; ?>"  type="datetime-local" name="endDate" id="endDate" />
+				<input type="datetime-local" name="endDate" id="endDate" />
 				<span id='span_error_endDate' class='smallDarkRedText addDowntimeError'></span>
 			</td>
 		</tr>

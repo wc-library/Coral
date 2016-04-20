@@ -340,7 +340,7 @@ switch ($_GET['action']) {
 		$newDowntime->downtimeTypeID = $_POST['downtimeType'];
 		$newDowntime->issueID = $_POST['issueID'];
 		$newDowntime->startDate = date('Y-m-d H:i:s', strtotime($_POST['startDate']));
-		$newDowntime->endDate = date('Y-m-d H:i:s', strtotime($_POST['endDate']));
+		$newDowntime->endDate = ($_POST['endDate']) ? date('Y-m-d H:i:s', strtotime($_POST['endDate'])):null;
 
 		$newDowntime->dateCreated = date( 'Y-m-d H:i:s');
 		$newDowntime->entityTypeID = 1;
