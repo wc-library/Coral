@@ -39,7 +39,6 @@ if ($organizationID) {
 	$downtimeTypeNames = $downtimeObj->getDowntimeTypesArray();
 
 	$defaultStart = date("Y-m-d\TH:i");
-	$defaultEnd = date("Y-m-d\TH:i");
 
 ?>
 
