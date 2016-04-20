@@ -133,7 +133,7 @@ class Organization extends DatabaseObject {
 	}
 
 	public function getDowntime($archivedOnly=false) {
-		$result = $this->getDownTimeResults($archivedOnly=false);
+		$result = $this->getDownTimeResults($archivedOnly);
 
 		$objects = array();
 		//need to do this since it could be that there's only one request and this is how the dbservice returns result
@@ -150,7 +150,7 @@ class Organization extends DatabaseObject {
 	}
 
 	public function getExportableDowntimes($archivedOnly=false){
-		$result = $this->getDownTimeResults($archivedOnly=false);
+		$result = $this->getDownTimeResults($archivedOnly);
 
 		$objects = array();
 
