@@ -808,7 +808,7 @@ class Resource extends DatabaseObject {
 		if ($archivedOnly) {
 			$query .= " AND d.endDate < CURDATE()";
 		} else {
-			$query .= " AND d.endDate >= CURDATE()";
+			$query .= " AND (d.endDate >= CURDATE() OR d.endDate IS NULL)";
 		}
 		$query .= "	ORDER BY d.dateCreated DESC";
 
