@@ -74,12 +74,14 @@ $resourceDowntimes = $resource->getDowntime($archivedFlag);
 echo '<h3 class="text-center">Resources</h3>';
 if(count($resourceDowntimes) > 0) {
 	foreach ($resourceDowntimes as $downtime) {
+/*
 		$associatedEntities = array();
 		if ($associatedResources = $downtime->getAssociatedResources()) {
 			foreach ($associatedResources as $resource) {
 				$associatedEntities[] = array("name"=>$resource->titleText,"id"=>$resource->resourceID,"entityType"=>2);
 			}
 		} 
+*/
 		echo generateDowntimeHTML($downtime,$associatedEntities);
 	}
 } else {
