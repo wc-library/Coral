@@ -706,7 +706,34 @@ switch ($_GET['action']) {
 	$downtimeObj = new Downtime();
 	$downtimeTypeNames = $downtimeObj->getDowntimeTypesArray();
 
-	$defaultStart = date("Y-m-d\TH:i");
+	function buildSelectableHours($fieldNameBase,$defaultHour=8) {
+		$html = "<select name=\"{$fieldNameBase}[hour]\">";
+		for ($hour=1;$hour<13;$hour++) {
+			$html .= "<option".(($hour == $defaultHour) ? ' selected':'').">{$hour}</option>";
+		}
+		$html .= '</select>';
+		return $html;
+	}
+
+	function buildSelectableMinutes($fieldNameBase,$intervals=4) {
+		$html = "<select name=\"{$fieldNameBase}[minute]\">";
+		for ($minute=0;$minute<=($intervals-1);$minute++) {
+			$html .= "<option>".sprintf("%02d",$minute*(60/$intervals))."</option>";
+		}
+		$html .= '</select>';
+		return $html;
+	}
+
+	function buildSelectableMeridian($fieldNameBase) {
+		return "<select name=\"{$fieldNameBase}[meridian]\">
+						<option>AM</option>
+						<option>PM</option>
+					</select>";
+	}
+
+	function buildTimeForm($fieldNameBase,$defaultHour=8,$minuteIntervals=4) {
+		return buildSelectableHours($fieldNameBase,$defaultHour).buildSelectableMinutes($fieldNameBase,$minuteIntervals).buildSelectableMeridian($fieldNameBase);
+	}
 
 ?>
 
@@ -721,15 +748,35 @@ switch ($_GET['action']) {
 		<tr>
 			<td><label>Downtime Start:</label></td>
 			<td>
-				<input value="<?php echo $defaultStart; ?>" type="datetime-local" name="startDate" id="startDate" />
-				<span id='span_error_startDate' class='smallDarkRedText addDowntimeError'></span>
+				<div>
+					<div><i>Date</i></div>
+					<input class="date-pick" type="text" name="startDate" id="startDate" />
+					<span id='span_error_startDate' class='smallDarkRedText addDowntimeError'></span>
+				</div>
+				<div style="clear:both;">
+					<div><i>Time</i></div>
+<?php
+echo buildTimeForm("startTime");
+?>
+					<span id='span_error_startDate' class='smallDarkRedText addDowntimeError'></span>
+				</div>
 			</td>
 		</tr>
 		<tr>
 			<td><label>Downtime Resolution:</label></td>
 			<td>
-				<input type="datetime-local" name="endDate" id="endDate" />
-				<span id='span_error_endDate' class='smallDarkRedText addDowntimeError'></span>
+				<div>
+					<div><i>Date</i></div>
+					<input class="date-pick" type="text" name="endDate" id="endDate" />
+					<span id='span_error_endDate' class='smallDarkRedText addDowntimeError'></span>
+				</div>
+				<div style="clear:both;">
+					<div><i>Time</i></div>
+<?php
+echo buildTimeForm("endTime");
+?>
+					<span id='span_error_endDate' class='smallDarkRedText addDowntimeError'></span>
+				</div>
 			</td>
 		</tr>
 		<tr>

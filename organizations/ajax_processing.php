@@ -339,8 +339,9 @@ switch ($_GET['action']) {
 		$newDowntime->creatorID = $user->loginID;
 		$newDowntime->downtimeTypeID = $_POST['downtimeType'];
 		$newDowntime->issueID = $_POST['issueID'];
-		$newDowntime->startDate = date('Y-m-d H:i:s', strtotime($_POST['startDate']));
-		$newDowntime->endDate = ($_POST['endDate']) ? date('Y-m-d H:i:s', strtotime($_POST['endDate'])):null;
+
+		$newDowntime->startDate = date('Y-m-d H:i:s', strtotime($_POST['startDate']." ".$_POST['startTime']['hour'].":".$_POST['startTime']['minute'].$_POST['startTime']['meridian']));
+		$newDowntime->endDate = ($_POST['endDate']) ?  date('Y-m-d H:i:s', strtotime($_POST['endDate']." ".$_POST['endTime']['hour'].":".$_POST['endTime']['minute'].$_POST['endTime']['meridian'])):null;
 
 		$newDowntime->dateCreated = date( 'Y-m-d H:i:s');
 		$newDowntime->entityTypeID = 1;
