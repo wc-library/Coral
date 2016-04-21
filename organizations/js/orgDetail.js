@@ -175,6 +175,32 @@
 	
 	});
 
+	$("#submitUpdatedDowntime").live("click", function(e) {
+		e.preventDefault();
+		
+		var errors = [];
+
+		if($("#endDate").val()=="") {	
+			errors.push({
+				message: _("Must set an end date."),
+				target: '#span_error_endDate'
+			});
+		} 
+
+		if(errors.length == 0) {
+			submitUpdatedDowntime();
+		} else {
+
+			$(".updateDowntimeError").html("");
+
+			for(var index in errors) {
+				error = errors[index];
+				$(error.target).html(error.message);
+			}
+		}
+	
+	});
+
 	$(".issuesBtn").live("click", function(e) {
 		e.preventDefault();
 		getResourceIssues($(this));
@@ -388,12 +414,27 @@ function submitNewDowntime() {
 		 cache:      false,
 		 data:       data,
 		 success:    function(res) {
-			updateIssues();
-			tb_remove()
+			tb_remove();
 		 }
 
 	  });
 
+}
+
+function submitUpdatedDowntime() {
+	
+	var data = $("#resolveDowntimeForm").serialize();
+
+	$.ajax({
+		 type:       "POST",
+		 url:        "ajax_processing.php?action=updateDowntime",
+		 cache:      false,
+		 data:       data,
+		 success:    function(res) {
+			$("#openDowntimeBtn").click();
+			tb_remove();
+		 }
+	  });
 }
 
 function updateResourceIssues(){

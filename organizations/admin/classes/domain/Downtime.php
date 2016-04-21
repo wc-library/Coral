@@ -18,6 +18,7 @@
 */
 
 class Downtime extends DatabaseObject {
+	protected $overloadKeys = array();
 
 	protected function defineRelationships() {}
 
@@ -30,6 +31,9 @@ class Downtime extends DatabaseObject {
 		if ($config->settings->resourcesModule == 'Y' && $config->settings->resourcesDatabaseName) {
 			$arguments->dbName = $config->settings->resourcesDatabaseName;
 		}
+		//these are values from other tables that we'll be SELECTing, but don't want to persist as part of DB update operations
+		$this->overloadKeys = array("shortName","subjectText");
+
 		parent::init($arguments);
 	}
 
@@ -62,12 +66,20 @@ class Downtime extends DatabaseObject {
 			}
 
 			//Add additional keys from joined tables
-			$overloads = array("shortName","subjectText");
-			foreach ($overloads as $attributeName) {
+			foreach ($this->overloadKeys as $attributeName) {
 				$this->addAttribute($attributeName);
 				$this->attributes[$attributeName] = $result[$attributeName];
 			}
 		}
+	}
+
+	public function save() {
+		//remove any overloadedKeys before attempting to save
+		foreach ($this->overloadKeys as $attributeName) {
+			unset($this->attributes[$attributeName]); 
+			unset($this->attributeNames[$attributeName]);
+		}
+		parent::save();
 	}
 
 	public function getDowntimeTypesArray() {
