@@ -2240,8 +2240,13 @@ class Resource extends DatabaseObject {
 		$result = $this->db->processQuery($query);
     }
 
+    public function deleteWorkflow() {
+        $query = "DELETE FROM ResourceStep WHERE archivingDate IS NULL AND resourceID = '" . $this->resourceID . "'";
+		$result = $this->db->processQuery($query);
+    }
+
 	//enters resource into new workflow
-	public function enterNewWorkflow(){
+	public function enterNewWorkflow($workflowID = null){
 		$config = new Configuration();
 
 		//remove any current workflow steps
@@ -2255,7 +2260,9 @@ class Resource extends DatabaseObject {
 
 		//Determine the workflow this resource belongs to
 		$workflowObj = new Workflow();
-		$workflowID = $workflowObj->getWorkflowID($this->resourceTypeID, $this->resourceFormatID, $this->acquisitionTypeID);
+        if ($workflowID == null) {
+            $workflowID = $workflowObj->getWorkflowID($this->resourceTypeID, $this->resourceFormatID, $this->acquisitionTypeID);
+        }
 
 		if ($workflowID){
 			$workflow = new Workflow(new NamedArguments(array('primaryKey' => $workflowID)));

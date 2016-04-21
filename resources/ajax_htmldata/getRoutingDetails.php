@@ -124,17 +124,14 @@
                         <input type="radio" value="delete" name="archiveOrDeleteWorkflow" id="deleteWorkflow" />
                         <label for="deleteWorkflow">Delete the completed workflow</label><br />
 
-                        <input type="checkbox" id="restartWorkflowCheck" name="restartWorkflowCheck" />
-                        <label for="restartWorkflowCheck">Restart completed workflow</label>
-
-                        OR <label for="workflowArchivingDate">Select a workflow</label>: 
+                        <label for="workflowArchivingDate">Select a workflow</label>: 
                         <select id="workflowArchivingDate">
-                            <option value="">Current workflow</option>
+                            <option value="completed">Completed workflow</option>
                             <?php
-                            $distinctWorkflows = $resource->getDistinctWorkflows();
-                            foreach ($distinctWorkflows as $distinctWorkflow) {
-                                echo "<option value=\"" . $distinctWorkflow['archivingDate'] . '">' . $distinctWorkflow['archivingDate'] . '</option>';
-                                //echo '<option value="toto">titi</option>';
+                            $workflow = new Workflow();
+                            $workflowArray = $workflow->allAsArray();
+                            foreach ($workflowArray as $wf) {
+                                echo "<option value=\"" . $wf['workflowID'] . '">' . $wf['workflowID'] . '</option>';
                             }
                             ?>
                         </select><br />
