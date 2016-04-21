@@ -1,10 +1,17 @@
 <?php
 
 class Downtime extends DatabaseObject {
+	protected $overloadKeys = array();
 
 	protected function defineRelationships() {}
 
 	protected function overridePrimaryKeyName() {}
+
+	protected function init(NamedArguments $arguments) {
+		//these are values from other tables that we'll be SELECTing in load(), but don't want to persist as part of DB update operations
+		$this->overloadKeys = array("shortName","subjectText");
+		parent::init($arguments);
+	}
 
 	public function load() {
 
@@ -25,18 +32,18 @@ class Downtime extends DatabaseObject {
 				$this->attributes[$attributeName] = $result[$attributeName];
 			}
 
-		}else{
+		} else {
 			// Figure out attributes from existing database
-			$query = "SELECT COLUMN_NAME FROM information_schema.`COLUMNS` WHERE table_schema = '";
-			$query .= $this->db->config->database->name . "' AND table_name = '$this->tableName'";// MySQL-specific
+			$query = "SELECT COLUMN_NAME 
+					FROM information_schema.`COLUMNS` 
+					WHERE table_schema = '{$this->db->config->database->name}' AND table_name = '{$this->tableName}'";// MySQL-specific
 			foreach ($this->db->processQuery($query) as $result) {
 				$attributeName = $result[0];
 				$this->addAttribute($attributeName);
 			}
 
 			//Add additional keys from joined tables
-			$overloads = array("shortName","subjectText");
-			foreach ($overloads as $attributeName) {
+			foreach ($this->overloadKeys as $attributeName) {
 				$this->addAttribute($attributeName);
 				$this->attributes[$attributeName] = $result[$attributeName];
 			}
@@ -44,13 +51,11 @@ class Downtime extends DatabaseObject {
 	}
 
 	public function save() {
-		//We have added the name attribute after the fact, and here, we are cleaning it up
-		unset($this->attributes["shortName"]); 
-		unset($this->attributeNames["shortName"]);
-
-		unset($this->attributes["subjectText"]); 
-		unset($this->attributeNames["subjectText"]);
-
+		//remove any overloadedKeys before attempting to save
+		foreach ($this->overloadKeys as $attributeName) {
+			unset($this->attributes[$attributeName]); 
+			unset($this->attributeNames[$attributeName]);
+		}
 		parent::save();
 	}
 
