@@ -37,13 +37,12 @@ class Downtime extends DatabaseObject {
 	}
 
 	public function save() {
-
 		//We have added the name attribute after the fact, and here, we are cleaning it up
 		unset($this->attributes["shortName"]); 
-		unset($this->attributesNames["shortName"]);
+		unset($this->attributeNames["shortName"]);
 
 		unset($this->attributes["subjectText"]); 
-		unset($this->attributesNames["subjectText"]);
+		unset($this->attributeNames["subjectText"]);
 
 		parent::save();
 	}
