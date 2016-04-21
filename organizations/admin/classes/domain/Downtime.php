@@ -53,15 +53,19 @@ class Downtime extends DatabaseObject {
 			}
 
 		}else{
-
-			//This else block currently will not be used
-
 			// Figure out attributes from existing database
 			$query = "SELECT COLUMN_NAME FROM information_schema.`COLUMNS` WHERE table_schema = '";
 			$query .= $this->db->config->database->name . "' AND table_name = '$this->tableName'";// MySQL-specific
 			foreach ($this->db->processQuery($query) as $result) {
 				$attributeName = $result[0];
 				$this->addAttribute($attributeName);
+			}
+
+			//Add additional keys from joined tables
+			$overloads = array("shortName","subjectText");
+			foreach ($overloads as $attributeName) {
+				$this->addAttribute($attributeName);
+				$this->attributes[$attributeName] = $result[$attributeName];
 			}
 		}
 	}

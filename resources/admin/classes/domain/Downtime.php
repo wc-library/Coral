@@ -33,6 +33,13 @@ class Downtime extends DatabaseObject {
 				$attributeName = $result[0];
 				$this->addAttribute($attributeName);
 			}
+
+			//Add additional keys from joined tables
+			$overloads = array("shortName","subjectText");
+			foreach ($overloads as $attributeName) {
+				$this->addAttribute($attributeName);
+				$this->attributes[$attributeName] = $result[$attributeName];
+			}
 		}
 	}
 
