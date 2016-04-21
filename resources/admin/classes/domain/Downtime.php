@@ -38,14 +38,12 @@ class Downtime extends DatabaseObject {
 					FROM information_schema.`COLUMNS` 
 					WHERE table_schema = '{$this->db->config->database->name}' AND table_name = '{$this->tableName}'";// MySQL-specific
 			foreach ($this->db->processQuery($query) as $result) {
-				$attributeName = $result[0];
-				$this->addAttribute($attributeName);
+				$this->addAttribute($result[0]);
 			}
 
 			//Add additional keys from joined tables
 			foreach ($this->overloadKeys as $attributeName) {
 				$this->addAttribute($attributeName);
-				$this->attributes[$attributeName] = $result[$attributeName];
 			}
 		}
 	}
