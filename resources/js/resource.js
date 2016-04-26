@@ -870,7 +870,7 @@ $("select").change(function() {
 			 type:       "GET",
 			 url:        "ajax_processing.php",
 			 cache:      false,
-			 data:       "action=restartWorkflow&resourceID=" + $(this).attr("id") + "&actionOnWorkflow=" + $("input[name=archiveOrDeleteWorkflow]:checked").val() + "&workflow=" + $("#workflowArchivingDate").val(),
+			 data:       "action=restartWorkflow&resourceID=" + $(this).attr("id") + "&deleteWorkflow=" + $("#deleteWorkflow").is(':checked') + "&workflow=" + $("#workflowArchivingDate").val(),
 			 success:    function(html) {
 				updateRouting();
 			 }

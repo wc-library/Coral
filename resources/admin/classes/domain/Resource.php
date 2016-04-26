@@ -2167,6 +2167,33 @@ class Resource extends DatabaseObject {
 
 	}
 
+    public function getCurrentWorkflowResourceSteps(){
+
+
+		$query = "SELECT * FROM ResourceStep
+					WHERE resourceID = '" . $this->resourceID . "'
+					AND archivingDate IS NULL";
+
+		$result = $this->db->processQuery($query, 'assoc');
+
+		$objects = array();
+
+		//need to do this since it could be that there's only one request and this is how the dbservice returns result
+		if (isset($result['resourceStepID'])){
+			$object = new ResourceStep(new NamedArguments(array('primaryKey' => $result['resourceStepID'])));
+			array_push($objects, $object);
+		}else{
+			foreach ($result as $row) {
+				$object = new ResourceStep(new NamedArguments(array('primaryKey' => $row['resourceStepID'])));
+				array_push($objects, $object);
+			}
+		}
+
+		return $objects;
+
+	}
+
+
     public function getDistinctWorkflows() {
         $query = "SELECT DISTINCT archivingDate FROM ResourceStep
 					WHERE resourceID = '" . $this->resourceID . "'
@@ -2236,6 +2263,16 @@ class Resource extends DatabaseObject {
 	}
 
     public function archiveWorkflow() {
+
+        // Get all resource steps
+        $resourceSteps = $this->getCurrentWorkflowResourceSteps();
+
+        // Mark them as complete
+        foreach ($resourceSteps as $resourceStep) {
+            $resourceStep->completeStep();
+        }
+
+        // And archive the workflow
         $query = "UPDATE ResourceStep SET archivingDate=NOW() WHERE archivingDate IS NULL AND resourceID = '" . $this->resourceID . "'";
 		$result = $this->db->processQuery($query);
     }
@@ -2263,10 +2300,8 @@ class Resource extends DatabaseObject {
         if ($workflowID == null) {
             $workflowID = $workflowObj->getWorkflowID($this->resourceTypeID, $this->resourceFormatID, $this->acquisitionTypeID);
         }
-
 		if ($workflowID){
 			$workflow = new Workflow(new NamedArguments(array('primaryKey' => $workflowID)));
-
 
 			//Copy all of the step attributes for this workflow to a new resource step
 			foreach ($workflow->getSteps() as $step){

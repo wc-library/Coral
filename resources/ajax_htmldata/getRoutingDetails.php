@@ -29,6 +29,7 @@
 			$openStep=0;
             $archivingDate = 'init';
 			foreach($resourceSteps as $resourceStep){
+
 				$userGroup = new UserGroup(new NamedArguments(array('primaryKey' => $resourceStep->userGroupID)));
 				$eUser = new User(new NamedArguments(array('primaryKey' => $resourceStep->endLoginID)));
 
@@ -38,16 +39,15 @@
 					$classAdd = "class='complete'";
 				}
 
-
                 $stepClass = $resourceStep->archivingDate ? " class='archivedWorkflow' style='display:none'"  : '';
 				?>
 				<tr<?php echo $stepClass; ?>>
                 <?php
                 if ($archivingDate != $resourceStep->archivingDate) {
                     $archivingDate = $resourceStep->archivingDate;
-                    $stepIndication = $resourceStep->archivingDate ? _("Workflow archived on") . " $archivingDate" : _("Current workflow");
-                    echo "<td colspan='6'><em>$stepIndication</em></td>";
-                } else {
+                    $stepIndication = $resourceStep->archivingDate ? _("Workflow archived on") . " $archivingDate" : "<strong>" . _("Current workflow") . "</strong>";
+                    echo "<td colspan='6'><em>$stepIndication</em></td></tr><tr$stepClass>";
+                }
                 ?> 
 
 				<td <?php echo $classAdd; ?> ><?php echo $resourceStep->stepName; ?></td>
@@ -79,7 +79,6 @@
 						echo '<a href="javascript:void(0);" class="removeResourceStep" id="'. $resourceStep->resourceStepID .'"><img src="images/cross.gif" alt="delete" title="delete"></a>';
 					} ?>
 				</td>
-                <?php } ?>
 				</tr>
 				<?php
 
@@ -116,22 +115,40 @@
 			if (($resource->statusID != $completeStatusID) && ($resource->statusID != $archiveStatusID)){
 				echo "<img src='images/pencil.gif' />&nbsp;&nbsp;<a href='javascript:void(0);' class='restartWorkflow'>"._("restart workflow")."</a><br />";
                 ?>
-                <div class="restartWorkflowDiv" id="restartWorkflowDiv" style="display:none;">
+                <div class="restartWorkflowDiv" id="restartWorkflowDiv" style="display:none;padding:20px;">
                     <form name="restartWorkflowForm" id="restartWorkflowForm">
-                        <input type="radio" value="archive" name="archiveOrDeleteWorkflow" id="archiveWorkflow" checked="checked" />
-                        <label for="archiveWorkflow">Archive the completed workflow</label><br />
 
-                        <input type="radio" value="delete" name="archiveOrDeleteWorkflow" id="deleteWorkflow" />
-                        <label for="deleteWorkflow">Delete the completed workflow</label><br />
+                        <input type="checkbox" value="delete" name="deleteWorkflow" id="deleteWorkflow" />
+                        <label for="deleteWorkflow"><?php echo _("Delete the completed workflow"); ?></label><br />
 
-                        <label for="workflowArchivingDate">Select a workflow</label>: 
+                        <label for="workflowArchivingDate"><?php echo _("Select a workflow to restart"); ?></label>: 
                         <select id="workflowArchivingDate">
-                            <option value="completed">Completed workflow</option>
+                            <option value="completed"><?php echo _("Completed workflow"); ?></option>
                             <?php
                             $workflow = new Workflow();
                             $workflowArray = $workflow->allAsArray();
                             foreach ($workflowArray as $wf) {
-                                echo "<option value=\"" . $wf['workflowID'] . '">' . $wf['workflowID'] . '</option>';
+                                if (($wf['resourceFormatIDValue'] != '') && ($wf['resourceFormatIDValue'] != '0')){
+                                    $resourceFormat = new ResourceFormat(new NamedArguments(array('primaryKey' => $wf['resourceFormatIDValue'])));
+                                    $rfName = $resourceFormat->shortName;
+                                } else {
+                                    $rfName = 'any';
+                                }
+
+                                if (($wf['acquisitionTypeIDValue'] != '') && ($wf['acquisitionTypeIDValue'] != '0')){
+                                    $acquisitionType = new AcquisitionType(new NamedArguments(array('primaryKey' => $wf['acquisitionTypeIDValue'])));
+                                    $atName = $acquisitionType->shortName;
+                                } else {
+                                    $atName = 'any';
+                                }
+                                if (($wf['resourceTypeIDValue'] != '') && ($wf['resourceTypeIDValue'] != '0')){
+                                    $resourceType = new ResourceType(new NamedArguments(array('primaryKey' => $wf['resourceTypeIDValue'])));
+                                    $rtName = $resourceType->shortName;
+                                }else{
+                                    $rtName = 'any';
+                                }
+
+                                echo "<option value=\"" . $wf['workflowID'] . "\">$atName / $rfName / $rtName</option>";
                             }
                             ?>
                         </select><br />
