@@ -112,7 +112,6 @@
 		echo "<br /><br />";
 
 		if ($user->canEdit()){
-			if (($resource->statusID != $completeStatusID) && ($resource->statusID != $archiveStatusID)){
 				echo "<img src='images/pencil.gif' />&nbsp;&nbsp;<a href='javascript:void(0);' class='restartWorkflow'>"._("restart workflow")."</a><br />";
                 ?>
                 <div class="restartWorkflowDiv" id="restartWorkflowDiv" style="display:none;padding:20px;">
@@ -123,7 +122,7 @@
 
                         <label for="workflowArchivingDate"><?php echo _("Select a workflow to restart"); ?></label>: 
                         <select id="workflowArchivingDate">
-                            <option value="completed"><?php echo _("Completed workflow"); ?></option>
+                            <option value="<?php echo $resource->getCompletedWorkflowID(); ?>"><?php echo _("Completed workflow"); ?></option>
                             <?php
                             $workflow = new Workflow();
                             $workflowArray = $workflow->allAsArray();
@@ -159,7 +158,6 @@
                 <?php
 				echo "<img src='images/pencil.gif' />&nbsp;&nbsp;<a href='javascript:void(0);' class='displayArchivedWorkflows' id='" . $resourceID . "'>"._("display archived workflows")."</a><br />";
 				echo "<img src='images/pencil.gif' />&nbsp;&nbsp;<a href='javascript:void(0);' class='markResourceComplete' id='" . $resourceID . "'>"._("mark entire workflow complete")."</a><br />";
-			}
 		}
 
 ?>

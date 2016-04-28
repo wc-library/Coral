@@ -2167,6 +2167,16 @@ class Resource extends DatabaseObject {
 
 	}
 
+    public function getCompletedWorkflowID() {
+        $query = "SELECT Step.workflowID FROM Step, ResourceStep 
+                    WHERE ResourceStep.resourceID = '" . $this->resourceID . "'
+                    AND ResourceStep.archivingDate IS NULL 
+                    AND ResourceStep.stepID = Step.stepID";
+
+		$result = $this->db->processQuery($query, 'assoc');
+        return $result['workflowID'];
+    }
+
     public function getCurrentWorkflowResourceSteps(){
 
 

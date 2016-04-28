@@ -19,11 +19,8 @@
                      $resource->archiveWorkflow();
                 }
 
-                if ($workflowID == "completed") {
-                    $resource->enterNewWorkflow();
-                } else {
-                    $resource->enterNewWorkflow($workflowID);
-                }
+                $resource->enterNewWorkflow($workflowID);
+
 			} catch (Exception $e) {
 				echo $e->getMessage();
 			}
