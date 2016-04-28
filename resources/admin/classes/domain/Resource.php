@@ -2171,7 +2171,7 @@ class Resource extends DatabaseObject {
         $query = "SELECT Step.workflowID FROM Step, ResourceStep 
                     WHERE ResourceStep.resourceID = '" . $this->resourceID . "'
                     AND ResourceStep.archivingDate IS NULL 
-                    AND ResourceStep.stepID = Step.stepID";
+                    AND ResourceStep.stepID = Step.stepID LIMIT 1";
 
 		$result = $this->db->processQuery($query, 'assoc');
         return $result['workflowID'];
