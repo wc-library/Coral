@@ -2146,7 +2146,7 @@ class Resource extends DatabaseObject {
 
 		$query = "SELECT * FROM ResourceStep
 					WHERE resourceID = '" . $this->resourceID . "'
-					ORDER BY archivingDate DESC, displayOrderSequence, stepID";
+					ORDER BY (archivingDate IS NOT NULL), archivingDate DESC, displayOrderSequence, stepID";
 
 		$result = $this->db->processQuery($query, 'assoc');
 
