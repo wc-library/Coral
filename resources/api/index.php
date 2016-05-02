@@ -216,10 +216,20 @@ Flight::route('/getResourceTypes/', function() {
     Flight::json($resourceTypeArray);
 });
 
+Flight::route('/getResourceType/@id', function($id) {
+   $resourceTypeObj = new ResourceType(new NamedArguments(array('primaryKey' => $id)));
+    Flight::json($resourceTypeObj->shortName);
+});
+
 Flight::route('/getAcquisitionTypes/', function() {
     $acquisitionTypeObj = new AcquisitionType();
     $acquisitionTypeArray = $acquisitionTypeObj->sortedArray();
     Flight::json($acquisitionTypeArray);
+});
+
+Flight::route('/getAcquisitionType/@id', function($id) {
+    $acquisitionTypeObj = new AcquisitionType(new NamedArguments(array('primaryKey' => $id)));
+    Flight::json($acquisitionTypeObj->shortName);
 });
 
 Flight::route('/getResourceFormats/', function() {
@@ -228,10 +238,20 @@ Flight::route('/getResourceFormats/', function() {
     Flight::json($resourceFormatArray);
 });
 
+Flight::route('/getResourceFormat/@id', function($id) {
+   $resourceFormatObj = new ResourceFormat(new NamedArguments(array('primaryKey' => $id)));
+    Flight::json($resourceFormatObj->shortName);
+});
+
 Flight::route('/getAdministeringSites/', function() {
    $as = new AdministeringSite();
    $asArray = $as->allAsArray();
     Flight::json($asArray);
+});
+
+Flight::route('/getAdministeringSite/@id', function($id) {
+   $as = new AdministeringSite(new NamedArguments(array('primaryKey' => $id)));
+    Flight::json($as->shortName);
 });
 
 
