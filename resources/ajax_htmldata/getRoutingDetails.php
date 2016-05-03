@@ -117,12 +117,9 @@
                 <div class="restartWorkflowDiv" id="restartWorkflowDiv" style="display:none;padding:20px;">
                     <form name="restartWorkflowForm" id="restartWorkflowForm">
 
-                        <input type="checkbox" value="delete" name="deleteWorkflow" id="deleteWorkflow" />
-                        <label for="deleteWorkflow"><?php echo _("Delete the completed workflow"); ?></label><br />
-
                         <label for="workflowArchivingDate"><?php echo _("Select a workflow to restart"); ?></label>: 
                         <select id="workflowArchivingDate">
-                            <option value="<?php echo $resource->getCompletedWorkflowID(); ?>"><?php echo _("Completed workflow"); ?></option>
+                            <option value="<?php echo $resource->getCurrentWorkflowID(); ?>"><?php echo _("Current workflow"); ?></option>
                             <?php
                             $workflow = new Workflow();
                             $workflowArray = $workflow->allAsArray();

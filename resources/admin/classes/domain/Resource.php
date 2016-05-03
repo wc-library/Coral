@@ -2167,7 +2167,7 @@ class Resource extends DatabaseObject {
 
 	}
 
-    public function getCompletedWorkflowID() {
+    public function getCurrentWorkflowID() {
         $query = "SELECT Step.workflowID FROM Step, ResourceStep 
                     WHERE ResourceStep.resourceID = '" . $this->resourceID . "'
                     AND ResourceStep.archivingDate IS NULL 
@@ -2202,6 +2202,14 @@ class Resource extends DatabaseObject {
 		return $objects;
 
 	}
+
+    public function isCurrentWorkflowComplete() {
+        $steps = $this->getCurrentWorkflowResourceSteps(); 
+        foreach ($steps as $step) {
+            if (!$step->isComplete()) return false;
+        }
+        return true;
+    }
 
 
     public function getDistinctWorkflows() {
@@ -2250,6 +2258,7 @@ class Resource extends DatabaseObject {
 		$query = "SELECT * FROM ResourceStep
 					WHERE resourceID = '" . $this->resourceID . "'
 					AND (priorStepID is null OR priorStepID = '0')
+                    AND archivingDate IS NULL
 					ORDER BY stepID";
 
 		$result = $this->db->processQuery($query, 'assoc');
@@ -2274,14 +2283,6 @@ class Resource extends DatabaseObject {
 
     public function archiveWorkflow() {
 
-        // Get all resource steps
-        $resourceSteps = $this->getCurrentWorkflowResourceSteps();
-
-        // Mark them as complete
-        foreach ($resourceSteps as $resourceStep) {
-            $resourceStep->completeStep();
-        }
-
         // And archive the workflow
         $query = "UPDATE ResourceStep SET archivingDate=NOW() WHERE archivingDate IS NULL AND resourceID = '" . $this->resourceID . "'";
 		$result = $this->db->processQuery($query);
@@ -2295,9 +2296,6 @@ class Resource extends DatabaseObject {
 	//enters resource into new workflow
 	public function enterNewWorkflow($workflowID = null){
 		$config = new Configuration();
-
-		//remove any current workflow steps
-		//$this->removeResourceSteps();
 
 		//make sure this resource is marked in progress in case it was archived
 		$status = new Status();
