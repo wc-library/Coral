@@ -390,10 +390,7 @@ if ($general->step == "3"){
 		<table width="100%" border="0" cellspacing="0" cellpadding="2">
 			<?php $data=array(
 				array('text','Database Username','dbuser',$database->dbuser),
-				array('password','Database Password',"dbpass",$database->dbpass),
-				array('text','CORAL - Admin Username','coral_username',$admin->coral_username),
-				array('password','CORAL - Admin Password','coral_password',$admin->coral_password),
-				array("text",'Session Timeout - in seconds',"session_timeout",$general->session_timeout)
+				array('password','Database Password',"dbpass",$database->dbpass)
 			);
 			foreach ($data as $vals) {?>
 			<tr>
@@ -407,7 +404,27 @@ if ($general->step == "3"){
             <tr>
 				<td colspan=2>&nbsp;</td>
 			</tr>
+		</table>
+		<h3>Admin Account</h3>
+*The default admin username is preset here. It's recommended to change it here. If using LDAP, enter LDAP credentials for admin account
+		<table width="100%" border="0" cellspacing="0" cellpadding="2">
+			<?php $data=array(
+				array('text','CORAL - Admin Username','coral_username',$admin->coral_username),
+				array('password','CORAL - Admin Password','coral_password',$admin->coral_password),
+				array("text",'Session Timeout - in seconds',"session_timeout",$general->session_timeout)
+			);
+			foreach ($data as $vals) {?>
+			<tr>
+				<td>&nbsp;<?php echo $vals[1]?></td>
+				<td>
+					<input type='<?php echo $vals[0]?>' name='<?php echo $vals[2]?>' size="30" value="<?php echo $vals[3]?>">
+				</td>
+			</tr>
+			<?php } ?>
 
+		</table>
+		<h3>LDAP Settings</h3>
+		<table>
 			<tr>
 				<td>&nbsp;Enable LDAP</td>
 				<td>
