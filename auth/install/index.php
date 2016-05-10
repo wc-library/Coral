@@ -165,7 +165,7 @@ if ($general->step == "3"){
 	} else if (!$db->query($create_admin_query)) {
 		$errorMessage[] = "Failed to create CORAL Admin";
 	//passed db host, name check, test that user can select from Auth database
-	} else if (!$db->query("SELECT loginID FROM $database->dbname.User WHERE loginID like '%$admin->coral_username%';")){
+	} else if (!$db->query("SELECT loginID FROM ".$database->dbname.".User WHERE loginID like '%".$admin->coral_username."%';")){
 		$errorMessage[] = "Unable to select from the User table in database '$database->dbname' with user '$database->dbuser'.  Error: ".$db->error();
 	}
 
