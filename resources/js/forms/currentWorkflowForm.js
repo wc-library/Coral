@@ -1,0 +1,94 @@
+$(document).ready(function(){
+    $("#addStep").live('click', function() {
+        var originalTR = $('.newStepTR').clone();
+        $('.newStepTR').appendTo('.stepTable');
+        $('.newStepTR').find('#addStep').attr({
+          src: 'images/cross.gif',
+          alt: _("remove this step"),
+          title: _("remove this step")
+        });
+        //next put the original clone back, we just need to reset the values
+        originalTR.appendTo('.newStepTable');
+        $('.newStepTable').find('.stepName').val('');
+        $('.newStepTable').find('.userGroupID').val('');
+        $('.newStepTable').find('.parentStepID').val('');
+
+    });
+
+    $(".removeStep").live('click', function () {
+        //remove whole row from interface
+        $(this).parent().parent().fadeTo(400, 0, function () {
+            $(this).find(">:first-child").find(">:first-child").val("delete");
+            $(this).hide();
+            $(this).die('click');
+        });
+        return false;
+    });
+
+
+     $("#submitCurrentWorkflowForm").click(function () {
+        submitCurrentWorkflow();
+     });
+
+function validateWorkflow() {
+    return true;
+}
+
+function submitCurrentWorkflow() {
+    stepNameList ='';
+    $(".stepName").each(function(id) {
+          stepNameList += $(this).val() + ":::";
+    });
+
+    userGroupList ='';
+    $(".userGroupID").each(function(id) {
+          userGroupList += $(this).val() + ":::";
+    });
+
+    priorStepList ='';
+    $(".priorStepID").each(function(id) {
+          priorStepList += $(this).val() + ":::";
+    });
+
+    stepIDList ='';
+    $(".stepID").each(function(id) {
+          stepIDList += $(this).val() + ":::";
+    });
+
+    actionList = '';
+    $(".action").each(function(id) {
+          actionList += $(this).val() + ":::";
+    });
+
+
+
+    if (validateWorkflow() === true) {
+        $('.submitCurrentWorkflowForm').attr("disabled", "disabled");
+          $.ajax({
+             type:       "POST",
+             url:        "ajax_processing.php?action=submitCurrentWorkflow",
+             cache:      false,
+             data:       { resourceID: $("#editRID").val(), stepNames: stepNameList, userGroups: userGroupList, priorSteps: priorStepList, stepIDs: stepIDList, actions: actionList },
+             success:    function(html) {
+                if (html){
+                    $("#span_errors").html(html);
+                    $("#submitCurrentWorkflowForm").removeAttr("disabled");
+                }else{  
+                    kill();
+                    window.parent.tb_remove();
+                    return false;
+                }
+
+             }
+         });
+    }
+}
+
+
+//kill all binds done by jquery live
+function kill() {
+    $('#addStep').die('click'); 
+}
+     
+
+});
