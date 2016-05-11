@@ -1,12 +1,15 @@
 $(document).ready(function(){
-    $("#addStep").live('click', function() {
+    $(".addStep").live('click', function() {
         var originalTR = $('.newStepTR').clone();
         $('.newStepTR').appendTo('.stepTable');
-        $('.newStepTR').find('#addStep').attr({
+        $('.newStepTR').find('.addStep').attr({
           src: 'images/cross.gif',
           alt: _("remove this step"),
           title: _("remove this step")
         });
+        $('.newStepTR').find('.addStep').removeClass('addStep').addClass('removeStep');
+        $('.newStepTR').removeClass('newStepTR');
+
         //next put the original clone back, we just need to reset the values
         originalTR.appendTo('.newStepTable');
         $('.newStepTable').find('.stepName').val('');
@@ -15,9 +18,10 @@ $(document).ready(function(){
 
     });
 
+
     $(".removeStep").live('click', function () {
         //remove whole row from interface
-        $(this).parent().parent().fadeTo(400, 0, function () {
+        $(this).parent().parent().parent().fadeTo(400, 0, function () {
             $(this).find(">:first-child").find(">:first-child").val("delete");
             $(this).hide();
             $(this).die('click');
@@ -26,15 +30,17 @@ $(document).ready(function(){
     });
 
 
-     $("#submitCurrentWorkflowForm").click(function () {
-        submitCurrentWorkflow();
-     });
+    $("#submitCurrentWorkflowForm").click(function () {
+       submitCurrentWorkflow();
+    });
 
-function validateWorkflow() {
-    return true;
-}
 
-function submitCurrentWorkflow() {
+    function validateWorkflow() {
+        return true;
+    }
+
+
+    function submitCurrentWorkflow() {
     stepNameList ='';
     $(".stepName").each(function(id) {
           stepNameList += $(this).val() + ":::";
@@ -76,6 +82,7 @@ function submitCurrentWorkflow() {
                 }else{  
                     kill();
                     window.parent.tb_remove();
+                    window.parent.updateRouting();
                     return false;
                 }
 

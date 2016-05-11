@@ -5,13 +5,7 @@
         $resource = new Resource(new NamedArguments(array('primaryKey' => $resourceID)));
 
 		try {
-/*
-            $resourceSteps = $resource->getResourceSteps();
-            //first remove all step records, then we'll add them back
-            foreach ($resourceSteps as $resourceStep) {
-                $resourceStep->delete();
-            }
-*/
+
 			$stepNameArray = array();
 			$stepNameArray = explode(':::',$_POST['stepNames']);
 			$userGroupArray = array();
@@ -28,9 +22,11 @@
 			foreach ($stepNameArray as $key => $value){
 				if (trim($value)){
 
-                    if ($actionArray[$key] == "delete" && $oldStepIDArray[$key] != -1 ) {
-                        $oldStep = new ResourceStep(new NamedArguments(array('primaryKey' => $oldStepIDArray[$key])));
-                        $oldStep->delete();
+                    if ($actionArray[$key] == "delete") {
+                        if ($oldStepIDArray[$key] != -1 ) {
+                            $oldStep = new ResourceStep(new NamedArguments(array('primaryKey' => $oldStepIDArray[$key])));
+                            $oldStep->delete();
+                        }
                         continue;
                     } 
 

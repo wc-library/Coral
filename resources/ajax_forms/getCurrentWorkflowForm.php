@@ -61,7 +61,7 @@ if (!isset($_GET['resourceID'])){
                                                     ?>
                                                 </select>
                                             </td>
-                                            <td><a href="javascript:void(0)"><img src="images/add.gif" id="addStep" alt="Add" /></a></td>
+                                            <td><a href="javascript:void(0)"><img src="images/add.gif" class="addStep" alt="Add" /></a></td>
                                         </tr>
                                     </table>
 
@@ -102,7 +102,7 @@ if (!isset($_GET['resourceID'])){
                                                 </select>
 
                                             </td>
-                                            <td><a href="javascript:void(0)" class="removeStep"><img src="images/cross.gif" alt="Delete" /></a></td>
+                                            <td><a href="javascript:void(0)"><img src="images/cross.gif" class="removeStep" alt="Delete" /></a></td>
                                         </tr>
                                         <?php
                                         }
