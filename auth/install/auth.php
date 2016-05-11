@@ -1,13 +1,11 @@
 <?php
-$installer = function have_installed_resources() {
-	$return = new stdClass();
-	$return->success = true;
-	return $return;
-};
-
-register_installer(
-	"auth",
-	["usage", "licensing"],
-	"have_installed_auth",
-	$installer
-);
+Installer.register_installation_requirement ([
+	"translatable_title" => _("Have installed auth module"),
+	"dependencies_array" => ["usage", "licensing"],
+	"required" => true,
+	"installer" => function() {
+		$return = new stdClass();
+		$return->success = true;
+		return $return;
+	}
+]);

@@ -28,7 +28,7 @@
  * 		...
  * 		6. Resources - Resources is the most recent to be added + it interacts with organizations & licenses (http://coral-erm.org/resources/)
  * C. Make everything translatable
- * 
+ *
  */
 
 
