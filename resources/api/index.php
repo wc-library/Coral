@@ -180,7 +180,7 @@ Flight::route('/proposeResource/', function(){
         }
 
         // add fund and cost
-        if (Flight::request()->data['cost'] && Flight::request()->data['fund']) {
+        if (Flight::request()->data['cost'] || Flight::request()->data['fund']) {
             $rp = new ResourcePayment();
             $rp->resourcePaymentID = ''; 
             $rp->selectorLoginID = $user; 
