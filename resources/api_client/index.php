@@ -195,23 +195,23 @@ if ($_POST['submitProposeResourceForm']) {
 </select>
 
 <div class="pure-control-group">
-<label for="subjectCoverage">Subject coverage: </label><input name="subjectCoverage" type="text" /><br />
+<label for="subjectCoverage">Subject coverage: </label><textarea name="subjectCoverage"></textarea><br />
 </div>
 
 <div class="pure-control-group">
-<label for="audience">Audience: </label><input name="audience" type="text" /><br />
+<label for="audience">Audience: </label><textarea name="audience"></textarea><br />
 </div>
 
 <div class="pure-control-group">
-<label for="frequency">Frequency and language: </label><input name="frequency" type="text" /><br />
+<label for="frequency">Frequency and language: </label><textarea name="frequency"></textarea><br />
 </div>
 
 <div class="pure-control-group">
-<label for="access">Access via indexes: </label><input name="access" type="text" /><br />
+<label for="access">Access via indexes: </label><textarea name="access"></textarea><br />
 </div>
 
 <div class="pure-control-group">
-<label for="contributingFactors">Contributing factors: </label><input name="contributingFactors" type="text" /><br />
+<label for="contributingFactors">Contributing factors: </label><textarea name="contributingFactors"></textarea><br />
 </div>
 
 </fieldset>
