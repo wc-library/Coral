@@ -8,7 +8,7 @@ $(document).ready(function(){
           title: _("remove this step")
         });
         $('.newStepTR').find('.addStep').removeClass('addStep').addClass('removeStep');
-        $('.newStepTR').removeClass('newStepTR');
+        $('.newStepTR').removeClass('newStepTR').addClass('stepTR');
 
         //next put the original clone back, we just need to reset the values
         originalTR.appendTo('.newStepTable');
@@ -42,27 +42,27 @@ $(document).ready(function(){
 
     function submitCurrentWorkflow() {
     stepNameList ='';
-    $(".stepName").each(function(id) {
+    $(".stepTR .stepName").each(function(id) {
           stepNameList += $(this).val() + ":::";
     });
 
     userGroupList ='';
-    $(".userGroupID").each(function(id) {
+    $(".stepTR .userGroupID").each(function(id) {
           userGroupList += $(this).val() + ":::";
     });
 
     priorStepList ='';
-    $(".priorStepID").each(function(id) {
+    $(".stepTR .priorStepID").each(function(id) {
           priorStepList += $(this).val() + ":::";
     });
 
     stepIDList ='';
-    $(".stepID").each(function(id) {
+    $(".stepTR .stepID").each(function(id) {
           stepIDList += $(this).val() + ":::";
     });
 
     actionList = '';
-    $(".action").each(function(id) {
+    $(".stepTR .action").each(function(id) {
           actionList += $(this).val() + ":::";
     });
 
