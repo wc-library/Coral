@@ -29,18 +29,25 @@ $(document).ready(function(){
         return false;
     });
 
-
+    
     $("#submitCurrentWorkflowForm").click(function () {
        submitCurrentWorkflow();
     });
+});
+
+//kill all binds done by jquery live
+function kill() {
+    $('.addStep').die('click'); 
+    $('.removeStep').die('click'); 
+}
 
 
-    function validateWorkflow() {
-        return true;
-    }
+function validateWorkflow() {
+    return true;
+}
 
 
-    function submitCurrentWorkflow() {
+function submitCurrentWorkflow() {
     stepNameList ='';
     $(".stepTR .stepName").each(function(id) {
           stepNameList += $(this).val() + ":::";
@@ -90,12 +97,3 @@ $(document).ready(function(){
          });
     }
 }
-
-
-//kill all binds done by jquery live
-function kill() {
-    $('#addStep').die('click'); 
-}
-     
-
-});
