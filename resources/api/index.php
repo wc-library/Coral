@@ -18,7 +18,12 @@ include_once '../admin/classes/domain/ResourceNote.php';
 include_once '../admin/classes/domain/ResourcePayment.php';
 include_once '../admin/classes/domain/AdministeringSite.php';
 include_once '../admin/classes/domain/ResourceAdministeringSiteLink.php';
+include_once '../admin/classes/domain/Status.php';
 include_once '../admin/classes/domain/User.php';
+include_once '../admin/classes/domain/Workflow.php';
+include_once '../admin/classes/domain/Step.php';
+include_once '../admin/classes/domain/ResourceStep.php';
+include_once '../admin/classes/domain/UserGroup.php';
 
 if (!isAllowed()) {
     header('HTTP/1.0 403 Forbidden');
@@ -29,11 +34,11 @@ if (!isAllowed()) {
 Flight::route('/proposeResource/', function(){
 
     $user = userExists(Flight::request()->data['user']) ? Flight::request()->data['user'] : 'API';
-
+    $status = new Status();
     $resource = new Resource();
     $resource->createDate = date( 'Y-m-d' );
     $resource->createLoginID = $user;
-    $resource->statusID = 1;
+    $resource->statusID = $status->getIDFromName('progress');
     $resource->updateDate                   = '';
     $resource->updateLoginID                = '';
     $resource->orderNumber                  = '';
@@ -70,6 +75,7 @@ Flight::route('/proposeResource/', function(){
     try {
         $resource->save();
         $resourceID = $resource->primaryKey;
+        $resource = new Resource(new NamedArguments(array('primaryKey' => $resourceID)));
 
         //add administering site
         if (Flight::request()->data['administeringSiteID']) {
@@ -197,6 +203,8 @@ Flight::route('/proposeResource/', function(){
             $rp->orderTypeID = 2;
             $rp->save();
         }
+
+      $resource->enterNewWorkflow();
 
 
     } catch (Exception $e) {
