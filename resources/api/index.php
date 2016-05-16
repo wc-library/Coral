@@ -9,6 +9,7 @@ include_once '../admin/classes/common/Utility.php';
 include_once '../admin/classes/common/Configuration.php';
 include_once '../admin/classes/common/DBService.php';
 include_once '../admin/classes/common/DatabaseObject.php';
+include_once '../admin/classes/common/Email.php';
 include_once '../admin/classes/domain/Resource.php';
 include_once '../admin/classes/domain/ResourceType.php';
 include_once '../admin/classes/domain/AcquisitionType.php';
