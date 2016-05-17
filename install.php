@@ -83,4 +83,4 @@ foreach ($requirements as $i => $requirement) {
 	$completed_tests[] = $installer->getTitleFromUid($requirement);
 }
 
-call_user_func("successful_install");
+$installer->successful_install();

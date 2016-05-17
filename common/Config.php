@@ -60,6 +60,9 @@ class Config {
 			case 'name':
 				return self::$database->name;
 				break;
+			default:
+				var_export(self::$database, true);
+				break;
 		}
 	}
 

@@ -1,11 +1,12 @@
 <?php
+session_start();
 class Installer {
 
 	protected $checklist = [];
 	protected $messages = [];
 
 	function __construct() {
-		session_start();
+
 		$this->checklist = [
 			[
 				"uid" => "meets_system_requirements",
@@ -173,13 +174,9 @@ class Installer {
 						switch ($e->getCode()) {
 							case DBService::ERR_COULD_NOT_SELECT_DATABASE:
 								# code...
-								$result = $dbconnection->processQuery("CREATE DATABASE `$db_to_select`;");
-								if ($result)
-								{
-									$dbconnection->selectDB( $db_to_select );
-								}
-								else {
-									// What to do if we couldn't create the database
+								try {
+									$result = $dbconnection->processQuery("CREATE DATABASE `$db_to_select`;");
+								} catch (Exception $e) {
 									$return->yield->body = database_details();
 									if ($db_to_select !== "coral_organizations")
 									{
@@ -189,6 +186,8 @@ class Installer {
 									$return->success = false;
 									return $return;
 								}
+								// THIS SHOULDN'T FAIL BECAUSE WE'VE JUST CREATED THE DB SUCCESSFULLY.
+								$result = $dbconnection->selectDB( $db_to_select );
 								break;
 
 							default:
@@ -199,45 +198,16 @@ class Installer {
 						}
 					}
 
-					$temporary_test_table_name = "temp_test";
 					try {
-						$dropTempTable = function($db, $table_name) {
-							var_dump($db);
-							echo $table_name;
-							$result = $db->processQuery("DROP TABLE IF EXISTS `$table_name`;");
-							if (!$result)
-							{
-								throw new Exception("Error Processing Request", 88881);
-							}
-						};
-						$createTempTable = function($db, $table_name) {
-							$result = $db->processQuery("CREATE TABLE `$table_name` (id int);");
-							if (!$result)
-							{
-								throw new Exception("Error Processing Request", 88882);
-							}
-						};
-						$insertToTable = function($db, $table_name) {
-							$result = $db->processQuery("INSERT INTO `$table_name` VALUES (0);");
-							if (!$result)
-							{
-								throw new Exception("Error Processing Request", 88883);
-							}
-						};
-						$dropTempTable($dbconnection, $temporary_test_table_name);
-						$createTempTable($dbconnection, $temporary_test_table_name);
-						$insertToTable($dbconnection, $temporary_test_table_name);
-						$dropTempTable($dbconnection, $temporary_test_table_name);
+						$temporary_test_table_name = "temp_test";
+						$result = $dbconnection->processQuery("DROP TABLE IF EXISTS `$temporary_test_table_name`;");
+						$result = $dbconnection->processQuery("CREATE TABLE `$temporary_test_table_name` (id int);");
+						$result = $dbconnection->processQuery("INSERT INTO `$temporary_test_table_name` VALUES (0);");
+						$result = $dbconnection->processQuery("DROP TABLE IF EXISTS `$temporary_test_table_name`;");
 					} catch (Exception $e) {
-						if ($e->getCode() > 88880 && $e->getCode() < 88890)
-						{
-							$return->yield->messages[] = _("We were unable to create/delete a table. Please check your user rights. ({$e->getCode()})");
-							$return->success = false;
-							return $return;
-						}
-						else {
-							throw $e;
-						}
+						$return->yield->messages[] = _("We were unable to create/delete a table. Please check your user rights. ({$e->getCode()})");
+						$return->success = false;
+						return $return;
 					}
 					return $return;
 				}
@@ -247,11 +217,16 @@ class Installer {
 				"dependencies_array" => ["have_database_access"],
 				"required" => true,
 				"installer" => function() {
+					$return = new stdClass();
+					$return->yield = new stdClass();
 
+					$return->success = true;
+					$return->yield->title = _("Have default user");
+					return $return;
 				}
 			]
 		];
-		//TODO: GET AVAILABLE MODULES AND EXPAND CHECKLIST
+
 		$this->scanForModuleInstallers();
 	}
 	private function getKeyFromUid($test_uid)
@@ -301,11 +276,12 @@ class Installer {
 				$installation_root_file = "$MODULE_ROOT/$dir/install/$dir.php";
 				if (file_exists($installation_root_file))
 				{
-					$function_name = "${dir}_dregister_installation_requirement";
+					$function_name = "${dir}_register_installation_requirement";
 					require $installation_root_file;
 					if (is_callable($function_name))
 					{
 						$installer_object = call_user_func($function_name);
+						var_dump($installer_object);
 						$this->register_installation_requirement($installer_object);
 					}
 					else
@@ -325,7 +301,7 @@ class Installer {
 
 		$result = call_user_func( $this->checklist[$key]["installer"] );
 		if ($result === null)
-			throw new UnexpectedValueException("The install script for '{$this->getTitleFromUid($test_uid)}' has not returned a null result (which is not allowed).", 101);
+			throw new UnexpectedValueException("The install script for '{$this->getTitleFromUid($test_uid)}' has returned a null result (which is not allowed).", 101);
 
 		return $result;
 	}
@@ -334,10 +310,8 @@ class Installer {
 		return $this->messages;
 	}
 
-	private function successful_install()
+	public function successful_install()
 	{
-		$return = new stdClass();
-		$return->success = true;
-		return $return;
+		echo "woot";
 	}
 }

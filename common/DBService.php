@@ -47,7 +47,7 @@ class DBService extends Object {
 						break;
 					default:
 						// Unknown error
-						echo sprintf("Sorry, an error we have not accounted for has occurred (%s).<br />\n", self::$db->connect_errno);
+						echo "Sorry, an error we have not accounted for has occurred .<br />\n";
 						throw new RuntimeException("There was a problem with the database: ", self::$db->error);
 						break;
 				}
