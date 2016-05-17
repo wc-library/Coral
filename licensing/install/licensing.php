@@ -1,5 +1,5 @@
 <?php
-function auth_register_installation_requirement()
+function licensing_register_installation_requirement()
 {
 	return [
 		"uid" => "auth_installed",

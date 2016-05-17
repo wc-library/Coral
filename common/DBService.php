@@ -20,22 +20,43 @@ require_once "common/Object.php";
 require_once "common/Config.php";
 class DBService extends Object {
 	const ERR_COULD_NOT_SELECT_DATABASE = 40;
+	const ERR_COULD_NOT_CONNECT = 41;
+	const ERR_ACCESS_DENIED = 42;
 
 	protected static $db = null;
 	protected $error;
 
 	public function __construct($dbname = null){
-		mysqli_report(MYSQLI_REPORT_STRICT);
-		if (!self::$db && !(self::$db = new mysqli(Config::dbInfo("host"), Config::dbInfo("username"), Config::dbInfo("password"))))
+		if (!self::$db)
 		{
-			throw new RuntimeException("There was a problem with the database: " . self::$db->error);
+			/**
+			 *  NOTE: Warnings and errors are suppressed here (using "@new")
+			 *        (we do this so that mysqli doesn't spit out warnings if
+			 *        the connection fails) we must manually handle errors!
+			 */
+			self::$db = @new mysqli(Config::dbInfo("host"), Config::dbInfo("username"), Config::dbInfo("password"));
+			if (self::$db->connect_errno)
+			{
+				switch (self::$db->connect_errno) {
+					case 2002:
+						// Connection failure
+						throw new RuntimeException("Could not connect to server.", self::ERR_COULD_NOT_CONNECT);
+						break;
+					case 1045:
+						throw new RuntimeException("Access denied.", self::ERR_ACCESS_DENIED);
+						break;
+					default:
+						// Unknown error
+						echo sprintf("Sorry, an error we have not accounted for has occurred (%s).<br />\n", self::$db->connect_errno);
+						throw new RuntimeException("There was a problem with the database: ", self::$db->error);
+						break;
+				}
+			}
 		}
-		else
-		{
-			// Allow db not to be selected if installation in progress
-			if ($dbname !== false && INSTALLATION_IN_PROGRESS)
-				self::selectDB($dbname ? $dbname : Config::dbInfo("name"));
-		}
+
+		// Allow db not to be selected if installation in progress
+		if ($dbname !== false && INSTALLATION_IN_PROGRESS)
+			self::selectDB($dbname ? $dbname : Config::dbInfo("name"));
 	}
 
 	public function getError() {

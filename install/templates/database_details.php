@@ -5,9 +5,9 @@ function database_details()
 	$dbusername = _("Database Username");
 	$dbpassword = _("Database Password");
 	$dbhost     = _("Database Host");
-	$username   = isset($_SESSION["dbusername"]) ? $_SESSION["dbusername"] : _("Username");
-	$password   = isset($_SESSION["dbpassword"]) ? _("leave blank to leave unchanged") : _("Password");
-	$host       = isset($_SESSION["dbhost"]) ? $_SESSION["dbhost"] : _("Hostname");
+	$username   = isset($_SESSION["POSTDATA"]["dbusername"]) ? $_SESSION["POSTDATA"]["dbusername"] : _("Username");
+	$password   = isset($_SESSION["POSTDATA"]["dbpassword"]) ? _("leave blank to leave unchanged") : _("Password");
+	$host       = isset($_SESSION["POSTDATA"]["dbhost"]) ? $_SESSION["POSTDATA"]["dbhost"] : _("Hostname");
 	$submit     = _("Start Installing");
 
 	$database_name = _("Database Name");

@@ -74,6 +74,8 @@ $completed_tests = [];
 
 foreach ($requirements as $i => $requirement) {
 	$testResult = $installer->runTestForResult($requirement);
+	if ($i == 0)
+		$testResult->yield->messages[] = $installer->getMessages();
 	if (!$testResult->success)
 	{
 		yield_test_results($testResult->yield, $completed_tests, ($i+1) / (float) count($requirements));

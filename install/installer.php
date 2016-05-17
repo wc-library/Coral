@@ -1,7 +1,8 @@
 <?php
 class Installer {
 
-	protected $checklist;
+	protected $checklist = [];
+	protected $messages = [];
 
 	function __construct() {
 		session_start();
@@ -82,14 +83,15 @@ class Installer {
 					$return->success = true;
 					$return->yield->title = _("Have database access");
 
-					if (isset($_POST["dbusername"]))
+					if (!empty($_POST))
 					{
-						// Form has just been submitted
-						$_SESSION["dbusername"] = empty($_POST["dbusername"]) ? $_SESSION["dbusername"] : $_POST["dbusername"];
-						$_SESSION["dbpassword"] = empty($_POST["dbpassword"]) ? $_SESSION["dbpassword"] : $_POST["dbpassword"];
-						$_SESSION["dbhost"] = empty($_POST["dbhost"]) ? $_SESSION["dbhost"] : $_POST["dbhost"];
+						if (!isset($_SESSION["POSTDATA"]))
+						{
+							$_SESSION["POSTDATA"] = [];
+						}
+						// $_POST takes priority when merging arrays
+						$_SESSION["POSTDATA"] = array_merge($_SESSION["POSTDATA"], $_POST);
 					}
-					$return->yield->title = ">>".$_SESSION["dbpassword"]."<<";
 
 					try {
 						Config::dbInfo("dbusername");
@@ -97,12 +99,12 @@ class Installer {
 						if ($e->getCode() == Config::ERR_VARIABLES_MISSING)
 						{
 							// Config file not yet set up
-							if (isset($_SESSION["dbusername"]))
+							if (isset($_SESSION["POSTDATA"]["dbusername"]))
 							{
 								Config::loadTemporaryDBSettings((object) [
-									"host" => $_SESSION["dbhost"],
-									"username" => $_SESSION["dbusername"],
-									"password" => $_SESSION["dbpassword"]
+									"host" => $_SESSION["POSTDATA"]["dbhost"],
+									"username" => $_SESSION["POSTDATA"]["dbusername"],
+									"password" => $_SESSION["POSTDATA"]["dbpassword"]
 								]);
 							}
 						}
@@ -111,85 +113,133 @@ class Installer {
 						}
 					}
 
-					// var_dump($_POST);
-					// Try to connect
+					require "install/templates/database_details.php";
+					$return->yield->body = database_details();
 
+					// Try to connect
 					require_once("common/DBService.php");
 					try {
 						$dbconnection = new DBService(false);
 					} catch (Exception $e) {
-						if ($e->getCode() == Config::ERR_VARIABLES_MISSING
-											|| $e->getCode() == 1045  // 1045 = Mysqli Access Denied
-											|| $e->getCode() == 2002) // 2002 = Mysqli couldn't connect
-						{
-							require "install/templates/database_details.php";
-							$return->yield->body = database_details();
-							if ($e->getCode() == 1045)
-							{
+						$return->success = false;
+
+						switch ($e->getCode()) {
+							case DBService::ERR_ACCESS_DENIED:
+								# code...
 								$return->yield->messages[] = _("Unfortunately, although we could find the database, access was denied.");
 								$return->yield->messages[] = _("Please review your settings.");
-							}
-							elseif ($e->getCode() == 2002)
-							{
+								break;
+							case DBService::ERR_COULD_NOT_CONNECT:
 								$return->yield->messages[] = _("Unfortunately we could not connect to the host.");
 								$return->yield->messages[] = _("Please review your settings.");
-							}
-							elseif (isset($_SESSION["dbusername"]))
+								break;
+							case Config::ERR_VARIABLES_MISSING:
+								if (!empty($_SESSION["POSTDATA"]["dbusername"]))
+								{
+									$return->yield->messages[] = _("Unfortunately we were not able to access the database with the details you provided.");
+									$return->yield->messages[] = _("Please review your settings.");
+								}
+								else
+								{
+									$return->yield->messages[] = _("To begin with, we need a username and password create the databases CORAL and its modules will be using.");
+								}
+								break;
+							default:
+								echo "We haven't prepared for the following error (installer.php):<br />\n";
+								var_dump($e);
+								break;
+						}
+						return $return;
+					}
+
+					// TODO: check if there are any filled in db names to use here:
+					// Find the name of any database we need to connect to
+					// -> currently just grabs the first one that is set
+					$db_to_select = "coral_organizations";
+					$names = [ "dbauth", "dborganizations", "dbmanagement", "dblicensing", "dbreports", "dbresources", "dbusage" ];
+					foreach ($names as $name)
+					{
+						if (!empty($_SESSION["POSTDATA"][$name]))
+						{
+							$db_to_select = DBService::escapeString($_SESSION["POSTDATA"][$name]);
+							break;
+						}
+					}
+
+					try {
+						$dbconnection->selectDB( $db_to_select );
+					}
+					catch (Exception $e) {
+						switch ($e->getCode()) {
+							case DBService::ERR_COULD_NOT_SELECT_DATABASE:
+								# code...
+								$result = $dbconnection->processQuery("CREATE DATABASE `$db_to_select`;");
+								if ($result)
+								{
+									$dbconnection->selectDB( $db_to_select );
+								}
+								else {
+									// What to do if we couldn't create the database
+									$return->yield->body = database_details();
+									if ($db_to_select !== "coral_organizations")
+									{
+										$return->yield->messages[] = _("We tried to select a database with the name $db_to_select but failed. We also could not create it.");
+									}
+									$return->yield->messages[] = _("In order to proceed, we need access rights to create databases or you need to manually create the databases and provide their names and the credentials for a user with access rights to them.");
+									$return->success = false;
+									return $return;
+								}
+								break;
+
+							default:
+								# code...
+								echo "We haven't prepared for the following error (installer.php):<br />\n";
+								var_dump($e);
+								break;
+						}
+					}
+
+					$temporary_test_table_name = "temp_test";
+					try {
+						$dropTempTable = function($db, $table_name) {
+							var_dump($db);
+							echo $table_name;
+							$result = $db->processQuery("DROP TABLE IF EXISTS `$table_name`;");
+							if (!$result)
 							{
-								$return->yield->messages[] = _("Unfortunately we were not able to access the database with the details you provided.");
-								$return->yield->messages[] = _("Please review your settings.");
+								throw new Exception("Error Processing Request", 88881);
 							}
-							else
+						};
+						$createTempTable = function($db, $table_name) {
+							$result = $db->processQuery("CREATE TABLE `$table_name` (id int);");
+							if (!$result)
 							{
-								$return->yield->messages[] = _("To begin with, we need a username and password create the databases CORAL and its modules will be using.");
+								throw new Exception("Error Processing Request", 88882);
 							}
+						};
+						$insertToTable = function($db, $table_name) {
+							$result = $db->processQuery("INSERT INTO `$table_name` VALUES (0);");
+							if (!$result)
+							{
+								throw new Exception("Error Processing Request", 88883);
+							}
+						};
+						$dropTempTable($dbconnection, $temporary_test_table_name);
+						$createTempTable($dbconnection, $temporary_test_table_name);
+						$insertToTable($dbconnection, $temporary_test_table_name);
+						$dropTempTable($dbconnection, $temporary_test_table_name);
+					} catch (Exception $e) {
+						if ($e->getCode() > 88880 && $e->getCode() < 88890)
+						{
+							$return->yield->messages[] = _("We were unable to create/delete a table. Please check your user rights. ({$e->getCode()})");
 							$return->success = false;
 							return $return;
 						}
 						else {
-							echo "We haven't prepared for the following error (installer.php):<br />\n";
-							var_dump($e);
+							throw $e;
 						}
 					}
-
-					$we_created_the_database = false;
-					try {
-						// TODO: check if there are any filled in db names to use here:
-						$dbconnection->selectDB("coral_organizations");
-					}
-					catch (Exception $e) {
-						if ($e->getCode() == DBService::ERR_COULD_NOT_SELECT_DATABASE) { // 1046 = couldn't select db
-							// Try to create database
-							$result = $dbconnection->processQuery("CREATE DATABASE coral_organizations;");
-							if ($result)
-							{
-								$we_created_the_database = true;
-							}
-							else {
-								// What to do if we couldn't create the database
-							}
-						}
-						var_dump($e);
-					}
-
-					$result = $dbconnection->processQuery("CREATE TABLE test (id int);");
-					if (!$result)
-					{
-						//TODO: ask if the databases are prepopulated if $we_created_the_database
-						// $return->yield->messages[] = _("We were unable to create a table. Please check your user rights.");
-						// $return->success = false;
-						// return $return;
-					}
-					$dbconnection->processQuery("DROP TABLE test;");
 					return $return;
-				}
-			],[
-				"uid" => _("databases_created"),
-				"translatable_title" => _("Databases Created"),
-				"dependencies_array" => ["have_database_access"],
-				"required" => true,
-				"installer" => function() {
-
 				}
 			],[
 				"uid" => "have_default_user",
@@ -199,9 +249,10 @@ class Installer {
 				"installer" => function() {
 
 				}
-			],
+			]
 		];
 		//TODO: GET AVAILABLE MODULES AND EXPAND CHECKLIST
+		$this->scanForModuleInstallers();
 	}
 	private function getKeyFromUid($test_uid)
 	{
@@ -238,6 +289,34 @@ class Installer {
 		//
 	}
 
+	private function scanForModuleInstallers()
+	{
+		$MODULE_ROOT = ".";
+
+		$module_directories = scandir($MODULE_ROOT);
+		foreach ($module_directories as $dir)
+		{
+			if (is_dir("$MODULE_ROOT/$dir"))
+			{
+				$installation_root_file = "$MODULE_ROOT/$dir/install/$dir.php";
+				if (file_exists($installation_root_file))
+				{
+					$function_name = "${dir}_dregister_installation_requirement";
+					require $installation_root_file;
+					if (is_callable($function_name))
+					{
+						$installer_object = call_user_func($function_name);
+						$this->register_installation_requirement($installer_object);
+					}
+					else
+					{
+						$this->messages[] = "<b>Warning:</b> There is a problem with the installer for $dir";
+					}
+				}
+			}
+		}
+	}
+
 	public function runTestForResult($test_uid)
 	{
 		$key = $this->getKeyFromUid($test_uid);
@@ -250,25 +329,9 @@ class Installer {
 
 		return $result;
 	}
-
-	private function have_database_access()
+	public function getMessages()
 	{
-
-	}
-	private function databases_created()
-	{
-		$return = new stdClass();
-		$return->success = true;
-		return $return;
-	}
-
-	//i.e. user with just select insert etc. on the dbs
-	private function have_default_user()
-	{
-		// -> need to support multiple users here
-		$return = new stdClass();
-		$return->success = true;
-		return $return;
+		return $this->messages;
 	}
 
 	private function successful_install()
