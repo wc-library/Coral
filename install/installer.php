@@ -42,7 +42,7 @@ class Installer {
 			],[
 				"uid" => "have_read_write_access_to_config",
 				"translatable_title" => _("Config file writable or set up"),
-				"dependencies_array" => [""],
+				"dependencies_array" => [],
 				"required" => true,
 				"installer" => function() {
 					$return = new stdClass();
@@ -281,7 +281,6 @@ class Installer {
 					if (is_callable($function_name))
 					{
 						$installer_object = call_user_func($function_name);
-						var_dump($installer_object);
 						$this->register_installation_requirement($installer_object);
 					}
 					else
@@ -312,6 +311,8 @@ class Installer {
 
 	public function successful_install()
 	{
-		echo "woot";
+		$return = new stdClass();
+		$return->redirect_home = true;
+		return $return;
 	}
 }

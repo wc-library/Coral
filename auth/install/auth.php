@@ -8,9 +8,12 @@ function auth_register_installation_requirement()
 		"required" => true,
 		"installer" => function() {
 			$return = new stdClass();
-			$return->success = false;
-			$return->messages[] = Config::dbInfo("all");
-			$return->title = "Auth module installation";
+			$return->yield = new stdClass();
+			$return->success = true;
+			$return->yield->title = _("Auth module installation");
+
+
+
 			return $return;
 		}
 	];

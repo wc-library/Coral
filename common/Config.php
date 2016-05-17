@@ -1,7 +1,7 @@
 <?php
 /*
  * *************************************************************************************************************************
- * * CORAL Usage Statistics Reporting Module v. 1.0
+ * * CORAL Usage Statistics Reporting Module v. 1.9
  * *
  * * Copyright (c) 2010 University of Notre Dame
  * *
@@ -23,7 +23,8 @@ class Config {
 	const ERR_NOT_INSTALLING = 60;
 
 	protected static $database;
-	protected static $settings;
+	protected static $installed_modules = [];
+	protected static $module_settings = [];
 	protected static $bInit = null;
 
 	private static function init(){
@@ -32,51 +33,37 @@ class Config {
 				throw new Exception(_("Config file not found or not readable"), self::ERR_FILE_NOT_READABLE);
 			$data = parse_ini_file(self::CONFIG_FILE_PATH, true);
 
-			if (isset($data['database']) && isset($data['settings'])) {
+			if (isset($data['database']))
 				self::$database = ( object ) $data['database'];
-				self::$settings = ( object ) $data['settings'];
-			}
-			else {
-				throw new OutOfRangeException(_("Certain settings are missing from the config file"), self::ERR_VARIABLES_MISSING);
+			else
+				throw new OutOfRangeException(_("Database settings are missing from the config file"), self::ERR_VARIABLES_MISSING);
+
+			if (isset($data['installed_modules']))
+			{
+				self::$installed_modules = $data['installed_modules'];
+				self::$module_settings[$module] = array_filter($data, function($v, $k, $x){
+					echo $v;
+					echo $k;
+					echo $x;
+				});
 			}
 
 			self::$bInit = 'y';
 		}
 	}
 
-	public static function dbInfo($detail)
+	public static function dbInfo($db_variable)
 	{
 		self::init();
-		switch ($detail) {
-			case 'host':
-				return self::$database->host;
-				break;
-			case 'username':
-				return self::$database->username;
-				break;
-			case 'password':
-				return self::$database->password;
-				break;
-			case 'name':
-				return self::$database->name;
-				break;
-			default:
-				var_export(self::$database, true);
-				break;
-		}
+		$possible_values = ['host', 'username', 'password', 'name'];
+		if (in_array($db_variable, $possible_values))
+			return self::$database->$db_variable;
 	}
 
-	public static function getSettingsFor($module) {
+	public static function getSettingsFor($module_name) {
 		self::init();
-		switch ($module) {
-			case 'usage':
-				# code...
-				break;
-
-			default:
-				return self::$settings["common"];
-				break;
-		}
+		if (in_array($module_name, self::$installed_modules))
+			return self::$module_settings[$module_name];
 	}
 
 	public static function loadTemporaryDBSettings($database_settings) {

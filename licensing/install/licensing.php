@@ -9,6 +9,7 @@ function licensing_register_installation_requirement()
 		"installer" => function() {
 			$return = new stdClass();
 			$return->success = true;
+			$return->yield = new stdClass();
 			return $return;
 		}
 	];

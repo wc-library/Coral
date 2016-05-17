@@ -25,22 +25,45 @@ function submit_install_step(dataToSubmit)
 	$.post("install.php", dataToSubmit, function(data){
 		$(".main").animate({"opacity": 0, "paddingRight": 30 }, 500);
 
-		if (typeof data.title !== "undefined")
-			$(".current-test-title").html(data.title);
-
-		if (typeof data.messages !== "undefined")
+		if (data.redirect_home)
 		{
-			$(".messages").empty();
-			if (data.messages)
-			data.messages.forEach(function(msg){
-				$(".messages").append(
-					$("<div>").addClass("message").html(msg)
-				);
+			$(".installation_stuff").hide();
+			var countdown = 10;
+			$(".redirection .countdown").text(countdown);
+			var $holder = $(".completed_test_holder");
+			data.completed_tests.forEach(function(test){
+				$holder.append($("<li>").addClass("completed_test").text(test));
 			});
+			$(".redirection").fadeIn();
+			setTimeout(injectCssForAnimation, 1200);
+			setInterval(function(){
+				if (countdown-- <= 0)
+					console.log("redirect");
+					//TODO: restore redirect.
+					// window.location.href = "index.php";
+				else
+					$(".redirection .countdown").text(countdown);
+			}, 1000);
 		}
+		else {
+			$(".section-title, .messages, .mainbody").empty();
 
-		if (typeof data.body !== "undefined")
+			if (typeof data.title !== "undefined")
+			$(".section-title").html(data.title);
+
+			if (typeof data.messages !== "undefined")
+			{
+				if (data.messages)
+				data.messages.forEach(function(msg){
+					$(".messages").append(
+						$("<div>").addClass("message").html(msg)
+					);
+				});
+			}
+
+			if (typeof data.body !== "undefined")
 			$(".mainbody").html(data.body);
+		}
 
 		$(".main").css({ "opacity": 0, "paddingLeft": 30 });
 		$(".main").animate({ "opacity": 1, "paddingLeft": 0 }, 300, function(){
@@ -64,3 +87,15 @@ $(document).ready(function(){
 	var section_to_toggle = $(this).attr("data-toggle-section");
 	$(section_to_toggle).slideToggle();
 });
+
+function injectCssForAnimation()
+{
+	var head  = document.getElementsByTagName('head')[0];
+	var link  = document.createElement('link');
+	link.id   = "checkmarkAnimation";
+	link.rel  = 'stylesheet';
+	link.type = 'text/css';
+	link.href = 'css/checkmarkAnimation.css';
+	link.media = 'all';
+	head.appendChild(link);
+}
