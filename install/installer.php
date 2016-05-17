@@ -242,7 +242,17 @@ class Installer {
 					$return = new stdClass();
 					$return->yield = new stdClass();
 
-					$return->success = true;
+					$listofDatabases = ["coral_organizations", "coral_auth", "coral_usage"];
+					$user     = "coral_regular_user";
+					// $password = generate_password();
+					//TODO: Handle individually assinged username/passwords
+					foreach ($listofDatabases as $dbname)
+					{
+						// "GRANT SELECT, INSERT, UPDATE, DELETE ON $dbname TO $user@{Config::dbInfo('host')} IDENTIFIED BY '$password'";
+					}
+
+					$return->success = false;
+					$return->yield->messages[] = "incomplete installer";
 					$return->yield->title = _("Have default user");
 					return $return;
 				}

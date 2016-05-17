@@ -8,8 +8,10 @@ function licensing_register_installation_requirement()
 		"required" => true,
 		"installer" => function() {
 			$return = new stdClass();
-			$return->success = true;
 			$return->yield = new stdClass();
+			$return->success = false;
+			$return->yield->title = _("Licensing module installation");
+			$return->yield->messages[] = "<b>You broke something</b>";
 			return $return;
 		}
 	];
