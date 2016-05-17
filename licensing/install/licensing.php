@@ -2,8 +2,8 @@
 function licensing_register_installation_requirement()
 {
 	return [
-		"uid" => "auth_installed",
-		"translatable_title" => _("Auth module installed"),
+		"uid" => "licensing_installed",
+		"translatable_title" => _("Licensing module installed"),
 		"dependencies_array" => [ "usage", "licensing" ],
 		"required" => true,
 		"installer" => function() {

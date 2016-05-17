@@ -1,6 +1,6 @@
 <?php
 
-function database_details()
+function database_details_template()
 {
 	$dbusername = _("Database Username");
 	$dbpassword = _("Database Password");

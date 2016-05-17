@@ -16,6 +16,27 @@ function draw_install_page_template()
 		body {
 			margin-top: 3vh !important;
 		}
+		.section-title {
+			font-size: 140%;
+		}
+		.highlight {
+			color: #466ba2;
+		}
+		.message:before {
+			position: absolute;
+			height: 100%;
+			display: block;
+			content: "";
+			border-left: 3px solid #af2036;
+			left: -6px;
+			top: 0;
+		}
+		.message {
+			position: relative;
+			background-color: #fcdbd3;
+			padding: 8px;
+			margin: 7px 0;
+		}
 		.percentageComplete {
 			position: fixed;
 			display: block;
@@ -23,7 +44,7 @@ function draw_install_page_template()
 			height: 1vh;
 			left: 0;
 			width: 0;
-			background-color: #4682B4;
+			background-color: #466ba2;
 		}
 		.redirection {
 			display: none;

@@ -9,11 +9,9 @@ function auth_register_installation_requirement()
 		"installer" => function() {
 			$return = new stdClass();
 			$return->yield = new stdClass();
-			$return->success = true;
+			$return->success = false;
 			$return->yield->title = _("Auth module installation");
-
-
-
+			$return->yield->messages[] = "<b>You broke something</b>";
 			return $return;
 		}
 	];

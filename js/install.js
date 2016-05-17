@@ -23,53 +23,52 @@ function submit_install_step(dataToSubmit)
 		dataToSubmit = {};
 	dataToSubmit.installing = true;
 	$.post("install.php", dataToSubmit, function(data){
-		$(".main").animate({"opacity": 0, "paddingRight": 30 }, 500);
-
-		if (data.redirect_home)
-		{
-			$(".installation_stuff").hide();
-			var countdown = 10;
-			$(".redirection .countdown").text(countdown);
-			var $holder = $(".completed_test_holder");
-			data.completed_tests.forEach(function(test){
-				$holder.append($("<li>").addClass("completed_test").text(test));
-			});
-			$(".redirection").fadeIn();
-			setTimeout(injectCssForAnimation, 1200);
-			setInterval(function(){
-				if (countdown-- <= 0)
-					console.log("redirect");
-					//TODO: restore redirect.
-					// window.location.href = "index.php";
-				else
-					$(".redirection .countdown").text(countdown);
-			}, 1000);
-		}
-		else {
-			$(".section-title, .messages, .mainbody").empty();
-
-			if (typeof data.title !== "undefined")
-			$(".section-title").html(data.title);
-
-			if (typeof data.messages !== "undefined")
+		$(".main").animate({"opacity": 0, "paddingRight": 30 }, 500, function(){
+			if (data.redirect_home)
 			{
-				if (data.messages)
-				data.messages.forEach(function(msg){
-					$(".messages").append(
-						$("<div>").addClass("message").html(msg)
-					);
+				$(".installation_stuff").hide();
+				var countdown = 10;
+				$(".redirection .countdown").text(countdown);
+				var $holder = $(".completed_test_holder");
+				data.completed_tests.forEach(function(test){
+					$holder.append($("<li>").addClass("completed_test").text(test));
 				});
+				$(".redirection").fadeIn();
+				setTimeout(injectCssForAnimation, 1200);
+				setInterval(function(){
+					if (countdown-- <= 0)
+						window.location.href = "index.php";
+					else
+						$(".redirection .countdown").text(countdown);
+				}, 1000);
+			}
+			else {
+				$(".section-title, .messages, .mainbody").empty();
+
+				if (typeof data.title !== "undefined")
+				$(".section-title").html(data.title);
+
+				if (typeof data.messages !== "undefined")
+				{
+					if (data.messages)
+					{
+						data.messages.forEach(function(msg){
+							$(".messages").append(
+								$("<div>").addClass("message").html(msg)
+							);
+						});
+					}
+				}
+
+				if (typeof data.body !== "undefined")
+				$(".mainbody").html(data.body);
 			}
 
-			if (typeof data.body !== "undefined")
-			$(".mainbody").html(data.body);
-		}
-
-		$(".main").css({ "opacity": 0, "paddingLeft": 30 });
-		$(".main").animate({ "opacity": 1, "paddingLeft": 0 }, 300, function(){
-			$(".percentageComplete").animate({ "width": data.completion+"%" }, 1000);
+			$(".main").css({ "opacity": 0, "paddingLeft": 30 });
+			$(".main").animate({ "opacity": 1, "paddingLeft": 0 }, 300, function(){
+				$(".percentageComplete").animate({ "width": data.completion+"%" }, 1000);
+			});
 		});
-
 		console.log(data.completed_tests);
 	}, 'json');
 }

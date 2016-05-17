@@ -47,30 +47,45 @@ class Installer {
 				"installer" => function() {
 					$return = new stdClass();
 					$return->yield = new stdClass();
-					$return->success = true;
+					$return->success = false;
 
-					$return->yield->title = _("Can read config file");
+					require_once "install/templates/try_again_template.php";
+					$return->yield->body = try_again_template();
+
 					require_once("common/Config.php");
-					if (is_readable(Config::CONFIG_FILE_PATH))
+
+					$return->yield->title = "<b>" . _('Current Test:') . "</b> " . _('Trying to write configuration file');
+
+					// If file exists, see if it's writable - otherwise see if directory is writable (we can create it)
+					$writable_test = Config::CONFIG_FILE_PATH;
+					if (!file_exists(Config::CONFIG_FILE_PATH))
 					{
-						try {
-							// Force Config to init
-							Config::dbInfo("");
+						$writable_test = dirname(Config::CONFIG_FILE_PATH);
+					}
+
+					if (is_writable($writable_test))
+					{
+						if ($handle = fopen(Config::CONFIG_FILE_PATH, 'w')) {
+							fclose($handle);
+
+							// Okay, we can write to it but can we read it?
+							if (is_readable(Config::CONFIG_FILE_PATH))
+							{
+								$return->success = true;
+								$return->yield->title = "<b>" . _('Success:') . "</b> " . _("Config file writable or set up");
+								return $return;
+							}
+							else
+							{
+								$return->yield->messages[] = sprintf( _("In order to proceed with the installation, we must be able to read the configuration file at '<span class=\"highlight\">%s</span>'."), Config::CONFIG_FILE_PATH );
+								return $return;
+							}
+							$return->yield->messages[] = sprintf( _("We can write to the config file at '<span class=\"highlight\">%s</span>' but we cannot read from it."), Config::CONFIG_FILE_PATH );
+							$return->yield->title = "<b>" . _('Current Test:') . "</b> " . _('Trying to read configuration file');
 							return $return;
 						}
-						catch (Exception $e) {
-							// $e->getCode() == Config::CONFIG_FILE_PATH)
-							// We'll have to create it
-						}
 					}
-
-					$return->yield->title = _("Can create config file");
-					if ($handle = fopen(Config::CONFIG_FILE_PATH, 'w')) {
-						fclose($handle);
-						return $return;
-					}
-					$return->yield->messages[] = sprintf( _("In order to proceed with the installation, we must be able to write to '%s'."), Config::CONFIG_FILE_PATH );
-					$return->success = false;
+					$return->yield->messages[] = sprintf( _("In order to proceed with the installation, we must be able to write to '<span class=\"highlight\">%s</span>'."), Config::CONFIG_FILE_PATH );
 					return $return;
 				}
 			],[
@@ -94,28 +109,36 @@ class Installer {
 						$_SESSION["POSTDATA"] = array_merge($_SESSION["POSTDATA"], $_POST);
 					}
 
-					try {
+					try
+					{
 						Config::dbInfo("dbusername");
-					} catch (Exception $e) {
-						if ($e->getCode() == Config::ERR_VARIABLES_MISSING)
-						{
-							// Config file not yet set up
-							if (isset($_SESSION["POSTDATA"]["dbusername"]))
-							{
-								Config::loadTemporaryDBSettings((object) [
-									"host" => $_SESSION["POSTDATA"]["dbhost"],
-									"username" => $_SESSION["POSTDATA"]["dbusername"],
-									"password" => $_SESSION["POSTDATA"]["dbpassword"]
-								]);
-							}
-						}
-						else {
-							throw new LogicException("I don't know what error you managed to get so you need to debug more deeply", 1001);
+					}
+					catch (Exception $e)
+					{
+						switch ($e->getCode()) {
+							case Config::ERR_VARIABLES_MISSING:
+								// Config file not yet set up
+								if (isset($_SESSION["POSTDATA"]["dbusername"]))
+								{
+									Config::loadTemporaryDBSettings((object) [
+										"host" => $_SESSION["POSTDATA"]["dbhost"],
+										"username" => $_SESSION["POSTDATA"]["dbusername"],
+										"password" => $_SESSION["POSTDATA"]["dbpassword"]
+									]);
+								}
+								break;
+							case Config::ERR_FILE_NOT_READABLE:
+								# code...
+								break;
+
+							default:
+								throw new LogicException("I don't know what error you managed to get so you need to debug more deeply", 1001);
+								break;
 						}
 					}
 
-					require "install/templates/database_details.php";
-					$return->yield->body = database_details();
+					require "install/templates/database_details_template.php";
+					$return->yield->body = database_details_template();
 
 					// Try to connect
 					require_once("common/DBService.php");
@@ -126,7 +149,6 @@ class Installer {
 
 						switch ($e->getCode()) {
 							case DBService::ERR_ACCESS_DENIED:
-								# code...
 								$return->yield->messages[] = _("Unfortunately, although we could find the database, access was denied.");
 								$return->yield->messages[] = _("Please review your settings.");
 								break;
@@ -285,7 +307,8 @@ class Installer {
 					}
 					else
 					{
-						$this->messages[] = "<b>Warning:</b> There is a problem with the installer for $dir";
+						//TODO: do something with these messages
+						$this->messages[] = "<b>Warning:</b> There is a problem with the installer for the '$dir' module (ignoring).";
 					}
 				}
 			}
@@ -294,6 +317,7 @@ class Installer {
 
 	public function runTestForResult($test_uid)
 	{
+		//TODO: check that dependencies are met
 		$key = $this->getKeyFromUid($test_uid);
 		if ($key === false)
 			throw new OutOfBoundsException("Test '{$this->getTitleFromUid($test_uid)}' not found in checklist.", 100);
@@ -306,12 +330,16 @@ class Installer {
 	}
 	public function getMessages()
 	{
-		return $this->messages;
+		$messages = $this->messages;
+		$this->messages = [];
+		return $messages;
 	}
 
 	public function successful_install()
 	{
 		$return = new stdClass();
+		$return->title = _("Installation Complete");
+		$return->body = _("Congratulations. Installation has been successful.");
 		$return->redirect_home = true;
 		return $return;
 	}
