@@ -1,7 +1,8 @@
 <?php
 Installer.register_installation_requirement ([
-	"translatable_title" => _("Have installed auth module"),
-	"dependencies_array" => ["usage", "licensing"],
+	"uid" => "auth_installed",
+	"translatable_title" => _("Auth module installed"),
+	"dependencies_array" => [ "usage", "licensing" ],
 	"required" => true,
 	"installer" => function() {
 		$return = new stdClass();

@@ -1,7 +1,7 @@
 <?php
 /*
 **************************************************************************************************************************
-** CORAL Licensing Module v. 1.0
+** CORAL Common Module v. 1.0
 **
 ** Copyright (c) 2010 University of Notre Dame
 **
@@ -60,7 +60,7 @@ class Object {
 		if (property_exists($this, $key)) {
 			$this->$key = $value;
 		} else {
-			throw new Exception("Cannot set value for undefined key ($key).");
+			throw new Exception(sprintf( _("Cannot get value for undefined key '%s'."), $key ));
 		}
 	}
 
@@ -69,7 +69,7 @@ class Object {
 		if (property_exists($this, $key)) {
 			return $this->$key;
 		} else {
-			throw new Exception(_("Cannot get value for undefined key (").$key.").");
+			throw new Exception(sprintf( _("Cannot get value for undefined key '%s'."), $key ));
 		}
 	}
 

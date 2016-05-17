@@ -52,6 +52,7 @@
  * @author j3frea+coral@gmail.com
  */
 
+const INSTALLATION_IN_PROGRESS = true;
 require "install/test_if_installed.php";
 /**
  *  All the requests that come from the template page post { "installing":true }
@@ -59,23 +60,25 @@ require "install/test_if_installed.php";
  */
 if (!isset($_POST["installing"]))
 {
-	require "install/install_page_template.php";
+	require "install/templates/install_page_template.php";
 	draw_install_page_template();
 	exit();
 }
 
 require "install/test_results_yielder.php";
 
-require "install/requirement_install_scripts.php";
+require "install/installer.php";
 $installer = new Installer();
-$requirements = Installer.getCheckList();
+$requirements = $installer->getCheckListUids();
+$completed_tests = [];
 
 foreach ($requirements as $i => $requirement) {
-	$test = call_user_func($requirement);
-	if (!$test->success)
+	$testResult = $installer->runTestForResult($requirement);
+	if (!$testResult->success)
 	{
-		yield_test_results($test->yield, ($i+1) / (float) count($requirements));
+		yield_test_results($testResult->yield, $completed_tests, ($i+1) / (float) count($requirements));
 	}
+	$completed_tests[] = $installer->getTitleFromUid($requirement);
 }
 
 call_user_func("successful_install");

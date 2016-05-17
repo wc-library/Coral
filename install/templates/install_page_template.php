@@ -33,10 +33,11 @@ function draw_install_page_template()
 	<div class="row main">
 		<div class="two columns">&nbsp;</div>
 		<div class="eight columns">
-			<h1 class="content-head is-center heading">Welcome to the CORAL Installer</h1>
+			<h1 class="content-head is-center heading">CORAL Installer</h1>
+			<div class="current-test"><b>Current Test: </b><span class="current-test-title"></span></div>
 			<div class="messages">
 				<div class="message">
-					yo
+					Welcome to the CORAL Installer.
 				</div>
 			</div>
 			<div class="mainbody">

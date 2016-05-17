@@ -1,8 +1,9 @@
 <?php
-function yield_test_results($test_results, $completion)
+function yield_test_results($test_results, $completed_tests, $completion)
 {
 	header('Content-type: application/json');
 	$test_results->completion = $completion*100;
+	$test_results->completed_tests = $completed_tests;
 	echo json_encode($test_results);
 	exit();
 }

@@ -16,30 +16,26 @@
  * *************************************************************************************************************************
  */
 
-
+require_once "common/Object.php";
+require_once "common/Config.php";
 class DBService extends Object {
+	const ERR_COULD_NOT_SELECT_DATABASE = 40;
 
 	protected static $db = null;
 	protected $error;
 
 	public function __construct($dbname = null){
+		mysqli_report(MYSQLI_REPORT_STRICT);
 		if (!self::$db && !(self::$db = new mysqli(Config::dbInfo("host"), Config::dbInfo("username"), Config::dbInfo("password"))))
 		{
 			throw new RuntimeException("There was a problem with the database: " . self::$db->error);
 		}
-		else if ($dbname)
+		else
 		{
-			if (!self::$db->select_db($dbname)){
-				throw new RuntimeException("There was a problem with the database: " . self::$db->error);
-			}
+			// Allow db not to be selected if installation in progress
+			if ($dbname !== false && INSTALLATION_IN_PROGRESS)
+				self::selectDB($dbname ? $dbname : Config::dbInfo("name"));
 		}
-		else if (!(self::$db->select_db(Config::$database->name)))
-		{
-			throw new RuntimeException("There was a problem with the database: " . self::$db->error);
-		}
-
-		if ($dbname)
-			$this->selectDB($dbname);
 	}
 
 	public function getError() {
@@ -49,13 +45,23 @@ class DBService extends Object {
 	public static function getDatabase(){
 		return self::$db;
 	}
+	public static function selectDB($databaseName){
+		if (!self::$db->select_db($databaseName)){
+			throw new RuntimeException("Could not select database '$databaseName': " . self::$db->error, DBService::ERR_COULD_NOT_SELECT_DATABASE);
+		}
+	}
 
 	public function processQuery($sql, $type = NULL) {
 		if (strlen(trim("$sql"))===0) {
 			throw new RuntimeException("Empty DB Query");
 		}
 
-		if (!($result = self::$db->query($sql)))
+		$query_start = microtime(true);
+		$result = self::$db->query($sql);
+		$query_end = microtime(true);
+		//TODO: log out query time (cf. licensing module but use Common Utility)
+
+		if (!$result)
 		{
 			throw new RuntimeException("There was a problem with the database: " . self::$db->error);
 		}
@@ -67,7 +73,7 @@ class DBService extends Object {
 		{
 			return self::$db->insert_id;
 		}
-		throw new RuntimeException("Congratulations, I thought it was impossible to get here. Please fix this code.");
+		throw new LogicException("Congratulations, I thought it was impossible to get here. Please fix this code.");
 	}
 
 	public static function escapeString($str){
