@@ -96,14 +96,19 @@ $(function(){
 	$(".addPayment").live('click', function () {
 
 		var y         = $('.newPaymentTable').children().children().children().children('.year').val();
-		var ssd       = $('.newPaymentTable').children().children().children().children('.susbcriptionStartDate').val();
-		var sed       = $('.newPaymentTable').children().children().children().children('.susbcriptionEndDate').val();
+		var ssd       = $('.newPaymentTable').children().children().children().children('.subscriptionStartDate').val();
+		var sed       = $('.newPaymentTable').children().children().children().children('.subscriptionEndDate').val();
 		var fName     = $('.newPaymentTable').children().children().children().children('.fundName').val();
 		var typeID    = $('.newPaymentTable').children().children().children().children('.orderTypeID').val();
 		var detailsID = $('.newPaymentTable').children().children().children().children('.costDetailsID').val();
 		var pAmount   = $('.newPaymentTable').children().children().children().children('.paymentAmount').val();
 		var cNote     = $('.newPaymentTable').children().children().children().children('.costNote').val();
-						
+		
+                if (isValidDate(ssd)=== false || isValidDate(sed)=== false ) { 
+                        $('#div_errorPayment').html(_("Error - for dates, use MM/DD/YYYY format."));
+                        return false; 
+                }
+                
 		if ((pAmount == '' || pAmount == null) && (fName == '' || fName == null)){
 			$('#div_errorPayment').html(_("Error - Either amount or fund is required"));
 			return false;		

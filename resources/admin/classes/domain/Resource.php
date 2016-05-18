@@ -1415,7 +1415,18 @@ class Resource extends DatabaseObject {
 
 		}
 
-
+    if ($config->settings->enhancedCostHistory == 'Y'){
+        $costHistSelectAdd = "GROUP_CONCAT(COALESCE(RPAY.year,'null'), '|', COALESCE(RPAY.subscriptionStartDate,'null'), '|', COALESCE(RPAY.subscriptionEndDate,'null'), '|',
+                              COALESCE(RPAY.fundName,'null'), '|', ROUND(COALESCE(RPAY.paymentAmount, 0) / 100, 2), RPAY.currencyCode, '|', OT.shortName, '|', 
+                              COALESCE(CD.shortName, 'null'), '|', COALESCE(RPAY.costNote, 'null'), '|', COALESCE(RPAY.invoiceNum, 'null'), '|'  ORDER BY RPAY.paymentAmount ASC SEPARATOR '; ') payments";
+        $costDetailsJoinAdd = " LEFT JOIN CostDetails CD ON CD.costDetailsID = RPAY.costDetailsID";   
+    }
+        
+    else {
+      $costHistSelectAdd = "GROUP_CONCAT(COALESCE(RPAY.fundName,'null'), '|', ROUND(COALESCE(RPAY.paymentAmount, 0) / 100, 2), RPAY.currencyCode, '|', OT.shortName, '|', 
+                              COALESCE(RPAY.costNote, 'null') ,'|' ORDER BY RPAY.paymentAmount ASC SEPARATOR '; ') payments";  
+      $costDetailsJoinAdd = "";
+    }
     $status = new Status();
 		//also add to not retrieve saved records
 		$savedStatusID = intval($status->getIDFromName('saved'));
@@ -1445,7 +1456,7 @@ class Resource extends DatabaseObject {
 						GROUP_CONCAT(DISTINCT ADS.shortName ORDER BY ADS.shortName DESC SEPARATOR '; ') administeringSites,
 						GROUP_CONCAT(DISTINCT RP.titleText ORDER BY RP.titleText DESC SEPARATOR '; ') parentResources,
 						GROUP_CONCAT(DISTINCT RC.titleText ORDER BY RC.titleText DESC SEPARATOR '; ') childResources,
-						GROUP_CONCAT(DISTINCT RPAY.fundName, ': ', ROUND(COALESCE(RPAY.paymentAmount, 0) / 100, 2), ' ', RPAY.currencyCode, ' ', OT.shortName ORDER BY RPAY.paymentAmount ASC SEPARATOR '; ') payments
+						" . $costHistSelectAdd . "
 								FROM Resource R
 									LEFT JOIN Alias A ON R.resourceID = A.resourceID
 									LEFT JOIN ResourceOrganizationLink ROL ON R.resourceID = ROL.resourceID
@@ -1462,6 +1473,7 @@ class Resource extends DatabaseObject {
 									LEFT JOIN ResourceStep RS ON R.resourceID = RS.resourceID
 									LEFT JOIN ResourcePayment RPAY ON R.resourceID = RPAY.resourceID
 									LEFT JOIN OrderType OT ON RPAY.orderTypeID = OT.orderTypeID
+                                                                        " . $costDetailsJoinAdd . "
 									LEFT JOIN Status S ON R.statusID = S.statusID
 									LEFT JOIN ResourceNote RN ON R.resourceID = RN.resourceID
 									LEFT JOIN NoteType NT ON RN.noteTypeID = NT.noteTypeID

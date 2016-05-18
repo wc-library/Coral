@@ -81,9 +81,9 @@
 		<td style='vertical-align:top;text-align:left;background:white;'>
 		<input type='text' value='' style='width:53px;' class='changeDefaultWhite changeInput year' /></td>
 		<td style='vertical-align:top;text-align:left;background:white;'>
-		<input type='text' value='' style='width:60px;' class='date-pick changeDefaultWhite changeInput subscriptionStartDate' /></td>
+		<input type='text' value='' style='width:60px;' class='date-pick changeDefaultWhite changeInput subscriptionStartDate' placeholder='mm/dd/yyyy' /></td>
 		<td style='vertical-align:top;text-align:left;background:white;'>
-		<input type='text' value='' style='width:60px;' class='date-pick changeDefaultWhite changeInput subscriptionEndDate' /></td>
+		<input type='text' value='' style='width:60px;' class='date-pick changeDefaultWhite changeInput subscriptionEndDate' placeholder='mm/dd/yyyy' /></td>
 		<?php } ?>
 		<td style='vertical-align:top;text-align:left;background:white;'>
 		<input type='text' value='' style='width:60px;' class='changeDefaultWhite changeInput fundName' />
@@ -156,9 +156,9 @@ if (count($paymentArray) > 0){
 		<input type='text' value='<?php echo $payment['year']; ?>' style='width:53px;' class='changeInput year' />
 		</td>
 		<td style='vertical-align:top;text-align:left;'>
-		<input type='text' value='<?php echo normalize_date($payment['subscriptionStartDate']); ?>' style='width:60px;' class='date-pick changeInput subscriptionStartDate' /></td>
+		<input type='text' value='<?php echo normalize_date($payment['subscriptionStartDate']); ?>' style='width:60px;' class='date-pick changeInput subscriptionStartDate' placeholder='mm/dd/yyyy' /></td>
 		<td style='vertical-align:top;text-align:left;'>
-		<input type='text' value='<?php echo normalize_date($payment['subscriptionEndDate']); ?>' style='width:60px;' class='date-pick changeInput subscriptionEndDate' /></td>
+		<input type='text' value='<?php echo normalize_date($payment['subscriptionEndDate']); ?>' style='width:60px;' class='date-pick changeInput subscriptionEndDate' placeholder='mm/dd/yyyy' /></td>
 		<?php } ?>
 		<td style='vertical-align:top;text-align:left;'>
 		<input type='text' value='<?php echo $payment['fundName']; ?>' style='width:60px;' class='changeInput fundName' />
