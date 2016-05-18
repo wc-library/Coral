@@ -5,7 +5,7 @@ function try_again_template()
 	return <<<HEREDOC
 <form class="pure-form pure-form-aligned">
 	<div class="row">
-		<input type="button" id="submit" value="$submit" />
+		<input type="submit" value="$submit" />
 	</div>
 </fieldset>
 </form>

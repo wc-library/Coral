@@ -19,9 +19,9 @@
 require_once "common/Object.php";
 require_once "common/Config.php";
 class DBService extends Object {
-	const ERR_COULD_NOT_SELECT_DATABASE = 40;
-	const ERR_COULD_NOT_CONNECT = 41;
-	const ERR_ACCESS_DENIED = 42;
+	const ERR_COULD_NOT_SELECT_DATABASE = 10040;
+	const ERR_COULD_NOT_CONNECT = 10041;
+	const ERR_ACCESS_DENIED = 10042;
 
 	protected static $db = null;
 	protected $error;

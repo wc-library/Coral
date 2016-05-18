@@ -1,6 +1,6 @@
 <?php
 
-function database_details_template()
+function database_details_template($shared_database_info)
 {
 	$dbusername = _("Database Username");
 	$dbpassword = _("Database Password");
@@ -10,16 +10,19 @@ function database_details_template()
 	$host       = isset($_SESSION["POSTDATA"]["dbhost"]) ? $_SESSION["POSTDATA"]["dbhost"] : _("Hostname");
 	$submit     = _("Start Installing");
 
-	$database_name = _("Database Name");
-	$auth_database_name = _("Auth Database Name");
-	$licensing_database_name = _("Licensing Database Name");
-	$management_database_name = _("Management Database Name");
-	$organizations_database_name = _("Organizations Database Name");
-	$reports_database_name = _("Reports Database Name");
-	$resources_database_name = _("Resources Database Name");
-	$usage_database_name = _("Usage Database Name");
-
 	$leave_blank_instruction = _("Leave fields blank if you do not intend to install respective modules.");
+
+	$cards = function($shared_database_info) {
+		return join(array_reduce($shared_database_info, function($carry, $item){
+			$carry[] = <<<HEREDOC
+			<div class="card-half">
+				<label for="dbauth">{$item["title"]}</label>
+				<input class="u-full-width" type="text" placeholder="{$item["default_value"]}" value="{$item["default_value"]}" name="dbauth">
+			</div>
+HEREDOC;
+			return $carry;
+		}));
+	};
 
 	return <<<HEREDOC
 <form class="pure-form pure-form-aligned">
@@ -49,45 +52,26 @@ function database_details_template()
 			<div class="row">
 				$leave_blank_instruction
 			</div>
-			<div class="row">
-				<div class="six columns">
-					<label for="dbauth">$auth_database_name</label>
-					<input class="u-full-width" type="text" placeholder="$database_name" name="dbauth">
-				</div>
-				<div class="six columns">
-					<label for="dborganizations">$organizations_database_name</label>
-					<input class="u-full-width" type="text" placeholder="$database_name" name="dborganizations">
-				</div>
-			</div>
-			<div class="row">
-				<div class="six columns">
-					<label for="dbmanagement">$management_database_name</label>
-					<input class="u-full-width" type="text" placeholder="$database_name" name="dbmanagement">
-				</div>
-				<div class="six columns">
-					<label for="dblicensing">$licensing_database_name</label>
-					<input class="u-full-width" type="text" placeholder="$database_name" name="dblicensing">
-				</div>
-			</div>
-			<div class="row">
-				<div class="six columns">
-					<label for="dbreports">$reports_database_name</label>
-					<input class="u-full-width" type="text" placeholder="$database_name" name="dbreports">
-				</div>
-				<div class="six columns">
-					<label for="dbresources">$resources_database_name</label>
-					<input class="u-full-width" type="text" placeholder="$database_name" name="dbresources">
-				</div>
-			</div>
-			<div class="row">
-				<div class="six columns">
-					<label for="dbusage">$usage_database_name</label>
-					<input class="u-full-width" type="text" placeholder="$database_name" name="dbusage">
-				</div>
+			<div class="row" id="scoped-content">
+				<style type="text/css" scoped>
+					.card-half {
+						width: 48%;
+						float: left;
+					}
+					.card-half:nth-child(2n) {
+						margin-right: 2%;
+					}
+					.card-half:nth-child(2n+1) {
+						margin-left: 2%;
+					}
+				</style>
+
+				{$cards($shared_database_info)}
+
 			</div>
 		</div>
 		<div class="row">
-			<input type="button" id="submit" value="$submit" />
+			<input type="submit" value="$submit" />
 		</div>
 	</fieldset>
 </form>

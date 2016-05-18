@@ -18,9 +18,9 @@
 
 class Config {
 	const CONFIG_FILE_PATH = 'common/configuration.ini';
-	const ERR_FILE_NOT_READABLE = 50;
-	const ERR_VARIABLES_MISSING = 51;
-	const ERR_NOT_INSTALLING = 60;
+	const ERR_FILE_NOT_READABLE = 10050;
+	const ERR_VARIABLES_MISSING = 10051;
+	const ERR_NOT_INSTALLING = 10060;
 
 	protected static $database;
 	protected static $installed_modules = [];

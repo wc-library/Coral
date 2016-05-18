@@ -62,6 +62,10 @@ function submit_install_step(dataToSubmit)
 
 				if (typeof data.body !== "undefined")
 				$(".mainbody").html(data.body);
+				$("[data-toggle-section]").each(function(){
+					var $ts = $( $(this).attr("data-toggle-section") );
+					$ts.css('height', $ts.height());
+				});
 			}
 
 			$(".main").css({ "opacity": 0, "paddingLeft": 30 });
@@ -76,9 +80,10 @@ $(document).ready(function(){
 	console.log("ready");
 	$(".main").css({"opacity": 0});
 	submit_install_step();
-}).on("click", "#submit", function(){
-	var data = $("form").serializeObject();
+}).on("submit", function(){
+	var data = $("form input:visible").serializeObject();
 	submit_install_step(data);
+	return false; // Prevent submit
 }).on("click", ".toggleSection", function(){
 	var original_message = $(this).html();
 	$(this).html($(this).attr("data-alternate-message"));

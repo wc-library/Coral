@@ -3,17 +3,19 @@ session_start();
 class Installer {
 
 	protected $checklist = [];
+	protected $shared_module_info = [];
 	protected $messages = [];
 
 	function __construct() {
 
+		//TODO: remove "required"?
 		$this->checklist = [
 			[
 				"uid" => "meets_system_requirements",
 				"translatable_title" => _("Meets system requirements"),
 				"dependencies_array" => [],
 				"required" => true,
-				"installer" => function() {
+				"installer" => function($shared_module_info) {
 					$return = new stdClass();
 					$return->yield = new stdClass();
 
@@ -44,7 +46,7 @@ class Installer {
 				"translatable_title" => _("Config file writable or set up"),
 				"dependencies_array" => [],
 				"required" => true,
-				"installer" => function() {
+				"installer" => function($shared_module_info) {
 					$return = new stdClass();
 					$return->yield = new stdClass();
 					$return->success = false;
@@ -93,7 +95,7 @@ class Installer {
 				"translatable_title" => _("Have database access"),
 				"dependencies_array" => ["have_read_write_access_to_config"],
 				"required" => true,
-				"installer" => function() {
+				"installer" => function($shared_module_info) {
 					$return = new stdClass();
 					$return->yield = new stdClass();
 					$return->success = true;
@@ -138,7 +140,12 @@ class Installer {
 					}
 
 					require "install/templates/database_details_template.php";
-					$return->yield->body = database_details_template();
+					$shared_database_info = array_map(function($item) {
+						return $item["database"];
+					}, array_filter($shared_module_info, function($item){
+						return isset($item["database"]);
+					}));
+					$return->yield->body = database_details_template($shared_database_info);
 
 					// Try to connect
 					require_once("common/DBService.php");
@@ -164,7 +171,7 @@ class Installer {
 								}
 								else
 								{
-									$return->yield->messages[] = _("To begin with, we need a username and password create the databases CORAL and its modules will be using.");
+									$return->yield->messages[] = _("To begin with, we need a username and password to create the databases CORAL and its modules will be using.");
 								}
 								break;
 							default:
@@ -238,7 +245,7 @@ class Installer {
 				"translatable_title" => _("Have default user"),
 				"dependencies_array" => ["have_database_access"],
 				"required" => true,
-				"installer" => function() {
+				"installer" => function($shared_module_info) {
 					$return = new stdClass();
 					$return->yield = new stdClass();
 
@@ -280,7 +287,7 @@ class Installer {
 		return $this->checklist[ $this->getKeyFromUid($test_uid) ]["translatable_title"];
 	}
 
-	/**
+	/** TODO: actually describe the $installer_object
 	 *
 	 * @param  [type] $installer_array
 	 *                    $translatable_title
@@ -314,6 +321,10 @@ class Installer {
 					{
 						$installer_object = call_user_func($function_name);
 						$this->register_installation_requirement($installer_object);
+						if (isset($installer_object["getSharedInfo"]))
+						{
+							$this->shared_module_info[ $installer_object["uid"] ] = $installer_object["getSharedInfo"]();
+						}
 					}
 					else
 					{
@@ -332,7 +343,7 @@ class Installer {
 		if ($key === false)
 			throw new OutOfBoundsException("Test '{$this->getTitleFromUid($test_uid)}' not found in checklist.", 100);
 
-		$result = call_user_func( $this->checklist[$key]["installer"] );
+		$result = call_user_func( $this->checklist[$key]["installer"], $this->shared_module_info );
 		if ($result === null)
 			throw new UnexpectedValueException("The install script for '{$this->getTitleFromUid($test_uid)}' has returned a null result (which is not allowed).", 101);
 

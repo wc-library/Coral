@@ -6,7 +6,15 @@ function licensing_register_installation_requirement()
 		"translatable_title" => _("Licensing module installed"),
 		"dependencies_array" => [ "usage", "licensing" ],
 		"required" => true,
-		"installer" => function() {
+		"getSharedInfo" => function () {
+			return [
+				"database" => [
+					"title" => _("Licensing Database"),
+					"default_value" => "coral_licensing"
+				]
+			];
+		},
+		"installer" => function($shared_module_info) {
 			$return = new stdClass();
 			$return->yield = new stdClass();
 			$return->success = false;
