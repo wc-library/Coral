@@ -14,7 +14,8 @@ $(document).ready(function(){
         originalTR.appendTo('.newStepTable');
         $('.newStepTable').find('.stepName').val('');
         $('.newStepTable').find('.userGroupID').val('');
-        $('.newStepTable').find('.parentStepID').val('');
+        $('.newStepTable').find('.priorStepID').val('option:first');
+
 
     });
 

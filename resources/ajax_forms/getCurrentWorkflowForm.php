@@ -44,19 +44,17 @@ if (!isset($_GET['resourceID'])){
                                                 <select name='userGroupID' id='userGroupID' style='width:150px;' class='changeSelect userGroupID'>
                                                         <?php
                                                         foreach ($userGroupArray as $userGroup){
-                                                            $selected = ($userGroup['userGroupID'] == $resourceStep->userGroupID)? 'selected':'';
-                                                            echo "<option value='" . $userGroup['userGroupID'] . "' ".$selected.">" . $userGroup['groupName'] . "</option>\n";
+                                                            echo "<option value='" . $userGroup['userGroupID'] . "'>" . $userGroup['groupName'] . "</option>\n";
                                                         }
                                                         ?>
                                                 </select>
                                             </td>
                                             <td>
-                                               <select name='parentStepID' id='parentStepID' style='width:150px;' class='changeSelect parentStepID'>
+                                               <select name='priorStepID' id='priorStepID' style='width:150px;' class='changeSelect priorStepID'>
                                                     <option value=""></option>
                                                     <?php
                                                     foreach ($parentSteps as $parentStep) {
-                                                        $selected = ($parentStep->stepID == $resourceStep->priorStepID) ? 'selected' : '';
-                                                        echo "<option value='" . $parentStep->stepID . "' ".$selected.">" . $parentStep->stepName . "</option>\n";
+                                                        echo "<option value='" . $parentStep->stepID . "'>" . $parentStep->stepName . "</option>\n";
                                                     }
                                                     ?>
                                                 </select>
@@ -96,7 +94,7 @@ if (!isset($_GET['resourceID'])){
                                                     <option value=""></option>
                                                     <?php
                                                     foreach ($parentSteps as $parentStep) {
-                                                        $selected = ($parentStep->stepID == $resourceStep->priorStepID) ? 'selected' : '';
+                                                        $selected = ($parentStep->stepID != null && $parentStep->stepID == $resourceStep->priorStepID) ? 'selected="selected"' : '';
                                                         echo "<option value='" . $parentStep->stepID . "' ".$selected.">" . $parentStep->stepName . "</option>\n";
                                                     }
                                                     ?>
