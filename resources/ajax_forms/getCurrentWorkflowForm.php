@@ -72,6 +72,7 @@ if (!isset($_GET['resourceID'])){
                                         $count = count($resourceSteps);
                                         $i = 0;
                                         foreach ($resourceSteps as $resourceStep) {
+                                        $disabled = ($resourceStep->stepEndDate) ? 'disabled="disabled"':'';
                                         $i++;
                                         if ($i == $count) $lastStepClass = ' class="lastStep"';
                                         ?>
@@ -81,7 +82,7 @@ if (!isset($_GET['resourceID'])){
                                             <input type="hidden" class="stepID" value="<?php echo $resourceStep->resourceStepID; ?>">
                                             <input type="text" class="stepName changeInput" value="<?php echo $resourceStep->stepName; ?>"></td>
                                             <td style='vertical-align:top;text-align:left;'>
-                                                <select name='userGroupID' id='userGroupID' style='width:150px;' class='changeSelect userGroupID'>
+                                                <select name='userGroupID' id='userGroupID' style='width:150px;' class='changeSelect userGroupID' <?php echo $disabled; ?>>
                                                     <?php
                                                     foreach ($userGroupArray as $userGroup){
                                                         $selected = ($userGroup['userGroupID'] == $resourceStep->userGroupID)? 'selected':'';
