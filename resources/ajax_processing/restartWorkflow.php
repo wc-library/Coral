@@ -10,7 +10,7 @@
 
 			try {
 				$resource->save();
-                $resource->isWorkflowComplete() ? $resource->archiveWorkflow() : $resource->deleteWorkflow();
+                $resource->isCurrentWorkflowComplete() ? $resource->archiveWorkflow() : $resource->deleteWorkflow();
                 $resource->enterNewWorkflow($workflowID);
 			} catch (Exception $e) {
 				echo $e->getMessage();
