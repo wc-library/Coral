@@ -52,7 +52,7 @@ $(document).ready(function(){
 
         //remove whole row from interface
         $(this).parent().parent().parent().fadeTo(400, 0, function () {
-            $(this).find(">:first-child").find(">:first-child").val("delete");
+            $(this).find(".action").val("delete");
             $(this).hide();
             $(this).die('click');
         });
