@@ -11,25 +11,79 @@ $(document).ready(function(){
           title: _("remove this step")
         });
         $('.newStepTR').find('.addStep').removeClass('addStep').addClass('removeStep');
+        $('.newStepTR').children('.seqOrder').addClass('justAdded');
         $('.newStepTR').removeClass('newStepTR').addClass('stepTR');
 
         //next put the original clone back, we just need to reset the values
         originalTR.appendTo('.newStepTable');
+        $('.newStepTable').children().children().children('.seqOrder').html("<img src='images/transparent.gif' style='width:43px;height:10px;' />");
         $('.newStepTable').find('.stepName').val('');
         $('.newStepTable').find('.userGroupID').val('');
         $('.newStepTable').find('.priorStepID').val('option:first');
 
+        //need to set the key for justadded
+        newKey = parseInt(lastKey) + 1;
+
+        
+        //set the just added key to the next one up
+        $('.justAdded').attr('key',  function() {
+            return newKey;
+        });		
+        
+        //set just added to last class now that it's last and remove it from the previous last
+        $('.lastClass').removeClass('lastClass');
+        $('.justAdded').addClass('lastClass');
+        $('.justAdded').removeClass('justAdded');
+        
+        lastKey = newKey;
+                    
+        setArrows();
+        updatePriorSteps(sName);
+	
 
     });
 
 
     $(".removeStep").live('click', function () {
+	    var removedKey = parseInt($(this).parent().parent().parent().children('.seqOrder').attr('key'));
+
+	    $(".seqOrder[key='" + removedKey + "']").removeAttr('key');
+
+
         //remove whole row from interface
         $(this).parent().parent().parent().fadeTo(400, 0, function () {
             $(this).find(">:first-child").find(">:first-child").val("delete");
             $(this).hide();
             $(this).die('click');
         });
+
+	    //also fix key values for each existing subsequent step - set to current key - 1
+	    nextKey = removedKey+1;
+	    
+	    for(var i=nextKey; i<=lastKey; i++){
+
+		$(".seqOrder[key='" + i + "']").attr('key',  function() {
+  			return i-1;
+		});
+			
+	    }
+	    
+
+	    if(removedKey == lastKey){
+	    	prevKey = lastKey-1;
+	    	
+	    	//also add last class key to this for easier reference
+	    	$(".seqOrder[key='" + prevKey + "']").addClass('lastClass');
+	    
+	    }
+
+	    
+	    lastKey--;
+
+	    
+	    setArrows();
+	    updatePriorSteps('removed');
+	
         return false;
     });
 
@@ -110,6 +164,70 @@ function kill() {
 function validateWorkflow() {
     return true;
 }
+
+function updatePriorSteps(fromFunction){
+
+	
+	var stepArray=new Array();
+
+	//loop through each step, we will use this for the previous step list in an array
+	$(".stepName").each(function(id) {	
+	      stepArray[$(this).parent().parent().children('.seqOrder').attr('key')] = $.trim($(this).val());
+
+	}); 
+
+
+
+
+
+	$(".priorStepID").each(function(id) {
+
+	     var currentSelectedStep='';
+	     var currentSelectedKey='';
+	     	     
+	     
+	     //happens on page load, look at the hidden input for loaded
+	     if (fromFunction == 'onload'){
+	     	thisKey = $(this).parent().parent().children('.seqOrder').attr('key');
+	     	currentSelectedKey = $(".priorStepKey[key='" + thisKey + "']").val();
+	     }else if (fromFunction == 'change'){
+	     	//hold the current prior step id selected
+	     	currentSelectedKey = $(this).val();
+	     }else{
+	     	//otherwise we can just take the text
+	     	currentSelectedStep = $.trim($("option:selected",this).text());
+	     }
+    
+	     
+	     thisStepName = $(this).parent().parent().children().children('.stepName').val();
+
+	     //clear out current priorStepID dropdown and repopulate
+	     var options = "<option value=''></option>";
+	     
+	     $.each(stepArray, function(key, currentStepName) {
+	     	if (typeof(currentStepName) !== 'undefined'){
+	     			
+			if ((currentSelectedKey == key) || (currentSelectedStep == currentStepName)){
+				options += "<option value='" + key + "' selected>" + currentStepName + "</option>";
+			}else if (currentStepName != thisStepName){
+				options += "<option value='" + key + "'>" + currentStepName + "</option>";
+			}
+			
+		}
+		
+
+	     });
+
+	     $(this).html(options);
+	      
+	}); 
+
+
+
+
+
+}
+
 
 function setArrows(){
 
