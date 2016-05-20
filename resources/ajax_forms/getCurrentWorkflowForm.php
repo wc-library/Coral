@@ -31,12 +31,15 @@ if (!isset($_GET['resourceID'])){
                                 <td>
                                     <table class='noBorder newStepTable' style='width:660px; margin:15px 20px 10px 20px;'>
                                         <tr>
+                                            <td><?php echo _("Order"); ?></td>
                                             <td><?php echo _("Name"); ?></td>
                                             <td><?php echo _("Approval/Notification group"); ?></td>
                                             <td><?php echo _("Parent Step"); ?></td>
                                             <td><?php echo _("Action"); ?></td>
                                         </tr>
                                         <tr class="newStepTR">
+
+                                            <td style='vertical-align:top;text-align:left;width:48px;' class='seqOrder' key=''><img src='images/transparent.gif' style='width:43px;height:20px;' /></td>
                                             <td>
                                             <input type="hidden" class="stepID" value="-1">
                                             <input type="text" class="stepName"></td>
@@ -69,12 +72,48 @@ if (!isset($_GET['resourceID'])){
                                         <?php
                                         $count = count($resourceSteps);
                                         $i = 0;
-                                        foreach ($resourceSteps as $resourceStep) {
+				if ($resourceSteps > 0){
+                                        foreach ($resourceSteps as $key => $resourceStep) {
                                         $disabled = ($resourceStep->stepEndDate) ? 'disabled="disabled"':'';
                                         $i++;
                                         if ($i == $count) $lastStepClass = ' class="lastStep"';
+
+
+					$key=$key+1;
+
+					if ($step->priorStepID){
+						$priorStep= new ResourceStep(new NamedArguments(array('primaryKey' => $step->priorStepID)));
+					}else{
+						$priorStep= new ResourceStep();
+					}
+
                                         ?>
                                         <tr class="stepTR">
+<td style='vertical-align:top;text-align:left;width:48px;' class='seqOrder <?php if ($key == ($stepCount)){ echo "lastClass"; } ?>' id='<?php echo $step->stepID; ?>' key='<?php echo $key; ?>'>
+							<?php
+
+								$arrowDown = "<a href='javascript:void(0);' class='moveArrow' direction='down'><img src='images/arrow_down.gif'></a>";
+								$arrowUp = "<a href='javascript:void(0);' class='moveArrow' direction='up' ><img src='images/arrow_up.gif'></a>";
+								$trans = "<img src='images/transparent.gif' style='width:20px;height:20px;' />";
+
+								if ($key == 1){
+
+									//if this is the only step, display the large transparent gif instead of arrows
+									if (($stepCount) == 1){
+										echo "<img src='images/transparent.gif' style='width:43px;height:10px;' />";
+									}else{
+										echo $trans . "&nbsp;" . $arrowDown;
+									}
+
+
+								}else if ($key == ($stepCount)){
+									echo $arrowUp . "&nbsp;" . $trans;
+								}else{
+									echo $arrowUp . "&nbsp;" . $arrowDown;
+								}
+							?>
+						</td>
+
                                             <td>
                                             <input type="hidden" class="action" value="keep">
                                             <input type="hidden" class="stepID" value="<?php echo $resourceStep->resourceStepID; ?>">
@@ -99,11 +138,13 @@ if (!isset($_GET['resourceID'])){
                                                     }
                                                     ?>
                                                 </select>
+							<input type='hidden' class='priorStepKey' key='<?php echo $key; ?>' value='<?php echo $priorStep->displayOrderSequence; ?>'>
 
                                             </td>
                                             <td><a href="javascript:void(0)"><img src="images/cross.gif" class="removeStep" alt="Delete" /></a></td>
                                         </tr>
                                         <?php
+                                        }
                                         }
                                         ?>
                                     </table>
@@ -120,6 +161,7 @@ if (!isset($_GET['resourceID'])){
                 </tr>
             </table>
 
+            <input type='hidden' id='finalKey' value='<?php echo $key; ?>' />
             <script type="text/javascript" src="js/forms/currentWorkflowForm.js?random=<?php echo rand(); ?>"></script>
         </form>
     </div>

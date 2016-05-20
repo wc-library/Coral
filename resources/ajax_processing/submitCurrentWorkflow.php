@@ -16,6 +16,8 @@
 			$stepIDPriorArray = array();
 			$oldStepIDArray = array();
             $oldStepIDArray = explode(':::',$_POST['stepIDs']);
+			$seqOrderArray = array();
+			$seqOrderArray = explode(':::',$_POST['seqOrders']);
 			$actionArray = array();
             $actionArray = explode(':::',$_POST['actions']);
 
@@ -44,6 +46,7 @@
                         unset($oldStep);
                     }
                     
+					$step->displayOrderSequence = $seqOrderArray[$key];
 					$step->resourceID = $resourceID;
 					$step->stepName = trim($value);
 					$step->userGroupID = $userGroupArray[$key];
@@ -54,6 +57,7 @@
 					try {
 						$step->save();
 						$stepID = $step->primaryKey;
+
 					} catch (Exception $e) {
 						echo $e->getMessage();
 					}
