@@ -20,7 +20,8 @@ class Config {
 	const CONFIG_FILE_PATH = 'common/configuration.ini';
 	const ERR_FILE_NOT_READABLE = 10050;
 	const ERR_VARIABLES_MISSING = 10051;
-	const ERR_NOT_INSTALLING = 10060;
+	const ERR_NOT_INSTALLING = 10052;
+	const ERR_NO_SUCH_MODULE = 10053;
 
 	protected static $database;
 	protected static $installed_modules = [];
@@ -63,7 +64,13 @@ class Config {
 	public static function getSettingsFor($module_name) {
 		self::init();
 		if (in_array($module_name, self::$installed_modules))
+		{
 			return self::$module_settings[$module_name];
+		}
+		else
+		{
+			throw new OutOfBoundsException("Module name does not match module in settings objecet.", self::ERR_NO_SUCH_MODULE);
+		}
 	}
 
 	public static function loadTemporaryDBSettings($database_settings) {
