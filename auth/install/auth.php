@@ -107,46 +107,8 @@ function auth_register_installation_requirement()
 			$return->messages[] = "we're still busy writing the installer okay";
 			return $return;
 
-			if (!file_exists($sql_file))
-			{
-				$return->yield->messages[] ="Could not open sql file: " . $sql_file . ".  If this file does not exist you must download new install files.";
-				$return->success = false;
-				return $return;
-			}
-			else
-			{
-				//run the file - checking for errors at each SQL execution
-				$f = fopen($sql_file,"r");
-				$sqlFile = fread($f,filesize($sql_file));
-				$sqlArray = explode(';',$sqlFile);
-
-				//Process the sql file by statements
-				foreach ($sqlArray as $stmt) {
-				   if (strlen(trim($stmt))>3){
-
-						$result = mysqli_query($link, $stmt);
-						if (!$result){
-							$errorMessage[] = mysqli_error($link) . "<br /><br />For statement: " . $stmt;
-							 break;
-						}
-					}
-				}
-			}
-
-			/**
-			 * NOTE: [unified_installer] i.e. draw the page and be done with it (if count error message > 0)
-			 */
-			// if (count($errorMessage) > 0){
-			// 	$step="2";
-			// }
-
-
-
-			//first, validate all fields are filled in
-			// $database_host = (isset($_POST['database_host']) ? trim($_POST['database_host']) : null);
-			// $database_username = (isset($_POST['database_username']) ? trim($_POST['database_username']) : null);
-			// $database_password = (isset($_POST['database_password']) ? trim($_POST['database_password']) : null);
-			// $database_name = (isset($_POST['database_name']) ? trim($_POST['database_name']) : null);
+			//We need a session timeout variable - are we just going to assume it? 3600
+			
 			// $session_timeout = (isset($_POST['session_timeout']) ? trim($_POST['session_timeout']) : null);
 
 			$ldap = array(
