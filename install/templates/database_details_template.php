@@ -16,8 +16,8 @@ function database_details_template($shared_database_info)
 		return join(array_reduce($shared_database_info, function($carry, $item){
 			$carry[] = <<<HEREDOC
 			<div class="card-half">
-				<label for="dbauth">{$item["title"]}</label>
-				<input class="u-full-width" type="text" placeholder="{$item["default_value"]}" value="{$item["default_value"]}" name="dbname_{$item["key"]}">
+				<label for="db_{$item["key"]}_name">{$item["title"]}</label>
+				<input class="u-full-width" type="text" placeholder="{$item["default_value"]}" value="{$item["default_value"]}" name="db_{$item["key"]}_name">
 			</div>
 HEREDOC;
 			return $carry;

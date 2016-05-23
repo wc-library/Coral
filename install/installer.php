@@ -99,9 +99,45 @@ class Installer {
 					return $return;
 				}
 			],[
+				"uid" => "modules_to_use",
+				"translatable_title" => _("Chosen modules to use"),
+				"dependencies_array" => [],
+				"required" => true,
+				"installer" => function($shared_module_info) {
+					$return = new stdClass();
+					$return->yield = new stdClass();
+					$return->yield->title = _("Chosen modules to use");
+					$return->success = true;
+
+					$module_list = $shared_module_info["module_list"];
+					foreach ($module_list as $mod) {
+						if ($mod["required"])
+						{
+							$_SESSION["modules_to_use"][] = true;
+							$return->success &= true;
+						}
+						else if (isset($_POST[$mod["uid"]]))
+						{
+							$_SESSION["modules_to_use"][] = $_POST[$mod["uid"]] === 1;
+							$return->success &= true;
+						}
+						else
+						{
+							$return->success &= false;
+						}
+					}
+
+					if (!$return->success)
+					{
+						require "install/templates/modules_to_use_template.php";
+						$return->yield->body = modules_to_use_template($module_list);
+					}
+					return $return;
+				}
+			],[
 				"uid" => "have_database_access",
 				"translatable_title" => _("Have database access"),
-				"dependencies_array" => ["have_read_write_access_to_config"],
+				"dependencies_array" => ["have_read_write_access_to_config", "modules_to_use"],
 				"required" => true,
 				"installer" => function($shared_module_info) {
 					$return = new stdClass();
@@ -147,7 +183,6 @@ class Installer {
 						}
 					}
 
-					require "install/templates/database_details_template.php";
 					$modules_with_database_requirements = array_filter($shared_module_info, function($item){
 						return is_array($item) && isset($item["database"]);
 					});
@@ -156,6 +191,8 @@ class Installer {
 						$to_return["key"] = $key;
 						return $to_return;
 					}, array_keys($modules_with_database_requirements), $modules_with_database_requirements);
+
+					require "install/templates/database_details_template.php";
 					$return->yield->body = database_details_template($shared_database_info);
 
 					// Try to connect
@@ -186,8 +223,10 @@ class Installer {
 								}
 								break;
 							default:
-								echo "We haven't prepared for the following error (installer.php):<br />\n";
+								echo "We haven't prepared for the following error (installer.php):<br />\n<pre>";
 								var_dump($e);
+								echo "</pre>";
+								throw $e;
 								break;
 						}
 						return $return;
@@ -196,11 +235,13 @@ class Installer {
 					// Go through the databases and try to create them all (or see if they already exist)
 					foreach ($shared_database_info as $db)
 					{
-						$dbfeedback = "dbname_" . $db["key"] . "_feedback";
+						$dbfeedback = "db_" . $db["key"] . "_feedback";
+						$dbnamestr = "db_" . $db["key"] . "_name";
+						$dbname = empty($_SESSION[$dbnamestr]) ? $db["default_value"] : $_SESSION[$dbnamestr];
 						if (empty($_SESSION[$dbfeedback]))
 							$_SESSION[$dbfeedback] = "failed";
 						try {
-							$dbconnection->selectDB( $db_to_select );
+							$dbconnection->selectDB( $dbname );
 							if ($_SESSION[$dbfeedback] == "failed")
 								$_SESSION[$dbfeedback] = "already_existed";
 						}
@@ -208,20 +249,16 @@ class Installer {
 							switch ($e->getCode()) {
 								case DBService::ERR_COULD_NOT_SELECT_DATABASE:
 									try {
-										$result = $dbconnection->processQuery("CREATE DATABASE `$db_to_select`;");
+										$result = $dbconnection->processQuery("CREATE DATABASE `$dbname`;");
 										$_SESSION[$dbfeedback] = "created";
 									} catch (Exception $e) {
-										$return->yield->body = database_details();
-										if ($db_to_select !== "coral_organizations")
-										{
-											$return->yield->messages[] = _("We tried to select a database with the name $db_to_select but failed. We also could not create it.");
-										}
+										$return->yield->messages[] = _("We tried to select a database with the name $dbname but failed. We also could not create it.");
 										$return->yield->messages[] = _("In order to proceed, we need access rights to create databases or you need to manually create the databases and provide their names and the credentials for a user with access rights to them.");
 										$return->success = false;
 										return $return;
 									}
 									// THIS SHOULDN'T FAIL BECAUSE WE'VE JUST CREATED THE DB SUCCESSFULLY.
-									$result = $dbconnection->selectDB( $db_to_select );
+									$result = $dbconnection->selectDB( $dbname );
 									break;
 
 								default:
@@ -230,8 +267,8 @@ class Installer {
 									break;
 							}
 						}
-						$shared_module_info->appendInfo($db["key"], ["db_name" => empty($_SESSION["dbname_" . $db["key"]]) ? $db["default_value"] : $_SESSION["dbname_" . $db["key"]]]);
-						$shared_module_info->appendInfo($db["key"], ["db_feedback" => $_SESSION[$dbfeedback]]);
+						$shared_module_info["appendInfo"]($db["key"], ["db_name" => $dbname]);
+						$shared_module_info["appendInfo"]($db["key"], ["db_feedback" => $_SESSION[$dbfeedback]]);
 					}
 
 					try {
@@ -265,7 +302,8 @@ class Installer {
 						// "GRANT SELECT, INSERT, UPDATE, DELETE ON $dbname TO $user@{Config::dbInfo('host')} IDENTIFIED BY '$password'";
 					}
 
-					$return->success = false;
+					//TODO: don't just return true...
+					$return->success = true;
 					$return->yield->messages[] = "incomplete installer";
 					$return->yield->title = _("Have default user");
 					return $return;
@@ -328,6 +366,11 @@ class Installer {
 					{
 						$installer_object = call_user_func($function_name);
 						$this->register_installation_requirement($installer_object);
+						$this->shared_module_info[ "module_list" ][] = [
+							"uid" => $installer_object["uid"],
+							"title" => $installer_object["translatable_title"],
+							"required" => $installer_object["required"]
+						];
 						if (isset($installer_object["getSharedInfo"]))
 						{
 							$this->shared_module_info[ $installer_object["uid"] ] = $installer_object["getSharedInfo"]();

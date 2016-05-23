@@ -3,8 +3,9 @@ function auth_register_installation_requirement()
 {
 	return [
 		"uid" => "auth_installed",
-		"translatable_title" => _("Auth module installed"),
+		"translatable_title" => _("Auth Module"),
 		"dependencies_array" => [ "usage", "licensing", "have_database_access" ],
+		"required" => false,
 		"getSharedInfo" => function () {
 			return [
 				// We will find the name in the sharedInfo variable under "auth_installed" as "db_name"
@@ -23,221 +24,220 @@ function auth_register_installation_requirement()
 			$return->yield->messages[] = "<b>You broke something</b>";
 			return $return;
 
+			/**
+			 * NOTE: Removed `step` variable (used to keep track of things) and error_messages
+			 */
+
+			// $shared_module_info["auth_installed"]["dbname"]
+			// $shared_module_info["auth_installed"]["dbfeedback"]
+
 
 
 			//this script runs entire installation process in 5 steps
 
 			//take "step" variable to determine which step the current is
-			$step = isset($_POST['step']) ? $_POST['step'] : '0';
+			// $step = isset($_POST['step']) ? $_POST['step'] : '0';
 
 
 			//perform field validation(steps 3-5) and database connection tests (steps 3 and 4) and send back to previous step if not working
-			$errorMessage = array();
-			if ($step == "3"){
+			// $errorMessage = array();
+			// if ($step == "3"){
 
-				/**
-				 * NOTE: [unified_installer] We already have db access (removed)
-				 */
+			/**
+			 * NOTE: [unified_installer] We already have db access (removed)
+			 */
 
-				// Check that the database exists
-				$dbconnection = new DBService($db);
+			// Check that the database exists
+			// We assume success - if not, it should have been handled in have_database_access
+			$dbconnection = new DBService($shared_module_info["auth_installed"]["dbname"]);
 
-				$dbcheck = mysqli_select_db($link, "$database_name");
-				if (!$dbcheck) {
-					$errorMessage[] = "Unable to access the database '" . $database_name . "'.  Please verify it has been created.<br />MySQL Error: " . mysqli_error($link);
+			//make sure the tables don't already exist - otherwise this script will overwrite all of the data!
+			$query = "SELECT count(*) count FROM information_schema.`TABLES` WHERE table_schema = '" . $database_name . "' AND table_name='User' and table_rows > 0";
+
+			//if User table exists, error out
+			if (!$row = mysqli_fetch_array(mysqli_query($link, $query))){
+				$errorMessage[] = "Please verify your database user has access to select from the information_schema MySQL metadata database.";
+			}else{
+				if ($row['count'] > 0 ){
+					/**
+					 * NOTE: [unified_installer] will need to handle possibility that we just created these...
+					 */
+					$errorMessage[] = "The Authentication tables already exist.  If you intend to upgrade, please run upgrade.php instead.  If you would like to perform a fresh install you will need to manually drop all of the Authentication tables in this schema first.";
 				}else{
 
-					//make sure the tables don't already exist - otherwise this script will overwrite all of the data!
-					$query = "SELECT count(*) count FROM information_schema.`TABLES` WHERE table_schema = '" . $database_name . "' AND table_name='User' and table_rows > 0";
+					//passed db host, name check, can open/run file now
+					//make sure SQL file exists
+					$test_sql_file = "test_create.sql";
+					$sql_file = "create_tables_data.sql";
 
-					//if User table exists, error out
-					if (!$row = mysqli_fetch_array(mysqli_query($link, $query))){
-						$errorMessage[] = "Please verify your database user has access to select from the information_schema MySQL metadata database.";
+					if (!file_exists($test_sql_file)) {
+						$errorMessage[] = "Could not open sql file: " . $test_sql_file . ".  If this file does not exist you must download new install files.";
 					}else{
-						if ($row['count'] > 0 ){
-							/**
-							 * NOTE: [unified_installer] will need to handle possibility that we just created these...
-							 */
-							$errorMessage[] = "The Authentication tables already exist.  If you intend to upgrade, please run upgrade.php instead.  If you would like to perform a fresh install you will need to manually drop all of the Authentication tables in this schema first.";
-						}else{
+						//run the file - checking for errors at each SQL execution
+						$f = fopen($test_sql_file,"r");
+						$sqlFile = fread($f,filesize($test_sql_file));
+						$sqlArray = explode(";",$sqlFile);
 
-							//passed db host, name check, can open/run file now
-							//make sure SQL file exists
-							$test_sql_file = "test_create.sql";
-							$sql_file = "create_tables_data.sql";
+						//Process the sql file by statements
+						foreach ($sqlArray as $stmt) {
+						   if (strlen(trim($stmt))>3){
 
-							if (!file_exists($test_sql_file)) {
-								$errorMessage[] = "Could not open sql file: " . $test_sql_file . ".  If this file does not exist you must download new install files.";
-							}else{
-								//run the file - checking for errors at each SQL execution
-								$f = fopen($test_sql_file,"r");
-								$sqlFile = fread($f,filesize($test_sql_file));
-								$sqlArray = explode(";",$sqlFile);
-
-								//Process the sql file by statements
-								foreach ($sqlArray as $stmt) {
-								   if (strlen(trim($stmt))>3){
-
-										$result = mysqli_query($link, $stmt);
-										if (!$result){
-											$errorMessage[] = mysqli_error($link) . "<br /><br />For statement: " . $stmt;
-											 break;
-										}
-									}
-								}
-
-							}
-
-
-							//once this check has passed we can run the entire ddl/dml script
-							/**
-							 * NOTE: [unified_installer] i.e. draw the page and be done with it (if count error message > 0)
-							 */
-							if (count($errorMessage) == 0){
-								if (!file_exists($sql_file)) {
-									$errorMessage[] = "Could not open sql file: " . $sql_file . ".  If this file does not exist you must download new install files.";
-								}else{
-									//run the file - checking for errors at each SQL execution
-									$f = fopen($sql_file,"r");
-									$sqlFile = fread($f,filesize($sql_file));
-									$sqlArray = explode(';',$sqlFile);
-
-
-
-									//Process the sql file by statements
-									foreach ($sqlArray as $stmt) {
-									   if (strlen(trim($stmt))>3){
-
-											$result = mysqli_query($link, $stmt);
-											if (!$result){
-												$errorMessage[] = mysqli_error($link) . "<br /><br />For statement: " . $stmt;
-												 break;
-											}
-										}
-									}
-
+								$result = mysqli_query($link, $stmt);
+								if (!$result){
+									$errorMessage[] = mysqli_error($link) . "<br /><br />For statement: " . $stmt;
+									 break;
 								}
 							}
 						}
+
+					}
+
+
+					//once this check has passed we can run the entire ddl/dml script
+					/**
+					 * NOTE: [unified_installer] i.e. draw the page and be done with it (if count error message > 0)
+					 */
+					if (count($errorMessage) == 0){
+						if (!file_exists($sql_file)) {
+							$errorMessage[] = "Could not open sql file: " . $sql_file . ".  If this file does not exist you must download new install files.";
+						}else{
+							//run the file - checking for errors at each SQL execution
+							$f = fopen($sql_file,"r");
+							$sqlFile = fread($f,filesize($sql_file));
+							$sqlArray = explode(';',$sqlFile);
+
+
+
+							//Process the sql file by statements
+							foreach ($sqlArray as $stmt) {
+							   if (strlen(trim($stmt))>3){
+
+									$result = mysqli_query($link, $stmt);
+									if (!$result){
+										$errorMessage[] = mysqli_error($link) . "<br /><br />For statement: " . $stmt;
+										 break;
+									}
+								}
+							}
+
+						}
 					}
 				}
-					// }
-
-				// }
-
-				/**
-				 * NOTE: [unified_installer] i.e. draw the page and be done with it (if count error message > 0)
-				 */
-				// if (count($errorMessage) > 0){
-				// 	$step="2";
-				// }
-
 			}
-			else if ($step == "4")
-			{
+				// }
 
-				//first, validate all fields are filled in
-				// $database_host = (isset($_POST['database_host']) ? trim($_POST['database_host']) : null);
-				// $database_username = (isset($_POST['database_username']) ? trim($_POST['database_username']) : null);
-				// $database_password = (isset($_POST['database_password']) ? trim($_POST['database_password']) : null);
-				// $database_name = (isset($_POST['database_name']) ? trim($_POST['database_name']) : null);
-				// $session_timeout = (isset($_POST['session_timeout']) ? trim($_POST['session_timeout']) : null);
+			// }
 
-				$ldap = array(
-					'ldap_enabled'	 =>(isset($_POST['ldap_enabled']) ? 'Y' : 'N'),
-					'host'		=>(isset($_POST['ldap_host']) ? $_POST['ldap_host'] : null),
-					'port'		=>(isset($_POST['ldap_port']) ? $_POST['ldap_port'] : null),
-					'search_key'  =>(isset($_POST['ldap_search_key']) ? $_POST['ldap_search_key'] : null),
-					'base_dn'	 =>(isset($_POST['ldap_base_dn']) ? $_POST['ldap_base_dn'] : null),
-					'bindAccount' =>(isset($_POST['ldap_bind_account']) ? $_POST['ldap_bind_account'] : null),
-					'bindPass'=>(isset($_POST['ldap_bind_password']) ? $_POST['ldap_bind_password'] : null)
-				);
+			/**
+			 * NOTE: [unified_installer] i.e. draw the page and be done with it (if count error message > 0)
+			 */
+			// if (count($errorMessage) > 0){
+			// 	$step="2";
+			// }
 
-				if ($ldap['ldap_enabled']=='Y') {
-					if (!$ldap['host']) $errorMessage[] = "LDAP Host is required for LDAP";
-					if (!$ldap['search_key']) $errorMessage[] = "LDAP Search Key is required for LDAP";
-					if (!$ldap['base_dn']) $errorMessage[] = "LDAP Base DN is required for LDAP";
-				}
 
-				// if (!$database_username) $errorMessage[] = 'User name is required';
-				// if (!$database_password) $errorMessage[] = 'Password is required';
-				// if (!$session_timeout) $errorMessage[] = 'Session timeout is required';
 
-				/**
-				 * NOTE: [unified_installer] We must just keep track of these things
-				 */
-				//only continue to checking DB connections if there were no errors this far
-				// if (count($errorMessage) > 0){
-				// 	$step="3";
+			//first, validate all fields are filled in
+			// $database_host = (isset($_POST['database_host']) ? trim($_POST['database_host']) : null);
+			// $database_username = (isset($_POST['database_username']) ? trim($_POST['database_username']) : null);
+			// $database_password = (isset($_POST['database_password']) ? trim($_POST['database_password']) : null);
+			// $database_name = (isset($_POST['database_name']) ? trim($_POST['database_name']) : null);
+			// $session_timeout = (isset($_POST['session_timeout']) ? trim($_POST['session_timeout']) : null);
+
+			$ldap = array(
+				'ldap_enabled'	 =>(isset($_POST['ldap_enabled']) ? 'Y' : 'N'),
+				'host'		=>(isset($_POST['ldap_host']) ? $_POST['ldap_host'] : null),
+				'port'		=>(isset($_POST['ldap_port']) ? $_POST['ldap_port'] : null),
+				'search_key'  =>(isset($_POST['ldap_search_key']) ? $_POST['ldap_search_key'] : null),
+				'base_dn'	 =>(isset($_POST['ldap_base_dn']) ? $_POST['ldap_base_dn'] : null),
+				'bindAccount' =>(isset($_POST['ldap_bind_account']) ? $_POST['ldap_bind_account'] : null),
+				'bindPass'=>(isset($_POST['ldap_bind_password']) ? $_POST['ldap_bind_password'] : null)
+			);
+
+			if ($ldap['ldap_enabled']=='Y') {
+				if (!$ldap['host']) $errorMessage[] = "LDAP Host is required for LDAP";
+				if (!$ldap['search_key']) $errorMessage[] = "LDAP Search Key is required for LDAP";
+				if (!$ldap['base_dn']) $errorMessage[] = "LDAP Base DN is required for LDAP";
+			}
+
+			// if (!$database_username) $errorMessage[] = 'User name is required';
+			// if (!$database_password) $errorMessage[] = 'Password is required';
+			// if (!$session_timeout) $errorMessage[] = 'Session timeout is required';
+
+			/**
+			 * NOTE: [unified_installer] We must just keep track of these things
+			 */
+			//only continue to checking DB connections if there were no errors this far
+			// if (count($errorMessage) > 0){
+			// 	$step="3";
+			// }else{
+
+				//first check connecting to host
+				// $link = mysqli_connect("$database_host", "$database_username", "$database_password");
+				// if (!$link) {
+				// 	$errorMessage[] = "Could not connect to the server '" . $database_host . "'<br />MySQL Error: " . mysqli_error($link);
 				// }else{
 
-					//first check connecting to host
-					// $link = mysqli_connect("$database_host", "$database_username", "$database_password");
-					// if (!$link) {
-					// 	$errorMessage[] = "Could not connect to the server '" . $database_host . "'<br />MySQL Error: " . mysqli_error($link);
-					// }else{
-
-						//next check that the database exists
-				$dbcheck = mysqli_select_db($link, "$database_name");
-				if (!$dbcheck) {
-					$errorMessage[] = "Unable to access the database '" . $database_name . "'.  Please verify it has been created.<br />MySQL Error: " . mysqli_error($link);
-				}else{
-					//passed db host, name check, test that user can select from Auth database
-					$result = mysqli_query($link, "SELECT loginID FROM " . $database_name . ".User WHERE loginID like '%coral%';");
-					if (!$result){
-						$errorMessage[] = "Unable to select from the User table in database '" . $database_name . "' with user '" . $database_username . "'.  Error: " . mysqli_error($link);
-					}
-
+					//next check that the database exists
+			$dbcheck = mysqli_select_db($link, "$database_name");
+			if (!$dbcheck) {
+				$errorMessage[] = "Unable to access the database '" . $database_name . "'.  Please verify it has been created.<br />MySQL Error: " . mysqli_error($link);
+			}else{
+				//passed db host, name check, test that user can select from Auth database
+				$result = mysqli_query($link, "SELECT loginID FROM " . $database_name . ".User WHERE loginID like '%coral%';");
+				if (!$result){
+					$errorMessage[] = "Unable to select from the User table in database '" . $database_name . "' with user '" . $database_username . "'.  Error: " . mysqli_error($link);
 				}
-					// }
-
-				// }
-
-
-				/**
-				 * NOTE: [unified_installer] i.e. draw the page and be done with it (if count error message > 0)
-				 */
-				//only continue if there were no errors this far
-				// if (count($errorMessage) > 0){
-				// 	$step="3";
-				// }else{
-
-
-				/**
-				 * TODO: [unified_installer] abstract writing config file out
-				 */
-					//write the config file
-				$configFile = "../admin/configuration.ini";
-				$fh = fopen($configFile, 'w');
-
-				if (!$fh){
-					$errorMessage[] = "Could not open file " . $configFile . ".  Please verify you can write to the /admin/ directory.";
-				}else{
-
-					$iniData = array();
-					$iniData[] = "[settings]";
-					$iniData[] = "timeout=" . $session_timeout;
-
-					$iniData[] = "\n[database]";
-					$iniData[] = "type = \"mysql\"";
-					$iniData[] = "host = \"" . $database_host . "\"";
-					$iniData[] = "name = \"" . $database_name . "\"";
-					$iniData[] = "username = \"" . $database_username . "\"";
-					$iniData[] = "password = \"" . $database_password . "\"";
-
-					$iniData[] = "\n[ldap]";
-					foreach ($ldap as $fname => $fvalue) {
-						$iniData[] = "$fname = \"$fvalue\"";
-					}
-					fwrite($fh, implode("\n",$iniData));
-					fclose($fh);
-				}
-				//
-				// if (count($errorMessage) > 0){
-				// 	$step="3";
-				// }
 
 			}
+				// }
+
+			// }
+
+
+			/**
+			 * NOTE: [unified_installer] i.e. draw the page and be done with it (if count error message > 0)
+			 */
+			//only continue if there were no errors this far
+			// if (count($errorMessage) > 0){
+			// 	$step="3";
+			// }else{
+
+
+			/**
+			 * TODO: [unified_installer] abstract writing config file out
+			 */
+				//write the config file
+			$configFile = "../admin/configuration.ini";
+			$fh = fopen($configFile, 'w');
+
+			if (!$fh){
+				$errorMessage[] = "Could not open file " . $configFile . ".  Please verify you can write to the /admin/ directory.";
+			}else{
+
+				$iniData = array();
+				$iniData[] = "[settings]";
+				$iniData[] = "timeout=" . $session_timeout;
+
+				$iniData[] = "\n[database]";
+				$iniData[] = "type = \"mysql\"";
+				$iniData[] = "host = \"" . $database_host . "\"";
+				$iniData[] = "name = \"" . $database_name . "\"";
+				$iniData[] = "username = \"" . $database_username . "\"";
+				$iniData[] = "password = \"" . $database_password . "\"";
+
+				$iniData[] = "\n[ldap]";
+				foreach ($ldap as $fname => $fvalue) {
+					$iniData[] = "$fname = \"$fvalue\"";
+				}
+				fwrite($fh, implode("\n",$iniData));
+				fclose($fh);
+			}
+			//
+			// if (count($errorMessage) > 0){
+			// 	$step="3";
+			// }
+
 
 			/**
 			 * NOTE: [unified_installer] We already have a page template
@@ -302,50 +302,50 @@ function auth_register_installation_requirement()
 			// <?php
 			// //first step - check system info and verify php 5
 			// } else if ($step == '1') {
-				// ob_start();
-				// phpinfo(-1);
-				// $phpinfo = array('phpinfo' => array());
-				// if(preg_match_all('#(?:<h2>(?:<a name=".*?">)?(.*?)(?:</a>)?</h2>)|(?:<tr(?: class=".*?")? ><t[hd](?: class=".*?")? >(.*?)\s*</t[hd]>(?:<t[hd](?: class=".*?")? >(.*?)\s*</t[hd]>(?:<t[hd](?: class=".*?")? >(.*?)\s*</t[hd]>)?)?</tr>)#s', ob_get_clean(), $matches, PREG_SET_ORDER))
-				// foreach($matches as $match){
-				//	 if(strlen($match[1]))
-				//		 $phpinfo[$match[1]] = array();
-				//	 elseif(isset($match[3]))
-				//		 $phpinfo[end(array_keys($phpinfo))][$match[2]] = isset($match[4]) ? array($match[3], $match[4]) : $match[3];
-				//	 else
-				//		 $phpinfo[end(array_keys($phpinfo))][] = $match[2];
-				// }
-				//
-				//
-				//
-				//
-				// ? >
-				//
-				// <h3>Getting system info and verifying php version</h3>
-				// <ul>
-				// <li>System: <?php echo $phpinfo['phpinfo']['System'];? ></li>
-				// <li>PHP version: <?php echo phpversion();? ></li>
-				// <li>Server API: <?php echo $phpinfo['phpinfo']['Server API'];? ></li>
-				// </ul>
-				//
-				// <br />
-				//
-				// <?php
-				//
-				//
-				// if (phpversion() >= 5){
-				// ? >
-				// 	<form action="<?php echo $_SERVER['PHP_SELF']? >" method="post">
-				// 	<input type='hidden' name='step' value='2'>
-				// 	<input type="submit" value="Continue" name="submit">
-				// 	</form>
-				// <?php
-				// }else{
-				// 	echo "<span style='font-size=115%;color:red;'>PHP 5 is not installed on this server!  Installation will not continue.</font>";
-				// }
+			// ob_start();
+			// phpinfo(-1);
+			// $phpinfo = array('phpinfo' => array());
+			// if(preg_match_all('#(?:<h2>(?:<a name=".*?">)?(.*?)(?:</a>)?</h2>)|(?:<tr(?: class=".*?")? ><t[hd](?: class=".*?")? >(.*?)\s*</t[hd]>(?:<t[hd](?: class=".*?")? >(.*?)\s*</t[hd]>(?:<t[hd](?: class=".*?")? >(.*?)\s*</t[hd]>)?)?</tr>)#s', ob_get_clean(), $matches, PREG_SET_ORDER))
+			// foreach($matches as $match){
+			//	 if(strlen($match[1]))
+			//		 $phpinfo[$match[1]] = array();
+			//	 elseif(isset($match[3]))
+			//		 $phpinfo[end(array_keys($phpinfo))][$match[2]] = isset($match[4]) ? array($match[3], $match[4]) : $match[3];
+			//	 else
+			//		 $phpinfo[end(array_keys($phpinfo))][] = $match[2];
+			// }
+			//
+			//
+			//
+			//
+			// ? >
+			//
+			// <h3>Getting system info and verifying php version</h3>
+			// <ul>
+			// <li>System: <?php echo $phpinfo['phpinfo']['System'];? ></li>
+			// <li>PHP version: <?php echo phpversion();? ></li>
+			// <li>Server API: <?php echo $phpinfo['phpinfo']['Server API'];? ></li>
+			// </ul>
+			//
+			// <br />
+			//
+			// <?php
+			//
+			//
+			// if (phpversion() >= 5){
+			// ? >
+			// 	<form action="<?php echo $_SERVER['PHP_SELF']? >" method="post">
+			// 	<input type='hidden' name='step' value='2'>
+			// 	<input type="submit" value="Continue" name="submit">
+			// 	</form>
+			// <?php
+			// }else{
+			// 	echo "<span style='font-size=115%;color:red;'>PHP 5 is not installed on this server!  Installation will not continue.</font>";
+			// }
 
-				/**
-				 * NOTE: [unified_installer] Step 2 is about db access (we have it)
-				 */
+			/**
+			 * NOTE: [unified_installer] Step 2 is about db access (we have it)
+			 */
 			//second step - ask for DB info to run DDL
 			// } else if ($step == '2') {
 			//

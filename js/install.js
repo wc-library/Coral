@@ -81,7 +81,16 @@ $(document).ready(function(){
 	$(".main").css({"opacity": 0});
 	submit_install_step();
 }).on("submit", function(){
-	var data = $("form input:visible").serializeObject();
+	var $form_elements = $("form input:visible");
+	//But sometimes checkboxes are hidden and their labels are used:
+	$form_elements = $form_elements.add($(":checkbox:hidden").filter(function(){
+		return $("label[for='" + $(this).attr("id") + "']").is(":visible");
+	}));
+	$form_elements.filter(':checkbox').each(function() {
+		$(this).val($(this).is(":checked") ? 1 : 0);
+		$(this).attr('type', 'hidden');
+	});
+	var data = $form_elements.serializeObject();
 	submit_install_step(data);
 	return false; // Prevent submit
 }).on("click", ".toggleSection", function(){
