@@ -1,4 +1,7 @@
 <?php
+require_once("common/DBService.php");
+require_once("common/DBResult.php");
+
 session_start();
 class Installer {
 
@@ -11,8 +14,8 @@ class Installer {
 		$this_shared_module_info = &$this->shared_module_info;
 
 		$this->shared_module_info = [
-			"appendInfo" => function($for_module, $to_append) use (&$this_shared_module_info) {
-				$this_shared_module_info[$for_module][] = $to_append;
+			"setSharedModuleInfo" => function($for_module, $key, $value) use (&$this_shared_module_info) {
+				$this_shared_module_info[$for_module][$key] = $value;
 			}
 		];
 
@@ -100,30 +103,35 @@ class Installer {
 				}
 			],[
 				"uid" => "modules_to_use",
-				"translatable_title" => _("Chosen modules to use"),
+				"translatable_title" => _("Modules to use"),
 				"dependencies_array" => [],
 				"required" => true,
 				"installer" => function($shared_module_info) {
 					$return = new stdClass();
 					$return->yield = new stdClass();
-					$return->yield->title = _("Chosen modules to use");
+					$return->yield->title = _("Modules to use");
 					$return->success = true;
 
 					$module_list = $shared_module_info["module_list"];
 					foreach ($module_list as $mod) {
 						if ($mod["required"])
 						{
-							$_SESSION["modules_to_use"][] = true;
+							$_SESSION["modules_to_use"][$mod["uid"]] = true;
 							$return->success &= true;
 						}
 						else if (isset($_POST[$mod["uid"]]))
 						{
-							$_SESSION["modules_to_use"][] = $_POST[$mod["uid"]] === 1;
+							$_SESSION["modules_to_use"][$mod["uid"]] = $_POST[$mod["uid"]] === 1;
 							$return->success &= true;
 						}
 						else
 						{
-							$return->success &= false;
+							// If the associated session variable is still unset the setup has failed but why?
+							if (!isset($_SESSION["modules_to_use"][$mod["uid"]]))
+							{
+								$return->messages[] = "For some reason at least one of these variables is not set. There may a problem with the installer please contact the programmers with this error message.";
+								$return->success &= false;
+							}
 						}
 					}
 
@@ -196,7 +204,6 @@ class Installer {
 					$return->yield->body = database_details_template($shared_database_info);
 
 					// Try to connect
-					require_once("common/DBService.php");
 					try {
 						$dbconnection = new DBService(false);
 					} catch (Exception $e) {
@@ -267,8 +274,8 @@ class Installer {
 									break;
 							}
 						}
-						$shared_module_info["appendInfo"]($db["key"], ["db_name" => $dbname]);
-						$shared_module_info["appendInfo"]($db["key"], ["db_feedback" => $_SESSION[$dbfeedback]]);
+						$shared_module_info["setSharedModuleInfo"]($db["key"], "db_name", $dbname);
+						$shared_module_info["setSharedModuleInfo"]($db["key"], "db_feedback", $_SESSION[$dbfeedback]);
 					}
 
 					try {

@@ -19,114 +19,119 @@ function auth_register_installation_requirement()
 		"installer" => function($shared_module_info) {
 			$return = new stdClass();
 			$return->yield = new stdClass();
-			$return->success = false;
 			$return->yield->title = _("Auth module installation");
 			$return->yield->messages[] = "<b>You broke something</b>";
-			return $return;
 
 			/**
 			 * NOTE: Removed `step` variable (used to keep track of things) and error_messages
 			 */
 
-			// $shared_module_info["auth_installed"]["dbname"]
+			// $shared_module_info["auth_installed"]["db_name"]
 			// $shared_module_info["auth_installed"]["dbfeedback"]
 
 
-
-			//this script runs entire installation process in 5 steps
-
-			//take "step" variable to determine which step the current is
-			// $step = isset($_POST['step']) ? $_POST['step'] : '0';
-
-
-			//perform field validation(steps 3-5) and database connection tests (steps 3 and 4) and send back to previous step if not working
-			// $errorMessage = array();
-			// if ($step == "3"){
-
-			/**
-			 * NOTE: [unified_installer] We already have db access (removed)
-			 */
-
 			// Check that the database exists
 			// We assume success - if not, it should have been handled in have_database_access
-			$dbconnection = new DBService($shared_module_info["auth_installed"]["dbname"]);
+			$dbconnection = new DBService($shared_module_info["auth_installed"]["db_name"]);
 
 			//make sure the tables don't already exist - otherwise this script will overwrite all of the data!
-			$query = "SELECT count(*) count FROM information_schema.`TABLES` WHERE table_schema = '" . $database_name . "' AND table_name='User' and table_rows > 0";
+			if ($shared_module_info["auth_installed"]["db_feedback"] == 'already_existed')
+			{
+				$query = "SELECT count(*) count FROM information_schema.`TABLES` WHERE table_schema = '" . $shared_module_info["auth_installed"]["db_name"] . "' AND table_name='User' and table_rows > 0";
+				if (!$result = $dbconnection->processQuery($query))
+				{
+					$return->success = false;
+					$return->yield->messages[] = _("Please verify your database user has access to select from the information_schema MySQL metadata database.");
+					return $return;
+				}
+				else
+				{
+					//TODO: offer to do this (drop tables)
+					if ($result->numRows() > 0 ){
+						$return->success = false;
+						$return->yield->messages[] = _("The Authentication tables already exist.  If you intend to upgrade, please run upgrade.php instead.  If you would like to perform a fresh install you will need to manually drop all of the Authentication tables in this schema first.");
+						return $return;
+					}
+				}
+			}
 
-			//if User table exists, error out
-			if (!$row = mysqli_fetch_array(mysqli_query($link, $query))){
-				$errorMessage[] = "Please verify your database user has access to select from the information_schema MySQL metadata database.";
-			}else{
-				if ($row['count'] > 0 ){
-					/**
-					 * NOTE: [unified_installer] will need to handle possibility that we just created these...
-					 */
-					$errorMessage[] = "The Authentication tables already exist.  If you intend to upgrade, please run upgrade.php instead.  If you would like to perform a fresh install you will need to manually drop all of the Authentication tables in this schema first.";
+			/**
+			 * Copied from original install file (with modifications for (1) error messages, (2) exiting on error and (3) sql query object)
+			 */
+
+			//passed db host, name check, can open/run file now
+			//make sure SQL file exists
+			$processSql = function($db, $sql_file){
+				$ret = [
+					"success" => true,
+					"messages" => []
+				];
+
+				if (!file_exists($sql_file)) {
+					$ret["messages"][] = "Could not open sql file: " . $test_sql_file . ".<br />If this file does not exist you must download new install files.";
+					$ret["success"] = false;
 				}else{
+					//run the file - checking for errors at each SQL execution
+					$f = fopen($test_sql_file,"r");
+					$sqlFile = fread($f,filesize($test_sql_file));
+					$sqlArray = explode(";",$sqlFile);
 
-					//passed db host, name check, can open/run file now
-					//make sure SQL file exists
-					$test_sql_file = "test_create.sql";
-					$sql_file = "create_tables_data.sql";
-
-					if (!file_exists($test_sql_file)) {
-						$errorMessage[] = "Could not open sql file: " . $test_sql_file . ".  If this file does not exist you must download new install files.";
-					}else{
-						//run the file - checking for errors at each SQL execution
-						$f = fopen($test_sql_file,"r");
-						$sqlFile = fread($f,filesize($test_sql_file));
-						$sqlArray = explode(";",$sqlFile);
-
-						//Process the sql file by statements
-						foreach ($sqlArray as $stmt) {
-						   if (strlen(trim($stmt))>3){
-
-								$result = mysqli_query($link, $stmt);
-								if (!$result){
-									$errorMessage[] = mysqli_error($link) . "<br /><br />For statement: " . $stmt;
-									 break;
-								}
+					//Process the sql file by statements
+					foreach ($sqlArray as $stmt) {
+						if (strlen(trim($stmt))>3){
+						if (!$db->processQuery($stmt)){
+								$ret["messages"][] = $db->error . "<br />For statement: " . $stmt;
+								$ret["success"] = false;
+								break;
 							}
 						}
-
 					}
+				}
+				return $ret;
+			};
+
+			$result = $processSql($dbconnection, "test_create.sql");
+			if (!$result["success"]) {
+				$return->success = false;
+				$return->messages = array_merge($return->messages, $result["messages"]);
+				return $return;
+			}
+			$result = $processSql($dbconnection, "create_tables_data.sql");
+			if (!$result["success"]) {
+				$return->success = false;
+				$return->messages = array_merge($return->messages, $result["messages"]);
+				return $return;
+			}
 
 
-					//once this check has passed we can run the entire ddl/dml script
-					/**
-					 * NOTE: [unified_installer] i.e. draw the page and be done with it (if count error message > 0)
-					 */
-					if (count($errorMessage) == 0){
-						if (!file_exists($sql_file)) {
-							$errorMessage[] = "Could not open sql file: " . $sql_file . ".  If this file does not exist you must download new install files.";
-						}else{
-							//run the file - checking for errors at each SQL execution
-							$f = fopen($sql_file,"r");
-							$sqlFile = fread($f,filesize($sql_file));
-							$sqlArray = explode(';',$sqlFile);
+			$return->messages[] = "we're still busy writing the installer okay";
+			return $return;
 
+			if (!file_exists($sql_file))
+			{
+				$return->yield->messages[] ="Could not open sql file: " . $sql_file . ".  If this file does not exist you must download new install files.";
+				$return->success = false;
+				return $return;
+			}
+			else
+			{
+				//run the file - checking for errors at each SQL execution
+				$f = fopen($sql_file,"r");
+				$sqlFile = fread($f,filesize($sql_file));
+				$sqlArray = explode(';',$sqlFile);
 
+				//Process the sql file by statements
+				foreach ($sqlArray as $stmt) {
+				   if (strlen(trim($stmt))>3){
 
-							//Process the sql file by statements
-							foreach ($sqlArray as $stmt) {
-							   if (strlen(trim($stmt))>3){
-
-									$result = mysqli_query($link, $stmt);
-									if (!$result){
-										$errorMessage[] = mysqli_error($link) . "<br /><br />For statement: " . $stmt;
-										 break;
-									}
-								}
-							}
-
+						$result = mysqli_query($link, $stmt);
+						if (!$result){
+							$errorMessage[] = mysqli_error($link) . "<br /><br />For statement: " . $stmt;
+							 break;
 						}
 					}
 				}
 			}
-				// }
-
-			// }
 
 			/**
 			 * NOTE: [unified_installer] i.e. draw the page and be done with it (if count error message > 0)
