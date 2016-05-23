@@ -42,6 +42,7 @@ class Config {
 			if (isset($data['installed_modules']))
 			{
 				self::$installed_modules = $data['installed_modules'];
+				//TODO: cleanup: this was just for testing
 				self::$module_settings[$module] = array_filter($data, function($v, $k, $x){
 					echo $v;
 					echo $k;
