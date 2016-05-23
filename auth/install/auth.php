@@ -7,13 +7,15 @@ function auth_register_installation_requirement()
 		"dependencies_array" => [ "usage", "licensing", "have_database_access" ],
 		"getSharedInfo" => function () {
 			return [
+				// We will find the name in the sharedInfo variable under "auth_installed" as "db_name"
+				// We will also have a "db_feedback" variable with "created", "already_existed" (or "failed" - though that shouldn't happen)
 				"database" => [
 					"title" => _("Auth Database"),
 					"default_value" => "coral_auth"
 				]
 			];
 		},
-		"installer" => function() {
+		"installer" => function($shared_module_info) {
 			$return = new stdClass();
 			$return->yield = new stdClass();
 			$return->success = false;
@@ -34,32 +36,10 @@ function auth_register_installation_requirement()
 			if ($step == "3"){
 
 				/**
-				 * NOTE: [unified_installer] We already have db access
+				 * NOTE: [unified_installer] We already have db access (removed)
 				 */
 
-				//first, validate all fields are filled in
-				// $database_host = (isset($_POST['database_host']) ? trim($_POST['database_host']) : null);
-				// $database_username = (isset($_POST['database_username']) ? trim($_POST['database_username']) : null);
-				// $database_password = (isset($_POST['database_password']) ? trim($_POST['database_password']) : null);
-				// $database_name = (isset($_POST['database_name']) ? trim($_POST['database_name']) : null);
-				//
-				// if (!$database_host) $errorMessage[] = 'Host name is required';
-				// if (!$database_name) $errorMessage[] = 'Database name is required';
-				// if (!$database_username) $errorMessage[] = 'User name is required';
-				// if (!$database_password) $errorMessage[] = 'Password is required';
-
-				//only continue to checking DB connections if there were no errors this far
-				// if (count($errorMessage) > 0){
-				// 	$step="2";
-				// }else{
-
-					//first check connecting to host
-					// $link = mysqli_connect("$database_host", "$database_username", "$database_password");
-					// if (!$link) {
-					// 	$errorMessage[] = "Could not connect to the server '" . $database_host . "'<br />MySQL Error: " . mysqli_error($link);
-					// }else{
-
-						//next check that the database exists
+				// Check that the database exists
 				$dbconnection = new DBService($db);
 
 				$dbcheck = mysqli_select_db($link, "$database_name");

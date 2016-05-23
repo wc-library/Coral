@@ -17,7 +17,7 @@ function database_details_template($shared_database_info)
 			$carry[] = <<<HEREDOC
 			<div class="card-half">
 				<label for="dbauth">{$item["title"]}</label>
-				<input class="u-full-width" type="text" placeholder="{$item["default_value"]}" value="{$item["default_value"]}" name="dbauth">
+				<input class="u-full-width" type="text" placeholder="{$item["default_value"]}" value="{$item["default_value"]}" name="dbname_{$item["key"]}">
 			</div>
 HEREDOC;
 			return $carry;

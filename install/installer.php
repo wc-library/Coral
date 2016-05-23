@@ -8,6 +8,14 @@ class Installer {
 
 	function __construct() {
 
+		$this_shared_module_info = &$this->shared_module_info;
+
+		$this->shared_module_info = [
+			"appendInfo" => function($for_module, $to_append) use (&$this_shared_module_info) {
+				$this_shared_module_info[$for_module][] = $to_append;
+			}
+		];
+
 		//TODO: remove "required"?
 		$this->checklist = [
 			[
@@ -140,11 +148,14 @@ class Installer {
 					}
 
 					require "install/templates/database_details_template.php";
-					$shared_database_info = array_map(function($item) {
-						return $item["database"];
-					}, array_filter($shared_module_info, function($item){
-						return isset($item["database"]);
-					}));
+					$modules_with_database_requirements = array_filter($shared_module_info, function($item){
+						return is_array($item) && isset($item["database"]);
+					});
+					$shared_database_info = array_map(function($key, $item) {
+						$to_return = $item["database"];
+						$to_return["key"] = $key;
+						return $to_return;
+					}, array_keys($modules_with_database_requirements), $modules_with_database_requirements);
 					$return->yield->body = database_details_template($shared_database_info);
 
 					// Try to connect
@@ -182,49 +193,45 @@ class Installer {
 						return $return;
 					}
 
-					// TODO: check if there are any filled in db names to use here:
-					// Find the name of any database we need to connect to
-					// -> currently just grabs the first one that is set
-					$db_to_select = "coral_organizations";
-					$names = [ "dbauth", "dborganizations", "dbmanagement", "dblicensing", "dbreports", "dbresources", "dbusage" ];
-					foreach ($names as $name)
+					// Go through the databases and try to create them all (or see if they already exist)
+					foreach ($shared_database_info as $db)
 					{
-						if (!empty($_SESSION["POSTDATA"][$name]))
-						{
-							$db_to_select = DBService::escapeString($_SESSION["POSTDATA"][$name]);
-							break;
+						$dbfeedback = "dbname_" . $db["key"] . "_feedback";
+						if (empty($_SESSION[$dbfeedback]))
+							$_SESSION[$dbfeedback] = "failed";
+						try {
+							$dbconnection->selectDB( $db_to_select );
+							if ($_SESSION[$dbfeedback] == "failed")
+								$_SESSION[$dbfeedback] = "already_existed";
 						}
-					}
-
-					try {
-						$dbconnection->selectDB( $db_to_select );
-					}
-					catch (Exception $e) {
-						switch ($e->getCode()) {
-							case DBService::ERR_COULD_NOT_SELECT_DATABASE:
-								# code...
-								try {
-									$result = $dbconnection->processQuery("CREATE DATABASE `$db_to_select`;");
-								} catch (Exception $e) {
-									$return->yield->body = database_details();
-									if ($db_to_select !== "coral_organizations")
-									{
-										$return->yield->messages[] = _("We tried to select a database with the name $db_to_select but failed. We also could not create it.");
+						catch (Exception $e) {
+							switch ($e->getCode()) {
+								case DBService::ERR_COULD_NOT_SELECT_DATABASE:
+									try {
+										$result = $dbconnection->processQuery("CREATE DATABASE `$db_to_select`;");
+										$_SESSION[$dbfeedback] = "created";
+									} catch (Exception $e) {
+										$return->yield->body = database_details();
+										if ($db_to_select !== "coral_organizations")
+										{
+											$return->yield->messages[] = _("We tried to select a database with the name $db_to_select but failed. We also could not create it.");
+										}
+										$return->yield->messages[] = _("In order to proceed, we need access rights to create databases or you need to manually create the databases and provide their names and the credentials for a user with access rights to them.");
+										$return->success = false;
+										return $return;
 									}
-									$return->yield->messages[] = _("In order to proceed, we need access rights to create databases or you need to manually create the databases and provide their names and the credentials for a user with access rights to them.");
-									$return->success = false;
-									return $return;
-								}
-								// THIS SHOULDN'T FAIL BECAUSE WE'VE JUST CREATED THE DB SUCCESSFULLY.
-								$result = $dbconnection->selectDB( $db_to_select );
-								break;
+									// THIS SHOULDN'T FAIL BECAUSE WE'VE JUST CREATED THE DB SUCCESSFULLY.
+									$result = $dbconnection->selectDB( $db_to_select );
+									break;
 
-							default:
-								# code...
-								echo "We haven't prepared for the following error (installer.php):<br />\n";
-								var_dump($e);
-								break;
+								default:
+									echo "We haven't prepared for the following error (installer.php):<br />\n";
+									var_dump($e);
+									break;
+							}
 						}
+						$shared_module_info->appendInfo($db["key"], ["db_name" => empty($_SESSION["dbname_" . $db["key"]]) ? $db["default_value"] : $_SESSION["dbname_" . $db["key"]]]);
+						$shared_module_info->appendInfo($db["key"], ["db_feedback" => $_SESSION[$dbfeedback]]);
 					}
 
 					try {
