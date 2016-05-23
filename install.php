@@ -52,6 +52,9 @@
  * @author j3frea+coral@gmail.com
  */
 
+
+// TODO: grep for and remove "# code..."
+
 const INSTALLATION_IN_PROGRESS = true;
 require "install/test_if_installed.php";
 /**
