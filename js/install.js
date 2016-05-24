@@ -16,6 +16,32 @@ $.fn.serializeObject = function()
 	});
 	return o;
 };
+$.fn.displayToggle = function(show){
+	if (typeof show == "undefined")
+		show = !$(this).is(":visible");
+
+	if(show)
+	{
+		if (!$(this).is(":visible"))
+			$(this).show().css({ "opacity": 0, "height": 0 });
+
+		var h = $(this).height('auto').height();
+		$(this).height(0);
+		$(this).animate({
+			"opacity": 1,
+			"height": h
+		});
+	}
+	else
+	{
+		$(this).animate({
+			"opacity": 0,
+			"height": 0
+		}, function() {
+			$(this).hide();
+		});
+	}
+};
 
 function submit_install_step(dataToSubmit)
 {
@@ -62,9 +88,26 @@ function submit_install_step(dataToSubmit)
 
 				if (typeof data.body !== "undefined")
 				$(".mainbody").html(data.body);
+
 				$("[data-toggle-section]").each(function(){
 					var $ts = $( $(this).attr("data-toggle-section") );
 					$ts.css('height', $ts.height());
+				});
+				$(".toggleSection").each(function(){
+					var section_to_toggle = $(this).attr("data-toggle-section");
+					if (typeof $(this).attr("data-toggle-default") !== "undefined")
+					{
+						var toCheck = $(this).attr("data-toggle-default") == "true";
+						$(section_to_toggle).displayToggle(toCheck);
+						if ($(this).is(":checkbox"))
+						{
+							$(this).prop('checked', toCheck);
+						}
+					}
+					if ($(this).is(":checkbox"))
+					{
+						$(section_to_toggle).displayToggle( $(this).is(":checked") );
+					}
 				});
 			}
 
@@ -95,10 +138,21 @@ $(document).ready(function(){
 	return false; // Prevent submit
 }).on("click", ".toggleSection", function(){
 	var original_message = $(this).html();
-	$(this).html($(this).attr("data-alternate-message"));
-	$(this).attr("data-alternate-message", original_message);
+	if (typeof $(this).attr("data-alternate-message") !== "undefined")
+	{
+		var new_message = $(this).attr("data-alternate-message");
+		$(this).html(new_message);
+		$(this).attr("data-alternate-message", original_message);
+	}
 	var section_to_toggle = $(this).attr("data-toggle-section");
-	$(section_to_toggle).slideToggle();
+	if ($(this).is(":checkbox"))
+	{
+		$(section_to_toggle).displayToggle($(this).is(":checked"));
+	}
+	else
+	{
+		$(section_to_toggle).displayToggle();
+	}
 });
 
 function injectCssForAnimation()
