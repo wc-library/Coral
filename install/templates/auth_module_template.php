@@ -9,12 +9,13 @@ function auth_module_template($ldap_fields, $session_timeout_default)
 
 	$leave_blank_instruction = _("Leave fields blank if you do not intend to install respective modules.");
 
-	$cards = function($shared_database_info) {
-		return join(array_reduce($shared_database_info, function($carry, $item){
+	$cards = function($ldap_field_array) {
+		return join(array_reduce($ldap_field_array, function($carry, $item){
+			$default_value = isset($item["default_value"]) ? "value='" . $item["default_value"] . "'" : "";
 			$carry[] = <<<HEREDOC
 			<div class="card-half">
 				<label for="{$item["key"]}">{$item["title"]}</label>
-				<input class="u-full-width" type="{$item["type"]}" name="{$item["key"]}">
+				<input class="u-full-width" type="{$item["type"]}" name="{$item["key"]}" $default_value>
 			</div>
 HEREDOC;
 			return $carry;
@@ -24,7 +25,6 @@ HEREDOC;
 	return <<<HEREDOC
 <form class="pure-form pure-form-aligned">
 	<fieldset>
-
 		<div class="row">
 			<label for="session_timeout">$session_timeout_title</label>
 			<input class="u-full-width" type="text" name="session_timeout" value=$session_timeout_default>
