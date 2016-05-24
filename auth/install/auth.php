@@ -29,21 +29,27 @@ function auth_register_installation_requirement()
 			//make sure the tables don't already exist - otherwise this script will overwrite all of the data!
 			if ($shared_module_info["auth_installed"]["db_feedback"] == 'already_existed')
 			{
-				$query = "SELECT count(*) count FROM information_schema.`TABLES` WHERE table_schema = '" . $shared_module_info["auth_installed"]["db_name"] . "' AND table_name='User' and table_rows > 0";
-				if (!$result = $dbconnection->processQuery($query))
+				try
+				{
+					$query = "SELECT count(*) count FROM information_schema.`TABLES` WHERE table_schema = `$shared_module_info[auth_installed][db_name]` AND table_name=`User` and table_rows > 0";
+					$result = $dbconnection->processQuery($query);
+					// TODO: offer to do this (drop tables)
+					if ($result->numRows() > 0 )
+					{
+						$return->success = false;
+						$return->yield->messages[] = _("The Authentication tables already exist.  If you intend to upgrade, please run upgrade.php instead.  If you would like to perform a fresh install you will need to manually drop all of the Authentication tables in this schema first.");
+						require_once "install/templates/try_again_template.php";
+						$return->yield->body = try_again_template();
+						return $return;
+					}
+				}
+				catch (Exception $e)
 				{
 					$return->success = false;
 					$return->yield->messages[] = _("Please verify your database user has access to select from the information_schema MySQL metadata database.");
+					require_once "install/templates/try_again_template.php";
+					$return->yield->body = try_again_template();
 					return $return;
-				}
-				else
-				{
-					//TODO: offer to do this (drop tables)
-					if ($result->numRows() > 0 ){
-						$return->success = false;
-						$return->yield->messages[] = _("The Authentication tables already exist.  If you intend to upgrade, please run upgrade.php instead.  If you would like to perform a fresh install you will need to manually drop all of the Authentication tables in this schema first.");
-						return $return;
-					}
 				}
 			}
 
