@@ -8,7 +8,7 @@ function database_details_template($shared_database_info)
 	$username   = isset($_SESSION["POSTDATA"]["dbusername"]) ? $_SESSION["POSTDATA"]["dbusername"] : _("Username");
 	$password   = isset($_SESSION["POSTDATA"]["dbpassword"]) ? _("leave blank to leave unchanged") : _("Password");
 	$host       = isset($_SESSION["POSTDATA"]["dbhost"]) ? $_SESSION["POSTDATA"]["dbhost"] : _("Hostname");
-	$submit     = _("Start Installing");
+	$submit     = _("Continue Installing");
 
 	$leave_blank_instruction = _("Leave fields blank if you do not intend to install respective modules.");
 
@@ -46,30 +46,28 @@ HEREDOC;
 		</div>
 
 		<div class="twelve columns">
-			<a href="#" class="toggleSection" data-alternate-message="hide advanced" data-toggle-section=".advancedSection">show advanced</a>
+			<a href="#" class="toggleSection" data-alternate-message="hide advanced" data-toggle-section=".advancedSection" data-toggle-default="false">show advanced</a>
 		</div>
-		<div class="advancedSection" style="display: none;">
+		<span class="advancedSection">
 			<div class="row">
 				$leave_blank_instruction
 			</div>
-			<div class="row" id="scoped-content">
-				<style type="text/css" scoped>
-					.card-half {
-						width: 48%;
-						float: left;
-					}
-					.card-half:nth-child(2n) {
-						margin-right: 2%;
-					}
-					.card-half:nth-child(2n+1) {
-						margin-left: 2%;
-					}
-				</style>
-
+			<div class="row">
 				{$cards($shared_database_info)}
-
 			</div>
-		</div>
+			<style type="text/css">
+				.card-half {
+					width: 48%;
+					float: left;
+				}
+				.card-half:nth-child(2n+1) {
+					margin-right: 2%;
+				}
+				.card-half:nth-child(2n) {
+					margin-left: 2%;
+				}
+			</style>
+		</span>
 		<div class="row">
 			<input type="submit" value="$submit" />
 		</div>
