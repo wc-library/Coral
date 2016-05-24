@@ -64,6 +64,9 @@ require "install/test_if_installed.php";
  */
 if (!isset($_POST["installing"]))
 {
+	// TODO: set session var and check it here
+	// (indicates that installer has restarted - post var not set but session is)
+	// ask if users wants the session cleared and install to start again
 	require "install/templates/install_page_template.php";
 	draw_install_page_template();
 	exit();
