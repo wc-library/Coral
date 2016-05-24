@@ -72,39 +72,59 @@ class Installer {
 					$return->success = true;
 					// If file exists, see if it's writable - otherwise see if directory is writable (we can create it)
 					$config_files = array_map(function($cfg) {
-						return [ "path" => $cfg["uid"] . "/admin/configuration.ini", "title" => $cfg["title"] ];
+						$root_dir = dirname($_SERVER["REQUEST_URI"]);
+						return [ "path" => "$cfg[directory]/admin/configuration.ini", "title" => $cfg["title"] ];
 					}, $shared_module_info["module_list"]);
 					array_unshift($config_files, [ "path" => Config::CONFIG_FILE_PATH, "title" => "Core Configuration"]);
 					foreach ($config_files as $cfg) {
+						$file_exists = file_exists($cfg["path"]);
 						$writable_test = $cfg["path"];
-						if (!file_exists($writable_test))
-						{
-							$writable_test = dirname($cfg["path"]);
-						}
+						$writable_test = $file_exists ? $cfg["path"] : dirname($cfg["path"]);
 
 						if (is_writable($writable_test))
 						{
-							if ($handle = fopen($cfg["path"], 'w')) {
-								fclose($handle);
-								// Okay, we can write to it but can we read it?
-								if (is_readable($cfg["path"]))
-								{
-									// Success!
-									continue;
-								}
-								else
-								{
-									$return->yield->messages[] = sprintf( _("In order to proceed with the installation, we must be able to read the '%s' configuration file at '<span class=\"highlight\">%s</span>'."), $cfg["title"], $cfg["path"] );
-									$return->success = false;
-								}
-								$return->yield->messages[] = sprintf( _("We can write to the '%s' configuration file at '<span class=\"highlight\">%s</span>' but we cannot read from it."), $cfg["title"], $cfg["path"] );
+							if (is_readable($cfg["path"]) || !$file_exists)
+							{
+								continue; // Success!
 							}
+							else
+							{
+								$return->yield->messages[] = sprintf( _("In order to proceed with the installation, we must be able to read the '%s' configuration file at '<span class=\"highlight\">%s</span>'."), $cfg["title"], $cfg["path"] );
+								$return->success = false;
+							}
+							$return->yield->messages[] = sprintf( _("We can write to the '%s' configuration file at '<span class=\"highlight\">%s</span>' but we cannot read from it."), $cfg["title"], $cfg["path"] );
+							$return->success = false;
 						}
 						else {
-							$return->yield->messages[] = sprintf( _("In order to proceed with the installation, we must be able to write to the '%s' configuration file at '<span class=\"highlight\">%s</span>'."), $cfg["title"], $cfg["path"] );
+							$return->yield->messages[] = sprintf( _("In order to proceed with the installation, we must be able to write to the '%s' configuration file at '<span class=\"highlight\">%s</span>'."), $cfg["title"], $cfg["path"] )
+														.sprintf( "<br /><b>" . _("Try") . ":</b> <span class=\"highlight\">chmod 777 %s</span>", $cfg["path"] );
+							$return->success = false;
 						}
 					}
-					$return->yield->title = "<b>" . _('Current Test:') . "</b> " . _('Trying to read configuration files');
+
+					if ($return->success)
+					{
+						$shared_module_info["setSharedModuleInfo"](
+							"provided",
+							"write_config_file",
+							function($path, $settingsObject){
+								$file = fopen($path, 'w');
+								foreach ($settingsObject as $key => $value) {
+									$dataToWrite[] = "[$key]";
+									foreach ($variable as $key => $value) {
+										$dataToWrite[] = "$key=$value";
+									}
+									$dataToWrite[] = "";
+								}
+								fwrite($file, implode("\n",$dataToWrite));
+								fclose($file);
+							}
+						);
+					}
+					else
+					{
+						$return->yield->title = "<b>" . _('Current Test:') . "</b> " . _('Trying to read and write configuration files');
+					}
 					return $return;
 				}
 			],[
@@ -380,6 +400,7 @@ class Installer {
 						$installer_object = call_user_func($function_name);
 						$this->register_installation_requirement($installer_object);
 						$this->shared_module_info[ "module_list" ][] = [
+							"directory" => $dir,
 							"uid" => $installer_object["uid"],
 							"title" => $installer_object["translatable_title"],
 							"required" => $installer_object["required"]
