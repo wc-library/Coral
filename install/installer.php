@@ -16,7 +16,7 @@ class Installer {
 		$this->shared_module_info = [
 			"setSharedModuleInfo" => function($for_module, $key, $value) use (&$this_shared_module_info) {
 				$this_shared_module_info[$for_module][$key] = $value;
-			}
+			},
 		];
 
 		//TODO: remove "required"?
@@ -69,36 +69,42 @@ class Installer {
 
 					$return->yield->title = "<b>" . _('Current Test:') . "</b> " . _('Trying to write configuration file');
 
+					$return->success = true;
 					// If file exists, see if it's writable - otherwise see if directory is writable (we can create it)
-					$writable_test = Config::CONFIG_FILE_PATH;
-					if (!file_exists(Config::CONFIG_FILE_PATH))
-					{
-						$writable_test = dirname(Config::CONFIG_FILE_PATH);
-					}
+					$config_files = array_map(function($cfg) {
+						return [ "path" => $cfg["uid"] . "/admin/configuration.ini", "title" => $cfg["title"] ];
+					}, $shared_module_info["module_list"]);
+					array_unshift($config_files, [ "path" => Config::CONFIG_FILE_PATH, "title" => "Core Configuration"]);
+					foreach ($config_files as $cfg) {
+						$writable_test = $cfg["path"];
+						if (!file_exists($writable_test))
+						{
+							$writable_test = dirname($cfg["path"]);
+						}
 
-					if (is_writable($writable_test))
-					{
-						if ($handle = fopen(Config::CONFIG_FILE_PATH, 'w')) {
-							fclose($handle);
-
-							// Okay, we can write to it but can we read it?
-							if (is_readable(Config::CONFIG_FILE_PATH))
-							{
-								$return->success = true;
-								$return->yield->title = "<b>" . _('Success:') . "</b> " . _("Config file writable or set up");
-								return $return;
+						if (is_writable($writable_test))
+						{
+							if ($handle = fopen($cfg["path"], 'w')) {
+								fclose($handle);
+								// Okay, we can write to it but can we read it?
+								if (is_readable($cfg["path"]))
+								{
+									// Success!
+									continue;
+								}
+								else
+								{
+									$return->yield->messages[] = sprintf( _("In order to proceed with the installation, we must be able to read the '%s' configuration file at '<span class=\"highlight\">%s</span>'."), $cfg["title"], $cfg["path"] );
+									$return->success = false;
+								}
+								$return->yield->messages[] = sprintf( _("We can write to the '%s' configuration file at '<span class=\"highlight\">%s</span>' but we cannot read from it."), $cfg["title"], $cfg["path"] );
 							}
-							else
-							{
-								$return->yield->messages[] = sprintf( _("In order to proceed with the installation, we must be able to read the configuration file at '<span class=\"highlight\">%s</span>'."), Config::CONFIG_FILE_PATH );
-								return $return;
-							}
-							$return->yield->messages[] = sprintf( _("We can write to the config file at '<span class=\"highlight\">%s</span>' but we cannot read from it."), Config::CONFIG_FILE_PATH );
-							$return->yield->title = "<b>" . _('Current Test:') . "</b> " . _('Trying to read configuration file');
-							return $return;
+						}
+						else {
+							$return->yield->messages[] = sprintf( _("In order to proceed with the installation, we must be able to write to the '%s' configuration file at '<span class=\"highlight\">%s</span>'."), $cfg["title"], $cfg["path"] );
 						}
 					}
-					$return->yield->messages[] = sprintf( _("In order to proceed with the installation, we must be able to write to '<span class=\"highlight\">%s</span>'."), Config::CONFIG_FILE_PATH );
+					$return->yield->title = "<b>" . _('Current Test:') . "</b> " . _('Trying to read configuration files');
 					return $return;
 				}
 			],[
