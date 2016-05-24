@@ -86,8 +86,10 @@ foreach ($requirements as $i => $requirement) {
 		$installer_messages = $installer->getMessages();
 		$test_messages = isset($testResult->yield->messages) ? $testResult->yield->messages : [];
 		$testResult->yield->messages = array_merge($installer_messages, $test_messages);
-		yield_test_results($testResult->yield, $completed_tests, ($i+1) / (float) count($requirements));
+		yield_test_results($testResult->yield, $completed_tests, $i / (float) count($requirements));
 	}
+	if (isset($testResult->completionMessages))
+		$completionMessages[ $requirement ] = $testResult->completionMessages;
 	$completed_tests[] = $installer->getTitleFromUid($requirement);
 }
 
