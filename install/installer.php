@@ -97,7 +97,7 @@ class Installer {
 						}
 						else {
 							$return->yield->messages[] = sprintf( _("In order to proceed with the installation, we must be able to write to the '%s' configuration file at '<span class=\"highlight\">%s</span>'."), $cfg["title"], $cfg["path"] )
-														.sprintf( "<br /><b>" . _("Try") . ":</b> <span class=\"highlight\">chmod 777 %s</span>", $cfg["path"] );
+														.sprintf( "<br /><b>" . _("Try") . ":</b> <span class=\"highlight\">chmod 777 %s</span>", $writable_test );
 							$return->success = false;
 						}
 					}
@@ -111,8 +111,8 @@ class Installer {
 								$file = fopen($path, 'w');
 								foreach ($settingsObject as $key => $value) {
 									$dataToWrite[] = "[$key]";
-									foreach ($variable as $key => $value) {
-										$dataToWrite[] = "$key=$value";
+									foreach ($value as $k => $v) {
+										$dataToWrite[] = "$k=$v";
 									}
 									$dataToWrite[] = "";
 								}
@@ -124,6 +124,7 @@ class Installer {
 					else
 					{
 						$return->yield->title = "<b>" . _('Current Test:') . "</b> " . _('Trying to read and write configuration files');
+						$return->yield->messages[] = "<b>" . _("Be sure to reset permissions to any files you change.") . "</b>";
 					}
 					return $return;
 				}
