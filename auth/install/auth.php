@@ -22,6 +22,7 @@ function auth_register_installation_requirement()
 			$return->yield->messages = [];
 			$return->yield->title = _("Auth module installation");
 
+			// TODO: This could potentially be abstracted out (cf. licensing)
 			// Check that the database exists
 			// We assume success - if not, it should have been handled in have_database_access
 			$dbconnection = new DBService($shared_module_info["auth_installed"]["db_name"]);
