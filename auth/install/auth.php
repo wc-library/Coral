@@ -104,29 +104,55 @@ function auth_register_installation_requirement()
 				}
 			}
 
-
-
-			//We need a session timeout variable - are we just going to assume it? 3600
-			// $session_timeout = (isset($_POST['session_timeout']) ? trim($_POST['session_timeout']) : null);
-			if (!isset($_SESSION["auth_installed"]["ldap"]["ldap_enabled"]))
+			$ldap_fields = [
+				[
+					"key" => "ldap_host",
+					"type" => "text",
+					"title" => _("Host"),
+					"default_value" => isset($_SESSION["auth_installed"]["ldap"]["ldap_host"]) ? $_SESSION["auth_installed"]["ldap"]["ldap_host"] : ""
+				],[
+					"key" => "ldap_port",
+					"type" => "text",
+					"title" => _("Port"),
+					"default_value" => isset($_SESSION["auth_installed"]["ldap"]["ldap_port"]) ? $_SESSION["auth_installed"]["ldap"]["ldap_port"] : ""
+				],[
+					"key" => "ldap_search_key",
+					"type" => "text",
+					"title" => _("Search Key"),
+					"default_value" => isset($_SESSION["auth_installed"]["ldap"]["ldap_search_key"]) ? $_SESSION["auth_installed"]["ldap"]["ldap_search_key"] : ""
+				],[
+					"key" => "ldap_base_dn",
+					"type" => "text",
+					"title" => _("Base DN"),
+					"default_value" => isset($_SESSION["auth_installed"]["ldap"]["ldap_base_dn"]) ? $_SESSION["auth_installed"]["ldap"]["ldap_base_dn"] : ""
+				],[
+					"key" => "ldap_bind_account",
+					"type" => "text",
+					"title" => _("Bind Account"),
+					"default_value" => isset($_SESSION["auth_installed"]["ldap"]["ldap_bind_account"]) ? $_SESSION["auth_installed"]["ldap"]["ldap_bind_account"] : ""
+				],[
+					"key" => "ldap_bind_password",
+					"type" => "password",
+					"title" => _("Bind Password"),
+					"default_value" => isset($_SESSION["auth_installed"]["ldap"]["ldap_bind_password"]) ?  $_SESSION["auth_installed"]["ldap"]["ldap_bind_password"]: ""
+				]
+			];
+			require_once "install/templates/auth_module_template.php";
+			$session_timeout_default = 3600;
+			$return->yield->body = auth_module_template($ldap_fields, $session_timeout_default);
+			if (!isset($_POST['ldap_enabled']))
 			{
-				if (!isset($_POST['ldap_enabled']))
+				if (!isset($_SESSION["auth_installed"]["ldap"]["ldap_enabled"]))
 				{
-					$ldap_fields = [
-						[ "key" => "ldap_host"			, "type" => "text",		"title" => _("Host") ],
-						[ "key" => "ldap_port"			, "type" => "text",		"title" => _("Port") ],
-						[ "key" => "ldap_search_key"	, "type" => "text",		"title" => _("Search Key") ],
-						[ "key" => "ldap_base_dn"		, "type" => "text",		"title" => _("Base DN") ],
-						[ "key" => "ldap_bind_account"	, "type" => "text",		"title" => _("Bind Account") ],
-						[ "key" => "ldap_bind_password"	, "type" => "password",	"title" => _("Bind Password") ]
-					];
-					require_once "install/templates/auth_module_template.php";
-					$session_timeout_default = 3600;
-					$return->yield->body = auth_module_template($ldap_fields, $session_timeout_default);
+					//We set the body just before entering the if
+					$return->success = false;
+					return $return;
 				}
 			}
 			else {
-				$_SESSION["auth_installed"]["ldap"]["ldap_enabled"]	= isset($_POST['ldap_enabled'])			? 'Y'							: 'N';
+				$_SESSION["auth_installed"]["session_timeout"]		= $_POST['session_timeout'];
+
+				$_SESSION["auth_installed"]["ldap"]["ldap_enabled"]	= $_POST['ldap_enabled'] == 1			? 'Y'							: 'N';
 				$_SESSION["auth_installed"]["ldap"]["host"]			= isset($_POST['ldap_host'])			? $_POST['ldap_host']			: null;
 				$_SESSION["auth_installed"]["ldap"]["port"]			= isset($_POST['ldap_port'])			? $_POST['ldap_port']			: null;
 				$_SESSION["auth_installed"]["ldap"]["search_key"]	= isset($_POST['ldap_search_key'])		? $_POST['ldap_search_key']		: null;
@@ -135,117 +161,35 @@ function auth_register_installation_requirement()
 				$_SESSION["auth_installed"]["ldap"]["bindPass"]		= isset($_POST['ldap_bind_password'])	? $_POST['ldap_bind_password']	: null;
 			}
 
-			$return->yield->messages[] = "we're still busy writing the installer okay";
-			$return->success = false;
+			$session_ldap = $_SESSION["auth_installed"]["ldap"];
+			if ($session_ldap["ldap_enabled"] == 'Y') {
+				if (!$session_ldap['host'])
+					$return->yield->messages[] = _("LDAP Host is required for LDAP");
+				if (!$session_ldap['search_key'])
+					$return->yield->messages[] = _("LDAP Search Key is required for LDAP");
+				if (!$session_ldap['base_dn'])
+					$return->yield->messages[] = _("LDAP Base DN is required for LDAP");
+
+				$return->success = false;
+				return $return;
+			}
+
+			// This should be successful because our database check passed (it will throw an error otherwise)
+			$result = $dbconnection->processQuery("SELECT loginID FROM User WHERE loginID like '%coral%';");
+
+			// Write the config file
+			$configFile = "auth/admin/configuration.ini";
+			$iniData = array();
+			$iniData["settings"] = [ "timeout" => $_SESSION["auth_installed"]["session_timeout"] ];
+			$iniData["ldap"] = $_SESSION["auth_installed"]["ldap"];
+			$shared_module_info["provided"]["write_config_file"]($configFile, $iniData);
+
+			$return->yield->completionMessages[] = _("Set up your <span class='highlight'>.htaccess</span> file");
+			$return->yield->completionMessages[] = _("Remove the <span class='highlight'>/auth/install/</span> directory for security purposes");
+			$return->yield->completionMessages[] = _("Set up your users on the <a href='auth/admin.php'>admin screen</a>.  You may log in initially with coral/admin.");
+
+			$return->success = true;
 			return $return;
-
-			if ($ldap['ldap_enabled']=='Y') {
-				if (!$ldap['host']) $errorMessage[] = "LDAP Host is required for LDAP";
-				if (!$ldap['search_key']) $errorMessage[] = "LDAP Search Key is required for LDAP";
-				if (!$ldap['base_dn']) $errorMessage[] = "LDAP Base DN is required for LDAP";
-			}
-
-			$dbcheck = mysqli_select_db($link, "$database_name");
-			if (!$dbcheck) {
-				$errorMessage[] = "Unable to access the database '" . $database_name . "'.  Please verify it has been created.<br />MySQL Error: " . mysqli_error($link);
-			}else{
-				//passed db host, name check, test that user can select from Auth database
-				$result = mysqli_query($link, "SELECT loginID FROM " . $database_name . ".User WHERE loginID like '%coral%';");
-				if (!$result){
-					$errorMessage[] = "Unable to select from the User table in database '" . $database_name . "' with user '" . $database_username . "'.  Error: " . mysqli_error($link);
-				}
-
-			}
-
-			/**
-			 * TODO: [unified_installer] abstract writing config file out
-			 */
-				//write the config file
-			$configFile = "../admin/configuration.ini";
-			$fh = fopen($configFile, 'w');
-
-			if (!$fh){
-				$errorMessage[] = "Could not open file " . $configFile . ".  Please verify you can write to the /admin/ directory.";
-			}else{
-
-				$iniData = array();
-				$iniData[] = "[settings]";
-				$iniData[] = "timeout=" . $session_timeout;
-
-				$iniData[] = "\n[database]";
-				$iniData[] = "type = \"mysql\"";
-				$iniData[] = "host = \"" . $database_host . "\"";
-				$iniData[] = "name = \"" . $database_name . "\"";
-				$iniData[] = "username = \"" . $database_username . "\"";
-				$iniData[] = "password = \"" . $database_password . "\"";
-
-				$iniData[] = "\n[ldap]";
-				foreach ($ldap as $fname => $fvalue) {
-					$iniData[] = "$fname = \"$fvalue\"";
-				}
-				fwrite($fh, implode("\n",$iniData));
-				fclose($fh);
-			}
-
-			/**
-			 * NOTE: [unified_installer] These details might be handy:
-			 */
-			// 	This installation will:
-			// 	<ul>
-			// 		<li>Check that you are running PHP 5</li>
-			// 		<li>Connect to MySQL and create the CORAL Auth tables</li>
-			// 		<li>Test the database connection the CORAL Auth application will use </li>
-			// 		<li>Set up the config file with settings you choose</li>
-			// 	</ul>
-			//
-			// 	<br />
-			// 	To get started you should:
-			// 	<ul>
-			// 		<li>Create a MySQL Schema created for CORAL Auth Module - recommended name is coral_auth_prod.  Each CORAL module has separate user permissions and requires a separate schema.</li>
-			// 		<li>Know your host, username and password for MySQL with permissions to create tables</li>
-			// 		<li>It is recommended for security to have a different username and password for CORAL with only select, insert, update and delete privileges to CORAL schemas</li>
-			// 		<li>Verify that your /admin/ directory is writable by server during the installation process (chmod 777).  After installation you should chmod it back.</li>
-			// 	</ul>
-			//
-			//
-
-
-				// session timeout is the cookie expiration timeout for logged in users
-
-			if (!isset($session_timeout))
-			{
-				$session_timeout='3600';
-			}
-
-			$ldap = array('host'=>'', 'port'=>'', 'search_key'=>'', 'base_dn'=>'', 'bindAccount'=>'','bindPass'=>'');
-			if (isset($_POST['ldap_enabled'])) {
-				$ldap['ldap_enabled'] = 'Y';
-				if (isset($_POST['ldap_host']))
-					$ldap['host'] = $_POST['ldap_host'];
-				if (isset($_POST['ldap_port']))
-					$ldap['port'] = $_POST['ldap_port'];
-				if (isset($_POST['ldap_search_key']))
-					$ldap['search_key'] = $_POST['ldap_search_key'];
-				if (isset($_POST['ldap_base_dn']))
-					$ldap['base_dn'] = $_POST['ldap_base_dn'];
-				if (isset($_POST['ldap_bind_account']))
-					$ldap['bindAccount'] = $_POST['ldap_bind_account'];
-				if (isset($_POST['ldap_bind_password']))
-					$ldap['bindPass'] = $_POST['ldap_bind_password'];
-			} else {
-				$ldap['ldap_enabled'] = 'N';
-			}
-
-			/**
-			 * TODO: [unified_installer] we may need to do some of this kind of cleanup stuff
-			 */
-				// <h3>CORAL Authentication installation is now complete!</h3>
-				// It is recommended you now:
-				// <ul>
-				// 	<li>Set up your .htaccess file</li>
-				// 	<li>Remove the /install/ directory for security purposes</li>
-				// 	<li>Set up your users on the <a href='../admin.php'>admin screen</a>.  You may log in initially with coral/admin.</li>
-				// </ul>
 		}
 	];
 }
