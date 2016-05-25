@@ -145,12 +145,23 @@ $(document).ready(function(){
 	    return false;
 	});
 
+    $('.stepName').live('change', function () {
+        //don't update prior steps for the step in the 'add' section
+        if ($(this).parent().parent().children('.seqOrder').attr('key') != ''){
+            updatePriorSteps('change');
+        }
+    });
 
 
-    
+   
     $("#submitCurrentWorkflowForm").click(function () {
        submitCurrentWorkflow();
     });
+
+    updatePriorSteps('onload');
+    setArrows();
+
+    
 });
 
 //kill all binds done by jquery live
@@ -164,6 +175,7 @@ function kill() {
 function validateWorkflow() {
     return true;
 }
+
 
 function updatePriorSteps(fromFunction){
 
