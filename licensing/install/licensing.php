@@ -1,34 +1,39 @@
 <?php
-function licensing_register_installation_requirement()
+function register_licensing_requirement()
 {
-	return [
+	$MODULE_VARS = [
 		"uid" => "licensing_installed",
 		"translatable_title" => _("Licensing Module"),
-		"dependencies_array" => [ "usage", "licensing" ],
+		"dependencies_array" => [ "have_database_access", "auth" ],
 		"required" => true,
+	];
+	return array_merge( $MODULE_VARS,[
 		"getSharedInfo" => function () {
 			return [
 				"database" => [
 					"title" => _("Licensing Database"),
 					"default_value" => "coral_licensing"
+				],
+				"config_file" => [
+					"path" => "auth/admin/configuration.ini",
 				]
 			];
 		},
-		"installer" => function($shared_module_info) {
+		"installer" => function($shared_module_info) use ($MODULE_VARS) {
 			$return = new stdClass();
 			$return->yield = new stdClass();
 			$return->success = false;
 			$return->yield->title = _("Licensing Module");
 			$return->yield->messages[] = "<b>Installer Incomplete</b>";
 
-			$dbconnection = new DBService($shared_module_info["licensing_installed"]["db_name"]);
+			$dbconnection = new DBService($shared_module_info[$MODULE_VARS["uid"]]["db_name"]);
 
 			//make sure the tables don't already exist - otherwise this script will overwrite all of the data!
-			if ($shared_module_info["licensing_installed"]["db_feedback"] == 'already_existed')
+			if ($shared_module_info[$MODULE_VARS["uid"]]["db_feedback"] == 'already_existed')
 			{
 				try
 				{
-					$query = "SELECT count(*) count FROM information_schema.`COLUMNS` WHERE table_schema = `$shared_module_info[licensing_installed][db_name]` AND table_name=`License`";
+					$query = "SELECT count(*) count FROM information_schema.`COLUMNS` WHERE table_schema = `{$shared_module_info[$MODULE_VARS['uid']]['db_name']}` AND table_name=`License`";
 					$result = $dbconnection->processQuery($query);
 					// TODO: offer to do this (drop tables)
 					if ($result->numRows() > 0 )
@@ -48,7 +53,7 @@ function licensing_register_installation_requirement()
 					$return->yield->body = try_again_template();
 					return $return;
 				}
-				$query = "SELECT count(*) count FROM information_schema.`TABLES` WHERE table_schema = '$shared_module_info[licensing_installed][db_name]' AND table_name='User' and table_rows > 0";
+				$query = "SELECT count(*) count FROM information_schema.`TABLES` WHERE table_schema = '{$shared_module_info[$MODULE_VARS['uid']]['db_name']}' AND table_name='User' and table_rows > 0";
 			}
 
 			// Process sql files
@@ -96,7 +101,7 @@ function licensing_register_installation_requirement()
 					$_SESSION["auth_installed"]["sql_files"][$sql_file])
 					continue;
 
-				$result = $processSql($dbconnection, "auth/install/" . $sql_file);
+				$result = $processSql($dbconnection, "licensing/install/" . $sql_file);
 				if (!$result["success"]) {
 					$return->success = false;
 					$return->yield->messages = array_merge($return->yield->messages, $result["messages"]);
@@ -108,13 +113,15 @@ function licensing_register_installation_requirement()
 				}
 			}
 
+			
+			return $return;
+
 			//delete admin user if they exist, then set them back up
 			$query = "DELETE FROM User WHERE loginID = '" . $admin_login . "';";
 			$dbconnection->processQuery($query);
 			$query = "INSERT INTO " . $database_name . ".User (loginID, privilegeID) values ('" . $admin_login . "', " . $privilegeID . ");";
-			mysqli_query($link, $query);
+			$dbconnection->processQuery($query);
 
-			return $return;
 		}
-	];
+	]);
 }

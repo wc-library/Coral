@@ -1,5 +1,5 @@
 <?php
-function yield_test_results($test_results, $completed_tests, $completion)
+function yield_test_results_and_exit($test_results, $completed_tests, $completion)
 {
 	header('Content-type: application/json');
 	$test_results->completion = $completion*100;

@@ -63,7 +63,10 @@ function submit_install_step(dataToSubmit)
 				setTimeout(injectCssForAnimation, 1200);
 				setInterval(function(){
 					if (countdown-- <= 0)
-						window.location.href = "index.php";
+					{
+						// TODO: enable redirection
+						// window.location.href = "index.php";
+					}
 					else
 						$(".redirection .countdown").text(countdown);
 				}, 1000);
