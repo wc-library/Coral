@@ -2182,7 +2182,7 @@ class Resource extends DatabaseObject {
 
 		$query = "SELECT * FROM ResourceStep
 					WHERE resourceID = '" . $this->resourceID . "'
-					AND archivingDate IS NULL";
+                    AND archivingDate IS NULL ORDER BY displayOrderSequence, stepID";
 
 		$result = $this->db->processQuery($query, 'assoc');
 

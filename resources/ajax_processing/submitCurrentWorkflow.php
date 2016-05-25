@@ -32,38 +32,55 @@
                         continue;
                     } 
 
-					$step = new ResourceStep();
+					$rstep = new ResourceStep();
 
                     // Getting previous information if available
                     if ($oldStepIDArray[$key] != -1) {
                         $oldStep = new ResourceStep(new NamedArguments(array('primaryKey' => $oldStepIDArray[$key])));
-                        $step->stepStartDate = $oldStep->stepStartDate;
-                        $step->stepEndDate = $oldStep->stepEndDate;
-                        $step->displayOrderSequence = $oldStep->displayOrderSequence;
-                        $step->stepID = $oldStep->stepID;
-                        $step->priorStepID = $oldStep->priorStepID;
+                        $rstep->stepStartDate = $oldStep->stepStartDate;
+                        $rstep->stepEndDate = $oldStep->stepEndDate;
+                        $rstep->displayOrderSequence = $oldStep->displayOrderSequence;
+                        $rstep->stepID = $oldStep->stepID;
+                        $rstep->priorStepID = $oldStep->priorStepID;
                         $oldStep->delete();
                         unset($oldStep);
                     }
-                    
-					$step->displayOrderSequence = $seqOrderArray[$key];
-					$step->resourceID = $resourceID;
-					$step->stepName = trim($value);
-					$step->userGroupID = $userGroupArray[$key];
-                    if ($step->priorStepID == null) {
-                        $step->priorStepID = $priorStepArray[$key];
+
+					$rstep->stepName = trim($value);
+
+                    // Also save in the Step table with workflowID=0
+                    // (so we can set priorStepID)
+                    if (!$rstep->stepID) {
+                        $step = new Step();
+                        $step->stepName = $rstep->stepName;
+                        try {
+                            $step->save();
+                            $stepID = $step->stepID;
+                            $rstep->stepID = $step->stepID;
+                        } catch (Exception $e) {
+                            echo $e->getMessage();
+                        }
                     }
-                    if ($step->stepStartDate == null) {
-                        $step->stepStartDate = date( 'Y-m-d' );
+  
+					$rstep->displayOrderSequence = $seqOrderArray[$key];
+					$rstep->resourceID = $resourceID;
+					$rstep->userGroupID = $userGroupArray[$key];
+                    if ($rstep->priorStepID == null) {
+                        $rstep->priorStepID = $priorStepArray[$key];
+                    }
+                    if ($rstep->stepStartDate == null) {
+                        $rstep->stepStartDate = date( 'Y-m-d' );
                     }
 
 					try {
-						$step->save();
-						$stepID = $step->primaryKey;
+						$rstep->save();
+						$rstepID = $rstep->primaryKey;
 
 					} catch (Exception $e) {
 						echo $e->getMessage();
 					}
+
+                  
                 }
 			}
 

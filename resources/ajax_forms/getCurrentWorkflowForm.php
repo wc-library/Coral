@@ -8,8 +8,8 @@ if (!isset($_GET['resourceID'])){
     $userGroupObj = new UserGroup();
     $userGroupArray = $userGroupObj->allAsArray();
 
-    $resourceSteps = $resource->getResourceSteps();
-    $parentSteps = $resource->getResourceSteps();
+    $resourceSteps = $resource->getCurrentWorkflowResourceSteps();
+    $parentSteps = $resource->getCurrentWorkflowResourceSteps();
 
     //make form
     ?>
