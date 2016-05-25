@@ -52,7 +52,8 @@ if ($config->settings->authModule == 'Y'){
 
 		$authURL = $util->getCORALURL() . "auth/" . $addURL . htmlentities($_SERVER['REQUEST_URI']);
 		header('Location: ' . $authURL, true);
-		exit("redirecting to " . $authURL);
+
+		exit; //PREVENT SECURITY HOLE
 	}
 
 
@@ -75,6 +76,7 @@ if ($config->settings->authModule == 'Y'){
 
 		//use the split in case the remote login is supplied as an email address
 		list ($loginID,$restofAddr) = explode("@", $remoteAuth);
+
 
 
 		session_start();
