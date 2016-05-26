@@ -53,6 +53,9 @@
                     if ($step->priorStepID == null) {
                         $step->priorStepID = $priorStepArray[$key];
                     }
+                    if ($step->stepStartDate == null) {
+                        $step->stepStartDate = date( 'Y-m-d' );
+                    }
 
 					try {
 						$step->save();
