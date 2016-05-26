@@ -1,2 +1,2 @@
-ALTER TABLE SFXProvider RENAME COLUMN SFXProviderID to sfxProviderID;
-ALTER TABLE Expression ALTER COLUMN documentText text NOT NULL
+ALTER TABLE `SFXProvider` CHANGE `SFXProvider` `sfxProvider` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT; 
+ALTER TABLE `expression` CHANGE `documentText` `documentText` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL;
