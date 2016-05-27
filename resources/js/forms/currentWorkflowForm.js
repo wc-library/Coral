@@ -112,7 +112,9 @@ $(document).ready(function(){
 	    var movingKeyUserGroupID = $(this).parent().parent().children().children('.userGroupID').val();
 	    var nextKeyUserGroupID = $(".seqOrder[key='" + nextKey + "']").parent().children().children('.userGroupID').val();
 	    var movingKeyPriorStepID = $(this).parent().parent().children().children('.priorStepID').val();
+	    var movingKeyPriorStepText = $(this).parent().parent().children().children('.priorStepID').find(':selected').text();
 	    var nextKeyPriorStepID = $(".seqOrder[key='" + nextKey + "']").parent().children().children('.priorStepID').val();
+	    var nextKeyPriorStepText = $(".seqOrder[key='" + nextKey + "']").parent().children().children('.priorStepID').find(':selected').text();
 
 	    //flip the html
 	    $(".seqOrder[key='" + nextKey + "']").parent().html(movingKeyHTML);
@@ -125,6 +127,8 @@ $(document).ready(function(){
 	    $(".seqOrder[key='" + movingKey + "']").parent().children().children('.userGroupID').val(movingKeyUserGroupID);
 	    $(".seqOrder[key='" + nextKey + "']").parent().children().children('.userGroupID').val(nextKeyUserGroupID);
 
+        movingKeyPriorStepID = movingKeyPriorStepText != '' ? movingKeyPriorStepID : 'option:first';
+        nextKeyPriorStepID = nextKeyPriorStepText != '' ? nextKeyPriorStepID : 'option:first';
 	    $(".seqOrder[key='" + movingKey + "']").parent().children().children('.priorStepID').val(movingKeyPriorStepID);
 	    $(".seqOrder[key='" + nextKey + "']").parent().children().children('.priorStepID').val(nextKeyPriorStepID);	    
 
@@ -140,7 +144,7 @@ $(document).ready(function(){
   			return movingKey;
 		});
 	    	    
-	    	   
+
 	    setArrows();
 	    return false;
 	});
@@ -158,7 +162,6 @@ $(document).ready(function(){
        submitCurrentWorkflow();
     });
 
-    updatePriorSteps('onload');
     setArrows();
 
     
@@ -178,7 +181,6 @@ function validateWorkflow() {
 
 
 function updatePriorSteps(fromFunction){
-
 	
 	var stepArray=new Array();
 
