@@ -65,12 +65,17 @@ class Installer {
 			$this->register_installation_requirement($installer_object);
 			if (!$core_module)
 			{
-				$this->shared_module_info[ "module_list" ][] = [
+				$mod = [
 					"directory" => $module_name,
 					"uid" => $installer_object["uid"],
 					"title" => $installer_object["translatable_title"],
 					"required" => $installer_object["required"]
 				];
+				if (isset($installer_object["alternative"]))
+				{
+					$mod["alternative"] = $installer_object["alternative"];
+				}
+				$this->shared_module_info[ "module_list" ][] = $mod;
 			}
 			if (isset($installer_object["getSharedInfo"]))
 			{
