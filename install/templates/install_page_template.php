@@ -16,6 +16,9 @@ function draw_install_page_template()
 		body {
 			margin-top: 3vh !important;
 		}
+		.content-head {
+			text-align: center;
+		}
 		.section-title {
 			font-size: 140%;
 		}
@@ -84,9 +87,9 @@ function draw_install_page_template()
 	<div class="row main">
 		<div class="two columns">&nbsp;</div>
 		<div class="eight columns">
-			<h1 class="content-head is-center heading"><center>
+			<h1 class="content-head is-center heading">
 				CORAL Installer
-			</center></h1>
+			</h1>
 			<div class="installation_stuff">
 				<div class="section-title"></div>
 				<div class="messages">
