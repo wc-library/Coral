@@ -121,12 +121,11 @@ function submit_install_step(dataToSubmit)
 			});
 		});
 		console.log(data.completed_tests);
-	}, 'json').fail(function(a,b,c){
-		console.log(a);
+	}, 'json').fail(function(jqXHR){
 		$(".content-head").text("CORAL Installer Failed");
 		$(".messages").empty();
 		$(".messages").append(
-			$("<div>").addClass("message").html(c)
+			$("<div>").addClass("message").html(jqXHR.responseText)
 		);
 	});
 }
