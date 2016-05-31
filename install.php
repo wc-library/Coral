@@ -55,6 +55,7 @@
 
 // TODO: grep for and remove "# code..."
 // TODO: detect failed installation (possibly by asking) and handle dbs better...
+// TODO: go through template.php and remove hard coded vars
 
 const INSTALLATION_IN_PROGRESS = true;
 require "install/test_if_installed.php";
