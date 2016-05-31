@@ -8,14 +8,28 @@ function modules_to_use_template($module_list)
 
 	$cards = function($item_array) {
 		return join(array_reduce($item_array, function($carry, $item){
-			$required = $item["required"] ? "checked disabled" : "";
+			$altField = "";
+			$toggleSection = "";
+			if (isset($item["alternative"]))
+			{
+				foreach ($item["alternative"] as $key => $value) {
+					$toggleSection = " class=\"toggleSection\" data-toggle-section=\".{$key}Alternative\" data-toggle-invert=\"true\" data-toggle-default=\"false\"";
+					$altField = <<<HEREDOC
+					<div class="row {$key}Alternative" style="display: none;">
+						<label for="{$item["uid"]}_{$key}">{$value}</label>
+						<input class="u-full-width" type="text" name="{$item["uid"]}_{$key}">
+					</div>
+HEREDOC;
+				}
+			}
+			$required = $item["required"] && !isset($item["alternative"]) ? "disabled" : "";
 			$carry[] = <<<HEREDOC
 			<div class="row">
-				<input type="checkbox" id="{$item["uid"]}" name="{$item["uid"]}" $required>
+				<input type="checkbox" id="{$item["uid"]}" name="{$item["uid"]}" checked $required $toggleSection>
 				<label for="{$item["uid"]}">
 					<span class="label-body">{$item["title"]}</span>
 				</label>
-			</div>
+			</div>$altField
 HEREDOC;
 			return $carry;
 		}));
@@ -39,17 +53,18 @@ HEREDOC;
 			input[type=checkbox] {
 				display: none;
 			}
-			label {
+			input[type=checkbox] + label {
 				display: inline-block;
 				cursor: pointer;
 				position: relative;
 				padding-left: 25px;
 				margin-right: 15px;
 			}
-			label {
+			input[type=checkbox] + label {
 				margin: 8px 0;
 			}
-			label:before, label:after {
+			input[type=checkbox] + label:before,
+			input[type=checkbox] + label:after {
 				content: "";
 				display: inline-block;
 
@@ -65,7 +80,7 @@ HEREDOC;
 				border-radius: 3px;
 				transition: background-color 150ms ease;
 			}
-			label:hover:before {
+			input[type=checkbox] + label:hover:before {
 				background-color: #eed;
 			}
 			input[type=checkbox] + label:after {
