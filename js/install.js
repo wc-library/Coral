@@ -130,7 +130,7 @@ function submit_install_step(dataToSubmit)
 	}).fail(function(jqXHR){
 		$(".main").animate({"opacity": 0, "paddingRight": 30 }, 500, function(){
 			$(".content-head").text("CORAL Installer Failed");
-			$(".messages").empty();
+			$(".section-title, .messages, .mainbody").empty();
 			$(".messages").append(
 				$("<div>").addClass("message").html("<pre>" + jqXHR.responseText + "</pre>")
 			);
