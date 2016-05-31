@@ -98,18 +98,19 @@ function submit_install_step(dataToSubmit)
 				});
 				$(".toggleSection").each(function(){
 					var section_to_toggle = $(this).attr("data-toggle-section");
+					var invert = typeof $(this).attr("data-toggle-invert") !== "undefined" ? $(this).attr("data-toggle-invert") == "true" : false;
 					if (typeof $(this).attr("data-toggle-default") !== "undefined")
 					{
 						var toCheck = $(this).attr("data-toggle-default") == "true";
 						$(section_to_toggle).displayToggle(toCheck);
 						if ($(this).is(":checkbox"))
 						{
-							$(this).prop('checked', toCheck);
+							$(this).prop('checked', toCheck ^ invert);
 						}
 					}
 					if ($(this).is(":checkbox"))
 					{
-						$(section_to_toggle).displayToggle( $(this).is(":checked") );
+						$(section_to_toggle).displayToggle( $(this).is(":checked")  ^ invert );
 					}
 				});
 			}
@@ -120,7 +121,14 @@ function submit_install_step(dataToSubmit)
 			});
 		});
 		console.log(data.completed_tests);
-	}, 'json');
+	}, 'json').fail(function(a,b,c){
+		console.log(a);
+		$(".content-head").text("CORAL Installer Failed");
+		$(".messages").empty();
+		$(".messages").append(
+			$("<div>").addClass("message").html(c)
+		);
+	});
 }
 $(document).ready(function(){
 	console.log("ready");
@@ -150,7 +158,8 @@ $(document).ready(function(){
 	var section_to_toggle = $(this).attr("data-toggle-section");
 	if ($(this).is(":checkbox"))
 	{
-		$(section_to_toggle).displayToggle($(this).is(":checked"));
+		var invert = typeof $(this).attr("data-toggle-invert") !== "undefined" ? $(this).attr("data-toggle-invert") == "true" : false;
+		$(section_to_toggle).displayToggle($(this).is(":checked") ^ invert);
 	}
 	else
 	{
