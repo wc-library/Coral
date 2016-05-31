@@ -8,7 +8,7 @@ function register_auth_requirement()
 		"required" => false
 	];
 	return array_merge( $MODULE_VARS,[
-			"getSharedInfo" => function () {
+		"getSharedInfo" => function () {
 			return [
 				// We will find the name in the sharedInfo variable under "$MODULE_VARS["uid"]" as "db_name"
 				// We will also have a "db_feedback" variable with "created", "already_existed" (or "failed" - though that shouldn't happen)
@@ -30,7 +30,8 @@ function register_auth_requirement()
 			// TODO: This could potentially be abstracted out (cf. licensing)
 			// Check that the database exists
 			// We assume success - if not, it should have been handled in have_database_access
-			$dbconnection = new DBService($shared_module_info[$MODULE_VARS["uid"]]["db_name"]);
+			$this_db_name = $shared_module_info[ $MODULE_VARS["uid"] ]["db_name"];
+			$dbconnection = $shared_module_info["provided"]["get_db_connection"]( $this_db_name );
 
 			//make sure the tables don't already exist - otherwise this script will overwrite all of the data!
 			if ($shared_module_info[$MODULE_VARS["uid"]]["db_feedback"] == 'already_existed')
