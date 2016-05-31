@@ -48,85 +48,98 @@ function submit_install_step(dataToSubmit)
 	if (typeof dataToSubmit === "undefined")
 		dataToSubmit = {};
 	dataToSubmit.installing = true;
-	$.post("install.php", dataToSubmit, function(data){
-		$(".main").animate({"opacity": 0, "paddingRight": 30 }, 500, function(){
-			if (data.redirect_home)
-			{
-				$(".installation_stuff").hide();
-				var countdown = 10;
-				$(".redirection .countdown").text(countdown);
-				var $holder = $(".completed_test_holder");
-				data.completed_tests.forEach(function(test){
-					$holder.append($("<li>").addClass("completed_test").text(test));
-				});
-				$(".redirection").fadeIn();
-				setTimeout(injectCssForAnimation, 1200);
-				setInterval(function(){
-					if (countdown-- <= 0)
-					{
-						// TODO: enable redirection
-						// window.location.href = "index.php";
-					}
-					else
-						$(".redirection .countdown").text(countdown);
-				}, 1000);
-			}
-			else {
-				$(".section-title, .messages, .mainbody").empty();
-
-				if (typeof data.title !== "undefined")
-				$(".section-title").html(data.title);
-
-				if (typeof data.messages !== "undefined")
+	$.ajax({
+		type: "POST",
+		url: "install.php",
+		data: dataToSubmit,
+		dataType: "json",
+		success: function(data){
+			$(".main").animate({"opacity": 0, "paddingRight": 30 }, 500, function(){
+				if (data.redirect_home)
 				{
-					if (data.messages)
-					{
-						data.messages.forEach(function(msg){
-							$(".messages").append(
-								$("<div>").addClass("message").html(msg)
-							);
-						});
-					}
-				}
-
-				if (typeof data.body !== "undefined")
-				$(".mainbody").html(data.body);
-
-				$("[data-toggle-section]").each(function(){
-					var $ts = $( $(this).attr("data-toggle-section") );
-					$ts.css('height', $ts.height());
-				});
-				$(".toggleSection").each(function(){
-					var section_to_toggle = $(this).attr("data-toggle-section");
-					var invert = typeof $(this).attr("data-toggle-invert") !== "undefined" ? $(this).attr("data-toggle-invert") == "true" : false;
-					if (typeof $(this).attr("data-toggle-default") !== "undefined")
-					{
-						var toCheck = $(this).attr("data-toggle-default") == "true";
-						$(section_to_toggle).displayToggle(toCheck);
-						if ($(this).is(":checkbox"))
+					$(".installation_stuff").hide();
+					var countdown = 10;
+					$(".redirection .countdown").text(countdown);
+					var $holder = $(".completed_test_holder");
+					data.completed_tests.forEach(function(test){
+						$holder.append($("<li>").addClass("completed_test").text(test));
+					});
+					$(".redirection").fadeIn();
+					setTimeout(injectCssForAnimation, 1200);
+					setInterval(function(){
+						if (countdown-- <= 0)
 						{
-							$(this).prop('checked', toCheck ^ invert);
+							// TODO: enable redirection
+							// window.location.href = "index.php";
+						}
+						else
+							$(".redirection .countdown").text(countdown);
+					}, 1000);
+				}
+				else {
+					$(".section-title, .messages, .mainbody").empty();
+
+					if (typeof data.title !== "undefined")
+					$(".section-title").html(data.title);
+
+					if (typeof data.messages !== "undefined")
+					{
+						if (data.messages)
+						{
+							data.messages.forEach(function(msg){
+								$(".messages").append(
+									$("<div>").addClass("message").html(msg)
+								);
+							});
 						}
 					}
-					if ($(this).is(":checkbox"))
-					{
-						$(section_to_toggle).displayToggle( $(this).is(":checked")  ^ invert );
-					}
+
+					if (typeof data.body !== "undefined")
+					$(".mainbody").html(data.body);
+
+					$("[data-toggle-section]").each(function(){
+						var $ts = $( $(this).attr("data-toggle-section") );
+						$ts.css('height', $ts.height());
+					});
+					$(".toggleSection").each(function(){
+						var section_to_toggle = $(this).attr("data-toggle-section");
+						var invert = typeof $(this).attr("data-toggle-invert") !== "undefined" ? $(this).attr("data-toggle-invert") == "true" : false;
+						if (typeof $(this).attr("data-toggle-default") !== "undefined")
+						{
+							var toCheck = $(this).attr("data-toggle-default") == "true";
+							$(section_to_toggle).displayToggle(toCheck);
+							if ($(this).is(":checkbox"))
+							{
+								$(this).prop('checked', toCheck ^ invert);
+							}
+						}
+						if ($(this).is(":checkbox"))
+						{
+							$(section_to_toggle).displayToggle( $(this).is(":checked")  ^ invert );
+						}
+					});
+				}
+
+				$(".main").css({ "opacity": 0, "paddingLeft": 30 });
+				$(".main").animate({ "opacity": 1, "paddingLeft": 0 }, 300, function(){
+					$(".percentageComplete").animate({ "width": data.completion+"%" }, 1000);
 				});
-			}
+			});
+			console.log(data.completed_tests);
+		}
+	}).fail(function(jqXHR){
+		$(".main").animate({"opacity": 0, "paddingRight": 30 }, 500, function(){
+			$(".content-head").text("CORAL Installer Failed");
+			$(".messages").empty();
+			$(".messages").append(
+				$("<div>").addClass("message").html("<pre>" + jqXHR.responseText + "</pre>")
+			);
 
 			$(".main").css({ "opacity": 0, "paddingLeft": 30 });
 			$(".main").animate({ "opacity": 1, "paddingLeft": 0 }, 300, function(){
 				$(".percentageComplete").animate({ "width": data.completion+"%" }, 1000);
 			});
 		});
-		console.log(data.completed_tests);
-	}, 'json').fail(function(jqXHR){
-		$(".content-head").text("CORAL Installer Failed");
-		$(".messages").empty();
-		$(".messages").append(
-			$("<div>").addClass("message").html(jqXHR.responseText)
-		);
 	});
 }
 $(document).ready(function(){
