@@ -4,8 +4,9 @@ require_once("common/DBService.php");
 require_once("common/DBResult.php");
 
 class Installer {
-	const CAUSE_DEPENDENCY_NOT_FOUND = 41;
-	const CAUSE_ALREADY_EXISTED = 43;
+	const CAUSE_DEPENDENCY_NOT_FOUND = 20041;
+	const CAUSE_ALREADY_EXISTED = 20043;
+	const ERR_CIRCULAR_DEPENDENCIES = 20044;
 
 	protected $checklist = [];
 	protected $shared_module_info = [];
@@ -126,7 +127,7 @@ class Installer {
 
 	// TODO: handle choose module rejecting some and
 	// TODO: implement bubbling dependencies
-	public function runTestForResult($test_uid)
+	public function runTestForResult($test_uid, $required_for = [])
 	{
 		$key = $this->getKeyFromUid($test_uid);
 		if ($key === false)
@@ -153,7 +154,13 @@ class Installer {
 
 			if (!isset($this->checklist[$dep_key]["result"]))
 			{
-				$result = $this->runTestForResult($dependency);
+				if (in_array($dependency, $required_for))
+				{
+					$required_array = var_export($required_for, true);
+					throw new RuntimeException("Error: Circular dependencies ('$test_uid' in $required_array)", $this::ERR_CIRCULAR_DEPENDENCIES);
+				}
+				$required_for[] = $dependency;
+				$result = $this->runTestForResult($dependency, $required_for);
 				// If one of the requirements fails, we need its result to be yielded
 				if (!$result->success)
 					return $result;
