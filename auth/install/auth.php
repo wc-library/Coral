@@ -4,7 +4,7 @@ function register_auth_requirement()
 	$MODULE_VARS = [
 		"uid" => "auth",
 		"translatable_title" => _("Auth Module"),
-		"dependencies_array" => [ "have_database_access" ],
+		"dependencies_array" => [ "have_database_access", "have_read_write_access_to_config" ],
 		"required" => true,
 		"alternative" => ["remote_auth_variable_name" => _("Remote Auth Variable Name")]
 	];
