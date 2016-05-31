@@ -5,7 +5,8 @@ function register_auth_requirement()
 		"uid" => "auth",
 		"translatable_title" => _("Auth Module"),
 		"dependencies_array" => [ "have_database_access" ],
-		"required" => false
+		"required" => true,
+		"alternative" => ["remote_auth_variable_name" => _("Remote Auth Variable Name")]
 	];
 	return array_merge( $MODULE_VARS,[
 		"getSharedInfo" => function () {
