@@ -90,11 +90,10 @@ class DBService extends Object {
 		{
 			return new DBResult($result);
 		}
-		else if ($result)
+		else
 		{
 			return self::$db->insert_id;
 		}
-		throw new LogicException("Congratulations, I thought it was impossible to get here. Please fix this code.");
 	}
 
 	public static function escapeString($str){
