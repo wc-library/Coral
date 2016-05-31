@@ -54,7 +54,7 @@ function submit_install_step(dataToSubmit)
 		data: dataToSubmit,
 		dataType: "json",
 		success: function(data){
-			$(".main").animate({"opacity": 0, "paddingRight": 30 }, 500, function(){
+			$(".main").animate({"opacity": 0, "paddingRight": 30 }, 200, function(){
 				if (data.redirect_home)
 				{
 					$(".installation_stuff").hide();
@@ -147,17 +147,19 @@ $(document).ready(function(){
 	$(".main").css({"opacity": 0});
 	submit_install_step();
 }).on("submit", function(){
-	var $form_elements = $("form input:visible");
-	//But sometimes checkboxes are hidden and their labels are used:
-	$form_elements = $form_elements.add($(":checkbox:hidden").filter(function(){
-		return $("label[for='" + $(this).attr("id") + "']").is(":visible");
-	}));
-	$form_elements.filter(':checkbox').each(function() {
-		$(this).val($(this).is(":checked") ? 1 : 0);
-		$(this).attr('type', 'hidden');
+	$(".main").animate({"opacity": 0, "paddingRight": 30 }, 200, function(){
+		var $form_elements = $("form input:visible");
+		//But sometimes checkboxes are hidden and their labels are used:
+		$form_elements = $form_elements.add($(":checkbox:hidden").filter(function(){
+			return $("label[for='" + $(this).attr("id") + "']").is(":visible");
+		}));
+		$form_elements.filter(':checkbox').each(function() {
+			$(this).val($(this).is(":checked") ? 1 : 0);
+			$(this).attr('type', 'hidden');
+		});
+		var data = $form_elements.serializeObject();
+		submit_install_step(data);
 	});
-	var data = $form_elements.serializeObject();
-	submit_install_step(data);
 	return false; // Prevent submit
 }).on("click", ".toggleSection", function(){
 	var original_message = $(this).html();
