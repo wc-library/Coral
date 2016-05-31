@@ -17,6 +17,12 @@ class Installer {
 			"setSharedModuleInfo" => function($for_module, $key, $value) use (&$this_shared_module_info) {
 				$this_shared_module_info[$for_module][$key] = $value;
 			},
+			// TODO: This should probably be changed (and set somewhere?!?) but where and how?
+			"common" => ["default_user" => [
+					"username" => "coral",
+					"password" => "admin"
+				]
+			]
 		];
 		$this->scanForModuleInstallers();
 	}
