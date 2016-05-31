@@ -118,6 +118,8 @@ class Installer {
 		}
 	}
 
+	// TODO: handle choose module rejecting some and
+	// TODO: implement bubbling dependencies
 	public function runTestForResult($test_uid)
 	{
 		$key = $this->getKeyFromUid($test_uid);
