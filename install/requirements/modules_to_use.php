@@ -1,12 +1,14 @@
 <?php
 function register_modules_to_use_requirement()
 {
-	return [
+	$MODULE_VARS = [
 		"uid" => "modules_to_use",
 		"translatable_title" => _("Modules to use"),
 		"dependencies_array" => [],
-		"required" => true,
-		"installer" => function($shared_module_info) {
+		"required" => true
+	];
+	return array_merge( $MODULE_VARS,[
+		"installer" => function($shared_module_info) use ($MODULE_VARS) {
 			$return = new stdClass();
 			$return->yield = new stdClass();
 			$return->yield->title = _("Modules to use");
@@ -18,23 +20,34 @@ function register_modules_to_use_requirement()
 				// We can only auto-set if there is no alternative and mod is required
 				if ($mod["required"] && !isset($mod["alternative"]))
 				{
-					if (!isset($_SESSION["modules_to_use"][ $mod["uid"] ]))
-						$_SESSION["modules_to_use"][ $mod["uid"] ] = [];
-					$_SESSION["modules_to_use"][ $mod["uid"] ]["useModule"] = true;
+					$_POST[$mod["uid"]] = 1;
 					$return->success &= true;
 				}
-				else if (isset($_POST[$mod["uid"]]))
+				if (isset($_POST[$mod["uid"]]))
 				{
-					$_SESSION["modules_to_use"][ $mod["uid"] ]["useModule"] = $_POST[$mod["uid"]] == 1;
+					if (!isset($_SESSION[ $MODULE_VARS["uid"] ][ $mod["uid"] ]))
+					{
+						$_SESSION[ $MODULE_VARS["uid"] ][ $mod["uid"] ] = [];
+					}
+					$_SESSION[ $MODULE_VARS["uid"] ][ $mod["uid"] ]["useModule"] = $_POST[$mod["uid"]] == 1;
+					if (!isset($shared_module_info[ $MODULE_VARS["uid"] ][ $mod["uid"] ]))
+					{
+						$shared_module_info[ $MODULE_VARS["uid"] ][ $mod["uid"] ] = [];
+					}
+					$shared_module_info["setSharedModuleInfo"]($MODULE_VARS["uid"], $mod["uid"], ["useModule" => $_POST[$mod["uid"]] == 1]);
 					$return->success &= true;
 				}
 				else
 				{
 					// If the associated session variable is still unset the setup has failed but why?
-					if (!isset($_SESSION["modules_to_use"][ $mod["uid"] ]["useModule"]))
+					if (!isset($_SESSION[ $MODULE_VARS["uid"] ][ $mod["uid"] ]["useModule"]))
 					{
 						$return->messages[] = "For some reason at least one of these variables is not set. There may a problem with the installer please contact the programmers with this error message.";
 						$return->success &= false;
+					}
+					else
+					{
+						$shared_module_info["setSharedModuleInfo"]($MODULE_VARS["uid"], $mod["uid"], ["useModule" => $_SESSION[ $MODULE_VARS["uid"] ][ $mod["uid"] ]["useModule"]]);
 					}
 				}
 			}
@@ -45,7 +58,7 @@ function register_modules_to_use_requirement()
 				if (isset($mod["alternative"]))
 				{
 					//only check if the alternative is being invoked (i.e. module not used)
-					if (isset($_SESSION["modules_to_use"][ $mod["uid"] ]["useModule"]) && !$_SESSION["modules_to_use"][ $mod["uid"] ]["useModule"])
+					if (isset($_SESSION[ $MODULE_VARS["uid"] ][ $mod["uid"] ]["useModule"]) && !$_SESSION[ $MODULE_VARS["uid"] ][ $mod["uid"] ]["useModule"])
 					{
 						$alternative_vars = array_map(function($key){
 							return $key;
@@ -53,9 +66,14 @@ function register_modules_to_use_requirement()
 						foreach ($alternative_vars as $v) {
 							if (!empty($_POST[ "$mod[uid]_$v" ]))
 							{
-								$_SESSION["modules_to_use"][ $mod["uid"] ][$v] = $_POST[ "$mod[uid]_$v" ];
+								$_SESSION[ $MODULE_VARS["uid"] ][ $mod["uid"] ][$v] = $_POST[ "$mod[uid]_$v" ];
+								$shared_module_info["setSharedModuleInfo"]( $mod["uid"], "alternative", [$v => $_POST[ "$mod[uid]_$v" ]]);
 							}
-							if (!isset($_SESSION["modules_to_use"][ $mod["uid"] ][$v]))
+							if (isset($_SESSION[ $MODULE_VARS["uid"] ][ $mod["uid"] ][$v]))
+							{
+								$shared_module_info["setSharedModuleInfo"]( $mod["uid"], "alternative", [  $v => $_SESSION[ $MODULE_VARS["uid"] ][ $mod["uid"] ][$v]  ]);
+							}
+							else
 							{
 								if ($mod["required"])
 								{
@@ -68,7 +86,6 @@ function register_modules_to_use_requirement()
 				}
 			}
 
-
 			if (!$return->success)
 			{
 				require "install/templates/modules_to_use_template.php";
@@ -76,5 +93,5 @@ function register_modules_to_use_requirement()
 			}
 			return $return;
 		}
-	];
+	]);
 }
