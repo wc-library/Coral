@@ -2,12 +2,12 @@
 function register_licensing_requirement()
 {
 	$MODULE_VARS = [
-		"uid" => "licensing_installed",
+		"uid" => "licensing",
 		"translatable_title" => _("Licensing Module"),
-		"dependencies_array" => [ "have_database_access", "auth" ],
+		"dependencies_array" => [ "have_database_access", "have_read_write_access_to_config", "auth", "modules_to_use" ],
 		"required" => true,
 	];
-	return array_merge( $MODULE_VARS,[
+	return array_merge( $MODULE_VARS, [
 		"getSharedInfo" => function () {
 			return [
 				"database" => [
@@ -26,7 +26,8 @@ function register_licensing_requirement()
 			$return->yield->title = _("Licensing Module");
 			$return->yield->messages[] = "<b>Installer Incomplete</b>";
 
-			$dbconnection = new DBService($shared_module_info[$MODULE_VARS["uid"]]["db_name"]);
+			$this_db_name = $shared_module_info[ $MODULE_VARS["uid"] ]["db_name"];
+			$dbconnection = $shared_module_info["provided"]["get_db_connection"]( $this_db_name );
 
 			//make sure the tables don't already exist - otherwise this script will overwrite all of the data!
 			if ($shared_module_info[$MODULE_VARS["uid"]]["db_feedback"] == 'already_existed')
@@ -59,10 +60,7 @@ function register_licensing_requirement()
 			// Process sql files
 			$sql_files_to_process = ["protected/test_create.sql", "protected/install.sql"];
 			$processSql = function($db, $sql_file){
-				$ret = [
-					"success" => true,
-					"messages" => []
-				];
+				$ret = [ "success" => true, "messages" => [] ];
 
 				if (!file_exists($sql_file))
 				{
@@ -113,15 +111,56 @@ function register_licensing_requirement()
 				}
 			}
 
-			
-			return $return;
-
+			$admin_login = $shared_module_info["common"]["default_user"]["username"];
 			//delete admin user if they exist, then set them back up
-			$query = "DELETE FROM User WHERE loginID = '" . $admin_login . "';";
+			$query = "SELECT privilegeID FROM Privilege WHERE shortName like '%admin%';";
+			//we've just inserted this and there was no error - we assume selection will succeed.
+			$result = $dbconnection->processQuery($query);
+			$privilegeID = $result->fetchRow()[0];
+			$query = "DELETE FROM User WHERE loginID = '$admin_login';";
 			$dbconnection->processQuery($query);
-			$query = "INSERT INTO " . $database_name . ".User (loginID, privilegeID) values ('" . $admin_login . "', " . $privilegeID . ");";
+			$query = "INSERT INTO User (loginID, privilegeID) values ('$admin_login', $privilegeID);";
 			$dbconnection->processQuery($query);
 
+			// TODO: configure these locations better? Although may be wasted effort if a unified common is achieved
+			$configFile = "licensing/admin/configuration.ini";
+
+			$iniData = array();
+			$iniData["settings"] = [];
+
+			$cooperating_modules = [
+				"auth" => "needs_db",
+				"organizations" => "needs_db",
+				"resources" => "needs_db",
+				"usage" => "doesnt_need_db"
+			];
+			foreach ($cooperating_modules as $key => $value) {
+				if (isset($shared_module_info["modules_to_use"][$key]["useModule"]))
+				{
+					$iniData["settings"]["{$key}Module"] = $shared_module_info["modules_to_use"][$key]["useModule"] ? 'Y' : 'N';
+					if ($value == "needs_db" && $shared_module_info["modules_to_use"][$key]["useModule"])
+						$iniData["settings"]["{$key}DatabaseName"] = $shared_module_info[$key]["db_name"];
+				}
+			}
+			if ($iniData["settings"]["authModule"] == 'N')
+			{
+				$iniData["settings"]["remoteAuthVariableName"] = $shared_module_info["auth"]["alternative"]["remote_auth_variable_name"];
+			}
+
+			// 	"useTermsToolFunctionality" => $useTermsToolFunctionality,
+
+			$iniData["database"] = [
+				"type" => "mysql",
+				"host" => Config::dbInfo("host"),
+				"name" => $this_db_name,
+				"username" => Config::dbInfo("username"),
+				"password" => Config::dbInfo("password")
+			];
+
+			$shared_module_info["provided"]["write_config_file"]($configFile, $iniData);
+
+
+			return $return;
 		}
 	]);
 }
