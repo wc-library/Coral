@@ -5,7 +5,7 @@ function register_licensing_requirement()
 		"uid" => "licensing",
 		"translatable_title" => _("Licensing Module"),
 		"dependencies_array" => [ "have_database_access", "have_read_write_access_to_config", "auth", "modules_to_use" ],
-		"required" => true,
+		"required" => true
 	];
 	return array_merge( $MODULE_VARS, [
 		"getSharedInfo" => function () {
