@@ -6,9 +6,7 @@ function register_auth_requirement()
 		"translatable_title" => _("Auth Module"),
 		"dependencies_array" => [ "have_database_access", "have_read_write_access_to_config" ],
 		"required" => true,
-		"alternative" => ["remote_auth_variable_name" => _("Remote Auth Variable Name")]
-	];
-	return array_merge( $MODULE_VARS,[
+		"alternative" => ["remote_auth_variable_name" => _("Remote Auth Variable Name")],
 		"getSharedInfo" => function () {
 			return [
 				// We will find the name in the sharedInfo variable under "$MODULE_VARS["uid"]" as "db_name"
@@ -21,7 +19,9 @@ function register_auth_requirement()
 					"path" => "auth/admin/configuration.ini",
 				]
 			];
-		},
+		}
+	];
+	return array_merge( $MODULE_VARS,[
 		"installer" => function($shared_module_info) use ($MODULE_VARS) {
 			$return = new stdClass();
 			$return->yield = new stdClass();
@@ -193,7 +193,7 @@ function register_auth_requirement()
 			$result = $dbconnection->processQuery("SELECT loginID FROM User WHERE loginID like '%coral%';");
 
 			// Write the config file
-			$configFile = "auth/admin/configuration.ini";
+			$configFile = $MODULE_VARS["getSharedInfo"]()["config_file"]["path"];
 			$iniData = array();
 			$iniData["settings"] = [ "timeout" => $_SESSION[$MODULE_VARS["uid"]]["session_timeout"] ];
 			$iniData["ldap"] = $ldap_session_var_by_reference;

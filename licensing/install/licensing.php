@@ -4,10 +4,8 @@ function register_licensing_requirement()
 	$MODULE_VARS = [
 		"uid" => "licensing",
 		"translatable_title" => _("Licensing Module"),
-		"dependencies_array" => [ "have_database_access", "have_read_write_access_to_config", "auth", "modules_to_use" ],
-		"required" => true
-	];
-	return array_merge( $MODULE_VARS, [
+		"dependencies_array" => [ "have_database_access", "have_read_write_access_to_config", "modules_to_use" ],
+		"required" => true,
 		"getSharedInfo" => function () {
 			return [
 				"database" => [
@@ -18,7 +16,9 @@ function register_licensing_requirement()
 					"path" => "auth/admin/configuration.ini",
 				]
 			];
-		},
+		}
+	];
+	return array_merge( $MODULE_VARS, [
 		"installer" => function($shared_module_info) use ($MODULE_VARS) {
 			$return = new stdClass();
 			$return->yield = new stdClass();
@@ -123,7 +123,7 @@ function register_licensing_requirement()
 			$dbconnection->processQuery($query);
 
 			// TODO: configure these locations better? Although may be wasted effort if a unified common is achieved
-			$configFile = "licensing/admin/configuration.ini";
+			$configFile = $MODULE_VARS["getSharedInfo"]()["config_file"]["path"];
 
 			$iniData = array();
 			$iniData["settings"] = [];
