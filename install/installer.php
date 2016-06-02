@@ -19,6 +19,7 @@ class Installer {
 				$this_shared_module_info[$for_module][$key] = $value;
 			},
 			// TODO: This should probably be changed (and set somewhere?!?) but where and how?
+			// cf. management//install.php - "Additionally, since user privileges are driven through the web, we will need to set up the first admin account to administer other users.  <br />Please enter either your CORAL Authentication Login ID or your externally authenticated Login ID below."
 			"common" => ["default_user" => [
 					"username" => "coral",
 					"password" => "admin"
