@@ -27,6 +27,7 @@ class Installer {
 			]
 		];
 		$this->scanForModuleInstallers();
+		// $this->expandDependencies();
 	}
 	private function getKeyFromUid($test_uid)
 	{
@@ -39,28 +40,35 @@ class Installer {
 	}
 	public function getCheckListUids()
 	{
+		$arr = $this->checklist;
+		usort($arr, function($a, $b){
+		    if (isset($a["required"]) && $a["required"] && !isset($a["alternative"])) {
+		        return isset($b["required"]) && $b["required"] ? 0 : -1;
+		    }
+			else {
+				return isset($b["required"]) && $b["required"] ? 1 : 0;
+			}
+		});
 		require_once("common/array_column.php");
-		return array_column($this->checklist, "uid");
+		return array_column($arr, "uid");
 	}
-	public function getTitleFromUid($test_uid)
+	public function getTitleFromUid($uid)
 	{
-		return $this->checklist[ $this->getKeyFromUid($test_uid) ]["translatable_title"];
+		return $this->checklist[ $this->getKeyFromUid($uid) ]["translatable_title"];
+	}
+	public function isRequired($uid)
+	{
+		$req = isset($this->checklist[ $this->getKeyFromUid($uid) ]["required"]) ? $this->checklist[ $this->getKeyFromUid($uid) ]["required"] : false;
+		if (isset($this->shared_module_info["modules_to_use"][$uid]["useModule"]))
+		{
+			$req |= $this->shared_module_info["modules_to_use"][$uid]["useModule"];
+		}
+		return $req;
 	}
 
-	/** TODO: actually describe the $installer_object
-	 *
-	 * @param  [type] $installer_array
-	 *                    $translatable_title
-	 *                    $dependencies_array
-	 *                    $required
-	 *                    $installation_callback
-	 * @return [type]
-	 */
 	public function register_installation_requirement($installer_object)
 	{
 		$this->checklist[] = $installer_object;
-		//sort according to dependencies_array
-		//
 	}
 
 	private function addModule($path, $module_name, $core_module = false)
@@ -125,6 +133,30 @@ class Installer {
 			}
 		}
 	}
+	// private function expandDependencies()
+	// {
+	// 	foreach ($this->checklist as $key => $value)
+	// 	{
+	// 		if (isset($value["dependencies_array"]))
+	// 		{
+	// 			// set up own dependencies
+	// 			$dep_dep = [];
+	// 			foreach ($value["dependencies_array"] as $duid) {
+	// 				if (isset($this->checklist[ $this->getKeyFromUid($duid) ]["dependencies_array"]))
+	// 					$dep_dep = array_merge($dep_dep, $this->checklist[ $this->getKeyFromUid($duid) ]["dependencies_array"]);
+	// 			}
+	// 			$this->checklist[$key]["dependencies_array"] = array_unique( array_merge($value["dependencies_array"], $dep_dep) );
+	//
+	// 			// ensure that modules that depend on it are also filled
+	// 			foreach ($this->checklist as $key2 => $value2) {
+	// 				if (isset($this->checklist[$key2]["dependencies_array"]) && in_array($key, $this->checklist[$key2]["dependencies_array"]))
+	// 				{
+	// 					$this->checklist[$key2]["dependencies_array"] = array_unique( array_merge($this->checklist[$key2]["dependencies_array"], $this->checklist[$key]["dependencies_array"]) );
+	// 				}
+	// 			}
+	// 		}
+	// 	}
+	// }
 
 	// TODO: handle choose module rejecting some and
 	// TODO: implement bubbling dependencies
@@ -142,29 +174,32 @@ class Installer {
 			return $return;
 		}
 
-		foreach ($this->checklist[$key]["dependencies_array"] as $dependency) {
-			$dep_key = array_search($dependency, array_column($this->checklist, 'uid'));
-			if ($dep_key === false)
-			{
-				$return = new stdClass();
-				$return->skipped = false;
-				$return->cause = $this::CAUSE_DEPENDENCY_NOT_FOUND;
-				$return->missing_dependency = $dependency;
-				return $return;
-			}
-
-			if (!isset($this->checklist[$dep_key]["result"]))
-			{
-				if (in_array($dependency, $required_for))
+		if (isset($this->checklist[$key]["dependencies_array"]))
+		{
+			foreach ($this->checklist[$key]["dependencies_array"] as $dependency) {
+				$dep_key = array_search($dependency, array_column($this->checklist, 'uid'));
+				if ($dep_key === false)
 				{
-					$required_array = var_export($required_for, true);
-					throw new RuntimeException("Error: Circular dependencies ('$test_uid' in $required_array)", $this::ERR_CIRCULAR_DEPENDENCIES);
+					$return = new stdClass();
+					$return->skipped = false;
+					$return->cause = $this::CAUSE_DEPENDENCY_NOT_FOUND;
+					$return->missing_dependency = $dependency;
+					return $return;
 				}
-				$required_for[] = $dependency;
-				$result = $this->runTestForResult($dependency, $required_for);
-				// If one of the requirements fails, we need its result to be yielded
-				if (!$result->success)
-					return $result;
+
+				if (!isset($this->checklist[$dep_key]["result"]))
+				{
+					if (in_array($dependency, $required_for))
+					{
+						$required_array = var_export($required_for, true);
+						throw new RuntimeException("Error: Circular dependencies ('$test_uid' in $required_array)", $this::ERR_CIRCULAR_DEPENDENCIES);
+					}
+					$required_for[] = $dependency;
+					$result = $this->runTestForResult($dependency, $required_for);
+					// If one of the requirements fails, we need its result to be yielded
+					if (!$result->success)
+						return $result;
+				}
 			}
 		}
 		$result = call_user_func( $this->checklist[$key]["installer"], $this->shared_module_info );

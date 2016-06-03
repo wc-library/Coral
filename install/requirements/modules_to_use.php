@@ -3,10 +3,9 @@ function register_modules_to_use_requirement()
 {
 	$MODULE_VARS = [
 		"uid" => "modules_to_use",
-		"translatable_title" => _("Modules to use"),
-		"dependencies_array" => [],
-		"required" => true
+		"translatable_title" => _("Modules to use")
 	];
+
 	return array_merge( $MODULE_VARS,[
 		"installer" => function($shared_module_info) use ($MODULE_VARS) {
 			$return = new stdClass();
@@ -30,10 +29,6 @@ function register_modules_to_use_requirement()
 						$_SESSION[ $MODULE_VARS["uid"] ][ $mod["uid"] ] = [];
 					}
 					$_SESSION[ $MODULE_VARS["uid"] ][ $mod["uid"] ]["useModule"] = $_POST[$mod["uid"]] == 1;
-					if (!isset($shared_module_info[ $MODULE_VARS["uid"] ][ $mod["uid"] ]))
-					{
-						$shared_module_info[ $MODULE_VARS["uid"] ][ $mod["uid"] ] = [];
-					}
 					$shared_module_info["setSharedModuleInfo"]($MODULE_VARS["uid"], $mod["uid"], ["useModule" => $_POST[$mod["uid"]] == 1]);
 					$return->success &= true;
 				}

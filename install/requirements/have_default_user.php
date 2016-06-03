@@ -10,14 +10,13 @@ function register_have_default_user_requirement()
 			$return = new stdClass();
 			$return->yield = new stdClass();
 
-			$listofDatabases = ["coral_organizations", "coral_auth", "coral_usage"];
 			$user     = "coral_regular_user";
 			// $password = generate_password();
 			//TODO: Handle individually assinged username/passwords
-			foreach ($listofDatabases as $dbname)
-			{
-				// "GRANT SELECT, INSERT, UPDATE, DELETE ON $dbname TO $user@{Config::dbInfo('host')} IDENTIFIED BY '$password'";
-			}
+			// foreach ($listofDatabases as $dbname)
+			// {
+			// 	// "GRANT SELECT, INSERT, UPDATE, DELETE ON $dbname TO $user@{Config::dbInfo('host')} IDENTIFIED BY '$password'";
+			// }
 
 			//TODO: don't just return true...
 			$return->success = true;

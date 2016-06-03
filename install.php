@@ -82,8 +82,10 @@ $installer = new Installer();
 $requirements = $installer->getCheckListUids();
 $completed_tests = [];
 
-
 foreach ($requirements as $i => $requirement) {
+	if (!$installer->isRequired($requirement))
+		continue;
+
 	$testResult = $installer->runTestForResult($requirement);
 
 	if (isset($testResult->skipped))

@@ -4,7 +4,6 @@ function register_have_read_write_access_to_config_requirement()
 	return [
 		"uid" => "have_read_write_access_to_config",
 		"translatable_title" => _("Config file writable or set up"),
-		"dependencies_array" => [],
 		"required" => true,
 		"installer" => function($shared_module_info) {
 			$return = new stdClass();

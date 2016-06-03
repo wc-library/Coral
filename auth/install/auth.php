@@ -9,8 +9,6 @@ function register_auth_requirement()
 		"alternative" => ["remote_auth_variable_name" => _("Remote Auth Variable Name")],
 		"getSharedInfo" => function () {
 			return [
-				// We will find the name in the sharedInfo variable under "$MODULE_VARS["uid"]" as "db_name"
-				// We will also have a "db_feedback" variable with "created", "already_existed" (or "failed" - though that shouldn't happen)
 				"database" => [
 					"title" => _("Auth Database"),
 					"default_value" => "coral_auth"

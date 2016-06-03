@@ -70,6 +70,15 @@ function register_db_tools_requirement()
 				}
 			);
 
+			// $shared_module_info["setSharedModuleInfo"](
+			// 	"provided",
+			// 	"get_db_connection",
+			// 	function($db_name) use ($dbconnection) {
+			// 		$dbconnection->selectDB($db_name);
+			// 		return $dbconnection;
+			// 	}
+			// );
+
 			return $return;
 		}
 	];
