@@ -56,6 +56,8 @@
 // TODO: grep for and remove "# code..."
 // TODO: detect failed installation (possibly by asking) and handle dbs better...
 // TODO: go through template.php and remove hard coded vars
+// TODO: add post-installation checks.
+//       - Check that permissions are reset appropriately (check the have_read_write_access_to_config and reverse)
 
 const INSTALLATION_IN_PROGRESS = true;
 require "install/test_if_installed.php";
