@@ -4,7 +4,7 @@ function register_auth_requirement()
 	$MODULE_VARS = [
 		"uid" => "auth",
 		"translatable_title" => _("Auth Module"),
-		"dependencies_array" => [ "have_database_access", "have_read_write_access_to_config" ],
+		"dependencies_array" => [ "db_tools", "have_read_write_access_to_config" ],
 		"required" => true,
 		"alternative" => ["remote_auth_variable_name" => _("Remote Auth Variable Name")],
 		"getSharedInfo" => function () {
@@ -63,61 +63,14 @@ function register_auth_requirement()
 				}
 			}
 
-			//TODO: abstract out
 			// Process sql files
-			$sql_files_to_process = ["test_create.sql", "create_tables_data.sql"];
-			$processSql = function($db, $sql_file){
-				$ret = [
-					"success" => true,
-					"messages" => []
-				];
-
-				if (!file_exists($sql_file))
-				{
-					$ret["messages"][] = "Could not open sql file: " . $sql_file . ".<br />If this file does not exist you must download new install files.";
-					$ret["success"] = false;
-				}
-				else
-				{
-					// Run the file - checking for errors at each SQL execution
-					$f = fopen($sql_file,"r");
-					$sqlFile = fread($f,filesize($sql_file));
-					$sqlArray = explode(";",$sqlFile);
-					// Process the sql file by statements
-					foreach ($sqlArray as $stmt)
-					{
-						if (strlen(trim($stmt))>3)
-						{
-							try
-							{
-								$db->processQuery($stmt);
-							}
-							catch (Exception $e)
-							{
-								$ret["messages"][] = $db->getError() . "<br />For statement: " . $stmt;
-								$ret["success"] = false;
-							}
-						}
-					}
-				}
-				return $ret;
-			};
-			foreach ($sql_files_to_process as $sql_file)
+			$sql_files_to_process = ["auth/install/test_create.sql", "auth/install/create_tables_data.sql"];
+			$ret = $shared_module_info["provided"]["process_sql_files"]( $dbconnection, $sql_files_to_process, $MODULE_VARS["uid"] );
+			if (!$ret["success"])
 			{
-				if (isset($_SESSION[$MODULE_VARS["uid"]]["sql_files"][$sql_file]) &&
-					$_SESSION[$MODULE_VARS["uid"]]["sql_files"][$sql_file])
-					continue;
-
-				$result = $processSql($dbconnection, "auth/install/" . $sql_file);
-				if (!$result["success"]) {
-					$return->success = false;
-					$return->yield->messages = array_merge($return->yield->messages, $result["messages"]);
-					return $return;
-				}
-				else
-				{
-					$_SESSION[$MODULE_VARS["uid"]]["sql_files"][$sql_file] = true;
-				}
+				$return->success = false;
+				$return->yield->messages = array_merge($return->yield->messages, $ret["messages"]);
+				return $return;
 			}
 
 			$ldap_session_var_by_reference = &$_SESSION[$MODULE_VARS["uid"]]["ldap"];

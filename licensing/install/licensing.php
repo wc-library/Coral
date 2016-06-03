@@ -4,8 +4,8 @@ function register_licensing_requirement()
 	$MODULE_VARS = [
 		"uid" => "licensing",
 		"translatable_title" => _("Licensing Module"),
-		"dependencies_array" => [ "have_database_access", "have_read_write_access_to_config", "modules_to_use" ],
-		"required" => true,
+		"dependencies_array" => [ "db_tools", "have_read_write_access_to_config", "modules_to_use" ],
+		"required" => true, // TODO: is this module really required?
 		"getSharedInfo" => function () {
 			return [
 				"database" => [
@@ -57,58 +57,14 @@ function register_licensing_requirement()
 				}
 			}
 
-			// TODO: abstract out
 			// Process sql files
-			$sql_files_to_process = ["protected/test_create.sql", "protected/install.sql"];
-			$processSql = function($db, $sql_file){
-				$ret = [ "success" => true, "messages" => [] ];
-
-				if (!file_exists($sql_file))
-				{
-					$ret["messages"][] = "Could not open sql file: " . $sql_file . ".<br />If this file does not exist you must download new install files.";
-					$ret["success"] = false;
-				}
-				else
-				{
-					// Run the file - checking for errors at each SQL execution
-					$f = fopen($sql_file,"r");
-					$sqlFile = fread($f,filesize($sql_file));
-					$sqlArray = explode(";",$sqlFile);
-					// Process the sql file by statements
-					foreach ($sqlArray as $stmt)
-					{
-						if (strlen(trim($stmt))>3)
-						{
-							try
-							{
-								$db->processQuery($stmt);
-							}
-							catch (Exception $e)
-							{
-								$ret["messages"][] = $db->getError() . "<br />For statement: " . $stmt;
-								$ret["success"] = false;
-							}
-						}
-					}
-				}
-				return $ret;
-			};
-			foreach ($sql_files_to_process as $sql_file)
+			$sql_files_to_process = ["licensing/install/protected/test_create.sql", "licensing/install/protected/install.sql"];
+			$ret = $shared_module_info["provided"]["process_sql_files"]( $dbconnection, $sql_files_to_process, $MODULE_VARS["uid"] );
+			if (!$ret["success"])
 			{
-				if (isset($_SESSION[$MODULE_VARS["uid"]]["sql_files"][$sql_file]) &&
-					$_SESSION[$MODULE_VARS["uid"]]["sql_files"][$sql_file])
-					continue;
-
-				$result = $processSql($dbconnection, "licensing/install/" . $sql_file);
-				if (!$result["success"]) {
-					$return->success = false;
-					$return->yield->messages = array_merge($return->yield->messages, $result["messages"]);
-					return $return;
-				}
-				else
-				{
-					$_SESSION[$MODULE_VARS["uid"]]["sql_files"][$sql_file] = true;
-				}
+				$return->success = false;
+				$return->yield->messages = array_merge($return->yield->messages, $ret["messages"]);
+				return $return;
 			}
 
 			// TODO: this can possibly be abstracted - cf. management
