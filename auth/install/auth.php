@@ -34,6 +34,7 @@ function register_auth_requirement()
 			$this_db_name = $shared_module_info[ $MODULE_VARS["uid"] ]["db_name"];
 			$dbconnection = $shared_module_info["provided"]["get_db_connection"]( $this_db_name );
 
+			// TODO: abstract this code (cf. licensing, management)
 			//make sure the tables don't already exist - otherwise this script will overwrite all of the data!
 			if ($shared_module_info[$MODULE_VARS["uid"]]["db_feedback"] == 'already_existed')
 			{
@@ -62,6 +63,7 @@ function register_auth_requirement()
 				}
 			}
 
+			//TODO: abstract out
 			// Process sql files
 			$sql_files_to_process = ["test_create.sql", "create_tables_data.sql"];
 			$processSql = function($db, $sql_file){
@@ -100,7 +102,6 @@ function register_auth_requirement()
 				}
 				return $ret;
 			};
-
 			foreach ($sql_files_to_process as $sql_file)
 			{
 				if (isset($_SESSION[$MODULE_VARS["uid"]]["sql_files"][$sql_file]) &&
