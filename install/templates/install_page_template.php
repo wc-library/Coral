@@ -79,6 +79,13 @@ function draw_install_page_template()
 			margin-top: -5px;
 			margin-right: 10px;
 		}
+		label, .heading, .section-title {
+			cursor: default;
+			user-select: none;
+			-webkit-user-select: none;   /* Chrome/Safari/Opera */
+			-moz-user-select: none;      /* Firefox */
+			-ms-user-select: none;       /* IE/Edge */
+		}
 	</style>
 </head>
 
