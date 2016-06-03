@@ -77,7 +77,7 @@ class Installer {
 					"directory" => $module_name,
 					"uid" => $installer_object["uid"],
 					"title" => $installer_object["translatable_title"],
-					"required" => $installer_object["required"]
+					"required" => isset($installer_object["required"]) ? $installer_object["required"] : false
 				];
 				if (isset($installer_object["alternative"]))
 				{
