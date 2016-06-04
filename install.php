@@ -98,7 +98,7 @@ foreach ($requirements as $i => $requirement) {
 			case Installer::CAUSE_DEPENDENCY_NOT_FOUND:
 				$testResult->yield = new stdClass();
 				$testResult->yield->messages = [ sprintf(_("Dependency for '%s' not found: %s"), $installer->getTitleFromUid($requirement), $testResult->missing_dependency) ];
-				yield_test_results_and_exit($testResult->yield, $completed_tests, $i / (float) count($requirements));
+				yield_test_results_and_exit($testResult->yield, $installer->getSuccessfullyCompletedTestTitles(), $i / (float) count($requirements));
 				break;
 		}
 	}
@@ -107,15 +107,13 @@ foreach ($requirements as $i => $requirement) {
 		$installer_messages = $installer->getMessages();
 		$test_messages = isset($testResult->yield->messages) ? $testResult->yield->messages : [];
 		$testResult->yield->messages = array_merge($installer_messages, $test_messages);
-		yield_test_results_and_exit($testResult->yield, $completed_tests, $i / (float) count($requirements));
+		yield_test_results_and_exit($testResult->yield, $installer->getSuccessfullyCompletedTestTitles(), $i / (float) count($requirements));
 	}
 	else
 	{
 		if (isset($testResult->completionMessages))
 			$completionMessages[ $requirement ] = $testResult->completionMessages;
-
-		$completed_tests[] = $installer->getTitleFromUid($requirement);
 	}
 }
 
-yield_test_results_and_exit($installer->successful_install(), $completed_tests, 100/100);
+yield_test_results_and_exit($installer->successful_install(), $installer->getSuccessfullyCompletedTestTitles(), 100/100);

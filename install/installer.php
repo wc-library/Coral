@@ -11,6 +11,7 @@ class Installer {
 	protected $checklist = [];
 	protected $shared_module_info = [];
 	protected $messages = [];
+	protected $successfully_completed_tests = [];
 
 	function __construct() {
 		$this_shared_module_info = &$this->shared_module_info;
@@ -133,30 +134,6 @@ class Installer {
 			}
 		}
 	}
-	// private function expandDependencies()
-	// {
-	// 	foreach ($this->checklist as $key => $value)
-	// 	{
-	// 		if (isset($value["dependencies_array"]))
-	// 		{
-	// 			// set up own dependencies
-	// 			$dep_dep = [];
-	// 			foreach ($value["dependencies_array"] as $duid) {
-	// 				if (isset($this->checklist[ $this->getKeyFromUid($duid) ]["dependencies_array"]))
-	// 					$dep_dep = array_merge($dep_dep, $this->checklist[ $this->getKeyFromUid($duid) ]["dependencies_array"]);
-	// 			}
-	// 			$this->checklist[$key]["dependencies_array"] = array_unique( array_merge($value["dependencies_array"], $dep_dep) );
-	//
-	// 			// ensure that modules that depend on it are also filled
-	// 			foreach ($this->checklist as $key2 => $value2) {
-	// 				if (isset($this->checklist[$key2]["dependencies_array"]) && in_array($key, $this->checklist[$key2]["dependencies_array"]))
-	// 				{
-	// 					$this->checklist[$key2]["dependencies_array"] = array_unique( array_merge($this->checklist[$key2]["dependencies_array"], $this->checklist[$key]["dependencies_array"]) );
-	// 				}
-	// 			}
-	// 		}
-	// 	}
-	// }
 
 	// TODO: handle choose module rejecting some and
 	// TODO: implement bubbling dependencies
@@ -207,6 +184,9 @@ class Installer {
 			throw new UnexpectedValueException("The install script for '{$this->getTitleFromUid($test_uid)}' has returned a null result (which is not allowed).", 101);
 
 		$this->checklist[$key]["result"] = $result;
+		if ($result->success)
+			$this->successfully_completed_tests[] = $test_uid;
+
 		return $result;
 	}
 	public function getMessages()
@@ -214,6 +194,18 @@ class Installer {
 		$messages = $this->messages;
 		$this->messages = [];
 		return $messages;
+	}
+	public function getSuccessfullyCompletedTests()
+	{
+		return $this->successfully_completed_tests;
+	}
+	public function getSuccessfullyCompletedTestTitles()
+	{
+		$titles = [];
+		foreach ($this->getSuccessfullyCompletedTests() as $uid) {
+			$titles[] = $this->getTitleFromUid($uid);
+		}
+		return $titles;
 	}
 
 	public function successful_install()
