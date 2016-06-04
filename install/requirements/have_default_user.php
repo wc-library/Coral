@@ -3,7 +3,7 @@ function register_have_default_user_requirement()
 {
 	return [
 		"uid" => "have_default_user",
-		"translatable_title" => _("Have default user"),
+		"translatable_title" => _("Default User Configured"),
 		"dependencies_array" => ["have_database_access"],
 		"required" => true,
 		"installer" => function($shared_module_info) {
