@@ -212,6 +212,10 @@ class Installer {
 		}
 		return $titles;
 	}
+	public function getApproxiamateCompletion()
+	{
+		return count($this->successfully_completed_tests) / (float) count($this->checklist);
+	}
 
 	public function successful_install()
 	{

@@ -84,7 +84,11 @@ $completed_tests = [];
 
 foreach ($requirements as $i => $requirement) {
 	if (!$installer->isRequired($requirement))
+	{
+		// TODO: try to get an abandoned install... (e.g. not install a module...)
+		// echo "abandon $requirement";
 		continue;
+	}
 
 	$testResult = $installer->runTestForResult($requirement);
 
@@ -98,7 +102,7 @@ foreach ($requirements as $i => $requirement) {
 			case Installer::CAUSE_DEPENDENCY_NOT_FOUND:
 				$testResult->yield = new stdClass();
 				$testResult->yield->messages = [ sprintf(_("Dependency for '%s' not found: %s"), $installer->getTitleFromUid($requirement), $testResult->missing_dependency) ];
-				yield_test_results_and_exit($testResult->yield, $installer->getSuccessfullyCompletedTestTitles(), $i / (float) count($requirements));
+				yield_test_results_and_exit($testResult->yield, $installer->getSuccessfullyCompletedTestTitles(), $installer->getApproxiamateCompletion());
 				break;
 		}
 	}
@@ -107,7 +111,7 @@ foreach ($requirements as $i => $requirement) {
 		$installer_messages = $installer->getMessages();
 		$test_messages = isset($testResult->yield->messages) ? $testResult->yield->messages : [];
 		$testResult->yield->messages = array_merge($installer_messages, $test_messages);
-		yield_test_results_and_exit($testResult->yield, $installer->getSuccessfullyCompletedTestTitles(), $i / (float) count($requirements));
+		yield_test_results_and_exit($testResult->yield, $installer->getSuccessfullyCompletedTestTitles(), $installer->getApproxiamateCompletion());
 	}
 	else
 	{
