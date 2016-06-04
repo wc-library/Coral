@@ -1,12 +1,19 @@
 <?php
+/**
+ * This module is required because it requires installation of chosen modules
+ * It needs modules_to_use to find the chosen modules
+ * It sets up those chosen modules as its own dependencies
+ */
+
 function register_modules_to_use_helper_requirement()
 {
 	$PARENT_MODULE = "modules_to_use";
 
 	$MODULE_VARS = [
 		"uid" => "modules_to_use_helper",
-		"translatable_title" => _("Dependencies Integrated"),
-		"dependencies_array" => [ $PARENT_MODULE ],
+		"translatable_title" => _("Modules to Use Helper"),
+		"dependencies_array" => [ $PARENT_MODULE, "meets_system_requirements" ],
+		"hide_from_completion_list" => true,
 		"required" => true
 	];
 

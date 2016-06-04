@@ -197,7 +197,12 @@ class Installer {
 	}
 	public function getSuccessfullyCompletedTests()
 	{
-		return $this->successfully_completed_tests;
+		$uids = [];
+		foreach ($this->successfully_completed_tests as $uid) {
+			if (!isset($this->checklist[ $this->getKeyFromUid($uid) ]["hide_from_completion_list"]) || !$this->checklist[ $this->getKeyFromUid($uid) ]["hide_from_completion_list"])
+				$uids[] = $uid;
+		}
+		return $uids;
 	}
 	public function getSuccessfullyCompletedTestTitles()
 	{

@@ -3,7 +3,8 @@ function register_modules_to_use_requirement()
 {
 	$MODULE_VARS = [
 		"uid" => "modules_to_use",
-		"translatable_title" => _("Modules to use")
+		"translatable_title" => _("Modules to use"),
+		"hide_from_completion_list" => true,
 	];
 
 	return array_merge( $MODULE_VARS,[

@@ -5,6 +5,7 @@ function register_db_tools_requirement()
 		"uid" => "db_tools",
 		"translatable_title" => _("Database Tools"),
 		"dependencies_array" => [ "have_database_access" ],
+		"hide_from_completion_list" => true,
 		"installer" => function($shared_module_info) {
 			$return = new stdClass();
 			$return->success = true;
