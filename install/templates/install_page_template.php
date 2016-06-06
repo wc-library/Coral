@@ -79,6 +79,11 @@ function draw_install_page_template()
 			margin-top: -5px;
 			margin-right: 10px;
 		}
+
+		.spacer {
+			height: 10px;
+		}
+
 		label, .heading, .section-title {
 			cursor: default;
 			user-select: none;
@@ -86,9 +91,7 @@ function draw_install_page_template()
 			-moz-user-select: none;      /* Firefox */
 			-ms-user-select: none;       /* IE/Edge */
 		}
-		.spacer {
-			height: 10px;
-		}
+
 		input[type=checkbox] {
 			display: none;
 		}
@@ -145,6 +148,17 @@ function draw_install_page_template()
 		input[type=checkbox]:disabled + label:before,
 		input[type=checkbox]:disabled + label:hover:before {
 			background-color: #ccc;
+		}
+
+		.card-half {
+			width: 48%;
+			float: left;
+		}
+		.card-half:nth-child(2n+1) {
+			margin-right: 2%;
+		}
+		.card-half:nth-child(2n) {
+			margin-left: 2%;
 		}
 	</style>
 </head>

@@ -44,18 +44,6 @@ HEREDOC;
 		<div class="row">
 			<input type="submit" value="$submit" />
 		</div>
-		<style type="text/css" scoped>
-			.card-half {
-				width: 48%;
-				float: left;
-			}
-			.card-half:nth-child(2n+1) {
-				margin-right: 2%;
-			}
-			.card-half:nth-child(2n) {
-				margin-left: 2%;
-			}
-		</style>
 	</fieldset>
 </form>
 HEREDOC;

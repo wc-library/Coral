@@ -55,18 +55,6 @@ HEREDOC;
 			<div class="row">
 				{$cards($shared_database_info)}
 			</div>
-			<style type="text/css">
-				.card-half {
-					width: 48%;
-					float: left;
-				}
-				.card-half:nth-child(2n+1) {
-					margin-right: 2%;
-				}
-				.card-half:nth-child(2n) {
-					margin-left: 2%;
-				}
-			</style>
 		</span>
 		<div class="row">
 			<input type="submit" value="$submit" />
