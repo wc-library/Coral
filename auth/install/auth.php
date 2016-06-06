@@ -30,7 +30,7 @@ function register_auth_requirement()
 			$return = new stdClass();
 			$return->yield = new stdClass();
 			$return->yield->messages = [];
-			$return->yield->title = _("Auth module installation");
+			$return->yield->title = _("Auth Module Installation");
 			$return->success = true;
 
 			// TODO: This could potentially be abstracted out (cf. licensing)
