@@ -116,6 +116,24 @@ function register_db_tools_requirement()
 			);
 
 
+			$shared_module_info["setSharedModuleInfo"](
+				"provided",
+				"set_up_admin_in_db",
+				function($db, $admin_login) {
+					// $db is connected to the right db already
+					//delete admin user if they exist, then set them back up with correct username
+					$query = "SELECT privilegeID FROM Privilege WHERE shortName like '%admin%';";
+					//we've just inserted this and there was no error - we assume selection will succeed.
+					$result = $db->processQuery($query);
+					$privilegeID = $result->fetchRow()[0];
+					$query = "DELETE FROM User WHERE loginID = '$admin_login';";
+					$db->processQuery($query);
+					$query = "INSERT INTO User (loginID, privilegeID) values ('$admin_login', $privilegeID);";
+					$db->processQuery($query);
+				}
+			);
+
+
 			return $return;
 		}
 	];

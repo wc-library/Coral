@@ -43,19 +43,7 @@ function register_management_requirement()
 				return $return;
 			}
 
-
-			// TODO: this can possibly be abstracted - cf. licensing
-			$admin_login = $shared_module_info["common"]["default_user"]["username"];
-			//delete admin user if they exist, then set them back up with correct username
-			$query = "SELECT privilegeID FROM Privilege WHERE shortName like '%admin%';";
-			//we've just inserted this and there was no error - we assume selection will succeed.
-			$result = $dbconnection->processQuery($query);
-			$privilegeID = $result->fetchRow()[0];
-			$query = "DELETE FROM User WHERE loginID = '$admin_login';";
-			$dbconnection->processQuery($query);
-			$query = "INSERT INTO User (loginID, privilegeID) values ('$admin_login', $privilegeID);";
-			$dbconnection->processQuery($query);
-
+			$shared_module_info["provided"]["set_up_admin_in_db"]($dbconnection, $shared_module_info["common"]["default_user"]["username"]);
 
 			$configFile = $MODULE_VARS["getSharedInfo"]()["config_file"]["path"];
 

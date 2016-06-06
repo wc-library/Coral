@@ -29,13 +29,10 @@ function register_licensing_requirement()
 			$this_db_name = $shared_module_info[ $MODULE_VARS["uid"] ]["db_name"];
 			$dbconnection = $shared_module_info["provided"]["get_db_connection"]( $this_db_name );
 
-
 			$result = $shared_module_info["provided"]["check_db"]($dbconnection, $shared_module_info[$MODULE_VARS["uid"]], "License", $MODULE_VARS["translatable_title"]);
 			if ($result)
 				return $result;
 
-
-			// Process sql files
 			$sql_files_to_process = ["licensing/install/protected/test_create.sql", "licensing/install/protected/install.sql"];
 			$ret = $shared_module_info["provided"]["process_sql_files"]( $dbconnection, $sql_files_to_process, $MODULE_VARS["uid"] );
 			if (!$ret["success"])
@@ -45,18 +42,7 @@ function register_licensing_requirement()
 				return $return;
 			}
 
-			// TODO: this can possibly be abstracted - cf. management
-			// - [idea]: make a db_tools module that gets `required` and provides this sort of functionality
-			$admin_login = $shared_module_info["common"]["default_user"]["username"];
-			//delete admin user if they exist, then set them back up with correct username
-			$query = "SELECT privilegeID FROM Privilege WHERE shortName like '%admin%';";
-			//we've just inserted this and there was no error - we assume selection will succeed.
-			$result = $dbconnection->processQuery($query);
-			$privilegeID = $result->fetchRow()[0];
-			$query = "DELETE FROM User WHERE loginID = '$admin_login';";
-			$dbconnection->processQuery($query);
-			$query = "INSERT INTO User (loginID, privilegeID) values ('$admin_login', $privilegeID);";
-			$dbconnection->processQuery($query);
+			$shared_module_info["provided"]["set_up_admin_in_db"]($dbconnection, $shared_module_info["common"]["default_user"]["username"]);
 
 			// TODO: configure these locations better? Although may be wasted effort if a unified common is achieved
 			$configFile = $MODULE_VARS["getSharedInfo"]()["config_file"]["path"];
@@ -95,8 +81,8 @@ function register_licensing_requirement()
 
 			$shared_module_info["provided"]["write_config_file"]($configFile, $iniData);
 
-			$return->success = true; //TODO: SFX
-			$return->yield->messages[] = "Installer Incomplete: Not yet considering SFX";
+			$return->success = true; //TODO: SFX - use terms tool?
+			$return->yield->messages[] = "Installer Incomplete: Not yet considering SFX/useTermsToolFunctionality?";
 			return $return;
 		}
 	]);
