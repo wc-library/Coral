@@ -24,7 +24,6 @@ function register_licensing_requirement()
 			$return->yield = new stdClass();
 			$return->success = false;
 			$return->yield->title = _("Licensing Module");
-			$return->yield->messages[] = "<b>Installer Incomplete</b>";
 
 			$this_db_name = $shared_module_info[ $MODULE_VARS["uid"] ]["db_name"];
 			$dbconnection = $shared_module_info["provided"]["get_db_connection"]( $this_db_name );
@@ -43,6 +42,23 @@ function register_licensing_requirement()
 			}
 
 			$shared_module_info["provided"]["set_up_admin_in_db"]($dbconnection, $shared_module_info["common"]["default_user"]["username"]);
+
+			$uttField = [
+				"name" => "useTermsToolFunctionality",
+				"label" => _("Use Terms Tool Functionality"),
+				"default" => true
+			];
+			if (isset($_POST[ $uttField["name"] ]))
+			{
+				$_SESSION[ $MODULE_VARS["uid"] ]["useTermsToolFunctionality"] = $_POST[ $uttField["name"] ];
+			}
+			if (!isset($_SESSION[ $MODULE_VARS["uid"] ]["useTermsToolFunctionality"]))
+			{
+				require_once "install/templates/licensing_module_template.php";
+				$return->yield->body = licensing_module_template($uttField);
+				$return->success = false;
+				return $return;
+			}
 
 			// TODO: configure these locations better? Although may be wasted effort if a unified common is achieved
 			$configFile = $MODULE_VARS["getSharedInfo"]()["config_file"]["path"];
@@ -81,8 +97,7 @@ function register_licensing_requirement()
 
 			$shared_module_info["provided"]["write_config_file"]($configFile, $iniData);
 
-			$return->success = true; //TODO: SFX - use terms tool?
-			$return->yield->messages[] = "Installer Incomplete: Not yet considering SFX/useTermsToolFunctionality?";
+			$return->success = true;
 			return $return;
 		}
 	]);
