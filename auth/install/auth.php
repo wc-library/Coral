@@ -25,6 +25,7 @@ function register_auth_requirement()
 			$return->yield = new stdClass();
 			$return->yield->messages = [];
 			$return->yield->title = _("Auth module installation");
+			$return->success = true;
 
 			// TODO: This could potentially be abstracted out (cf. licensing)
 			// Check that the database exists
@@ -153,13 +154,12 @@ function register_auth_requirement()
 				}
 			}
 
-
-			if ($ldap_session_var_by_reference["ldap_enabled"] == 'Y') {
-				if (!$ldap_session_var_by_reference['host'])
+			if ($ldap_session_var_by_reference["ldap_enabled"] == 'Y' && (empty($ldap_session_var_by_reference['host']) || empty($ldap_session_var_by_reference['search_key']) || empty($ldap_session_var_by_reference['base_dn']))) {
+				if (empty($ldap_session_var_by_reference['host']))
 					$return->yield->messages[] = _("LDAP Host is required for LDAP");
-				if (!$ldap_session_var_by_reference['search_key'])
+				if (empty($ldap_session_var_by_reference['search_key']))
 					$return->yield->messages[] = _("LDAP Search Key is required for LDAP");
-				if (!$ldap_session_var_by_reference['base_dn'])
+				if (empty($ldap_session_var_by_reference['base_dn']))
 					$return->yield->messages[] = _("LDAP Base DN is required for LDAP");
 
 				$return->success = false;
