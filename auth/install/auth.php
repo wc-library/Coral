@@ -33,46 +33,9 @@ function register_auth_requirement()
 			$this_db_name = $shared_module_info[ $MODULE_VARS["uid"] ]["db_name"];
 			$dbconnection = $shared_module_info["provided"]["get_db_connection"]( $this_db_name );
 
-			// TODO: abstract this code (cf. licensing, management)
-			//make sure the tables don't already exist - otherwise this script will overwrite all of the data!
-			$table_to_check = "User";
-			$module_name = "Authentication"; // %s ...
-			$non_empty_fail_message = _("The tables for %s already exist. If you intend to upgrade, please run upgrade.php instead. If you would like to perform a fresh install you will need to manually drop all of the tables in this schema first.");
-			$dbconn;
-			$dbname = $shared_module_info[$MODULE_VARS["uid"]]['db_name'];
-
-
-			if ($shared_module_info[$MODULE_VARS["uid"]]["db_feedback"] == 'already_existed')
-			{
-				try
-				{
-					$query = "SELECT count(*) count FROM information_schema.`TABLES` WHERE table_schema = `{$shared_module_info[$MODULE_VARS["uid"]]['db_name']}` AND table_name=`User` AND table_rows > 0";
-					$result = $dbconnection->processQuery($query);
-					// TODO: offer to do this (drop tables)
-					if ($result->numRows() > 0 )
-					{
-						$return->success = false;
-						$return->yield->messages[] = _("The tables for Authentication already exist. If you intend to upgrade, please run upgrade.php instead.  If you would like to perform a fresh install you will need to manually drop all of the Authentication tables in this schema first.");
-						require_once "install/templates/try_again_template.php";
-						$return->yield->body = try_again_template();
-						return $return;
-					}
-				}
-				catch (Exception $e)
-				{
-					//TODO: this should be handled much better! if the table already existed we need to figure out more about it...
-					// SOLUTION: we're going to ask if the user meant to do an update and then redirect or just use the existing db.
-					// "wow, hang on - you already have tables in a database for %s"
-					$return->yield->messages[] = var_export($e, 1);
-					//TODO: This may indicate a halfway done installation at some point
-
-					$return->success = false;
-					$return->yield->messages[] = _("Please verify your database user has access to select from the information_schema MySQL metadata database.");
-					require_once "install/templates/try_again_template.php";
-					$return->yield->body = try_again_template();
-					return $return;
-				}
-			}
+			$result = $shared_module_info["provided"]["check_db"]($dbconnection, $shared_module_info[$MODULE_VARS["uid"]], "User", $MODULE_VARS["translatable_title"]);
+			if ($result)
+				return $result;
 
 			// Process sql files
 			$sql_files_to_process = ["auth/install/test_create.sql", "auth/install/create_tables_data.sql"];

@@ -29,33 +29,11 @@ function register_licensing_requirement()
 			$this_db_name = $shared_module_info[ $MODULE_VARS["uid"] ]["db_name"];
 			$dbconnection = $shared_module_info["provided"]["get_db_connection"]( $this_db_name );
 
-			// TODO: abstract this code (cf. auth)
-			//make sure the tables don't already exist - otherwise this script will overwrite all of the data!
-			if ($shared_module_info[$MODULE_VARS["uid"]]["db_feedback"] == 'already_existed')
-			{
-				try
-				{
-					$query = "SELECT count(*) count FROM information_schema.`COLUMNS` WHERE table_schema = `{$shared_module_info[$MODULE_VARS['uid']]['db_name']}` AND table_name=`License`";
-					$result = $dbconnection->processQuery($query);
-					// TODO: offer to do this (drop tables)
-					if ($result->numRows() > 0 )
-					{
-						$return->success = false;
-						$return->yield->messages[] = _("The Licensing tables already exist. If you intend to upgrade, please run upgrade.php instead.  If you would like to perform a fresh install you will need to manually drop all of the Licensing tables in this schema first.");
-						require_once "install/templates/try_again_template.php";
-						$return->yield->body = try_again_template();
-						return $return;
-					}
-				}
-				catch (Exception $e)
-				{
-					$return->success = false;
-					$return->yield->messages[] = _("Please verify your database user has access to select from the information_schema MySQL metadata database.");
-					require_once "install/templates/try_again_template.php";
-					$return->yield->body = try_again_template();
-					return $return;
-				}
-			}
+
+			$result = $shared_module_info["provided"]["check_db"]($dbconnection, $shared_module_info[$MODULE_VARS["uid"]], "License", $MODULE_VARS["translatable_title"]);
+			if ($result)
+				return $result;
+
 
 			// Process sql files
 			$sql_files_to_process = ["licensing/install/protected/test_create.sql", "licensing/install/protected/install.sql"];

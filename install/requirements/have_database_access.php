@@ -1,4 +1,11 @@
 <?php
+
+class DBAccess {
+	const DB_FAILED = 30001;
+	const DB_ALREADY_EXISTED = 30002;
+	const DB_CREATED = 30003;
+}
+
 function register_have_database_access_requirement()
 {
 	return [
@@ -107,18 +114,18 @@ function register_have_database_access_requirement()
 				$dbnamestr = "db_" . $db["key"] . "_name";
 				$dbname = empty($_SESSION[$dbnamestr]) ? $db["default_value"] : $_SESSION[$dbnamestr];
 				if (empty($_SESSION[$dbfeedback]))
-					$_SESSION[$dbfeedback] = "failed";
+					$_SESSION[$dbfeedback] = DBAccess::DB_FAILED;
 				try {
 					$dbconnection->selectDB( $dbname );
-					if ($_SESSION[$dbfeedback] == "failed")
-						$_SESSION[$dbfeedback] = "already_existed";
+					if ($_SESSION[$dbfeedback] == DBAccess::DB_FAILED)
+						$_SESSION[$dbfeedback] = DBAccess::DB_ALREADY_EXISTED;
 				}
 				catch (Exception $e) {
 					switch ($e->getCode()) {
 						case DBService::ERR_COULD_NOT_SELECT_DATABASE:
 							try {
 								$result = $dbconnection->processQuery("CREATE DATABASE `$dbname`;");
-								$_SESSION[$dbfeedback] = "created";
+								$_SESSION[$dbfeedback] = DBAccess::DB_CREATED;
 							} catch (Exception $e) {
 								$return->yield->messages[] = _("We tried to select a database with the name $dbname but failed. We also could not create it.");
 								$return->yield->messages[] = _("In order to proceed, we need access rights to create databases or you need to manually create the databases and provide their names and the credentials for a user with access rights to them.");
