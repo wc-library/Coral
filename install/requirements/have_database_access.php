@@ -124,7 +124,9 @@ function register_have_database_access_requirement()
 					switch ($e->getCode()) {
 						case DBService::ERR_COULD_NOT_SELECT_DATABASE:
 							try {
-								$result = $dbconnection->processQuery("CREATE DATABASE `$dbname`;");
+								// The commented line is preferable (see http://stackoverflow.com/a/766996/123415) but we need to be backwards compatible to mysql 5.5
+								// $result = $dbconnection->processQuery("CREATE DATABASE `$dbname` DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci;");
+								$result = $dbconnection->processQuery("CREATE DATABASE `$dbname` DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_unicode_ci;");
 								$_SESSION[$dbfeedback] = DBAccess::DB_CREATED;
 							} catch (Exception $e) {
 								$return->yield->messages[] = _("We tried to select a database with the name $dbname but failed. We also could not create it.");
