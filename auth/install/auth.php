@@ -3,7 +3,7 @@ function register_auth_requirement()
 {
 	$MODULE_VARS = [
 		"uid" => "auth",
-		"translatable_title" => _("Auth Module"),
+		"translatable_title" => _("Authentication Module"),
 		"dependencies_array" => [ "db_tools", "have_read_write_access_to_config" ],
 		"required" => true,
 		"alternative" => ["remote_auth_variable_name" => _("Remote Auth Variable Name")],
@@ -45,7 +45,7 @@ function register_auth_requirement()
 			{
 				try
 				{
-					$query = "SELECT count(*) count FROM information_schema.`TABLES` WHERE table_schema = `{$shared_module_info[$MODULE_VARS["uid"]]['db_name']}` AND table_name=`User` and table_rows > 0";
+					$query = "SELECT count(*) count FROM information_schema.`TABLES` WHERE table_schema = `{$shared_module_info[$MODULE_VARS["uid"]]['db_name']}` AND table_name=`User` AND table_rows > 0";
 					$result = $dbconnection->processQuery($query);
 					// TODO: offer to do this (drop tables)
 					if ($result->numRows() > 0 )
@@ -60,8 +60,11 @@ function register_auth_requirement()
 				catch (Exception $e)
 				{
 					//TODO: this should be handled much better! if the table already existed we need to figure out more about it...
+					// SOLUTION: we're going to ask if the user meant to do an update and then redirect or just use the existing db.
+					// "wow, hang on - you already have tables in a database for %s"
 					$return->yield->messages[] = var_export($e, 1);
 					//TODO: This may indicate a halfway done installation at some point
+
 					$return->success = false;
 					$return->yield->messages[] = _("Please verify your database user has access to select from the information_schema MySQL metadata database.");
 					require_once "install/templates/try_again_template.php";
@@ -112,7 +115,13 @@ function register_auth_requirement()
 					"type" => "password",
 					"title" => _("Bind Password"),
 					"default_value" => isset($ldap_session_var_by_reference["ldap_bind_password"]) ?  $ldap_session_var_by_reference["ldap_bind_password"]: ""
+				],[
+					"key" => "ldap_confirm_bind_password",
+					"type" => "password",
+					"title" => _("Confirm Bind Password"),
+					"default_value" => isset($ldap_session_var_by_reference["ldap_confirm_bind_password"]) ?  $ldap_session_var_by_reference["ldap_confirm_bind_password"]: ""
 				]
+				//TODO: Confirm password?
 			];
 			require_once "install/templates/auth_module_template.php";
 			$session_timeout_default = 3600;
@@ -121,22 +130,29 @@ function register_auth_requirement()
 			{
 				if (!isset($ldap_session_var_by_reference["ldap_enabled"]))
 				{
-					//We set the body just before entering the if
+					//We set the return body just before entering the if so we can return now
 					$return->success = false;
 					return $return;
 				}
 			}
 			else {
-				$_SESSION[$MODULE_VARS["uid"]]["session_timeout"]		= $_POST['session_timeout'];
+				$_SESSION[$MODULE_VARS["uid"]]["session_timeout"]	= $_POST['session_timeout'];
 
-				$ldap_session_var_by_reference["ldap_enabled"]	= $_POST['ldap_enabled'] == 1			? 'Y'							: 'N';
-				$ldap_session_var_by_reference["host"]			= isset($_POST['ldap_host'])			? $_POST['ldap_host']			: null;
-				$ldap_session_var_by_reference["port"]			= isset($_POST['ldap_port'])			? $_POST['ldap_port']			: null;
-				$ldap_session_var_by_reference["search_key"]	= isset($_POST['ldap_search_key'])		? $_POST['ldap_search_key']		: null;
-				$ldap_session_var_by_reference["base_dn"]		= isset($_POST['ldap_base_dn'])			? $_POST['ldap_base_dn']		: null;
-				$ldap_session_var_by_reference["bindAccount"]	= isset($_POST['ldap_bind_account'])	? $_POST['ldap_bind_account']	: null;
-				$ldap_session_var_by_reference["bindPass"]		= isset($_POST['ldap_bind_password'])	? $_POST['ldap_bind_password']	: null;
+				$ldap_session_var_by_reference["ldap_enabled"]		= $_POST['ldap_enabled'] == 1					? 'Y'									: 'N';
+				$ldap_session_var_by_reference["host"]				= isset($_POST['ldap_host'])					? $_POST['ldap_host']					: null;
+				$ldap_session_var_by_reference["port"]				= isset($_POST['ldap_port'])					? $_POST['ldap_port']					: null;
+				$ldap_session_var_by_reference["search_key"]		= isset($_POST['ldap_search_key'])				? $_POST['ldap_search_key']				: null;
+				$ldap_session_var_by_reference["base_dn"]			= isset($_POST['ldap_base_dn'])					? $_POST['ldap_base_dn']				: null;
+				$ldap_session_var_by_reference["bindAccount"]		= isset($_POST['ldap_bind_account'])			? $_POST['ldap_bind_account']			: null;
+				$ldap_session_var_by_reference["bindPass"]			= isset($_POST['ldap_bind_password'])			? $_POST['ldap_bind_password']			: null;
+				$ldap_session_var_by_reference["bindPassConfirm"]	= isset($_POST['ldap_confirm_bind_password'])	? $_POST['ldap_confirm_bind_password']	: null;
+				if ($ldap_session_var_by_reference["bindPass"] != $ldap_session_var_by_reference["bindPassConfirm"])
+				{
+					$return->success = false;
+					$return->yield->messages[] = _("Your Bind Passwords do not match.");
+				}
 			}
+
 
 			if ($ldap_session_var_by_reference["ldap_enabled"] == 'Y') {
 				if (!$ldap_session_var_by_reference['host'])
@@ -147,8 +163,10 @@ function register_auth_requirement()
 					$return->yield->messages[] = _("LDAP Base DN is required for LDAP");
 
 				$return->success = false;
-				return $return;
 			}
+
+			if (!$return->success)
+				return $return;
 
 			// This should be successful because our database check passed (it will throw an error otherwise)
 			$result = $dbconnection->processQuery("SELECT loginID FROM User WHERE loginID like '%coral%';");
