@@ -7,6 +7,12 @@ function register_auth_requirement()
 		"dependencies_array" => [ "db_tools", "have_read_write_access_to_config" ],
 		"required" => true,
 		"alternative" => ["remote_auth_variable_name" => _("Remote Auth Variable Name")],
+		//TODO: check that remote auth is valid?
+		//$remoteAuthVariableName = str_replace('"', "'", $remoteAuthVariableName);
+		//make sure variable name has matched number of ', otherwise it will bomb the program
+		// if((substr_count($remoteAuthVariableName, "'") % 2)!==0){
+		// 	$errorMessage[] = 'Make sure Remote Auth Variable Name has matched single or double quotes';
+		// }
 		"getSharedInfo" => function () {
 			return [
 				"database" => [
