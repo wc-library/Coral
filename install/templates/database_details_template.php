@@ -10,8 +10,6 @@ function database_details_template($shared_database_info)
 	$host       = isset($_SESSION["POSTDATA"]["dbhost"]) ? $_SESSION["POSTDATA"]["dbhost"] : _("Hostname");
 	$submit     = _("Continue Installing");
 
-	$leave_blank_instruction = _("Leave fields blank if you do not intend to install respective modules.");
-
 	$cards = function($shared_database_info) {
 		return join(array_reduce($shared_database_info, function($carry, $item){
 			$carry[] = <<<HEREDOC
@@ -49,9 +47,6 @@ HEREDOC;
 			<a href="#" class="toggleSection" data-alternate-message="hide advanced" data-toggle-section=".advancedSection" data-toggle-default="false">show advanced</a>
 		</div>
 		<span class="advancedSection">
-			<div class="row">
-				$leave_blank_instruction
-			</div>
 			<div class="row">
 				{$cards($shared_database_info)}
 			</div>
