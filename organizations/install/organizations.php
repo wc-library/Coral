@@ -58,22 +58,25 @@ function register_organizations_requirement()
 				"password" => Config::dbInfo("password")
 			];
 			//config file: ldap
-			if ($shared_module_info["auth"]["ldap_enabled"])
+			if (isset($shared_module_info["modules_to_use"]["auth"]["useModule"]) && $shared_module_info["modules_to_use"]["auth"]["useModule"])
 			{
-				$iniData["ldap"] = [
-					"host" => $shared_module_info["auth"]["host"],
-					"search_key" => $shared_module_info["auth"]["search_key"],
-					"base_dn" => $shared_module_info["auth"]["base_dn"],
-					"fname_field" => $shared_module_info["auth"]["fname"],
-					"lname_field" => $shared_module_info["auth"]["lname"]
-				];
+				if ($shared_module_info["auth"]["ldap_enabled"])
+				{
+					$iniData["ldap"] = [
+						"host"			=> $shared_module_info["auth"]["host"],
+						"search_key"	=> $shared_module_info["auth"]["search_key"],
+						"base_dn"		=> $shared_module_info["auth"]["base_dn"],
+						"fname_field"	=> $shared_module_info["auth"]["fname"],
+						"lname_field"	=> $shared_module_info["auth"]["lname"]
+					];
+				}
 			}
 			//config file: settings
 			$cooperating_modules = [
-				"licensing" => "needs_db",
-				"auth" => "needs_db",
-				"resources" => "needs_db",
-				"usage" => "doesnt_need_db"
+				"licensing"	=> "needs_db",
+				"auth"		=> "needs_db",
+				"resources"	=> "needs_db",
+				"usage"		=> "doesnt_need_db"
 			];
 			foreach ($cooperating_modules as $key => $value) {
 				if (isset($shared_module_info["modules_to_use"][$key]["useModule"]))
