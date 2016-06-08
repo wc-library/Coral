@@ -85,7 +85,7 @@ $completed_tests = [];
 foreach ($requirements as $i => $requirement) {
 	if (!$installer->isRequired($requirement))
 	{
-		// TODO: try to get an abandoned install... (e.g. not install a module...)
+		// TODO: try not to install a module and see if it runs anyway (just to test this code)
 		// echo "abandon $requirement";
 		continue;
 	}
