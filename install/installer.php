@@ -62,7 +62,8 @@ class Installer {
 	}
 	public function isRequired($uid)
 	{
-		$req = isset($this->checklist[ $this->getKeyFromUid($uid) ]["required"]) ? $this->checklist[ $this->getKeyFromUid($uid) ]["required"] : false;
+		$alt = isset($this->checklist[ $this->getKeyFromUid($uid) ]["alternative"]) ? true : false;
+		$req = isset($this->checklist[ $this->getKeyFromUid($uid) ]["required"]) ? $this->checklist[ $this->getKeyFromUid($uid) ]["required"] && !$alt : false;
 		if (isset($this->shared_module_info["modules_to_use"][$uid]["useModule"]))
 		{
 			$req |= $this->shared_module_info["modules_to_use"][$uid]["useModule"];
