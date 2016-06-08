@@ -31,7 +31,7 @@ class Installer {
 			]
 		];
 		$this->scanForModuleInstallers();
-		// $this->expandDependencies();
+		$this->applyRequired();
 	}
 	private function getKeyFromUid($test_uid)
 	{
@@ -47,10 +47,10 @@ class Installer {
 		$arr = $this->checklist;
 		usort($arr, function($a, $b){
 		    if (isset($a["required"]) && $a["required"] && !isset($a["alternative"])) {
-		        return isset($b["required"]) && $b["required"] ? 0 : -1;
+		        return isset($b["required"]) && $b["required"] && !isset($b["alternative"]) ? 0 : -1;
 		    }
 			else {
-				return isset($b["required"]) && $b["required"] ? 1 : 0;
+				return isset($b["required"]) && $b["required"] && !isset($b["alternative"]) ? 1 : 0;
 			}
 		});
 		require_once("common/array_column.php");
@@ -69,6 +69,27 @@ class Installer {
 			$req |= $this->shared_module_info["modules_to_use"][$uid]["useModule"];
 		}
 		return $req;
+	}
+	private function applyRequiredToDependencies($uid)
+	{
+		$key = $this->getKeyFromUid($uid);
+		if (!isset($this->checklist[$key]["required"]) || !$this->checklist[$key]["required"])
+			return;
+
+		if (isset($this->checklist[$key]["dependencies_array"]))
+		{
+			foreach ($this->checklist[$key]["dependencies_array"] as $dep) {
+				$this->checklist[ $this->getKeyFromUid($dep) ]["required"] = true;
+				$this->applyRequiredToDependencies($dep);
+			}
+		}
+	}
+	private function applyRequired()
+	{
+		foreach ($this->checklist as $test) {
+			if (isset($test["required"]) && $test["required"])
+				$this->applyRequiredToDependencies($test["uid"]);
+		}
 	}
 
 	public function register_installation_requirement($installer_object)
@@ -155,34 +176,32 @@ class Installer {
 			return $return;
 		}
 
-		if (isset($this->checklist[$key]["dependencies_array"]))
-		{
-			foreach ($this->checklist[$key]["dependencies_array"] as $dependency) {
-				$dep_key = array_search($dependency, array_column($this->checklist, 'uid'));
-				if ($dep_key === false)
-				{
-					$return = new stdClass();
-					$return->skipped = false;
-					$return->cause = $this::CAUSE_DEPENDENCY_NOT_FOUND;
-					$return->missing_dependency = $dependency;
-					return $return;
-				}
+		foreach ($this->getDependenciesAndRequiredWants($test_uid) as $dependency) {
+			$dep_key = array_search($dependency, array_column($this->checklist, 'uid'));
+			if ($dep_key === false)
+			{
+				$return = new stdClass();
+				$return->skipped = false;
+				$return->cause = $this::CAUSE_DEPENDENCY_NOT_FOUND;
+				$return->missing_dependency = $dependency;
+				return $return;
+			}
 
-				if (!isset($this->checklist[$dep_key]["result"]))
+			if (!isset($this->checklist[$dep_key]["result"]))
+			{
+				if (in_array($dependency, $required_for))
 				{
-					if (in_array($dependency, $required_for))
-					{
-						$required_array = var_export($required_for, true);
-						throw new RuntimeException("Error: Circular dependencies ('$test_uid' in $required_array)", $this::ERR_CIRCULAR_DEPENDENCIES);
-					}
-					$required_for[] = $dependency;
-					$result = $this->runTestForResult($dependency, $required_for);
-					// If one of the requirements fails, we need its result to be yielded
-					if (!$result->success)
-						return $result;
+					$required_array = var_export($required_for, true);
+					throw new RuntimeException("Error: Circular dependencies ('$test_uid' in $required_array)", $this::ERR_CIRCULAR_DEPENDENCIES);
 				}
+				$required_for[] = $dependency;
+				$result = $this->runTestForResult($dependency, $required_for);
+				// If one of the requirements fails, we need its result to be yielded
+				if (!$result->success)
+					return $result;
 			}
 		}
+
 		$result = call_user_func( $this->checklist[$key]["installer"], $this->shared_module_info );
 		if ($result === null)
 			throw new UnexpectedValueException("The install script for '{$this->getTitleFromUid($test_uid)}' has returned a null result (which is not allowed).", $this::ERR_INVALID_TEST_RESULT);
@@ -193,6 +212,22 @@ class Installer {
 
 		return $result;
 	}
+	private function getDependenciesAndRequiredWants($uid)
+	{
+		$key = $this->getKeyFromUid($uid);
+		$dependencies_array = isset($this->checklist[$key]["dependencies_array"]) ? $this->checklist[$key]["dependencies_array"] : [];
+		$wants_array = [];
+		if (isset($this->checklist[$key]["wants"]) && is_array($this->checklist[$key]["wants"]))
+		{
+			foreach ($this->checklist[$key]["wants"] as $wuid) {
+				$wkey = $this->getKeyFromUid($wuid);
+				if ($this->checklist[$wkey]["required"])
+					$wants_array[] = $wuid;
+			}
+		}
+		return array_merge($dependencies_array, $wants_array);
+	}
+
 	public function getMessages()
 	{
 		$messages = $this->messages;

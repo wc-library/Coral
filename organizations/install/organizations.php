@@ -6,8 +6,8 @@ function register_organizations_requirement()
 	$MODULE_VARS = [
 		"uid" => "organizations",
 		"translatable_title" => _("Organizations Module"),
-		"dependencies_array" => [ "have_database_access" ],
-		"wants" => [ "auth" ],
+		"dependencies_array" => [ "have_database_access", "modules_to_use" ],
+		"wants" => [ "auth" ], // wants auth for ldap data
 		"getSharedInfo" => function () {
 			return [
 				"database" => [
