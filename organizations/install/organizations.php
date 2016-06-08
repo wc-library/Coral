@@ -7,6 +7,7 @@ function register_organizations_requirement()
 		"uid" => "organizations",
 		"translatable_title" => _("Organizations Module"),
 		"dependencies_array" => [ "have_database_access" ],
+		"wants" => [ "auth" ],
 		"getSharedInfo" => function () {
 			return [
 				"database" => [
@@ -14,7 +15,7 @@ function register_organizations_requirement()
 					"default_value" => "coral_organizations"
 				],
 				"config_file" => [
-					"path" => "auth/admin/configuration.ini",
+					"path" => "organizations/admin/configuration.ini",
 				]
 			];
 		}
@@ -25,7 +26,6 @@ function register_organizations_requirement()
 			$return->yield = new stdClass();
 			$return->success = false;
 			$return->yield->title = _("Organizations Module");
-			$return->yield->messages[] = "<b>Installer Incomplete</b>";
 
 			$this_db_name = $shared_module_info[ $MODULE_VARS["uid"] ]["db_name"];
 			$dbconnection = $shared_module_info["provided"]["get_db_connection"]( $this_db_name );
@@ -46,9 +46,8 @@ function register_organizations_requirement()
 
 			$shared_module_info["provided"]["set_up_admin_in_db"]($dbconnection, $shared_module_info["common"]["default_user"]["username"]);
 
-
-			$authIni = parse_ini_file($shared_module_info["auth"]["config_file"]["path"]);
-
+			// BUILD AND WRITE CONFIG FILE
+			$configFile = $MODULE_VARS["getSharedInfo"]()["config_file"]["path"];
 			$iniData = array();
 			//config file: database
 			$iniData["database"] = [
@@ -58,7 +57,6 @@ function register_organizations_requirement()
 				"username" => Config::dbInfo("username"),
 				"password" => Config::dbInfo("password")
 			];
-
 			//config file: ldap
 			if ($shared_module_info["auth"]["ldap_enabled"])
 			{
@@ -70,7 +68,6 @@ function register_organizations_requirement()
 					"lname_field" => $shared_module_info["auth"]["lname"]
 				];
 			}
-
 			//config file: settings
 			$cooperating_modules = [
 				"licensing" => "needs_db",
@@ -90,7 +87,10 @@ function register_organizations_requirement()
 			{
 				$iniData["settings"]["remoteAuthVariableName"] = $shared_module_info["auth"]["alternative"]["remote_auth_variable_name"];
 			}
+			//write out config file
+			$shared_module_info["provided"]["write_config_file"]($configFile, $iniData);
 
+			$return->success = true;
 			return $return;
 		}
 	]);
