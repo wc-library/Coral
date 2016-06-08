@@ -159,26 +159,33 @@ function register_auth_requirement()
 					return $return;
 				}
 			}
-			if (empty($ldap_session_var_by_reference["bindPass"]))
+			if ($ldap_session_var_by_reference["ldap_enabled"] == 'Y')
 			{
-				$return->success = false;
-				$return->yield->messages[] = _("Your Bind Password is empty.");
-			}
-			else if ($ldap_session_var_by_reference["bindPass"] != $ldap_session_var_by_reference["bindPassConfirm"])
-			{
-				$return->success = false;
-				$return->yield->messages[] = _("Your Bind Passwords do not match.");
-			}
-
-			if ($ldap_session_var_by_reference["ldap_enabled"] == 'Y' && (empty($ldap_session_var_by_reference['host']) || empty($ldap_session_var_by_reference['search_key']) || empty($ldap_session_var_by_reference['base_dn']))) {
+				if (empty($ldap_session_var_by_reference["bindPass"]))
+				{
+					$return->yield->messages[] = _("Your Bind Password is empty.");
+					$return->success = false;
+				}
+				else if ($ldap_session_var_by_reference["bindPass"] != $ldap_session_var_by_reference["bindPassConfirm"])
+				{
+					$return->yield->messages[] = _("Your Bind Passwords do not match.");
+					$return->success = false;
+				}
 				if (empty($ldap_session_var_by_reference['host']))
+				{
 					$return->yield->messages[] = _("LDAP Host is required for LDAP");
+					$return->success = false;
+				}
 				if (empty($ldap_session_var_by_reference['search_key']))
+				{
 					$return->yield->messages[] = _("LDAP Search Key is required for LDAP");
+					$return->success = false;
+				}
 				if (empty($ldap_session_var_by_reference['base_dn']))
+				{
 					$return->yield->messages[] = _("LDAP Base DN is required for LDAP");
-
-				$return->success = false;
+					$return->success = false;
+				}
 			}
 
 			if (!$return->success)
