@@ -90,8 +90,19 @@ function register_auth_requirement()
 					"type" => "password",
 					"title" => _("Confirm Bind Password"),
 					"default_value" => isset($ldap_session_var_by_reference["ldap_confirm_bind_password"]) ?  $ldap_session_var_by_reference["ldap_confirm_bind_password"]: ""
+				],
+				// TODO: We don't use fname & lname in the config file but we are providing ldap details for other modules.
+				// Because fname and lname are ldap fields they do get dumped out into the config file.
+				// Probably should move ldap fname/lname stuff to auth (other modules care too much about this)
+				[
+					"key" => "ldap_fname_field",
+					"title" => _("First Name"),
+					"default_value" => isset($authIni["ldap"]["fname"]) ? $authIni["ldap"]["fname"] : ""
+				],[
+					"key" => "ldap_lname_field",
+					"title" => _("Last Name"),
+					"default_value" => isset($authIni["ldap"]["lname"]) ? $authIni["ldap"]["lname"] : ""
 				]
-				//TODO: Confirm password?
 			];
 			require_once "install/templates/auth_module_template.php";
 			$session_timeout_default = 3600;
@@ -109,14 +120,36 @@ function register_auth_requirement()
 				$_SESSION[$MODULE_VARS["uid"]]["session_timeout"]	= $_POST['session_timeout'];
 
 				$ldap_session_var_by_reference["ldap_enabled"]		= $_POST['ldap_enabled'] == 1					? 'Y'									: 'N';
+				$shared_module_info["setSharedModuleInfo"]( $MODULE_VARS["uid"], "ldap_enabled", 	$ldap_session_var_by_reference["ldap_enabled"] == 'Y');
+
 				$ldap_session_var_by_reference["host"]				= isset($_POST['ldap_host'])					? $_POST['ldap_host']					: null;
+				$shared_module_info["setSharedModuleInfo"]( $MODULE_VARS["uid"], "host", 			$ldap_session_var_by_reference["host"]);
+
 				$ldap_session_var_by_reference["port"]				= isset($_POST['ldap_port'])					? $_POST['ldap_port']					: null;
+				$shared_module_info["setSharedModuleInfo"]( $MODULE_VARS["uid"], "port", 			$ldap_session_var_by_reference["port"]);
+
 				$ldap_session_var_by_reference["search_key"]		= isset($_POST['ldap_search_key'])				? $_POST['ldap_search_key']				: null;
+				$shared_module_info["setSharedModuleInfo"]( $MODULE_VARS["uid"], "search_key", 		$ldap_session_var_by_reference["search_key"]);
+
 				$ldap_session_var_by_reference["base_dn"]			= isset($_POST['ldap_base_dn'])					? $_POST['ldap_base_dn']				: null;
+				$shared_module_info["setSharedModuleInfo"]( $MODULE_VARS["uid"], "base_dn", 		$ldap_session_var_by_reference["base_dn"]);
+
 				$ldap_session_var_by_reference["bindAccount"]		= isset($_POST['ldap_bind_account'])			? $_POST['ldap_bind_account']			: null;
+				$shared_module_info["setSharedModuleInfo"]( $MODULE_VARS["uid"], "bindAccount", 	$ldap_session_var_by_reference["bindAccount"]);
+
+				$ldap_session_var_by_reference["fname"]			= isset($_POST['ldap_fname_field'])					? $_POST['ldap_fname_field']			: null;
+				$shared_module_info["setSharedModuleInfo"]( $MODULE_VARS["uid"], "fname", 			$ldap_session_var_by_reference["fname"]);
+
+				$ldap_session_var_by_reference["lname"]		= isset($_POST['ldap_lname_field'])						? $_POST['ldap_lname_field']			: null;
+				$shared_module_info["setSharedModuleInfo"]( $MODULE_VARS["uid"], "lname", 			$ldap_session_var_by_reference["lname"]);
+
 				$ldap_session_var_by_reference["bindPass"]			= isset($_POST['ldap_bind_password'])			? $_POST['ldap_bind_password']			: null;
 				$ldap_session_var_by_reference["bindPassConfirm"]	= isset($_POST['ldap_confirm_bind_password'])	? $_POST['ldap_confirm_bind_password']	: null;
-				if ($ldap_session_var_by_reference["bindPass"] != $ldap_session_var_by_reference["bindPassConfirm"])
+				if ($ldap_session_var_by_reference["bindPass"] == $ldap_session_var_by_reference["bindPassConfirm"])
+				{
+					$shared_module_info["setSharedModuleInfo"]( $MODULE_VARS["uid"], "bindPass", 	$ldap_session_var_by_reference["bindPass"]);
+				}
+				else
 				{
 					$return->success = false;
 					$return->yield->messages[] = _("Your Bind Passwords do not match.");
