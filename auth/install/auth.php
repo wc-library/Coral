@@ -176,7 +176,16 @@ function register_auth_requirement()
 			// Write the config file
 			$configFile = $MODULE_VARS["getSharedInfo"]()["config_file"]["path"];
 			$iniData = array();
-			$iniData["settings"] = [ "timeout" => $_SESSION[$MODULE_VARS["uid"]]["session_timeout"] ];
+			$iniData["settings"] = [
+				"timeout" => $_SESSION[$MODULE_VARS["uid"]]["session_timeout"]
+			];
+			$iniData["database"] = [
+				"type" => "mysql",
+				"host" => Config::dbInfo("host"),
+				"name" => $this_db_name,
+				"username" => Config::dbInfo("username"),
+				"password" => Config::dbInfo("password")
+			];
 			$iniData["ldap"] = $ldap_session_var_by_reference;
 			$shared_module_info["provided"]["write_config_file"]($configFile, $iniData);
 
