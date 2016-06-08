@@ -14,7 +14,7 @@ function register_licensing_requirement()
 					"default_value" => "coral_licensing"
 				],
 				"config_file" => [
-					"path" => "auth/admin/configuration.ini",
+					"path" => "licensing/admin/configuration.ini",
 				]
 			];
 		}
