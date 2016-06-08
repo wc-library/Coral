@@ -1,11 +1,12 @@
 <?php
 
-function auth_module_template($ldap_fields, $session_timeout_default)
+function auth_module_template($session_timeout_default, $ldap_enabled_default, $ldap_fields)
 {
 	$submit = _("Continue Installing");
 
 	$session_timeout_title = _("Session Timeout (cookie expiration for logged in users)");
 	$use_ldap = _("Use LDAP for authenticaion instead of Auth Module");
+	$ldap_enabled_default = $ldap_enabled_default ? "true" : "false";
 
 	$leave_blank_instruction = _("Leave fields blank if you do not intend to install respective modules.");
 
@@ -31,7 +32,7 @@ HEREDOC;
 		</div>
 
 		<div class="row">
-			<input type="checkbox" id="ldap_enabled" name="ldap_enabled" class="toggleSection" data-toggle-section=".ldapSettings" data-toggle-default="false">
+			<input type="checkbox" id="ldap_enabled" name="ldap_enabled" class="toggleSection" data-toggle-section=".ldapSettings" data-toggle-default="$ldap_enabled_default">
 			<label for="ldap_enabled">
 				<span class="label-body">$use_ldap</span>
 			</label>

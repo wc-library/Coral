@@ -43,6 +43,7 @@ function register_auth_requirement()
 			if ($result)
 				return $result;
 
+
 			// Process sql files
 			$sql_files_to_process = ["auth/install/test_create.sql", "auth/install/create_tables_data.sql"];
 			$ret = $shared_module_info["provided"]["process_sql_files"]( $dbconnection, $sql_files_to_process, $MODULE_VARS["uid"] );
@@ -53,43 +54,75 @@ function register_auth_requirement()
 				return $return;
 			}
 
+
 			$ldap_session_var_by_reference = &$_SESSION[$MODULE_VARS["uid"]]["ldap"];
+
+			// Grab post vars
+			if (isset($_POST['session_timeout']))
+				$_SESSION[$MODULE_VARS["uid"]]["session_timeout"] = $_POST['session_timeout'];
+			else
+				$_SESSION[$MODULE_VARS["uid"]]["session_timeout"] = isset($_SESSION[$MODULE_VARS["uid"]]["session_timeout"]) ? $_SESSION[$MODULE_VARS["uid"]]["session_timeout"] : 3600;
+			if (isset($_POST['ldap_enabled']))
+				$_SESSION[$MODULE_VARS["uid"]]["ldap"]["ldap_enabled"] = $_POST['ldap_enabled'] == 1 ? "Y" : "N";
+			else
+				$_SESSION[$MODULE_VARS["uid"]]["ldap"]["ldap_enabled"] = isset($_SESSION[$MODULE_VARS["uid"]]["ldap"]["ldap_enabled"]) ? $_SESSION[$MODULE_VARS["uid"]]["ldap"]["ldap_enabled"] : "N";
+			$ldap_post_vars = [
+				"host" => "ldap_host",
+				"port" => "ldap_port",
+				"search_key" => "ldap_search_key",
+				"base_dn" => "ldap_base_dn",
+				"bindAccount" => "ldap_bind_account",
+				"fname" => "ldap_fname_field",
+				"lname" => "ldap_lname_field",
+				"bindPass" => "ldap_bind_password",
+				"bindPassConfirm" => "ldap_confirm_bind_password"
+			];
+			foreach ($ldap_post_vars as $key => $value) {
+				if (isset($_POST[$value]))
+				{
+					$ldap_session_var_by_reference[$key] = $_POST[$value];
+				}
+				else
+				{
+					$ldap_session_var_by_reference[$key] = isset($ldap_session_var_by_reference[$key]) ? $ldap_session_var_by_reference[$key] : null;
+				}
+			}
+
 			$ldap_fields = [
 				[
 					"key" => "ldap_host",
 					"type" => "text",
 					"title" => _("Host"),
-					"default_value" => isset($ldap_session_var_by_reference["ldap_host"]) ? $ldap_session_var_by_reference["ldap_host"] : ""
+					"default_value" => isset($ldap_session_var_by_reference["host"]) ? $ldap_session_var_by_reference["host"] : ""
 				],[
 					"key" => "ldap_port",
 					"type" => "text",
 					"title" => _("Port"),
-					"default_value" => isset($ldap_session_var_by_reference["ldap_port"]) ? $ldap_session_var_by_reference["ldap_port"] : ""
-				],[
-					"key" => "ldap_search_key",
-					"type" => "text",
-					"title" => _("Search Key"),
-					"default_value" => isset($ldap_session_var_by_reference["ldap_search_key"]) ? $ldap_session_var_by_reference["ldap_search_key"] : ""
-				],[
+					"default_value" => isset($ldap_session_var_by_reference["port"]) ? $ldap_session_var_by_reference["port"] : ""
+				],
+
+				[
 					"key" => "ldap_base_dn",
 					"type" => "text",
 					"title" => _("Base DN"),
-					"default_value" => isset($ldap_session_var_by_reference["ldap_base_dn"]) ? $ldap_session_var_by_reference["ldap_base_dn"] : ""
+					"default_value" => isset($ldap_session_var_by_reference["base_dn"]) ? $ldap_session_var_by_reference["base_dn"] : ""
 				],[
 					"key" => "ldap_bind_account",
 					"type" => "text",
 					"title" => _("Bind Account"),
-					"default_value" => isset($ldap_session_var_by_reference["ldap_bind_account"]) ? $ldap_session_var_by_reference["ldap_bind_account"] : ""
-				],[
+					"default_value" => isset($ldap_session_var_by_reference["bindAccount"]) ? $ldap_session_var_by_reference["bindAccount"] : ""
+				],
+
+				[
 					"key" => "ldap_bind_password",
 					"type" => "password",
 					"title" => _("Bind Password"),
-					"default_value" => isset($ldap_session_var_by_reference["ldap_bind_password"]) ?  $ldap_session_var_by_reference["ldap_bind_password"]: ""
+					"default_value" => isset($ldap_session_var_by_reference["bindPass"]) ? $ldap_session_var_by_reference["bindPass"] : ""
 				],[
 					"key" => "ldap_confirm_bind_password",
 					"type" => "password",
 					"title" => _("Confirm Bind Password"),
-					"default_value" => isset($ldap_session_var_by_reference["ldap_confirm_bind_password"]) ?  $ldap_session_var_by_reference["ldap_confirm_bind_password"]: ""
+					"default_value" => isset($ldap_session_var_by_reference["bindPassConfirm"]) ? $ldap_session_var_by_reference["bindPassConfirm"] : ""
 				],
 				// TODO: We don't use fname & lname in the config file but we are providing ldap details for other modules.
 				// Because fname and lname are ldap fields they do get dumped out into the config file.
@@ -98,17 +131,25 @@ function register_auth_requirement()
 					"key" => "ldap_fname_field",
 					"type" => "text",
 					"title" => _("First Name"),
-					"default_value" => isset($authIni["ldap"]["fname"]) ? $authIni["ldap"]["fname"] : ""
+					"default_value" => isset($ldap_session_var_by_reference["fname"]) ? $ldap_session_var_by_reference["fname"] : ""
 				],[
 					"key" => "ldap_lname_field",
 					"type" => "text",
 					"title" => _("Last Name"),
-					"default_value" => isset($authIni["ldap"]["lname"]) ? $authIni["ldap"]["lname"] : ""
+					"default_value" => isset($ldap_session_var_by_reference["lname"]) ? $ldap_session_var_by_reference["lname"] : ""
+				],
+				// search key at the end to have natural pairs line up better
+				[
+					"key" => "ldap_search_key",
+					"type" => "text",
+					"title" => _("Search Key"),
+					"default_value" => isset($ldap_session_var_by_reference["search_key"]) ? $ldap_session_var_by_reference["search_key"] : ""
 				]
 			];
 			require_once "install/templates/auth_module_template.php";
-			$session_timeout_default = 3600;
-			$return->yield->body = auth_module_template($ldap_fields, $session_timeout_default);
+			$session_timeout_default = $_SESSION[$MODULE_VARS["uid"]]["session_timeout"];
+			$ldap_enabled_default = $ldap_session_var_by_reference["ldap_enabled"] == "Y";
+			$return->yield->body = auth_module_template($session_timeout_default, $ldap_enabled_default, $ldap_fields);
 			if (!isset($_POST['ldap_enabled']))
 			{
 				if (!isset($ldap_session_var_by_reference["ldap_enabled"]))
@@ -118,39 +159,15 @@ function register_auth_requirement()
 					return $return;
 				}
 			}
-			else {
-				$_SESSION[$MODULE_VARS["uid"]]["session_timeout"]	= $_POST['session_timeout'];
-
-				$ldap_session_var_by_reference["ldap_enabled"]		= $_POST['ldap_enabled'] == 1					? 'Y'									: 'N';
-				$ldap_session_var_by_reference["host"]				= isset($_POST['ldap_host'])					? $_POST['ldap_host']					: null;
-				$ldap_session_var_by_reference["port"]				= isset($_POST['ldap_port'])					? $_POST['ldap_port']					: null;
-				$ldap_session_var_by_reference["search_key"]		= isset($_POST['ldap_search_key'])				? $_POST['ldap_search_key']				: null;
-				$ldap_session_var_by_reference["base_dn"]			= isset($_POST['ldap_base_dn'])					? $_POST['ldap_base_dn']				: null;
-				$ldap_session_var_by_reference["bindAccount"]		= isset($_POST['ldap_bind_account'])			? $_POST['ldap_bind_account']			: null;
-				$ldap_session_var_by_reference["fname"]			= isset($_POST['ldap_fname_field'])					? $_POST['ldap_fname_field']			: null;
-				$ldap_session_var_by_reference["lname"]		= isset($_POST['ldap_lname_field'])						? $_POST['ldap_lname_field']			: null;
-				$ldap_session_var_by_reference["bindPass"]			= isset($_POST['ldap_bind_password'])			? $_POST['ldap_bind_password']			: null;
-				$ldap_session_var_by_reference["bindPassConfirm"]	= isset($_POST['ldap_confirm_bind_password'])	? $_POST['ldap_confirm_bind_password']	: null;
-				if ($ldap_session_var_by_reference["bindPass"] != $ldap_session_var_by_reference["bindPassConfirm"])
-				{
-					$return->success = false;
-					$return->yield->messages[] = _("Your Bind Passwords do not match.");
-				}
-			}
-			if (isset($ldap_session_var_by_reference["ldap_enabled"]))
+			if (empty($ldap_session_var_by_reference["bindPass"]))
 			{
-				$shared_module_info["setSharedModuleInfo"]( $MODULE_VARS["uid"], "ldap_enabled", 	$ldap_session_var_by_reference["ldap_enabled"] == 'Y');
-				$shared_module_info["setSharedModuleInfo"]( $MODULE_VARS["uid"], "host", 			$ldap_session_var_by_reference["host"]);
-				$shared_module_info["setSharedModuleInfo"]( $MODULE_VARS["uid"], "port", 			$ldap_session_var_by_reference["port"]);
-				$shared_module_info["setSharedModuleInfo"]( $MODULE_VARS["uid"], "search_key", 		$ldap_session_var_by_reference["search_key"]);
-				$shared_module_info["setSharedModuleInfo"]( $MODULE_VARS["uid"], "base_dn", 		$ldap_session_var_by_reference["base_dn"]);
-				$shared_module_info["setSharedModuleInfo"]( $MODULE_VARS["uid"], "bindAccount", 	$ldap_session_var_by_reference["bindAccount"]);
-				$shared_module_info["setSharedModuleInfo"]( $MODULE_VARS["uid"], "fname", 			$ldap_session_var_by_reference["fname"]);
-				$shared_module_info["setSharedModuleInfo"]( $MODULE_VARS["uid"], "lname", 			$ldap_session_var_by_reference["lname"]);
-				if ($ldap_session_var_by_reference["bindPass"] == $ldap_session_var_by_reference["bindPassConfirm"])
-				{
-					$shared_module_info["setSharedModuleInfo"]( $MODULE_VARS["uid"], "bindPass", 	$ldap_session_var_by_reference["bindPass"]);
-				}
+				$return->success = false;
+				$return->yield->messages[] = _("Your Bind Password is empty.");
+			}
+			else if ($ldap_session_var_by_reference["bindPass"] != $ldap_session_var_by_reference["bindPassConfirm"])
+			{
+				$return->success = false;
+				$return->yield->messages[] = _("Your Bind Passwords do not match.");
 			}
 
 			if ($ldap_session_var_by_reference["ldap_enabled"] == 'Y' && (empty($ldap_session_var_by_reference['host']) || empty($ldap_session_var_by_reference['search_key']) || empty($ldap_session_var_by_reference['base_dn']))) {
@@ -166,6 +183,23 @@ function register_auth_requirement()
 
 			if (!$return->success)
 				return $return;
+
+			// Share data for other modules
+			if (isset($ldap_session_var_by_reference["ldap_enabled"]))
+			{
+				$shared_module_info["setSharedModuleInfo"]( $MODULE_VARS["uid"], "ldap_enabled", 	$ldap_session_var_by_reference["ldap_enabled"] == 'Y');
+				$shared_module_info["setSharedModuleInfo"]( $MODULE_VARS["uid"], "host", 			$ldap_session_var_by_reference["host"]);
+				$shared_module_info["setSharedModuleInfo"]( $MODULE_VARS["uid"], "port", 			$ldap_session_var_by_reference["port"]);
+				$shared_module_info["setSharedModuleInfo"]( $MODULE_VARS["uid"], "search_key", 		$ldap_session_var_by_reference["search_key"]);
+				$shared_module_info["setSharedModuleInfo"]( $MODULE_VARS["uid"], "base_dn", 		$ldap_session_var_by_reference["base_dn"]);
+				$shared_module_info["setSharedModuleInfo"]( $MODULE_VARS["uid"], "bindAccount", 	$ldap_session_var_by_reference["bindAccount"]);
+				$shared_module_info["setSharedModuleInfo"]( $MODULE_VARS["uid"], "fname", 			$ldap_session_var_by_reference["fname"]);
+				$shared_module_info["setSharedModuleInfo"]( $MODULE_VARS["uid"], "lname", 			$ldap_session_var_by_reference["lname"]);
+				if ($ldap_session_var_by_reference["bindPass"] == $ldap_session_var_by_reference["bindPassConfirm"])
+				{
+					$shared_module_info["setSharedModuleInfo"]( $MODULE_VARS["uid"], "bindPass", 	$ldap_session_var_by_reference["bindPass"]);
+				}
+			}
 
 			// This should be successful because our database check passed (it will throw an error otherwise)
 			$result = $dbconnection->processQuery("SELECT loginID FROM User WHERE loginID like '%coral%';");
