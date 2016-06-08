@@ -1,3 +1,5 @@
+
+
 <?php
 function register_organizations_requirement()
 {
@@ -44,70 +46,50 @@ function register_organizations_requirement()
 
 			$shared_module_info["provided"]["set_up_admin_in_db"]($dbconnection, $shared_module_info["common"]["default_user"]["username"]);
 
-			// Organization can use ldap
+
 			$authIni = parse_ini_file($shared_module_info["auth"]["config_file"]["path"]);
 
-			// TODO: Find out whether ldap here is the same as in auth
-			if ($authIni["ldap_enabled"])
+			$iniData = array();
+			//config file: database
+			$iniData["database"] = [
+				"type" => "mysql",
+				"host" => Config::dbInfo("host"),
+				"name" => $this_db_name,
+				"username" => Config::dbInfo("username"),
+				"password" => Config::dbInfo("password")
+			];
+
+			//config file: ldap
+			if ($shared_module_info["auth"]["ldap_enabled"])
 			{
-				$ldap_explanation = "The following are optional for LDAP if you wish to have user's first and last name automatically populated";
-				$ldap_fields = [
-					// [
-					// 	"key" => "ldap_host",
-					// 	"title" => _("Host"),
-					// 	"default_value" => isset($authIni["ldap"]["host"]) ? $authIni["ldap"]["host"] : ""
-					// ],[
-					// 	"key" => "ldap_port",
-					// 	"title" => _("Port"),
-					// 	"default_value" => isset($authIni["ldap"]["port"]) ? $authIni["ldap"]["port"] : ""
-					// ],[
-					// 	"key" => "ldap_search_key",
-					// 	"title" => _("Search Key"),
-					// 	"default_value" => isset($authIni["ldap"]["search_key"]) ? $authIni["ldap"]["search_key"] : ""
-					// ],[
-					// 	"key" => "ldap_base_dn",
-					// 	"title" => _("Base DN"),
-					// 	"default_value" => isset($authIni["ldap"]["base_dn"]) ? $authIni["ldap"]["base_dn"] : ""
-					// ],
-					[
-						"key" => "ldap_fname_field",
-						"title" => _("First Name"),
-						"default_value" => isset($authIni["ldap"]["fname"]) ? $authIni["ldap"]["fname"] : ""
-					],[
-						"key" => "ldap_lname_field",
-						"title" => _("Last Name"),
-						"default_value" => isset($authIni["ldap"]["lname"]) ? $authIni["ldap"]["lname"] : ""
-					]
+				$iniData["ldap"] = [
+					"host" => $shared_module_info["auth"]["host"],
+					"search_key" => $shared_module_info["auth"]["search_key"],
+					"base_dn" => $shared_module_info["auth"]["base_dn"],
+					"fname_field" => $shared_module_info["auth"]["fname"],
+					"lname_field" => $shared_module_info["auth"]["lname"]
 				];
 			}
 
-			// $iniData = array();
-			// $iniData["settings"] =[
-			// 	"licensingModule" => $licensingModule,
-			// 	"licensingDatabaseName" => $licensingDatabaseName,
-			// 	"authModule" => $authModule,
-			// 	"authDatabaseName" => $authDatabaseName,
-			// 	"usageModule" => $usageModule,
-			// 	"resourcesModule" => $resourcesModule,
-			// 	"resourcesDatabaseName" => $resourcesDatabaseName,
-			// 	"remoteAuthVariableName" => $remoteAuthVariableName
-			// ];
-			//
-			// $iniData["database"] = [
-			// 	"type" => "mysql",
-			// 	"host" => $database_host,
-			// 	"name" => $database_name,
-			// 	"username" => $database_username,
-			// 	"password" => $database_password
-			// ];
-			//
-			// $iniData["ldap"] = [
-			// 	"host" => $ldap_host,
-			// 	"search_key" => $search_key,
-			// 	"base_dn" => $base_dn,
-			// 	"fname_field" => $fname_field,
-			// 	"lname_field" => $lname_field
-			// ];
+			//config file: settings
+			$cooperating_modules = [
+				"licensing" => "needs_db",
+				"auth" => "needs_db",
+				"resources" => "needs_db",
+				"usage" => "doesnt_need_db"
+			];
+			foreach ($cooperating_modules as $key => $value) {
+				if (isset($shared_module_info["modules_to_use"][$key]["useModule"]))
+				{
+					$iniData["settings"]["{$key}Module"] = $shared_module_info["modules_to_use"][$key]["useModule"] ? 'Y' : 'N';
+					if ($value == "needs_db" && $shared_module_info["modules_to_use"][$key]["useModule"])
+						$iniData["settings"]["{$key}DatabaseName"] = $shared_module_info[$key]["db_name"];
+				}
+			}
+			if ($iniData["settings"]["authModule"] == 'N')
+			{
+				$iniData["settings"]["remoteAuthVariableName"] = $shared_module_info["auth"]["alternative"]["remote_auth_variable_name"];
+			}
 
 			return $return;
 		}

@@ -7,6 +7,9 @@ class Installer {
 	const CAUSE_DEPENDENCY_NOT_FOUND = 20041;
 	const CAUSE_ALREADY_EXISTED = 20043;
 	const ERR_CIRCULAR_DEPENDENCIES = 20044;
+	const ERR_CIRCULAR_WANTS = 20045;
+	const ERR_TEST_DOES_NOT_EXIST = 20046;
+	const ERR_INVALID_TEST_RESULT = 20047;
 
 	protected $checklist = [];
 	protected $shared_module_info = [];
@@ -35,7 +38,7 @@ class Installer {
 		require_once("common/array_column.php");
 		$key = array_search($test_uid, array_column($this->checklist, 'uid'));
 		if ($key === false)
-			throw new OutOfBoundsException("Test '$test_uid' not found in checklist.", 100);
+			throw new OutOfBoundsException("Test '$test_uid' not found in checklist.", $this::ERR_TEST_DOES_NOT_EXIST);
 
 		return $key;
 	}
@@ -141,7 +144,7 @@ class Installer {
 	{
 		$key = $this->getKeyFromUid($test_uid);
 		if ($key === false)
-			throw new OutOfBoundsException("Test '{$this->getTitleFromUid($test_uid)}' not found in checklist.", 100);
+			throw new OutOfBoundsException("Test '{$this->getTitleFromUid($test_uid)}' not found in checklist.", $this::ERR_TEST_DOES_NOT_EXIST);
 
 		if (isset($this->checklist[$key]["result"]))
 		{
@@ -181,7 +184,7 @@ class Installer {
 		}
 		$result = call_user_func( $this->checklist[$key]["installer"], $this->shared_module_info );
 		if ($result === null)
-			throw new UnexpectedValueException("The install script for '{$this->getTitleFromUid($test_uid)}' has returned a null result (which is not allowed).", 101);
+			throw new UnexpectedValueException("The install script for '{$this->getTitleFromUid($test_uid)}' has returned a null result (which is not allowed).", $this::ERR_INVALID_TEST_RESULT);
 
 		$this->checklist[$key]["result"] = $result;
 		if ($result->success)
