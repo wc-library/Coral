@@ -26,7 +26,6 @@ function register_usage_requirement()
 			$return->success = false;
 			$return->yield->title = _("Usage Module");
 
-
 			$this_db_name = $shared_module_info[ $MODULE_VARS["uid"] ]["db_name"];
 			$dbconnection = $shared_module_info["provided"]["get_db_connection"]( $this_db_name );
 
@@ -61,7 +60,7 @@ function register_usage_requirement()
 					"default_value" => $_SESSION[$MODULE_VARS["uid"]]["useOutliers"]
 				]
 			];
-			if (!isset($_POST["useOutliers"]))
+			if (!isset($_POST["useOutliers"]) && !isset($_SESSION[$MODULE_VARS["uid"]]["useOutliers"]))
 			{
 				require_once "install/templates/usage_module_template.php";
 				$title = _("Please set up the following options for the Usage module.");
@@ -69,6 +68,7 @@ function register_usage_requirement()
 				$return->success = false;
 				return $return;
 			}
+			$shared_module_info["setSharedModuleInfo"]($MODULE_VARS["uid"], "baseUrl", $_SESSION[$MODULE_VARS["uid"]]["baseURL"]);
 
 
 			//set up config file

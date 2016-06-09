@@ -77,7 +77,7 @@ function register_resources_requirement()
 				]
 			];
 
-			if (!isset($_POST["defaultCurrency"]))
+			if (!isset($_POST["enableAlerts"]) && !isset($_SESSION[$MODULE_VARS["uid"]]["enableAlerts"]))
 			{
 				require_once "install/templates/resources_module_template.php";
 				$title = _("Please set up the following options for the resources module.");
