@@ -15,7 +15,8 @@ function register_modules_to_use_requirement()
 			$return->success = true;
 
 			$module_list = $shared_module_info["module_list"];
-			foreach ($module_list as $mod)
+			$modules_not_to_install = [];
+			foreach ($module_list as $i => $mod)
 			{
 				$mod_chosen = null;
 				// We can only auto-set if there is no alternative and mod is required
@@ -30,27 +31,24 @@ function register_modules_to_use_requirement()
 					$return->success &= true;
 				}
 
-				if ($mod_chosen !== null)
+				if ($mod_chosen !== null || isset($_SESSION[ $MODULE_VARS["uid"] ][ $mod["uid"] ]["useModule"]))
 				{
+					$mod_chosen = $mod_chosen !== null ? $mod_chosen : $_SESSION[ $MODULE_VARS["uid"] ][ $mod["uid"] ]["useModule"];
 					if (!isset($_SESSION[ $MODULE_VARS["uid"] ][ $mod["uid"] ]))
 					{
 						$_SESSION[ $MODULE_VARS["uid"] ][ $mod["uid"] ] = [];
 					}
 					$_SESSION[ $MODULE_VARS["uid"] ][ $mod["uid"] ]["useModule"] = $mod_chosen;
 					$shared_module_info["setSharedModuleInfo"]($MODULE_VARS["uid"], $mod["uid"], ["useModule" => $mod_chosen]);
+					$module_list[$i]["default_value"] = $mod_chosen;
+					if (!$mod_chosen)
+						$modules_not_to_install[] = $mod["uid"];
 				}
 				else
 				{
 					// If the associated session variable is still unset the setup has failed but why?
-					if (!isset($_SESSION[ $MODULE_VARS["uid"] ][ $mod["uid"] ]["useModule"]))
-					{
-						$return->messages[] = "For some reason at least one of these variables is not set. There may a problem with the installer please contact the programmers with this error message.";
-						$return->success &= false;
-					}
-					else
-					{
-						$shared_module_info["setSharedModuleInfo"]($MODULE_VARS["uid"], $mod["uid"], ["useModule" => $_SESSION[ $MODULE_VARS["uid"] ][ $mod["uid"] ]["useModule"]]);
-					}
+					$return->messages[] = "For some reason at least one ($mod[uid]) of these variables is not set. There may a problem with the installer please contact the programmers with this error message.";
+					$return->success &= false;
 				}
 			}
 			// Ensure that required modules that are not enabled have alternatives set
@@ -84,6 +82,28 @@ function register_modules_to_use_requirement()
 								}
 							}
 						}
+					}
+				}
+			}
+
+			//check that all dependencies are met
+			if (count($modules_not_to_install) > 0)
+			{
+				$dep_list = [];
+				// build dependency list
+				foreach ($module_list as $mod) {
+					if (!isset($mod["dependencies_array"]))
+					continue;
+					$dep_list = array_unique(array_merge($dep_list, $mod["dependencies_array"]));
+				}
+				foreach ($modules_not_to_install as $mod) {
+					if (in_array($mod, $dep_list))
+					{
+						$mod_title = array_values(array_filter($module_list, function ($m) use ($mod) {
+							return $m["uid"] == $mod;
+						}))[0]["title"];
+						$return->yield->messages[] = sprintf(_("The modules that you have chosen to install work with additional modules. You need to add '%s'"), $mod_title);
+						$return->success = false;
 					}
 				}
 			}

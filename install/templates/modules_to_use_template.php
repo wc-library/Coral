@@ -22,10 +22,12 @@ function modules_to_use_template($module_list)
 HEREDOC;
 				}
 			}
-			$required = $item["required"] && !isset($item["alternative"]) ? "disabled" : "";
+			$default = isset($item["default_value"]) ? $item["default_value"] : true;
+			$select_and_enable = $default ? "checked" : "";
+			$select_and_enable = $item["required"] && !isset($item["alternative"]) ? "checked disabled" : $select_and_enable;
 			$carry[] = <<<HEREDOC
 			<div class="row">
-				<input type="checkbox" id="{$item["uid"]}" name="{$item["uid"]}" checked $required $toggleSection>
+				<input type="checkbox" id="{$item["uid"]}" name="{$item["uid"]}" $select_and_enable $toggleSection>
 				<label for="{$item["uid"]}">
 					<span class="label-body">{$item["title"]}</span>
 				</label>
