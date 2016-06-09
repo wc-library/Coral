@@ -100,10 +100,7 @@ function draw_install_page_template()
 			cursor: pointer;
 			position: relative;
 			padding-left: 25px;
-			margin-right: 15px;
-		}
-		input[type=checkbox] + label {
-			margin: 8px 0;
+			margin: 8px 15px 8px 0;
 		}
 		input[type=checkbox] + label:before,
 		input[type=checkbox] + label:after {
@@ -116,7 +113,7 @@ function draw_install_page_template()
 			margin-right: 10px;
 			position: absolute;
 			left: 0;
-			bottom: 3px;
+			top: 4px;
 			background-color: #ddd;
 			box-shadow: inset 0px 2px 3px 0px rgba(0, 0, 0, .3), 0px 1px 0px 0px rgba(255, 255, 255, .8);
 			border-radius: 3px;
@@ -159,6 +156,9 @@ function draw_install_page_template()
 		}
 		.card-half:nth-child(2n) {
 			margin-left: 2%;
+		}
+		.card-half input[type=checkbox] + label {
+			height: 38px;
 		}
 	</style>
 </head>
