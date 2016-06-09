@@ -25,8 +25,6 @@ function register_resources_requirement()
 			$return->yield = new stdClass();
 			$return->success = false;
 			$return->yield->title = _("Resources Module");
-			$return->yield->messages[] = "Incomplete Installer";
-
 
 			$this_db_name = $shared_module_info[ $MODULE_VARS["uid"] ]["db_name"];
 			$dbconnection = $shared_module_info["provided"]["get_db_connection"]( $this_db_name );
@@ -77,14 +75,16 @@ function register_resources_requirement()
 				]
 			];
 
-			if (!isset($_POST["enableAlerts"]) && !isset($_SESSION[$MODULE_VARS["uid"]]["enableAlerts"]))
+			if (!isset($_SESSION[$MODULE_VARS["uid"]]["formCompleted"]) || !$_SESSION[$MODULE_VARS["uid"]]["formCompleted"])
 			{
 				require_once "install/templates/resources_module_template.php";
 				$title = _("Please set up the following options for the resources module.");
 				$return->yield->body = resources_module_template($title, $resources_fields);
 				$return->success = false;
+				$_SESSION[$MODULE_VARS["uid"]]["formCompleted"] = true;
 				return $return;
 			}
+			// To validate form - put validation code here and set `$_SESSION[$MODULE_VARS["uid"]]["formCompleted"] = false`
 
 
 			//set up config file

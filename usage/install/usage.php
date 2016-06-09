@@ -60,14 +60,16 @@ function register_usage_requirement()
 					"default_value" => $_SESSION[$MODULE_VARS["uid"]]["useOutliers"]
 				]
 			];
-			if (!isset($_POST["useOutliers"]) && !isset($_SESSION[$MODULE_VARS["uid"]]["useOutliers"]))
+			if (!isset($_SESSION[$MODULE_VARS["uid"]]["formCompleted"]) || !$_SESSION[$MODULE_VARS["uid"]]["formCompleted"])
 			{
 				require_once "install/templates/usage_module_template.php";
 				$title = _("Please set up the following options for the Usage module.");
 				$return->yield->body = usage_module_template($title, $usage_fields);
 				$return->success = false;
+				$_SESSION[$MODULE_VARS["uid"]]["formCompleted"] = true;
 				return $return;
 			}
+			// To validate form - put validation code here and set `$_SESSION[$MODULE_VARS["uid"]]["formCompleted"] = false`
 			$shared_module_info["setSharedModuleInfo"]($MODULE_VARS["uid"], "baseUrl", $_SESSION[$MODULE_VARS["uid"]]["baseURL"]);
 
 
