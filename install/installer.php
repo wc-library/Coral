@@ -117,7 +117,11 @@ class Installer {
 				{
 					$mod["alternative"] = $installer_object["alternative"];
 				}
-				$this->shared_module_info[ "module_list" ][] = $mod;
+				if (isset($installer_object["dependencies_array"]))
+				{
+					$mod["dependencies_array"] = $installer_object["dependencies_array"];
+				}
+				$this->shared_module_info["module_list"][] = $mod;
 			}
 			if (isset($installer_object["getSharedInfo"]))
 			{
