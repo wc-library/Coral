@@ -76,7 +76,7 @@ function register_usage_requirement()
 			$iniData = array();
 			//config file: settings
 			$iniData["settings"] = [
-				"useOutliers" => $_SESSION[$MODULE_VARS["uid"]]["useOutliers"],
+				"useOutliers" => $_SESSION[$MODULE_VARS["uid"]]["useOutliers"] ? "Y" : "N",
 				"baseURL" => $_SESSION[$MODULE_VARS["uid"]]["baseURL"]
 			];
 			$cooperating_modules = [
