@@ -11,7 +11,7 @@ function register_have_database_access_requirement()
 	return [
 		"uid" => "have_database_access",
 		"translatable_title" => _("Database Access"),
-		"dependencies_array" => ["have_read_write_access_to_config", "modules_to_use"],
+		"dependencies_array" => ["meets_system_requirements","have_read_write_access_to_config", "modules_to_use"],
 		"required" => true,
 		"installer" => function($shared_module_info) {
 			$return = new stdClass();
