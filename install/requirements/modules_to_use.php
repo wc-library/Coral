@@ -17,21 +17,27 @@ function register_modules_to_use_requirement()
 			$module_list = $shared_module_info["module_list"];
 			foreach ($module_list as $mod)
 			{
+				$mod_chosen = null;
 				// We can only auto-set if there is no alternative and mod is required
 				if ($mod["required"] && !isset($mod["alternative"]))
 				{
-					$_POST[$mod["uid"]] = 1;
+					$mod_chosen = true;
 					$return->success &= true;
 				}
 				if (isset($_POST[$mod["uid"]]))
+				{
+					$mod_chosen = $_POST[$mod["uid"]] == 1;
+					$return->success &= true;
+				}
+
+				if ($mod_chosen !== null)
 				{
 					if (!isset($_SESSION[ $MODULE_VARS["uid"] ][ $mod["uid"] ]))
 					{
 						$_SESSION[ $MODULE_VARS["uid"] ][ $mod["uid"] ] = [];
 					}
-					$_SESSION[ $MODULE_VARS["uid"] ][ $mod["uid"] ]["useModule"] = $_POST[$mod["uid"]] == 1;
-					$shared_module_info["setSharedModuleInfo"]($MODULE_VARS["uid"], $mod["uid"], ["useModule" => $_POST[$mod["uid"]] == 1]);
-					$return->success &= true;
+					$_SESSION[ $MODULE_VARS["uid"] ][ $mod["uid"] ]["useModule"] = $mod_chosen;
+					$shared_module_info["setSharedModuleInfo"]($MODULE_VARS["uid"], $mod["uid"], ["useModule" => $mod_chosen]);
 				}
 				else
 				{
