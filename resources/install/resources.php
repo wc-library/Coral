@@ -6,7 +6,7 @@ function register_resources_requirement()
 		"translatable_title" => _("Resources Module"),
 		"dependencies_array" => [ "db_tools", "have_read_write_access_to_config", "modules_to_use" ],
 		"required" => false,
-		"wants" => [],
+		"wants" => [ "auth" ],
 		"getSharedInfo" => function () {
 			return [
 				"database" => [
@@ -100,7 +100,6 @@ function register_resources_requirement()
 			$cooperating_modules = [
 				"licensing"		=> "needs_db",
 				"auth"			=> "needs_db",
-				"resources"		=> "needs_db",
 				"usage"			=> "doesnt_need_db",
 				"organizations"	=> "needs_db"
 			];
