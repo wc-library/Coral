@@ -44,9 +44,11 @@ function register_usage_requirement()
 
 			$shared_module_info["provided"]["set_up_admin_in_db"]($dbconnection, $shared_module_info["common"]["default_user"]["username"]);
 
+			$defaultUseOutliers = isset($_SESSION[$MODULE_VARS["uid"]]["useOutliers"]) ? $_SESSION[$MODULE_VARS["uid"]]["useOutliers"] : true;
+			$defaultBaseURL = isset($_SESSION[$MODULE_VARS["uid"]]["baseURL"]) ? $_SESSION[$MODULE_VARS["uid"]]["baseURL"] : "";
 
-			$_SESSION[$MODULE_VARS["uid"]]["useOutliers"] = isset($_POST["useOutliers"]) ? $_POST["useOutliers"] : true;
-			$_SESSION[$MODULE_VARS["uid"]]["baseURL"] = isset($_POST["baseURL"]) ? $_POST["baseURL"] : "";
+			$_SESSION[$MODULE_VARS["uid"]]["useOutliers"] = isset($_POST["useOutliers"]) ? $_POST["useOutliers"] : $defaultUseOutliers;
+			$_SESSION[$MODULE_VARS["uid"]]["baseURL"] = isset($_POST["baseURL"]) ? $_POST["baseURL"] : $defaultBaseURL;
 			$usage_fields = [
 				[
 					"key" => "baseURL",

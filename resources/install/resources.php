@@ -44,11 +44,16 @@ function register_resources_requirement()
 
 			$shared_module_info["provided"]["set_up_admin_in_db"]($dbconnection, $shared_module_info["common"]["default_user"]["username"]);
 
+			$defaultDefaultCurrency = isset($_SESSION[$MODULE_VARS["uid"]]["defaultCurrency"]) ? $_SESSION[$MODULE_VARS["uid"]]["defaultCurrency"] : "USD";
+			$defaultEnableAlerts = isset($_SESSION[$MODULE_VARS["uid"]]["enableAlerts"]) ? $_SESSION[$MODULE_VARS["uid"]]["enableAlerts"] : true;
+			$defaultCatalogURL = isset($_SESSION[$MODULE_VARS["uid"]]["catalogURL"]) ? $_SESSION[$MODULE_VARS["uid"]]["catalogURL"] : "";
+			$defaultFeedbackEmailAddress = isset($_SESSION[$MODULE_VARS["uid"]]["feedbackEmailAddress"]) ? $_SESSION[$MODULE_VARS["uid"]]["feedbackEmailAddress"] : "";
+
 			$defaultCurrencyOptions = [ "ARS","AUD","CAD","EUR","GBP","SEK","USD" ];
-			$_SESSION[$MODULE_VARS["uid"]]["defaultCurrency"] = isset($_POST["defaultCurrency"]) && in_array($_POST["defaultCurrency"], $defaultCurrencyOptions) ? $_POST["defaultCurrency"] : "USD";
-			$_SESSION[$MODULE_VARS["uid"]]["enableAlerts"] = isset($_POST["enableAlerts"]) ? $_POST["enableAlerts"] : true;
-			$_SESSION[$MODULE_VARS["uid"]]["catalogURL"] = isset($_POST["catalogURL"]) ? $_POST["catalogURL"] : "";
-			$_SESSION[$MODULE_VARS["uid"]]["feedbackEmailAddress"] = isset($_POST["feedbackEmailAddress"]) ? $_POST["feedbackEmailAddress"] : "";
+			$_SESSION[$MODULE_VARS["uid"]]["defaultCurrency"] = isset($_POST["defaultCurrency"]) && in_array($_POST["defaultCurrency"], $defaultCurrencyOptions) ? $_POST["defaultCurrency"] : $defaultDefaultCurrency;
+			$_SESSION[$MODULE_VARS["uid"]]["enableAlerts"] = isset($_POST["enableAlerts"]) ? $_POST["enableAlerts"] : $defaultEnableAlerts;
+			$_SESSION[$MODULE_VARS["uid"]]["catalogURL"] = isset($_POST["catalogURL"]) ? $_POST["catalogURL"] : $defaultCatalogURL;
+			$_SESSION[$MODULE_VARS["uid"]]["feedbackEmailAddress"] = isset($_POST["feedbackEmailAddress"]) ? $_POST["feedbackEmailAddress"] : $defaultFeedbackEmailAddress;
 
 			$resources_fields = [
 				[
@@ -92,7 +97,7 @@ function register_resources_requirement()
 			$iniData = array();
 			$iniData["settings"] = [
 				"defaultCurrency" 		=> $_SESSION[$MODULE_VARS["uid"]]["defaultCurrency"],
-				"enableAlerts" 			=> $_SESSION[$MODULE_VARS["uid"]]["enableAlerts"],
+				"enableAlerts" 			=> $_SESSION[$MODULE_VARS["uid"]]["enableAlerts"] ? "Y" : "N",
 				"catalogURL" 			=> $_SESSION[$MODULE_VARS["uid"]]["catalogURL"],
 				"feedbackEmailAddress" 	=> $_SESSION[$MODULE_VARS["uid"]]["feedbackEmailAddress"]
 			];
