@@ -8,7 +8,7 @@ class Installer {
 	const CAUSE_ALREADY_EXISTED = 20043;
 	const ERR_CIRCULAR_DEPENDENCIES = 20044;
 	const ERR_CIRCULAR_WANTS = 20045;
-	const ERR_TEST_DOES_NOT_EXIST = 20046;
+	const ERR_MODULE_DOES_NOT_EXIST = 20046;
 	const ERR_INVALID_TEST_RESULT = 20047;
 
 	protected $checklist = [];
@@ -38,7 +38,7 @@ class Installer {
 		require_once("common/array_column.php");
 		$key = array_search($test_uid, array_column($this->checklist, 'uid'));
 		if ($key === false)
-			throw new OutOfBoundsException("Test '$test_uid' not found in checklist.", $this::ERR_TEST_DOES_NOT_EXIST);
+			throw new OutOfBoundsException("Test '$test_uid' not found in checklist.", $this::ERR_MODULE_DOES_NOT_EXIST);
 
 		return $key;
 	}
@@ -78,17 +78,36 @@ class Installer {
 
 		if (isset($this->checklist[$key]["dependencies_array"]))
 		{
-			foreach ($this->checklist[$key]["dependencies_array"] as $dep) {
-				$this->checklist[ $this->getKeyFromUid($dep) ]["required"] = true;
-				$this->applyRequiredToDependencies($dep);
+			foreach ($this->checklist[$key]["dependencies_array"] as $dep)
+			{
+				try
+				{
+					$this->checklist[ $this->getKeyFromUid($dep) ]["required"] = true;
+					$this->applyRequiredToDependencies($dep);
+				}
+				catch (Exception $e)
+				{
+					if ($e->getCode() == $this::ERR_MODULE_DOES_NOT_EXIST)
+					{
+						$mod_title = $this->checklist[$key]["translatable_title"];
+						$this->messages[] = "<b>Warning:</b> There is a problem with the installer for the '$mod_title' module. Dependency '$dep' not found (ignoring).";
+					}
+					else
+					{
+						throw $e;
+					}
+				}
 			}
 		}
 	}
 	private function applyRequired()
 	{
-		foreach ($this->checklist as $test) {
+		foreach ($this->checklist as $test)
+		{
 			if (isset($test["required"]) && $test["required"])
+			{
 				$this->applyRequiredToDependencies($test["uid"]);
+			}
 		}
 	}
 
@@ -170,7 +189,7 @@ class Installer {
 	{
 		$key = $this->getKeyFromUid($test_uid);
 		if ($key === false)
-			throw new OutOfBoundsException("Test '{$this->getTitleFromUid($test_uid)}' not found in checklist.", $this::ERR_TEST_DOES_NOT_EXIST);
+			throw new OutOfBoundsException("Test '{$this->getTitleFromUid($test_uid)}' not found in checklist.", $this::ERR_MODULE_DOES_NOT_EXIST);
 
 		if (isset($this->checklist[$key]["result"]))
 		{
