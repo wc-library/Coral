@@ -35,7 +35,7 @@ function register_resources_requirement()
 			if ($result)
 				return $result;
 
-			$sql_files_to_process = ["licensing/install/protected/test_create.sql", "licensing/install/protected/install.sql"];
+			$sql_files_to_process = ["resources/install/protected/test_create.sql", "resources/install/protected/install.sql"];
 			$ret = $shared_module_info["provided"]["process_sql_files"]( $dbconnection, $sql_files_to_process, $MODULE_VARS["uid"] );
 			if (!$ret["success"])
 			{
@@ -87,6 +87,8 @@ function register_resources_requirement()
 			}
 
 
+			//set up config file
+			$configFile = $MODULE_VARS["getSharedInfo"]()["config_file"]["path"];
 			$iniData = array();
 			$iniData["settings"] = [
 				"defaultCurrency" 		=> $_SESSION[$MODULE_VARS["uid"]]["defaultCurrency"],
@@ -136,7 +138,10 @@ function register_resources_requirement()
 					];
 				}
 			}
+			//config file: write out
+			$shared_module_info["provided"]["write_config_file"]($configFile, $iniData);
 
+			$return->success = true;
 			return $return;
 		}
 	]);
