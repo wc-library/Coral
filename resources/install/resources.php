@@ -103,7 +103,8 @@ function register_resources_requirement()
 				"usage"			=> "doesnt_need_db",
 				"organizations"	=> "needs_db"
 			];
-			foreach ($cooperating_modules as $key => $value) {
+			foreach ($cooperating_modules as $key => $value)
+			{
 				if (isset($shared_module_info["modules_to_use"][$key]["useModule"]))
 				{
 					$iniData["settings"]["{$key}Module"] = $shared_module_info["modules_to_use"][$key]["useModule"] ? 'Y' : 'N';
