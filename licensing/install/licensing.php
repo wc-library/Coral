@@ -47,7 +47,7 @@ function register_licensing_requirement()
 			$uttField = [
 				"name" => "useTermsToolFunctionality",
 				"label" => _("Use Terms Tool Functionality"),
-				"default" => true
+				"default" => isset($_SESSION[ $MODULE_VARS["uid"] ]["useTermsToolFunctionality"]) ? $_SESSION[ $MODULE_VARS["uid"] ]["useTermsToolFunctionality"] : true
 			];
 			if (isset($_POST[ $uttField["name"] ]))
 			{
@@ -65,7 +65,9 @@ function register_licensing_requirement()
 			$configFile = $MODULE_VARS["getSharedInfo"]()["config_file"]["path"];
 
 			$iniData = array();
-			$iniData["settings"] = [];
+			$iniData["settings"] = [
+				"useTermsToolFunctionality" => $_SESSION[ $MODULE_VARS["uid"] ]["useTermsToolFunctionality"] ? "Y" : "N"
+			];
 
 			$cooperating_modules = [
 				"auth" => "needs_db",
@@ -85,8 +87,6 @@ function register_licensing_requirement()
 			{
 				$iniData["settings"]["remoteAuthVariableName"] = $shared_module_info["auth"]["alternative"]["remote_auth_variable_name"];
 			}
-
-			// 	"useTermsToolFunctionality" => $useTermsToolFunctionality,
 
 			$iniData["database"] = [
 				"type" => "mysql",
