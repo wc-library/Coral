@@ -11,7 +11,7 @@ function resources_module_template($resources_title, $fields)
 			{
 				$options = function($options, $default) {
 					return join(array_reduce($options, function($carry, $item) use ($default){
-						$default = $default ? "selected" : "";
+						$default = $default == $item ? "selected" : "";
 						$carry[] = "<option value='$item' $default>$item</option>";
 						return $carry;
 					}));
