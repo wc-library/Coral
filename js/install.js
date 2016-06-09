@@ -148,7 +148,7 @@ $(document).ready(function(){
 	submit_install_step();
 }).on("submit", function(){
 	$(".main").animate({"opacity": 0, "paddingRight": 30 }, 200, function(){
-		var $form_elements = $("form input:visible");
+		var $form_elements = $("form :input:visible");
 		//But sometimes checkboxes are hidden and their labels are used:
 		$form_elements = $form_elements.add($(":checkbox:hidden").filter(function(){
 			return $("label[for='" + $(this).attr("id") + "']").is(":visible");
