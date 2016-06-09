@@ -25,7 +25,7 @@ function register_modules_to_use_requirement()
 					$mod_chosen = true;
 					$return->success &= true;
 				}
-				if (isset($_POST[$mod["uid"]]))
+				if ($mod_chosen == null && isset($_POST[$mod["uid"]]))
 				{
 					$mod_chosen = $_POST[$mod["uid"]] == 1;
 					$return->success &= true;
