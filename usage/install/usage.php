@@ -4,7 +4,7 @@ function register_usage_requirement()
 	$MODULE_VARS = [
 		"uid" => "usage",
 		"translatable_title" => _("Usage Module"),
-		"dependencies_array" => [ "db_tools", "have_read_write_access_to_config", "modules_to_use", "usage" ],
+		"dependencies_array" => [ "db_tools", "have_read_write_access_to_config", "modules_to_use" ],
 		"required" => false,
 		"wants" => [],
 		"getSharedInfo" => function () {
@@ -25,7 +25,7 @@ function register_usage_requirement()
 			$return->yield = new stdClass();
 			$return->success = false;
 			$return->yield->title = _("Usage Module");
-			$return->yield->messages[] = "Incomplete Installer";
+
 
 			$this_db_name = $shared_module_info[ $MODULE_VARS["uid"] ]["db_name"];
 			$dbconnection = $shared_module_info["provided"]["get_db_connection"]( $this_db_name );
@@ -46,13 +46,38 @@ function register_usage_requirement()
 			$shared_module_info["provided"]["set_up_admin_in_db"]($dbconnection, $shared_module_info["common"]["default_user"]["username"]);
 
 
+			$_SESSION[$MODULE_VARS["uid"]]["useOutliers"] = isset($_POST["useOutliers"]) ? $_POST["useOutliers"] : true;
+			$_SESSION[$MODULE_VARS["uid"]]["baseURL"] = isset($_POST["baseURL"]) ? $_POST["baseURL"] : "";
+			$usage_fields = [
+				[
+					"key" => "baseURL",
+					"title" => _("Link Resolver Base URL (optional)"),
+					"type" => "text",
+					"default_value" => $_SESSION[$MODULE_VARS["uid"]]["baseURL"]
+				],[
+					"key" => "useOutliers",
+					"title" => _("Use Outlier Flagging Feature"),
+					"type" => "checkbox",
+					"default_value" => $_SESSION[$MODULE_VARS["uid"]]["useOutliers"]
+				]
+			];
+			if (!isset($_POST["useOutliers"]))
+			{
+				require_once "install/templates/usage_module_template.php";
+				$title = _("Please set up the following options for the Usage module.");
+				$return->yield->body = usage_module_template($title, $usage_fields);
+				$return->success = false;
+				return $return;
+			}
+
+
 			//set up config file
 			$configFile = $MODULE_VARS["getSharedInfo"]()["config_file"]["path"];
 			$iniData = array();
 			//config file: settings
 			$iniData["settings"] = [
-				"useOutliers" => $useOutliers,
-				"baseURL" => $base_url
+				"useOutliers" => $_SESSION[$MODULE_VARS["uid"]]["useOutliers"],
+				"baseURL" => $_SESSION[$MODULE_VARS["uid"]]["baseURL"]
 			];
 			$cooperating_modules = [
 				"licensing" => "doesnt_need_db",
