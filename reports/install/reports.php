@@ -48,7 +48,7 @@ function register_reports_requirement()
 			$configFile = $MODULE_VARS["getSharedInfo"]()["config_file"]["path"];
 			$iniData = array();
 			$iniData["settings"] = [
-				"baseURL" => $shared_module_info[ $MODULE_VARS["uid"] ]["baseUrl"]
+				"baseURL" => $shared_module_info["usage"]["baseUrl"]
 			];
 			//config file: database
 			$iniData["database"] = [
