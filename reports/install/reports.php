@@ -44,63 +44,21 @@ function register_reports_requirement()
 				return $return;
 			}
 
-
-
-
-
-			//next check the usage database exists
-			$dbcheck = @mysql_select_db("$usage_database_name");
-			if (!$dbcheck) {
-				$errorMessage[] = "Unable to access the usage database '" . $usage_database_name . "'.  Please verify it has been created.<br />MySQL Error: " . mysql_error();
-			}else{
-
-				//passed db host, name check, test that user can select from License database
-				$result = mysql_query("SELECT outlierID FROM " . $usage_database_name . ".Outlier WHERE outlierLevel = '1';");
-				if (!$result){
-					$errorMessage[] = "Unable to select from the Outlier table in database '" . $usage_database_name . "' with user '" . $database_username . "'.  Please complete the Usage install and verify the database has been set up.  Error: " . mysql_error();
-				}
-			}
-
-
-
-
-
 			//set up config file
 			$configFile = $MODULE_VARS["getSharedInfo"]()["config_file"]["path"];
 			$iniData = array();
 			$iniData["settings"] = [
-				"defaultCurrency" 		=> $_SESSION[$MODULE_VARS["uid"]]["defaultCurrency"],
-				"enableAlerts" 			=> $_SESSION[$MODULE_VARS["uid"]]["enableAlerts"],
-				"catalogURL" 			=> $_SESSION[$MODULE_VARS["uid"]]["catalogURL"],
-				"feedbackEmailAddress" 	=> $_SESSION[$MODULE_VARS["uid"]]["feedbackEmailAddress"]
+				"baseURL" => $shared_module_info[ $MODULE_VARS["uid"] ]["baseUrl"]
 			];
-			//config file: settings
-			$cooperating_modules = [
-				"licensing"		=> "needs_db",
-				"auth"			=> "needs_db",
-				"reports"		=> "needs_db",
-				"usage"			=> "doesnt_need_db",
-				"organizations"	=> "needs_db"
-			];
-			foreach ($cooperating_modules as $key => $value) {
-				if (isset($shared_module_info["modules_to_use"][$key]["useModule"]))
-				{
-					$iniData["settings"]["{$key}Module"] = $shared_module_info["modules_to_use"][$key]["useModule"] ? 'Y' : 'N';
-					if ($value == "needs_db" && $shared_module_info["modules_to_use"][$key]["useModule"])
-						$iniData["settings"]["{$key}DatabaseName"] = $shared_module_info[$key]["db_name"];
-				}
-			}
-			if ($iniData["settings"]["authModule"] == 'N')
-			{
-				$iniData["settings"]["remoteAuthVariableName"] = $shared_module_info["auth"]["alternative"]["remote_auth_variable_name"];
-			}
 			//config file: database
 			$iniData["database"] = [
 				"type" => "mysql",
 				"host" => Config::dbInfo("host"),
 				"name" => $this_db_name,
 				"username" => Config::dbInfo("username"),
-				"password" => Config::dbInfo("password")
+				"password" => Config::dbInfo("password"),
+				//TODO: yes, this is horrible but when it's unified it will go away
+				"usageDatabaseName" => $shared_module_info["usage"]["db_name"]
 			];
 			//config file: ldap
 			if (isset($shared_module_info["modules_to_use"]["auth"]["useModule"]) && $shared_module_info["modules_to_use"]["auth"]["useModule"])
