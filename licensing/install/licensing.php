@@ -4,7 +4,7 @@ function register_licensing_requirement()
 	$MODULE_VARS = [
 		"uid" => "licensing",
 		"translatable_title" => _("Licensing Module"),
-		"dependencies_array" => [ "db_tools", "have_read_write_access_to_config", "modules_to_use" ],
+		"dependencies_array" => [ "db_tools", "have_read_write_access_to_config", "modules_to_use", "have_default_coral_admin_user" ],
 		"required" => true, // TODO: is this module really required?
 		"wants" => [ "auth" ], // Doesn't actually want auth but it seems as though auth should come before it.
 		"sharedInfo" => [
@@ -40,7 +40,7 @@ function register_licensing_requirement()
 				return $return;
 			}
 
-			$shared_module_info["provided"]["set_up_admin_in_db"]($dbconnection, $shared_module_info["common"]["default_user"]["username"]);
+			$shared_module_info["provided"]["set_up_admin_in_db"]($dbconnection, $shared_module_info["have_default_coral_admin_user"]["default_user"]);
 
 			$uttField = [
 				"name" => "useTermsToolFunctionality",

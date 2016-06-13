@@ -4,7 +4,7 @@ function register_usage_requirement()
 	$MODULE_VARS = [
 		"uid" => "usage",
 		"translatable_title" => _("Usage Module"),
-		"dependencies_array" => [ "db_tools", "have_read_write_access_to_config", "modules_to_use" ],
+		"dependencies_array" => [ "db_tools", "have_read_write_access_to_config", "modules_to_use", "have_default_coral_admin_user" ],
 		"required" => false,
 		"wants" => [],
 		"sharedInfo" => [
@@ -40,7 +40,7 @@ function register_usage_requirement()
 				return $return;
 			}
 
-			$shared_module_info["provided"]["set_up_admin_in_db"]($dbconnection, $shared_module_info["common"]["default_user"]["username"]);
+			$shared_module_info["provided"]["set_up_admin_in_db"]($dbconnection, $shared_module_info["have_default_coral_admin_user"]["default_user"]);
 
 			$defaultUseOutliers = isset($_SESSION[$MODULE_VARS["uid"]]["useOutliers"]) ? $_SESSION[$MODULE_VARS["uid"]]["useOutliers"] : true;
 			$defaultBaseURL = isset($_SESSION[$MODULE_VARS["uid"]]["baseURL"]) ? $_SESSION[$MODULE_VARS["uid"]]["baseURL"] : "";

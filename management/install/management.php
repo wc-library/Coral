@@ -4,7 +4,7 @@ function register_management_requirement()
 	$MODULE_VARS = [
 		"uid" => "management",
 		"translatable_title" => _("Management Module"),
-		"dependencies_array" => [ "db_tools", "have_read_write_access_to_config", "modules_to_use" ],
+		"dependencies_array" => [ "db_tools", "have_read_write_access_to_config", "modules_to_use", "have_default_coral_admin_user" ],
 		"sharedInfo" => [
 			"database" => [
 				"title" => _("Management Database"),
@@ -41,7 +41,7 @@ function register_management_requirement()
 				return $return;
 			}
 
-			$shared_module_info["provided"]["set_up_admin_in_db"]($dbconnection, $shared_module_info["common"]["default_user"]["username"]);
+			$shared_module_info["provided"]["set_up_admin_in_db"]($dbconnection, $shared_module_info["have_default_coral_admin_user"]["default_user"]);
 
 			$configFile = $MODULE_VARS["sharedInfo"]["config_file"]["path"];
 

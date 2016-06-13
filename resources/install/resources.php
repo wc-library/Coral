@@ -4,7 +4,7 @@ function register_resources_requirement()
 	$MODULE_VARS = [
 		"uid" => "resources",
 		"translatable_title" => _("Resources Module"),
-		"dependencies_array" => [ "db_tools", "have_read_write_access_to_config", "modules_to_use" ],
+		"dependencies_array" => [ "db_tools", "have_read_write_access_to_config", "modules_to_use", "have_default_coral_admin_user" ],
 		"required" => false,
 		"wants" => [ "auth" ],
 		"sharedInfo" => [
@@ -40,7 +40,7 @@ function register_resources_requirement()
 				return $return;
 			}
 
-			$shared_module_info["provided"]["set_up_admin_in_db"]($dbconnection, $shared_module_info["common"]["default_user"]["username"]);
+			$shared_module_info["provided"]["set_up_admin_in_db"]($dbconnection, $shared_module_info["have_default_coral_admin_user"]["default_user"]);
 
 			$defaultDefaultCurrency = isset($_SESSION[$MODULE_VARS["uid"]]["defaultCurrency"]) ? $_SESSION[$MODULE_VARS["uid"]]["defaultCurrency"] : "USD";
 			$defaultEnableAlerts = isset($_SESSION[$MODULE_VARS["uid"]]["enableAlerts"]) ? $_SESSION[$MODULE_VARS["uid"]]["enableAlerts"] : true;

@@ -4,7 +4,7 @@ function register_organizations_requirement()
 	$MODULE_VARS = [
 		"uid" => "organizations",
 		"translatable_title" => _("Organizations Module"),
-		"dependencies_array" => [ "have_database_access", "modules_to_use" ],
+		"dependencies_array" => [ "have_database_access", "modules_to_use", "have_default_coral_admin_user" ],
 		"wants" => [ "auth" ], // wants auth for ldap data
 		"sharedInfo" => [
 			"database" => [
@@ -40,7 +40,7 @@ function register_organizations_requirement()
 				return $return;
 			}
 
-			$shared_module_info["provided"]["set_up_admin_in_db"]($dbconnection, $shared_module_info["common"]["default_user"]["username"]);
+			$shared_module_info["provided"]["set_up_admin_in_db"]($dbconnection, $shared_module_info["have_default_coral_admin_user"]["default_user"]);
 
 			// BUILD AND WRITE CONFIG FILE
 			$configFile = $MODULE_VARS["sharedInfo"]["config_file"]["path"];
