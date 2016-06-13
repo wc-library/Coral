@@ -113,6 +113,33 @@ function register_modules_to_use_requirement()
 				require "install/templates/modules_to_use_template.php";
 				$return->yield->body = modules_to_use_template($module_list);
 			}
+			else
+			{
+				$shared_module_info["setSharedModuleInfo"](
+					"provided",
+					"get_modules_to_use_config",
+					function($smi){
+						$conf = [];
+						$modules_to_use = $smi["modules_to_use"];
+						foreach ($modules_to_use as $key => $value) {
+							if (isset($smi["modules_to_use"][$key]["useModule"]))
+							{
+								$conf["{$key}Module"] = $smi["modules_to_use"][$key]["useModule"] ? 'Y' : 'N';
+								if ($smi["modules_to_use"][$key]["useModule"] && isset($smi[$key]["db_name"]))
+									$conf["{$key}DatabaseName"] = $smi[$key]["db_name"];
+							}
+						}
+
+						// This assumes too much knowledge of the auth module but since we're going towards a common config file this will go away eventually.
+						if ($conf["authModule"] == 'N')
+						{
+							$conf["remoteAuthVariableName"] = $smi["auth"]["alternative"]["remote_auth_variable_name"];
+						}
+						return $conf;
+					}
+				);
+			}
+
 			return $return;
 		}
 	]);
