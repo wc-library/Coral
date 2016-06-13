@@ -21,7 +21,7 @@ function register_have_default_coral_admin_user_requirement()
 			$default_user = !empty($_SESSION[ $MODULE_VARS["uid"] ]["loginID"]) ? $_SESSION[ $MODULE_VARS["uid"] ]["loginID"] : $default_user;
 			if (empty($_SESSION[ $MODULE_VARS["uid"] ]["loginID"]))
 			{
-				$instruction = _("Since user privileges are driven through the web, we will need to set up the first admin account to administer other users.<br />Please enter either your CORAL Authentication Login ID (username) or your externally authenticated Login ID below.");
+				$instruction = _("Since user privileges are driven through the web, we will need to set up the first admin account to administer other users. Please enter either your CORAL Authentication Login ID (username) or your externally authenticated Login ID below.");
 				$field = [
 					"type" => "text",
 					"uid" => "loginID",
