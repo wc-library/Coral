@@ -93,32 +93,15 @@ function register_resources_requirement()
 			//set up config file
 			$configFile = $MODULE_VARS["sharedInfo"]["config_file"]["path"];
 			$iniData = array();
+			//config file: settings
 			$iniData["settings"] = [
 				"defaultCurrency" 		=> $_SESSION[$MODULE_VARS["uid"]]["defaultCurrency"],
 				"enableAlerts" 			=> $_SESSION[$MODULE_VARS["uid"]]["enableAlerts"] ? "Y" : "N",
 				"catalogURL" 			=> $_SESSION[$MODULE_VARS["uid"]]["catalogURL"],
 				"feedbackEmailAddress" 	=> $_SESSION[$MODULE_VARS["uid"]]["feedbackEmailAddress"]
 			];
-			//config file: settings
-			$cooperating_modules = [
-				"licensing"		=> "needs_db",
-				"auth"			=> "needs_db",
-				"usage"			=> "doesnt_need_db",
-				"organizations"	=> "needs_db"
-			];
-			foreach ($cooperating_modules as $key => $value)
-			{
-				if (isset($shared_module_info["modules_to_use"][$key]["useModule"]))
-				{
-					$iniData["settings"]["{$key}Module"] = $shared_module_info["modules_to_use"][$key]["useModule"] ? 'Y' : 'N';
-					if ($value == "needs_db" && $shared_module_info["modules_to_use"][$key]["useModule"])
-						$iniData["settings"]["{$key}DatabaseName"] = $shared_module_info[$key]["db_name"];
-				}
-			}
-			if ($iniData["settings"]["authModule"] == 'N')
-			{
-				$iniData["settings"]["remoteAuthVariableName"] = $shared_module_info["auth"]["alternative"]["remote_auth_variable_name"];
-			}
+			$installed_module_details = $shared_module_info["provided"]["get_modules_to_use_config"]($shared_module_info);
+			$iniData["settings"] = array_merge($iniData["settings"], $installed_module_details);
 			//config file: database
 			$iniData["database"] = [
 				"type" => "mysql",

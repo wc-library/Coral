@@ -65,24 +65,8 @@ function register_licensing_requirement()
 				"useTermsToolFunctionality" => $_SESSION[ $MODULE_VARS["uid"] ]["useTermsToolFunctionality"] ? "Y" : "N"
 			];
 
-			$cooperating_modules = [
-				"auth" => "needs_db",
-				"organizations" => "needs_db",
-				"resources" => "needs_db",
-				"usage" => "doesnt_need_db"
-			];
-			foreach ($cooperating_modules as $key => $value) {
-				if (isset($shared_module_info["modules_to_use"][$key]["useModule"]))
-				{
-					$iniData["settings"]["{$key}Module"] = $shared_module_info["modules_to_use"][$key]["useModule"] ? 'Y' : 'N';
-					if ($value == "needs_db" && $shared_module_info["modules_to_use"][$key]["useModule"])
-						$iniData["settings"]["{$key}DatabaseName"] = $shared_module_info[$key]["db_name"];
-				}
-			}
-			if ($iniData["settings"]["authModule"] == 'N')
-			{
-				$iniData["settings"]["remoteAuthVariableName"] = $shared_module_info["auth"]["alternative"]["remote_auth_variable_name"];
-			}
+			$installed_module_details = $shared_module_info["provided"]["get_modules_to_use_config"]($shared_module_info);
+			$iniData["settings"] = array_merge($iniData["settings"], $installed_module_details);
 
 			$iniData["database"] = [
 				"type" => "mysql",
