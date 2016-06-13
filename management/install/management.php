@@ -5,17 +5,15 @@ function register_management_requirement()
 		"uid" => "management",
 		"translatable_title" => _("Management Module"),
 		"dependencies_array" => [ "db_tools", "have_read_write_access_to_config", "modules_to_use" ],
-		"getSharedInfo" => function () {
-			return [
-				"database" => [
-					"title" => _("Management Database"),
-					"default_value" => "coral_management"
-				],
-				"config_file" => [
-					"path" => "management/admin/configuration.ini",
-				]
-			];
-		}
+		"sharedInfo" => [
+			"database" => [
+				"title" => _("Management Database"),
+				"default_value" => "coral_management"
+			],
+			"config_file" => [
+				"path" => "management/admin/configuration.ini",
+			]
+		]
 	];
 	return array_merge( $MODULE_VARS, [
 		"installer" => function($shared_module_info) use ($MODULE_VARS) {
@@ -45,7 +43,7 @@ function register_management_requirement()
 
 			$shared_module_info["provided"]["set_up_admin_in_db"]($dbconnection, $shared_module_info["common"]["default_user"]["username"]);
 
-			$configFile = $MODULE_VARS["getSharedInfo"]()["config_file"]["path"];
+			$configFile = $MODULE_VARS["sharedInfo"]["config_file"]["path"];
 
 			// TODO: check that missing settings are not looked for in the management module (and so an error will be throw, e.g., if organizations is not set t/f here)
 			$iniData = array();

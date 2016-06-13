@@ -7,17 +7,15 @@ function register_usage_requirement()
 		"dependencies_array" => [ "db_tools", "have_read_write_access_to_config", "modules_to_use" ],
 		"required" => false,
 		"wants" => [],
-		"getSharedInfo" => function () {
-			return [
-				"database" => [
-					"title" => _("Usage Database"),
-					"default_value" => "coral_usage"
-				],
-				"config_file" => [
-					"path" => "usage/admin/configuration.ini",
-				]
-			];
-		}
+		"sharedInfo" => [
+			"database" => [
+				"title" => _("Usage Database"),
+				"default_value" => "coral_usage"
+			],
+			"config_file" => [
+				"path" => "usage/admin/configuration.ini",
+			]
+		]
 	];
 	return array_merge( $MODULE_VARS, [
 		"installer" => function($shared_module_info) use ($MODULE_VARS) {
@@ -76,7 +74,7 @@ function register_usage_requirement()
 
 
 			//set up config file
-			$configFile = $MODULE_VARS["getSharedInfo"]()["config_file"]["path"];
+			$configFile = $MODULE_VARS["sharedInfo"]["config_file"]["path"];
 			$iniData = array();
 			//config file: settings
 			$iniData["settings"] = [

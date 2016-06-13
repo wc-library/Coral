@@ -7,17 +7,15 @@ function register_resources_requirement()
 		"dependencies_array" => [ "db_tools", "have_read_write_access_to_config", "modules_to_use" ],
 		"required" => false,
 		"wants" => [ "auth" ],
-		"getSharedInfo" => function () {
-			return [
-				"database" => [
-					"title" => _("Resources Database"),
-					"default_value" => "coral_resources"
-				],
-				"config_file" => [
-					"path" => "resources/admin/configuration.ini",
-				]
-			];
-		}
+		"sharedInfo" => [
+			"database" => [
+				"title" => _("Resources Database"),
+				"default_value" => "coral_resources"
+			],
+			"config_file" => [
+				"path" => "resources/admin/configuration.ini",
+			]
+		]
 	];
 	return array_merge( $MODULE_VARS, [
 		"installer" => function($shared_module_info) use ($MODULE_VARS) {
@@ -93,7 +91,7 @@ function register_resources_requirement()
 
 
 			//set up config file
-			$configFile = $MODULE_VARS["getSharedInfo"]()["config_file"]["path"];
+			$configFile = $MODULE_VARS["sharedInfo"]["config_file"]["path"];
 			$iniData = array();
 			$iniData["settings"] = [
 				"defaultCurrency" 		=> $_SESSION[$MODULE_VARS["uid"]]["defaultCurrency"],

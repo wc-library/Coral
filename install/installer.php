@@ -142,9 +142,9 @@ class Installer {
 				}
 				$this->shared_module_info["module_list"][] = $mod;
 			}
-			if (isset($installer_object["getSharedInfo"]))
+			if (isset($installer_object["sharedInfo"]))
 			{
-				$this->shared_module_info[ $installer_object["uid"] ] = $installer_object["getSharedInfo"]();
+				$this->shared_module_info[ $installer_object["uid"] ] = $installer_object["sharedInfo"];
 			}
 		}
 		else

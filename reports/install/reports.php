@@ -7,17 +7,15 @@ function register_reports_requirement()
 		"dependencies_array" => [ "db_tools", "have_read_write_access_to_config", "modules_to_use", "usage" ],
 		"required" => false,
 		"wants" => [],
-		"getSharedInfo" => function () {
-			return [
-				"database" => [
-					"title" => _("Reports Database"),
-					"default_value" => "coral_reports"
-				],
-				"config_file" => [
-					"path" => "reports/admin/configuration.ini",
-				]
-			];
-		}
+		"sharedInfo" => [
+			"database" => [
+				"title" => _("Reports Database"),
+				"default_value" => "coral_reports"
+			],
+			"config_file" => [
+				"path" => "reports/admin/configuration.ini",
+			]
+		]
 	];
 	return array_merge( $MODULE_VARS, [
 		"installer" => function($shared_module_info) use ($MODULE_VARS) {
@@ -45,7 +43,7 @@ function register_reports_requirement()
 			}
 
 			//set up config file
-			$configFile = $MODULE_VARS["getSharedInfo"]()["config_file"]["path"];
+			$configFile = $MODULE_VARS["sharedInfo"]["config_file"]["path"];
 			$iniData = array();
 			$iniData["settings"] = [
 				"baseURL" => $shared_module_info["usage"]["baseUrl"]

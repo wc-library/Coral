@@ -8,17 +8,15 @@ function register_organizations_requirement()
 		"translatable_title" => _("Organizations Module"),
 		"dependencies_array" => [ "have_database_access", "modules_to_use" ],
 		"wants" => [ "auth" ], // wants auth for ldap data
-		"getSharedInfo" => function () {
-			return [
-				"database" => [
-					"title" => _("Organizations Database"),
-					"default_value" => "coral_organizations"
-				],
-				"config_file" => [
-					"path" => "organizations/admin/configuration.ini",
-				]
-			];
-		}
+		"sharedInfo" => [
+			"database" => [
+				"title" => _("Organizations Database"),
+				"default_value" => "coral_organizations"
+			],
+			"config_file" => [
+				"path" => "organizations/admin/configuration.ini",
+			]
+		]
 	];
 	return array_merge( $MODULE_VARS, [
 		"installer" => function($shared_module_info) use ($MODULE_VARS) {
@@ -47,7 +45,7 @@ function register_organizations_requirement()
 			$shared_module_info["provided"]["set_up_admin_in_db"]($dbconnection, $shared_module_info["common"]["default_user"]["username"]);
 
 			// BUILD AND WRITE CONFIG FILE
-			$configFile = $MODULE_VARS["getSharedInfo"]()["config_file"]["path"];
+			$configFile = $MODULE_VARS["sharedInfo"]["config_file"]["path"];
 			$iniData = array();
 			//config file: database
 			$iniData["database"] = [

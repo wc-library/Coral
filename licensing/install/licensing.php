@@ -7,17 +7,15 @@ function register_licensing_requirement()
 		"dependencies_array" => [ "db_tools", "have_read_write_access_to_config", "modules_to_use" ],
 		"required" => true, // TODO: is this module really required?
 		"wants" => [ "auth" ], // Doesn't actually want auth but it seems as though auth should come before it.
-		"getSharedInfo" => function () {
-			return [
-				"database" => [
-					"title" => _("Licensing Database"),
-					"default_value" => "coral_licensing"
-				],
-				"config_file" => [
-					"path" => "licensing/admin/configuration.ini",
-				]
-			];
-		}
+		"sharedInfo" => [
+			"database" => [
+				"title" => _("Licensing Database"),
+				"default_value" => "coral_licensing"
+			],
+			"config_file" => [
+				"path" => "licensing/admin/configuration.ini",
+			]
+		]
 	];
 	return array_merge( $MODULE_VARS, [
 		"installer" => function($shared_module_info) use ($MODULE_VARS) {
@@ -61,9 +59,7 @@ function register_licensing_requirement()
 				return $return;
 			}
 
-			// TODO: configure these locations better? Although may be wasted effort if a unified common is achieved
-			$configFile = $MODULE_VARS["getSharedInfo"]()["config_file"]["path"];
-
+			$configFile = $MODULE_VARS["sharedInfo"]["config_file"]["path"];
 			$iniData = array();
 			$iniData["settings"] = [
 				"useTermsToolFunctionality" => $_SESSION[ $MODULE_VARS["uid"] ]["useTermsToolFunctionality"] ? "Y" : "N"

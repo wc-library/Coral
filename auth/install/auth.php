@@ -13,17 +13,15 @@ function register_auth_requirement()
 		// if((substr_count($remoteAuthVariableName, "'") % 2)!==0){
 		// 	$errorMessage[] = 'Make sure Remote Auth Variable Name has matched single or double quotes';
 		// }
-		"getSharedInfo" => function () {
-			return [
-				"database" => [
-					"title" => _("Auth Database"),
-					"default_value" => "coral_auth"
-				],
-				"config_file" => [
-					"path" => "auth/admin/configuration.ini",
-				]
-			];
-		}
+		"sharedInfo" => [
+			"database" => [
+				"title" => _("Auth Database"),
+				"default_value" => "coral_auth"
+			],
+			"config_file" => [
+				"path" => "auth/admin/configuration.ini",
+			]
+		]
 	];
 	return array_merge( $MODULE_VARS,[
 		"installer" => function($shared_module_info) use ($MODULE_VARS) {
@@ -212,7 +210,7 @@ function register_auth_requirement()
 			$result = $dbconnection->processQuery("SELECT loginID FROM User WHERE loginID like '%coral%';");
 
 			// Write the config file
-			$configFile = $MODULE_VARS["getSharedInfo"]()["config_file"]["path"];
+			$configFile = $MODULE_VARS["sharedInfo"]["config_file"]["path"];
 			$iniData = array();
 			$iniData["settings"] = [
 				"timeout" => $_SESSION[$MODULE_VARS["uid"]]["session_timeout"]
