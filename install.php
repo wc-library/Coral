@@ -52,8 +52,6 @@
  * @author j3frea+coral@gmail.com
  */
 
-
-// TODO: grep for and remove "# code..."
 // TODO: detect failed installation (possibly by asking) and handle dbs better...
 // TODO: go through template.php and remove hard coded vars
 // TODO: add post-installation checks.

@@ -45,7 +45,6 @@ function register_management_requirement()
 
 			$configFile = $MODULE_VARS["sharedInfo"]["config_file"]["path"];
 
-			// TODO: check that missing settings are not looked for in the management module (and so an error will be throw, e.g., if organizations is not set t/f here)
 			$iniData = array();
 			$iniData["settings"] = [];
 			if (isset($shared_module_info["modules_to_use"]["auth"]["useModule"]) && $shared_module_info["modules_to_use"]["auth"]["useModule"])

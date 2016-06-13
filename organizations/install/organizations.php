@@ -1,5 +1,3 @@
-
-
 <?php
 function register_organizations_requirement()
 {

@@ -48,7 +48,6 @@ function register_have_database_access_requirement()
 						}
 						break;
 					case Config::ERR_FILE_NOT_READABLE:
-						# code...
 						break;
 
 					default:
