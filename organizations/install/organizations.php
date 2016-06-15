@@ -69,7 +69,8 @@ function register_organizations_requirement()
 			}
 			//config file: settings
 			$installed_module_details = $shared_module_info["provided"]["get_modules_to_use_config"]($shared_module_info);
-			$iniData["settings"] = array_merge($iniData["settings"], $installed_module_details);
+			if (!empty($installed_module_details))
+				$iniData["settings"] = $installed_module_details;
 			//write out config file
 			$shared_module_info["provided"]["write_config_file"]($configFile, $iniData);
 
