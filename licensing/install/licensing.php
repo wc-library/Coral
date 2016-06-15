@@ -4,7 +4,7 @@ function register_licensing_requirement()
 	$MODULE_VARS = [
 		"uid" => "licensing",
 		"translatable_title" => _("Licensing Module"),
-		"dependencies_array" => [ "db_tools", "have_read_write_access_to_config", "modules_to_use", "have_default_coral_admin_user" ],
+		"dependencies_array" => [ "db_tools", "have_read_write_access_to_config", "modules_to_use", "have_default_coral_admin_user", "have_default_db_user" ],
 		"required" => true, // TODO: is this module really required?
 		"wants" => [ "auth" ], // Doesn't actually want auth but it seems as though auth should come before it.
 		"sharedInfo" => [
@@ -72,8 +72,8 @@ function register_licensing_requirement()
 				"type" => "mysql",
 				"host" => Config::dbInfo("host"),
 				"name" => $this_db_name,
-				"username" => Config::dbInfo("username"),
-				"password" => Config::dbInfo("password")
+				"username" => $shared_module_info["have_default_db_user"]["username"],
+				"password" => $shared_module_info["have_default_db_user"]["password"]
 			];
 
 			$shared_module_info["provided"]["write_config_file"]($configFile, $iniData);

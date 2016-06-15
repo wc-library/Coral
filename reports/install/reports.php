@@ -4,7 +4,7 @@ function register_reports_requirement()
 	$MODULE_VARS = [
 		"uid" => "reports",
 		"translatable_title" => _("Reports Module"),
-		"dependencies_array" => [ "db_tools", "have_read_write_access_to_config", "modules_to_use", "usage" ],
+		"dependencies_array" => [ "db_tools", "have_read_write_access_to_config", "modules_to_use", "usage", "have_default_db_user" ],
 		"required" => false,
 		"wants" => [],
 		"sharedInfo" => [
@@ -53,8 +53,8 @@ function register_reports_requirement()
 				"type" => "mysql",
 				"host" => Config::dbInfo("host"),
 				"name" => $this_db_name,
-				"username" => Config::dbInfo("username"),
-				"password" => Config::dbInfo("password"),
+				"username" => $shared_module_info["have_default_db_user"]["username"],
+				"password" => $shared_module_info["have_default_db_user"]["password"],
 				//TODO: yes, this is horrible but when it's unified it will go away
 				"usageDatabaseName" => $shared_module_info["usage"]["db_name"]
 			];
@@ -64,7 +64,7 @@ function register_reports_requirement()
 				if ($shared_module_info["auth"]["ldap_enabled"])
 				{
 					$iniData["ldap"] = [
-						"host"			=> $shared_module_info["auth"]["host"],
+						"host"				=> $shared_module_info["auth"]["host"],
 						"search_key"	=> $shared_module_info["auth"]["search_key"],
 						"base_dn"		=> $shared_module_info["auth"]["base_dn"],
 						"fname_field"	=> $shared_module_info["auth"]["fname"],

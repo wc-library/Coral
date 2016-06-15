@@ -4,7 +4,7 @@ function register_management_requirement()
 	$MODULE_VARS = [
 		"uid" => "management",
 		"translatable_title" => _("Management Module"),
-		"dependencies_array" => [ "db_tools", "have_read_write_access_to_config", "modules_to_use", "have_default_coral_admin_user" ],
+		"dependencies_array" => [ "db_tools", "have_read_write_access_to_config", "modules_to_use", "have_default_coral_admin_user", "have_default_db_user" ],
 		"sharedInfo" => [
 			"database" => [
 				"title" => _("Management Database"),
@@ -61,8 +61,8 @@ function register_management_requirement()
 				"type" => "mysql",
 				"host" => Config::dbInfo("host"),
 				"name" => $this_db_name,
-				"username" => Config::dbInfo("username"),
-				"password" => Config::dbInfo("password")
+				"username" => $shared_module_info["have_default_db_user"]["username"],
+				"password" => $shared_module_info["have_default_db_user"]["password"]
 			];
 			$shared_module_info["provided"]["write_config_file"]($configFile, $iniData);
 

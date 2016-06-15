@@ -4,7 +4,7 @@ function register_auth_requirement()
 	$MODULE_VARS = [
 		"uid" => "auth",
 		"translatable_title" => _("Authentication Module"),
-		"dependencies_array" => [ "db_tools", "have_read_write_access_to_config" ],
+		"dependencies_array" => [ "db_tools", "have_read_write_access_to_config", "have_default_db_user" ],
 		"required" => true,
 		"alternative" => ["remote_auth_variable_name" => _("Remote Auth Variable Name")],
 		//TODO: check that remote auth is valid?
@@ -219,8 +219,8 @@ function register_auth_requirement()
 				"type" => "mysql",
 				"host" => Config::dbInfo("host"),
 				"name" => $this_db_name,
-				"username" => Config::dbInfo("username"),
-				"password" => Config::dbInfo("password")
+				"username" => $shared_module_info["have_default_db_user"]["username"],
+				"password" => $shared_module_info["have_default_db_user"]["password"]
 			];
 			$iniData["ldap"] = $ldap_session_var_by_reference;
 			$shared_module_info["provided"]["write_config_file"]($configFile, $iniData);

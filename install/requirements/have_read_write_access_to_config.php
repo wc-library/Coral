@@ -4,7 +4,7 @@ function register_have_read_write_access_to_config_requirement()
 	return [
 		"uid" => "have_read_write_access_to_config",
 		"translatable_title" => _("Config File Access"),
-		"dependencies_array" => ["meets_system_requirements"],
+		"dependencies_array" => ["meets_system_requirements", "have_default_db_user"],
 		"required" => true,
 		"installer" => function($shared_module_info) {
 			$return = new stdClass();
@@ -68,7 +68,9 @@ function register_have_read_write_access_to_config_requirement()
 						foreach ($settingsObject as $key => $value) {
 							$dataToWrite[] = "[$key]";
 							foreach ($value as $k => $v) {
-								$dataToWrite[] = "$k=$v";
+								//slash out double quotes only for ini
+								$escaped_value = addcslashes($v, '"');
+								$dataToWrite[] = "$k = \"$escaped_value\"";
 							}
 							$dataToWrite[] = "";
 						}
@@ -81,6 +83,7 @@ function register_have_read_write_access_to_config_requirement()
 			{
 				$return->yield->title = "<b>" . _('Current Test:') . "</b> " . _('Trying to read and write configuration files');
 				$return->yield->messages[] = "<b>" . _("Be sure to reset permissions to any files you change.") . "</b>";
+				//TODO: register post installation check to ensure that these have been reset.
 			}
 			return $return;
 		}

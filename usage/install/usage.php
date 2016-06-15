@@ -4,7 +4,7 @@ function register_usage_requirement()
 	$MODULE_VARS = [
 		"uid" => "usage",
 		"translatable_title" => _("Usage Module"),
-		"dependencies_array" => [ "db_tools", "have_read_write_access_to_config", "modules_to_use", "have_default_coral_admin_user" ],
+		"dependencies_array" => [ "db_tools", "have_read_write_access_to_config", "modules_to_use", "have_default_coral_admin_user", "have_default_db_user" ],
 		"required" => false,
 		"wants" => [],
 		"sharedInfo" => [
@@ -88,8 +88,8 @@ function register_usage_requirement()
 				"type" => "mysql",
 				"host" => Config::dbInfo("host"),
 				"name" => $this_db_name,
-				"username" => Config::dbInfo("username"),
-				"password" => Config::dbInfo("password")
+				"username" => $shared_module_info["have_default_db_user"]["username"],
+				"password" => $shared_module_info["have_default_db_user"]["password"]
 			];
 			//config file: write out
 			$shared_module_info["provided"]["write_config_file"]($configFile, $iniData);

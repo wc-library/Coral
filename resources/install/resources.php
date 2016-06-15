@@ -4,7 +4,7 @@ function register_resources_requirement()
 	$MODULE_VARS = [
 		"uid" => "resources",
 		"translatable_title" => _("Resources Module"),
-		"dependencies_array" => [ "db_tools", "have_read_write_access_to_config", "modules_to_use", "have_default_coral_admin_user" ],
+		"dependencies_array" => [ "db_tools", "have_read_write_access_to_config", "modules_to_use", "have_default_coral_admin_user", "have_default_db_user" ],
 		"required" => false,
 		"wants" => [ "auth" ],
 		"sharedInfo" => [
@@ -107,8 +107,8 @@ function register_resources_requirement()
 				"type" => "mysql",
 				"host" => Config::dbInfo("host"),
 				"name" => $this_db_name,
-				"username" => Config::dbInfo("username"),
-				"password" => Config::dbInfo("password")
+				"username" => $shared_module_info["have_default_db_user"]["username"],
+				"password" => $shared_module_info["have_default_db_user"]["password"]
 			];
 			//config file: ldap
 			if (isset($shared_module_info["modules_to_use"]["auth"]["useModule"]) && $shared_module_info["modules_to_use"]["auth"]["useModule"])
