@@ -8,12 +8,15 @@ class DBAccess {
 
 function register_have_database_access_requirement()
 {
-	return [
+	$MODULE_VARS = [
 		"uid" => "have_database_access",
 		"translatable_title" => _("Database Access"),
-		"dependencies_array" => ["meets_system_requirements","have_read_write_access_to_config", "modules_to_use"],
-		"required" => true,
-		"installer" => function($shared_module_info) {
+		"dependencies_array" => ["meets_system_requirements","have_read_write_access_to_config","modules_to_use"],
+		"required" => true
+	];
+
+	return array_merge( $MODULE_VARS, [
+		"installer" => function($shared_module_info) use ($MODULE_VARS) {
 			$return = new stdClass();
 			$return->yield = new stdClass();
 			$return->success = true;
@@ -168,5 +171,5 @@ function register_have_database_access_requirement()
 			);
 			return $return;
 		}
-	];
+	]);
 }
