@@ -73,7 +73,8 @@ function register_have_default_db_user_requirement()
 					try
 					{
 						$db = $shared_module_info["provided"]["get_db_connection"]($dbname);
-						$db->processQuery("GRANT SELECT, INSERT, UPDATE, DELETE ON {$dbname}.* TO {$default_db_username}@{Config::dbInfo('host')} IDENTIFIED BY '{$default_db_password}'");
+						$host = Config::dbInfo('host');
+						$db->processQuery("GRANT SELECT, INSERT, UPDATE, DELETE ON {$dbname}.* TO {$default_db_username}@{$host} IDENTIFIED BY '{$default_db_password}'");
 					}
 					catch (Exception $e)
 					{
