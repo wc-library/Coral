@@ -5,6 +5,7 @@ function database_details_template($shared_database_info)
 	$dbusername = _("Database Username");
 	$dbpassword = _("Database Password");
 	$dbhost     = _("Database Host");
+	//TODO: pass variables as parameters! this is a travesty...
 	$username   = isset($_SESSION["POSTDATA"]["dbusername"]) ? $_SESSION["POSTDATA"]["dbusername"] : _("Username");
 	$password   = isset($_SESSION["POSTDATA"]["dbpassword"]) ? _("leave blank to leave unchanged") : _("Password");
 	$host       = isset($_SESSION["POSTDATA"]["dbhost"]) ? $_SESSION["POSTDATA"]["dbhost"] : _("Hostname");
