@@ -104,8 +104,21 @@ class Installer {
 		}
 	}
 
-	public function register_installation_requirement($installer_object)
+	public function register_installation_requirement($installer_object, $module_name)
 	{
+		$required_variables = [
+			"uid",
+			"translatable_title",
+			"installer"
+		];
+		foreach ($required_variables as $req)
+		{
+			if (!isset($installer_object[$req]))
+			{
+				$this->messages[] = "<b>Warning:</b> The installer for '$module_name' is broken (ignoring). [Missing '$req']";
+				return;
+			}
+		}
 		$this->checklist[] = $installer_object;
 	}
 
@@ -116,7 +129,7 @@ class Installer {
 		if (is_callable($function_name))
 		{
 			$installer_object = call_user_func($function_name);
-			$this->register_installation_requirement($installer_object);
+			$this->register_installation_requirement($installer_object, $module_name);
 			if (!$core_module)
 			{
 				$mod = [
