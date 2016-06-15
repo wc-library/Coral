@@ -94,6 +94,7 @@ if(array_key_exists('logout', $_GET)){
 
 			//login succeeded, perform redirect
 			header('Location: ' . $service) ;
+			exit; //PREVENT SECURITY HOLE
 
 		}
 	}
@@ -168,7 +169,9 @@ if(array_key_exists('admin', $_GET)){
 <title>CORAL Authentication</title>
 <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="css/thickbox.css" type="text/css" media="screen" />
-<link rel="SHORTCUT ICON" href="images/clownfishfavicon.ico" />
+<link rel="SHORTCUT ICON" href="images/favicon.ico" />
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:100,400,300,600,700' rel='stylesheet' type='text/css'>
 <script type="text/javascript" src="js/plugins/jquery.js"></script>
 <script type="text/javascript" src="js/plugins/thickbox.js"></script>
 <script type="text/javascript" src="js/common.js"></script>
@@ -176,7 +179,7 @@ if(array_key_exists('admin', $_GET)){
 <?php
     // Add translation for the JavaScript files
     global $http_lang;
-    $str = substr($_SERVER["HTTP_ACCEPT_LANGUAGE"],0,2);
+    $str = substr($_SERVER["HTTP_ACCEPT_LANGUAGE"],0,5);
     $default_l = $lang_name->getLanguage($str);
     if($default_l==null || empty($default_l)){$default_l=$str;}
     if(isset($_COOKIE["lang"])){
@@ -196,21 +199,27 @@ if(array_key_exists('admin', $_GET)){
 
 	<br />
 
+	<div style="width:418px;" id="login-form">
+		<div id="title-div">
+	        <div id="img-title"><img src="images/authtitle.png" /></div>
+	        <div id="text-title"><?php echo _("eRM Authentication"); ?></div>
+	        <div class="clear"></div>
+    	</div>
 
-	<div style="width:451px; height:307px;background-image:url('images/authpage.gif');background-repeat:no-repeat;text-align:right;">
-		<label style='text-align:left;width:100%;margin-top:100px;font-weight:normal;'><span class='smallerText'><?php echo $message; ?></span><span class='smallDarkRedText'><?php echo $errorMessage; ?></span></label><br />
-		<label for='loginID' style='margin-top:10px;'><?php echo _("Login ID:")?>&nbsp;&nbsp;</label>
-		<input type='text' id='loginID' name='loginID' value="<?php echo $inputLoginID; ?>" style='margin-top:10px;width:170px;' />
-		<br />
-		<label for='password' style='margin-bottom:15px;'><?php echo _("Password:")?>&nbsp;&nbsp;</label>
-		<input type='password' id='password' name='password' value='' style='width:170px;margin-bottom:15px;' />
-		<br />
-		<label for='remember'>&nbsp;</label>
-		<input type='checkbox' id='remember' name='remember' value='Y' style='margin:1px 0px 0px 0px; padding:0px; height:0.8em;' <?php echo $rememberChecked; ?> /><span style='float:left;' class='smallText'>&nbsp;<?php echo _("Remember my login ID")?></span>
+		<div id="login-content">
+			<label style='width:100%;font-weight:normal;'><span class='smallerText'><?php echo $message; ?></span><span class='smallDarkRedText'><?php echo $errorMessage; ?></span></label><br />
+			<label for='loginID'><?php echo _("Login ID:")?></label>
+			<input type='text' id='loginID' name='loginID' value="<?php echo $inputLoginID; ?>" />
+			<br />
+			<label for='password'><?php echo _("Password:")?></label>
+			<input type='password' id='password' name='password' value='' />
+			<br />
+	<!-- 		<label for='remember'>&nbsp;</label> -->
+			<input type='checkbox' id='remember' name='remember' value='Y' style='margin:1px 5px 0px 0px; padding:0px;' <?php echo $rememberChecked; ?> /><span class='smallText'><?php echo _("Remember my login ID")?></span>
 
-		<br />
-		<label for='loginbutton' style='margin-top:17px;'>&nbsp;</label>
-		<input type="submit" value="<?php echo _('Login')?>" id="loginbutton" class="loginButton" style='margin-top:17px;' />
+			<br />
+			<input type="submit" value="<?php echo _('Login')?>" id="loginbutton" class="loginButton" style='margin-top:17px;' />
+		</div>
 
 	</div>
 	<div class='boxRight'>
@@ -233,22 +242,22 @@ if(array_key_exists('admin', $_GET)){
                 echo "<br>"._("Invalid translation route!"); 
             }
             // Get language of navigator
-            $defLang = substr($_SERVER["HTTP_ACCEPT_LANGUAGE"],0,2);
+            $defLang = substr($_SERVER["HTTP_ACCEPT_LANGUAGE"],0,5);
             
             // Show an ordered list
             sort($lang); 
             for($i=0; $i<count($lang); $i++){
                 if(isset($_COOKIE["lang"])){
                     if($_COOKIE["lang"]==$lang[$i]){
-                        echo "<option value='".$lang[$i]."' selected='selected'>".$lang_name->getNameLang(substr($lang[$i],0,2))."</option>";
+                        echo "<option value='".$lang[$i]."' selected='selected'>".$lang_name->getNameLang($lang[$i])."</option>";
                     }else{
-                        echo "<option value='".$lang[$i]."'>".$lang_name->getNameLang(substr($lang[$i],0,2))."</option>";
+                        echo "<option value='".$lang[$i]."'>".$lang_name->getNameLang($lang[$i])."</option>";
                     }
                 }else{
-                    if($defLang==substr($lang[$i],0,2)){
-                        echo "<option value='".$lang[$i]."' selected='selected'>".$lang_name->getNameLang(substr($lang[$i],0,2))."</option>";
+                    if($defLang==substr($lang[$i],0,5)){
+                        echo "<option value='".$lang[$i]."' selected='selected'>".$lang_name->getNameLang($lang[$i])."</option>";
                     }else{
-                        echo "<option value='".$lang[$i]."'>".$lang_name->getNameLang(substr($lang[$i],0,2))."</option>";
+                        echo "<option value='".$lang[$i]."'>".$lang_name->getNameLang($lang[$i])."</option>";
                     }
                 }
             }

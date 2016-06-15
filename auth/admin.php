@@ -40,7 +40,9 @@ if (isset($user) && ($user->isAdmin) && ($user->getOpenSession())){
 <title>CORAL Authentication</title>
 <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="css/thickbox.css" type="text/css" media="screen" />
-<link rel="SHORTCUT ICON" href="images/clownfishfavicon.ico" />
+<link rel="SHORTCUT ICON" href="images/favicon.ico" />
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:100,400,300,600,700' rel='stylesheet' type='text/css'>
 <script type="text/javascript" src="js/plugins/jquery.js"></script>
 <script type="text/javascript" src="js/plugins/thickbox.js"></script>
 <script type="text/javascript" src="js/common.js"></script>
@@ -48,7 +50,7 @@ if (isset($user) && ($user->isAdmin) && ($user->getOpenSession())){
 <?php
    // Add translation for the JavaScript files
     global $http_lang;
-    $str = substr($_SERVER["HTTP_ACCEPT_LANGUAGE"],0,2);
+    $str = substr($_SERVER["HTTP_ACCEPT_LANGUAGE"],0,5);
     $default_l = $lang_name->getLanguage($str);
     if($default_l==null || empty($default_l)){$default_l=$str;}
     if(isset($_COOKIE["lang"])){
@@ -68,18 +70,20 @@ if (isset($user) && ($user->isAdmin) && ($user->getOpenSession())){
 
 	<br />
 
+	<div id="title-div">
+        <div id="img-title"><img src="images/authtitle.png" /></div>
+        <div id="text-title"><?php echo _("eRM Authentication"); ?></div>
+        <div class="clear"></div>
+    </div>
 
-	<div style="width:451px; height:91px;background-image:url('images/authtitle.gif');background-repeat:no-repeat;text-align:right;">
-	</div>
-
-	<div class='bordered' style='width:447px;margin-left:2px;'>
+	<div class='bordered' style='width:416px;'>
 
 		<br />
-		<div class='headerText' style='text-align: left;margin:0px 60px 3px 60px;'><?php echo _("Users")?></div>
+		<div class='headerText' style='text-align: left;margin:0 0 3px 60px;'><?php echo _("Users")?></div>
 		<div class='smallDarkRedText' style='margin-bottom:5px;'>* <?php echo _("Login ID must match the login ID set up in the modules")?></div>
 
 
-		<div style='text-align:left;margin:0px 60px 60px 60px;' id='div_users'>
+		<div style='text-align:left;margin:0px 60px 60px 38px;' id='div_users'>
 		<br />
 		<br />
 		<img src='images/circle.gif'>  <span style='font-size:90%'><?php echo _("Processing...")?></span>
@@ -105,29 +109,29 @@ if (isset($user) && ($user->isAdmin) && ($user->getOpenSession())){
                 echo "<br>"._("Invalid translation route!"); 
             }
             // Get language of navigator
-            $defLang = substr($_SERVER["HTTP_ACCEPT_LANGUAGE"],0,2);
+            $defLang = substr($_SERVER["HTTP_ACCEPT_LANGUAGE"],0,5);
             
             // Show an ordered list
             sort($lang); 
             for($i=0; $i<count($lang); $i++){
                 if(isset($_COOKIE["lang"])){
                     if($_COOKIE["lang"]==$lang[$i]){
-                        echo "<option value='".$lang[$i]."' selected='selected'>".$lang_name->getNameLang(substr($lang[$i],0,2))."</option>";
+                        echo "<option value='".$lang[$i]."' selected='selected'>".$lang_name->getNameLang(substr($lang[$i],0,5))."</option>";
                     }else{
-                        echo "<option value='".$lang[$i]."'>".$lang_name->getNameLang(substr($lang[$i],0,2))."</option>";
+                        echo "<option value='".$lang[$i]."'>".$lang_name->getNameLang(substr($lang[$i],0,5))."</option>";
                     }
                 }else{
-                    if($defLang==substr($lang[$i],0,2)){
-                        echo "<option value='".$lang[$i]."' selected='selected'>".$lang_name->getNameLang(substr($lang[$i],0,2))."</option>";
+                    if($defLang==substr($lang[$i],0,5)){
+                        echo "<option value='".$lang[$i]."' selected='selected'>".$lang_name->getNameLang(substr($lang[$i],0,5))."</option>";
                     }else{
-                        echo "<option value='".$lang[$i]."'>".$lang_name->getNameLang(substr($lang[$i],0,2))."</option>";
+                        echo "<option value='".$lang[$i]."'>".$lang_name->getNameLang(substr($lang[$i],0,5))."</option>";
                     }
                 }
             }
 			?>
 		</select>
 	</div>
-	<div class='smallerText' style='text-align:center; margin-top:13px;'><a href='index.php'><?php echo _("Login page")?></a></div>
+	<div class='smallerText' style='text-align:center; margin-top:13px;'><a href='index.php' id='login-link'><?php echo _("Login page")?></a></div>
 
 
 </form>
@@ -169,8 +173,10 @@ if (isset($user) && ($user->isAdmin) && ($user->getOpenSession())){
 
 	if (isset($user) && $user->getOpenSession()){
 		header('Location: index.php?service=admin.php&invalid');
+        exit; //PREVENT SECURITY HOLE
 	}else{
 		header('Location: index.php?service=admin.php&admin');
+        exit; //PREVENT SECURITY HOLE
 	}
 }
 
