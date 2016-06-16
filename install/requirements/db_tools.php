@@ -98,6 +98,9 @@ function register_db_tools_requirement()
 						}
 						catch (Exception $e)
 						{
+							// This query will tell me if there are any tables in the db... (so we can just proceed if it's empty)
+							// SELECT COUNT(*) FROM information_schema.TABLES WHERE TABLE_SCHEMA='coral_usage';
+
 							//TODO: we need to handle other possible reasons for this exception
 							//TODO: this should be handled much better! if the table already existed we need to figure out more about it...
 							// SOLUTION: we're going to ask if the user meant to do an update and then redirect or just use the existing db.
