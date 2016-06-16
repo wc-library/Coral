@@ -34,7 +34,7 @@ class Installer {
 				{
 					if (!isset($installer_object[$req]))
 					{
-						$this->messages[] = "<b>Warning:</b> A post installion test is malformed.";
+						$this->messages[] = _("<b>Warning:</b> A post installion test is malformed.");
 						return;
 					}
 				}
@@ -57,6 +57,8 @@ class Installer {
 	}
 	public function getCheckListUids()
 	{
+		if (isset($_SESSION["installer_post_installation"]) && $_SESSION["installer_post_installation"])
+			return [];
 		$arr = $this->checklist;
 		usort($arr, function($a, $b){
 		    if (isset($a["required"]) && $a["required"] && !isset($a["alternative"])) {
@@ -251,7 +253,7 @@ class Installer {
 					return $result;
 			}
 		}
-		return $this->actuallyRunTest($this->checklist[$key]["installer"]);
+		return $this->actuallyRunTest($test_uid, $this->checklist[$key]["installer"]);
 	}
 	private function getDependenciesAndRequiredWants($uid)
 	{
@@ -268,15 +270,25 @@ class Installer {
 		}
 		return array_merge($dependencies_array, $wants_array);
 	}
-	private function actuallyRunTest($installer)
+	private function actuallyRunTest($uid, $installer, $postInstallationFlag = false)
 	{
-		$key = $this->getKeyFromUid($installer["uid"], $this->postInstallationTests);
 		$result = call_user_func( $installer, $this->shared_module_info );
 		// TODO: we need to test this throw
 		if ($result === null)
-			throw new UnexpectedValueException("The post-installation test for '{$this->getTitleFromUid($installer["uid"], $this->postInstallationTests)}' has returned a null result (which is not allowed).", $this::ERR_INVALID_TEST_RESULT);
+			throw new UnexpectedValueException("The script for '{$this->getTitleFromUid($installer["uid"], $this->postInstallationTests)}' has returned a null result (which is not allowed).", $this::ERR_INVALID_TEST_RESULT);
 
-		$this->postInstallationTests[$key]["result"] = $result;
+		if (!$postInstallationFlag)
+		{
+			$key = $this->getKeyFromUid($uid);
+			$this->checklist[$key]["result"] = $result;
+			if ($result->success)
+				$this->successfully_completed_tests[] = $uid;
+		}
+		else
+		{
+			$key = $this->getKeyFromUid($uid, $this->postInstallationTests);
+			$this->postInstallationTests[$key]["result"] = $result;
+		}
 		return $result;
 	}
 
@@ -310,12 +322,14 @@ class Installer {
 
 	public function postInstallationTest()
 	{
-		// TODO: postInstallationTest
-		// loop through the postInstallationTests
-		// run each using actuallyRunTest
-		// find one that fails (keeping track of $this->postInstallationTests[$key]["result"])
-		// return it
-		return true;
+		$_SESSION["installer_post_installation"] = true;
+		foreach ($this->postInstallationTest as $test)
+		{
+			$return = $this->actuallyRunTest($test);
+			if (!$return->success)
+				return $return;
+		}
+		return false;
 	}
 
 	public function successful_install()
