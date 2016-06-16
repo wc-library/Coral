@@ -10,7 +10,7 @@ function register_meets_system_requirements_requirement()
 			$return->yield = new stdClass();
 
 			$return->success = true;
-			$return->yield->title = _("Meets System Requirements");
+			$return->yield->title = _("System Requirements");
 
 			/**
 			 *  PHP_MAJOR_VERSION is only defined from 5.2.7 onwards but
