@@ -4,6 +4,7 @@ function register_modules_to_use_requirement()
 	$MODULE_VARS = [
 		"uid" => "modules_to_use",
 		"translatable_title" => _("Modules to use"),
+		"dependencies_array" => ["meets_system_requirements"],
 		"hide_from_completion_list" => true,
 	];
 
