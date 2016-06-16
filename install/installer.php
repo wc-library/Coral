@@ -323,7 +323,7 @@ class Installer {
 	public function postInstallationTest()
 	{
 		$_SESSION["installer_post_installation"] = true;
-		foreach ($this->postInstallationTest as $test)
+		foreach ($this->postInstallationTests as $test)
 		{
 			$return = $this->actuallyRunTest($test);
 			if (!$return->success)
