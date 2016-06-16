@@ -12,24 +12,44 @@ class Installer {
 	const ERR_INVALID_TEST_RESULT = 20047;
 
 	protected $checklist = [];
+	protected $postInstallationTests = [];
 	protected $shared_module_info = [];
 	protected $messages = [];
 	protected $successfully_completed_tests = [];
 
 	function __construct() {
 		$this_shared_module_info = &$this->shared_module_info;
+		$this_post_installation_tests = &$this->postInstallationTests;
 		$this->shared_module_info = [
 			"setSharedModuleInfo" => function($for_module, $key, $value) use (&$this_shared_module_info) {
 				$this_shared_module_info[$for_module][$key] = $value;
+			},
+			"registerPostInstallationTest" => function($installer_object) use (&$this_post_installation_tests) {
+				$required_variables = [
+					"uid",
+					"translatable_title",
+					"installer"
+				];
+				foreach ($required_variables as $req)
+				{
+					if (!isset($installer_object[$req]))
+					{
+						$this->messages[] = "<b>Warning:</b> A post installion test is malformed.";
+						return;
+					}
+				}
+				$this_post_installation_tests[] = $installer_object;
 			}
 		];
 		$this->scanForModuleInstallers();
 		$this->applyRequired();
 	}
-	private function getKeyFromUid($test_uid)
+	private function getKeyFromUid($test_uid, $haystack = null)
 	{
+		$haystack = $haystack === null ? $this->checklist : $haystack;
+
 		require_once("common/array_column.php");
-		$key = array_search($test_uid, array_column($this->checklist, 'uid'));
+		$key = array_search($test_uid, array_column($haystack, 'uid'));
 		if ($key === false)
 			throw new OutOfBoundsException("Test '$test_uid' not found in checklist.", $this::ERR_MODULE_DOES_NOT_EXIST);
 
@@ -49,9 +69,10 @@ class Installer {
 		require_once("common/array_column.php");
 		return array_column($arr, "uid");
 	}
-	public function getTitleFromUid($uid)
+	public function getTitleFromUid($uid, $haystack = null)
 	{
-		return $this->checklist[ $this->getKeyFromUid($uid) ]["translatable_title"];
+		$haystack = $haystack === null ? $this->checklist : $haystack;
+		return $haystack[ $this->getKeyFromUid($uid) ]["translatable_title"];
 	}
 	public function isRequired($uid)
 	{
@@ -230,16 +251,7 @@ class Installer {
 					return $result;
 			}
 		}
-
-		$result = call_user_func( $this->checklist[$key]["installer"], $this->shared_module_info );
-		if ($result === null)
-			throw new UnexpectedValueException("The install script for '{$this->getTitleFromUid($test_uid)}' has returned a null result (which is not allowed).", $this::ERR_INVALID_TEST_RESULT);
-
-		$this->checklist[$key]["result"] = $result;
-		if ($result->success)
-			$this->successfully_completed_tests[] = $test_uid;
-
-		return $result;
+		return $this->actuallyRunTest($this->checklist[$key]["installer"]);
 	}
 	private function getDependenciesAndRequiredWants($uid)
 	{
@@ -255,6 +267,17 @@ class Installer {
 			}
 		}
 		return array_merge($dependencies_array, $wants_array);
+	}
+	private function actuallyRunTest($installer)
+	{
+		$key = $this->getKeyFromUid($installer["uid"], $this->postInstallationTests);
+		$result = call_user_func( $installer, $this->shared_module_info );
+		// TODO: we need to test this throw
+		if ($result === null)
+			throw new UnexpectedValueException("The post-installation test for '{$this->getTitleFromUid($installer["uid"], $this->postInstallationTests)}' has returned a null result (which is not allowed).", $this::ERR_INVALID_TEST_RESULT);
+
+		$this->postInstallationTests[$key]["result"] = $result;
+		return $result;
 	}
 
 	public function getMessages()
@@ -283,6 +306,16 @@ class Installer {
 	public function getApproxiamateCompletion()
 	{
 		return count($this->successfully_completed_tests) / (float) count($this->checklist);
+	}
+
+	public function postInstallationTest()
+	{
+		// TODO: postInstallationTest
+		// loop through the postInstallationTests
+		// run each using actuallyRunTest
+		// find one that fails (keeping track of $this->postInstallationTests[$key]["result"])
+		// return it
+		return true;
 	}
 
 	public function successful_install()

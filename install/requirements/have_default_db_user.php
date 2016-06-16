@@ -67,6 +67,7 @@ function register_have_default_db_user_requirement()
 				$modules_with_database_requirements = array_filter($shared_module_info, function($item){
 					return is_array($item) && isset($item["database"]);
 				});
+				var_dump($shared_module_info);
 				foreach (array_keys($modules_with_database_requirements) as $mod)
 				{
 					$dbname = $shared_module_info[$mod]["db_name"];

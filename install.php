@@ -78,7 +78,6 @@ require "install/test_results_yielder.php";
 require "install/installer.php";
 $installer = new Installer();
 $requirements = $installer->getCheckListUids();
-$completed_tests = [];
 
 foreach ($requirements as $i => $requirement) {
 	if (!$installer->isRequired($requirement))
@@ -118,4 +117,8 @@ foreach ($requirements as $i => $requirement) {
 	}
 }
 
-yield_test_results_and_exit($installer->successful_install(), $installer->getSuccessfullyCompletedTestTitles(), 100/100);
+$completed_tests = $installer->getSuccessfullyCompletedTestTitles();
+while ($failingPostInstallationTest = $installer->postInstallationTest())
+	yield_test_results_and_exit($failingPostInstallationTest->yield, $completed_tests, 95/100);
+
+yield_test_results_and_exit($installer->successful_install(), $completed_tests, 100/100);
