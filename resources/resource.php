@@ -44,7 +44,7 @@ if ($resource->titleText){
 	?>
 	<input type='hidden' name='resourceID' id='resourceID' value='<?php echo $resourceID; ?>'>
 
-	<table style="background-image:url('images/header.gif');background-repeat:no-repeat;margin:0; padding:0; width:100%;">
+	<table style="margin:0; padding:0; width:100%;">
 	<tr>
 	<td style='margin:0;padding:0;text-align:left;'>
 
@@ -66,7 +66,7 @@ if ($resource->titleText){
 		<?php } else { ?>
 		<div style="display:none;width: 597px;" id='div_product' class="resource_tab_content">
 		<?php } ?>
-			<table cellpadding="0" cellspacing="0" style="width: 100%; table-layout: fixed;">
+			<table cellpadding="0" cellspacing="0" style="width: 100%;">
 				<tr>
 					<td class="sidemenu">
 						<?php echo resource_sidemenu('product'); ?>
@@ -86,7 +86,7 @@ if ($resource->titleText){
 		<?php } else { ?>
 		<div style="display:none;width: 897px;" id='div_acquisitions' class="resource_tab_content">
 		<?php } ?>
-			<table cellpadding="0" cellspacing="0" style="width: 100%; table-layout: fixed;">
+			<table cellpadding="0" cellspacing="0" style="width: 100%;">
 				<tr>
 					<td class="sidemenu">
 						<?php echo resource_sidemenu('acquisitions'); ?>
@@ -111,7 +111,7 @@ if ($resource->titleText){
 		<div style="display:none;width: 597px;" id='div_access' class="resource_tab_content">
 		<?php } ?>
 
-			<table cellpadding="0" cellspacing="0" style="width: 100%; table-layout: fixed;">
+			<table cellpadding="0" cellspacing="0" style="width: 100%;">
 				<tr>
 					<td class="sidemenu">
 						<?php echo resource_sidemenu('access'); ?>
@@ -129,7 +129,7 @@ if ($resource->titleText){
 
 
 		<div style="display:none;width: 597px;" id='div_contacts' class="resource_tab_content">
-			<table cellpadding="0" cellspacing="0" style="width: 100%; table-layout: fixed;">
+			<table cellpadding="0" cellspacing="0" style="width: 100%;">
 				<tr>
 					<td class="sidemenu">
 						<?php echo resource_sidemenu('contacts'); ?>
@@ -146,7 +146,7 @@ if ($resource->titleText){
 		</div>
 
 		<div style="display:none;width: 597px;" id='div_issues' class="resource_tab_content">
-			<table cellpadding="0" cellspacing="0" style="width: 100%; table-layout: fixed;">
+			<table cellpadding="0" cellspacing="0" style="width: 100%;">
 				<tr>
 					<td class="sidemenu">
 						<?php echo resource_sidemenu('issues'); ?>
@@ -166,7 +166,7 @@ if ($resource->titleText){
 
 
 		<div style="display:none;width: 597px;" id='div_accounts' class="resource_tab_content">
-			<table cellpadding="0" cellspacing="0" style="width: 100%; table-layout: fixed;">
+			<table cellpadding="0" cellspacing="0" style="width: 100%;">
 				<tr>
 					<td class="sidemenu">
 						<?php echo resource_sidemenu('accounts'); ?>
@@ -185,7 +185,7 @@ if ($resource->titleText){
 		<?php } ?>
 
 		<div style="display:none;width: 597px;" id='div_attachments' class="resource_tab_content">
-			<table cellpadding="0" cellspacing="0" style="width: 100%; table-layout: fixed;">
+			<table cellpadding="0" cellspacing="0" style="width: 100%;">
 				<tr>
 					<td class="sidemenu">
 						<?php echo resource_sidemenu('attachments'); ?>
@@ -201,7 +201,7 @@ if ($resource->titleText){
 		</div>
 
 		<div style="display:none;width: 897px;" id='div_routing' class="resource_tab_content">
-			<table cellpadding="0" cellspacing="0" style="width: 100%; table-layout: fixed;">
+			<table cellpadding="0" cellspacing="0" style="width: 100%;">
 				<tr>
 					<td class="sidemenu">
 						<?php echo resource_sidemenu('routing'); ?>
@@ -221,7 +221,7 @@ if ($resource->titleText){
 		<?php } else { ?>
 		<div style="display:none;width: 597px;" id='div_cataloging' class="resource_tab_content">
 		<?php } ?>
-			<table cellpadding="0" cellspacing="0" style="width: 100%; table-layout: fixed;">
+			<table cellpadding="0" cellspacing="0" style="width: 100%;">
 				<tr>
 					<td class="sidemenu">
 						<?php echo resource_sidemenu('cataloging'); ?>
@@ -237,13 +237,12 @@ if ($resource->titleText){
 		</div>
 	</div>
 	<div style='float:right; vertical-align:top; width:303px; text-align:left; padding:0; margin:0; background-color:white;' id='div_fullRightPanel' class='rightPanel'>
-		<div style="background-image:url('images/helpfullinks-top.jpg');background-repeat:no-repeat;width:265px;text-align:left;padding:6px;margin:10px 19px 0px 19px;">
-			<div style='margin:29px 8px 0px 8px;' id='div_rightPanel'>
-			</div>
-
+		<div style="width:265px;text-align:left;padding:10px;">
+			<div id="side-menu-title"><?php echo _("Helpful Links"); ?></div>
+			<div style='margin:10px 8px 0px 8px;' id='div_rightPanel'></div>
 		</div>
 
-		<div style="background-image:url('images/helpfullinks-bottom.jpg');background-repeat:no-repeat;width:265px;height:50px;padding:6px; margin:0px 19px 15px 19px;">
+		<div>
 
 
 					<?php if ($config->settings->feedbackEmailAddress != '') {?>
@@ -259,13 +258,13 @@ if ($resource->titleText){
 	</div>
 	</div>
 	<script type="text/javascript" src="js/resource.js"></script>
-  <?php if ((isset($_GET['showTab'])) && ($_GET['showTab'] == 'cataloging')){ ?>
-    <script>
-      $(document).ready(function() {
-        $('a.showCataloging').click();
-      });
-    </script>
-  <?php } ?>
+	<?php if ((isset($_GET['showTab'])) && ($_GET['showTab'] == 'cataloging')){ ?>
+		<script>
+			$(document).ready(function() {
+				$('a.showCataloging').click();
+			});
+		</script>
+	<?php } ?>
 	<?php
 
 }
