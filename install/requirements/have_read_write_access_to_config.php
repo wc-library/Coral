@@ -29,32 +29,34 @@ function register_have_read_write_access_to_config_requirement()
 				return $to_return;
 			}, array_keys($modules_with_config_file_requirements), $modules_with_config_file_requirements);
 
+			$fileACCESS = [
+				"FULL_ACCESS" => 0, "NOT_READABLE" => 1, "NOT_WRITABLE" => 2, "DOESNT_EXIST" => 3
+			];
+			$testFileAccess = function($path) use ($fileACCESS) {
+				if (!file_exists($path))
+					return $fileACCESS["DOESNT_EXIST"];
+				if (!is_readable($path))
+					return $fileACCESS["NOT_READABLE"];
+				if (!is_writable($path))
+					return $fileACCESS["NOT_WRITABLE"];
+				return $fileACCESS["FULL_ACCESS"];
+			};
 
 			// If file exists, see if it's writable - otherwise see if directory is writable (we can create it)
 			array_unshift($config_files, [ "path" => Config::CONFIG_FILE_PATH, "key" => "core_configuration"]);
 			foreach ($config_files as $cfg) {
-				$file_exists = file_exists($cfg["path"]);
-				$writable_test = $cfg["path"];
-				$writable_test = $file_exists ? $cfg["path"] : dirname($cfg["path"]);
-
-				if (is_writable($writable_test))
-				{
-					if (is_readable($cfg["path"]) || !$file_exists)
-					{
-						continue; // Success!
-					}
-					else
-					{
+				$writable_test = file_exists($cfg["path"]) ? $cfg["path"] : dirname($cfg["path"]);
+				switch ($testFileAccess($writable_test)) {
+					case $fileACCESS["NOT_WRITABLE"]:
+						$return->yield->messages[] = sprintf( _("In order to proceed with the installation, we must be able to write to the '%s' configuration file at '<span class=\"highlight\">%s</span>'."), $cfg["key"], $cfg["path"] )
+													.sprintf( "<br /><b>" . _("Try") . ":</b> <span class=\"highlight\">chmod 777 %s</span>", $writable_test );
+						$return->success = false;
+						break;
+					case $fileACCESS["NOT_READABLE"]:
+					case $fileACCESS["DOESNT_EXIST"]:
 						$return->yield->messages[] = sprintf( _("In order to proceed with the installation, we must be able to read the '%s' configuration file at '<span class=\"highlight\">%s</span>'."), $cfg["key"], $cfg["path"] );
 						$return->success = false;
-					}
-					$return->yield->messages[] = sprintf( _("We can write to the '%s' configuration file at '<span class=\"highlight\">%s</span>' but we cannot read from it."), $cfg["key"], $cfg["path"] );
-					$return->success = false;
-				}
-				else {
-					$return->yield->messages[] = sprintf( _("In order to proceed with the installation, we must be able to write to the '%s' configuration file at '<span class=\"highlight\">%s</span>'."), $cfg["key"], $cfg["path"] )
-												.sprintf( "<br /><b>" . _("Try") . ":</b> <span class=\"highlight\">chmod 777 %s</span>", $writable_test );
-					$return->success = false;
+						break;
 				}
 			}
 
@@ -80,6 +82,58 @@ function register_have_read_write_access_to_config_requirement()
 						fclose($file);
 					}
 				);
+				$shared_module_info["registerPostInstallationTest"]([
+					"uid" => "check_config_files_protected",
+					"translatable_title" => sprintf(_("Check %s Has Access"), $default_db_username),
+					"installer" => function($shared_module_info) use ($config_files, $testFileAccess, $fileACCESS) {
+						$return = new stdClass();
+						$return->yield = new stdClass();
+						$return->success = true;
+						$return->yield->messages = [];
+						$return->yield->title = _("Check Config Files are Protected");
+
+						foreach ($config_files as $cfg) {
+							//check the config file's parent directory
+							switch ($testFileAccess(dirname($cfg["path"])))
+							{
+								case $fileACCESS["FULL_ACCESS"]:
+									$return->yield->messages[] = _("It is unsafe to leave your admin directories writable.")
+																.sprintf( "<br /><b>" . _("Try") . ":</b> <span class=\"highlight\">chmod 755 %s</span>", dirname($cfg["path"]) );
+									$return->success = false;
+									continue 2;
+								case $fileACCESS["NOT_READABLE"]:
+									$return->yield->messages[] = _("CORAL will need to access your config files but it appears that some are not readable.")
+																.sprintf( "<br /><b>" . _("Try") . ":</b> <span class=\"highlight\">chmod 755 %s</span>", dirname($cfg["path"]) );
+									$return->success = false;
+									continue 2;
+								case $fileACCESS["DOESNT_EXIST"]:
+									//weird that it was asked for and not created but whatever
+									break;
+								case $fileACCESS["NOT_WRITABLE"]:
+									break;
+							}
+							//check the config file itself
+							switch ($testFileAccess($cfg["path"])) {
+								case $fileACCESS["FULL_ACCESS"]:
+									$return->yield->messages[] = _("It is unsafe to leave your config files writable.")
+																.sprintf( "<br /><b>" . _("Try") . ":</b> <span class=\"highlight\">chmod 644 %s</span>", $cfg["path"] );
+									$return->success = false;
+									continue 2;
+								case $fileACCESS["NOT_READABLE"]:
+									$return->yield->messages[] = _("CORAL will need to access your config files but it appears that some are not readable.")
+																.sprintf( "<br /><b>" . _("Try") . ":</b> <span class=\"highlight\">chmod 644 %s</span>", $cfg["path"] );
+									$return->success = false;
+									continue 2;
+								case $fileACCESS["DOESNT_EXIST"]:
+									//weird that it was asked for and not created but whatever
+									break;
+								case $fileACCESS["NOT_WRITABLE"]:
+									break;
+							}
+						}
+						return $return;
+					}
+				]);
 			}
 			else
 			{
