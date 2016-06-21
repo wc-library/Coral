@@ -26,7 +26,8 @@ class DBService extends Object {
 	protected static $db = null;
 	protected $error;
 
-	public function __construct($dbname = null){
+	public function __construct($dbname = null)
+	{
 		if (!self::$db)
 		{
 			/**
@@ -59,20 +60,23 @@ class DBService extends Object {
 			self::selectDB($dbname ? $dbname : Config::dbInfo("name"));
 	}
 
-	public function getError() {
+	public function getError()
+	{
 		return self::$db->error;
 	}
 
-	public static function getDatabase(){
+	public static function getDatabase()
+	{
 		return self::$db;
 	}
-	public static function selectDB($databaseName){
-		if (!self::$db->select_db($databaseName)){
+	public static function selectDB($databaseName)
+	{
+		if (!self::$db->select_db($databaseName))
 			throw new RuntimeException("Could not select database '$databaseName': " . self::$db->error, DBService::ERR_COULD_NOT_SELECT_DATABASE);
-		}
 	}
 
-	public function processQuery($sql, $type = NULL) {
+	public function processQuery($sql, $type = NULL)
+	{
 		if (strlen(trim("$sql"))===0) {
 			throw new RuntimeException("Empty DB Query");
 		}
@@ -96,7 +100,8 @@ class DBService extends Object {
 		}
 	}
 
-	public static function escapeString($str){
+	public static function escapeString($str)
+	{
 		return self::$db->real_escape_string($str);
 	}
 }
