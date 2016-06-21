@@ -77,9 +77,8 @@ class DBService extends Object {
 
 	public function processQuery($sql, $type = NULL)
 	{
-		if (strlen(trim("$sql"))===0) {
+		if (strlen(trim("$sql"))===0)
 			throw new RuntimeException("Empty DB Query");
-		}
 
 		$query_start = microtime(true);
 		$result = self::$db->query($sql);
