@@ -117,6 +117,8 @@ foreach ($requirements as $i => $requirement) {
 	}
 }
 
+$installer->declareInstallationComplete();
+
 $completed_tests = $installer->getSuccessfullyCompletedTestTitles();
 while ($failingPostInstallationTest = $installer->postInstallationTest())
 	yield_test_results_and_exit($failingPostInstallationTest->yield, $completed_tests, 95/100);

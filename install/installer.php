@@ -10,21 +10,24 @@ class Installer {
 	const ERR_CIRCULAR_WANTS = 20045;
 	const ERR_MODULE_DOES_NOT_EXIST = 20046;
 	const ERR_INVALID_TEST_RESULT = 20047;
+	const ERR_RUNNING_POST_INSTALLATION_TEST_BEFORE_INSTALLATION_COMPLETE = 20048;
 
 	protected $checklist = [];
-	protected $postInstallationTests = [];
 	protected $shared_module_info = [];
 	protected $messages = [];
 	protected $successfully_completed_tests = [];
+	protected $post_installation_mode = false;
 
 	function __construct() {
-		$this_shared_module_info = &$this->shared_module_info;
-		$this_post_installation_tests = &$this->postInstallationTests;
+		$this_shared_module_info  = &$this->shared_module_info;
+		$this_checklist           = &$this->checklist;
+		$this_post_installation_mode = &$this->post_installation_mode;
 		$this->shared_module_info = [
 			"setSharedModuleInfo" => function($for_module, $key, $value) use (&$this_shared_module_info) {
 				$this_shared_module_info[$for_module][$key] = $value;
 			},
-			"registerPostInstallationTest" => function($installer_object) use (&$this_post_installation_tests) {
+			"registerInstallationTest" => function($installer_object) use (&$this_checklist) {
+				// TODO: What happens if we register a regular old test [and it's required]? Will it run?
 				$required_variables = [
 					"uid",
 					"translatable_title",
@@ -38,11 +41,15 @@ class Installer {
 						return;
 					}
 				}
-				$this_post_installation_tests[] = $installer_object;
+				$this_checklist[] = $installer_object;
+			},
+			"getPostInstallationMode" => function() use (&$this_post_installation_mode) {
+				return isset($_SESSION["installer_post_installation"]) && $_SESSION["installer_post_installation"];
 			}
 		];
 		$this->scanForModuleInstallers();
 		$this->applyRequired();
+		$this->post_installation_mode = isset($_SESSION["installer_post_installation"]) && $_SESSION["installer_post_installation"];
 	}
 	private function getKeyFromUid($test_uid, $haystack = null)
 	{
@@ -57,8 +64,8 @@ class Installer {
 	}
 	public function getCheckListUids()
 	{
-		if (isset($_SESSION["installer_post_installation"]) && $_SESSION["installer_post_installation"])
-			return [];
+		// if (isset($_SESSION["installer_post_installation"]) && $_SESSION["installer_post_installation"])
+		// 	return [];
 		$arr = $this->checklist;
 		usort($arr, function($a, $b){
 		    if (isset($a["required"]) && $a["required"] && !isset($a["alternative"])) {
@@ -71,10 +78,15 @@ class Installer {
 		require_once("common/array_column.php");
 		return array_column($arr, "uid");
 	}
-	public function getTitleFromUid($uid, $haystack = null)
+	public function getPostInstallationUids()
 	{
-		$haystack = $haystack === null ? $this->checklist : $haystack;
-		return $haystack[ $this->getKeyFromUid($uid) ]["translatable_title"];
+		return array_filter($this->checklist, function($item){
+			return isset($item["post_installation"]) && $item["post_installation"];
+		});
+	}
+	public function getTitleFromUid($uid)
+	{
+		return $this->checklist[ $this->getKeyFromUid($uid) ]["translatable_title"];
 	}
 	public function isRequired($uid)
 	{
@@ -212,8 +224,6 @@ class Installer {
 		}
 	}
 
-	// TODO: handle choose module rejecting some and
-	// TODO: implement bubbling dependencies
 	public function runTestForResult($test_uid, $required_for = [])
 	{
 		$key = $this->getKeyFromUid($test_uid);
@@ -226,6 +236,10 @@ class Installer {
 			$return->skipped = true;
 			$return->cause = $this::CAUSE_ALREADY_EXISTED;
 			return $return;
+		}
+		if (!$this->shared_module_info["getPostInstallationMode"]() && isset($this->checklist[$key]["post_installation"]) && $this->checklist[$key]["post_installation"])
+		{
+			throw new RuntimeException("Error: You're trying to run the '$test_uid' post-installation test before the installation is complete.", $this::ERR_RUNNING_POST_INSTALLATION_TEST_BEFORE_INSTALLATION_COMPLETE);
 		}
 
 		foreach ($this->getDependenciesAndRequiredWants($test_uid) as $dependency) {
@@ -270,25 +284,18 @@ class Installer {
 		}
 		return array_merge($dependencies_array, $wants_array);
 	}
-	private function actuallyRunTest($uid, $installer, $postInstallationFlag = false)
+	private function actuallyRunTest($uid)
 	{
-		$result = call_user_func( $installer, $this->shared_module_info );
+		$key = $this->getKeyFromUid($uid);
+		$result = call_user_func( $this->checklist[$key]["installer"], $this->shared_module_info );
 		// TODO: we need to test this throw
 		if ($result === null)
-			throw new UnexpectedValueException("The script for '{$this->getTitleFromUid($installer["uid"], $this->postInstallationTests)}' has returned a null result (which is not allowed).", $this::ERR_INVALID_TEST_RESULT);
+			throw new UnexpectedValueException("The script for '{$this->getTitleFromUid($installer["uid"])}' has returned a null result (which is not allowed).", $this::ERR_INVALID_TEST_RESULT);
 
-		if (!$postInstallationFlag)
-		{
-			$key = $this->getKeyFromUid($uid);
-			$this->checklist[$key]["result"] = $result;
-			if ($result->success)
-				$this->successfully_completed_tests[] = $uid;
-		}
-		else
-		{
-			$key = $this->getKeyFromUid($uid, $this->postInstallationTests);
-			$this->postInstallationTests[$key]["result"] = $result;
-		}
+		$this->checklist[$key]["result"] = $result;
+		if ($result->success)
+			$this->successfully_completed_tests[] = $uid;
+
 		return $result;
 	}
 
@@ -301,8 +308,13 @@ class Installer {
 	public function getSuccessfullyCompletedTests()
 	{
 		$uids = [];
-		foreach ($this->successfully_completed_tests as $uid) {
-			if (!isset($this->checklist[ $this->getKeyFromUid($uid) ]["hide_from_completion_list"]) || !$this->checklist[ $this->getKeyFromUid($uid) ]["hide_from_completion_list"])
+		foreach ($this->successfully_completed_tests as $uid)
+		{
+			// Only return uid if it's not hid[den]_from_completion_list
+			// And it's not post_installation
+			$hide = isset($this->checklist[ $this->getKeyFromUid($uid) ]["hide_from_completion_list"]) ? $this->checklist[ $this->getKeyFromUid($uid) ]["hide_from_completion_list"] : false;
+			$post_installation = isset($this->checklist[ $this->getKeyFromUid($uid) ]["post_installation"]) ? $this->checklist[ $this->getKeyFromUid($uid) ]["post_installation"] : false;
+			if (!$hide && !$post_installation)
 				$uids[] = $uid;
 		}
 		return $uids;
@@ -320,12 +332,18 @@ class Installer {
 		return count($this->successfully_completed_tests) / (float) count($this->checklist);
 	}
 
+	public function declareInstallationComplete()
+	{
+		// TODO: Perhaps we should check that all the (required) getCheckListUids
+		//       are installed before we allow this.
+		$this->shared_module_info["post_installation_mode"] = true;
+		$_SESSION["installer_post_installation"] = true;
+	}
 	public function postInstallationTest()
 	{
-		$_SESSION["installer_post_installation"] = true;
-		foreach ($this->postInstallationTests as $test)
+		foreach ($this->getPostInstallationUids() as $test)
 		{
-			$return = $this->actuallyRunTest($test);
+			$return = $this->runTestForResult($test["uid"]);
 			if (!$return->success)
 				return $return;
 		}
