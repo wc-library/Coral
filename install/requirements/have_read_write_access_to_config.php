@@ -78,7 +78,7 @@ function register_have_read_write_access_to_config_requirement()
 							}
 							$dataToWrite[] = "";
 						}
-						fwrite($file, implode("\n",$dataToWrite));
+						fwrite($file, implode("\r\n",$dataToWrite));
 						fclose($file);
 					}
 				);
