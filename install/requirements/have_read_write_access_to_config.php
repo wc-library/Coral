@@ -60,12 +60,22 @@ function register_have_read_write_access_to_config_requirement()
 				}
 			}
 
+			if ($shared_module_info["getPostInstallationMode"]())
+			{
+				// if we're actually in post-installation then make test successful
+				// (doesn't matter any more whether we could read config files)
+				$return->success = true;
+			}
+
 			if ($return->success)
 			{
 				$shared_module_info["setSharedModuleInfo"](
 					"provided",
 					"write_config_file",
-					function($path, $settingsObject){
+					function($path, $settingsObject) use ($shared_module_info) {
+						if ($shared_module_info["getPostInstallationMode"]())
+							return; //If we're in post-installation mode we don't want to change files
+
 						$file = fopen($path, 'w');
 						foreach ($settingsObject as $key => $value) {
 							$dataToWrite[] = "[$key]";
@@ -82,15 +92,17 @@ function register_have_read_write_access_to_config_requirement()
 						fclose($file);
 					}
 				);
-				$shared_module_info["registerPostInstallationTest"]([
-					"uid" => "check_config_files_protected",
-					"translatable_title" => sprintf(_("Check %s Has Access"), $default_db_username),
+				$shared_module_info["registerInstallationTest"]([
+					"uid" => "check_config_files_not_writable",
+					"translatable_title" => "Check Config Files Are Protected",
+					"post_installation" => true,
+					"hide_from_completion_list" => true,
 					"installer" => function($shared_module_info) use ($config_files, $testFileAccess, $fileACCESS) {
 						$return = new stdClass();
 						$return->yield = new stdClass();
 						$return->success = true;
 						$return->yield->messages = [];
-						$return->yield->title = _("Check Config Files are Protected");
+						$return->yield->title = _("Check Config Files Are Protected");
 
 						foreach ($config_files as $cfg) {
 							//check the config file's parent directory
@@ -130,6 +142,11 @@ function register_have_read_write_access_to_config_requirement()
 								case $fileACCESS["NOT_WRITABLE"]:
 									break;
 							}
+						}
+						if (!$return->success)
+						{
+							require_once "install/templates/try_again_template.php";
+							$return->yield->body = try_again_template();
 						}
 						return $return;
 					}
