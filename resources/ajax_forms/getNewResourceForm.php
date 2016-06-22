@@ -128,7 +128,7 @@
 
 
 
-			<span class='surroundBoxTitle'>&nbsp;&nbsp;<label for='resourceFormatID'><b><?php _("Format");?></b></label>&nbsp;<span class='bigDarkRedText'>*</span>&nbsp;&nbsp;</span>
+			<span class='surroundBoxTitle'>&nbsp;&nbsp;<label for='resourceFormatID'><b><?php echo _("Format");?></b></label>&nbsp;<span class='bigDarkRedText'>*</span>&nbsp;&nbsp;</span>
 
 			<table class='surroundBox' style='width:350px;'>
 			<tr>
@@ -222,7 +222,7 @@
 
 			<span class='surroundBoxTitle'>&nbsp;&nbsp;<label for='resourceTypeID'><b><?php echo _("Resource Type");?></b></label>&nbsp;&nbsp;</span>
 
-			<table class='surroundBox' style='width:350px;'>
+			<table class='surroundBox' style='width:350px;' id='resource-type'>
 			<tr>
 			<td>
 
@@ -291,9 +291,9 @@
 
 		<table class='noBorderTable' style='width:175px;'>
 			<tr>
-				<td style='text-align:left'><input type='button' value='<?php echo _("save");?>' class='submitResource' id ='save'></td>
-				<td style='text-align:left'><input type='button' value='<?php echo _("submit");?>' class='submitResource' id ='progress'></td>
-				<td style='text-align:left'><input type='button' value='<?php echo _("cancel");?>' onclick="kill(); tb_remove()"></td>
+				<td style='text-align:left'><input type='button' value='<?php echo _("save");?>' id='save' class='submitResource save-button'></td>
+				<td style='text-align:left'><input type='button' value='<?php echo _("submit");?>' id='progress' class='submitResource submit-button'></td>
+				<td style='text-align:left'><input type='button' value='<?php echo _("cancel");?>' onclick="kill(); tb_remove()" class='cancel-button'></td>
 			</tr>
 		</table>
 
