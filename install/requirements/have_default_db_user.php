@@ -19,8 +19,13 @@ function register_have_default_db_user_requirement()
 			$generate_password = function($length)
 			{
 				$password = '';
+				$possibleCharacters = "0123456789"
+									. "abcdefghijklmnopqrstuvwxyz"
+									. "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+									. "=+-_.,<>@$;:#%*`/";
 				while (strlen($password) < $length)
-					$password .= chr(rand(33, 126));
+					$password .= $possibleCharacters[rand(0, strlen($possibleCharacters) - 1)];
+
 				return htmlspecialchars($password);
 			};
 			if (!isset($_SESSION[ $MODULE_VARS["uid"] ]["userdetails"]))
@@ -41,12 +46,10 @@ function register_have_default_db_user_requirement()
 			$_SESSION[ $MODULE_VARS["uid"] ]["userdetails"]["username"] = $default_username;
 			$_SESSION[ $MODULE_VARS["uid"] ]["userdetails"]["password"] = $default_password;
 
-			$password_is_valid = function($pass) {
-				// The only requirement is that it does not contain a slash
-				// This is because it causes problems with escaping that don't
-				// seem worth fixing at this point.
+			$disallowed_characters = '\\?{}|&~!()^"';
+			$password_is_valid = function($pass) use ($disallowed_characters){
 				// Be sure to change the message if the test here changes
-				return strpos($pass, '\\') === false;
+				return strpos($pass, $disallowed_characters) === false;
 			};
 
 			if (!$password_is_valid($default_password) || empty($_SESSION[ $MODULE_VARS["uid"] ]["userdetails"]["username"]) || empty($_SESSION[ $MODULE_VARS["uid"] ]["userdetails"]["password"]))
@@ -69,7 +72,7 @@ function register_have_default_db_user_requirement()
 				);
 
 				if (!$password_is_valid($default_password))
-					$return->yield->messages[] = _("Sorry but due to a limitation in mariadb, we do not allow '\\' in passwords. Please use a different password.");
+					$return->yield->messages[] = sprintf(_("Sorry, we do not allow the characters '%s' in passwords. Please use a different password."), $disallowed_characters);
 
 				require "install/templates/have_default_db_user_template.php";
 				$return->yield->body = have_default_db_user_template($instruction, $fields);
@@ -104,7 +107,6 @@ function register_have_default_db_user_requirement()
 						$failed_user_grants[] = $db_details["dbname"];
 					}
 				}
-				$failed_user_grants[] = "coral_auth";
 				if (!empty($failed_user_grants))
 				{
 					$db_keys_to_pass_in = [
@@ -168,8 +170,8 @@ function register_have_default_db_user_requirement()
 										else if (strtoupper($priv_array[0]) == "ALL PRIVILEGES")
 										{
 											$return->yield->messages[] = sprintf(_("The idea of having a regular db user is that this user cannot be (too) destructive but right now '%s' has ALL PRIVILEGES!"), $db_info["username"]);
-											$return->yield->messages[] = _("Please revoke all privileges:") . "<br /><span class=\"highlight\">REVOKE ALL ON {$db_info["dbname"]}.* FROM {$db_info["username"]}@{$db_info["host"]};</span>";
-											$return->yield->messages[] = _("And GRANT the following:") . "<br /><span class=\"highlight\">GRANT SELECT, INSERT, UPDATE, DELETE ON {$db_info["dbname"]}.* TO {$db_info["username"]}@{$db_info["host"]} IDENTIFIED BY '{$db_info["password"]}';</span>";
+											$return->yield->messages[] = _("Please revoke all privileges:") . "<br /><span class=\"highlight\">REVOKE ALL ON {$dbname}.* FROM {$db_info["username"]}@{$db_info["host"]};</span>";
+											$return->yield->messages[] = _("And GRANT the following:") . "<br /><span class=\"highlight\">GRANT SELECT, INSERT, UPDATE, DELETE ON {$dbname}.* TO {$db_info["username"]}@{$db_info["host"]} IDENTIFIED BY '{$db_info["password"]}';</span>";
 											$return->success &= false;
 										}
 										else
