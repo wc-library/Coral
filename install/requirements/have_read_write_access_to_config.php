@@ -83,7 +83,8 @@ function register_have_read_write_access_to_config_requirement()
 								//TODO: test with other problem variables - I think slashes are also going to cause mayhem...
 								// (just added to addcslashes but somehow we ended up with a lot of slashes!!!!!!!!!!!!!!!!!!!!!!)
 								//slash out double quotes only for ini
-								$escaped_value = addcslashes($v, '"\\');
+								// $escaped_value = addcslashes($v, '"\\{}|&~![()^"');
+								$escaped_value = addslashes($v);
 								$dataToWrite[] = "$k = \"$escaped_value\"";
 							}
 							$dataToWrite[] = "";
