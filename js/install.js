@@ -69,8 +69,7 @@ function submit_install_step(dataToSubmit)
 					setInterval(function(){
 						if (countdown-- <= 0)
 						{
-							// TODO: enable redirection
-							// window.location.href = "index.php";
+							window.location.href = "index.php";
 						}
 						else
 							$(".redirection .countdown").text(countdown);
