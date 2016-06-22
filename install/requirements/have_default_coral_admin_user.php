@@ -15,7 +15,7 @@ function register_have_default_coral_admin_user_requirement()
 			$return->yield->title = _("Have default user");
 			$return->success = false;
 
-			$default_user = "admin";
+			$default_user = "coral";
 			if (!empty($_POST["loginID"]))
 				$_SESSION[ $MODULE_VARS["uid"] ]["loginID"] = $_POST["loginID"];
 			$default_user = !empty($_SESSION[ $MODULE_VARS["uid"] ]["loginID"]) ? $_SESSION[ $MODULE_VARS["uid"] ]["loginID"] : $default_user;
