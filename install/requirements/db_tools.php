@@ -53,8 +53,8 @@ function register_db_tools_requirement()
 				{
 					// If we are supposed to use tables,
 					// we are not supposed to process sql files
-					if (in_array($muid, $_SESSION["db_tools"]["use_tables"]))
-						return ["success" => true];
+					if (isset($_SESSION["db_tools"]["use_tables"]) && in_array($muid, $_SESSION["db_tools"]["use_tables"]))
+						return [ "success" => true, "messages" => [] ];
 
 					foreach ($sql_file_array as $sql_file)
 					{
@@ -64,13 +64,9 @@ function register_db_tools_requirement()
 
 						$result = $processSql($db, $sql_file);
 						if (!$result["success"])
-						{
 							return [ "success" => false, "messages" => $result["messages"] ];
-						}
 						else
-						{
-							$_SESSION[$muid]["sql_files"][$sql_file] = true;
-						}
+							$_SESSION["db_tools"]["sql_files"][$muid][$sql_file] = true;
 					}
 					return [ "success" => true ];
 				}
@@ -78,72 +74,116 @@ function register_db_tools_requirement()
 			$shared_module_info["setSharedModuleInfo"](
 				"provided",
 				"check_db",
-				function($muid, $db, $module_shared, $column_denoting_existence, $module_title) {
+				function($muid, $db, $module_shared, $column_denoting_existence, $module_title) use ($shared_module_info) {
 					$return = new stdClass();
 					$return->yield = new stdClass();
 					$return->yield->messages = [];
 					$return->yield->title = sprintf(_("DB Check for %s"), $module_title);
 
-					$option_button_namespace = "db_tools_check_db";
-					//TODO: Fix upgrade path...
+					$check_db_namespace = "db_tools_check_db_" . $muid;
 					$option_buttons = [
-						[ "name" => "redirect_to_upgrade", "title" => "Whoops, I Want To Upgrade", "custom_javascript" => 'window.location.href="upgrade.php";' ],
-						[ "name" => "use_tables", "title" => "Use Existing Tables" ],
-						[ "name" => "drop_tables", "title" => "Delete Existing Tables" ],
-						[ "name" => "check_again", "title" => "Check Again" ],
+						//TODO: Fix upgrade path...
+						[ "name" => "redirect_to_upgrade",	"title" => _("Whoops, I Want To Upgrade"), "custom_javascript" => 'window.location.href="upgrade.php";' ],
+						[ "name" => "use_tables",			"title" => _("Use Existing Tables")		],
+						[ "name" => "drop_tables",			"title" => _("Delete Existing Tables")	],
+						[ "name" => "check_again",			"title" => _("Check Again")				]
+					];
+					$are_you_sure_buttons = [
+						[ "name" => "i_am_sure",			"title" => _("I understand, start destroying my data")	],
+						[ "name" => "no_thanks",			"title" => _("On second thoughts, what else can I do?")	]
 					];
 
-					if ($module_shared["db_feedback"] == DBAccess::DB_ALREADY_EXISTED)
+					$doElse = false;
+					if (isset($_POST[$check_db_namespace . "_option_button"]) && $_POST[$check_db_namespace . "_option_button"] == "no_thanks")
 					{
 						$doElse = true;
-						if (isset($_POST[$option_button_namespace . "_option_button"]))
+					}
+					else if (isset($_POST[$check_db_namespace . "_option_button"]) && $_POST[$check_db_namespace . "_option_button"] == "i_am_sure")
+					{
+						try
 						{
-							$doElse = false;
-							switch ($_POST[$option_button_namespace . "_option_button"])
-							{
-								case "redirect_to_upgrade":
-									header('Location: upgrade.php');
-									exit;
-								case "use_tables":
-									// set this session variable so that other db_tools stuff doesn't mess up this data
-									if (!in_array($muid, $_SESSION["db_tools"]["use_tables"]))
-										$_SESSION["db_tools"]["use_tables"][] = $muid;
-									$return->success = true;
-									return $return;
-								case "drop_tables":
-									$doElse = true;
-									break;
-								case "check_again":
-									break;
-							}
 							$doElse = true;
-						}
-
-						if ($doElse)
-						{
-							try
+							$db->processQuery('SET foreign_key_checks = 0');
+							$result = $db->processQuery("SHOW TABLES");
+							if ($result)
 							{
-								$query = "SELECT count(*) count FROM `information_schema`.`TABLES` WHERE `table_schema`=\"{$module_shared['db_name']}\" AND `table_name`=\"$column_denoting_existence\"";
-								$result = $db->processQuery($query);
-								if ($result->numRows() > 0)
+								while($row = $result->fetchRowPersist())
 								{
-									// SOLUTION: we're going to ask if the user meant to do an update and then redirect or just use the existing db.
-									$return->success = false;
-									$instruction = sprintf(_('The tables for %s already exist. If you intend to upgrade, please run upgrade.php instead. If you would like to perform a fresh install you will need to delete all of the tables in this schema first. Alternatively, if your tables are prepopulated, you can continue the install and we will assume that they are set up correctly.'), $module_title);
-									require_once "install/templates/option_buttons_template.php";
-									$return->yield->body = option_buttons_template($instruction, $option_buttons, $option_button_namespace);
-									return $return;
+									$db->processQuery("DROP TABLE IF EXISTS " . $row[0]);
 								}
 							}
-							catch (Exception $e)
+							// Fake that we have created it because we have just emptied it which comes to the same thing
+							$_SESSION["db_" . $muid . "_feedback"] = DBAccess::DB_CREATED;
+							$shared_module_info["setSharedModuleInfo"]($muid, "db_feedback", DBAccess::DB_CREATED);
+							return false;
+						}
+						catch (Exception $e)
+						{
+							$doElse = true;
+							$return->yield->messages[] = sprintf(_("We tried to delete the tables from %s but something went wrong. Maybe your user doesn't have the necessary rights?"), $module_shared['db_name']);
+							$return->yield->messages[] = "<b>Here is the exciting error:</b><br /><pre>" . var_export($e, 1) . "</pre>";
+						}
+					}
+					else if ($module_shared["db_feedback"] == DBAccess::DB_ALREADY_EXISTED)
+					{
+						$doElse = !(isset($_SESSION["db_tools"]["use_tables"]) && in_array($muid, $_SESSION["db_tools"]["use_tables"]));
+						if (isset($_POST[$check_db_namespace . "_option_button"]))
+						{
+							$doElse = false;
+							switch ($_POST[$check_db_namespace . "_option_button"])
 							{
-								//TODO: we could to handle other possible reasons for this exception
+								case "redirect_to_upgrade":
+									// This won't work because the installer is expecting a json response
+									// and it doesn't eval js in the response so we use "custom_javascript" above
+									header('Location: upgrade.php');
+									exit;
+
+								case "use_tables":
+									if (!isset($_SESSION["db_tools"]["use_tables"]))
+										$_SESSION["db_tools"]["use_tables"] = [];
+									if (!in_array($muid, $_SESSION["db_tools"]["use_tables"]))
+										$_SESSION["db_tools"]["use_tables"][] = $muid;
+									return false;
+
+								case "drop_tables":
+									$return->success = false;
+									require_once "install/templates/option_buttons_template.php";
+									$return->yield->messages[] = sprintf(_("Are you sure you want to delete your %s tables.<br /><b>This action CANNOT BE UNDONE and it WILL DESTROY DATA.</b>"), $module_title);
+									$return->yield->body = option_buttons_template("", $are_you_sure_buttons, $check_db_namespace);
+									return $return;
+
+								case "check_again":
+									$doElse = true;
+									break;
+							}
+						}
+
+					}
+
+					if ($doElse)
+					{
+						try
+						{
+							$query = "SELECT count(*) count FROM `information_schema`.`TABLES` WHERE `table_schema`=\"{$module_shared['db_name']}\" AND `table_name`=\"$column_denoting_existence\"";
+							$result = $db->processQuery($query);
+							if ($result->numRows() > 0)
+							{
+								// SOLUTION: we're going to ask if the user meant to do an update and then redirect or just use the existing db.
 								$return->success = false;
-								$return->yield->messages[] = _("Please verify your database user has access to select from the information_schema MySQL metadata database.");
-								require_once "install/templates/try_again_template.php";
-								$return->yield->body = try_again_template();
+								$instruction = sprintf(_('The tables for %s already exist. If you intend to upgrade, please run upgrade.php instead. If you would like to perform a fresh install you will need to delete all of the tables in this schema first. Alternatively, if your tables are prepopulated, you can continue the install and we will assume that they are set up correctly.'), $module_title);
+								require_once "install/templates/option_buttons_template.php";
+								$return->yield->body = option_buttons_template($instruction, $option_buttons, $check_db_namespace);
 								return $return;
 							}
+						}
+						catch (Exception $e)
+						{
+							//TODO: we could to handle other possible reasons for this exception
+							$return->success = false;
+							$return->yield->messages[] = _("Please verify your database user has access to select from the information_schema MySQL metadata database.");
+							require_once "install/templates/try_again_template.php";
+							$return->yield->body = try_again_template();
+							return $return;
 						}
 					}
 					return false;
