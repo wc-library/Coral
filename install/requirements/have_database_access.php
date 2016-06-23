@@ -82,10 +82,12 @@ function register_have_database_access_requirement()
 						$return->yield->messages[] = _("Unfortunately, although we could find the database, access was denied.");
 						$return->yield->messages[] = _("Please review your settings.");
 						break;
+
 					case DBService::ERR_COULD_NOT_CONNECT:
 						$return->yield->messages[] = _("Unfortunately we could not connect to the host.");
 						$return->yield->messages[] = _("Please review your settings.");
 						break;
+
 					case Config::ERR_VARIABLES_MISSING:
 						if (!empty($_SESSION["POSTDATA"]["dbusername"]))
 						{
@@ -97,6 +99,7 @@ function register_have_database_access_requirement()
 							$return->yield->messages[] = _("To begin with, we need a username and password to create the databases CORAL and its modules will be using.");
 						}
 						break;
+
 					default:
 						echo "We haven't prepared for the following error (installer.php):<br />\n<pre>";
 						var_dump($e);
@@ -112,18 +115,27 @@ function register_have_database_access_requirement()
 			// Go through the databases and try to create them all (or see if they already exist)
 			foreach ($shared_database_info as $db)
 			{
+				// $db["key"] is the module uid - dbtools uses this fact so if it changes dbtools will need to be fixed as well
 				$dbfeedback = "db_" . $db["key"] . "_feedback";
 				$dbnamestr = "db_" . $db["key"] . "_name";
 				$dbname = empty($_SESSION[$dbnamestr]) ? $db["default_value"] : $_SESSION[$dbnamestr];
-				if (empty($_SESSION[$dbfeedback]))
-					$_SESSION[$dbfeedback] = DBAccess::DB_FAILED;
-				try {
-					$dbconnection->selectDB( $dbname );
+				$_SESSION[$dbfeedback] = !empty($_SESSION[$dbfeedback]) ? $_SESSION[$dbfeedback] : DBAccess::DB_FAILED;
+				try
+				{
+					$dbconnection->selectDB($dbname);
 					if ($_SESSION[$dbfeedback] == DBAccess::DB_FAILED)
+					{
 						$_SESSION[$dbfeedback] = DBAccess::DB_ALREADY_EXISTED;
+						$result = $dbconnection->processQuery("SELECT * FROM `information_schema`.`tables` WHERE `table_schema`='$dbname';");
+						// If DB is empty, pretend we created it
+						if ($result && $result->numRows() == 0)
+							$_SESSION[$dbfeedback] = DBAccess::DB_CREATED;
+					}
 				}
-				catch (Exception $e) {
-					switch ($e->getCode()) {
+				catch (Exception $e)
+				{
+					switch ($e->getCode())
+					{
 						case DBService::ERR_COULD_NOT_SELECT_DATABASE:
 							try {
 								// The commented line is preferable (see http://stackoverflow.com/a/766996/123415) but we need to be backwards compatible to mysql 5.5
@@ -150,13 +162,16 @@ function register_have_database_access_requirement()
 				$shared_module_info["setSharedModuleInfo"]($db["key"], "db_feedback", $_SESSION[$dbfeedback]);
 			}
 
-			try {
+			try
+			{
 				$temporary_test_table_name = "temp_test";
 				$result = $dbconnection->processQuery("DROP TABLE IF EXISTS `$temporary_test_table_name`;");
 				$result = $dbconnection->processQuery("CREATE TABLE `$temporary_test_table_name` (id int);");
 				$result = $dbconnection->processQuery("INSERT INTO `$temporary_test_table_name` VALUES (0);");
 				$result = $dbconnection->processQuery("DROP TABLE IF EXISTS `$temporary_test_table_name`;");
-			} catch (Exception $e) {
+			}
+			catch (Exception $e)
+			{
 				$return->yield->messages[] = _("We were unable to create/delete a table. Please check your user rights. ({$e->getCode()})");
 				$return->success = false;
 				return $return;
