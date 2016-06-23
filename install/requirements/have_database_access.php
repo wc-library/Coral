@@ -123,17 +123,15 @@ function register_have_database_access_requirement()
 				try
 				{
 					$dbconnection->selectDB($dbname);
-					if ($_SESSION[$dbfeedback] == DBAccess::DB_FAILED)
-					{
-						$_SESSION[$dbfeedback] = DBAccess::DB_ALREADY_EXISTED;
-						$result = $dbconnection->processQuery("SELECT * FROM `information_schema`.`tables` WHERE `table_schema`='$dbname';");
-						// If DB is empty, pretend we created it
-						if ($result && $result->numRows() == 0)
-							$_SESSION[$dbfeedback] = DBAccess::DB_CREATED;
-					}
+					$_SESSION[$dbfeedback] = DBAccess::DB_ALREADY_EXISTED;
+					$result = $dbconnection->processQuery("SELECT * FROM `information_schema`.`tables` WHERE `table_schema`='$dbname';");
+					// If DB is empty, pretend we created it
+					if ($result && $result->numRows() == 0)
+						$_SESSION[$dbfeedback] = DBAccess::DB_CREATED;
 				}
 				catch (Exception $e)
 				{
+					$_SESSION[$dbfeedback] == DBAccess::DB_FAILED;
 					switch ($e->getCode())
 					{
 						case DBService::ERR_COULD_NOT_SELECT_DATABASE:

@@ -80,6 +80,12 @@ function register_db_tools_requirement()
 					$return->yield->messages = [];
 					$return->yield->title = sprintf(_("DB Check for %s"), $module_title);
 
+					$databaseFreshReturnFalse = function() use ($muid, $shared_module_info) {
+						$_SESSION["db_" . $muid . "_feedback"] = DBAccess::DB_CREATED;
+						$shared_module_info["setSharedModuleInfo"]($muid, "db_feedback", DBAccess::DB_CREATED);
+						return $false;
+					};
+
 					$check_db_namespace = "db_tools_check_db_" . $muid;
 					$option_buttons = [
 						//TODO: Fix upgrade path...
@@ -100,9 +106,9 @@ function register_db_tools_requirement()
 					}
 					else if (isset($_POST[$check_db_namespace . "_option_button"]) && $_POST[$check_db_namespace . "_option_button"] == "i_am_sure")
 					{
+						$doElse = true;
 						try
 						{
-							$doElse = true;
 							$db->processQuery('SET foreign_key_checks = 0');
 							$result = $db->processQuery("SHOW TABLES");
 							if ($result)
@@ -113,13 +119,10 @@ function register_db_tools_requirement()
 								}
 							}
 							// Fake that we have created it because we have just emptied it which comes to the same thing
-							$_SESSION["db_" . $muid . "_feedback"] = DBAccess::DB_CREATED;
-							$shared_module_info["setSharedModuleInfo"]($muid, "db_feedback", DBAccess::DB_CREATED);
-							return false;
+							return $databaseFreshReturnFalse();
 						}
 						catch (Exception $e)
 						{
-							$doElse = true;
 							$return->yield->messages[] = sprintf(_("We tried to delete the tables from %s but something went wrong. Maybe your user doesn't have the necessary rights?"), $module_shared['db_name']);
 							$return->yield->messages[] = "<b>Here is the exciting error:</b><br /><pre>" . var_export($e, 1) . "</pre>";
 						}
@@ -157,11 +160,12 @@ function register_db_tools_requirement()
 									break;
 							}
 						}
-
+						else
+						{
+							throw new LogicException("we haven't accounted for something, it should be impossible to get here");
+						}
 					}
 
-					if ($doElse)
-					{
 						try
 						{
 							$query = "SELECT count(*) count FROM `information_schema`.`TABLES` WHERE `table_schema`=\"{$module_shared['db_name']}\" AND `table_name`=\"$column_denoting_existence\"";
@@ -175,6 +179,11 @@ function register_db_tools_requirement()
 								$return->yield->body = option_buttons_template($instruction, $option_buttons, $check_db_namespace);
 								return $return;
 							}
+							else
+							{
+								// Fake that we have created it because it's empty (so it comes to the same thing)
+								return $databaseFreshReturnFalse();
+							}
 						}
 						catch (Exception $e)
 						{
@@ -185,8 +194,6 @@ function register_db_tools_requirement()
 							$return->yield->body = try_again_template();
 							return $return;
 						}
-					}
-					return false;
 				}
 			);
 			$shared_module_info["setSharedModuleInfo"](
