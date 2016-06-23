@@ -21,6 +21,7 @@ function register_management_requirement()
 			$return->yield = new stdClass();
 			$return->success = true;
 			$return->yield->title = _("Management Module");
+			$return->yield->messages = [];
 
 			$this_db_name = $shared_module_info[ $MODULE_VARS["uid"] ]["db_name"];
 			$dbconnection = $shared_module_info["provided"]["get_db_connection"]( $this_db_name );
