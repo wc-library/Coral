@@ -51,10 +51,15 @@ function register_db_tools_requirement()
 				"process_sql_files",
 				function ($db, $sql_file_array, $muid) use ($processSql)
 				{
+					// If we are supposed to use tables,
+					// we are not supposed to process sql files
+					if (in_array($muid, $_SESSION["db_tools"]["use_tables"]))
+						return ["success" => true];
+
 					foreach ($sql_file_array as $sql_file)
 					{
-						if (isset($_SESSION[$muid]["sql_files"][$sql_file]) &&
-							$_SESSION[$muid]["sql_files"][$sql_file])
+						if (isset($_SESSION["db_tools"]["sql_files"][$muid][$sql_file]) &&
+							$_SESSION["db_tools"]["sql_files"][$muid][$sql_file])
 							continue;
 
 						$result = $processSql($db, $sql_file);
@@ -70,55 +75,80 @@ function register_db_tools_requirement()
 					return [ "success" => true ];
 				}
 			);
-
-
 			$shared_module_info["setSharedModuleInfo"](
 				"provided",
 				"check_db",
-				function($db, $module_shared, $column_denoting_existence, $module_title) {
+				function($muid, $db, $module_shared, $column_denoting_existence, $module_title) {
 					$return = new stdClass();
 					$return->yield = new stdClass();
 					$return->yield->messages = [];
 					$return->yield->title = sprintf(_("DB Check for %s"), $module_title);
+
+					$option_button_namespace = "db_tools_check_db";
+					//TODO: Fix upgrade path...
+					$option_buttons = [
+						[ "name" => "redirect_to_upgrade", "title" => "Whoops, I Want To Upgrade", "custom_javascript" => 'window.location.href="upgrade.php";' ],
+						[ "name" => "use_tables", "title" => "Use Existing Tables" ],
+						[ "name" => "drop_tables", "title" => "Delete Existing Tables" ],
+						[ "name" => "check_again", "title" => "Check Again" ],
+					];
+
 					if ($module_shared["db_feedback"] == DBAccess::DB_ALREADY_EXISTED)
 					{
-						try
+						$doElse = true;
+						if (isset($_POST[$option_button_namespace . "_option_button"]))
 						{
-							$query = "SELECT count(*) count FROM `information_schema`.`TABLES` WHERE `table_schema`=`{$module_shared['db_name']}` AND `table_name`=`$column_denoting_existence`";
-							$result = $db->processQuery($query);
-							// TODO: offer to do this (drop tables)
-							if ($result->numRows() > 0)
+							$doElse = false;
+							switch ($_POST[$option_button_namespace . "_option_button"])
 							{
+								case "redirect_to_upgrade":
+									header('Location: upgrade.php');
+									exit;
+								case "use_tables":
+									// set this session variable so that other db_tools stuff doesn't mess up this data
+									if (!in_array($muid, $_SESSION["db_tools"]["use_tables"]))
+										$_SESSION["db_tools"]["use_tables"][] = $muid;
+									$return->success = true;
+									return $return;
+								case "drop_tables":
+									$doElse = true;
+									break;
+								case "check_again":
+									break;
+							}
+							$doElse = true;
+						}
+
+						if ($doElse)
+						{
+							try
+							{
+								$query = "SELECT count(*) count FROM `information_schema`.`TABLES` WHERE `table_schema`=\"{$module_shared['db_name']}\" AND `table_name`=\"$column_denoting_existence\"";
+								$result = $db->processQuery($query);
+								if ($result->numRows() > 0)
+								{
+									// SOLUTION: we're going to ask if the user meant to do an update and then redirect or just use the existing db.
+									$return->success = false;
+									$instruction = sprintf(_('The tables for %s already exist. If you intend to upgrade, please run upgrade.php instead. If you would like to perform a fresh install you will need to delete all of the tables in this schema first. Alternatively, if your tables are prepopulated, you can continue the install and we will assume that they are set up correctly.'), $module_title);
+									require_once "install/templates/option_buttons_template.php";
+									$return->yield->body = option_buttons_template($instruction, $option_buttons, $option_button_namespace);
+									return $return;
+								}
+							}
+							catch (Exception $e)
+							{
+								//TODO: we could to handle other possible reasons for this exception
 								$return->success = false;
-								$return->yield->messages[] = sprintf(_('The tables for %s already exist. If you intend to upgrade, please run upgrade.php instead. If you would like to perform a fresh install you will need to manually drop all of the tables in this schema first.'), $module_title);
+								$return->yield->messages[] = _("Please verify your database user has access to select from the information_schema MySQL metadata database.");
 								require_once "install/templates/try_again_template.php";
 								$return->yield->body = try_again_template();
 								return $return;
 							}
 						}
-						catch (Exception $e)
-						{
-							// This query will tell me if there are any tables in the db... (so we can just proceed if it's empty)
-							// SELECT COUNT(*) FROM information_schema.TABLES WHERE TABLE_SCHEMA='coral_usage';
-
-							//TODO: we need to handle other possible reasons for this exception
-							//TODO: this should be handled much better! if the table already existed we need to figure out more about it...
-							// SOLUTION: we're going to ask if the user meant to do an update and then redirect or just use the existing db.
-							// "wow, hang on - you already have tables in a database for %s"
-							$return->yield->messages[] = var_export($e, 1);
-							//TODO: This may indicate a halfway done installation at some point
-							$return->success = false;
-							$return->yield->messages[] = _("Please verify your database user has access to select from the information_schema MySQL metadata database.");
-							require_once "install/templates/try_again_template.php";
-							$return->yield->body = try_again_template();
-							return $return;
-						}
 					}
 					return false;
 				}
 			);
-
-
 			$shared_module_info["setSharedModuleInfo"](
 				"provided",
 				"set_up_admin_in_db",
@@ -135,8 +165,6 @@ function register_db_tools_requirement()
 					$db->processQuery($query);
 				}
 			);
-
-
 			return $return;
 		}
 	];

@@ -27,7 +27,7 @@ function register_usage_requirement()
 			$this_db_name = $shared_module_info[ $MODULE_VARS["uid"] ]["db_name"];
 			$dbconnection = $shared_module_info["provided"]["get_db_connection"]( $this_db_name );
 
-			$result = $shared_module_info["provided"]["check_db"]($dbconnection, $shared_module_info[$MODULE_VARS["uid"]], "Publisher", $MODULE_VARS["translatable_title"]);
+			$result = $shared_module_info["provided"]["check_db"]($MODULE_VARS["uid"], $dbconnection, $shared_module_info[$MODULE_VARS["uid"]], "Publisher", $MODULE_VARS["translatable_title"]);
 			if ($result)
 				return $result;
 
