@@ -28,6 +28,7 @@
 			<?php
 			$openStep=0;
             $archivingDate = 'init';
+            $archivedWorkflow = false;
 			foreach($resourceSteps as $resourceStep){
 
 				$userGroup = new UserGroup(new NamedArguments(array('primaryKey' => $resourceStep->userGroupID)));
@@ -45,8 +46,13 @@
                 <?php
                 if ($archivingDate != $resourceStep->archivingDate) {
                     $archivingDate = $resourceStep->archivingDate;
-                    $stepIndication = $resourceStep->archivingDate ? _("Workflow archived on") . " $archivingDate" : "<strong>" . _("Current workflow") . "</strong>";
-                    echo "<td colspan='6'><em>$stepIndication</em></td></tr><tr$stepClass>";
+                    $stepIndication = $resourceStep->archivingDate ? _("Workflow archived on") . " $archivingDate" : _("Current workflow");
+                    if ($resourceStep->archivingDate && $archivedWorkflow == false) {
+                        $archivedWorkflow = true; 
+                        echo "<td colspan='6'><em><strong>Archived Workflows</strong></em></td></tr><tr$stepClass>";
+                    }
+
+                    echo "<td colspan='6'><em><strong>$stepIndication</strong></em></td></tr><tr$stepClass>";
                 }
                 ?> 
 
