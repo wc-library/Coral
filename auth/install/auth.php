@@ -31,7 +31,6 @@ function register_auth_requirement()
 			$return->yield->title = _("Auth Module Installation");
 			$return->success = true;
 
-			// TODO: This could potentially be abstracted out (cf. licensing)
 			// Check that the database exists
 			// We assume success - if not, it should have been handled in have_database_access
 			$this_db_name = $shared_module_info[ $MODULE_VARS["uid"] ]["db_name"];

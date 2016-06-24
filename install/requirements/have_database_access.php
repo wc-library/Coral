@@ -110,8 +110,6 @@ function register_have_database_access_requirement()
 				return $return;
 			}
 
-			//TODO: write settings to config
-
 			// Go through the databases and try to create them all (or see if they already exist)
 			foreach ($shared_database_info as $db)
 			{

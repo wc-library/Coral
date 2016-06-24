@@ -55,7 +55,7 @@ function register_reports_requirement()
 				"name" => $this_db_name,
 				"username" => $shared_module_info["have_default_db_user"]["username"],
 				"password" => $shared_module_info["have_default_db_user"]["password"],
-				//TODO: yes, this is horrible but when it's unified it will go away
+				//TODO: yes, this is horrible but when it's unified it will go away - it should at least not be under "database"
 				"usageDatabaseName" => $shared_module_info["usage"]["db_name"]
 			];
 			//config file: ldap

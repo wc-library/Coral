@@ -52,10 +52,7 @@
  * @author j3frea+coral@gmail.com
  */
 
-// TODO: detect failed installation (possibly by asking) and handle dbs better...
 // TODO: go through template.php and remove hard coded vars
-// TODO: add post-installation checks.
-//       - Check that permissions are reset appropriately (check the have_read_write_access_to_config and reverse)
 
 const INSTALLATION_IN_PROGRESS = true;
 require "install/test_if_installed.php";
@@ -65,9 +62,6 @@ require "install/test_if_installed.php";
  */
 if (!isset($_POST["installing"]))
 {
-	// TODO: set session var and check it here
-	// (indicates that installer has restarted - post var not set but session is)
-	// ask if users wants the session cleared and install to start again
 	require "install/templates/install_page_template.php";
 	draw_install_page_template();
 	exit();
@@ -81,11 +75,7 @@ $requirements = $installer->getCheckListUids();
 
 foreach ($requirements as $i => $requirement) {
 	if (!$installer->isRequired($requirement))
-	{
-		// TODO: try not to install a module and see if it runs anyway (just to test this code)
-		// echo "abandon $requirement";
 		continue;
-	}
 
 	$testResult = $installer->runTestForResult($requirement);
 

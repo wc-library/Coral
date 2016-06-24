@@ -187,7 +187,7 @@ function register_db_tools_requirement()
 					}
 					catch (Exception $e)
 					{
-						//TODO: we could to handle other possible reasons for this exception
+						// There are probably exceptions that I have not thought of here ...
 						$return->success = false;
 						$return->yield->messages[] = _("Please verify your database user has access to select from the information_schema MySQL metadata database.");
 						require_once "install/templates/try_again_template.php";
