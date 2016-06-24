@@ -30,6 +30,10 @@ require "install/test_if_installed.php";
  */
 if (!isset($_POST["installing"]))
 {
+	// TODO: decide whether to clear the session when navigation to this page does not contain the POST var...
+	// (which is always sent on installation internal requests)
+	// session_start();
+	// session_unset();
 	require "install/templates/install_page_template.php";
 	draw_install_page_template();
 	exit();
