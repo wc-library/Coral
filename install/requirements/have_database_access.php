@@ -123,11 +123,19 @@ function register_have_database_access_requirement()
 				try
 				{
 					$dbconnection->selectDB($dbname);
-					$_SESSION[$dbfeedback] = DBAccess::DB_ALREADY_EXISTED;
 					$result = $dbconnection->processQuery("SELECT * FROM `information_schema`.`tables` WHERE `table_schema`='$dbname';");
 					// If DB is empty, pretend we created it
 					if ($result && $result->numRows() == 0)
 						$_SESSION[$dbfeedback] = DBAccess::DB_CREATED;
+					else
+					{
+						if ($_SESSION[$dbfeedback] == DBAccess::DB_CREATED)
+						{
+							$_SESSION["db_tools"]["use_tables"] = isset($_SESSION["db_tools"]["use_tables"]) ? $_SESSION["db_tools"]["use_tables"] : [];
+							$_SESSION["db_tools"]["use_tables"][] = $db["key"];
+						}
+						$_SESSION[$dbfeedback] = DBAccess::DB_ALREADY_EXISTED;
+					}
 				}
 				catch (Exception $e)
 				{
@@ -140,6 +148,10 @@ function register_have_database_access_requirement()
 								// $result = $dbconnection->processQuery("CREATE DATABASE `$dbname` DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci;");
 								$result = $dbconnection->processQuery("CREATE DATABASE `$dbname` DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_unicode_ci;");
 								$_SESSION[$dbfeedback] = DBAccess::DB_CREATED;
+
+								// If we have actually just created it, make sure that use_tables is not set because process Sql needs to happen!
+								if (isset($_SESSION["db_tools"]["use_tables"]) && in_array($db["key"], $_SESSION["db_tools"]["use_tables"]))
+									unset($_SESSION["db_tools"]["use_tables"][$db["key"]]);
 							} catch (Exception $e) {
 								$return->yield->messages[] = _("We tried to select a database with the name $dbname but failed. We also could not create it.");
 								$return->yield->messages[] = _("In order to proceed, we need access rights to create databases or you need to manually create the databases and provide their names and the credentials for a user with access rights to them.");
