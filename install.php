@@ -16,38 +16,6 @@
  * *************************************************************************************************************************
  */
 
-
-/**
- * Notes for install
- *
- * A. Create branch for install
- * B. Install order:
- * 		1. Core
- * 		2. Auth (don't know where this should be...)
- * 		3. Organizations - Coral recommends organizations be the first module installed (http://coral-erm.org/organizations/)
- * 		...
- * 		6. Resources - Resources is the most recent to be added + it interacts with organizations & licenses (http://coral-erm.org/resources/)
- * C. Make everything translatable
- *
- */
-
-
-/*
- * Things to do:
- *
- * 1. Check in /index.php if CORAL is installed (and redirect here).
- * 2. Check in /install.php if CORAL is installed (and redirect to index - [with a message?]).
- * 3. Check if the admin dirs are writable and provide a script to set permissions correctly (and do the reverse when done)
- * 4. System Requirements:
- *    - PHP 5
- *    -
- * 5. Get root user details + host [we can guess this one pretty well though]
- * 6. Create a user with limited privileges
- * 7. Create databases for each of the modules (Q: do this whether they are wanted or not?)
- *
- */
-
-
  /**
  * @author j3frea+coral@gmail.com
  */
