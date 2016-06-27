@@ -19,6 +19,9 @@ HEREDOC;
 		$instruction
 	</div>
 	<div class="row">
+		&nbsp;
+	</div>
+	<div class="row">
 		<input type="hidden" name='{$namespace}_option_button' id='{$namespace}_option_button' value=false />
 	</div>
 	{$cards($buttons)}
