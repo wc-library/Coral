@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once("common/DBService.php");
 require_once("common/DBResult.php");
 
