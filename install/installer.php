@@ -63,8 +63,6 @@ class Installer {
 	}
 	public function getCheckListUids()
 	{
-		// if (isset($_SESSION["installer_post_installation"]) && $_SESSION["installer_post_installation"])
-		// 	return [];
 		$arr = $this->checklist;
 		usort($arr, function($a, $b){
 		    if (isset($a["required"]) && $a["required"] && !isset($a["alternative"])) {
@@ -347,14 +345,5 @@ class Installer {
 				return $return;
 		}
 		return false;
-	}
-
-	public function successful_install()
-	{
-		$return = new stdClass();
-		$return->title = _("Installation Complete");
-		$return->body = _("Congratulations. Installation has been successful.");
-		$return->redirect_home = true;
-		return $return;
 	}
 }
