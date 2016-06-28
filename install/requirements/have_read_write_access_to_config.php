@@ -48,6 +48,7 @@ function register_have_read_write_access_to_config_requirement()
 				$writable_test = file_exists($cfg["path"]) ? $cfg["path"] : dirname($cfg["path"]);
 				switch ($testFileAccess($writable_test)) {
 					case $fileACCESS["NOT_WRITABLE"]:
+						// TODO: fix the sprintf with multiple strings here:
 						$return->yield->messages[] = sprintf( _("In order to proceed with the installation, we must be able to write to the '%s' configuration file at '<span class=\"highlight\">%s</span>'."), $cfg["key"], $cfg["path"] )
 													.sprintf( "<br /><b>" . _("Try") . ":</b> <span class=\"highlight\">chmod 777 %s</span>", $writable_test );
 						$return->success = false;
