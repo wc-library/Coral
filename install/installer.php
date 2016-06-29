@@ -331,6 +331,13 @@ class Installer {
 
 	public function declareInstallationComplete()
 	{
+		// $completed_tests = $this->successfully_completed_tests;
+		// // $isRequired = $this->isRequired;
+		// $tests_to_complete = array_filter($this->getCheckListUids, function ($uid) use ($isRequired) {
+		// 	return $isRequired($uid);
+		// });
+		// var_dump(array_diff($tests_to_complete, $completed_tests));
+		// exit();
 		// TODO: Perhaps we should check that all the (required) getCheckListUids
 		//       are installed before we allow this.
 		$this->shared_module_info["post_installation_mode"] = true;
