@@ -309,8 +309,8 @@ class License extends DatabaseObject {
 		$this->delete();
 	}
 
-  public function searchQuery($whereAdd, $orderBy = '', $limit = '', $count = false) {
-    if (count($whereAdd) > 0){
+	public function searchQuery($whereAdd, $orderBy = '', $limit = '', $count = false) {
+		if (count($whereAdd) > 0){
 			$whereStatement = " AND " . implode(" AND ", $whereAdd);
 		}else{
 			$whereStatement = "";
@@ -328,10 +328,10 @@ class License extends DatabaseObject {
 		if ($config->settings->organizationsModule == 'Y') {
 			$dbName = $config->settings->organizationsDatabaseName;
 			if ($count) {
-		    	$select = "SELECT COUNT(DISTINCT L.licenseID) count";
-		    } else {
-		    	$select = "SELECT distinct DT.shortName as Type, D.revisionDate, L.licenseID, L.shortName licenseName, O.name providerName, S.shortName status";
-		    }
+				$select = "SELECT COUNT(DISTINCT L.licenseID) count";
+			} else {
+				$select = "SELECT distinct DT.shortName as Type, D.revisionDate, L.licenseID, L.shortName licenseName, O.name providerName, S.shortName status";
+			}
 			//now formulate query
 			$query = $select . " FROM " . $dbName . ".Organization O, License L
 								LEFT JOIN `license_consortium` lc ON (lc.`licenseID` = L.`licenseID`)
@@ -343,45 +343,45 @@ class License extends DatabaseObject {
 								LEFT JOIN Expression E ON (D.documentID = E.documentID)
 								WHERE O.organizationID = L.organizationID and D.expirationDate is null
 								" . $whereStatement;
-		
+
 		} else {
 			if ($count) {
-        		$select = "SELECT COUNT(DISTINCT L.licenseID) count";
+				$select = "SELECT COUNT(DISTINCT L.licenseID) count";
 			} else {
-        		$select = "SELECT distinct DT.shortName as Type, D.revisionDate, L.licenseID, L.shortName licenseName, O.shortName providerName, S.shortName status";
-      		}
+				$select = "SELECT distinct DT.shortName as Type, D.revisionDate, L.licenseID, L.shortName licenseName, O.shortName providerName, S.shortName status";
+			}
 			//now formulate query
 			$query = $select . " FROM Organization O, License L
 								LEFT JOIN `license_consortium` lc ON (lc.`licenseID` = L.`licenseID`)
 								LEFT JOIN `Consortium` c ON (c.`consortiumID` = lc.`consortiumID`)
 								LEFT JOIN Status S ON (S.statusID = L.statusID)
 								LEFT JOIN Document D ON (D.licenseID = L.licenseID)
-								LEFT JOIN DocumentType DT ON (DT.documentTypeID = L.TypeID)									
+								LEFT JOIN DocumentType DT ON (DT.documentTypeID = L.TypeID)
 								LEFT JOIN Expression E ON (D.documentID = E.documentID)
 								WHERE O.organizationID = L.organizationID and D.expirationDate is null
 								" . $whereStatement;
 
 		}
-		
+
 		if ($orderBy) {
 			$query .= "\nORDER BY " . $orderBy;
 		}
-		
+
 		if ($limit) {
 			$query .= "\nLIMIT " . $limit;
 		}
 		return $query;
-  }
+	}
 
-  public function searchCount($whereAdd) {
-    $query = $this->searchQuery($whereAdd, '', '', true);
-    $result = $this->db->processQuery(stripslashes($query), 'assoc');
-    return $result['count'];
-  }
+	public function searchCount($whereAdd) {
+		$query = $this->searchQuery($whereAdd, '', '', true);
+		$result = $this->db->processQuery(stripslashes($query), 'assoc');
+		return $result['count'];
+	}
 
 	//returns array based on search
 	public function search($whereAdd, $orderBy, $limit){
-    $query = $this->searchQuery($whereAdd, $orderBy, $limit);
+		$query = $this->searchQuery($whereAdd, $orderBy, $limit);
 
 		$result = $this->db->processQuery(stripslashes($query), 'assoc');
 

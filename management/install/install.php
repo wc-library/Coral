@@ -3,8 +3,8 @@ include_once 'CORALInstaller.php';
 $installer = new CORALInstaller();
 
 if ($installer->installed()) {
-  header('Location: index.php');
-  exit;
+	header('Location: index.php');
+	exit;
 }
 
 //this script runs entire installation process in 5 steps
@@ -66,12 +66,12 @@ if ($step == "3"){
 
 							//Process the sql file by statements
 							foreach ($sqlArray as $stmt) {
-							   if (strlen(trim($stmt))>3){
+								if (strlen(trim($stmt))>3){
 
 									$result = mysql_query($stmt);
 									if (!$result){
 										$errorMessage[] = mysql_error() . "<br /><br />For statement: " . $stmt;
-										 break;
+										break;
 									}
 								}
 							}
@@ -91,12 +91,12 @@ if ($step == "3"){
 
 								//Process the sql file by statements
 								foreach ($sqlArray as $stmt) {
-								   if (strlen(trim($stmt))>3){
+									if (strlen(trim($stmt))>3){
 
 										$result = mysql_query($stmt);
 										if (!$result){
 											$errorMessage[] = mysql_error() . "<br /><br />For statement: " . $stmt;
-											 break;
+											break;
 										}
 									}
 								}
@@ -141,7 +141,7 @@ if ($step == "3"){
 
 			//next check that the database exists
 			$dbcheck = @mysql_select_db("$database_name");
-			
+
 			if (!$dbcheck) {
 				$errorMessage[] = "Unable to access the database '" . $database_name . "'.  Please verify it has been created.<br />MySQL Error: " . mysql_error();
 			}else{
@@ -158,7 +158,7 @@ if ($step == "3"){
 					$query = "DELETE FROM " . $database_name . ".User WHERE loginID = '" . $admin_login . "';";
 					mysql_query($query);
 					$query = "INSERT INTO " . $database_name . ".User (loginID, privilegeID) values ('" . $admin_login . "', " . $privilegeID . ");";
-					
+
 					mysql_query($query);
 				}
 
@@ -259,17 +259,17 @@ if ($step == "3"){
 			// By default this is a stand alone module.  Overriding these install settings.
 			// End user will need to modify configuration file manually to enable these modules
 			//
-			
+
 			$useTermsToolFunctionality = "N";
 			$resourcesModule = "N";
 			$usageModule = "N";
 			$organizationsModule = "N";
-			
+
 			//
 			//
-			
+
 			$iniData = array();
-			$iniData[] = "# The Management module is not meant to tie into the other"; 
+			$iniData[] = "# The Management module is not meant to tie into the other";
 			$iniData[] = "# CORAL modules.  They only module that has been tested is the";
 			$iniData[] = "# Auth module.  The Management was a clone of the Licensing module";
 			$iniData[] = "# originally that was modified for a specific purpose.";
@@ -281,10 +281,10 @@ if ($step == "3"){
 			$iniData[] = "authDatabaseName=" . $authDatabaseName;
 			$iniData[] = "usageModule=" . $usageModule;
 			$iniData[] = "resourcesModule=" . $resourcesModule;
-			$iniData[] = "resourcesDatabaseName" . $resourcesModuleDatabaseName;			
+			$iniData[] = "resourcesDatabaseName" . $resourcesModuleDatabaseName;
 			$iniData[] = "useTermsToolFunctionality=" . $useTermsToolFunctionality;
 			$iniData[] = "remoteAuthVariableName=\"" . $remoteAuthVariableName . "\"";
-      $iniData[] = "";
+			$iniData[] = "";
 			$iniData[] = "[database]";
 			$iniData[] = "type = \"mysql\"";
 			$iniData[] = "host = \"" . $database_host . "\"";
@@ -357,35 +357,29 @@ if ($step == "3"){
 //first step - check system info and verify php 5
 } else if ($step == '1') {
 	ob_start();
-    phpinfo(-1);
-    $phpinfo = array('phpinfo' => array());
-    if(preg_match_all('#(?:<h2>(?:<a name=".*?">)?(.*?)(?:</a>)?</h2>)|(?:<tr(?: class=".*?")?><t[hd](?: class=".*?")?>(.*?)\s*</t[hd]>(?:<t[hd](?: class=".*?")?>(.*?)\s*</t[hd]>(?:<t[hd](?: class=".*?")?>(.*?)\s*</t[hd]>)?)?</tr>)#s', ob_get_clean(), $matches, PREG_SET_ORDER))
-    foreach($matches as $match){
-        if(strlen($match[1]))
-            $phpinfo[$match[1]] = array();
-        elseif(isset($match[3]))
-            $phpinfo[end(array_keys($phpinfo))][$match[2]] = isset($match[4]) ? array($match[3], $match[4]) : $match[3];
-        else
-            $phpinfo[end(array_keys($phpinfo))][] = $match[2];
-    }
-
-
-
-
-    ?>
+	phpinfo(-1);
+	$phpinfo = array('phpinfo' => array());
+	if(preg_match_all('#(?:<h2>(?:<a name=".*?">)?(.*?)(?:</a>)?</h2>)|(?:<tr(?: class=".*?")?><t[hd](?: class=".*?")?>(.*?)\s*</t[hd]>(?:<t[hd](?: class=".*?")?>(.*?)\s*</t[hd]>(?:<t[hd](?: class=".*?")?>(.*?)\s*</t[hd]>)?)?</tr>)#s', ob_get_clean(), $matches, PREG_SET_ORDER))
+		foreach($matches as $match){
+			if(strlen($match[1]))
+				$phpinfo[$match[1]] = array();
+			elseif(isset($match[3]))
+				$phpinfo[end(array_keys($phpinfo))][$match[2]] = isset($match[4]) ? array($match[3], $match[4]) : $match[3];
+			else
+				$phpinfo[end(array_keys($phpinfo))][] = $match[2];
+		}
+?>
 
 	<h3>Getting system info and verifying php version</h3>
 	<ul>
 	<li>System: <?php echo $phpinfo['phpinfo']['System'];?></li>
-    <li>PHP version: <?php echo phpversion();?></li>
-    <li>Server API: <?php echo $phpinfo['phpinfo']['Server API'];?></li>
+	<li>PHP version: <?php echo phpversion();?></li>
+	<li>Server API: <?php echo $phpinfo['phpinfo']['Server API'];?></li>
 	</ul>
 
 	<br />
 
 	<?php
-
-
 	if (phpversion() >= 5){
 	?>
 		<form action="<?php echo $_SERVER['PHP_SELF']?>" method="post">
@@ -540,14 +534,14 @@ if ($step == "3"){
 
 		<table width="100%" border="0" cellspacing="0" cellpadding="2">
 		<tr>
-<!--		
+<!--
 			<tr>
 				<td>&nbsp;Are you going to use the Terms Tool Add-On?</td>
 				<td>
 					<input type="checkbox" name="useTermsToolFunctionality" value="Y" <?php echo $useTermsToolFunctionalityChecked?>>
 				</td>
 			</tr>
--->			
+-->
 			<tr>
 				<td>&nbsp;Are you using the authentication module?</td>
 				<td>
@@ -560,7 +554,7 @@ if ($step == "3"){
 					<input type="text" name="authDatabaseName" size="30" value="<?php echo $authDatabaseName?>">
 				</td>
 			</tr>
-<!--		
+<!--
 			<tr>
 				<td>&nbsp;Are you using the organizations module?</td>
 				<td>
@@ -574,7 +568,7 @@ if ($step == "3"){
 					<input type="text" name="organizationsDatabaseName" size="30" value="<?php echo $organizationsDatabaseName?>">
 				</td>
 			</tr>
--->			
+-->
 <!--
 			<tr>
 				<td>&nbsp;Are you using the resources module?</td>
@@ -588,7 +582,7 @@ if ($step == "3"){
 					<input type="checkbox" name="usageModule" value="Y" <?php echo $usageChecked?>>
 				</td>
 			</tr>
--->			
+-->
 			<tr>
 				<td>&nbsp;Remote Auth Variable Name (required if not using the CORAL Authentication Module)</td>
 				<td>
