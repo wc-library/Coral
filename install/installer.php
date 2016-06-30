@@ -89,9 +89,9 @@ class Installer {
 	{
 		$alt = isset($this->checklist[ $this->getKeyFromUid($uid) ]["alternative"]) ? true : false;
 		$req = isset($this->checklist[ $this->getKeyFromUid($uid) ]["required"]) ? $this->checklist[ $this->getKeyFromUid($uid) ]["required"] && !$alt : false;
-		if (isset($this->shared_module_info["modules_to_use"][$uid]["useModule"]))
+		if (isset($this->shared_module_info["modules_to_use"]["useModule"][$uid]))
 		{
-			$req |= $this->shared_module_info["modules_to_use"][$uid]["useModule"];
+			$req |= $this->shared_module_info["modules_to_use"]["useModule"][$uid];
 		}
 		return $req;
 	}

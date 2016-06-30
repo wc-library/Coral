@@ -48,7 +48,7 @@ function register_management_requirement()
 
 			$iniData = array();
 			$iniData["settings"] = [];
-			if (isset($shared_module_info["modules_to_use"]["auth"]["useModule"]) && $shared_module_info["modules_to_use"]["auth"]["useModule"])
+			if (isset($shared_module_info["modules_to_use"]["useModule"]["auth"]) && $shared_module_info["modules_to_use"]["useModule"]["auth"])
 			{
 				$iniData["settings"]["authModule"] = 'Y';
 				$iniData["settings"]["authDatabaseName"] = $shared_module_info["auth"]["db_name"];

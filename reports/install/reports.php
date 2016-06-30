@@ -59,7 +59,7 @@ function register_reports_requirement()
 				"usageDatabaseName" => $shared_module_info["usage"]["db_name"]
 			];
 			//config file: ldap
-			if (isset($shared_module_info["modules_to_use"]["auth"]["useModule"]) && $shared_module_info["modules_to_use"]["auth"]["useModule"])
+			if (isset($shared_module_info["modules_to_use"]["useModule"]["auth"]) && $shared_module_info["modules_to_use"]["useModule"]["auth"])
 			{
 				if ($shared_module_info["auth"]["ldap_enabled"])
 				{

@@ -32,15 +32,15 @@ function register_modules_to_use_requirement()
 					$return->success &= true;
 				}
 
-				if ($mod_chosen !== null || isset($_SESSION[ $MODULE_VARS["uid"] ][ $mod["uid"] ]["useModule"]))
+				if ($mod_chosen !== null || isset($_SESSION[ $MODULE_VARS["uid"] ]["useModule"][ $mod["uid"] ]))
 				{
-					$mod_chosen = $mod_chosen !== null ? $mod_chosen : $_SESSION[ $MODULE_VARS["uid"] ][ $mod["uid"] ]["useModule"];
+					$mod_chosen = $mod_chosen !== null ? $mod_chosen : $_SESSION[ $MODULE_VARS["uid"] ]["useModule"][ $mod["uid"] ];
 					if (!isset($_SESSION[ $MODULE_VARS["uid"] ][ $mod["uid"] ]))
 					{
 						$_SESSION[ $MODULE_VARS["uid"] ][ $mod["uid"] ] = [];
 					}
-					$_SESSION[ $MODULE_VARS["uid"] ][ $mod["uid"] ]["useModule"] = $mod_chosen;
-					$shared_module_info["setSharedModuleInfo"]($MODULE_VARS["uid"], $mod["uid"], ["useModule" => $mod_chosen]);
+					$_SESSION[ $MODULE_VARS["uid"] ]["useModule"][ $mod["uid"] ] = $mod_chosen;
+					$shared_module_info["setSharedModuleInfo"]($MODULE_VARS["uid"], "useModule", [$mod["uid"] => $mod_chosen]);
 					$module_list[$i]["default_value"] = $mod_chosen;
 					if (!$mod_chosen)
 						$modules_not_to_install[] = $mod["uid"];
@@ -59,7 +59,7 @@ function register_modules_to_use_requirement()
 				if (isset($mod["alternative"]))
 				{
 					//only check if the alternative is being invoked (i.e. module not used)
-					if (isset($_SESSION[ $MODULE_VARS["uid"] ][ $mod["uid"] ]["useModule"]) && !$_SESSION[ $MODULE_VARS["uid"] ][ $mod["uid"] ]["useModule"])
+					if (isset($_SESSION[ $MODULE_VARS["uid"] ]["useModule"][ $mod["uid"] ]) && !$_SESSION[ $MODULE_VARS["uid"] ]["useModule"][ $mod["uid"] ])
 					{
 						$alternative_vars = array_map(function($key){
 							return $key;
@@ -123,10 +123,10 @@ function register_modules_to_use_requirement()
 						$conf = [];
 						$modules_to_use = $smi["modules_to_use"];
 						foreach ($modules_to_use as $key => $value) {
-							if (isset($smi["modules_to_use"][$key]["useModule"]))
+							if (isset($smi["modules_to_use"]["useModule"][$key]))
 							{
-								$conf["{$key}Module"] = $smi["modules_to_use"][$key]["useModule"] ? 'Y' : 'N';
-								if ($smi["modules_to_use"][$key]["useModule"] && isset($smi[$key]["db_name"]))
+								$conf["{$key}Module"] = $smi["modules_to_use"]["useModule"][$key] ? 'Y' : 'N';
+								if ($smi["modules_to_use"]["useModule"][$key] && isset($smi[$key]["db_name"]))
 									$conf["{$key}DatabaseName"] = $smi[$key]["db_name"];
 							}
 						}

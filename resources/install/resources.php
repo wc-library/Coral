@@ -111,7 +111,7 @@ function register_resources_requirement()
 				"password" => $shared_module_info["have_default_db_user"]["password"]
 			];
 			//config file: ldap
-			if (isset($shared_module_info["modules_to_use"]["auth"]["useModule"]) && $shared_module_info["modules_to_use"]["auth"]["useModule"])
+			if (isset($shared_module_info["modules_to_use"]["useModule"]["auth"]) && $shared_module_info["modules_to_use"]["useModule"]["auth"])
 			{
 				if ($shared_module_info["auth"]["ldap_enabled"])
 				{
