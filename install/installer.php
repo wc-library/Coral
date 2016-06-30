@@ -260,6 +260,10 @@ class Installer {
 				$required_for[] = $dependency;
 				$result = $this->runTestForResult($dependency, $required_for);
 				// If one of the requirements fails, we need its result to be yielded
+				if (!isset($result->success))
+				{
+					var_dump($dependency);
+				}
 				if (!$result->success)
 					return $result;
 			}

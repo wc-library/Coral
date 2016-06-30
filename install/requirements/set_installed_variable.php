@@ -14,12 +14,22 @@ function register_set_installed_variable_requirement()
 			$return->yield->messages = [];
 			$return->yield->title = _("Installation Variable Set");
 
-			// require_once "common/Config.php";
-			$shared_module_info["provided"]["write_config_file"](Config::CONFIG_FILE_PATH, [
+			$confData = [
 				"installation_details" => [
 					"version" => INSTALLATION_VERSION
 				]
-			]);
+			];
+			foreach ($shared_module_info["modules_to_use"]["useModule"] as $key => $value) {
+				$confData[$key] = [
+					"enabled" => $value ? "Y" : "N",
+					"installed" => $value ? "Y" : "N",
+				];
+			}
+
+			require_once "common/Config.php";
+			$shared_module_info["provided"]["write_config_file"](Config::CONFIG_FILE_PATH, $confData);
+
+			var_dump ($return);
 
 			return $return;
 		}
