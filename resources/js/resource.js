@@ -663,7 +663,7 @@ function updateCataloging(){
 
 
 function updateRightPanel(){
-  $("#div_rightPanel").append("<img src='images/circle.gif'>  "+_("Refreshing Contents..."));
+  $("#div_rightPanel").append("<img src='images/circle.gif' />  "+_("Refreshing Contents..."));
   $.ajax({
 	 type:       "GET",
 	 url:        "ajax_htmldata.php",
@@ -678,6 +678,8 @@ function updateRightPanel(){
   });
 
 } 
+
+
 
 
 function updateTitle(){
