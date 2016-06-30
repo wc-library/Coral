@@ -112,76 +112,37 @@
 
 		<div class="icons">
 
-			<div class='main-page-icons'>
-				<?php if (file_exists($pagePath . "resources/index.php")) {?>
-					<a href='resources/'>
-						<img src='images/icon-resources.png' class="rollover" />
-						<span><?php echo _("Resources");?></span>
-					</a>
-				<?php } else { ?>
-					<div class='main-page-icons-off'>
-						<img src='images/icon-resources-off.png'>
-						<span><?php echo _("Resources");?></span>
-					</div>
-				<?php } ?>
-			</div>
+			<?php
+			$mainPageIcon = "";
+			$modules = [ "resources" => _("Resources"), "licensing" => _("Licensing"), "organizations" => _("Organizations"), "usage" => _("Usage Statistics"), "management" => _("Management") ];
+			require_once("common/Config.php");
+			foreach ($modules as $key => $value)
+			{
+				$module = "";
+				try
+				{
+					$mod_conf = Config::getSettingsFor($key);
+					if (isset($mod_conf["enabled"]) && $mod_conf["enabled"] == "Y")
+					{
+						$module = "<a href='{$key}/'><img src='images/icon-{$key}.png' class='rollover' /><span>{$value}</span></a>";
+					}
+				}
+				catch (Exception $e)
+				{
+					if ($e->getCode() != Config::ERR_VARIABLES_MISSING)
+					{
+						throw $e;
+					}
+				}
 
-
-			<div class='main-page-icons'>
-				<?php if (file_exists($pagePath . "licensing/index.php")) {?>
-					<a href='licensing/'>
-						<img src='images/icon-licensing.png' class="rollover" />
-						<span><?php echo _("Licensing");?></span>
-					</a>
-				<?php } else { ?>
-					<div class='main-page-icons-off'>
-						<img src='images/icon-licensing-off.png' />
-						<span><?php echo _("Licensing");?></span>
-					</div>
-				<?php } ?>
-			</div>
-
-			<div class='main-page-icons'>
-				<?php if (file_exists($pagePath . "organizations/index.php")) {?>
-					<a href='organizations/'>
-						<img src='images/icon-organizations.png' class="rollover" />
-						<span><?php echo _("Organizations");?></span>
-					</a>
-				<?php } else { ?>
-					<div class='main-page-icons-off'>
-						<img src='images/icon-organizations-off.png' />
-						<span><?php echo _("Organizations");?></span>
-					</div>
-				<?php } ?>
-			</div>
-
-			<div class='main-page-icons'>
-				<?php if (file_exists($pagePath . "usage/index.php")) {?>
-					<a href='usage/'>
-						<img src='images/icon-usage.png' class="rollover" />
-						<span><?php echo _("Usage Statistics");?></span>
-					</a>
-				<?php } else { ?>
-					<div class='main-page-icons-off'>
-						<img src='images/icon-usage-off.png' />
-						<span><?php echo _("Usage Statistics");?></span>
-					</div>
-				<?php } ?>
-			</div>
-
-			<div class='main-page-icons'>
-				<?php if (file_exists($pagePath . "management/index.php")) {?>
-					<a href='management/'>
-						<img src='images/icon-management.png' class="rollover" />
-						<span><?php echo _("Management");?></span>
-					</a>
-				<?php } else { ?>
-					<div class='main-page-icons-off'>
-						<img src='images/icon-management-off.png' />
-						<span><?php echo _("Management");?></span>
-					</div>
-				<?php } ?>
-			</div>
+				if (empty($module))
+				{
+					$module = "<div class='main-page-icons-off'><img src='images/icon-{$key}-off.png'><span>{$value}</span></div>";
+				}
+				$mainPageIcon .= "<div class='main-page-icons'>$module</div>";
+			}
+			echo $mainPageIcon;
+			?>
 
 		</div>
 

@@ -24,7 +24,6 @@ class Config {
 	const ERR_NO_SUCH_MODULE = 10053;
 
 	protected static $database;
-	protected static $installed_modules = [];
 	protected static $module_settings = [];
 	protected static $bInit = null;
 
@@ -34,15 +33,7 @@ class Config {
 				throw new Exception(_("Config file not found or not readable"), self::ERR_FILE_NOT_READABLE);
 			$data = parse_ini_file(self::CONFIG_FILE_PATH, true);
 
-			if (isset($data['database']))
-				self::$database = ( object ) $data['database'];
-			else
-				throw new OutOfRangeException(_("Database settings are missing from the config file"), self::ERR_VARIABLES_MISSING);
-
-			if (isset($data['installed_modules']))
-			{
-				self::$installed_modules = $data['installed_modules'];
-			}
+			self::$module_settings = $data;
 
 			self::$bInit = 'y';
 		}
@@ -51,20 +42,23 @@ class Config {
 	public static function dbInfo($db_variable)
 	{
 		self::init();
+		if (empty(self::$database))
+			throw new OutOfRangeException(_("Database settings are missing from the config file"), self::ERR_VARIABLES_MISSING);
+
 		$possible_values = ['host', 'username', 'password', 'name'];
 		if (in_array($db_variable, $possible_values))
-			return self::$database->$db_variable;
+			return self::$database[$db_variable];
 	}
 
 	public static function getSettingsFor($module_name) {
 		self::init();
-		if (in_array($module_name, self::$installed_modules))
+		if (!empty(self::$module_settings[$module_name]))
 		{
 			return self::$module_settings[$module_name];
 		}
 		else
 		{
-			throw new OutOfBoundsException("Module name does not match module in settings objecet.", self::ERR_NO_SUCH_MODULE);
+			throw new OutOfBoundsException("No settings exist for '$module_name'.", self::ERR_VARIABLES_MISSING);
 		}
 	}
 
