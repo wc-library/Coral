@@ -22,8 +22,8 @@ function register_modules_to_use_helper_requirement()
 		$dynamic_dependencies = $MODULE_VARS["dependencies_array"];
 		foreach ($_SESSION[$PARENT_MODULE]["useModule"] as $key => $val)
 		{
-			if ($key)
-				$dynamic_dependencies[] = $val;
+			if ($val)
+				$dynamic_dependencies[] = $key;
 		}
 		if (!empty($dynamic_dependencies))
 			$MODULE_VARS["dependencies_array"] = $dynamic_dependencies;

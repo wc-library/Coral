@@ -17,6 +17,7 @@ function register_modules_to_use_requirement()
 
 			$module_list = $shared_module_info["module_list"];
 			$modules_not_to_install = [];
+
 			foreach ($module_list as $i => $mod)
 			{
 				$mod_chosen = null;
@@ -35,12 +36,9 @@ function register_modules_to_use_requirement()
 				if ($mod_chosen !== null || isset($_SESSION[ $MODULE_VARS["uid"] ]["useModule"][ $mod["uid"] ]))
 				{
 					$mod_chosen = $mod_chosen !== null ? $mod_chosen : $_SESSION[ $MODULE_VARS["uid"] ]["useModule"][ $mod["uid"] ];
-					if (!isset($_SESSION[ $MODULE_VARS["uid"] ][ $mod["uid"] ]))
-					{
-						$_SESSION[ $MODULE_VARS["uid"] ][ $mod["uid"] ] = [];
-					}
+					$_SESSION[ $MODULE_VARS["uid"] ]["useModule"] = isset($_SESSION[ $MODULE_VARS["uid"] ]["useModule"]) ? $_SESSION[ $MODULE_VARS["uid"] ]["useModule"] : [];
 					$_SESSION[ $MODULE_VARS["uid"] ]["useModule"][ $mod["uid"] ] = $mod_chosen;
-					$shared_module_info["setSharedModuleInfo"]($MODULE_VARS["uid"], "useModule", [$mod["uid"] => $mod_chosen]);
+					$shared_module_info["setSharedModuleInfo"]($MODULE_VARS["uid"], "useModule", $_SESSION[ $MODULE_VARS["uid"] ]["useModule"]);
 					$module_list[$i]["default_value"] = $mod_chosen;
 					if (!$mod_chosen)
 						$modules_not_to_install[] = $mod["uid"];
@@ -58,7 +56,7 @@ function register_modules_to_use_requirement()
 				//only bother if the module is required and has an alternative
 				if (isset($mod["alternative"]))
 				{
-					//only check if the alternative is being invoked (i.e. module not used)
+					//only do check if the alternative is being invoked (i.e. module not used)
 					if (isset($_SESSION[ $MODULE_VARS["uid"] ]["useModule"][ $mod["uid"] ]) && !$_SESSION[ $MODULE_VARS["uid"] ]["useModule"][ $mod["uid"] ])
 					{
 						$alternative_vars = array_map(function($key){
@@ -121,14 +119,11 @@ function register_modules_to_use_requirement()
 					"get_modules_to_use_config",
 					function($smi){
 						$conf = [];
-						$modules_to_use = $smi["modules_to_use"];
+						$modules_to_use = $smi["modules_to_use"]["useModule"];
 						foreach ($modules_to_use as $key => $value) {
-							if (isset($smi["modules_to_use"]["useModule"][$key]))
-							{
-								$conf["{$key}Module"] = $smi["modules_to_use"]["useModule"][$key] ? 'Y' : 'N';
-								if ($smi["modules_to_use"]["useModule"][$key] && isset($smi[$key]["db_name"]))
-									$conf["{$key}DatabaseName"] = $smi[$key]["db_name"];
-							}
+							$conf["{$key}Module"] = $value ? 'Y' : 'N';
+							if ($value && isset($smi[$key]["db_name"]))
+								$conf["{$key}DatabaseName"] = $smi[$key]["db_name"];
 						}
 
 						// This assumes too much knowledge of the auth module but since we're going towards a common config file this will go away eventually.

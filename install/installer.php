@@ -260,10 +260,6 @@ class Installer {
 				$required_for[] = $dependency;
 				$result = $this->runTestForResult($dependency, $required_for);
 				// If one of the requirements fails, we need its result to be yielded
-				if (!isset($result->success))
-				{
-					var_dump($dependency);
-				}
 				if (!$result->success)
 					return $result;
 			}
@@ -293,6 +289,7 @@ class Installer {
 		if ($result === null)
 			throw new UnexpectedValueException("The script for '{$this->getTitleFromUid($installer["uid"])}' has returned a null result (which is not allowed).", $this::ERR_INVALID_TEST_RESULT);
 
+		$this->shared_module_info["debug"][] = $uid;
 		$this->checklist[$key]["result"] = $result;
 		if ($result->success)
 			$this->successfully_completed_tests[] = $uid;

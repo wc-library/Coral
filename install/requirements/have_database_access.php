@@ -39,6 +39,7 @@ function register_have_database_access_requirement()
 			catch (Exception $e)
 			{
 				switch ($e->getCode()) {
+					case Config::ERR_FILE_NOT_READABLE:
 					case Config::ERR_VARIABLES_MISSING:
 						// Config file not yet set up
 						if (isset($_SESSION["POSTDATA"]["dbusername"]))
@@ -50,8 +51,6 @@ function register_have_database_access_requirement()
 							]);
 						}
 						break;
-					case Config::ERR_FILE_NOT_READABLE:
-						break;
 
 					default:
 						throw new LogicException("I don't know what error you managed to get so you need to debug more deeply", 1001);
@@ -59,22 +58,29 @@ function register_have_database_access_requirement()
 				}
 			}
 
-			$modules_with_database_requirements = array_filter($shared_module_info, function($item){
-				return is_array($item) && isset($item["database"]);
-			});
+			// Get list of chosen modules - the dependecies are handles by modules_to_use - it will force the user to choose the modules that are required.
+			$modules_to_use = array_keys(array_filter($shared_module_info["modules_to_use"]["useModule"], function($item) {
+				return $item;
+			}));
+			$modules_to_use_with_database_requirements = array_filter($shared_module_info, function($value, $key) use ($modules_to_use){
+				return is_array($value) && isset($value["database"]) && in_array($key, $modules_to_use);
+			}, ARRAY_FILTER_USE_BOTH);
 			$shared_database_info = array_map(function($key, $item) {
 				$to_return = $item["database"];
 				$to_return["key"] = $key;
 				return $to_return;
-			}, array_keys($modules_with_database_requirements), $modules_with_database_requirements);
+			}, array_keys($modules_to_use_with_database_requirements), $modules_to_use_with_database_requirements);
 
 			require "install/templates/database_details_template.php";
 			$return->yield->body = database_details_template($shared_database_info);
 
 			// Try to connect
-			try {
+			try
+			{
 				$dbconnection = new DBService(false);
-			} catch (Exception $e) {
+			}
+			catch (Exception $e)
+			{
 				$return->success = false;
 
 				switch ($e->getCode()) {
@@ -88,6 +94,7 @@ function register_have_database_access_requirement()
 						$return->yield->messages[] = _("Please review your settings.");
 						break;
 
+					case Config::ERR_FILE_NOT_READABLE:
 					case Config::ERR_VARIABLES_MISSING:
 						if (!empty($_SESSION["POSTDATA"]["dbusername"]))
 						{
@@ -101,7 +108,8 @@ function register_have_database_access_requirement()
 						break;
 
 					default:
-						echo "We haven't prepared for the following error (installer.php):<br />\n<pre>";
+						var_dump($shared_module_info["debug"]);
+						echo "We haven't prepared for the following error (have_database_access.php #1):<br />\n<pre>";
 						var_dump($e);
 						echo "</pre>";
 						throw $e;
@@ -124,7 +132,9 @@ function register_have_database_access_requirement()
 					$result = $dbconnection->processQuery("SELECT * FROM `information_schema`.`tables` WHERE `table_schema`='$dbname';");
 					// If DB is empty, pretend we created it
 					if ($result && $result->numRows() == 0)
+					{
 						$_SESSION[$dbfeedback] = DBAccess::DB_CREATED;
+					}
 					else
 					{
 						if ($_SESSION[$dbfeedback] == DBAccess::DB_CREATED)
@@ -161,7 +171,7 @@ function register_have_database_access_requirement()
 							break;
 
 						default:
-							echo "We haven't prepared for the following error (installer.php):<br />\n";
+							echo "We haven't prepared for the following error (have_database_access.php #2):<br />\n";
 							var_dump($e);
 							break;
 					}

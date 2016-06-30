@@ -29,8 +29,6 @@ function register_set_installed_variable_requirement()
 			require_once "common/Config.php";
 			$shared_module_info["provided"]["write_config_file"](Config::CONFIG_FILE_PATH, $confData);
 
-			var_dump ($return);
-
 			return $return;
 		}
 	];

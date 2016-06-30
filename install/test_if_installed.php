@@ -7,8 +7,15 @@ function continue_installing()
 	if (!isset($_SESSION[$root_installation_namespace . "_do_install_anyway"]) || (isset($_SESSION[$root_installation_namespace . "_do_install_anyway"]) && $_SESSION[$root_installation_namespace . "_do_install_anyway"] !== true))
 	{
 		require_once "common/Config.php";
-		$common_config = parse_ini_file(Config::CONFIG_FILE_PATH, true);
-		$old_version = isset($common_config["installation_details"]["version"]) ? $common_config["installation_details"]["version"] : false;
+		if (file_exists(Config::CONFIG_FILE_PATH) && is_readable(Config::CONFIG_FILE_PATH))
+		{
+			$common_config = parse_ini_file(Config::CONFIG_FILE_PATH, true);
+			$old_version = isset($common_config["installation_details"]["version"]) ? $common_config["installation_details"]["version"] : false;
+		}
+		else
+		{
+			$old_version = false;
+		}
 
 		if ((isset($_POST[$root_installation_namespace . "_option_button"]) && $_POST[$root_installation_namespace . "_option_button"] == "already_installed") || (isset($_SESSION[$root_installation_namespace . "_do_already_installed"]) && $_SESSION[$root_installation_namespace . "_do_already_installed"]))
 		{

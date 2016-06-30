@@ -20,14 +20,18 @@ function register_have_read_write_access_to_config_requirement()
 
 			$return->success = true;
 
-			$modules_with_config_file_requirements = array_filter($shared_module_info, function($item){
-				return is_array($item) && isset($item["config_file"]);
-			});
+			// Get list of chosen modules - the dependecies are handles by modules_to_use - it will force the user to choose the modules that are required.
+			$modules_to_use = array_keys(array_filter($shared_module_info["modules_to_use"]["useModule"], function($item) {
+				return $item;
+			}));
+			$modules_to_use_with_config_file_requirements = array_filter($shared_module_info, function($value, $key) use ($modules_to_use){
+				return is_array($value) && isset($value["config_file"]) && in_array($key, $modules_to_use);
+			}, ARRAY_FILTER_USE_BOTH);
 			$config_files = array_map(function($key, $item) {
 				$to_return = $item["config_file"];
 				$to_return["key"] = $key;
 				return $to_return;
-			}, array_keys($modules_with_config_file_requirements), $modules_with_config_file_requirements);
+			}, array_keys($modules_to_use_with_config_file_requirements), $modules_to_use_with_config_file_requirements);
 
 			$fileACCESS = [
 				"FULL_ACCESS" => 0, "NOT_READABLE" => 1, "NOT_WRITABLE" => 2, "DOESNT_EXIST" => 3
