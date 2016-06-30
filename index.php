@@ -18,7 +18,7 @@
 	global $http_lang;
 	if(isset($_COOKIE["lang"])){
 	    $http_lang = $_COOKIE["lang"];
-	}else{        
+	}else{
 	    $codeL = str_replace("-","_",substr($_SERVER["HTTP_ACCEPT_LANGUAGE"],0,5));
 	    $http_lang = $lang_name->getLanguage($codeL);
 	    if($http_lang == "")
@@ -38,6 +38,7 @@
 <title>eRM - eResource Management</title>
 <link rel="stylesheet" href="indexstyle.css" type="text/css" media="screen" />
 <link rel="SHORTCUT ICON" href="images/favicon.ico" />
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="js/plugins/jquery.js"></script>
 <script type="text/javascript" src="js/common.js"></script>
 <script type="text/javascript" src="js/plugins/Gettext.js"></script>
@@ -71,23 +72,23 @@
 	            // Get all translations on the 'locale' folder
 	            $route='locale';
 	            $lang[]="en_US"; // add default language
-	            if (is_dir($route)) { 
-	                if ($dh = opendir($route)) { 
+	            if (is_dir($route)) {
+	                if ($dh = opendir($route)) {
 	                    while (($file = readdir($dh)) !== false) {
 	                        if (is_dir("$route/$file") && $file!="." && $file!=".."){
 	                            $lang[]=$file;
-	                        } 
-	                    } 
-	                    closedir($dh); 
-	                } 
+	                        }
+	                    }
+	                    closedir($dh);
+	                }
 	            }else {
-	                echo "<br>"._("Invalid translation route!"); 
+	                echo "<br>"._("Invalid translation route!");
 	            }
 	            // Get language of navigator
 	            $defLang = substr($_SERVER["HTTP_ACCEPT_LANGUAGE"],0,5);
-	            
+
 	            // Show an ordered list
-	            sort($lang); 
+	            sort($lang);
 	            for($i=0; $i<count($lang); $i++){
 	                if(isset($_COOKIE["lang"])){
 	                    if($_COOKIE["lang"]==$lang[$i]){
@@ -110,11 +111,11 @@
 </div>
 
 		<div class="icons">
-		
+
 			<div class='main-page-icons'>
 				<?php if (file_exists($pagePath . "resources/index.php")) {?>
 					<a href='resources/'>
-						<img src='images/icon-resources.png' hover="images/icon-resources-hover.png" class="rollover" />
+						<img src='images/icon-resources.png' class="rollover" />
 						<span><?php echo _("Resources");?></span>
 					</a>
 				<?php } else { ?>
@@ -125,11 +126,11 @@
 				<?php } ?>
 			</div>
 
-		
+
 			<div class='main-page-icons'>
 				<?php if (file_exists($pagePath . "licensing/index.php")) {?>
 					<a href='licensing/'>
-						<img src='images/icon-licensing.png' hover="images/icon-licensing-hover.png" class="rollover" />
+						<img src='images/icon-licensing.png' class="rollover" />
 						<span><?php echo _("Licensing");?></span>
 					</a>
 				<?php } else { ?>
@@ -143,7 +144,7 @@
 			<div class='main-page-icons'>
 				<?php if (file_exists($pagePath . "organizations/index.php")) {?>
 					<a href='organizations/'>
-						<img src='images/icon-organizations.png' hover="images/icon-organizations-hover.png" class="rollover" />
+						<img src='images/icon-organizations.png' class="rollover" />
 						<span><?php echo _("Organizations");?></span>
 					</a>
 				<?php } else { ?>
@@ -157,9 +158,9 @@
 			<div class='main-page-icons'>
 				<?php if (file_exists($pagePath . "usage/index.php")) {?>
 					<a href='usage/'>
-						<img src='images/icon-usage.png' hover="images/icon-usage-hover.png" class="rollover" />
+						<img src='images/icon-usage.png' class="rollover" />
 						<span><?php echo _("Usage Statistics");?></span>
-					</a>	
+					</a>
 				<?php } else { ?>
 					<div class='main-page-icons-off'>
 						<img src='images/icon-usage-off.png' />
@@ -167,11 +168,11 @@
 					</div>
 				<?php } ?>
 			</div>
-		
+
 			<div class='main-page-icons'>
 				<?php if (file_exists($pagePath . "management/index.php")) {?>
 					<a href='management/'>
-						<img src='images/icon-management.png' hover="images/icon-management-hover.png" class="rollover" />
+						<img src='images/icon-management.png' class="rollover" />
 						<span><?php echo _("Management");?></span>
 					</a>
 				<?php } else { ?>
@@ -183,7 +184,7 @@
 			</div>
 
 		</div>
-		
+
 		<div id="powered-by-text"><?php echo _("Powered by");?><img src="images/logo-coral.jpg" /></div>
 
 

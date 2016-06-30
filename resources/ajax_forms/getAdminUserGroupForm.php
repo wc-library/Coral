@@ -79,7 +79,7 @@
 				</td>
 
 				<td style='vertical-align:top;text-align:left;width:40px;'>
-				<a href='javascript:void();'><img src='images/add.gif' class='addUser' alt="<?php echo _("add user");?>" title="<?php echo _("add user");?>"></a>
+				<a href='javascript:void();'><input class='addUser add-button' title='<?php echo _("add user");?>' type='button' value='<?php echo _("Add");?>'/></a>
 				</td>
 				</tr>
 				</table>
@@ -144,8 +144,8 @@
 
 		<table class='noBorderTable' style='width:125px;'>
 			<tr>
-				<td style='text-align:left'><input type='button' value='<?php echo _("submit");?>' name='submitUserGroupForm' id ='submitUserGroupForm'></td>
-				<td style='text-align:right'><input type='button' value='<?php echo _("cancel");?>' onclick="kill(); tb_remove();"></td>
+				<td style='text-align:left'><input type='button' value='<?php echo _("submit");?>' name='submitUserGroupForm' id ='submitUserGroupForm' class='submit-button'></td>
+				<td style='text-align:right'><input type='button' value='<?php echo _("cancel");?>' onclick="kill(); tb_remove();" class='cancel-button'></td>
 			</tr>
 		</table>
 

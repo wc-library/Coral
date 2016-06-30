@@ -118,7 +118,7 @@
 		var detailsID = $('.newPaymentTable').children().children().children().children('.costDetailsID').val();
 		var pAmount   = $('.newPaymentTable').children().children().children().children('.paymentAmount').val();
 		var cNote     = $('.newPaymentTable').children().children().children().children('.costNote').val();
-        
+						
 		if ((pAmount == '' || pAmount == null) && (fName == '' || fName == null)){
 			$('#div_errorPayment').html(_("Error - Either amount or fund is required"));
 			return false;		
@@ -217,16 +217,22 @@ function submitOrderForm(){
 	 }
 
 }
+
+
+
+
+
  
  function validateForm (){
  	myReturn=0;
-     
+
 	var typeID = $('#acquisitionTypeID').val();
 
 	if((typeID == '') || (typeID == null)){
 		$('#span_errors').html(_("Error - acquisition type is a required field"));
 		myReturn="1";
 	}
+
  	if (myReturn == "1"){
 		return false; 	
  	}else{

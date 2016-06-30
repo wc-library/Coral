@@ -42,7 +42,7 @@ $_SESSION['ref_script']=$currentPage;
 <table class="headerTable" style="background-image:url('images/header.gif');background-repeat:no-repeat;">
 <tr style='vertical-align:top;'>
 <td style="width:155px;padding-right:10px;">
-	<table class='noBorder'>
+	<table class='noBorder' id='title-search'>
 	<tr><td style='text-align:left;width:75px;' align='left'>
 	<span style='font-size:130%;font-weight:bold;'><?php echo _("Search");?></span><br />
 	<a href='javascript:void(0)' class='newSearch'><?php echo _("new search");?></a>
@@ -121,7 +121,7 @@ $_SESSION['ref_script']=$currentPage;
 	</tr>
 
 	</table>
-	&nbsp;<a href='javascript:void(0)' class='newSearch'><?php echo _("new search");?></a>
+	&nbsp;<a href='javascript:void(0)' class='newSearch' id='sidebar-link-bottom'><?php echo _("new search");?></a>
 	</div>
 </td>
 <td>

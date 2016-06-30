@@ -34,7 +34,6 @@ class DatabaseObject extends DynamicObject {
 
 	protected function init(NamedArguments $arguments) {
 		$arguments->setDefaultValueForArgumentName('tableName', get_class($this));
-
 		$this->tableName = $arguments->tableName;
 
 		$defaultCollectiveName = lcfirst($arguments->tableName) . 's';
