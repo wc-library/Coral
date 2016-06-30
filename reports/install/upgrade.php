@@ -77,7 +77,7 @@ if ($step == "1") {
 		try {
 			$result = $dbservice->query("SELECT reportID FROM " . Config::$database->name . ".Report WHERE reportName like '%Usage%';");
 		} catch (RuntimeException $exception) {
-			$errorMessage[] = "Unable to select from the Report table in database '" . Config::$database->name . "' with user '" . Config::$database->username . "'.  Error: " . mysql_error();
+			$errorMessage[] = "Unable to select from the Report table in database '" . Config::$database->name . "' with user '" . Config::$database->username . "'.  Error: " . $dbservice->error();
 		}
 
 		if (count($errorMessage)===0) {

@@ -30,15 +30,15 @@ if ($step == "3") {
 	}else{
 
 		//first check connecting to host
-		$link = @mysql_connect("$database_host", "$database_username", "$database_password");
-		if (!$link) {
-			$errorMessage[] = "Could not connect to the server '" . $database_host . "'<br />MySQL Error: " . mysql_error();
+		$link = new mysqli("$database_host", "$database_username", "$database_password");
+		if ($link->connect_error) {
+			$errorMessage[] = "Could not connect to the server '" . $database_host . "'<br />MySQL Error: " . $link->error;
 		}else{
 
 			//next check that the database exists
-			$dbcheck = @mysql_select_db("$database_name");
+			$dbcheck = $link->select_db("$database_name");
 			if (!$dbcheck) {
-				$errorMessage[] = "Unable to access the database '" . $database_name . "'.  Please verify it has been created.<br />MySQL Error: " . mysql_error();
+				$errorMessage[] = "Unable to access the database '" . $database_name . "'.  Please verify it has been created.<br />MySQL Error: " . $link->error;
 			}else{
 				//passed db host, name check, can open/run file now
 				//make sure SQL file exists
@@ -55,12 +55,12 @@ if ($step == "3") {
 
 					//Process the sql file by statements
 					foreach ($sqlArray as $stmt) {
-					   if (strlen(trim($stmt))>3) {
+						if (strlen(trim($stmt))>3) {
 
-							$result = mysql_query($stmt);
+							$result = $link->query($stmt);
 							if (!$result) {
-								$errorMessage[] = mysql_error() . "<br /><br />For statement: " . $stmt;
-								 break;
+								$errorMessage[] = $link->error . "<br /><br />For statement: " . $stmt;
+								break;
 							}
 						}
 					}
@@ -78,12 +78,12 @@ if ($step == "3") {
 
 						//Process the sql file by statements
 						foreach ($sqlArray as $stmt) {
-						   if (strlen(trim($stmt))>3) {
+							if (strlen(trim($stmt))>3) {
 
-								$result = mysql_query($stmt);
+								$result = $link->query($stmt);
 								if (!$result) {
-									$errorMessage[] = mysql_error() . "<br /><br />For statement: " . $stmt;
-									 break;
+									$errorMessage[] = $link->error . "<br /><br />For statement: " . $stmt;
+									break;
 								}
 							}
 						}
@@ -92,15 +92,15 @@ if ($step == "3") {
 				}
 
 				//next check the usage database exists
-				$dbcheck = @mysql_select_db("$usage_database_name");
+				$dbcheck = $link->select_db("$database_name");
 				if (!$dbcheck) {
-					$errorMessage[] = "Unable to access the usage database '" . $usage_database_name . "'.  Please verify it has been created.<br />MySQL Error: " . mysql_error();
+					$errorMessage[] = "Unable to access the usage database '" . $usage_database_name . "'.  Please verify it has been created.<br />MySQL Error: " . $link->error;
 				}else{
 
 					//passed db host, name check, test that user can select from License database
-					$result = mysql_query("SELECT outlierID FROM " . $usage_database_name . ".Outlier WHERE outlierLevel = '1';");
+					$result = $link->query("SELECT outlierID FROM " . $usage_database_name . ".Outlier WHERE outlierLevel = '1';");
 					if (!$result) {
-						$errorMessage[] = "Unable to select from the Outlier table in database '" . $usage_database_name . "' with user '" . $database_username . "'.  Please complete the Usage install and verify the database has been set up.  Error: " . mysql_error();
+						$errorMessage[] = "Unable to select from the Outlier table in database '" . $usage_database_name . "' with user '" . $database_username . "'.  Please complete the Usage install and verify the database has been set up.  Error: " . $link->error;
 					}
 				}
 
@@ -132,22 +132,22 @@ if ($step == "3") {
 	}else{
 
 		//first check connecting to host
-		$link = @mysql_connect("$database_host", "$database_username", "$database_password");
-		if (!$link) {
-			$errorMessage[] = "Could not connect to the server '" . $database_host . "'<br />MySQL Error: " . mysql_error();
+		$link = new mysqli("$database_host", "$database_username", "$database_password");
+		if ($link->connect_error) {
+			$errorMessage[] = "Could not connect to the server '" . $database_host . "'<br />MySQL Error: " . $link->error;
 		}else{
 
 			//next check that the database exists
-			$dbcheck = @mysql_select_db("$database_name");
+			$dbcheck = $link->select_db("$database_name");
 			if (!$dbcheck) {
-				$errorMessage[] = "Unable to access the database '" . $database_name . "'.  Please verify it has been created.<br />MySQL Error: " . mysql_error();
+				$errorMessage[] = "Unable to access the database '" . $database_name . "'.  Please verify it has been created.<br />MySQL Error: " . $link->error;
 			}else{
 				//passed db host, name check, test that user can select from Reports database
-				$result = mysql_query("SELECT reportID FROM " . $database_name . ".Report WHERE reportName like '%Usage%';");
+				$result = $link->query("SELECT reportID FROM " . $database_name . ".Report WHERE reportName like '%Usage%';");
 				if (!$result) {
-					$errorMessage[] = "Unable to select from the Report table in database '" . $database_name . "' with user '" . $database_username . "'.  Error: " . mysql_error();
+					$errorMessage[] = "Unable to select from the Report table in database '" . $database_name . "' with user '" . $database_username . "'.  Error: " . $link->error;
 				}else{
-					while ($row = mysql_fetch_array($result, MYSQL_NUM)) {
+					while ($row = $result->fetch_array(MYSQLI_NUM)) {
 						$reportID = $row[0];
 					}
 

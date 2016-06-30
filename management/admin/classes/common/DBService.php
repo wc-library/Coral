@@ -59,7 +59,7 @@ class DBService extends Object {
 	}
 
 	public function escapeString($value) {
-		return $this->db->escapeString($value);
+		return $this->db->real_escape_string($value);
 	}
 
 	public function query($sql) {
