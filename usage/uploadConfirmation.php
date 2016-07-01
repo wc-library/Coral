@@ -227,12 +227,12 @@ include 'templates/header.php';
 						foreach ($columnsToCheck as $key => $colCheckName){
 							$fileColName = strtolower(trim($lineArray[$key]));
 
-							if (strpos($fileColName, strtolower($colCheckName)) === false){
-								if (!$unmatched){
-									$unmatched = _("Looking for")." '$colCheckName' "._("in column ").$key._(" but found ")."'$fileColName'";
-								}
-								$formatCorrectFlag='N';
+						if (strpos($fileColName, strtolower($colCheckName)) === false){
+							if (!$unmatched){
+								$unmatched = _("Looking for ") . "\"$colCheckName\"" . _(" in column ") . $key . _("but found ") . "\"$fileColName\"";
 							}
+							$formatCorrectFlag='N';
+						}	
 
 						}
 					}
@@ -303,10 +303,10 @@ include 'templates/header.php';
 
 			$errrorFlag="N";
 
-			if (($formatCorrectFlag == "N")){
-				echo "<br /><font color='red'><b>"._("Error with Format")."</b>:  "._("Report format is set to ")."<b>" . $reportTypeDisplay . "</b>" ._("but does not match the column names listed in layouts.ini for this format")." - $unmatched.<br /><br />"._("Expecting columns: ") . implode(", ", $columnsToCheck) . "<br /><br />"._("Found columns: ") . $foundColumns . "</font><br /><br />"._("If problems persist you can copy an existing header that works into this file.");
-				$errorFlag="Y";
-			}
+  			if (($formatCorrectFlag == "N")){
+   				echo "<br /><font color='red'><b>" . _("Error with Format") . "</b>:  " . _("Report format is set to ") . "<b>" . $reportTypeDisplay . "</b>" . _(" but does not match the column names listed in layouts.ini for this format") . " - " . $unmatched . "<br /><br />" . _("Expecting columns: ") . implode(", ", $columnsToCheck) . "<br /><br />" . _("Found columns: ") . $foundColumns . "</font><br /><br />" . _("If problems persist you can copy an existing header that works into this file.");
+   				$errorFlag="Y";
+  			}
 
 			if (!$layoutKey){
 				echo "<br /><font color='red'>"._("Error with Setup:  This report format is not set up in layouts.ini.")."</font><br />";
@@ -318,10 +318,10 @@ include 'templates/header.php';
 				$errorFlag="Y";
 			}
 
-			if ($checkYear > date('Y')){
-				echo "<br /><font color='red'>"._("Error with Year:  Year listed in header (") . $checkYear . _(") may not be ahead of current year.  Please correct and submit again.")."</font><br />";
-				$errorFlag="Y";
-			}
+  			if ($checkYear > date('Y')){
+  				echo "<br /><font color='red'>" . _("Error with Year:  Year listed in header") . " (" . $checkYear . ") " . _("may not be ahead of current year.  Please correct and submit again.") . "</font><br />";
+  				$errorFlag="Y";
+  			}
 
 			if (isset($_POST['overrideInd'])){
 				echo "<br /><font color='red'>"._("File is flagged to override verifications of previous month data.  If this is incorrect use 'Cancel' to fix.")."</font><br />";
@@ -331,7 +331,7 @@ include 'templates/header.php';
 			}
 
 			if ($errorFlag != "Y"){
-				echo "<br />"._("Report Format").": <b>" . $reportTypeDisplay . "</b><br />"._("If this is incorrect, please use 'Cancel' to go back and fix the headers of the file.")."<br />";
+				echo "<br />" . _("Report Format: ") . "<b>" . $reportTypeDisplay . "</b><br />"._("If this is incorrect, please use 'Cancel' to go back and fix the headers of the file.")."<br />";
 			}
 			if ($importLog->importLogID > 0) {
 				echo "<br /><font color='red'>"._("File has been imported from SUSHI. The default behavior for imported SUSHI files is to overwrite previously imported data. If this is incorrect, please contact a system administrator.")."</font><br />";
@@ -351,10 +351,11 @@ include 'templates/header.php';
 				<table>
 					<tr valign="center">
 						<td>
-							<input type="button" name="submitForm" id="submitForm" value="<?php echo _('Confirm');?>" <?php if ($errorFlag == "Y"){ echo "disabled"; } ?> onclick="javascript:updateSubmit();" />
+							<input type="button" name="submitForm" id="submitForm" value="<?php echo _('Confirm');?>" <?php if ($errorFlag == "Y"){ echo "disabled"; } ?> onclick="javascript:updateSubmit();" class="submit-button" />
 						</td>
 						<td>
-							<input type="button" value="<?php echo _('Cancel');?>" onClick="javascript:history.back();">
+							<input type="button" value="<?php echo _('Cancel');?>" onClick="javascript:history.back();" class='cancel-button'>
 						</td>
 					</tr>
 				</table>
+			</form>

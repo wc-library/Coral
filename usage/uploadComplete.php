@@ -87,9 +87,9 @@ if ($importLogID > 0){
 $logSummary = "\n" . $orgFileName;
 
 $topLogOutput = "";
-$logOutput = _("Process started on " . date('l \t\h\e jS \o\f F Y \a\t h:i A') . "<br />");
-$logOutput.= _("File: " . $uploadedFile . "<br /><br />");
-$logOutput.= _("Report Format: " . $reportTypeDisplay . "<br /><br />");
+$logOutput = _("Process started on ") . date('l \t\h\e jS \o\f F Y \a\t h:i A') . "<br />";
+$logOutput.= _("File: ") . $uploadedFile . "<br /><br />";
+$logOutput.= _("Report Format: ") . $reportTypeDisplay . "<br /><br />";
 $monthlyInsert='';
 $screenOutput = '';
 
@@ -102,14 +102,14 @@ $outlier = array();
 
 if ($config->settings->useOutliers == "Y"){
 
-	$logOutput.=_("Outlier Parameters:<br />");
+	$logOutput.=_("Outlier Parameters:") . "<br />";
 
 	$outliers = new Outlier();
 	$outlierArray = array();
 
 	foreach($outliers->allAsArray as $outlierArray) {
 
-		$logOutput.=_("Level ") . $outlierArray['outlierLevel'] . ": " . $outlierArray['overageCount'] . _(" over plus ") .  $outlierArray['overagePercent'] . "% over <br />";
+		$logOutput.=_("Level ") . $outlierArray['outlierLevel'] . ": " . $outlierArray['overageCount'] . _(" over plus ") .  $outlierArray['overagePercent'] . _("% over ") . "<br />";
 
 		$outlier[$outlierArray['outlierID']]['overageCount'] = $outlierArray['overageCount'];
 		$outlier[$outlierArray['outlierID']]['overagePercent'] = $outlierArray['overagePercent'];
@@ -140,10 +140,7 @@ $holdPlatform = '';
 $holdPublisher = '';
 $holdPublisherPlatformID = '';
 $holdYear = '';
-if ($importLogID > 0) {
-	$startMonth = $startMonth;
-}
-else {
+if ($importLogID < 1) {
 	$startMonth = '';
 }
 
@@ -183,7 +180,8 @@ while (!feof($file_handle)) {
 			if ($year < 100) $year = 2000 + $year;
 
 			$missingMonths = array();
-			// determine the latest months may not all exist
+			// determine the latest month
+			// since months may not all exist
 			$jan_i = array_search('jan',$layoutColumns);
 			for($i=$jan_i;$i<12+$jan_i;$i++){
 				$month = $i - $jan_i + 1;
@@ -300,7 +298,7 @@ while (!feof($file_handle)) {
 						$logOutput .= _("No records exist for this Platform / year.  Import will start with month 1.");
 					}else{
 						$endMonth=$min_month-1;
-						$logOutput .= _("Partial year records exist for this Platform / year.  Import will start with month 1 and end with month"). $endMonth . ".";
+						$logOutput .= _("Partial year records exist for this Platform / year.  Import will start with month 1 and end with month ") . $endMonth . ".";
 					}
 
 				}
@@ -319,7 +317,7 @@ while (!feof($file_handle)) {
 
 		//For log output we only want to print the 	year once
 		if ($year != $holdYear) {
-			$logOutput .= _("<br />Year: ") . $startYear;
+			$logOutput .= "<br />" . _("Year: ") . $year;
 			if ($startYear != $endYear) {
 				$logOutput .= " - " . $endYear;
 			}
@@ -356,7 +354,7 @@ while (!feof($file_handle)) {
 
 
 			#add to output on screen
-			$screenOutput .= "<br /><b>"._("New Platform set up: ") . $platformName . "   <a href='publisherPlatform.php?platformID=" . $platformID . "'>"._("edit")."</a></b>";
+			$screenOutput .= "<br /><b>" . _("New Platform set up: ") . $platformName . "   <a href='publisherPlatform.php?platformID=" . $platformID . "'>" . _("edit") . "</a></b>";
 
 
 		}
@@ -408,7 +406,7 @@ while (!feof($file_handle)) {
 		// Query to see if the Publisher / Platform already exists, if so, get the ID
 		#################################################################
 		//check it against the previous row - no need to do another lookup if we've already figured out the publisherplatformID
-		if (($publisherPlatformID) == NULL || ($publisherName != $holdPublisher) || ($platformName != $holdPlatform)){
+		if (!isset($publisherPlatformID) || ($publisherName != $holdPublisher) || ($platformName != $holdPlatform)){
 			//get the publisher platform object
 			$publisherPlatformTestObj = new PublisherPlatform();
 			$publisherPlatformObj = $publisherPlatformTestObj->getPublisherPlatform($publisherID, $platformID);
@@ -438,7 +436,7 @@ while (!feof($file_handle)) {
 
 
 			#add to log output
-			$logOutput .= "<br />"._("New Publisher / Platform set up: ") . $publisherName . " / " . $platformName;
+			$logOutput .= "<br />" . _("New Publisher / Platform set up: ") . $publisherName . " / " . $platformName;
 
 		}
 
@@ -671,7 +669,7 @@ while (!feof($file_handle)) {
 
 		if ($pubPlat != $holdPubPlat) {
 			if (trim($pubPlat)){
-				$logOutput .= "<br /><br />"._("Publisher / Platform: ") . $pubPlat;
+				$logOutput .= "<br /><br />" . _("Publisher / Platform: ") . $pubPlat;
 			}
 		}
 
@@ -680,7 +678,7 @@ while (!feof($file_handle)) {
 			$rownumber++;
 			//Add Title to log output
 			if (trim($resourceTitle)){
-				$logOutput .="<br /><br />"._("Title: ") . $resourceTitle;
+				$logOutput .="<br /><br />" . _("Title: ") . $resourceTitle;
 			}
 
 			//now we can insert the actual stats
@@ -704,14 +702,14 @@ while (!feof($file_handle)) {
 
 						//if (($overrideInd == 1) || ($pISSNArray[$pISSN] == 1)) {
 
-						//this is a merged title
-						if (($resourceType == "Journal") && ($pISSN) && (isset($pISSNArray[$pISSN]) && $pISSNArray[$pISSN] == 1)) {
-							//add the other titles count in with this titles counts to merge the two together ($i = month)
-							$usageCount+=$titleObj->getUsageCountByMonth($archiveInd, $year, $i, $publisherPlatformID);
+							//this is a merged title
+							if (($resourceType == "Journal") && ($pISSN) && (isset($pISSNArray[$pISSN]) && $pISSNArray[$pISSN] == 1)) {
+								//add the other titles count in with this titles counts to merge the two together ($i = month)
+								$usageCount+=$titleObj->getUsageCountByMonth($archiveInd, $year, $i, $publisherPlatformID);
 
 							//now delete the old one ($i = month)
 							$titleObj->deleteMonth($archiveInd, $year, $i, $publisherPlatformID);
-							$logOutput .= "Merged";
+							$logOutput .= _("Merged");
 
 							//flag when inserted into db that this is a merged statistic
 							$mergeInd = 1;
@@ -917,7 +915,7 @@ while (!feof($file_handle)) {
 			$pISSNArray[$pISSN] = 1;
 
 		}else{ //end if for if Title match found
-			$topLogOutput .= "<font color='red'>Title match did not complete correctly, please check ISBN / ISSN to verify for Title:  " . $resourceTitle . ".</font><br />";
+			$topLogOutput .= "<font color='red'>" . _("Title match did not complete correctly, please check ISBN / ISSN to verify for Title:  ") . $resourceTitle . ".</font><br />";
 		}
 
 
@@ -969,14 +967,14 @@ $mailOutput='';
 if (count($emailAddresses) > 0){
 	$email = new Email();
 	$email->to 			= implode(", ", $emailAddresses);
-	$email->subject		= "Log Output for $uploadedFile";
-	$email->message		= "Usage Statistics File Import Run!\n\nPlease find log file: \n\n" . $Base_URL . $logfile;
+	$email->subject		= _("Log Output for ") . $uploadedFile;
+	$email->message		= _("Usage Statistics File Import Run!") . "\n\n" . _("Please find log file: ") . "\n\n" . $Base_URL . $logfile;
 
 
 	if ($email->send()) {
-		$mailOutput = "Log has been emailed to " . implode(", ", $emailAddresses);
+		$mailOutput = _("Log has been emailed to ") . implode(", ", $emailAddresses);
 	}else{
-		$mailOutput = "Email to " . implode(", ", $emailAddresses) . " Failed!";
+		$mailOutput = _("Email to ") . implode(", ", $emailAddresses) . _(" Failed!");
 	}
 }
 if ($multYear) {
@@ -992,14 +990,14 @@ if ($importLogID != ""){
 	$importLog = new ImportLog(new NamedArguments(array('primaryKey' => $importLogID)));
 	$importLog->fileName = $importLog->fileName;
 	$importLog->archiveFileURL = $importLog->fileName;
-	$importLog->details = $importLog->details . "\n" . $rownumber . " titles processed." . $logSummary;
+	$importLog->details = $importLog->details . "\n" . $rownumber . _(" titles processed.") . $logSummary;
 
 }else{
-	$importLog = new ImportLog();
+	$importLog = new ImportLog();	
 	$importLog->importLogID = '';
 	$importLog->fileName = $orgFileName;
 	$importLog->archiveFileURL = 'archive/' . $uploadedFilename;
-	$importLog->details = $rownumber . " titles processed." . $logSummary;
+	$importLog->details = $rownumber . _(" titles processed.") . $logSummary;
 }
 
 $importLog->loginID = $user->loginID;
@@ -1034,18 +1032,18 @@ foreach ($platformArray AS $platformID){
 ?>
 
 
-	<table class="headerTable">
-		<tr><td>
-				<div class="headerText"><?php echo _("Status");?></div>
-				<br />
-				<p><?php echo _("File archived as").' '. $Base_URL . 'archive/' . $uploadedFilename; ?>.</p>
-				<p><?php echo _("Log file available at:");?> <a href='<?php echo $Base_URL . $logfile; ?>'><?php echo $Base_URL . $excelfile; ?></a>.</p>
-				<p><?php echo _("Process completed.")." ". $mailOutput; ?></p>
-				<br />
-				<?php echo _("Summary:") . '  ' .  $rownumber . _(" titles processed.")."<br />" . nl2br($logSummary); ?><br />
-				<br />
-				<?php echo $screenOutput; ?><br />
-				<p>&nbsp; </p>
+<table class="headerTable">
+<tr><td>
+<div class="headerText"><?php echo _("Status");?></div>
+	<br />
+    <p><?php echo _("File archived as") . ' ' . $Base_URL . 'archive/' . $uploadedFilename; ?>.</p>
+    <p><?php echo _("Log file available at:");?> <a href='<?php echo $Base_URL . $logfile; ?>'><?php echo $Base_URL . $excelfile; ?></a>.</p>
+    <p><?php echo _("Process completed.") . " " . $mailOutput; ?></p>
+    <br />
+    <?php echo _("Summary:") . ' ' .$rownumber . _(" titles processed.") . "<br />" . nl2br($logSummary); ?><br />
+    <br />
+    <?php echo $screenOutput; ?><br />
+    <p>&nbsp; </p>
 
 			</td>
 		</tr>

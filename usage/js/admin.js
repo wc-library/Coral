@@ -61,7 +61,7 @@
  
  	if (confirm(_("Do you really want to delete this user?")) == true) {
 
-	       $('#span_User_response').html("<img src = 'images/circle.gif'>&nbsp;&nbsp;"+_("Processing..."));
+	       $('#span_User_response').html("<img src = 'images/circle.gif'>&nbsp;&nbsp;" + _("Processing..."));
 	       $.ajax({
 		  type:       "GET",
 		  url:        "ajax_processing.php",
@@ -118,11 +118,11 @@ function doSubmitLogEmailAddress(){
 // Validate Log Email Address
 function validateLogEmail(){
     if($("#emailAddress").val() == ''){
-        $("#span_errors").html('Error - Please enter a value.');
+        $("#span_errors").html(_('Error - Please enter a value.'));
         $("#emailAddress").focus();
         return false;
     }else if(!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9]+$/.test( $("#emailAddress").val() )){
-        $("#span_errors").html('Error - Please enter a valid email address.');
+        $("#span_errors").html(_('Error - Please enter a valid email address.'));
         $("#emailAddress").focus();
         return false;
     }else{
@@ -196,8 +196,8 @@ function validateLogEmail(){
  //validates fields for outlier form
  function validateForm (){
  	myReturn=0;
- 	if (!validateNumber('overageCount',_("Count over must be a number."))) myReturn="1";
- 	if (!validateNumber('overagePercent',_("% over must be a number."))) myReturn="1";
+ 	if (!validateNumber('overageCount', _("Count over must be a number."))) myReturn="1";
+ 	if (!validateNumber('overagePercent', _("% over must be a number."))) myReturn="1";
  
  	if (myReturn == "1"){
  		return false;

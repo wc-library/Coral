@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS  `Report` (
   `excelOnlyInd` tinyint(1) default NULL,
   `reportDatabaseName` varchar(45) NOT NULL,
   PRIMARY KEY  (`reportID`)
-) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `ReportGroupingColumn`;
@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS `ReportGroupingColumn` (
   `reportGroupingColumnName` varchar(45) NOT NULL,
   `reportGroupingColumnID` int(10) unsigned NOT NULL auto_increment,
   PRIMARY KEY  USING BTREE (`reportGroupingColumnID`)
-) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `ReportParameter`;
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `ReportParameter` (
   `parameterSQLStatement` text,
   `parameterSQLRestriction` text,
   PRIMARY KEY  (`reportParameterID`)
-) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `ReportParameterMap`;
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `ReportParameterMap` (
   `reportParameterID` int(11) NOT NULL auto_increment,
   `parentReportParameterID` int(11) default NULL,
   PRIMARY KEY  (`reportID`,`reportParameterID`)
-) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `ReportSum`;
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `ReportSum` (
   `reportColumnName` varchar(45) default NULL,
   `reportAction` varchar(45) default NULL,
   PRIMARY KEY  (`reportID`,`reportColumnName`)
-) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 
 DELETE FROM Report;
