@@ -21,7 +21,6 @@ $(document).ready(function(){
  	updateAttachmentsNumber();
 
     
-
 	$(".showProduct").click(function () {
 	  $('.resource_tab_content').hide();
 		$('#div_product').show();
@@ -882,6 +881,13 @@ $("select").change(function() {
 
    $(".displayArchivedWorkflows").unbind('click').click(function () {
       $(".archivedWorkflow").toggle();
+      if ($(".archivedWorkflow").is(":visible")) {
+        $(this).html(_("hide archived workflows")); 
+        $("#displayArchivedWorkflowsIcon").attr("src", "images/cross_12.gif");
+      } else {
+        $(this).html(_("display archived workflows"));
+        $("#displayArchivedWorkflowsIcon").attr("src", "images/plus_12.gif");
+      }
    });
 
    $(".markResourceComplete").unbind('click').click(function () {
