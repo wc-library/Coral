@@ -25,6 +25,7 @@
 session_start();
 // INSTALLATION_VERSION should be a version number that version_compare will understand
 const INSTALLATION_VERSION = "2.0.0";
+const INSTALLATION_VERSIONS = ["2.0.0"];
 const INSTALLATION_IN_PROGRESS = true;
 
 /**

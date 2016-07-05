@@ -81,12 +81,20 @@ function register_licensing_requirement()
 			$return->success = true;
 			return $return;
 		},
-		"upgrader" => function($version_number){
+		"upgrader" => function($new_version_str){
 			$return = new stdClass();
-			switch ($version_number) {
+			$return->version_str = "2.0.0";
+			$return->sql_files = [];
+			$return->conf_files = [];
+
+			switch ($new_version_str)
+			{
+				case '2.0.0':
+					return $return;
+
 				case '2.1.0':
-					$return->version    = "2.1.0";
-					$return->sql_files  = [
+					$return->version_str = "2.1.0";
+					$return->sql_files = [
 						"path" => "protected/sql_v2.1.0.sql"
 					];
 					$return->conf_files = [
@@ -103,7 +111,12 @@ function register_licensing_requirement()
 							]
 						]
 					];
-					break;
+					return $return;
+
+				case '2.2.0':
+					$return->version_str = "2.2.0";
+					return $return;
+
 				default:
 					return null;
 					break;
