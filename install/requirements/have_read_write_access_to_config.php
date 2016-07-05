@@ -16,7 +16,7 @@ function register_have_read_write_access_to_config_requirement()
 
 			require_once("common/Config.php");
 
-			$return->yield->title = "<b>" . _('Current Test:') . "</b> " . _('Trying to write configuration file');
+			$return->yield->title = _('Trying to Read & Write Configuration Files');
 
 			$return->success = true;
 
@@ -105,7 +105,7 @@ function register_have_read_write_access_to_config_requirement()
 						$return->yield = new stdClass();
 						$return->success = true;
 						$return->yield->messages = [];
-						$return->yield->title = _("Check Config Files Are Protected");
+						$return->yield->title = _("Checking Config Files Are Protected");
 
 						foreach ($config_files as $cfg) {
 							//check the config file's parent directory
@@ -157,7 +157,6 @@ function register_have_read_write_access_to_config_requirement()
 			}
 			else
 			{
-				$return->yield->title = "<b>" . _('Current Test:') . "</b> " . _('Trying to read and write configuration files');
 				$return->yield->messages[] = "<b>" . _("Be sure to reset permissions to any files you change.") . "</b>";
 				//TODO: register post installation check to ensure that these have been reset.
 			}
