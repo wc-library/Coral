@@ -1292,6 +1292,9 @@ class Resource extends DatabaseObject {
 		$additional_joins = array();
 
 		foreach($conditional_joins as $join) {
+			// drop the last line of $conditional_joins which is empty
+			if (trim($join) == "") { break; }
+
 			$match = array();
 			preg_match("/[A-Z]+(?= ON )/i", $join, $match);
 			$table_name = $match[0];
