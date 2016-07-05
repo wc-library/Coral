@@ -151,7 +151,7 @@ function register_have_default_db_user_requirement()
 										$return->yield->messages[] = _("<b>Error:</b> Could not connect to database at {$db_info["host"]}.");
 										break;
 									case 1045: // ERR_ACCESS_DENIED
-										$return->yield->messages[] = _("Database access denied was denied from {$db_info["username"]}@{$db_info["host"]}. Please ensure that you can access the database with the password you provided.");
+										$return->yield->messages[] = _("Database access was denied from {$db_info["username"]}@{$db_info["host"]}. Please ensure that you can access the database with the password you provided.");
 										break;
 									default:
 										$return->yield->messages[] = _("Mysqli failed for some reason:") . "<br/>" . $db_conn->error;
