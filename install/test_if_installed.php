@@ -1,8 +1,7 @@
 <?php
-$root_installation_namespace = "installation_root";
 function continue_installing()
 {
-	global $root_installation_namespace;
+	$root_installation_namespace = "installation_root";
 	require_once "install/test_results_yielder.php";
 	if (!isset($_SESSION[$root_installation_namespace . "_do_install_anyway"]) || (isset($_SESSION[$root_installation_namespace . "_do_install_anyway"]) && $_SESSION[$root_installation_namespace . "_do_install_anyway"] !== true))
 	{
@@ -20,7 +19,7 @@ function continue_installing()
 		if ((isset($_POST[$root_installation_namespace . "_option_button"]) && $_POST[$root_installation_namespace . "_option_button"] == "already_installed") || (isset($_SESSION[$root_installation_namespace . "_do_already_installed"]) && $_SESSION[$root_installation_namespace . "_do_already_installed"]))
 		{
 			$_SESSION[$root_installation_namespace . "_do_already_installed"] = true;
-			upgradeToUnifiedInstaller();
+			upgradeToUnifiedInstaller($root_installation_namespace);
 		}
 		elseif (isset($_POST[$root_installation_namespace . "_option_button"]) && $_POST[$root_installation_namespace . "_option_button"] == "install_anyway")
 		{
@@ -83,9 +82,8 @@ function continue_installing()
 	return true;
 }
 
-function upgradeToUnifiedInstaller()
+function upgradeToUnifiedInstaller($root_installation_namespace)
 {
-	global $root_installation_namespace;
 	require_once "common/Config.php";
 	$configFilePath = Config::CONFIG_FILE_PATH;
 
