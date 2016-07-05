@@ -112,6 +112,8 @@ function register_have_read_write_access_to_config_requirement()
 							switch ($testFileAccess(dirname($cfg["path"])))
 							{
 								case $fileACCESS["FULL_ACCESS"]:
+									if (decoct(fileperms($cfg["path"]) & 0777) == "755")
+										break;
 									$return->yield->messages[] = _("It is unsafe to leave your admin directories writable.")
 																.sprintf( "<br /><b>" . _("Try") . ":</b> <span class=\"highlight\">chmod 755 %s</span>", dirname($cfg["path"]) );
 									$return->success = false;
@@ -130,6 +132,8 @@ function register_have_read_write_access_to_config_requirement()
 							//check the config file itself
 							switch ($testFileAccess($cfg["path"])) {
 								case $fileACCESS["FULL_ACCESS"]:
+									if (decoct(fileperms($cfg["path"]) & 0777) == "644")
+										break;
 									$return->yield->messages[] = _("It is unsafe to leave your config files writable.")
 																.sprintf( "<br /><b>" . _("Try") . ":</b> <span class=\"highlight\">chmod 644 %s</span>", $cfg["path"] );
 									$return->success = false;
