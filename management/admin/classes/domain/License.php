@@ -46,7 +46,7 @@ class License extends DatabaseObject {
 
 	//returns all Consortiums associated with a license
 	public function getConsortiumsByLicense() {
-		$sql = "SELECT `consortiumID` FROM `license_consortium` c WHERE c.`licenseID`={$this->primaryKey}";
+		$sql = "SELECT `consortiumID` FROM `license_consortium` c WHERE c.`licenseID`='$this->primaryKey'";
 		if ($result = $this->db->query($sql)) {
 			$rows = array();
 			while ($row = $result->fetch_array()) {
