@@ -15,6 +15,7 @@ function register_have_default_db_user_requirement()
 			$return->yield = new stdClass();
 			$return->success = false;
 			$return->yield->title = _("Configure Default Database User");
+			$return->yield->messages = [];
 
 			$generate_password = function($length)
 			{
@@ -46,19 +47,30 @@ function register_have_default_db_user_requirement()
 			$_SESSION[ $MODULE_VARS["uid"] ]["userdetails"]["username"] = $default_username;
 			$_SESSION[ $MODULE_VARS["uid"] ]["userdetails"]["password"] = $default_password;
 
-			$disallowed_characters = '\\?{}|&~!()^"';
-			$password_is_valid = function($pass) use ($disallowed_characters){
-				// Be sure to change the message if the test here changes
-				return strpos($pass, $disallowed_characters) === false;
+			$username_invalid_messasges = function($username){
+				$return_messages = [];
+				// Limitation in mysql < 5.7 (5.7 changes to a limit of 32 characters)
+				if (strlen($username) > 16)
+					$return_messages[] = _("Sorry the username is limited to 16 characters.");
+				return count($return_messages) > 0 ? $return_messages : false;
 			};
 
-			if (!$password_is_valid($default_password) || empty($_SESSION[ $MODULE_VARS["uid"] ]["userdetails"]["username"]) || empty($_SESSION[ $MODULE_VARS["uid"] ]["userdetails"]["password"]))
+			$disallowed_characters = '\\?{}|&~!()^"';
+			$password_invalid_messasges = function($pass) use ($disallowed_characters){
+				// Be sure to change the message if the test here changes
+				$return_messages = [];
+				if (strpos($pass, $disallowed_characters) !== false)
+					$return_messages[] = sprintf(_("Sorry, we do not allow the characters '%s' in passwords. Please use a different password."), $disallowed_characters);
+				return count($return_messages) > 0 ? $return_messages : false;
+			};
+
+			if ($password_invalid_messasges($default_password) || $username_invalid_messasges($default_username) || empty($_SESSION[ $MODULE_VARS["uid"] ]["userdetails"]["username"]) || empty($_SESSION[ $MODULE_VARS["uid"] ]["userdetails"]["password"]))
 			{
 				$fields = [
 					"username" => [
 						"uid" => $username_field,
 						"title" => "Regular Database Username",
-						"default_value" => empty($default_username) ? "coral_regular_user" : $default_username
+						"default_value" => empty($default_username) ? "coral_user" : $default_username
 					],
 					"password" => [
 						"uid" => $password_field,
@@ -71,8 +83,10 @@ function register_have_default_db_user_requirement()
 					. "Otherwise you will need to grant SELECT, INSERT, UPDATE and DELETE to this user on all the coral databases used in this install."
 				);
 
-				if (!$password_is_valid($default_password))
-					$return->yield->messages[] = sprintf(_("Sorry, we do not allow the characters '%s' in passwords. Please use a different password."), $disallowed_characters);
+				if ($password_invalid_messasges($default_password))
+					$return->yield->messages = $return->yield->messages + $password_invalid_messasges($default_password);
+				if ($username_invalid_messasges($default_username))
+					$return->yield->messages = $return->yield->messages + $username_invalid_messasges($default_username);
 
 				require "install/templates/have_default_db_user_template.php";
 				$return->yield->body = have_default_db_user_template($instruction, $fields);
