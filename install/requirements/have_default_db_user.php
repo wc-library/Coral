@@ -112,7 +112,9 @@ function register_have_default_db_user_requirement()
 						{
 							$db = $shared_module_info["provided"]["get_db_connection"]( $db_details["dbname"] );
 							$slash_pass = addslashes($db_details["password"]);
-							$db->processQuery("REVOKE ALL ON {$db_details["dbname"]}.* FROM {$db_details["username"]}@{$db_details["host"]}");
+							try {
+								$db->processQuery("REVOKE ALL ON {$db_details["dbname"]}.* FROM {$db_details["username"]}@{$db_details["host"]}");
+							} catch(Exception $e){ }
 							$db->processQuery("GRANT SELECT, INSERT, UPDATE, DELETE ON {$db_details["dbname"]}.* TO {$db_details["username"]}@{$db_details["host"]} IDENTIFIED BY '$slash_pass'");
 						}
 						catch (Exception $e)
