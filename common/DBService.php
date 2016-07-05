@@ -35,7 +35,14 @@ class DBService extends Object {
 			 *        (we do this so that mysqli doesn't spit out warnings if
 			 *        the connection fails) we must manually handle errors!
 			 */
-			self::$db = @new mysqli(Config::dbInfo("host"), Config::dbInfo("username"), Config::dbInfo("password"));
+			// Load this data outside of the mysqli call so that if an error occurs it is thrown.
+			$dbInfo = [
+				"host" => Config::dbInfo("host"),
+				"username" => Config::dbInfo("username"),
+				"password" => Config::dbInfo("password")
+			];
+
+			self::$db = new mysqli($dbInfo["host"], $dbInfo["username"], $dbInfo["password"]);
 			if (self::$db->connect_errno)
 			{
 				switch (self::$db->connect_errno) {
