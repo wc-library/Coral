@@ -44,7 +44,7 @@ function register_have_database_access_requirement()
 						// Config file not yet set up
 						if (isset($_SESSION["POSTDATA"]["dbusername"]))
 						{
-							Config::loadTemporaryDBSettings((object) [
+							Config::loadTemporaryDBSettings([
 								"host" => $_SESSION["POSTDATA"]["dbhost"],
 								"username" => $_SESSION["POSTDATA"]["dbusername"],
 								"password" => $_SESSION["POSTDATA"]["dbpassword"]
