@@ -80,6 +80,34 @@ function register_licensing_requirement()
 
 			$return->success = true;
 			return $return;
+		},
+		"upgrader" => function($version_number){
+			$return = new stdClass();
+			switch ($version_number) {
+				case '2.1.0':
+					$return->version    = "2.1.0";
+					$return->sql_files  = [
+						"path" => "protected/sql_v2.1.0.sql"
+					];
+					$return->conf_files = [
+						[
+							"path" => "common/configuration.ini",
+							"new_values" => [
+								"settings" => [
+									"username_for_something" => "fred",
+									"ldap_blahblah" => "something else"
+								],
+								"something_new" => [
+									"user_input" => $_POST
+								]
+							]
+						]
+					];
+					break;
+				default:
+					return null;
+					break;
+			}
 		}
 	]);
 }
