@@ -42,7 +42,7 @@ if ((isset($_POST['sushiServiceID'])) and ($_POST['sushiServiceID'] > 0)) {
 		$logText = $e->getMessage();
 	}
 
-	$logText = "<div class='headerText'>"._("Sushi Output Log:")."</div>" . nl2br($logText) . "<br /><br />";
+	$logText = "<div class='headerText'>" . _("Sushi Output Log:") . "</div>" . nl2br($logText) . "<br /><br />";
 }
 
 ?>
@@ -58,7 +58,8 @@ if ((isset($_POST['sushiServiceID'])) and ($_POST['sushiServiceID'] > 0)) {
 			</tr>
 			</table>
 
-			<a href='ajax_forms.php?action=getAddPlatformForm&height=150&width=325&modal=true' class='thickbox' id='uploadDocument'><img src="images/plus.gif" / > <?php echo _("Add new platform for SUSHI");?></a>
+
+			<a href='ajax_forms.php?action=getAddPlatformForm&height=150&width=325&modal=true' class='thickbox' id='uploadDocument'><?php echo _("Add new platform for SUSHI");?></a>
 
 			<br /><br /><div id="div_run_feedback"><?php
 
@@ -67,9 +68,8 @@ if (isset($logText)) {
 }
 
 ?></div><br />
-			<div class="headerText" style='margin-bottom:9px;'><?php echo _("Outstanding Import Queue"); ?>&nbsp;&nbsp;&nbsp;<span id='span_outstanding_feedback'></span></div>
+			<div class="headerText" style='margin-bottom:9px;'><?php echo _("Outstanding Import Queue");?>&nbsp;&nbsp;&nbsp;<span id='span_outstanding_feedback'></span></div>
 			<div id="div_OutstandingSushiImports"></div>
-
 
 			<br /><br /><br />
 			<div class="headerText" style='margin-bottom:9px;'><?php echo _("Last Failed SUSHI Imports");?>&nbsp;&nbsp;&nbsp;<span id='span_failed_feedback'></span></div>

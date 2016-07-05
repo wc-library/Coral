@@ -9,7 +9,7 @@ include 'templates/header.php';
 <table class="headerTable">
 
 <tr style='vertical-align:top;'>
-<td style="width:235px;padding-right:10px;">
+<td style="padding-right:10px;" id="import-file">
 
 <div class="headerText" style='margin:5px 5px 9px 3px;'><?php echo _("Usage Statistics Import");?></div>
 
@@ -22,13 +22,13 @@ include 'templates/header.php';
 		$errorNumber = $_GET['error'];
 		switch ($errorNumber){
 			case 1:
-				echo "<font color='red'>"._("Incorrect File format, must be .txt!")."</font><br /><br />";
+				echo "<font color='red'>" . _("Incorrect File format, must be .txt!") . "</font><br /><br />";
 				break;
 			case 2:
-				echo "<font color='red'>"._("There was an error uploading the file.  Please verify the size is not over 5MB and try again!")."</font><br /><br />";
+				echo "<font color='red'>" . _("There was an error uploading the file.  Please verify the size is not over 5MB and try again!") . "</font><br /><br />";
 				break;
 			case 3:
-				echo "<font color='red'>"._("File has an incorrectly formatted name - try filename.txt!")."</font><br /><br />";
+				echo "<font color='red'>" . _("File has an incorrectly formatted name - try filename.txt!") . "</font><br /><br />";
 				break;
 		}
 	}
@@ -45,7 +45,7 @@ include 'templates/header.php';
 		<?php
 
 		$layout = new Layout();
-		echo "<b>Layout:</b><br /> <select id='layoutID' name='layoutID'>";
+		echo "<b>" . _("Layout:") . "</b><br /> <select id='layoutID' name='layoutID'>";
 	        foreach($layout->getLayouts as $lo) {
 			echo "<option value='" . $lo['layoutID'] . "'>" . $lo['name'] . "</option>\n";
 		}
@@ -70,7 +70,7 @@ include 'templates/header.php';
 <li><?php echo _("Save file as .txt files in tab delimited format");?></li>
 <li><?php echo _("File may not be larger than 5MB");?></li>
 <li><?php echo _("Ensure column headers conform to Counter's standards for the report type");?></li>
-<li><?php echo _("More info:");?> <a href="http://www.projectcounter.org/code_practice.html" target="_blank">http://www.projectcounter.org/code_practice.html</a></li>
+<li><?php echo _("More info: ");?><a href="http://www.projectcounter.org/code_practice.html" target="_blank">http://www.projectcounter.org/code_practice.html</a></li>
 </ul>
 </div>
 <br /><br />

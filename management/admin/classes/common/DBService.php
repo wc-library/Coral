@@ -50,7 +50,7 @@ class DBService extends Object {
 
 		$databaseName = $this->config->database->name;
 		mysql_select_db($databaseName, $this->db);
-        mysql_set_charset('utf8', $this->db);
+        	mysql_set_charset('utf8', $this->db);
 		$this->checkForError();
 	}
 
