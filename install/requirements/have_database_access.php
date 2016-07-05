@@ -58,18 +58,17 @@ function register_have_database_access_requirement()
 				}
 			}
 
-			// Get list of chosen modules - the dependecies are handles by modules_to_use - it will force the user to choose the modules that are required.
-			$modules_to_use = array_keys(array_filter($shared_module_info["modules_to_use"]["useModule"], function($item) {
-				return $item;
-			}));
-			$modules_to_use_with_database_requirements = array_filter($shared_module_info, function($value, $key) use ($modules_to_use){
-				return is_array($value) && isset($value["database"]) && in_array($key, $modules_to_use);
-			}, ARRAY_FILTER_USE_BOTH);
-			$shared_database_info = array_map(function($key, $item) {
-				$to_return = $item["database"];
-				$to_return["key"] = $key;
-				return $to_return;
-			}, array_keys($modules_to_use_with_database_requirements), $modules_to_use_with_database_requirements);
+			$shared_database_info = [];
+			foreach ($shared_module_info["modules_to_use"]["useModule"] as $key => $value) {
+				if ($value && isset($shared_module_info[$key]["database"]))
+				{
+					$shared_database_info[] = [
+						"title" => $shared_module_info[$key]["database"]["title"],
+						"default_value" => $shared_module_info[$key]["database"]["default_value"],
+						"key" => $key,
+					];
+				}
+			}
 
 			require "install/templates/database_details_template.php";
 			$return->yield->body = database_details_template($shared_database_info);

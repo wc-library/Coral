@@ -82,13 +82,6 @@ function register_have_default_db_user_requirement()
 			{
 				$default_db_username = $_SESSION[ $MODULE_VARS["uid"] ]["userdetails"]["username"];
 				$default_db_password = $_SESSION[ $MODULE_VARS["uid"] ]["userdetails"]["password"];
-				// Get list of chosen modules - the dependecies are handles by modules_to_use - it will force the user to choose the modules that are required.
-				$modules_to_use = array_keys(array_filter($shared_module_info["modules_to_use"]["useModule"], function($item) {
-					return $item;
-				}));
-				$modules_to_use_with_database_requirements = array_filter($shared_module_info, function($value, $key) use ($modules_to_use){
-					return is_array($value) && isset($value["database"]) && in_array($key, $modules_to_use);
-				}, ARRAY_FILTER_USE_BOTH);
 
 				$failed_user_grants = [];
 				$db_details = [
@@ -96,19 +89,22 @@ function register_have_default_db_user_requirement()
 					"username" => $default_db_username,
 					"password" => $default_db_password
 				];
-				foreach (array_keys($modules_to_use_with_database_requirements) as $mod)
+				foreach ($shared_module_info["modules_to_use"]["useModule"] as $key => $value)
 				{
-					$db_details["dbname"] = $shared_module_info[$mod]["db_name"];
-					try
+					if ($value && isset($shared_module_info[$key]["db_name"]))
 					{
-						$db = $shared_module_info["provided"]["get_db_connection"]( $db_details["dbname"] );
-						$slash_pass = addslashes($db_details["password"]);
-						$db->processQuery("REVOKE ALL ON {$db_details["dbname"]}.* FROM {$db_details["username"]}@{$db_details["host"]}");
-						$db->processQuery("GRANT SELECT, INSERT, UPDATE, DELETE ON {$db_details["dbname"]}.* TO {$db_details["username"]}@{$db_details["host"]} IDENTIFIED BY '$slash_pass'");
-					}
-					catch (Exception $e)
-					{
-						$failed_user_grants[] = $db_details["dbname"];
+						$db_details["dbname"] = $shared_module_info[$key]["db_name"];
+						try
+						{
+							$db = $shared_module_info["provided"]["get_db_connection"]( $db_details["dbname"] );
+							$slash_pass = addslashes($db_details["password"]);
+							$db->processQuery("REVOKE ALL ON {$db_details["dbname"]}.* FROM {$db_details["username"]}@{$db_details["host"]}");
+							$db->processQuery("GRANT SELECT, INSERT, UPDATE, DELETE ON {$db_details["dbname"]}.* TO {$db_details["username"]}@{$db_details["host"]} IDENTIFIED BY '$slash_pass'");
+						}
+						catch (Exception $e)
+						{
+							$failed_user_grants[] = $db_details["dbname"];
+						}
 					}
 				}
 				if (!empty($failed_user_grants))
