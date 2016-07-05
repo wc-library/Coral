@@ -89,7 +89,7 @@ function upgradeToUnifiedInstaller()
 	require_once "common/Config.php";
 	$configFilePath = Config::CONFIG_FILE_PATH;
 
-	$iniFile = parse_ini_file($configFilePath, true);
+	$iniFile = file_exists($configFilePath) ? parse_ini_file($configFilePath, true) : [];
 	$iniFile["installation_details"] = ["version" => INSTALLATION_VERSION];
 
 	$file = @fopen($configFilePath, 'w');
