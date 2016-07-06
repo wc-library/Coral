@@ -109,7 +109,7 @@ function register_modules_to_use_requirement()
 
 			if (!$return->success)
 			{
-				require "install/templates/modules_to_use_template.php";
+				require_once "install/templates/modules_to_use_template.php";
 				$return->yield->body = modules_to_use_template($module_list);
 			}
 			else
