@@ -1,4 +1,15 @@
 <?php
+function is_installed()
+{
+	require_once("common/Config.php");
+	try {
+		$return = Config::getInstallationVersion();
+	} catch (Exception $e) {
+		$return = false;
+	}
+	return $return;
+}
+
 function continue_installing()
 {
 	$root_installation_namespace = "installation_root";
