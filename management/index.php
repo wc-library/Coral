@@ -280,13 +280,10 @@ $_SESSION['ref_script']=$currentPage;
   if (($_SESSION['license_orderBy']) && ($reset != 'Y')){
 	  echo "orderBy = \"" . $_SESSION['license_orderBy'] . "\";";
   }
-
-
+?>
 </script>
 
 
 <?php
 include 'templates/footer.php';
 ?>
-
-

@@ -51,11 +51,11 @@ if ($isOrgDowntime) {
 	<table class="thickboxTable" style="width:98%;background-image:url('images/title.gif');background-repeat:no-repeat;">
 		<tr>
 			<td colspan="2">
-				<h1> Resource Downtime Report</h1>
+				<h1><?php echo _("Resource Downtime Report");?></h1>
 			</td>
 		</tr>
 		<tr>
-			<td><label>Downtime Start:</label></td>
+			<td><label><?php echo _("Downtime Start:");?></label></td>
 			<td>
 				<div>
 					<div><i>Date</i></div>
@@ -72,7 +72,7 @@ echo buildTimeForm("startTime");
 			</td>
 		</tr>
 		<tr>
-			<td><label>Downtime Resolution:</label></td>
+			<td><label><?php echo _("Downtime Resolution:");?></label></td>
 			<td>
 				<div>
 					<div><i>Date</i></div>
@@ -89,7 +89,7 @@ echo buildTimeForm("endTime");
 			</td>
 		</tr>
 		<tr>
-			<td><label>Problem Type:</label></td>
+			<td><label><?php echo _("Problem Type:");?></label></td>
 			<td>
 				<select class="downtimeType" name="downtimeType">
 <?php
@@ -104,7 +104,7 @@ echo buildTimeForm("endTime");
 <?php
 if ($issues) {
 ?>
-			<td><label>Link to open issue:</label></td>
+			<td><label><?php echo _("Link to open issue:");?></label></td>
 			<td>
 				<select class="issueID" name="issueID">
 					<option value="">none</option>
@@ -120,7 +120,7 @@ if ($issues) {
 }
 ?>
 		<tr>
-			<td><label>Note:</label></td>
+			<td><label><?php echo _("Note:");?></label></td>
 			<td>
 				<textarea name="note"></textarea>
 			</td>
@@ -129,8 +129,8 @@ if ($issues) {
 
 	<table class='noBorderTable' style='width:125px;'>
 		<tr>
-			<td style='text-align:left'><input type='button' value='submit' name='submitNewDowntime' id='submitNewDowntime'></td>
-			<td style='text-align:right'><input type='button' value='cancel' onclick="tb_remove();"></td>
+			<td style='text-align:left'><input type='button' value='<?php echo _("submit");?>' name='submitNewDowntime' id='submitNewDowntime' class='submit-button'></td>
+			<td style='text-align:right'><input type='button' value='<?php echo _("cancel");?>' onclick="tb_remove();" class='submit-button'></td>
 		</tr>
 	</table>
 
@@ -138,11 +138,8 @@ if ($issues) {
 
 <?php
 } else {
-	echo '
-		<p>
-			Creating downtime requires an organization or a resource to be associated with an organization.
-		</p>
-		<input type="button" value="cancel" onclick="tb_remove();">';
+	echo '<p>' . _("Creating downtime requires an organization or a resource to be associated with an organization.") . '</p>';
+	echo '<input type="button" value="' . _("cancel") . '" onclick="tb_remove();">';
 }
 ?>
 

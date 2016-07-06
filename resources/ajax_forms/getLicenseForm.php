@@ -73,7 +73,7 @@
 				</td>
 
 				<td style='vertical-align:top;text-align:left;width:40px;'>
-				<a href='javascript:void();' class='addLicense'><img src='images/add.gif' class='addLicense' alt="<?php echo _("add license");?>" title="<?php echo _("add license");?>"></a>
+				<a href='javascript:void();' class='addLicense'><input class='addLicense add-button' title='<?php echo _("add license");?>' type='button' value='<?php echo _("Add");?>'/></a>
 				</td>
 				</tr>
 				</table>
@@ -188,8 +188,8 @@
 
 		<table class='noBorderTable' style='width:125px;'>
 			<tr>
-				<td style='text-align:left'><input type='button' value='<?php echo _("submit");?>' name='submitLicense' id ='submitLicense'></td>
-				<td style='text-align:right'><input type='button' value='<?php echo _("cancel");?>' onclick="kill(); tb_remove();"></td>
+				<td style='text-align:left'><input type='button' value='<?php echo _("submit");?>' name='submitLicense' id ='submitLicense' class='submit-button'></td>
+				<td style='text-align:right'><input type='button' value='<?php echo _("cancel");?>' onclick="kill(); tb_remove();" class='cancel-button'></td>
 			</tr>
 		</table>
 
