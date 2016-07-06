@@ -62,7 +62,7 @@ if (count($organizationArray) > 0) {
 
 			if(count($orgDowntimes) > 0) {
 				foreach ($orgDowntimes as $downtime) {
-					echo generateDowntimeHTML($downtime,array(array("name"=>$orgData['organization'],"id"=>$organization->organizationID,"entityType"=>1)));
+					echo generateDowntimeHTML($downtime);
 				}
 			} else {
 				echo "<br><p>" . _("There are no organization level downtimes.") . "</p><br>";
@@ -79,13 +79,7 @@ $resourceDowntimes = $resource->getDowntime($archivedFlag);
 echo '<h3 class="text-center">' . _("Resources") . '</h3>';
 if(count($resourceDowntimes) > 0) {
 	foreach ($resourceDowntimes as $downtime) {
-		$associatedEntities = array();
-		if ($associatedResources = $downtime->getAssociatedResources()) {
-			foreach ($associatedResources as $resource) {
-				$associatedEntities[] = array("name"=>$resource->titleText,"id"=>$resource->resourceID,"entityType"=>2);
-			}
-		} 
-		echo generateDowntimeHTML($downtime,$associatedEntities);
+		echo generateDowntimeHTML($downtime);
 	}
 } else {
 	echo "<br><p>" . _("There are no resource level downtimes.") . "</p><br>";
