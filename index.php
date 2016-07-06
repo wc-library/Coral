@@ -1,4 +1,14 @@
 <?php
+session_start();
+require_once("install/test_if_installed.php");
+if (!is_installed() || (isset($_SESSION["installer_post_installation"]) && $_SESSION["installer_post_installation"]))
+{
+	$ROOT_INDEX_PHP_RUN = true;
+	require_once("install/index.php");
+	do_install();
+	exit();
+}
+
 	//determine CORAL main path so we can check each module below to know which to display
 	$pagePath = $_SERVER["DOCUMENT_ROOT"];
 
@@ -8,7 +18,6 @@
 		$pagePath .= $parts[$i] . '/';
 	}
 
-	session_start();
 
 	// Include file of language codes
 	include_once 'LangCodes.php';
@@ -115,7 +124,7 @@
 			<?php
 			$mainPageIcon = "";
 			$modules = [ "resources" => _("Resources"), "licensing" => _("Licensing"), "organizations" => _("Organizations"), "usage" => _("Usage Statistics"), "management" => _("Management") ];
-			require_once("common/Config.php");
+
 			foreach ($modules as $key => $value)
 			{
 				$module = "";

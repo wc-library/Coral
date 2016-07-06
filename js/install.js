@@ -50,7 +50,7 @@ function submit_install_step(dataToSubmit)
 	dataToSubmit.installing = true;
 	$.ajax({
 		type: "POST",
-		url: "install.php",
+		url: "index.php",
 		data: dataToSubmit,
 		dataType: "json",
 		success: function(data){
