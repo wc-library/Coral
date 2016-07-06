@@ -776,7 +776,7 @@ class Resource extends DatabaseObject {
 		$query = "SELECT i.*
 					FROM Issue i
 					LEFT JOIN IssueRelationship ir ON ir.issueID=i.issueID
-					WHERE ir.entityID={$this->resourceID} AND ir.entityTypeID=2";
+					WHERE ir.entityID='$this->resourceID' AND ir.entityTypeID=2";
 		if ($archivedOnly) {
 			$query .= " AND i.dateClosed IS NOT NULL";
 		} else {
@@ -804,7 +804,7 @@ class Resource extends DatabaseObject {
 	public function getDowntime($archivedOnly=false) {
 		$query = "SELECT d.*
 					FROM Downtime d
-					WHERE d.entityID={$this->resourceID} AND d.entityTypeID=2";
+					WHERE d.entityID='$this->resourceID' AND d.entityTypeID=2";
 		if ($archivedOnly) {
 			$query .= " AND d.endDate < CURDATE()";
 		} else {
@@ -849,7 +849,7 @@ class Resource extends DatabaseObject {
 								WHERE sie.issueID=i.issueID) AS `CCs`
 					FROM Issue i
 					LEFT JOIN IssueRelationship ir ON ir.issueID=i.issueID
-					WHERE ir.entityID={$this->resourceID} AND ir.entityTypeID=2";
+					WHERE ir.entityID='$this->resourceID' AND ir.entityTypeID=2";
 		if ($archivedOnly) {
 			$query .= " AND i.dateClosed IS NOT NULL";
 		} else {
@@ -873,7 +873,7 @@ class Resource extends DatabaseObject {
 
 		$query = "SELECT d.*
 					FROM Downtime d
-					WHERE d.entityID={$this->resourceID} AND d.entityTypeID=2";
+					WHERE d.entityID='$this->resourceID' AND d.entityTypeID=2";
 		if ($archivedOnly) {
 			$query .= " AND d.endDate < CURDATE()";
 		} else {

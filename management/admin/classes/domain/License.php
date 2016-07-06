@@ -118,7 +118,7 @@ class License extends DatabaseObject {
 						LEFT JOIN DocumentType DT ON (DT.documentTypeID = D.documentTypeID)
 						WHERE licenseID = '" . $this->licenseID . "'";
 		if ($documentID) {
-			$query .= " AND D.documentID != {$documentID}";
+			$query .= " AND D.documentID != '$documentID'";
 		}
 		$query .= "		AND (D.expirationDate is null OR D.expirationDate = '0000-00-00')
 						AND (D.parentDocumentID is null OR D.parentDocumentID=0)
@@ -234,7 +234,7 @@ class License extends DatabaseObject {
 
 	public function getNotes() {
 
-		$query = "SELECT `documentNoteID` FROM `DocumentNote` WHERE `licenseID`={$this->primaryKey} ORDER BY `createDate` DESC";
+		$query = "SELECT `documentNoteID` FROM `DocumentNote` WHERE `licenseID`='$this->primaryKey' ORDER BY `createDate` DESC";
 
 		if ($result = $this->db->processQuery($query, 'assoc')) {
 			$objects = array();
@@ -254,7 +254,7 @@ class License extends DatabaseObject {
 
 	public function getNotesCount() {
 		if ($this->primaryKey) {
-			$sql = "SELECT COUNT(*) AS `total` FROM `DocumentNote` WHERE `licenseID`={$this->primaryKey}";
+			$sql = "SELECT COUNT(*) AS `total` FROM `DocumentNote` WHERE `licenseID`='$this->primaryKey'";
 			if ($result = $this->db->processQuery($sql,'assoc')) {
 				return $result['total'];
 			}
@@ -672,7 +672,7 @@ class License extends DatabaseObject {
 			//tie the new consortiums to this license
 			$sql = "INSERT INTO `license_consortium` (`licenseID`,`consortiumID`) VALUES ";
 			foreach ($consortiumids as $cid) {
-				$sql .= "({$this->primaryKey},".$this->db->escapeString($cid)."),";
+				$sql .= "('$this->primaryKey',".$this->db->escapeString($cid)."),";
 			}
 			$sql = rtrim($sql,',');
 			$this->db->processQuery($sql);
@@ -779,7 +779,7 @@ class License extends DatabaseObject {
 			$dbName = $config->settings->organizationsDatabaseName;
 
 			$orgArray = array();
-			$query = "SELECT `name` FROM `{$dbName}`.`Organization` WHERE `organizationID`=".(($consortiumid) ? $consortiumid:$this->consortiumID);
+			$query = "SELECT `name` FROM `$dbName`.`Organization` WHERE `organizationID`=".(($consortiumid) ? $consortiumid:$this->consortiumID);
 			$result = $this->db->query($query);
 
 			while ($row = $result->fetch_assoc()) {
@@ -811,7 +811,7 @@ class License extends DatabaseObject {
 	}
 
 	function deleteLicenseConsortiums() {
-		$sql = "DELETE FROM `license_consortium` WHERE `licenseID`={$this->primaryKey}";
+		$sql = "DELETE FROM `license_consortium` WHERE `licenseID`='$this->primaryKey'";
 		$this->db->processQuery($sql);
 	}
 
