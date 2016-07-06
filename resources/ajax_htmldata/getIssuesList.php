@@ -80,7 +80,7 @@ if (count($organizationArray) > 0) {
 
 			if(count($orgIssues) > 0) {
 				foreach ($orgIssues as $issue) {
-					echo generateIssueHTML($issue,array(array("name"=>$orgData['organization'],"id"=>$organization->organizationID,"entityType"=>1)));
+					echo generateIssueHTML($issue,array(array("name"=>$orgData['organization'],"id"=>$organization->primaryKey,"entityType"=>1)));
 				}
 			}
 
