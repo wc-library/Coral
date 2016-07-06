@@ -69,7 +69,7 @@ function submit_install_step(dataToSubmit)
 					setInterval(function(){
 						if (countdown-- <= 0)
 						{
-							window.location.href = "index.php";
+							window.location.reload(true);
 						}
 						else
 							$(".redirection .countdown").text(countdown);
