@@ -76,7 +76,7 @@ function generateIssueHTML($issue,$associatedEntities=null) {
 }
 
 //shared html template for organization and resource downtimes
-function generateDowntimeHTML($downtime,$associatedEntities=null) {
+function generateDowntimeHTML($downtime) {
 
 	$html = "
 	<div class=\"downtime\">";
@@ -715,7 +715,7 @@ switch ($_GET['action']) {
 
 		if(count($orgDowntime) > 0) {
 			foreach ($orgDowntime as $downtime) {
-				echo generateDowntimeHTML($downtime,array(array("name"=>$organization->name,"id"=>$organization->organizationID,"entityType"=>1)));
+				echo generateDowntimeHTML($downtime);
 			}
 		} else {
 			echo "<br><p>" . _("There are no organization level downtimes.") . "</p><br>";
