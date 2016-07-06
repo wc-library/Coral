@@ -46,6 +46,24 @@ function register_have_read_write_access_to_config_requirement()
 			// If file exists, see if it's writable - otherwise see if directory is writable (we can create it)
 			array_unshift($config_files, [ "path" => Config::CONFIG_FILE_PATH, "key" => "core_configuration"]);
 			foreach ($config_files as $cfg) {
+				if (!file_exists($cfg["path"]))
+				{
+					try
+					{
+						$try_create = @file_put_contents($cfg["path"], "", FILE_APPEND);
+					}
+					catch (Exception $e)
+					{ }
+					if (!$try_create)
+					{
+						try {
+							@chmod(dirname($cfg["path"]), 0777);
+							@file_put_contents($cfg["path"], "", FILE_APPEND);
+							@chmod(dirname($cfg["path"]), 0755);
+						} catch (Exception $e) {}
+					}
+				}
+
 				$writable_test = file_exists($cfg["path"]) ? $cfg["path"] : dirname($cfg["path"]);
 				switch ($testFileAccess($writable_test)) {
 					case $fileACCESS["NOT_WRITABLE"]:
@@ -112,7 +130,9 @@ function register_have_read_write_access_to_config_requirement()
 							switch ($testFileAccess(dirname($cfg["path"])))
 							{
 								case $fileACCESS["FULL_ACCESS"]:
-									if (decoct(fileperms($cfg["path"]) & 0777) == "755")
+									if (decoct(fileperms(dirname($cfg["path"])) & 0777) == "755")
+										break;
+									if (@chmod(dirname($cfg["path"]), 0755))
 										break;
 									$return->yield->messages[] = _("It is unsafe to leave your admin directories writable.")
 																.sprintf( "<br /><b>" . _("Try") . ":</b> <span class=\"highlight\">chmod 755 %s</span>", dirname($cfg["path"]) );
@@ -132,7 +152,9 @@ function register_have_read_write_access_to_config_requirement()
 							//check the config file itself
 							switch ($testFileAccess($cfg["path"])) {
 								case $fileACCESS["FULL_ACCESS"]:
-									if (decoct(fileperms($cfg["path"]) & 0777) == "644")
+									if (decoct(fileperms(dirname($cfg["path"])) & 0777) == "644")
+										break;
+									if (@chmod($cfg["path"], 0644))
 										break;
 									$return->yield->messages[] = _("It is unsafe to leave your config files writable.")
 																.sprintf( "<br /><b>" . _("Try") . ":</b> <span class=\"highlight\">chmod 644 %s</span>", $cfg["path"] );
