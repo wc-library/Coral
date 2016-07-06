@@ -69,4 +69,17 @@ class Config {
 		self::$database = $database_settings;
 		self::$bInit = 'y';
 	}
+
+	public static function getInstallationVersion()
+	{
+		self::init();
+		if (isset(self::$module_settings["installation_details"]) && isset(self::$module_settings["installation_details"]["version"]))
+		{
+			return self::$module_settings["installation_details"]["version"];
+		}
+		else
+		{
+			return false;
+		}
+	}
 }
