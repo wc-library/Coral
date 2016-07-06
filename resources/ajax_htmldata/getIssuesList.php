@@ -82,13 +82,14 @@ if (count($organizationArray) > 0) {
 				foreach ($orgIssues as $issue) {
 					echo generateIssueHTML($issue,array(array("name"=>$orgData['organization'],"id"=>$organization->organizationID,"entityType"=>1)));
 				}
-			} else {
-				echo "<br><p>" . _("There are no organization level issues.") . "</p><br>";
 			}
 
 			$orgIssues = null;
 			$issuedOrgs[] = $orgData['organizationID'];
 		}
+	}
+	if (count($issuedOrgs) < 1) {
+		echo "<br><p>" . _("There are no organization level issues.") . "</p><br>";
 	}
 }
 
