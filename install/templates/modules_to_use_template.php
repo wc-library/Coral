@@ -4,8 +4,6 @@ function modules_to_use_template($module_list)
 {
 	$submit     = _("Continue Installing");
 
-	$leave_blank_instruction = _("Leave fields blank if you do not intend to install respective modules.");
-
 	$cards = function($item_array) {
 		return join(array_reduce($item_array, function($carry, $item){
 			$altField = "";
