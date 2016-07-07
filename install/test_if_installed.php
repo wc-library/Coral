@@ -116,8 +116,8 @@ function upgradeToUnifiedInstaller($root_installation_namespace)
 		foreach ($fields as $field)
 		{
 			$iniFile[$field["module_name"]] = [
-				"installed" => isset($_POST[$field["uid"]]) ? $_POST[$field["uid"]] : false,
-				"enabled" => isset($_POST[$field["uid"]]) ? $_POST[$field["uid"]] : false
+				"installed" => isset($_POST[$field["uid"]]) ? ($_POST[$field["uid"]] ? "Y" : "N") : "N",
+				"enabled" => isset($_POST[$field["uid"]]) ? ($_POST[$field["uid"]] ? "Y" : "N") : "N"
 			];
 		}
 
