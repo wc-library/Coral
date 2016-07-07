@@ -32,6 +32,7 @@ if (dirname($_SERVER["SCRIPT_FILENAME"]) !== dirname(__DIR__) || basename($_SERV
 
 // INSTALLATION_VERSION should be a version number that version_compare will understand
 const INSTALLATION_VERSION = "2.0.0";
+const INSTALLATION_VERSIONS = ["2.0.0"];
 const INSTALLATION_IN_PROGRESS = true;
 
 function do_install()
