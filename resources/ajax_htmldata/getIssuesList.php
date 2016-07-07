@@ -75,12 +75,11 @@ if (count($organizationArray) > 0) {
 	foreach ($organizationArray as $orgData) {
 		if (!in_array($orgData['organizationID'],$issuedOrgs)) {
 			$organization = new Organization(new NamedArguments(array('primaryKey' => $orgData['organizationID'])));
-
 			$orgIssues = $organization->getIssues($archivedFlag);
 
 			if(count($orgIssues) > 0) {
 				foreach ($orgIssues as $issue) {
-					echo generateIssueHTML($issue,array(array("name"=>$orgData['organization'],"id"=>$organization->primaryKey,"entityType"=>1)));
+					echo generateIssueHTML($issue,array(array("name"=>$orgData['organization'],"id"=>$orgData['organizationID'],"entityType"=>1)));
 				}
 			}
 
