@@ -3,7 +3,6 @@ session_start();
 require_once("install/test_if_installed.php");
 if (!is_installed() || (isset($_SESSION["installer_post_installation"]) && $_SESSION["installer_post_installation"]))
 {
-	$ROOT_INDEX_PHP_RUN = true;
 	require_once("install/index.php");
 	do_install();
 	exit();
