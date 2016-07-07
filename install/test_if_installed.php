@@ -37,8 +37,12 @@ function continue_installing()
 			$instruction = "";
 			$option_buttons = [];
 
-			// Hard code conf file paths to look for - if none exist, CORAL is assumed not to be installed, otherwise we ask what to do
-			if (!$old_version)
+			// TODO: test this script in live environment (to ensure relative paths work)
+			$possible_modules_with_conf_files = [ "auth", "licensing", "management", "organizations", "reports", "resources", "usage" ];
+			$maybe_installed = array_reduce($possible_modules_with_conf_files, function($carry, $item) {
+				return $carry || file_exists($item . "/admin/configuration.ini");
+			});
+			if ($maybe_installed)
 			{
 				// Installed not with unified installer
 				// OR not installed
@@ -47,26 +51,6 @@ function continue_installing()
 				$instruction = _("Please choose one of the options below:");
 				$option_buttons = $allowed_options(["already_installed", "install_anyway"]);
 			}
-			// elseif (version_compare(INSTALLATION_VERSION, $old_version) > 0)
-			// {
-			// 	// This installer installs a newer version
-			// 	$instruction = _("This installer installs a newer version of CORAL than the one currently installed. This is <b>highly discouraged</b> and will probably result in the loss of data. Instead you should try to upgrade.");
-			// 	$option_buttons = $allowed_options(["take_me_home", "try_upgrade", "install_anyway"]);
-			// }
-			// else if (version_compare(INSTALLATION_VERSION, $old_version) === 0)
-			// {
-			// 	// Already installed and current version
-			// 	$instruction = _("You already have the current version installed. Are you looking for the home page?");
-			// 	$option_buttons = $allowed_options(["take_me_home"]);
-			// }
-			// else if (version_compare(INSTALLATION_VERSION, $old_version) < 0)
-			// {
-			// 	// Apparently the already installed version is newer than this installer
-			// 	$yield->messages[] = _("<b>Warning:</b> A problem exists in your CORAL installation.");
-			// 	$yield->messages[] = _("<b>Warning:</b> The CORAL version already installed is newer than this software version. You should notify your administrator or the developer.");
-			// 	$instruction = _("The installed version of CORAL is newer than the newest version this installer can install.");
-			// 	$option_buttons = $allowed_options(["take_me_home"]);
-			// }
 			require_once "install/templates/option_buttons_template.php";
 			$yield->body = option_buttons_template($instruction, $option_buttons, $root_installation_namespace);
 			yield_test_results_and_exit($yield, [], 0);
