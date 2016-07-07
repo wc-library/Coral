@@ -30,10 +30,26 @@ if (dirname($_SERVER["SCRIPT_FILENAME"]) !== dirname(__DIR__) || basename($_SERV
 	exit();
 }
 
-// INSTALLATION_VERSION should be a version number that version_compare will understand
-const INSTALLATION_VERSION = "2.0.0";
-const INSTALLATION_VERSIONS = ["2.0.0"];
+/**
+ * INSTALLATION_VERSIONS is an array of all version strings that can be upgraded from
+ * INSTALLATION_VERSION is the current version string (which should be the last element in the INSTALLATION_VERSIONS array)
+ *
+ * NOTE: It is assumed that version strings can be understood by php's version_compare function
+ */
+const INSTALLATION_VERSION = "2.1.0";
+const INSTALLATION_VERSIONS = ["2.0.0", "2.1.0"];
 const INSTALLATION_IN_PROGRESS = true;
+
+function is_installed()
+{
+	require_once("common/Config.php");
+	try {
+		$return = Config::getInstallationVersion();
+	} catch (Exception $e) {
+		$return = false;
+	}
+	return $return;
+}
 
 function do_install()
 {
@@ -43,7 +59,7 @@ function do_install()
 	 */
 	if (!isset($_POST["installing"]))
 	{
-		require "templates/install_page_template.php";
+		require_once "templates/install_page_template.php";
 		draw_install_page_template();
 		exit();
 	}
@@ -109,3 +125,53 @@ function do_install()
 	session_unset();
 	yield_test_results_and_exit($return, $completed_tests, 100/100);
 }
+
+function do_upgrade()
+{
+	if (!isset($_POST["installing"]))
+	{
+		require_once "templates/install_page_template.php";
+		draw_install_page_template();
+		exit();
+	}
+
+	$current_version_index = array_search($version, INSTALLATION_VERSIONS);
+
+	// $instalation_steps =
+}
+
+$version = is_installed();
+if (!$version || (isset($_SESSION["installer_post_installation"]) && $_SESSION["installer_post_installation"]))
+{
+	do_install();
+	exit();
+}
+elseif ($version !== INSTALLATION_VERSION)
+{
+	do_upgrade($version);
+	exit();
+}
+
+
+// TAKEN FROM test_if_installed.php -> needs to be handled in do_upgrade()
+
+// elseif (version_compare(INSTALLATION_VERSION, $old_version) > 0)
+// {
+// 	// This installer installs a newer version
+// 	$instruction = _("This installer installs a newer version of CORAL than the one currently installed. This is <b>highly discouraged</b> and will probably result in the loss of data. Instead you should try to upgrade.");
+// 	$option_buttons = $allowed_options(["take_me_home", "try_upgrade", "install_anyway"]);
+// }
+// else if (version_compare(INSTALLATION_VERSION, $old_version) === 0)
+// {
+// 	// Already installed and current version
+// 	$instruction = _("You already have the current version installed. Are you looking for the home page?");
+// 	$option_buttons = $allowed_options(["take_me_home"]);
+// }
+// else if (version_compare(INSTALLATION_VERSION, $old_version) < 0)
+// {
+// 	// Apparently the already installed version is newer than this installer
+// 	$yield->messages[] = _("<b>Warning:</b> A problem exists in your CORAL installation.");
+// 	$yield->messages[] = _("<b>Warning:</b> The CORAL version already installed is newer than this software version. You should notify your administrator or the developer.");
+// 	$instruction = _("The installed version of CORAL is newer than the newest version this installer can install.");
+// 	$option_buttons = $allowed_options(["take_me_home"]);
+// }
