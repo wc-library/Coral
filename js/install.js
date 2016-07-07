@@ -50,12 +50,16 @@ function submit_install_step(dataToSubmit)
 	dataToSubmit.installing = true;
 	$.ajax({
 		type: "POST",
-		url: "install.php",
+		url: "index.php",
 		data: dataToSubmit,
 		dataType: "json",
 		success: function(data){
 			$(".main").animate({"opacity": 0, "paddingRight": 30 }, 200, function(){
 				if (data.redirect_home)
+				{
+					window.location.reload(true);
+				}
+				else if (data.show_completion)
 				{
 					$(".installation_stuff").hide();
 					var countdown = 10;
@@ -69,7 +73,7 @@ function submit_install_step(dataToSubmit)
 					setInterval(function(){
 						if (countdown-- <= 0)
 						{
-							window.location.href = "index.php";
+							window.location.reload(true);
 						}
 						else
 							$(".redirection .countdown").text(countdown);
