@@ -883,7 +883,7 @@ $("select").change(function() {
       $(".archivedWorkflow").toggle();
       if ($(".archivedWorkflow").is(":visible")) {
         $(this).html(_("hide archived workflows")); 
-        $("#displayArchivedWorkflowsIcon").attr("src", "images/cross_12.gif");
+        $("#displayArchivedWorkflowsIcon").attr("src", "images/minus_12.gif");
       } else {
         $(this).html(_("display archived workflows"));
         $("#displayArchivedWorkflowsIcon").attr("src", "images/plus_12.gif");
