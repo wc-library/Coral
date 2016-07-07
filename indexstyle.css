@@ -513,15 +513,12 @@ input.dp-applied {
 .main-page-icons:hover {
 	cursor: pointer;
 }
-.main-page-icons:hover a img {
+.main-page-icons:hover a {
 	opacity: 0.6;
 }
 
 .main-page-icons span {
     display: block;
-}
-.main-page-icons:hover a span {
-    color: #444;
 }
 
 .main-page-icons-off:hover {
