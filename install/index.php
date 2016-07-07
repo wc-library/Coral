@@ -51,8 +51,9 @@ function do_install()
 	if (!continue_installing())
 	{
 		session_unset();
-		exit(1);
-		//We shouldn't ever get here
+		$return = new stdClass();
+		$return->redirect_home = true;
+		yield_test_results_and_exit($return, [], 1);
 	}
 
 	require "installer.php";
@@ -103,7 +104,7 @@ function do_install()
 
 
 	$return = new stdClass();
-	$return->redirect_home = true;
+	$return->show_completion = true;
 	session_unset();
 	yield_test_results_and_exit($return, $completed_tests, 100/100);
 }

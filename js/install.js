@@ -57,6 +57,10 @@ function submit_install_step(dataToSubmit)
 			$(".main").animate({"opacity": 0, "paddingRight": 30 }, 200, function(){
 				if (data.redirect_home)
 				{
+					window.location.reload(true);
+				}
+				else if (data.show_completion)
+				{
 					$(".installation_stuff").hide();
 					var countdown = 10;
 					$(".redirection .countdown").text(countdown);
