@@ -21,10 +21,12 @@
  */
 
 // TODO: go through template.php and remove hard coded vars
-
-if (!isset($ROOT_INDEX_PHP_RUN) || (isset($ROOT_INDEX_PHP_RUN) && !$ROOT_INDEX_PHP_RUN))
+if (dirname($_SERVER["SCRIPT_FILENAME"]) !== dirname(__DIR__) || basename($_SERVER["SCRIPT_FILENAME"]) !== basename(__FILE__))
 {
-	header("Location: ../");
+	// Calculating $location allows the root to be something other than / (e.g. /Coral/)
+	$trim_from_left = function ($str_to_trim, $trim) { return preg_replace('/^' . preg_quote($trim, '/') . '/', '', $str_to_trim); };
+	$location = $trim_from_left(dirname(__DIR__), $_SERVER["DOCUMENT_ROOT"]);
+	header("Location: " . $location);
 	exit();
 }
 
