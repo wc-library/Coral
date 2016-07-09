@@ -85,7 +85,7 @@ function do_install()
 
 	require_once "installer.php";
 	$installer = new Installer();
-	$requirements = $installer->getCheckListUids();
+	$requirements = $installer->getCheckListUids(Installer::FOR_INSTALL);
 
 	foreach ($requirements as $i => $requirement) {
 		if (!$installer->isRequired($requirement))

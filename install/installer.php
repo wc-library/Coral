@@ -11,6 +11,10 @@ class Installer {
 	const ERR_INVALID_TEST_RESULT = 20047;
 	const ERR_RUNNING_POST_INSTALLATION_TEST_BEFORE_INSTALLATION_COMPLETE = 20048;
 
+	const FOR_INSTALL = 501;
+	const FOR_UPGRADE = 502;
+	const FOR_MODIFY  = 503;
+
 	protected $checklist = [];
 	protected $shared_module_info = [];
 	protected $messages = [];
@@ -61,19 +65,21 @@ class Installer {
 
 		return $key;
 	}
-	public function getCheckListUids()
+	public function getCheckListUids($what_for = self::FOR_INSTALL)
 	{
-		$arr = $this->checklist;
-		usort($arr, function($a, $b){
-		    if (isset($a["required"]) && $a["required"] && !isset($a["alternative"])) {
-		        return isset($b["required"]) && $b["required"] && !isset($b["alternative"]) ? 0 : -1;
-		    }
-			else {
-				return isset($b["required"]) && $b["required"] && !isset($b["alternative"]) ? 1 : 0;
-			}
+		return array_filter($this->checklist, function($item) use ($what_for) {
+			return isset($item["required_for"]) && in_array($what_for, $item["required_for"]);
 		});
-		require_once("common/array_column.php");
-		return array_column($arr, "uid");
+		// usort($arr, function($a, $b){
+		//     if (isset($a["required"]) && $a["required"] && !isset($a["alternative"])) {
+		//         return isset($b["required"]) && $b["required"] && !isset($b["alternative"]) ? 0 : -1;
+		//     }
+		// 	else {
+		// 		return isset($b["required"]) && $b["required"] && !isset($b["alternative"]) ? 1 : 0;
+		// 	}
+		// });
+		// require_once("common/array_column.php");
+		// return array_column($arr, "uid");
 	}
 	public function getPostInstallationUids()
 	{
