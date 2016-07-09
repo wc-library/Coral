@@ -12,7 +12,6 @@ function register_have_database_access_requirement()
 		"uid" => "have_database_access",
 		"translatable_title" => _("Database Access"),
 		"dependencies_array" => ["meets_system_requirements", "modules_to_use"],
-		"required" => true
 	];
 
 	return array_merge( $MODULE_VARS, [

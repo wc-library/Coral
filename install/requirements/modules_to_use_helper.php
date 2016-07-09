@@ -14,7 +14,6 @@ function register_modules_to_use_helper_requirement()
 		"translatable_title" => _("Modules to Use Helper"),
 		"dependencies_array" => [ $PARENT_MODULE, "meets_system_requirements" ],
 		"hide_from_completion_list" => true,
-		"required" => true
 	];
 
 	if (isset($_SESSION[$PARENT_MODULE]))

@@ -5,8 +5,6 @@ function register_licensing_requirement()
 		"uid" => "licensing",
 		"translatable_title" => _("Licensing Module"),
 		"dependencies_array" => [ "db_tools", "have_read_write_access_to_config", "modules_to_use", "have_default_coral_admin_user", "have_default_db_user" ],
-		"required" => true, // TODO: is this module really required?
-		"wants" => [ "auth" ], // Doesn't actually want auth but it seems as though auth should come before it.
 		"sharedInfo" => [
 			"database" => [
 				"title" => _("Licensing Database"),
