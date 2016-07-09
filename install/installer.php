@@ -297,6 +297,37 @@ class Installer {
 		return $result;
 	}
 
+	public function upgrade_to_version($destination_version)
+	{
+		// Need to figure out a modular way of handling this:
+		/**
+		 * Maybe we need to consider installation modes:
+		 * 		upgrade
+		 * 		modify
+		 * 		install
+		 * 	 along with the flag "post_mode" => for post-installation/modification/upgrade scripts to run
+		 *
+		 * Maybe upgrader should return an installer array with dependencies and
+		 * everything depending on the version we give it and maybe we should
+		 * have an installer that upgraders can depend on that will process sql
+		 * files and update conf files but how do we get it to run after them?
+		 * that implies we have functional "required" flag but they only work
+		 * for the installer...
+		 *
+		 */
+		require_once("common/Config.php");
+		$modules_to_install = Config::getInstalledModules();
+		$_SESSION["modules_to_use"]["useModule"] = array_map(function($item){
+			return [$item => true];
+		}, $modules_to_install);
+
+		// foreach ( as $uid)
+		// {
+			$key = $this->getKeyFromUid($uid);
+			$this->checklist[$key]["upgrader"]($destination_version);
+		// }
+	}
+
 	public function getMessages()
 	{
 		$messages = $this->messages;

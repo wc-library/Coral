@@ -143,13 +143,7 @@ function do_upgrade($version)
 
 	for ($version_to_install_index = $current_version_index + 1; $version_to_install_index < count(INSTALLATION_VERSIONS); $version_to_install_index++)
 	{
-		require_once("common/Config.php");
-		foreach (Config::getInstalledModules() as $module)
-		{
-
-		}
-		//foreach installed module (not just enabled module)
-			//run upgrader with this version....
+		$installer->upgrade_to_version(INSTALLATION_VERSIONS[$version_to_install_index]);
 	}
 }
 
