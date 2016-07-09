@@ -314,6 +314,15 @@ class Installer {
 		 * that implies we have functional "required" flag but they only work
 		 * for the installer...
 		 *
+		 * So new plan:
+		 * 	We check the required_for var which will tell us whether needed for
+		 * 	upgrade, modify or install. Installers with required_for set are
+		 * 	basically doing all the heavy lifting (fancy type stuff that
+		 * 	modules_to_use_helper does). When we are installing, we look for
+		 * 	inarray(required_for, install)...
+		 *
+		 * It depends on everything needed for that thing...
+		 *
 		 */
 		require_once("common/Config.php");
 		$modules_to_install = Config::getInstalledModules();
