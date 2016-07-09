@@ -83,7 +83,7 @@ function do_install()
 		yield_test_results_and_exit($return, [], 1);
 	}
 
-	require "installer.php";
+	require_once "installer.php";
 	$installer = new Installer();
 	$requirements = $installer->getCheckListUids();
 
@@ -127,8 +127,7 @@ function do_install()
 	while ($failingPostInstallationTest = $installer->postInstallationTest())
 		yield_test_results_and_exit($failingPostInstallationTest->yield, $completed_tests, 97/100);
 
-
-
+	// Success!
 	$return = new stdClass();
 	$return->show_completion = true;
 	session_unset();
@@ -137,6 +136,21 @@ function do_install()
 
 function do_upgrade($version)
 {
+	$current_version_index = array_search($version, INSTALLATION_VERSIONS);
+
+	require_once "installer.php";
+	$installer = new Installer();
+
+	for ($version_to_install_index = $current_version_index + 1; $version_to_install_index < count(INSTALLATION_VERSIONS); $version_to_install_index++)
+	{
+		require_once("common/Config.php");
+		foreach (Config::getInstalledModules() as $module)
+		{
+
+		}
+		//foreach installed module (not just enabled module)
+			//run upgrader with this version....
+	}
 }
 
 $version = is_installed();
