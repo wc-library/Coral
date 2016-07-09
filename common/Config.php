@@ -82,4 +82,19 @@ class Config {
 			return false;
 		}
 	}
+
+	public static function getInstalledModules()
+	{
+		self::init();
+		return array_keys(array_filter(self::$module_settings, function($item){
+			return in_array("installed", array_keys($item)) ? $item["installed"] == "Y" : false;
+		}));
+	}
+	public static function getEnabledModules()
+	{
+		self::init();
+		return array_keys(array_filter(self::$module_settings, function($item){
+			return in_array("enabled", array_keys($item)) ? $item["enabled"] == "Y" : false;
+		}));
+	}
 }
