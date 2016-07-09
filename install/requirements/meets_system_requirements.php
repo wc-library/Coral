@@ -4,7 +4,6 @@ function register_meets_system_requirements_requirement()
 	return [
 		"uid" => "meets_system_requirements",
 		"translatable_title" => _("Meets system requirements"),
-		"required" => true,
 		"installer" => function($shared_module_info) {
 			$return = new stdClass();
 			$return->yield = new stdClass();

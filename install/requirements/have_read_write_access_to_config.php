@@ -5,7 +5,6 @@ function register_have_read_write_access_to_config_requirement()
 		"uid" => "have_read_write_access_to_config",
 		"translatable_title" => _("Config File Access"),
 		"dependencies_array" => ["meets_system_requirements", "have_default_db_user"],
-		"required" => true,
 		"installer" => function($shared_module_info) {
 			$return = new stdClass();
 			$return->yield = new stdClass();

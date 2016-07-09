@@ -5,7 +5,6 @@ function register_have_default_coral_admin_user_requirement()
 		"uid" => "have_default_coral_admin_user",
 		"translatable_title" => _("Default Coral Admin User Configured"),
 		"hide_from_completion_list" => true,
-		"required" => true
 	];
 
 	return array_merge( $MODULE_VARS, [

@@ -6,7 +6,6 @@ function register_have_default_db_user_requirement()
 		"translatable_title" => _("Default Database User Configured"),
 		"dependencies_array" => ["have_database_access"],
 		"hide_from_completion_list" => true,
-		"required" => true
 	];
 
 	return array_merge( $MODULE_VARS, [
