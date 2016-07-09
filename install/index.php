@@ -40,6 +40,23 @@ const INSTALLATION_VERSION = "2.1.0";
 const INSTALLATION_VERSIONS = ["2.0.0", "2.1.0"];
 const INSTALLATION_IN_PROGRESS = true;
 
+
+/**
+ *  install.js will bring us straight back here with the installing variable set
+ *  and then we will have a nice template page to write to
+ */
+if (!isset($_POST["installing"]))
+{
+	require_once "templates/install_page_template.php";
+	draw_install_page_template();
+	exit();
+}
+else
+{
+	require_once "test_results_yielder.php";
+}
+
+
 function is_installed()
 {
 	require_once("common/Config.php");
@@ -57,13 +74,6 @@ function do_install()
 	 *  All the requests that come from the template page post { "installing":true }
 	 *  So if it's not set, we need to draw the template for the first time.
 	 */
-	if (!isset($_POST["installing"]))
-	{
-		require_once "templates/install_page_template.php";
-		draw_install_page_template();
-		exit();
-	}
-
 	require_once "test_if_installed.php";
 	if (!continue_installing())
 	{
@@ -77,7 +87,6 @@ function do_install()
 	$installer = new Installer();
 	$requirements = $installer->getCheckListUids();
 
-	require_once "test_results_yielder.php";
 	foreach ($requirements as $i => $requirement) {
 		if (!$installer->isRequired($requirement))
 			continue;
@@ -126,18 +135,8 @@ function do_install()
 	yield_test_results_and_exit($return, $completed_tests, 100/100);
 }
 
-function do_upgrade()
+function do_upgrade($version)
 {
-	if (!isset($_POST["installing"]))
-	{
-		require_once "templates/install_page_template.php";
-		draw_install_page_template();
-		exit();
-	}
-
-	$current_version_index = array_search($version, INSTALLATION_VERSIONS);
-
-	// $instalation_steps =
 }
 
 $version = is_installed();
@@ -148,6 +147,21 @@ if (!$version || (isset($_SESSION["installer_post_installation"]) && $_SESSION["
 }
 elseif ($version !== INSTALLATION_VERSION)
 {
+	$return = new stdClass();
+	$return->messages = [];
+	if (array_slice(INSTALLATION_VERSIONS, -1)[0] !== INSTALLATION_VERSION)
+	{
+		// The instllation constants are not correctly set up
+		$return->messages[] = "<b>" . _("An error has occurred:") . "</b><br />" . _("Sorry but the installer has been incorrectly configured. Please contact the developer.");
+		$return->messages[] = _("Version of Installer does not match the last installation version in INSTALLATION_VERSIONS.");
+		yield_test_results_and_exit($return, [], 0);
+	}
+	elseif (!in_array($version, INSTALLATION_VERSIONS))
+	{
+		$return->messages[] = "<b>" . _("An error has occurred:") . "</b><br />" . _("Sorry but the installer has been incorrectly configured. Please contact the developer.");
+		$return->messages[] = _("The version currently installed is not a recognised version.");
+		yield_test_results_and_exit($return, [], 0);
+	}
 	do_upgrade($version);
 	exit();
 }
