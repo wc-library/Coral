@@ -31,7 +31,7 @@ switch ($_GET['action']) {
 
 		if (count($usersArray) > 0){
 			?>
-			<table class='linedDataTable' style='width:327px;'>
+			<table class='linedDataTable' style='width:340px;'>
 				<tr>
 				<th>Login ID</th>
 				<th>Admin?</th>
@@ -57,7 +57,7 @@ switch ($_GET['action']) {
 
 				?>
 			</table>
-			<a href='ajax_forms.php?action=getAdminUserUpdateForm&loginID=&height=215&width=315&modal=true' class='thickbox' id='addUser'><?= _("add new user")?></a>
+			<a href='ajax_forms.php?action=getAdminUserUpdateForm&loginID=&height=215&width=315&modal=true' class='thickbox' id='addUser'><?php echo _("add new user")?></a>
 			<?php
 
 		}else{

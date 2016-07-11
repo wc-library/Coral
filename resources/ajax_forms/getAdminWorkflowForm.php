@@ -152,7 +152,7 @@
 				</td>
 
 				<td style='vertical-align:top;text-align:center;width:40px;'>
-				<a href='javascript:void();'><img src='images/add.gif' class='addStep' alt="<?php echo _("add step");?>" title="<?php echo _("add step");?>"></a>
+				<a href='javascript:void();'><input class='addStep add-button' title='<?php echo _("add step");?>' type='button' value='<?php echo _("Add");?>'/></a>
 				</td>
 
 				</tr>
@@ -263,8 +263,8 @@
 
 		<table class='noBorderTable' style='width:125px;'>
 			<tr>
-				<td style='text-align:left'><input type='button' value='<?php echo _("submit");?>' name='submitWorkflowForm' id ='submitWorkflowForm'></td>
-				<td style='text-align:right'><input type='button' value='<?php echo _("cancel");?>' onclick="kill(); tb_remove();"></td>
+				<td style='text-align:left'><input type='button' value='<?php echo _("submit");?>' name='submitWorkflowForm' id ='submitWorkflowForm' class='submit-button'></td>
+				<td style='text-align:right'><input type='button' value='<?php echo _("cancel");?>' onclick="kill(); tb_remove();" class='cancel-button'></td>
 			</tr>
 		</table>
 

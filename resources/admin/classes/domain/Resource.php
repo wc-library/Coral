@@ -20,7 +20,7 @@
 class Resource extends DatabaseObject {
 
 	protected function defineRelationships() {}
-
+  
   protected function defineIsbnOrIssn() {}
 
 	protected function overridePrimaryKeyName() {}
@@ -145,8 +145,9 @@ class Resource extends DatabaseObject {
 			$object = new ResourceRelationship(new NamedArguments(array('primaryKey' => $result['resourceRelationshipID'])));
 			array_push($objects, $object);
 		}else{
+			$db = new DBService;
 			foreach ($result as $row) {
-				$object = new ResourceRelationship(new NamedArguments(array('primaryKey' => $row['resourceRelationshipID'])));
+				$object = new ResourceRelationship(new NamedArguments(array('primaryKey' => $row['resourceRelationshipID'],'db'=>$db)));
 				array_push($objects, $object);
 			}
 		}
@@ -184,7 +185,7 @@ class Resource extends DatabaseObject {
 	//returns array of ResourcePayment objects
 	public function getResourcePayments(){
 
-		$query = "SELECT * FROM ResourcePayment WHERE resourceID = '" . $this->resourceID . "' ORDER BY year DESC, fundName, subscriptionStartDate DESC";
+		$query = "SELECT * FROM ResourcePayment WHERE resourceID = '" . $this->resourceID . "' ORDER BY year DESC, subscriptionStartDate DESC";
 
 		$result = $this->db->processQuery($query, 'assoc');
 
@@ -972,7 +973,7 @@ class Resource extends DatabaseObject {
 		return $objects;
 	}
 
-
+  
   public static function setSearch($search) {
 	$config = new Configuration;
 
@@ -981,7 +982,7 @@ class Resource extends DatabaseObject {
 	  } else {
 		$orderBy = "R.createDate DESC, TRIM(LEADING 'THE ' FROM UPPER(R.titleText)) asc";
 	  }
-
+	
     $defaultSearchParameters = array(
 		"orderBy" => $orderBy,
 		"page" => 1,
@@ -997,22 +998,22 @@ class Resource extends DatabaseObject {
     }
     CoralSession::set('resourceSearch', $search);
   }
-
+  
   public static function resetSearch() {
     Resource::setSearch(array());
   }
-
+  
   public static function getSearch() {
     if (!CoralSession::get('resourceSearch')) {
       Resource::resetSearch();
     }
     return CoralSession::get('resourceSearch');
   }
-
+  
   public static function getSearchDetails() {
     // A successful mysqli_connect must be run before mysqli_real_escape_string will function.  Instantiating a resource model will set up the connection
     $resource = new Resource();
-
+    
     $search = Resource::getSearch();
 
 		$whereAdd = array();
@@ -1036,7 +1037,7 @@ class Resource extends DatabaseObject {
 				$whereAdd[] = "((UPPER(R.titleText) LIKE " . $nameQueryString . ") OR (UPPER(A.shortName) LIKE " . $nameQueryString . ") OR (UPPER(O.shortName) LIKE " . $nameQueryString . ") OR (UPPER(RP.titleText) LIKE " . $nameQueryString . ") OR (UPPER(RC.titleText) LIKE " . $nameQueryString . ") OR (UPPER(R.recordSetIdentifier) LIKE " . $nameQueryString . "))";
 
 			}
-
+			
 			$searchDisplay[] = "Name contains: " . $search['name'];
 		}
 
@@ -1049,12 +1050,7 @@ class Resource extends DatabaseObject {
 		  $resourceISBNOrISSN = $resource->db->escapeString(str_replace("-","",$search['resourceISBNOrISSN']));
 		  $whereAdd[] = "REPLACE(I.isbnOrIssn,'-','') = '" . $resourceISBNOrISSN . "'";
 		  $searchDisplay[] = "ISSN/ISBN: " . $search['resourceISBNOrISSN'];
-		}
-		if ($search['fund']) {
-		  $fund = $resource->db->escapeString(str_replace("-","",$search['fund']));
-		  $whereAdd[] = "REPLACE(RPAY.fundName,'-','') = '" . $fund . "'";
-		  $searchDisplay[] = "Fund: " . $search['fund'];
-	  }
+		} 
 
     if ($search['stepName']) {
       $status = new Status();
@@ -1071,13 +1067,13 @@ class Resource extends DatabaseObject {
     }
 
 
-
+    
 		if ($search['statusID']) {
 		  $whereAdd[] = "R.statusID = '" . $resource->db->escapeString($search['statusID']) . "'";
 		  $status = new Status(new NamedArguments(array('primaryKey' => $search['statusID'])));
     	$searchDisplay[] = "Status: " . $status->shortName;
 	  }
-
+	  
 		if ($search['creatorLoginID']) {
 		  $whereAdd[] = "R.createLoginID = '" . $resource->db->escapeString($search['creatorLoginID']) . "'";
 
@@ -1095,7 +1091,7 @@ class Resource extends DatabaseObject {
 		  $resourceFormat = new ResourceFormat(new NamedArguments(array('primaryKey' => $search['resourceFormatID'])));
     	$searchDisplay[] = "Resource Format: " . $resourceFormat->shortName;
 	  }
-
+	  
 		if ($search['acquisitionTypeID']) {
 		  $whereAdd[] = "R.acquisitionTypeID = '" . $resource->db->escapeString($search['acquisitionTypeID']) . "'";
 		  $acquisitionType = new AcquisitionType(new NamedArguments(array('primaryKey' => $search['acquisitionTypeID'])));
@@ -1116,7 +1112,7 @@ class Resource extends DatabaseObject {
 	      $searchDisplay[] = "Created between: " . $search['createDateStart'] . " and " . $search['createDateEnd'];
 	    }
 	  }
-
+	  
 		if ($search['createDateEnd']) {
 		  $whereAdd[] = "R.createDate <= STR_TO_DATE('" . $resource->db->escapeString($search['createDateEnd']) . "','%m/%d/%Y')";
 		  if (!$search['createDateStart']) {
@@ -1130,6 +1126,14 @@ class Resource extends DatabaseObject {
 	  }
 
 		//the following are not-required fields with dropdowns and have "none" as an option
+		if ($search['fund'] == 'none'){
+			$whereAdd[] = "((RPAY.fundID IS NULL) OR (RPAY.fundID = '0'))";
+			$searchDisplay[] = "Fund: none";
+		}else if ($search['fund']) {
+		  $fund = mysql_real_escape_string(str_replace("-","",$search['fund']));
+		  $whereAdd[] = "REPLACE(RPAY.fundID,'-','') = '" . $fund . "'";
+		  $searchDisplay[] = "Fund: " . $search['fund'];
+	  }
 		if ($search['resourceTypeID'] == 'none'){
 			$whereAdd[] = "((R.resourceTypeID IS NULL) OR (R.resourceTypeID = '0'))";
 			$searchDisplay[] = "Resource Type: none";
@@ -1138,8 +1142,8 @@ class Resource extends DatabaseObject {
 			$resourceType = new ResourceType(new NamedArguments(array('primaryKey' => $search['resourceTypeID'])));
     	$searchDisplay[] = "Resource Type: " . $resourceType->shortName;
 		}
-
-
+		
+		
 		if ($search['generalSubjectID'] == 'none'){
 			$whereAdd[] = "((GDLINK.generalSubjectID IS NULL) OR (GDLINK.generalSubjectID = '0'))";
 			$searchDisplay[] = "Resource Type: none";
@@ -1147,7 +1151,7 @@ class Resource extends DatabaseObject {
 			$whereAdd[] = "GDLINK.generalSubjectID = '" . $resource->db->escapeString($search['generalSubjectID']) . "'";
 			$generalSubject = new GeneralSubject(new NamedArguments(array('primaryKey' => $search['generalSubjectID'])));
     	$searchDisplay[] = "General Subject: " . $generalSubject->shortName;
-		}
+		}		
 
 		if ($search['detailedSubjectID'] == 'none'){
 			$whereAdd[] = "((GDLINK.detailedSubjectID IS NULL) OR (GDLINK.detailedSubjectID = '0') OR (GDLINK.detailedSubjectID = '-1'))";
@@ -1156,8 +1160,8 @@ class Resource extends DatabaseObject {
 			$whereAdd[] = "GDLINK.detailedSubjectID = '" . $resource->db->escapeString($search['detailedSubjectID']) . "'";
 			$detailedSubject = new DetailedSubject(new NamedArguments(array('primaryKey' => $search['detailedSubjectID'])));
     	$searchDisplay[] = "Detailed Subject: " . $detailedSubject->shortName;
-		}
-
+		}			
+		
 		if ($search['noteTypeID'] == 'none'){
 			$whereAdd[] = "(RN.noteTypeID IS NULL) AND (RN.noteText IS NOT NULL)";
 			$searchDisplay[] = "Note Type: none";
@@ -1206,7 +1210,7 @@ class Resource extends DatabaseObject {
 			$authenticationType = new AuthenticationType(new NamedArguments(array('primaryKey' => $search['authenticationTypeID'])));
 			$searchDisplay[] = "Authentication Type: " . $authenticationType->shortName;
 		}
-
+		
 		if ($search['catalogingStatusID'] == 'none') {
 		  $whereAdd[] = "(R.catalogingStatusID IS NULL)";
 		  $searchDisplay[] = "Cataloging Status: none";
@@ -1239,7 +1243,7 @@ class Resource extends DatabaseObject {
 		}else{
 			$orgJoinAdd = "LEFT JOIN Organization O ON O.organizationID = ROL.organizationID";
 		}
-
+    
     $savedStatusID = intval($status->getIDFromName('saved'));
 		//also add to not retrieve saved records
 		$whereAdd[] = "R.statusID != " . $savedStatusID;
@@ -1288,6 +1292,9 @@ class Resource extends DatabaseObject {
 		$additional_joins = array();
 
 		foreach($conditional_joins as $join) {
+			// drop the last line of $conditional_joins which is empty
+			if (trim($join) == "") { break; }
+
 			$match = array();
 			preg_match("/[A-Z]+(?= ON )/i", $join, $match);
 			$table_name = $match[0];
@@ -1306,7 +1313,7 @@ class Resource extends DatabaseObject {
 									LEFT JOIN ResourceSubject RSUB ON R.resourceID = RSUB.resourceID
 									LEFT JOIN Resource RC ON RC.resourceID = RRC.resourceID
 									LEFT JOIN Resource RP ON RP.resourceID = RRP.relatedResourceID
-									LEFT JOIN GeneralDetailSubjectLink GDLINK ON RSUB.generalDetailSubjectLinkID = GDLINK.generalDetailSubjectLinkID
+									LEFT JOIN GeneralDetailSubjectLink GDLINK ON RSUB.generalDetailSubjectLinkID = GDLINK.generalDetailSubjectLinkID									
                   " . implode("\n", $additional_joins) . "
 								  " . $whereStatement . "
 								  " . $groupBy;
@@ -1354,9 +1361,9 @@ class Resource extends DatabaseObject {
 	public function searchCount($whereAdd) {
     $query = $this->searchQuery($whereAdd, '', '', true);
     $result = $this->db->processQuery($query, 'assoc');
-
+	
 	//echo $query;
-
+	
     return $result['count'];
   }
 
@@ -1409,7 +1416,7 @@ class Resource extends DatabaseObject {
 							LEFT JOIN ResourceLicenseStatus RLS ON RLS.resourceID = R.resourceID
 							LEFT JOIN LicenseStatus LS ON LS.licenseStatusID = RLS.licenseStatusID";
 
-			$licSelectAdd = "GROUP_CONCAT(DISTINCT L.shortName ORDER BY L.shortName DESC SEPARATOR '; ') licenseNames,
+			$licSelectAdd = "GROUP_CONCAT(DISTINCT L.shortName ORDER BY L.shortName DESC SEPARATOR '; ') licenseNames, 
 			        GROUP_CONCAT(DISTINCT LS.shortName, ': ', DATE_FORMAT(RLS.licenseStatusChangeDate, '%m/%d/%Y') ORDER BY RLS.licenseStatusChangeDate DESC SEPARATOR '; ') licenseStatuses, ";
 
 		}
@@ -1419,7 +1426,7 @@ class Resource extends DatabaseObject {
 		//also add to not retrieve saved records
 		$savedStatusID = intval($status->getIDFromName('saved'));
 		$whereAdd[] = "R.statusID != " . $savedStatusID;
-
+    
 		if (count($whereAdd) > 0){
 			$whereStatement = " WHERE " . implode(" AND ", $whereAdd);
 		}else{
@@ -1433,9 +1440,9 @@ class Resource extends DatabaseObject {
 						R.updateDate updateDate, S.shortName status,
 						RT.shortName resourceType, RF.shortName resourceFormat, R.orderNumber, R.systemNumber, R.resourceURL, R.resourceAltURL,
 						R.currentStartDate, R.currentEndDate, R.subscriptionAlertEnabledInd, AUT.shortName authenticationType,
-						AM.shortName accessMethod, SL.shortName storageLocation, UL.shortName userLimit, R.authenticationUserName,
-						R.authenticationPassword, R.coverageText, CT.shortName catalogingType, CS.shortName catalogingStatus, R.recordSetIdentifier, R.bibSourceURL,
-						R.numberRecordsAvailable, R.numberRecordsLoaded, R.hasOclcHoldings, I.isbnOrIssn,
+						AM.shortName accessMethod, SL.shortName storageLocation, UL.shortName userLimit, R.authenticationUserName, 
+						R.authenticationPassword, R.coverageText, CT.shortName catalogingType, CS.shortName catalogingStatus, R.recordSetIdentifier, R.bibSourceURL, 
+						R.numberRecordsAvailable, R.numberRecordsLoaded, R.hasOclcHoldings, I.isbnOrIssn, 
 						" . $orgSelectAdd . ",
 						" . $licSelectAdd . "
 						GROUP_CONCAT(DISTINCT A.shortName ORDER BY A.shortName DESC SEPARATOR '; ') aliases,
@@ -1444,7 +1451,7 @@ class Resource extends DatabaseObject {
 						GROUP_CONCAT(DISTINCT ADS.shortName ORDER BY ADS.shortName DESC SEPARATOR '; ') administeringSites,
 						GROUP_CONCAT(DISTINCT RP.titleText ORDER BY RP.titleText DESC SEPARATOR '; ') parentResources,
 						GROUP_CONCAT(DISTINCT RC.titleText ORDER BY RC.titleText DESC SEPARATOR '; ') childResources,
-						GROUP_CONCAT(DISTINCT RPAY.fundName, ': ', ROUND(COALESCE(RPAY.paymentAmount, 0) / 100, 2), ' ', RPAY.currencyCode, ' ', OT.shortName ORDER BY RPAY.paymentAmount ASC SEPARATOR '; ') payments
+						GROUP_CONCAT(DISTINCT F.shortName, ' [', F.fundCode, ']: ', ROUND(COALESCE(RPAY.paymentAmount, 0) / 100, 2), ' ', RPAY.currencyCode, ' ', OT.shortName ORDER BY RPAY.paymentAmount ASC SEPARATOR '; ') payments
 								FROM Resource R
 									LEFT JOIN Alias A ON R.resourceID = A.resourceID
 									LEFT JOIN ResourceOrganizationLink ROL ON R.resourceID = ROL.resourceID
@@ -1460,6 +1467,7 @@ class Resource extends DatabaseObject {
 									LEFT JOIN AcquisitionType AT ON R.acquisitionTypeID = AT.acquisitionTypeID
 									LEFT JOIN ResourceStep RS ON R.resourceID = RS.resourceID
 									LEFT JOIN ResourcePayment RPAY ON R.resourceID = RPAY.resourceID
+									LEFT JOIN Fund F ON RPAY.fundID = F.fundID
 									LEFT JOIN OrderType OT ON RPAY.orderTypeID = OT.orderTypeID
 									LEFT JOIN Status S ON R.statusID = S.statusID
 									LEFT JOIN ResourceNote RN ON R.resourceID = RN.resourceID
@@ -1483,7 +1491,7 @@ class Resource extends DatabaseObject {
 								" . $whereStatement . "
 								GROUP BY R.resourceID
 								ORDER BY " . $orderBy;
-
+		
 		$result = $this->db->processQuery(stripslashes($query), 'assoc');
 
 		$searchArray = array();
@@ -1709,6 +1717,10 @@ class Resource extends DatabaseObject {
 
 			}
 
+
+
+
+
 		}
 
 
@@ -1896,7 +1908,7 @@ class Resource extends DatabaseObject {
 		$this->removeResourceLicenseStatuses();
 		$this->removeResourceOrganizations();
 		$this->removeResourcePayments();
-		$this->removeAllSubjects();
+		$this->removeAllSubjects();		
     $this->removeAllIsbnOrIssn();
 
 
@@ -2352,22 +2364,22 @@ class Resource extends DatabaseObject {
 
 	//returns array of subject objects
 	public function getGeneralDetailSubjectLinkID(){
-
-		$query = "SELECT
+			
+		$query = "SELECT 
 				  GDL.generalDetailSubjectLinkID
 				FROM
 				  Resource R
 				  INNER JOIN ResourceSubject RSUB ON (R.resourceID = RSUB.resourceID)
 				  INNER JOIN GeneralDetailSubjectLink GDL ON (RSUB.generalDetailSubjectLinkID = GDL.generalDetailSubjectLinkID)
 				  LEFT OUTER JOIN GeneralSubject GS ON (GDL.generalSubjectID = GS.generalSubjectID)
-				  LEFT OUTER JOIN DetailedSubject DS ON (GDL.detailedSubjectID = DS.detailedSubjectID)
+				  LEFT OUTER JOIN DetailedSubject DS ON (GDL.detailedSubjectID = DS.detailedSubjectID)			  
 				WHERE
 				  R.resourceID = '" . $this->resourceID . "'
 				ORDER BY
 				  GS.shortName,
 				  DS.shortName";
-
-
+		
+		 
 		$result = $this->db->processQuery($query, 'assoc');
 
 		$objects = array();
@@ -2382,14 +2394,14 @@ class Resource extends DatabaseObject {
 				array_push($objects, $object);
 			}
 		}
-
+	
 		return $objects;
-	}
+	}	
 
 	//returns array of subject objects
 	public function getDetailedSubjects($resourceID, $generalSubjectID){
-
-		$query = "SELECT
+			
+		$query = "SELECT 
 			  RSUB.resourceID,
 			  GDL.detailedSubjectID,
 			  DetailedSubject.shortName,
@@ -2401,8 +2413,8 @@ class Resource extends DatabaseObject {
 			WHERE
 			  RSUB.resourceID = " . $resourceID . " AND GDL.generalSubjectID = " . $generalSubjectID . " ORDER BY DetailedSubject.shortName";
 
-		//echo $query . "<br>";
-
+		//echo $query . "<br>";  
+		 
 		$result = $this->db->processQuery($query, 'assoc');
 
 		$objects = array();
@@ -2419,7 +2431,7 @@ class Resource extends DatabaseObject {
 		}
 
 		return $objects;
-	}
+	}	
 
 
 	//removes all resource subjects
@@ -2430,8 +2442,8 @@ class Resource extends DatabaseObject {
 			WHERE resourceID = '" . $this->resourceID . "'";
 
 		$result = $this->db->processQuery($query);
-
-	}
+		
+	}	
 
   public function removeAllIsbnOrIssn() {
     $query = "DELETE
