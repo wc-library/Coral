@@ -68,9 +68,6 @@
                     if ($rstep->priorStepID == null) {
                         $rstep->priorStepID = $priorStepArray[$key];
                     }
-                    if ($rstep->stepStartDate == null) {
-                        $rstep->stepStartDate = date( 'Y-m-d' );
-                    }
 
 					try {
 						$rstep->save();
