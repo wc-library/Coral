@@ -6,7 +6,6 @@ class Installer {
 	const CAUSE_DEPENDENCY_NOT_FOUND = 20041;
 	const CAUSE_ALREADY_EXISTED = 20043;
 	const ERR_CIRCULAR_DEPENDENCIES = 20044;
-	const ERR_CIRCULAR_WANTS = 20045;
 	const ERR_MODULE_DOES_NOT_EXIST = 20046;
 	const ERR_INVALID_TEST_RESULT = 20047;
 	const ERR_RUNNING_POST_INSTALLATION_TEST_BEFORE_INSTALLATION_COMPLETE = 20048;
@@ -245,7 +244,7 @@ class Installer {
 			throw new RuntimeException("Error: You're trying to run the '$test_uid' post-installation test before the installation is complete.", self::ERR_RUNNING_POST_INSTALLATION_TEST_BEFORE_INSTALLATION_COMPLETE);
 		}
 
-		foreach ($this->getDependenciesAndRequiredWants($test_uid) as $dependency) {
+		foreach ($this->getDependencies($test_uid) as $dependency) {
 			$dep_key = array_search($dependency, array_column($this->checklist, 'uid'));
 			if ($dep_key === false)
 			{
@@ -272,20 +271,10 @@ class Installer {
 		}
 		return $this->actuallyRunTest($test_uid, $this->checklist[$key]["installer"]);
 	}
-	private function getDependenciesAndRequiredWants($uid)
+	private function getDependencies($uid)
 	{
 		$key = $this->getKeyFromUid($uid);
-		$dependencies_array = isset($this->checklist[$key]["dependencies_array"]) ? $this->checklist[$key]["dependencies_array"] : [];
-		$wants_array = [];
-		if (isset($this->checklist[$key]["wants"]) && is_array($this->checklist[$key]["wants"]))
-		{
-			foreach ($this->checklist[$key]["wants"] as $wuid) {
-				$wkey = $this->getKeyFromUid($wuid);
-				if ($this->checklist[$wkey]["required"])
-					$wants_array[] = $wuid;
-			}
-		}
-		return array_merge($dependencies_array, $wants_array);
+		return isset($this->checklist[$key]["dependencies_array"]) ? $this->checklist[$key]["dependencies_array"] : [];
 	}
 	private function actuallyRunTest($uid)
 	{

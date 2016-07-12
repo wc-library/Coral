@@ -17,10 +17,6 @@
  *  								for the installation to complete.
  *  - dependencies_array		-> Array (String): Uids of installers that must
  *  								run before this installer can run.
- *  - wants						-> Array (String): Like dependencies_array but
- *  								of optional installers. Uids of installers
- *  								that should be run before this installer if
- *  								they are going to be run.
  *  - hide_from_completion_list	-> Bool: Whether or not the list of completed
  *  								installers should include this title (the
  *  								list is for the end user).
