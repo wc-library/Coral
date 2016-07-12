@@ -144,7 +144,7 @@ Flight::route('/proposeResource/', function(){
             $resourceNote->updateLoginID    = $user;
             $resourceNote->updateDate       = date( 'Y-m-d' );
             $resourceNote->noteTypeID       = $noteTypeID;
-            $resourceNote->tabName          = 'Access';
+            $resourceNote->tabName          = 'Acquisitions';
             $resourceNote->resourceID       = $resourceID;
             $resourceNote->noteText         = $noteText;
             $resourceNote->save();
