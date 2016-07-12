@@ -4,9 +4,8 @@ function register_reports_provider()
 	$MODULE_VARS = [
 		"uid" => "reports",
 		"translatable_title" => _("Reports Module"),
-		"dependencies_array" => [ "db_tools", "have_read_write_access_to_config", "modules_to_use", "usage", "have_default_db_user" ],
+		"dependencies_array" => [ "db_tools", "have_read_write_access_to_config", "modules_to_use", "usage", "have_default_db_user", "some_kind_of_auth" ],
 		"required" => false,
-		"wants" => [],
 		"sharedInfo" => [
 			"database" => [
 				"title" => _("Reports Database"),

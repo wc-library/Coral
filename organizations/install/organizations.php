@@ -4,8 +4,7 @@ function register_organizations_provider()
 	$MODULE_VARS = [
 		"uid" => "organizations",
 		"translatable_title" => _("Organizations Module"),
-		"dependencies_array" => [ "have_database_access", "modules_to_use", "have_default_coral_admin_user", "have_default_db_user" ],
-		"wants" => [ "auth" ], // wants auth for ldap data
+		"dependencies_array" => [ "have_database_access", "modules_to_use", "have_default_coral_admin_user", "have_default_db_user", "some_kind_of_auth" ],
 		"sharedInfo" => [
 			"database" => [
 				"title" => _("Organizations Database"),
