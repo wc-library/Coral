@@ -50,7 +50,7 @@ class Installer {
 				return isset($_SESSION["installer_post_installation"]) && $_SESSION["installer_post_installation"];
 			}
 		];
-		$this->scanForModuleInstallers();
+		$this->scanForInstallerProviders();
 		$this->applyRequired();
 		$this->post_installation_mode = isset($_SESSION["installer_post_installation"]) && $_SESSION["installer_post_installation"];
 	}
@@ -61,7 +61,7 @@ class Installer {
 		require_once("common/array_column.php");
 		$key = array_search($test_uid, array_column($haystack, 'uid'));
 		if ($key === false)
-			throw new OutOfBoundsException("Test '$test_uid' not found in checklist.", $this::ERR_MODULE_DOES_NOT_EXIST);
+			throw new OutOfBoundsException("Test '$test_uid' not found in checklist.", self::ERR_MODULE_DOES_NOT_EXIST);
 
 		return $key;
 	}
@@ -118,7 +118,7 @@ class Installer {
 				}
 				catch (Exception $e)
 				{
-					if ($e->getCode() == $this::ERR_MODULE_DOES_NOT_EXIST)
+					if ($e->getCode() == self::ERR_MODULE_DOES_NOT_EXIST)
 					{
 						$mod_title = $this->checklist[$key]["translatable_title"];
 						$this->messages[] = "<b>Warning:</b> There is a problem with the installer for the '$mod_title' module. Dependency '$dep' not found (ignoring).";
@@ -142,7 +142,7 @@ class Installer {
 		}
 	}
 
-	public function register_installation_requirement($installer_object, $module_name)
+	public function register_installation_provider($installer_object, $module_name)
 	{
 		$required_variables = [
 			"uid",
@@ -163,11 +163,11 @@ class Installer {
 	private function addModule($path, $module_name, $core_module = false)
 	{
 		require $path;
-		$function_name = "register_${module_name}_requirement";
+		$function_name = "register_${module_name}_provider";
 		if (is_callable($function_name))
 		{
 			$installer_object = call_user_func($function_name);
-			$this->register_installation_requirement($installer_object, $module_name);
+			$this->register_installation_provider($installer_object, $module_name);
 			if (!$core_module)
 			{
 				$mod = [
@@ -196,17 +196,17 @@ class Installer {
 			$this->messages[] = "<b>Warning:</b> There is a problem with the installer for the '$module_name' module (ignoring).";
 		}
 	}
-	private function scanForModuleInstallers()
+	private function scanForInstallerProviders()
 	{
 		// Core Requirements
-		$core_requirements_path = "install/requirements/";
-		$core_requirements = scandir($core_requirements_path);
-		foreach ($core_requirements as $req_module)
+		$core_install_provider_path = "install/install_providers/";
+		$core_install_providers = scandir($core_install_provider_path);
+		foreach ($core_install_providers as $provider)
 		{
-			if (trim($req_module, ".") !== "")
+			if (trim($provider, ".") !== "")
 			{
-				$module_name = basename($req_module, ".php");
-				$path = $core_requirements_path . $req_module;
+				$module_name = basename($provider, ".php");
+				$path = $core_install_provider_path . $provider;
 				$this->addModule($path, $module_name, true);
 			}
 		}
@@ -231,18 +231,18 @@ class Installer {
 	{
 		$key = $this->getKeyFromUid($test_uid);
 		if ($key === false)
-			throw new OutOfBoundsException("Test '{$this->getTitleFromUid($test_uid)}' not found in checklist.", $this::ERR_MODULE_DOES_NOT_EXIST);
+			throw new OutOfBoundsException("Test '{$this->getTitleFromUid($test_uid)}' not found in checklist.", self::ERR_MODULE_DOES_NOT_EXIST);
 
 		if (isset($this->checklist[$key]["result"]))
 		{
 			$return = new stdClass();
 			$return->skipped = true;
-			$return->cause = $this::CAUSE_ALREADY_EXISTED;
+			$return->cause = self::CAUSE_ALREADY_EXISTED;
 			return $return;
 		}
 		if (!$this->shared_module_info["getPostInstallationMode"]() && isset($this->checklist[$key]["post_installation"]) && $this->checklist[$key]["post_installation"])
 		{
-			throw new RuntimeException("Error: You're trying to run the '$test_uid' post-installation test before the installation is complete.", $this::ERR_RUNNING_POST_INSTALLATION_TEST_BEFORE_INSTALLATION_COMPLETE);
+			throw new RuntimeException("Error: You're trying to run the '$test_uid' post-installation test before the installation is complete.", self::ERR_RUNNING_POST_INSTALLATION_TEST_BEFORE_INSTALLATION_COMPLETE);
 		}
 
 		foreach ($this->getDependenciesAndRequiredWants($test_uid) as $dependency) {
@@ -251,7 +251,7 @@ class Installer {
 			{
 				$return = new stdClass();
 				$return->skipped = false;
-				$return->cause = $this::CAUSE_DEPENDENCY_NOT_FOUND;
+				$return->cause = self::CAUSE_DEPENDENCY_NOT_FOUND;
 				$return->missing_dependency = $dependency;
 				return $return;
 			}
@@ -261,7 +261,7 @@ class Installer {
 				if (in_array($dependency, $required_for))
 				{
 					$required_array = var_export($required_for, true);
-					throw new RuntimeException("Error: Circular dependencies ('$test_uid' in $required_array)", $this::ERR_CIRCULAR_DEPENDENCIES);
+					throw new RuntimeException("Error: Circular dependencies ('$test_uid' in $required_array)", self::ERR_CIRCULAR_DEPENDENCIES);
 				}
 				$required_for[] = $dependency;
 				$result = $this->runTestForResult($dependency, $required_for);
@@ -293,7 +293,7 @@ class Installer {
 		$result = call_user_func( $this->checklist[$key]["installer"], $this->shared_module_info );
 		// TODO: we need to test this throw
 		if ($result === null)
-			throw new UnexpectedValueException("The script for '{$this->getTitleFromUid($installer["uid"])}' has returned a null result (which is not allowed).", $this::ERR_INVALID_TEST_RESULT);
+			throw new UnexpectedValueException("The script for '{$this->getTitleFromUid($installer["uid"])}' has returned a null result (which is not allowed).", self::ERR_INVALID_TEST_RESULT);
 
 		$this->shared_module_info["debug"][] = $uid;
 		$this->checklist[$key]["result"] = $result;
@@ -336,11 +336,44 @@ class Installer {
 			return [$item => true];
 		}, $modules_to_install);
 
-		// foreach ( as $uid)
-		// {
-			$key = $this->getKeyFromUid($uid);
-			$this->checklist[$key]["upgrader"]($destination_version);
-		// }
+		// Check that all the modules can be upgraded
+		$cannot_upgrade = [];
+		foreach ($modules_to_install as $uid)
+		{
+			try {
+				// See if the module is in our installer checklist
+				$key = $this->getKeyFromUid($uid);
+				// TODO: Check if there is an upgrader set for this version...
+				// echo $uid . " -(to_v)-> " . $destination_version;
+			} catch (Exception $e) {
+				if ($e->getCode() == self::ERR_MODULE_DOES_NOT_EXIST)
+				{
+					// The module is installed but its installer is not in our
+					// checklist (so nor is its upgrade)
+					$cannot_upgrade[] = $e->getMessage();
+				}
+				else
+				{
+					// $cannot_upgrade[] = unknown reason
+					throw $e;
+				}
+			}
+		}
+
+		if (count($cannot_upgrade) > 0)
+		{
+			var_dump($cannot_upgrade);
+		}
+		else
+		{
+			foreach ($modules_to_install as $uid)
+			{
+				$key = $this->getKeyFromUid($uid);
+
+				// $this->checklist[$key]["upgrader"]($destination_version);
+			}
+		}
+
 	}
 
 	public function getMessages()

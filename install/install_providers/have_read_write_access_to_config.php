@@ -1,5 +1,5 @@
 <?php
-function register_have_read_write_access_to_config_requirement()
+function register_have_read_write_access_to_config_provider()
 {
 	return [
 		"uid" => "have_read_write_access_to_config",

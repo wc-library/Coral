@@ -1,5 +1,5 @@
 <?php
-function register_meets_system_requirements_requirement()
+function register_meets_system_requirements_provider()
 {
 	return [
 		"uid" => "meets_system_requirements",

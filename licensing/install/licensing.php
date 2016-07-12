@@ -1,5 +1,5 @@
 <?php
-function register_licensing_requirement()
+function register_licensing_provider()
 {
 	$MODULE_VARS = [
 		"uid" => "licensing",

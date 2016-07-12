@@ -1,5 +1,5 @@
 <?php
-function register_db_tools_requirement()
+function register_db_tools_provider()
 {
 	return [
 		"uid" => "db_tools",

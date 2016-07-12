@@ -6,7 +6,7 @@ class DBAccess {
 	const DB_CREATED = 30003;
 }
 
-function register_have_database_access_requirement()
+function register_have_database_access_provider()
 {
 	$MODULE_VARS = [
 		"uid" => "have_database_access",

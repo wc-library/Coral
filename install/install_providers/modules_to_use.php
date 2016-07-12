@@ -1,5 +1,5 @@
 <?php
-function register_modules_to_use_requirement()
+function register_modules_to_use_provider()
 {
 	$MODULE_VARS = [
 		"uid" => "modules_to_use",

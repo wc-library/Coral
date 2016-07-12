@@ -1,5 +1,5 @@
 <?php
-function register_usage_requirement()
+function register_usage_provider()
 {
 	$MODULE_VARS = [
 		"uid" => "usage",

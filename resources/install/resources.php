@@ -1,5 +1,5 @@
 <?php
-function register_resources_requirement()
+function register_resources_provider()
 {
 	$MODULE_VARS = [
 		"uid" => "resources",

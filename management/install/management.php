@@ -1,5 +1,5 @@
 <?php
-function register_management_requirement()
+function register_management_provider()
 {
 	$MODULE_VARS = [
 		"uid" => "management",

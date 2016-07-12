@@ -1,5 +1,5 @@
 <?php
-function register_have_default_coral_admin_user_requirement()
+function register_have_default_coral_admin_user_provider()
 {
 	$MODULE_VARS = [
 		"uid" => "have_default_coral_admin_user",

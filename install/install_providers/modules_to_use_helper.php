@@ -5,7 +5,7 @@
  * It sets up those chosen modules as its own dependencies
  */
 
-function register_modules_to_use_helper_requirement()
+function register_modules_to_use_helper_provider()
 {
 	$PARENT_MODULE = "modules_to_use";
 

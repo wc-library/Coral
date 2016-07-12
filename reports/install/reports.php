@@ -1,5 +1,5 @@
 <?php
-function register_reports_requirement()
+function register_reports_provider()
 {
 	$MODULE_VARS = [
 		"uid" => "reports",

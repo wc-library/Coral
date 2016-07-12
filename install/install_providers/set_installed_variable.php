@@ -1,5 +1,5 @@
 <?php
-function register_set_installed_variable_requirement()
+function register_set_installed_variable_provider()
 {
 	return [
 		"uid" => "set_installed_variable",

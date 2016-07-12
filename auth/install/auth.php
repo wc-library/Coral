@@ -1,12 +1,12 @@
 <?php
-function register_auth_requirement()
+function register_auth_provider()
 {
 	$MODULE_VARS = [
 		"uid" => "auth",
 		"translatable_title" => _("Authentication Module"),
 		"dependencies_array" => [ "db_tools", "have_read_write_access_to_config", "have_default_db_user" ],
 		"required" => true,
-		"alternative" => ["remote_auth_variable_name" => _("Remote Auth Variable Name")],
+		// "alternative" => ["remote_auth_variable_name" => _("Remote Auth Variable Name")],
 		//TODO: check that remote auth is valid?
 		//$remoteAuthVariableName = str_replace('"', "'", $remoteAuthVariableName);
 		//make sure variable name has matched number of ', otherwise it will bomb the program
@@ -228,7 +228,9 @@ function register_auth_requirement()
 			$return->yield->completionMessages[] = _("Remove the <span class='highlight'>/auth/install/</span> directory for security purposes");
 			$return->yield->completionMessages[] = _("Set up your users on the <a href='auth/admin.php'>admin screen</a>.  You may log in initially with coral/admin.");
 
-			$return->success = true;
+			$return->success = false;
+			//TODO: ask user...;
+			$return->yield->messages[] = "We need to handle remoteAuthVariableName in a new way - not relying on modules_to_use";
 			return $return;
 		}
 	]);

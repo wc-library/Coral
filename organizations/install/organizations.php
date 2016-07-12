@@ -1,5 +1,5 @@
 <?php
-function register_organizations_requirement()
+function register_organizations_provider()
 {
 	$MODULE_VARS = [
 		"uid" => "organizations",
