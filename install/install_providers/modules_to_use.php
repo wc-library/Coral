@@ -93,7 +93,7 @@ function register_modules_to_use_provider()
 						}
 
 						// This assumes too much knowledge of the auth module but since we're going towards a common config file this will go away eventually.
-						if ($conf["authModule"] == 'N')
+						if ($conf["authModule"] == 'N' && isset($smi["remote_auth"]["remote_auth_variable"]))
 						{
 							// TODO: ensure that this actually works
 							$conf["remoteAuthVariableName"] = $smi["remote_auth"]["remote_auth_variable"];
