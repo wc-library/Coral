@@ -41,20 +41,6 @@ const INSTALLATION_VERSIONS = ["2.0.0", "2.1.0"];
 const INSTALLATION_IN_PROGRESS = true;
 
 
-function draw_page_template_if_necessary()
-{
-	if (!isset($_POST["installing"]))
-	{
-		require_once "templates/install_page_template.php";
-		draw_install_page_template();
-		exit();
-	}
-	else
-	{
-		require_once "test_results_yielder.php";
-	}
-}
-
 function is_installed()
 {
 	require_once("common/Config.php");
@@ -68,7 +54,7 @@ function is_installed()
 
 function do_install()
 {
-	draw_page_template_if_necessary();
+	require_once "test_results_yielder.php";
 	require_once "test_if_installed.php";
 	if (!continue_installing())
 	{
@@ -128,7 +114,6 @@ function do_install()
 
 function do_upgrade($version)
 {
-	draw_page_template_if_necessary();
 	$current_version_index = array_search($version, INSTALLATION_VERSIONS);
 
 	require_once "installer.php";
@@ -141,30 +126,41 @@ function do_upgrade($version)
 }
 
 $version = is_installed();
-if (!$version || (isset($_SESSION["installer_post_installation"]) && $_SESSION["installer_post_installation"]))
+if ($version !== INSTALLATION_VERSION)
 {
-	do_install();
-	exit();
-}
-elseif ($version !== INSTALLATION_VERSION)
-{
-	$return = new stdClass();
-	$return->messages = [];
-	if (array_slice(INSTALLATION_VERSIONS, -1)[0] !== INSTALLATION_VERSION)
+	if (!isset($_POST["installing"]))
 	{
-		// The instllation constants are not correctly set up
-		$return->messages[] = "<b>" . _("An error has occurred:") . "</b><br />" . _("Sorry but the installer has been incorrectly configured. Please contact the developer.");
-		$return->messages[] = _("Version of Installer does not match the last installation version in INSTALLATION_VERSIONS.");
-		yield_test_results_and_exit($return, [], 0);
+		require_once "templates/install_page_template.php";
+		draw_install_page_template();
+		exit();
 	}
-	elseif (!in_array($version, INSTALLATION_VERSIONS))
+
+	if (!$version || (isset($_SESSION["installer_post_installation"]) && $_SESSION["installer_post_installation"]))
 	{
-		$return->messages[] = "<b>" . _("An error has occurred:") . "</b><br />" . _("Sorry but the installer has been incorrectly configured. Please contact the developer.");
-		$return->messages[] = _("The version currently installed is not a recognised version.");
-		yield_test_results_and_exit($return, [], 0);
+		do_install();
+		exit();
 	}
-	do_upgrade($version);
-	exit();
+	else
+	{
+		require_once "test_results_yielder.php";
+		$return = new stdClass();
+		$return->messages = [];
+		if (array_slice(INSTALLATION_VERSIONS, -1)[0] !== INSTALLATION_VERSION)
+		{
+			// The instllation constants are not correctly set up
+			$return->messages[] = "<b>" . _("An error has occurred:") . "</b><br />" . _("Sorry but the installer has been incorrectly configured. Please contact the developer.");
+			$return->messages[] = _("Version of Installer does not match the last installation version in INSTALLATION_VERSIONS.");
+			yield_test_results_and_exit($return, [], 0);
+		}
+		elseif (!in_array($version, INSTALLATION_VERSIONS))
+		{
+			$return->messages[] = "<b>" . _("An error has occurred:") . "</b><br />" . _("Sorry but the installer has been incorrectly configured. Please contact the developer.");
+			$return->messages[] = _("The version currently installed is not a recognised version.");
+			yield_test_results_and_exit($return, [], 0);
+		}
+		do_upgrade($version);
+		exit();
+	}
 }
 
 
