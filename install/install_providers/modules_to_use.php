@@ -22,12 +22,12 @@ function register_modules_to_use_provider()
 			{
 				$mod_chosen = null;
 				// We can only auto-set if there is no alternative and mod is required
-				if ($mod["required"] && !isset($mod["alternative"]))
+				if ($mod["required"])
 				{
 					$mod_chosen = true;
 					$return->success &= true;
 				}
-				else if (isset($_POST[$mod["uid"]]))
+				elseif (isset($_POST[$mod["uid"]]))
 				{
 					$mod_chosen = $_POST[$mod["uid"]] == 1;
 					$return->success &= true;
@@ -48,40 +48,6 @@ function register_modules_to_use_provider()
 					// If the associated session variable is still unset the setup has failed but why?
 					$return->messages[] = "For some reason at least one ($mod[uid]) of these variables is not set. There may a problem with the installer please contact the programmers with this error message.";
 					$return->success &= false;
-				}
-			}
-			// Ensure that required modules that are not enabled have alternatives set
-			foreach ($module_list as $mod)
-			{
-				//only bother if the module is required and has an alternative
-				if (isset($mod["alternative"]))
-				{
-					//only do check if the alternative is being invoked (i.e. module not used)
-					if (isset($_SESSION[ $MODULE_VARS["uid"] ]["useModule"][ $mod["uid"] ]) && !$_SESSION[ $MODULE_VARS["uid"] ]["useModule"][ $mod["uid"] ])
-					{
-						$alternative_vars = array_map(function($key){
-							return $key;
-						}, array_keys($mod["alternative"]));
-						foreach ($alternative_vars as $v) {
-							if (!empty($_POST[ "$mod[uid]_$v" ]))
-							{
-								$_SESSION[ $MODULE_VARS["uid"] ][ $mod["uid"] ][$v] = $_POST[ "$mod[uid]_$v" ];
-								$shared_module_info["setSharedModuleInfo"]( $mod["uid"], "alternative", [$v => $_POST[ "$mod[uid]_$v" ]]);
-							}
-							if (isset($_SESSION[ $MODULE_VARS["uid"] ][ $mod["uid"] ][$v]))
-							{
-								$shared_module_info["setSharedModuleInfo"]( $mod["uid"], "alternative", [  $v => $_SESSION[ $MODULE_VARS["uid"] ][ $mod["uid"] ][$v]  ]);
-							}
-							else
-							{
-								if ($mod["required"])
-								{
-									$return->yield->messages[] = sprintf(_("You must either enable the module %s or provide alternative details."), $mod["title"]);
-									$return->success &= false;
-								}
-							}
-						}
-					}
 				}
 			}
 
@@ -129,7 +95,8 @@ function register_modules_to_use_provider()
 						// This assumes too much knowledge of the auth module but since we're going towards a common config file this will go away eventually.
 						if ($conf["authModule"] == 'N')
 						{
-							$conf["remoteAuthVariableName"] = $smi["auth"]["alternative"]["remote_auth_variable_name"];
+							// TODO: ensure that this actually works
+							$conf["remoteAuthVariableName"] = $smi["remote_auth"]["remote_auth_variable"];
 						}
 						return $conf;
 					}
