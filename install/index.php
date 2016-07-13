@@ -41,21 +41,19 @@ const INSTALLATION_VERSIONS = ["2.0.0", "2.1.0"];
 const INSTALLATION_IN_PROGRESS = true;
 
 
-/**
- *  install.js will bring us straight back here with the installing variable set
- *  and then we will have a nice template page to write to
- */
-if (!isset($_POST["installing"]))
+function draw_page_template_if_necessary()
 {
-	require_once "templates/install_page_template.php";
-	draw_install_page_template();
-	exit();
+	if (!isset($_POST["installing"]))
+	{
+		require_once "templates/install_page_template.php";
+		draw_install_page_template();
+		exit();
+	}
+	else
+	{
+		require_once "test_results_yielder.php";
+	}
 }
-else
-{
-	require_once "test_results_yielder.php";
-}
-
 
 function is_installed()
 {
@@ -70,10 +68,7 @@ function is_installed()
 
 function do_install()
 {
-	/**
-	 *  All the requests that come from the template page post { "installing":true }
-	 *  So if it's not set, we need to draw the template for the first time.
-	 */
+	draw_page_template_if_necessary();
 	require_once "test_if_installed.php";
 	if (!continue_installing())
 	{
@@ -133,6 +128,7 @@ function do_install()
 
 function do_upgrade($version)
 {
+	draw_page_template_if_necessary();
 	$current_version_index = array_search($version, INSTALLATION_VERSIONS);
 
 	require_once "installer.php";
