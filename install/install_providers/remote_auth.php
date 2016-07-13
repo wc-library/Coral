@@ -24,7 +24,7 @@ function register_remote_auth_provider()
 				$instruction = "";
 				return text_field_template($field, $instruction);
 			};
-			$isValid = function($var)
+			$isValid = function($remoteAuthVariableName)
 			{
 				$messages = [];
 				//make sure variable name has matched number of ', otherwise it will bomb the program
