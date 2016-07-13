@@ -294,8 +294,14 @@ class Installer {
 			foreach ($modules_to_install as $uid)
 			{
 				$key = $this->getKeyFromUid($uid);
-
-				// $this->checklist[$key]["upgrader"]($destination_version);
+				if (!isset($this->checklist[$key]["upgrader"]))
+				{
+					throw new Exception("Sorry, the upgrader for $uid does not exist and so the ugrade cannot be completed", self::ERR_UPGRADE_DOES_NOT_EXIST);
+				}
+				else
+				{
+					$this->checklist[$key]["upgrader"]($destination_version);
+				}
 			}
 		}
 
