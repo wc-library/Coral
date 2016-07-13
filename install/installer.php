@@ -70,14 +70,6 @@ class Installer {
 		return array_column(array_filter($this->checklist, function($item) use ($what_for) {
 			return isset($item["required_for"]) && in_array($what_for, $item["required_for"]);
 		}), "uid");
-		// usort($arr, function($a, $b){
-		//     if (isset($a["required"]) && $a["required"] && !isset($a["alternative"])) {
-		//         return isset($b["required"]) && $b["required"] && !isset($b["alternative"]) ? 0 : -1;
-		//     }
-		// 	else {
-		// 		return isset($b["required"]) && $b["required"] && !isset($b["alternative"]) ? 1 : 0;
-		// 	}
-		// });
 	}
 	public function getPostInstallationUids()
 	{
@@ -89,13 +81,6 @@ class Installer {
 	{
 		return $this->checklist[ $this->getKeyFromUid($uid) ]["translatable_title"];
 	}
-	// public function isRequired($uid)
-	// {
-	// 	// $alt = isset($this->checklist[ $this->getKeyFromUid($uid) ]["alternative"]) ? true : false;
-	// 	$is_required = isset($this->checklist[ $this->getKeyFromUid($uid) ]["required"]) && $this->checklist[ $this->getKeyFromUid($uid) ]["required"];
-	// 	$is_chosen = isset($this->shared_module_info["modules_to_use"]["useModule"][$uid]) && $this->shared_module_info["modules_to_use"]["useModule"][$uid];
-	// 	return $is_required;
-	// }
 	private function applyRequiredToDependencies($uid)
 	{
 		$key = $this->getKeyFromUid($uid);
@@ -171,10 +156,6 @@ class Installer {
 					"title" => $installer_object["translatable_title"],
 					"required" => isset($installer_object["required"]) ? $installer_object["required"] : false
 				];
-				// if (isset($installer_object["alternative"]))
-				// {
-				// 	$mod["alternative"] = $installer_object["alternative"];
-				// }
 				if (isset($installer_object["dependencies_array"]))
 				{
 					$mod["dependencies_array"] = $installer_object["dependencies_array"];

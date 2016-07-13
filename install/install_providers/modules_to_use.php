@@ -21,7 +21,7 @@ function register_modules_to_use_provider()
 			foreach ($module_list as $i => $mod)
 			{
 				$mod_chosen = null;
-				// We can only auto-set if there is no alternative and mod is required
+				// We can only auto-set if mod is required
 				if ($mod["required"])
 				{
 					$mod_chosen = true;

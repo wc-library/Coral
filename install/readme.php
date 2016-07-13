@@ -31,12 +31,6 @@
  *  								accessible to other installers before this
  *  								installer runs (such as request for a
  *  								database or a config file).
- *  - alternative				-> Assoc Array: Specifically for modules_to_use
- *  								installer - allows simple alternatives to
- *  								`required: true` installers that
- *  								modules_to_use can coordinate. Note, if this
- *  								value is set, the required value is handled
- *  								differently.
  */
 function register_readme_requirement()
 {
