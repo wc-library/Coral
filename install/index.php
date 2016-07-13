@@ -126,7 +126,7 @@ function do_upgrade($version)
 }
 
 $version = is_installed();
-if ($version !== INSTALLATION_VERSION)
+if ($version !== INSTALLATION_VERSION || (isset($_SESSION["installer_post_installation"]) && $_SESSION["installer_post_installation"]))
 {
 	if (!isset($_POST["installing"]))
 	{
