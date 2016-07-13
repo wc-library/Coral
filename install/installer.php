@@ -10,9 +10,9 @@ class Installer {
 	const ERR_INVALID_TEST_RESULT = 20047;
 	const ERR_RUNNING_POST_INSTALLATION_TEST_BEFORE_INSTALLATION_COMPLETE = 20048;
 
-	const FOR_INSTALL = 501;
-	const FOR_UPGRADE = 502;
-	const FOR_MODIFY  = 503;
+	const REQUIRED_FOR_INSTALL = 501;
+	const REQUIRED_FOR_UPGRADE = 502;
+	const REQUIRED_FOR_MODIFY  = 503;
 
 	protected $checklist = [];
 	protected $shared_module_info = [];
@@ -64,7 +64,7 @@ class Installer {
 
 		return $key;
 	}
-	public function getCheckListUids($what_for = self::FOR_INSTALL)
+	public function getRequiredProviders($what_for = self::REQUIRED_FOR_INSTALL)
 	{
 		return array_filter($this->checklist, function($item) use ($what_for) {
 			return isset($item["required_for"]) && in_array($what_for, $item["required_for"]);
@@ -92,13 +92,10 @@ class Installer {
 	}
 	public function isRequired($uid)
 	{
-		$alt = isset($this->checklist[ $this->getKeyFromUid($uid) ]["alternative"]) ? true : false;
-		$req = isset($this->checklist[ $this->getKeyFromUid($uid) ]["required"]) ? $this->checklist[ $this->getKeyFromUid($uid) ]["required"] && !$alt : false;
-		if (isset($this->shared_module_info["modules_to_use"]["useModule"][$uid]))
-		{
-			$req |= $this->shared_module_info["modules_to_use"]["useModule"][$uid];
-		}
-		return $req;
+		// $alt = isset($this->checklist[ $this->getKeyFromUid($uid) ]["alternative"]) ? true : false;
+		$is_required = isset($this->checklist[ $this->getKeyFromUid($uid) ]["required"]) && $this->checklist[ $this->getKeyFromUid($uid) ]["required"];
+		$is_chosen = isset($this->shared_module_info["modules_to_use"]["useModule"][$uid]) && $this->shared_module_info["modules_to_use"]["useModule"][$uid];
+		return $is_required;
 	}
 	private function applyRequiredToDependencies($uid)
 	{
@@ -175,10 +172,10 @@ class Installer {
 					"title" => $installer_object["translatable_title"],
 					"required" => isset($installer_object["required"]) ? $installer_object["required"] : false
 				];
-				if (isset($installer_object["alternative"]))
-				{
-					$mod["alternative"] = $installer_object["alternative"];
-				}
+				// if (isset($installer_object["alternative"]))
+				// {
+				// 	$mod["alternative"] = $installer_object["alternative"];
+				// }
 				if (isset($installer_object["dependencies_array"]))
 				{
 					$mod["dependencies_array"] = $installer_object["dependencies_array"];
@@ -402,12 +399,12 @@ class Installer {
 	{
 		// $completed_tests = $this->successfully_completed_tests;
 		// // $isRequired = $this->isRequired;
-		// $tests_to_complete = array_filter($this->getCheckListUids, function ($uid) use ($isRequired) {
+		// $tests_to_complete = array_filter($this->getRequiredProviders, function ($uid) use ($isRequired) {
 		// 	return $isRequired($uid);
 		// });
 		// var_dump(array_diff($tests_to_complete, $completed_tests));
 		// exit();
-		// TODO: Perhaps we should check that all the (required) getCheckListUids
+		// TODO: Perhaps we should check that all the (required) getRequiredProviders
 		//       are installed before we allow this.
 		$this->shared_module_info["post_installation_mode"] = true;
 		$_SESSION["installer_post_installation"] = true;

@@ -5,7 +5,7 @@ function register_set_installed_variable_provider()
 		"uid" => "set_installed_variable",
 		"translatable_title" => _("Installation Variable Set"),
 		"dependencies_array" => [ "modules_to_use_helper", "have_read_write_access_to_config" ],
-		"required_for" => ["install"],
+		"required_for" => [Installer::REQUIRED_FOR_INSTALL],
 		"hide_from_completion_list" => true,
 		"installer" => function($shared_module_info) {
 			$return = new stdClass();
