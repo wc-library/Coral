@@ -4,7 +4,7 @@ function register_management_provider()
 	$MODULE_VARS = [
 		"uid" => "management",
 		"translatable_title" => _("Management Module"),
-		"dependencies_array" => [ "db_tools", "have_read_write_access_to_config", "modules_to_use", "have_default_coral_admin_user", "have_default_db_user" ],
+		"dependencies_array" => [ "db_tools", "have_read_write_access_to_config", "modules_to_use", "have_default_coral_admin_user", "have_default_db_user", "some_kind_of_auth" ],
 		"sharedInfo" => [
 			"database" => [
 				"title" => _("Management Database"),
@@ -47,17 +47,8 @@ function register_management_provider()
 			$configFile = $MODULE_VARS["sharedInfo"]["config_file"]["path"];
 
 			$iniData = array();
-			$iniData["settings"] = [];
-			if (isset($shared_module_info["modules_to_use"]["useModule"]["auth"]) && $shared_module_info["modules_to_use"]["useModule"]["auth"])
-			{
-				$iniData["settings"]["authModule"] = 'Y';
-				$iniData["settings"]["authDatabaseName"] = $shared_module_info["auth"]["db_name"];
-			}
-			else
-			{
-				$iniData["settings"]["authModule"] = 'N';
-				$iniData["settings"]["remoteAuthVariableName"] = $shared_module_info["auth"]["alternative"]["remote_auth_variable_name"];
-			}
+			$iniData["settings"] = $shared_module_info["provided"]["get_modules_to_use_config"]($shared_module_info);
+
 			$iniData["database"] = [
 				"type" => "mysql",
 				"host" => Config::dbInfo("host"),
