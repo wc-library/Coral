@@ -88,9 +88,6 @@ function do_install()
 	$requirements = $installer->getRequiredProviders(Installer::REQUIRED_FOR_INSTALL);
 
 	foreach ($requirements as $i => $requirement) {
-		if (!$installer->isRequired($requirement))
-			continue;
-
 		$testResult = $installer->runTestForResult($requirement);
 
 		if (isset($testResult->skipped))
