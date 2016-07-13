@@ -122,3 +122,32 @@ function register_licensing_provider()
 		}
 	]);
 }
+
+
+/**
+ * THE FUTURE:
+ *
+ * return [
+ * 		uid
+ * 		title
+ * 		installer (i.e. installer/upgrader) => function($version_destination = 0)
+ * 		{
+ * 			if $version_destination == 0
+ * 				return [
+ * 					dependencies_array
+ * 					shared_module_info
+ * 					func (installer_function)
+ * 				];
+ * 			else
+ * 				switch ($version_destination)
+ * 				{
+ * 					return [
+ * 						dependencies_array
+ * 						shared_module_info
+ * 						func (upgrader_function)
+ * 					]
+ * 				}
+ * 		}
+ * ]
+ *
+ */
