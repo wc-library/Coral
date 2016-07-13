@@ -50,7 +50,6 @@ class Installer {
 			}
 		];
 		$this->scanForInstallerProviders();
-		$this->applyRequired();
 		$this->post_installation_mode = isset($_SESSION["installer_post_installation"]) && $_SESSION["installer_post_installation"];
 	}
 	private function getKeyFromUid($test_uid, $haystack = null)
@@ -80,46 +79,6 @@ class Installer {
 	public function getTitleFromUid($uid)
 	{
 		return $this->checklist[ $this->getKeyFromUid($uid) ]["translatable_title"];
-	}
-	private function applyRequiredToDependencies($uid)
-	{
-		$key = $this->getKeyFromUid($uid);
-		if (!isset($this->checklist[$key]["required"]) || !$this->checklist[$key]["required"])
-			return;
-
-		if (isset($this->checklist[$key]["dependencies_array"]))
-		{
-			foreach ($this->checklist[$key]["dependencies_array"] as $dep)
-			{
-				try
-				{
-					$this->checklist[ $this->getKeyFromUid($dep) ]["required"] = true;
-					$this->applyRequiredToDependencies($dep);
-				}
-				catch (Exception $e)
-				{
-					if ($e->getCode() == self::ERR_MODULE_DOES_NOT_EXIST)
-					{
-						$mod_title = $this->checklist[$key]["translatable_title"];
-						$this->messages[] = "<b>Warning:</b> There is a problem with the installer for the '$mod_title' module. Dependency '$dep' not found (ignoring).";
-					}
-					else
-					{
-						throw $e;
-					}
-				}
-			}
-		}
-	}
-	private function applyRequired()
-	{
-		foreach ($this->checklist as $test)
-		{
-			if (isset($test["required"]) && $test["required"])
-			{
-				$this->applyRequiredToDependencies($test["uid"]);
-			}
-		}
 	}
 
 	public function register_installation_provider($installer_object, $module_name)
