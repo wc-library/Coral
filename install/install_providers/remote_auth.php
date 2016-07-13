@@ -14,10 +14,12 @@ function register_remote_auth_provider()
 			$return->yield->messages = [];
 			$return->yield->title = _("Installation Variable Set");
 
+			if (isset($_POST["remote_auth_variable"]))
+				$_SESSION["remote_auth_variable"] = $_POST["remote_auth_variable"];
 			$field = [
 				"uid" => "remote_auth_variable",
 				"title" => _("Remote Auth Variable"),
-				"default_value" => ""
+				"default_value" => isset($_SESSION["remote_auth_variable"]) ? $_SESSION["remote_auth_variable"] : ""
 			];
 			$buildFormYield = function() use ($field) {
 				require_once "install/templates/text_field_template.php";
@@ -41,8 +43,6 @@ function register_remote_auth_provider()
 			};
 
 
-			if (isset($_POST["remote_auth_variable"]))
-				$_SESSION["remote_auth_variable"] = $_POST["remote_auth_variable"];
 
 			if (!isset($_SESSION["remote_auth_variable"]))
 			{
