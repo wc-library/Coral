@@ -139,9 +139,7 @@ function submit_install_step(dataToSubmit)
 			);
 
 			$(".main").css({ "opacity": 0, "paddingLeft": 30 });
-			$(".main").animate({ "opacity": 1, "paddingLeft": 0 }, 300, function(){
-				$(".percentageComplete").animate({ "width": data.completion+"%" }, 1000);
-			});
+			$(".main").animate({ "opacity": 1, "paddingLeft": 0 }, 300);
 		});
 	});
 }
