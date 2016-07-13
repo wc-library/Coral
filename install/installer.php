@@ -189,7 +189,7 @@ class Installer {
 		}
 		else
 		{
-			$this->messages[] = "<b>Warning:</b> There is a problem with the installer for the '$module_name' module (ignoring).";
+			$this->messages[] = "<b>Warning:</b> There is a problem with the installer for the '$module_name' module (ignoring). The required function '$function_name' is not callable.";
 		}
 	}
 	private function scanForInstallerProviders()
