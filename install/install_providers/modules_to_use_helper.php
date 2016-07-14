@@ -8,31 +8,35 @@
 function register_modules_to_use_helper_provider()
 {
 	$PARENT_MODULE = "modules_to_use";
+	$dynamic_dependencies = [ $PARENT_MODULE, "meets_system_requirements" ];
 
 	$MODULE_VARS = [
 		"uid" => "modules_to_use_helper",
 		"translatable_title" => _("Modules to Use Helper"),
-		"dependencies_array" => [ $PARENT_MODULE, "meets_system_requirements" ],
 		"hide_from_completion_list" => true,
 	];
 
 	if (isset($_SESSION[$PARENT_MODULE]))
 	{
-		$dynamic_dependencies = $MODULE_VARS["dependencies_array"];
 		foreach ($_SESSION[$PARENT_MODULE]["useModule"] as $key => $val)
 		{
 			if ($val)
+			{
 				$dynamic_dependencies[] = $key;
+			}
 		}
-		if (!empty($dynamic_dependencies))
-			$MODULE_VARS["dependencies_array"] = $dynamic_dependencies;
 	}
 
 	return array_merge( $MODULE_VARS,[
-		"installer" => function($shared_module_info) use ($MODULE_VARS) {
-			$return = new stdClass();
-			$return->success = true;
-			return $return;
+		"bundle" => function($version = 0) use ($dynamic_dependencies){
+			return [
+				"dependencies_array" => $dynamic_dependencies,
+				"function" => function($shared_module_info) use ($MODULE_VARS) {
+					$return = new stdClass();
+					$return->success = true;
+					return $return;
+				}
+			];
 		}
 	]);
 }

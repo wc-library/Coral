@@ -1,7 +1,7 @@
 <?php
 function register_licensing_provider()
 {
-	$module_data = [
+	$protected_module_data = [
 		"config_file_path" => "licensing/admin/configuration.ini"
 	];
 	$MODULE_VARS = [
@@ -9,7 +9,7 @@ function register_licensing_provider()
 		"translatable_title" => _("Licensing Module"),
 	];
 	return array_merge( $MODULE_VARS, [
-		"installer" => function($version = 0) use ($MODULE_VARS, $module_data){
+		"bundle" => function($version = 0) use ($MODULE_VARS, $protected_module_data){
 			switch ($version) {
 				case 0:
 					return [
@@ -20,10 +20,10 @@ function register_licensing_provider()
 								"default_value" => "coral_licensing"
 							],
 							"config_file" => [
-								"path" => $module_data["config_file_path"],
+								"path" => $protected_module_data["config_file_path"],
 							]
 						],
-						"function" => function($shared_module_info) use ($MODULE_VARS) {
+						"function" => function($shared_module_info) use ($MODULE_VARS, $protected_module_data) {
 							$return = new stdClass();
 							$return->yield = new stdClass();
 							$return->success = false;
@@ -64,7 +64,7 @@ function register_licensing_provider()
 								return $return;
 							}
 
-							$configFile = $MODULE_VARS["sharedInfo"]["config_file"]["path"];
+							$configFile = $protected_module_data["config_file_path"];
 							$iniData = array();
 							$iniData["settings"] = [
 								"useTermsToolFunctionality" => $_SESSION[ $MODULE_VARS["uid"] ]["useTermsToolFunctionality"] ? "Y" : "N"
@@ -92,7 +92,7 @@ function register_licensing_provider()
 					/**
 					 * Will update config file and process sql files
 					 */
-					$conf_data = parse_ini_file($module_data["config_file_path"]);
+					$conf_data = parse_ini_file($protected_module_data["config_file_path"]);
 					return [
 						"dependencies_array" => [ "db_tools", "have_read_write_access_to_config" ],
 						"sharedInfo" => [
@@ -101,7 +101,7 @@ function register_licensing_provider()
 								"default_value" => "coral_licensing"
 							],
 							"config_file" => [
-								"path" => $module_data["config_file_path"],
+								"path" => $protected_module_data["config_file_path"],
 							]
 						],
 						"function" => function($shared_module_info) use ($MODULE_VARS) {
