@@ -254,9 +254,6 @@ class Installer {
 		 */
 		require_once("common/Config.php");
 		$modules_to_install = Config::getInstalledModules();
-		$_SESSION["modules_to_use"]["useModule"] = array_map(function($item){
-			return [$item => true];
-		}, $modules_to_install);
 
 		// Check that all the modules can be upgraded
 		$cannot_upgrade = [];
