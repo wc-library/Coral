@@ -82,9 +82,11 @@ function register_have_database_access_provider()
 			if (is_array($get_db_connection_return_value))
 			{
 				$return->yield->messages = array_merge($return->yield->messages, $get_db_connection_return_value);
+				$return->success = false;
 				return $return;
 			}
-			else {
+			else
+			{
 				$dbconnection = $get_db_connection_return_value;
 			}
 

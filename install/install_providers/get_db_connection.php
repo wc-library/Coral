@@ -19,22 +19,28 @@ function register_get_db_connection_provider()
 					require_once("common/Config.php");
 					require_once("common/DBService.php");
 
-					$db_details_to_restore = Config::getSettingsFor("database");
 					$keys = ["host", "username", "password"];
-					if (count(array_intersect($db_details,$keys)) == 3)
+					$db_details_to_restore = false;
+					if ($db_details !== false && count(array_intersect($db_details,$keys)) == 3)
 					{
+						try {
+							$db_details_to_restore = Config::getSettingsFor("database");
+						} catch (Exception $e) {
+							$db_details_to_restore = false;
+						}
 						Config::loadTemporaryDBSettings(array_intersect($db_details,$keys));
 					}
 
 					try
 					{
 						$dbconnection = new DBService(isset($db_details["name"]) ? $db_details["name"] : false);
+						if ($db_details_to_restore)
+							Config::loadTemporaryDBSettings($db_details_to_restore);
 						return $dbconnection;
 					}
 					catch (Exception $e)
 					{
 						$return = [];
-
 						switch ($e->getCode()) {
 							case DBService::ERR_ACCESS_DENIED:
 								$return[] = _("Unfortunately, although we could find the database, access was denied.");
@@ -54,6 +60,8 @@ function register_get_db_connection_provider()
 								throw $e;
 								break;
 						}
+						if ($db_details_to_restore)
+							Config::loadTemporaryDBSettings($db_details_to_restore);
 						return $return;
 					}
 				}
