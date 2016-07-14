@@ -11,7 +11,7 @@ function register_have_database_access_provider()
 	$MODULE_VARS = [
 		"uid" => "have_database_access",
 		"translatable_title" => _("Database Access"),
-		"dependencies_array" => ["meets_system_requirements", "modules_to_use"],
+		"dependencies_array" => ["meets_system_requirements", "modules_to_use", "get_db_connection"],
 	];
 
 	return array_merge( $MODULE_VARS, [
@@ -31,9 +31,23 @@ function register_have_database_access_provider()
 				$_SESSION["POSTDATA"] = array_merge($_SESSION["POSTDATA"], $_POST);
 			}
 
+			$shared_database_info = [];
+			foreach ($shared_module_info["modules_to_use"]["useModule"] as $key => $value) {
+				if ($value && isset($shared_module_info[$key]["database"]))
+				{
+					$shared_database_info[] = [
+						"title" => $shared_module_info[$key]["database"]["title"],
+						"default_value" => $shared_module_info[$key]["database"]["default_value"],
+						"key" => $key,
+					];
+				}
+			}
+			require "install/templates/database_details_template.php";
+			$return->yield->body = database_details_template($shared_database_info);
+
 			try
 			{
-				Config::dbInfo("dbusername");
+				Config::dbInfo("username");
 			}
 			catch (Exception $e)
 			{
@@ -49,6 +63,12 @@ function register_have_database_access_provider()
 								"password" => $_SESSION["POSTDATA"]["dbpassword"]
 							]);
 						}
+						else
+						{
+							$return->yield->messages[] = _("To begin with, we need a username and password to create the databases CORAL and its modules will be using.");
+							$return->success = false;
+							return $return;
+						}
 						break;
 
 					default:
@@ -57,63 +77,15 @@ function register_have_database_access_provider()
 				}
 			}
 
-			$shared_database_info = [];
-			foreach ($shared_module_info["modules_to_use"]["useModule"] as $key => $value) {
-				if ($value && isset($shared_module_info[$key]["database"]))
-				{
-					$shared_database_info[] = [
-						"title" => $shared_module_info[$key]["database"]["title"],
-						"default_value" => $shared_module_info[$key]["database"]["default_value"],
-						"key" => $key,
-					];
-				}
-			}
-
-			require "install/templates/database_details_template.php";
-			$return->yield->body = database_details_template($shared_database_info);
-
 			// Try to connect
-			try
+			$get_db_connection_return_value = $shared_module_info["provided"]["get_db_connection"](false);
+			if (is_array($get_db_connection_return_value))
 			{
-				$dbconnection = new DBService(false);
-			}
-			catch (Exception $e)
-			{
-				$return->success = false;
-
-				switch ($e->getCode()) {
-					case DBService::ERR_ACCESS_DENIED:
-						$return->yield->messages[] = _("Unfortunately, although we could find the database, access was denied.");
-						$return->yield->messages[] = _("Please review your settings.");
-						break;
-
-					case DBService::ERR_COULD_NOT_CONNECT:
-						$return->yield->messages[] = _("Unfortunately we could not connect to the host.");
-						$return->yield->messages[] = _("Please review your settings.");
-						break;
-
-					case Config::ERR_FILE_NOT_READABLE:
-					case Config::ERR_VARIABLES_MISSING:
-						if (!empty($_SESSION["POSTDATA"]["dbusername"]))
-						{
-							$return->yield->messages[] = _("Unfortunately we were not able to access the database with the details you provided.");
-							$return->yield->messages[] = _("Please review your settings.");
-						}
-						else
-						{
-							$return->yield->messages[] = _("To begin with, we need a username and password to create the databases CORAL and its modules will be using.");
-						}
-						break;
-
-					default:
-						var_dump($shared_module_info["debug"]);
-						echo "We haven't prepared for the following error (have_database_access.php #1):<br />\n<pre>";
-						var_dump($e);
-						echo "</pre>";
-						throw $e;
-						break;
-				}
+				$return->yield->messages = array_merge($return->yield->messages, $get_db_connection_return_value);
 				return $return;
+			}
+			else {
+				$dbconnection = $get_db_connection_return_value;
 			}
 
 			// Go through the databases and try to create them all (or see if they already exist)
