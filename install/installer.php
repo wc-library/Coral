@@ -115,12 +115,7 @@ class Installer {
 					"directory" => $module_name,
 					"uid" => $installer_object["uid"],
 					"title" => $installer_object["translatable_title"],
-					"required" => isset($installer_object["required"]) ? $installer_object["required"] : false
 				];
-				if (isset($installer_object["dependencies_array"]))
-				{
-					$mod["dependencies_array"] = $installer_object["dependencies_array"];
-				}
 				$this->shared_module_info["module_list"][] = $mod;
 			}
 			if (isset($installer_object["sharedInfo"]))
