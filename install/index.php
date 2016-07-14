@@ -38,6 +38,9 @@ if (dirname($_SERVER["SCRIPT_FILENAME"]) !== dirname(__DIR__) || basename($_SERV
  */
 const INSTALLATION_VERSION = "2.1.0";
 const INSTALLATION_VERSIONS = ["2.0.0", "2.1.0"];
+
+// TODO: if /index.php is calling this all the time, these lines make no sense
+// 			(we shouldn't set these constants for every page).
 const INSTALLATION_IN_PROGRESS = true;
 
 
