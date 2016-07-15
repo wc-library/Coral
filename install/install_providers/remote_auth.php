@@ -8,9 +8,9 @@ function register_remote_auth_provider()
 	];
 
 	return array_merge( $MODULE_VARS,[
-		"bundle" => function($version = 0) {
+		"bundle" => function($version = 0) use ($MODULE_VARS) {
 			return [
-				"function" => function($shared_module_info) {
+				"function" => function($shared_module_info) use ($MODULE_VARS) {
 					$return = new stdClass();
 					$return->yield = new stdClass();
 					$return->success = false;

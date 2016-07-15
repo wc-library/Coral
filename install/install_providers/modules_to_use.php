@@ -8,7 +8,7 @@ function register_modules_to_use_provider()
 	];
 
 	return array_merge( $MODULE_VARS,[
-		"bundle" => function($version = 0) {
+		"bundle" => function($version = 0) use ($MODULE_VARS) {
 			return [
 				"dependencies_array" => ["meets_system_requirements"],
 				"function" => function($shared_module_info) use ($MODULE_VARS) {

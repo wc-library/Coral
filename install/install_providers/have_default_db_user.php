@@ -8,7 +8,7 @@ function register_have_default_db_user_provider()
 	];
 
 	return array_merge( $MODULE_VARS, [
-		"bundle" => function($version = 0) {
+		"bundle" => function($version = 0) use ($MODULE_VARS) {
 			return [
 				"dependencies_array" => ["have_database_access"],
 				"function" => function($shared_module_info) use ($MODULE_VARS) {

@@ -28,7 +28,7 @@ function register_modules_to_use_helper_provider()
 	}
 
 	return array_merge( $MODULE_VARS,[
-		"bundle" => function($version = 0) use ($dynamic_dependencies){
+		"bundle" => function($version = 0) use ($MODULE_VARS, $dynamic_dependencies){
 			return [
 				"dependencies_array" => $dynamic_dependencies,
 				"function" => function($shared_module_info) use ($MODULE_VARS) {
