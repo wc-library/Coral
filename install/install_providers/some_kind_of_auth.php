@@ -11,7 +11,7 @@ function register_some_kind_of_auth_provider()
 		$dynamic_dependencies[] = "auth";
 	}
 
-	return array_merge( $MODULE_VARS,[
+	return [
 		"uid" => "some_kind_of_auth",
 		"translatable_title" => _("Some Kind of Auth"),
 		"hide_from_completion_list" => true,
@@ -25,5 +25,5 @@ function register_some_kind_of_auth_provider()
 				}
 			];
 		}
-	]);
+	];
 }
