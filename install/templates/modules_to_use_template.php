@@ -8,7 +8,6 @@ function modules_to_use_template($module_list)
 		return join(array_reduce($item_array, function($carry, $item){
 			$default = isset($item["default_value"]) ? $item["default_value"] : true;
 			$select_and_enable = $default ? "checked" : "";
-			$select_and_enable = $item["required"] ? "checked disabled" : $select_and_enable;
 			$carry[] = <<<HEREDOC
 			<div class="row">
 				<input type="checkbox" id="{$item["uid"]}" name="{$item["uid"]}" $select_and_enable>

@@ -24,12 +24,7 @@ function register_modules_to_use_provider()
 					{
 						$mod_chosen = null;
 						// We can only auto-set if mod is required
-						if ($mod["required"])
-						{
-							$mod_chosen = true;
-							$return->success &= true;
-						}
-						elseif (isset($_POST[$mod["uid"]]))
+						if (isset($_POST[$mod["uid"]]))
 						{
 							$mod_chosen = $_POST[$mod["uid"]] == 1;
 							$return->success &= true;
