@@ -42,6 +42,8 @@ class Installer {
 					if (!isset($installer_object[$req]))
 					{
 						$this->messages[] = _("<b>Warning:</b> A dynamically registered installion test is malformed.");
+						// I have turned this off but it could be useful for debugging at this point:
+						// debug_print_backtrace();
 						return;
 					}
 				}
