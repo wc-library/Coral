@@ -8,16 +8,13 @@ class DBAccess {
 
 function register_have_database_access_provider()
 {
-	$MODULE_VARS = [
+	return [
 		"uid" => "have_database_access",
 		"translatable_title" => _("Database Access"),
-	];
-
-	return array_merge( $MODULE_VARS, [
-		"bundle" => function($version = 0) use ($MODULE_VARS) {
+		"bundle" => function($version = 0){
 			return [
 				"dependencies_array" => ["meets_system_requirements", "modules_to_use", "get_db_connection"],
-				"function" => function($shared_module_info) use ($MODULE_VARS) {
+				"function" => function($shared_module_info){
 					$return = new stdClass();
 					$return->yield = new stdClass();
 					$return->success = true;
@@ -180,5 +177,5 @@ function register_have_database_access_provider()
 				}
 			];
 		}
-	]);
+	];
 }
