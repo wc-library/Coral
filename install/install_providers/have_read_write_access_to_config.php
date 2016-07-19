@@ -119,66 +119,70 @@ function register_have_read_write_access_to_config_provider()
 							"translatable_title" => "Check Config Files Are Protected",
 							"post_installation" => true,
 							"hide_from_completion_list" => true,
-							"installer" => function($shared_module_info) use ($config_files, $testFileAccess, $fileACCESS) {
-								$return = new stdClass();
-								$return->yield = new stdClass();
-								$return->success = true;
-								$return->yield->messages = [];
-								$return->yield->title = _("Checking Config Files Are Protected");
+							"bundle" => function($version = 0) use ($config_files, $testFileAccess, $fileACCESS) {
+								return [
+									"function" => function($shared_module_info) use ($config_files, $testFileAccess, $fileACCESS) {
+										$return = new stdClass();
+										$return->yield = new stdClass();
+										$return->success = true;
+										$return->yield->messages = [];
+										$return->yield->title = _("Checking Config Files Are Protected");
 
-								foreach ($config_files as $cfg) {
-									//check the config file's parent directory
-									switch ($testFileAccess(dirname($cfg["path"])))
-									{
-										case $fileACCESS["FULL_ACCESS"]:
-											if (decoct(fileperms(dirname($cfg["path"])) & 0777) == "755")
-												break;
-											if (@chmod(dirname($cfg["path"]), 0755))
-												break;
-											$return->yield->messages[] = _("It is unsafe to leave your admin directories writable.")
-																		.sprintf( "<br /><b>" . _("Try") . ":</b> <span class=\"highlight\">chmod 755 %s</span>", dirname($cfg["path"]) );
-											$return->success = false;
-											continue 2;
-										case $fileACCESS["NOT_READABLE"]:
-											$return->yield->messages[] = _("CORAL will need to access your config files but it appears that some are not readable.")
-																		.sprintf( "<br /><b>" . _("Try") . ":</b> <span class=\"highlight\">chmod 755 %s</span>", dirname($cfg["path"]) );
-											$return->success = false;
-											continue 2;
-										case $fileACCESS["DOESNT_EXIST"]:
-											//weird that it was asked for and not created but whatever
-											break;
-										case $fileACCESS["NOT_WRITABLE"]:
-											break;
+										foreach ($config_files as $cfg) {
+											//check the config file's parent directory
+											switch ($testFileAccess(dirname($cfg["path"])))
+											{
+												case $fileACCESS["FULL_ACCESS"]:
+													if (decoct(fileperms(dirname($cfg["path"])) & 0777) == "755")
+														break;
+													if (@chmod(dirname($cfg["path"]), 0755))
+														break;
+													$return->yield->messages[] = _("It is unsafe to leave your admin directories writable.")
+																				.sprintf( "<br /><b>" . _("Try") . ":</b> <span class=\"highlight\">chmod 755 %s</span>", dirname($cfg["path"]) );
+													$return->success = false;
+													continue 2;
+												case $fileACCESS["NOT_READABLE"]:
+													$return->yield->messages[] = _("CORAL will need to access your config files but it appears that some are not readable.")
+																				.sprintf( "<br /><b>" . _("Try") . ":</b> <span class=\"highlight\">chmod 755 %s</span>", dirname($cfg["path"]) );
+													$return->success = false;
+													continue 2;
+												case $fileACCESS["DOESNT_EXIST"]:
+													//weird that it was asked for and not created but whatever
+													break;
+												case $fileACCESS["NOT_WRITABLE"]:
+													break;
+											}
+											//check the config file itself
+											switch ($testFileAccess($cfg["path"])) {
+												case $fileACCESS["FULL_ACCESS"]:
+													if (decoct(fileperms(dirname($cfg["path"])) & 0777) == "644")
+														break;
+													if (@chmod($cfg["path"], 0644))
+														break;
+													$return->yield->messages[] = _("It is unsafe to leave your config files writable.")
+																				.sprintf( "<br /><b>" . _("Try") . ":</b> <span class=\"highlight\">chmod 644 %s</span>", $cfg["path"] );
+													$return->success = false;
+													continue 2;
+												case $fileACCESS["NOT_READABLE"]:
+													$return->yield->messages[] = _("CORAL will need to access your config files but it appears that some are not readable.")
+																				.sprintf( "<br /><b>" . _("Try") . ":</b> <span class=\"highlight\">chmod 644 %s</span>", $cfg["path"] );
+													$return->success = false;
+													continue 2;
+												case $fileACCESS["DOESNT_EXIST"]:
+													//weird that it was asked for and not created but whatever
+													break;
+												case $fileACCESS["NOT_WRITABLE"]:
+													break;
+											}
+										}
+										if (!$return->success)
+										{
+											require_once "install/templates/try_again_template.php";
+											$return->yield->body = try_again_template();
+										}
+										return $return;
 									}
-									//check the config file itself
-									switch ($testFileAccess($cfg["path"])) {
-										case $fileACCESS["FULL_ACCESS"]:
-											if (decoct(fileperms(dirname($cfg["path"])) & 0777) == "644")
-												break;
-											if (@chmod($cfg["path"], 0644))
-												break;
-											$return->yield->messages[] = _("It is unsafe to leave your config files writable.")
-																		.sprintf( "<br /><b>" . _("Try") . ":</b> <span class=\"highlight\">chmod 644 %s</span>", $cfg["path"] );
-											$return->success = false;
-											continue 2;
-										case $fileACCESS["NOT_READABLE"]:
-											$return->yield->messages[] = _("CORAL will need to access your config files but it appears that some are not readable.")
-																		.sprintf( "<br /><b>" . _("Try") . ":</b> <span class=\"highlight\">chmod 644 %s</span>", $cfg["path"] );
-											$return->success = false;
-											continue 2;
-										case $fileACCESS["DOESNT_EXIST"]:
-											//weird that it was asked for and not created but whatever
-											break;
-										case $fileACCESS["NOT_WRITABLE"]:
-											break;
-									}
-								}
-								if (!$return->success)
-								{
-									require_once "install/templates/try_again_template.php";
-									$return->yield->body = try_again_template();
-								}
-								return $return;
+								];
 							}
 						]);
 					}

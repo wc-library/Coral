@@ -137,91 +137,95 @@ function register_have_default_db_user_provider()
 								"uid" => "check_user_has_access_db_access",
 								"translatable_title" => sprintf(_("Check %s Has DB Access"), $default_db_username),
 								"post_installation" => true,
-								"installer" => function($shared_module_info) use ($db_info, $failed_user_grants) {
-									$return = new stdClass();
-									$return->yield = new stdClass();
-									$return->success = false;
-									$return->yield->messages = [];
-									$return->yield->title = _("Check DB User Has Access To Databases");
+								"bundle" => function($version = 0) use ($config_files, $testFileAccess, $fileACCESS) {
+									return [
+										"function" => function($shared_module_info) use ($db_info, $failed_user_grants) {
+											$return = new stdClass();
+											$return->yield = new stdClass();
+											$return->success = false;
+											$return->yield->messages = [];
+											$return->yield->title = _("Check DB User Has Access To Databases");
 
-									$db_conn = @new mysqli($db_info["host"], $db_info["username"], $db_info["password"]);
-									if ($db_conn->connect_errno)
-									{
-										switch ($db_conn->connect_errno) {
-											case 2002: // ERR_COULD_NOT_CONNECT
-												$return->yield->messages[] = _("<b>Error:</b> Could not connect to database at {$db_info["host"]}.");
-												break;
-											case 1045: // ERR_ACCESS_DENIED
-												$return->yield->messages[] = _("Database access was denied from {$db_info["username"]}@{$db_info["host"]}. Please ensure that you can access the database with the password you provided.");
-												break;
-											default:
-												$return->yield->messages[] = _("Mysqli failed for some reason:") . "<br/>" . $db_conn->error;
-												break;
-										}
-										$return->success = false;
-									}
-									else
-									{
-										$result = $db_conn->query("SHOW GRANTS FOR CURRENT_USER;");
-										if ($result)
-										{
-											$return->success = true;
-											$needed_grants = ['SELECT', 'INSERT', 'UPDATE', 'DELETE'];
-											$grants = $result->fetch_all(MYSQLI_ASSOC);
-											$grants = array_map('array_shift', $grants);
-											foreach ($failed_user_grants as $dbname)
+											$db_conn = @new mysqli($db_info["host"], $db_info["username"], $db_info["password"]);
+											if ($db_conn->connect_errno)
 											{
-												$grant_arr = array_filter($grants, function($var) use ($dbname) {
-													return preg_match("/\b$dbname\b/i", $var);
-												});
-												// We assume that there will only be one element give permissions to this user on this db
-												$grant_str = array_pop($grant_arr);
-												//remove everything but permissions
-												$privileges = preg_replace('/^GRANT\ (.*)\ ON\ .*$/i', '$1', $grant_str);
-												$priv_array = array_map('trim', explode(',', $privileges));
-
-												if (!array_diff($priv_array, $needed_grants) && !array_diff($needed_grants, $priv_array))
-												{
-													$return->success &= true;
+												switch ($db_conn->connect_errno) {
+													case 2002: // ERR_COULD_NOT_CONNECT
+														$return->yield->messages[] = _("<b>Error:</b> Could not connect to database at {$db_info["host"]}.");
+														break;
+													case 1045: // ERR_ACCESS_DENIED
+														$return->yield->messages[] = _("Database access was denied from {$db_info["username"]}@{$db_info["host"]}. Please ensure that you can access the database with the password you provided.");
+														break;
+													default:
+														$return->yield->messages[] = _("Mysqli failed for some reason:") . "<br/>" . $db_conn->error;
+														break;
 												}
-												else if (strtoupper($priv_array[0]) == "ALL PRIVILEGES")
+												$return->success = false;
+											}
+											else
+											{
+												$result = $db_conn->query("SHOW GRANTS FOR CURRENT_USER;");
+												if ($result)
 												{
-													$return->yield->messages[] = sprintf(_("The idea of having a regular db user is that this user cannot be (too) destructive but right now '%s' has ALL PRIVILEGES!"), $db_info["username"]);
-													$return->yield->messages[] = _("Please revoke all privileges:") . "<br /><span class=\"highlight\">REVOKE ALL ON {$dbname}.* FROM {$db_info["username"]}@{$db_info["host"]};</span>";
-													$return->yield->messages[] = _("And GRANT the following:") . "<br /><span class=\"highlight\">GRANT SELECT, INSERT, UPDATE, DELETE ON {$dbname}.* TO {$db_info["username"]}@{$db_info["host"]} IDENTIFIED BY '{$db_info["password"]}';</span>";
-													$return->success &= false;
+													$return->success = true;
+													$needed_grants = ['SELECT', 'INSERT', 'UPDATE', 'DELETE'];
+													$grants = $result->fetch_all(MYSQLI_ASSOC);
+													$grants = array_map('array_shift', $grants);
+													foreach ($failed_user_grants as $dbname)
+													{
+														$grant_arr = array_filter($grants, function($var) use ($dbname) {
+															return preg_match("/\b$dbname\b/i", $var);
+														});
+														// We assume that there will only be one element give permissions to this user on this db
+														$grant_str = array_pop($grant_arr);
+														//remove everything but permissions
+														$privileges = preg_replace('/^GRANT\ (.*)\ ON\ .*$/i', '$1', $grant_str);
+														$priv_array = array_map('trim', explode(',', $privileges));
+
+														if (!array_diff($priv_array, $needed_grants) && !array_diff($needed_grants, $priv_array))
+														{
+															$return->success &= true;
+														}
+														else if (strtoupper($priv_array[0]) == "ALL PRIVILEGES")
+														{
+															$return->yield->messages[] = sprintf(_("The idea of having a regular db user is that this user cannot be (too) destructive but right now '%s' has ALL PRIVILEGES!"), $db_info["username"]);
+															$return->yield->messages[] = _("Please revoke all privileges:") . "<br /><span class=\"highlight\">REVOKE ALL ON {$dbname}.* FROM {$db_info["username"]}@{$db_info["host"]};</span>";
+															$return->yield->messages[] = _("And GRANT the following:") . "<br /><span class=\"highlight\">GRANT SELECT, INSERT, UPDATE, DELETE ON {$dbname}.* TO {$db_info["username"]}@{$db_info["host"]} IDENTIFIED BY '{$db_info["password"]}';</span>";
+															$return->success &= false;
+														}
+														else
+														{
+															if (array_diff($priv_array, $needed_grants))
+															{
+																$return->yield->messages[] = sprintf(_("Your regular db user, %s, has more power than necessary. You should remove:"), $db_info["username"]) . " <b>" . join(array_diff($priv_array, $needed_grants), ", ") . "</b>";
+																$return->yield->messages[] = "<span class=\"highlight\">REVOKE " . join(array_diff($priv_array, $needed_grants), ", ") . " ON {$dbname}.* FROM {$db_info["username"]}@{$db_info["host"]};</span>";
+															}
+															if (array_diff($needed_grants, $priv_array))
+															{
+																$return->yield->messages[] = sprintf(_("Your regular db user, %s, is missing some GRANTs. You need to add:"), $db_info["username"]) . " <b>" . join(array_diff($needed_grants, $priv_array), ", ") . "</b>";
+																$return->yield->messages[] = "<span class=\"highlight\">GRANT " . join(array_diff($needed_grants, $priv_array), ", ") . " ON {$dbname}.* TO {$db_info["username"]}@{$db_info["host"]} IDENTIFIED BY '{$db_info["password"]}';</span>";
+															}
+															$return->success &= false;
+														}
+													}
 												}
 												else
 												{
-													if (array_diff($priv_array, $needed_grants))
-													{
-														$return->yield->messages[] = sprintf(_("Your regular db user, %s, has more power than necessary. You should remove:"), $db_info["username"]) . " <b>" . join(array_diff($priv_array, $needed_grants), ", ") . "</b>";
-														$return->yield->messages[] = "<span class=\"highlight\">REVOKE " . join(array_diff($priv_array, $needed_grants), ", ") . " ON {$dbname}.* FROM {$db_info["username"]}@{$db_info["host"]};</span>";
-													}
-													if (array_diff($needed_grants, $priv_array))
-													{
-														$return->yield->messages[] = sprintf(_("Your regular db user, %s, is missing some GRANTs. You need to add:"), $db_info["username"]) . " <b>" . join(array_diff($needed_grants, $priv_array), ", ") . "</b>";
-														$return->yield->messages[] = "<span class=\"highlight\">GRANT " . join(array_diff($needed_grants, $priv_array), ", ") . " ON {$dbname}.* TO {$db_info["username"]}@{$db_info["host"]} IDENTIFIED BY '{$db_info["password"]}';</span>";
-													}
-													$return->success &= false;
+													$return->yield->messages[] = sprintf(_('<b>DB Access:</b> User "%s" does not have access to database "%s" (you will need to manually grant permissions).'), $db_info["username"], $db_info["dbname"]);
+													$return->yield->messages[] = _("Please revoke all privileges:") . "<br /><span class=\"highlight\">REVOKE ALL ON {$db_info["dbname"]}.* FROM {$db_info["username"]}@{$db_info["host"]};</span>";
+													$return->yield->messages[] = _("And GRANT the following:") . "<br /><span class=\"highlight\">GRANT SELECT, INSERT, UPDATE, DELETE ON {$db_info["dbname"]}.* TO {$db_info["username"]}@{$db_info["host"]} IDENTIFIED BY '{$db_info["password"]}';</span>";
+													$return->success = false;
 												}
 											}
-										}
-										else
-										{
-											$return->yield->messages[] = sprintf(_('<b>DB Access:</b> User "%s" does not have access to database "%s" (you will need to manually grant permissions).'), $db_info["username"], $db_info["dbname"]);
-											$return->yield->messages[] = _("Please revoke all privileges:") . "<br /><span class=\"highlight\">REVOKE ALL ON {$db_info["dbname"]}.* FROM {$db_info["username"]}@{$db_info["host"]};</span>";
-											$return->yield->messages[] = _("And GRANT the following:") . "<br /><span class=\"highlight\">GRANT SELECT, INSERT, UPDATE, DELETE ON {$db_info["dbname"]}.* TO {$db_info["username"]}@{$db_info["host"]} IDENTIFIED BY '{$db_info["password"]}';</span>";
-											$return->success = false;
-										}
-									}
 
-									if (!$return->success)
-									{
-										require_once "install/templates/try_again_template.php";
-										$return->yield->body = try_again_template();
-									}
-									return $return;
+											if (!$return->success)
+											{
+												require_once "install/templates/try_again_template.php";
+												$return->yield->body = try_again_template();
+											}
+											return $return;
+										}
+									];
 								}
 							]);
 						}
