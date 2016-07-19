@@ -70,9 +70,10 @@ function do_install()
 	require_once "installer.php";
 	$installer = new Installer();
 	$requirements = $installer->getRequiredProviders(Installer::REQUIRED_FOR_INSTALL);
+	$INSTALL_VERSION = 0;
 
 	foreach ($requirements as $i => $requirement) {
-		$testResult = $installer->runTestForResult($requirement);
+		$testResult = $installer->runTestForResult($requirement, $INSTALL_VERSION);
 
 		if (isset($testResult->skipped))
 		{
@@ -105,7 +106,7 @@ function do_install()
 	$installer->declareInstallationComplete();
 
 	$completed_tests = $installer->getSuccessfullyCompletedTestTitles();
-	while ($failingPostInstallationTest = $installer->postInstallationTest())
+	while ($failingPostInstallationTest = $installer->postInstallationTest($INSTALL_VERSION))
 		yield_test_results_and_exit($failingPostInstallationTest->yield, $completed_tests, 97/100);
 
 	// Success!

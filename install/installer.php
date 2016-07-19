@@ -162,7 +162,7 @@ class Installer {
 		}
 	}
 
-	public function runTestForResult($test_uid, $required_for = [])
+	public function runTestForResult($test_uid, $version, $required_for = [])
 	{
 		$key = $this->getKeyFromUid($test_uid);
 		if ($key === false)
@@ -180,7 +180,8 @@ class Installer {
 			throw new RuntimeException("Error: You're trying to run the '$test_uid' post-installation test before the installation is complete.", self::ERR_RUNNING_POST_INSTALLATION_TEST_BEFORE_INSTALLATION_COMPLETE);
 		}
 
-		foreach ($this->getDependencies($test_uid) as $dependency) {
+		$bundle = $this->checklist[$key]["bundle"]($version);
+		foreach ($this->getDependencies($test_uid, $bundle) as $dependency) {
 			$dep_key = array_search($dependency, array_column($this->checklist, 'uid'));
 			if ($dep_key === false)
 			{
@@ -199,23 +200,23 @@ class Installer {
 					throw new RuntimeException("Error: Circular dependencies ('$test_uid' in $required_array)", self::ERR_CIRCULAR_DEPENDENCIES);
 				}
 				$required_for[] = $dependency;
-				$result = $this->runTestForResult($dependency, $required_for);
+				$result = $this->runTestForResult($dependency, $version, $required_for);
 				// If one of the requirements fails, we need its result to be yielded
 				if (!$result->success)
 					return $result;
 			}
 		}
-		return $this->actuallyRunTest($test_uid, $this->checklist[$key]["bundle"](0)["function"]);
+		return $this->actuallyRunTest($test_uid, $bundle);
 	}
-	private function getDependencies($uid)
+	private function getDependencies($uid, $versioned_bundle)
 	{
 		$key = $this->getKeyFromUid($uid);
-		return isset($this->checklist[$key]["bundle"](0)["dependencies_array"]) ? $this->checklist[$key]["bundle"](0)["dependencies_array"] : [];
+		return isset($versioned_bundle["dependencies_array"]) ? $versioned_bundle["dependencies_array"] : [];
 	}
-	private function actuallyRunTest($uid)
+	private function actuallyRunTest($uid, $versioned_bundle)
 	{
 		$key = $this->getKeyFromUid($uid);
-		$result = call_user_func( $this->checklist[$key]["bundle"](0)["function"], $this->shared_module_info );
+		$result = call_user_func( $versioned_bundle["function"], $this->shared_module_info );
 		// TODO: we need to test this throw
 		if ($result === null)
 			throw new UnexpectedValueException("The script for '{$this->getTitleFromUid($uid)}' has returned a null result (which is not allowed).", self::ERR_INVALID_TEST_RESULT);
@@ -351,11 +352,11 @@ class Installer {
 		$this->shared_module_info["post_installation_mode"] = true;
 		$_SESSION["installer_post_installation"] = true;
 	}
-	public function postInstallationTest()
+	public function postInstallationTest($version)
 	{
 		foreach ($this->getPostInstallationUids() as $test)
 		{
-			$return = $this->runTestForResult($test["uid"]);
+			$return = $this->runTestForResult($test["uid"], $version);
 			if (!$return->success)
 				return $return;
 		}
