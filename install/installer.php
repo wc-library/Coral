@@ -35,7 +35,7 @@ class Installer {
 				$required_variables = [
 					"uid",
 					"translatable_title",
-					"installer"
+					"bundle"
 				];
 				foreach ($required_variables as $req)
 				{
@@ -90,7 +90,7 @@ class Installer {
 		$required_variables = [
 			"uid",
 			"translatable_title",
-			"installer"
+			"bundle"
 		];
 		foreach ($required_variables as $req)
 		{
@@ -120,9 +120,10 @@ class Installer {
 				];
 				$this->shared_module_info["module_list"][] = $mod;
 			}
-			if (isset($installer_object["sharedInfo"]))
+			$obj = $installer_object["bundle"](0);
+			if (isset($obj["sharedInfo"]))
 			{
-				$this->shared_module_info[ $installer_object["uid"] ] = $installer_object["sharedInfo"];
+				$this->shared_module_info[ $installer_object["uid"] ] = $obj["sharedInfo"];
 			}
 		}
 		else
@@ -204,20 +205,20 @@ class Installer {
 					return $result;
 			}
 		}
-		return $this->actuallyRunTest($test_uid, $this->checklist[$key]["installer"]);
+		return $this->actuallyRunTest($test_uid, $this->checklist[$key]["bundle"](0)["function"]);
 	}
 	private function getDependencies($uid)
 	{
 		$key = $this->getKeyFromUid($uid);
-		return isset($this->checklist[$key]["dependencies_array"]) ? $this->checklist[$key]["dependencies_array"] : [];
+		return isset($this->checklist[$key]["bundle"](0)["dependencies_array"]) ? $this->checklist[$key]["bundle"](0)["dependencies_array"] : [];
 	}
 	private function actuallyRunTest($uid)
 	{
 		$key = $this->getKeyFromUid($uid);
-		$result = call_user_func( $this->checklist[$key]["installer"], $this->shared_module_info );
+		$result = call_user_func( $this->checklist[$key]["bundle"](0)["function"], $this->shared_module_info );
 		// TODO: we need to test this throw
 		if ($result === null)
-			throw new UnexpectedValueException("The script for '{$this->getTitleFromUid($installer["uid"])}' has returned a null result (which is not allowed).", self::ERR_INVALID_TEST_RESULT);
+			throw new UnexpectedValueException("The script for '{$this->getTitleFromUid($uid)}' has returned a null result (which is not allowed).", self::ERR_INVALID_TEST_RESULT);
 
 		$this->shared_module_info["debug"][] = $uid;
 		$this->checklist[$key]["result"] = $result;
