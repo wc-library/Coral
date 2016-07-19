@@ -6,9 +6,6 @@ function continue_installing()
 	if (!isset($_SESSION[$root_installation_namespace . "_do_install_anyway"]) || (isset($_SESSION[$root_installation_namespace . "_do_install_anyway"]) && $_SESSION[$root_installation_namespace . "_do_install_anyway"] !== true))
 	{
 		$option_button_set = [
-			[ "name" => "take_me_home", "title" => _("Take Me Home"), "custom_javascript" => 'window.location.href="index.php";' ],
-			//TODO: fix upgrade path
-			[ "name" => "try_upgrade", "title" => _("Try To Upgrade"), "custom_javascript" => 'window.location.href="upgrade.php";' ],
 			[ "name" => "install_anyway", "title" => _("Install CORAL") ],
 			[ "name" => "already_installed", "title" => _("CORAL Is Already Installed") ],
 		];
