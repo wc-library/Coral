@@ -1,64 +1,77 @@
 <?php
 function register_management_provider()
 {
+	$protected_module_data = [
+		"config_file_path" => "management/admin/configuration.ini"
+	];
 	$MODULE_VARS = [
 		"uid" => "management",
 		"translatable_title" => _("Management Module"),
-		"dependencies_array" => [ "db_tools", "have_read_write_access_to_config", "modules_to_use", "have_default_coral_admin_user", "have_default_db_user", "some_kind_of_auth" ],
-		"sharedInfo" => [
-			"database" => [
-				"title" => _("Management Database"),
-				"default_value" => "coral_management"
-			],
-			"config_file" => [
-				"path" => "management/admin/configuration.ini",
-			]
-		]
 	];
 	return array_merge( $MODULE_VARS, [
-		"installer" => function($shared_module_info) use ($MODULE_VARS) {
-			$return = new stdClass();
-			$return->yield = new stdClass();
-			$return->success = true;
-			$return->yield->title = _("Management Module");
-			$return->yield->messages = [];
+		"bundle" => function($version = "install") use ($MODULE_VARS, $protected_module_data) {
+			switch ($version) {
+				case "install":
+					return [
+						"dependencies_array" => ["db_tools", "have_read_write_access_to_config", "modules_to_use", "have_default_coral_admin_user", "have_default_db_user", "some_kind_of_auth"],
+						"sharedInfo" => [
+							"database" => [
+								"title" => _("Management Database"),
+								"default_value" => "coral_management"
+							],
+							"config_file" => [
+								"path" => $protected_module_data["config_file_path"],
+							]
+						],
+						"function" => function($shared_module_info) use ($MODULE_VARS, $protected_module_data) {
+							$return = new stdClass();
+							$return->yield = new stdClass();
+							$return->success = true;
+							$return->yield->title = _("Management Module");
+							$return->yield->messages = [];
 
-			$this_db_name = $shared_module_info[ $MODULE_VARS["uid"] ]["db_name"];
-			$dbconnection = $shared_module_info["provided"]["get_db_connection"]( $this_db_name );
+							$this_db_name = $shared_module_info[ $MODULE_VARS["uid"] ]["db_name"];
+							$dbconnection = $shared_module_info["provided"]["get_db_connection"]( $this_db_name );
 
 
-			$result = $shared_module_info["provided"]["check_db"]($MODULE_VARS["uid"], $dbconnection, $shared_module_info[$MODULE_VARS["uid"]], "Management", $MODULE_VARS["translatable_title"]);
-			if ($result)
-				return $result;
+							$result = $shared_module_info["provided"]["check_db"]($MODULE_VARS["uid"], $dbconnection, $shared_module_info[$MODULE_VARS["uid"]], "Management", $MODULE_VARS["translatable_title"]);
+							if ($result)
+								return $result;
 
 
-			// Process sql files
-			$sql_files_to_process = ["management/install/protected/test_create.sql", "management/install/protected/install.sql"];
-			$ret = $shared_module_info["provided"]["process_sql_files"]( $dbconnection, $sql_files_to_process, $MODULE_VARS["uid"] );
-			if (!$ret["success"])
-			{
-				$return->success = false;
-				$return->yield->messages = array_merge($return->yield->messages, $ret["messages"]);
-				return $return;
+							// Process sql files
+							$sql_files_to_process = ["management/install/protected/test_create.sql", "management/install/protected/install.sql"];
+							$ret = $shared_module_info["provided"]["process_sql_files"]( $dbconnection, $sql_files_to_process, $MODULE_VARS["uid"] );
+							if (!$ret["success"])
+							{
+								$return->success = false;
+								$return->yield->messages = array_merge($return->yield->messages, $ret["messages"]);
+								return $return;
+							}
+
+							$shared_module_info["provided"]["set_up_admin_in_db"]($dbconnection, $shared_module_info["have_default_coral_admin_user"]["default_user"]);
+
+							$configFile = $protected_module_data["config_file_path"];
+
+							$iniData = array();
+							$iniData["settings"] = $shared_module_info["provided"]["get_modules_to_use_config"]($shared_module_info);
+
+							$iniData["database"] = [
+								"type" => "mysql",
+								"host" => Config::dbInfo("host"),
+								"name" => $this_db_name,
+								"username" => $shared_module_info["have_default_db_user"]["username"],
+								"password" => $shared_module_info["have_default_db_user"]["password"]
+							];
+							$shared_module_info["provided"]["write_config_file"]($configFile, $iniData);
+
+							return $return;
+						}
+					];
+
+				default:
+					return null;
 			}
-
-			$shared_module_info["provided"]["set_up_admin_in_db"]($dbconnection, $shared_module_info["have_default_coral_admin_user"]["default_user"]);
-
-			$configFile = $MODULE_VARS["sharedInfo"]["config_file"]["path"];
-
-			$iniData = array();
-			$iniData["settings"] = $shared_module_info["provided"]["get_modules_to_use_config"]($shared_module_info);
-
-			$iniData["database"] = [
-				"type" => "mysql",
-				"host" => Config::dbInfo("host"),
-				"name" => $this_db_name,
-				"username" => $shared_module_info["have_default_db_user"]["username"],
-				"password" => $shared_module_info["have_default_db_user"]["password"]
-			];
-			$shared_module_info["provided"]["write_config_file"]($configFile, $iniData);
-
-			return $return;
 		}
 	]);
 }

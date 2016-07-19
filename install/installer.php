@@ -35,13 +35,15 @@ class Installer {
 				$required_variables = [
 					"uid",
 					"translatable_title",
-					"installer"
+					"bundle"
 				];
 				foreach ($required_variables as $req)
 				{
 					if (!isset($installer_object[$req]))
 					{
-						$this->messages[] = _("<b>Warning:</b> A post installion test is malformed.");
+						$this->messages[] = _("<b>Warning:</b> A dynamically registered installion test is malformed.");
+						// I have turned this off but it could be useful for debugging at this point:
+						// debug_print_backtrace();
 						return;
 					}
 				}
@@ -88,7 +90,7 @@ class Installer {
 		$required_variables = [
 			"uid",
 			"translatable_title",
-			"installer"
+			"bundle"
 		];
 		foreach ($required_variables as $req)
 		{
@@ -115,17 +117,13 @@ class Installer {
 					"directory" => $module_name,
 					"uid" => $installer_object["uid"],
 					"title" => $installer_object["translatable_title"],
-					"required" => isset($installer_object["required"]) ? $installer_object["required"] : false
 				];
-				if (isset($installer_object["dependencies_array"]))
-				{
-					$mod["dependencies_array"] = $installer_object["dependencies_array"];
-				}
 				$this->shared_module_info["module_list"][] = $mod;
 			}
-			if (isset($installer_object["sharedInfo"]))
+			$obj = $installer_object["bundle"](0);
+			if (isset($obj["sharedInfo"]))
 			{
-				$this->shared_module_info[ $installer_object["uid"] ] = $installer_object["sharedInfo"];
+				$this->shared_module_info[ $installer_object["uid"] ] = $obj["sharedInfo"];
 			}
 		}
 		else
@@ -164,7 +162,7 @@ class Installer {
 		}
 	}
 
-	public function runTestForResult($test_uid, $required_for = [])
+	public function runTestForResult($test_uid, $version, $required_for = [])
 	{
 		$key = $this->getKeyFromUid($test_uid);
 		if ($key === false)
@@ -182,7 +180,8 @@ class Installer {
 			throw new RuntimeException("Error: You're trying to run the '$test_uid' post-installation test before the installation is complete.", self::ERR_RUNNING_POST_INSTALLATION_TEST_BEFORE_INSTALLATION_COMPLETE);
 		}
 
-		foreach ($this->getDependencies($test_uid) as $dependency) {
+		$bundle = $this->checklist[$key]["bundle"]($version);
+		foreach ($this->getDependencies($test_uid, $bundle) as $dependency) {
 			$dep_key = array_search($dependency, array_column($this->checklist, 'uid'));
 			if ($dep_key === false)
 			{
@@ -201,26 +200,26 @@ class Installer {
 					throw new RuntimeException("Error: Circular dependencies ('$test_uid' in $required_array)", self::ERR_CIRCULAR_DEPENDENCIES);
 				}
 				$required_for[] = $dependency;
-				$result = $this->runTestForResult($dependency, $required_for);
+				$result = $this->runTestForResult($dependency, $version, $required_for);
 				// If one of the requirements fails, we need its result to be yielded
 				if (!$result->success)
 					return $result;
 			}
 		}
-		return $this->actuallyRunTest($test_uid, $this->checklist[$key]["installer"]);
+		return $this->actuallyRunTest($test_uid, $bundle);
 	}
-	private function getDependencies($uid)
+	private function getDependencies($uid, $versioned_bundle)
 	{
 		$key = $this->getKeyFromUid($uid);
-		return isset($this->checklist[$key]["dependencies_array"]) ? $this->checklist[$key]["dependencies_array"] : [];
+		return isset($versioned_bundle["dependencies_array"]) ? $versioned_bundle["dependencies_array"] : [];
 	}
-	private function actuallyRunTest($uid)
+	private function actuallyRunTest($uid, $versioned_bundle)
 	{
 		$key = $this->getKeyFromUid($uid);
-		$result = call_user_func( $this->checklist[$key]["installer"], $this->shared_module_info );
+		$result = call_user_func( $versioned_bundle["function"], $this->shared_module_info );
 		// TODO: we need to test this throw
 		if ($result === null)
-			throw new UnexpectedValueException("The script for '{$this->getTitleFromUid($installer["uid"])}' has returned a null result (which is not allowed).", self::ERR_INVALID_TEST_RESULT);
+			throw new UnexpectedValueException("The script for '{$this->getTitleFromUid($uid)}' has returned a null result (which is not allowed).", self::ERR_INVALID_TEST_RESULT);
 
 		$this->shared_module_info["debug"][] = $uid;
 		$this->checklist[$key]["result"] = $result;
@@ -230,7 +229,7 @@ class Installer {
 		return $result;
 	}
 
-	public function upgrade_to_version($destination_version)
+	public function upgradeToVersion($destination_version)
 	{
 		// Need to figure out a modular way of handling this:
 		/**
@@ -353,11 +352,11 @@ class Installer {
 		$this->shared_module_info["post_installation_mode"] = true;
 		$_SESSION["installer_post_installation"] = true;
 	}
-	public function postInstallationTest()
+	public function postInstallationTest($version)
 	{
 		foreach ($this->getPostInstallationUids() as $test)
 		{
-			$return = $this->runTestForResult($test["uid"]);
+			$return = $this->runTestForResult($test["uid"], $version);
 			if (!$return->success)
 				return $return;
 		}
