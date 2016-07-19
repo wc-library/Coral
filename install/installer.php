@@ -41,7 +41,7 @@ class Installer {
 				{
 					if (!isset($installer_object[$req]))
 					{
-						$this->messages[] = _("<b>Warning:</b> A post installion test is malformed.");
+						$this->messages[] = _("<b>Warning:</b> A dynamically registered installion test is malformed.");
 						return;
 					}
 				}
