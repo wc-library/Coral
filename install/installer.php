@@ -228,7 +228,7 @@ class Installer {
 		return $result;
 	}
 
-	public function upgrade_to_version($destination_version)
+	public function upgradeToVersion($destination_version)
 	{
 		// Need to figure out a modular way of handling this:
 		/**

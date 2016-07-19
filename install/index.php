@@ -124,7 +124,7 @@ function do_upgrade($version)
 
 	for ($version_to_install_index = $current_version_index + 1; $version_to_install_index < count(INSTALLATION_VERSIONS); $version_to_install_index++)
 	{
-		$installer->upgrade_to_version(INSTALLATION_VERSIONS[$version_to_install_index]);
+		$installer->upgradeToVersion(INSTALLATION_VERSIONS[$version_to_install_index]);
 	}
 }
 
