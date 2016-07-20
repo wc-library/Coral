@@ -53,7 +53,7 @@ class Organization extends DatabaseObject {
 		$query = "SELECT i.* 
 			  FROM Issue i
 			  LEFT JOIN IssueRelationship ir ON (ir.issueID=i.issueID AND ir.entityTypeID=1)
-			  WHERE ir.entityID={$this->primaryKey}";
+			  WHERE ir.entityID='$this->primaryKey'";
 		if ($archivedOnly) {
 			$query .= " AND i.dateClosed IS NOT NULL";
 		} else {
@@ -77,9 +77,9 @@ class Organization extends DatabaseObject {
 	}
 
 	public function getDowntime($archivedOnly=false) {
-		$query = "SELECT d.* 
+		$query = "SELECT d.*
 			  FROM Downtime d
-			  WHERE d.entityID={$this->primaryKey} 
+			  WHERE d.entityID='$this->primaryKey'
 			  AND d.entityTypeID=1";
 
 		if ($archivedOnly) {
@@ -127,7 +127,7 @@ class Organization extends DatabaseObject {
 								WHERE sie.issueID=i.issueID) AS `CCs`
 			  FROM Issue i
 			  LEFT JOIN IssueRelationship ir ON (ir.issueID=i.issueID AND ir.entityTypeID=1)
-			  WHERE ir.entityID={$this->primaryKey}";
+			  WHERE ir.entityID='$this->primaryKey'";
 		if ($archivedOnly) {
 			$query .= " AND i.dateClosed IS NOT NULL";
 		} else {
@@ -149,7 +149,7 @@ class Organization extends DatabaseObject {
 		
 		$query = "SELECT d.*
 				  FROM Downtime d
-				  WHERE d.entityID={$this->primaryKey} AND d.entityTypeID=1";
+				  WHERE d.entityID='$this->primaryKey' AND d.entityTypeID=1";
 		if ($archivedOnly) {
 			$query .= " AND d.endDate < CURDATE()";
 		} else {

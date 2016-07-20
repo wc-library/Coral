@@ -7,7 +7,7 @@ $step = $_POST['step'];
 
 //perform field validation(steps 3-5) and database connection tests (steps 3 and 4) and send back to previous step if not working
 $errorMessage = array();
-if ($step == "3"){
+if ($step == "3") {
 	//first, validate all fields are filled in
 	$database_host = trim($_POST['database_host']);
 	$database_username = trim($_POST['database_username']);
@@ -25,29 +25,29 @@ if ($step == "3"){
 
 
 	//only continue to checking DB connections if there were no errors this far
-	if (count($errorMessage) > 0){
+	if (count($errorMessage) > 0) {
 		$step="2";
 	}else{
 
 		//first check connecting to host
-		$link = @mysql_connect("$database_host", "$database_username", "$database_password");
-		if (!$link) {
-			$errorMessage[] = "Could not connect to the server '" . $database_host . "'<br />MySQL Error: " . mysql_error();
+		$link = new mysqli("$database_host", "$database_username", "$database_password");
+		if ($link->connect_error) {
+			$errorMessage[] = "Could not connect to the server '" . $database_host . "'<br />MySQL Error: " . $link->error;
 		}else{
 
 			//next check that the database exists
-			$dbcheck = @mysql_select_db("$database_name");
+			$dbcheck = $link->select_db("$database_name");
 			if (!$dbcheck) {
-				$errorMessage[] = "Unable to access the database '" . $database_name . "'.  Please verify it has been created.<br />MySQL Error: " . mysql_error();
+				$errorMessage[] = "Unable to access the database '" . $database_name . "'.  Please verify it has been created.<br />MySQL Error: " . $link->error;
 			}else{
 				//passed db host, name check, can open/run file now
 				//make sure SQL file exists
 				$test_sql_file = "test_create.sql";
 				$sql_file = "create_tables_data.sql";
 
-			    if (!file_exists($test_sql_file)) {
-			    	$errorMessage[] = "Could not open sql file: " . $test_sql_file . ".  If this file does not exist you must download new install files.";
-			    }else{
+				if (!file_exists($test_sql_file)) {
+					$errorMessage[] = "Could not open sql file: " . $test_sql_file . ".  If this file does not exist you must download new install files.";
+				}else{
 					//run the file - checking for errors at each SQL execution
 					$f = fopen($test_sql_file,"r");
 					$sqlFile = fread($f,filesize($test_sql_file));
@@ -55,19 +55,19 @@ if ($step == "3"){
 
 					//Process the sql file by statements
 					foreach ($sqlArray as $stmt) {
-					   if (strlen(trim($stmt))>3){
+						if (strlen(trim($stmt))>3) {
 
-							$result = mysql_query($stmt);
-							if (!$result){
-								$errorMessage[] = mysql_error() . "<br /><br />For statement: " . $stmt;
-								 break;
+							$result = $link->query($stmt);
+							if (!$result) {
+								$errorMessage[] = $link->error . "<br /><br />For statement: " . $stmt;
+								break;
 							}
-					    }
+						}
 					}
 				}
 
 				//once this check has passed we can run the entire ddl/dml script
-				if (count($errorMessage) == 0){
+				if (count($errorMessage) == 0) {
 					if (!file_exists($sql_file)) {
 						$errorMessage[] = "Could not open sql file: " . $sql_file . ".  If this file does not exist you must download new install files.";
 					}else{
@@ -78,42 +78,42 @@ if ($step == "3"){
 
 						//Process the sql file by statements
 						foreach ($sqlArray as $stmt) {
-						   if (strlen(trim($stmt))>3){
-                               
-								$result = mysql_query($stmt);
-								if (!$result){
-									$errorMessage[] = mysql_error() . "<br /><br />For statement: " . $stmt;
-									 break;
+							if (strlen(trim($stmt))>3) {
+
+								$result = $link->query($stmt);
+								if (!$result) {
+									$errorMessage[] = $link->error . "<br /><br />For statement: " . $stmt;
+									break;
 								}
 							}
 						}
 
 					}
 				}
-                
-                //next check the usage database exists
-				$dbcheck = @mysql_select_db("$usage_database_name");
+
+				//next check the usage database exists
+				$dbcheck = $link->select_db("$database_name");
 				if (!$dbcheck) {
-					$errorMessage[] = "Unable to access the usage database '" . $usage_database_name . "'.  Please verify it has been created.<br />MySQL Error: " . mysql_error();
+					$errorMessage[] = "Unable to access the usage database '" . $usage_database_name . "'.  Please verify it has been created.<br />MySQL Error: " . $link->error;
 				}else{
 
 					//passed db host, name check, test that user can select from License database
-					$result = mysql_query("SELECT outlierID FROM " . $usage_database_name . ".Outlier WHERE outlierLevel = '1';");
-					if (!$result){
-						$errorMessage[] = "Unable to select from the Outlier table in database '" . $usage_database_name . "' with user '" . $database_username . "'.  Please complete the Usage install and verify the database has been set up.  Error: " . mysql_error();
+					$result = $link->query("SELECT outlierID FROM " . $usage_database_name . ".Outlier WHERE outlierLevel = '1';");
+					if (!$result) {
+						$errorMessage[] = "Unable to select from the Outlier table in database '" . $usage_database_name . "' with user '" . $database_username . "'.  Please complete the Usage install and verify the database has been set up.  Error: " . $link->error;
 					}
 				}
-                
+
 			}
 		}
 
 	}
 
-	if (count($errorMessage) > 0){
+	if (count($errorMessage) > 0) {
 		$step="2";
 	}
 
-}else if ($step == "4"){
+}else if ($step == "4") {
 
 	//first, validate all fields are filled in
 	$database_host = trim($_POST['database_host']);
@@ -127,27 +127,27 @@ if ($step == "3"){
 	if (!$database_password) $errorMessage[] = 'Password is required';
 
 	//only continue to checking DB connections if there were no errors this far
-	if (count($errorMessage) > 0){
+	if (count($errorMessage) > 0) {
 		$step="3";
 	}else{
 
 		//first check connecting to host
-		$link = @mysql_connect("$database_host", "$database_username", "$database_password");
-		if (!$link) {
-			$errorMessage[] = "Could not connect to the server '" . $database_host . "'<br />MySQL Error: " . mysql_error();
+		$link = new mysqli("$database_host", "$database_username", "$database_password");
+		if ($link->connect_error) {
+			$errorMessage[] = "Could not connect to the server '" . $database_host . "'<br />MySQL Error: " . $link->error;
 		}else{
 
 			//next check that the database exists
-			$dbcheck = @mysql_select_db("$database_name");
+			$dbcheck = $link->select_db("$database_name");
 			if (!$dbcheck) {
-				$errorMessage[] = "Unable to access the database '" . $database_name . "'.  Please verify it has been created.<br />MySQL Error: " . mysql_error();
+				$errorMessage[] = "Unable to access the database '" . $database_name . "'.  Please verify it has been created.<br />MySQL Error: " . $link->error;
 			}else{
 				//passed db host, name check, test that user can select from Reports database
-				$result = mysql_query("SELECT reportID FROM " . $database_name . ".Report WHERE reportName like '%Usage%';");
-				if (!$result){
-					$errorMessage[] = "Unable to select from the Report table in database '" . $database_name . "' with user '" . $database_username . "'.  Error: " . mysql_error();
+				$result = $link->query("SELECT reportID FROM " . $database_name . ".Report WHERE reportName like '%Usage%';");
+				if (!$result) {
+					$errorMessage[] = "Unable to select from the Report table in database '" . $database_name . "' with user '" . $database_username . "'.  Error: " . $link->error;
 				}else{
-					while ($row = mysql_fetch_array($result, MYSQL_NUM)) {
+					while ($row = $result->fetch_array(MYSQLI_NUM)) {
 						$reportID = $row[0];
 					}
 
@@ -156,7 +156,7 @@ if ($step == "3"){
 					$configFile = "../admin/configuration.ini";
 					$fh = fopen($configFile, 'w');
 
-					if (!$fh){
+					if (!$fh) {
 						$errorMessage[] = "Could not open file " . $configFile . ".  Please verify it's existence.";
 					}else{
 
@@ -185,7 +185,7 @@ if ($step == "3"){
 
 	}
 
-	if (count($errorMessage) > 0){
+	if (count($errorMessage) > 0) {
 		$step="3";
 	}
 
@@ -209,7 +209,7 @@ if ($step == "3"){
 <div style="text-align:left;">
 
 
-<?php if(!$step){ ?>
+<?php if(!$step) { ?>
 
 	<h3>Welcome to a new CORAL Usage Reporting installation!</h3>
 	This installation will:
@@ -242,28 +242,28 @@ if ($step == "3"){
 //first step - check system info and verify php 5
 } else if ($step == '1') {
 	ob_start();
-    phpinfo(-1);
-    $phpinfo = array('phpinfo' => array());
-    if(preg_match_all('#(?:<h2>(?:<a name=".*?">)?(.*?)(?:</a>)?</h2>)|(?:<tr(?: class=".*?")?><t[hd](?: class=".*?")?>(.*?)\s*</t[hd]>(?:<t[hd](?: class=".*?")?>(.*?)\s*</t[hd]>(?:<t[hd](?: class=".*?")?>(.*?)\s*</t[hd]>)?)?</tr>)#s', ob_get_clean(), $matches, PREG_SET_ORDER))
-    foreach($matches as $match){
-        if(strlen($match[1]))
-            $phpinfo[$match[1]] = array();
-        elseif(isset($match[3]))
-            $phpinfo[end(array_keys($phpinfo))][$match[2]] = isset($match[4]) ? array($match[3], $match[4]) : $match[3];
-        else
-            $phpinfo[end(array_keys($phpinfo))][] = $match[2];
-    }
+	phpinfo(-1);
+	$phpinfo = array('phpinfo' => array());
+	if(preg_match_all('#(?:<h2>(?:<a name=".*?">)?(.*?)(?:</a>)?</h2>)|(?:<tr(?: class=".*?")?><t[hd](?: class=".*?")?>(.*?)\s*</t[hd]>(?:<t[hd](?: class=".*?")?>(.*?)\s*</t[hd]>(?:<t[hd](?: class=".*?")?>(.*?)\s*</t[hd]>)?)?</tr>)#s', ob_get_clean(), $matches, PREG_SET_ORDER))
+	foreach($matches as $match) {
+		if(strlen($match[1]))
+			$phpinfo[$match[1]] = array();
+		elseif(isset($match[3]))
+			$phpinfo[end(array_keys($phpinfo))][$match[2]] = isset($match[4]) ? array($match[3], $match[4]) : $match[3];
+		else
+			$phpinfo[end(array_keys($phpinfo))][] = $match[2];
+	}
 
 
 
 
-    ?>
+	?>
 
 	<h3>Getting system info and verifying php version</h3>
 	<ul>
 	<li>System: <?php echo $phpinfo['phpinfo']['System']; ?></li>
-    <li>PHP version: <?php echo phpversion(); ?></li>
-    <li>Server API: <?php echo $phpinfo['phpinfo']['Server API'];?></li>
+	<li>PHP version: <?php echo phpversion(); ?></li>
+	<li>Server API: <?php echo $phpinfo['phpinfo']['Server API'];?></li>
 	</ul>
 
 	<br />
@@ -271,7 +271,7 @@ if ($step == "3"){
 	<?php
 
 
-	if (phpversion() >= 5){
+	if (phpversion() >= 5) {
 	?>
 		<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 		<input type='hidden' name='step' value='2'>
@@ -292,7 +292,7 @@ if ($step == "3"){
 		<form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
 		<h3>MySQL info with permissions to create tables and Link Resolver info</h3>
 		<?php
-			if (count($errorMessage) > 0){
+			if (count($errorMessage) > 0) {
 				echo "<span style='color:red'><b>The following errors occurred:</b><br /><ul>";
 				foreach ($errorMessage as $err)
 					echo "<li>" . $err . "</li>";
@@ -363,7 +363,7 @@ if ($step == "3"){
 		<h3>MySQL user for CORAL web application - with select, insert, update, delete privileges to CORAL schemas</h3>
 		*It's recommended but not required that this user is different than the one used on the prior step
 		<?php
-			if (count($errorMessage) > 0){
+			if (count($errorMessage) > 0) {
 				echo "<br /><span style='color:red'><b>The following errors occurred:</b><br /><ul>";
 				foreach ($errorMessage as $err)
 					echo "<li>" . $err . "</li>";
@@ -409,7 +409,7 @@ if ($step == "3"){
 		</table>
 		</form>
 <?php
-}else if ($step == '4'){ ?>
+}else if ($step == '4') { ?>
 	<h3>CORAL Usage Reporting installation is now complete!</h3>
 	It is recommended you now:
 	<ul>

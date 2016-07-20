@@ -151,7 +151,7 @@ class Parameter implements ParameterInterface {
             ->selectDB(Config::$database->name)
             ->query("SELECT count(parentReportParameterID) parent_count
             FROM ReportParameterMap
-            WHERE parentReportParameterID = '{$this->id}'")
+            WHERE parentReportParameterID = '$this->id'")
             ->fetchRow(MYSQLI_ASSOC);
         return $row['parent_count'] > 0;
     }
@@ -164,7 +164,7 @@ class Parameter implements ParameterInterface {
             ->selectDB(Config::$database->name)
             ->query("SELECT reportParameterID
             FROM ReportParameterMap
-            WHERE parentReportParameterID = '{$this->id}' ORDER BY 1")
+            WHERE parentReportParameterID = '$this->id' ORDER BY 1")
             ->fetchRows(MYSQLI_ASSOC) as $row) {
 
             $objects[] = ParameterFactory::makeParam($this->reportID,$row['reportParameterID']);
