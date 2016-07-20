@@ -55,25 +55,14 @@ function is_installed()
 	return $return;
 }
 
-function do_install()
+function run_loop($version)
 {
-	require_once "test_results_yielder.php";
-	require_once "test_if_installed.php";
-	if (!continue_installing())
-	{
-		session_unset();
-		$return = new stdClass();
-		$return->redirect_home = true;
-		yield_test_results_and_exit($return, [], 1);
-	}
-
 	require_once "installer.php";
+	$requirement_filter = $version == 0 ? Installer::REQUIRED_FOR_INSTALL : Installer::REQUIRED_FOR_UPGRADE;
 	$installer = new Installer();
-	$requirements = $installer->getRequiredProviders(Installer::REQUIRED_FOR_INSTALL);
-	$INSTALL_VERSION = 0;
-
+	$requirements = $installer->getRequiredProviders($requirement_filter);
 	foreach ($requirements as $i => $requirement) {
-		$testResult = $installer->runTestForResult($requirement, $INSTALL_VERSION);
+		$testResult = $installer->runTestForResult($requirement, $version);
 
 		if (isset($testResult->skipped))
 		{
@@ -106,7 +95,7 @@ function do_install()
 	$installer->declareInstallationComplete();
 
 	$completed_tests = $installer->getSuccessfullyCompletedTestTitles();
-	while ($failingPostInstallationTest = $installer->postInstallationTest($INSTALL_VERSION))
+	while ($failingPostInstallationTest = $installer->postInstallationTest($version))
 		yield_test_results_and_exit($failingPostInstallationTest->yield, $completed_tests, 97/100);
 
 	// Success!
@@ -116,16 +105,53 @@ function do_install()
 	yield_test_results_and_exit($return, $completed_tests, 100/100);
 }
 
+function do_install()
+{
+	require_once "test_if_installed.php";
+	if (!continue_installing())
+	{
+		session_unset();
+		$return = new stdClass();
+		$return->redirect_home = true;
+		yield_test_results_and_exit($return, [], 1);
+	}
+
+	$INSTALL_VERSION = 0;
+	run_loop($requirements, $INSTALL_VERSION);
+}
+
 function do_upgrade($version)
 {
+	// Need to figure out a modular way of handling this:
+	/**
+	 * Maybe we need to consider installation modes:
+	 * 		upgrade
+	 * 		modify
+	 * 		install
+	 * 	 along with the flag "post_mode" => for post-installation/modification/upgrade scripts to run
+	 *
+	 * Maybe upgrader should return an installer array with dependencies and
+	 * everything depending on the version we give it and maybe we should
+	 * have an installer that upgraders can depend on that will process sql
+	 * files and update conf files but how do we get it to run after them?
+	 * that implies we have functional "required" flag but they only work
+	 * for the installer...
+	 *
+	 * So new plan:
+	 * 	We check the required_for var which will tell us whether needed for
+	 * 	upgrade, modify or install. Installers with required_for set are
+	 * 	basically doing all the heavy lifting (fancy type stuff that
+	 * 	modules_to_use_helper does). When we are installing, we look for
+	 * 	inarray(required_for, install)...
+	 *
+	 * It depends on everything needed for that thing...
+	 *
+	 */
+
 	$current_version_index = array_search($version, INSTALLATION_VERSIONS);
-
-	require_once "installer.php";
-	$installer = new Installer();
-
 	for ($version_to_install_index = $current_version_index + 1; $version_to_install_index < count(INSTALLATION_VERSIONS); $version_to_install_index++)
 	{
-		$installer->upgradeToVersion(INSTALLATION_VERSIONS[$version_to_install_index]);
+		run_loop(INSTALLATION_VERSIONS[$version_to_install_index]);
 	}
 }
 
@@ -139,6 +165,7 @@ if ($version !== INSTALLATION_VERSION || (isset($_SESSION["installer_post_instal
 		exit();
 	}
 
+	require_once "test_results_yielder.php";
 	if (!$version || (isset($_SESSION["installer_post_installation"]) && $_SESSION["installer_post_installation"]))
 	{
 		do_install();
@@ -146,7 +173,6 @@ if ($version !== INSTALLATION_VERSION || (isset($_SESSION["installer_post_instal
 	}
 	else
 	{
-		require_once "test_results_yielder.php";
 		$return = new stdClass();
 		$return->messages = [];
 		if (array_slice(INSTALLATION_VERSIONS, -1)[0] !== INSTALLATION_VERSION)
