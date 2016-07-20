@@ -116,7 +116,7 @@ CREATE TABLE IF NOT EXISTS `Downtime` (
   `creatorID` varchar(80) NOT NULL,
   `dateCreated` datetime NOT NULL,
   `startDate` datetime NOT NULL,
-  `endDate` datetime DEFAULT NULL,
+  `endDate` datetime NOT NULL,
   `downtimeTypeID` int(11) NOT NULL,
   `note` TEXT DEFAULT NULL,
    PRIMARY KEY (`downtimeID`),
