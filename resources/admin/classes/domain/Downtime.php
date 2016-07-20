@@ -23,7 +23,7 @@ class Downtime extends DatabaseObject {
 				  FROM Downtime d
 				  LEFT JOIN DowntimeType dt ON dt.downtimeTypeID=d.downtimeTypeID
 				  LEFT JOIN Issue i ON i.issueID=d.issueID
-				  WHERE d.downtimeID={$this->primaryKey}";
+				  WHERE d.downtimeID='$this->primaryKey'";
 			
 			$result = $this->db->processQuery($query, 'assoc');
 

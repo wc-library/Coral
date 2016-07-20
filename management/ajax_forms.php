@@ -159,6 +159,7 @@ switch ($_GET['action']) {
 								</select>
 <?php
 		}catch(Exception $e){
+			echo "</select>";
 			echo "				<span style='color:red'>" . _("There was an error processing this request - please verify configuration.ini is set up for organizations correctly and the database and tables have been created.") . "</span>";
 		}
 ?>

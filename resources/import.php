@@ -10,7 +10,7 @@
 		}
 		return null;
 	}
-	session_start();
+	
 	include_once 'directory.php';
 	$pageTitle=_('Resources import');
 	include 'templates/header.php';

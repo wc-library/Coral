@@ -1,9 +1,9 @@
 <?php
 /*
 **************************************************************************************************************************
-** CORAL Management Module v. 1.0
+** CORAL Authentication Module v. 1.0
 **
-** Copyright (c) 2010 University of Notre Dame
+** Copyright (c) 2011 University of Notre Dame
 **
 ** This file is part of CORAL.
 **
@@ -17,29 +17,29 @@
 */
 
 
-class Signature extends DatabaseObject {
+class Util {
 
-	protected function defineRelationships() {}
+	public static function hashString($hashAlgorithm, $string){
 
-	protected function overridePrimaryKeyName() {}
+		$hashedString = hash($hashAlgorithm, $string);
 
+		return $hashedString;
 
-	//search used for the autocomplete
-	public function search($q) {
-		$signArray = array();
-		$result = $this->db->query("
-			SELECT distinct signerName
-			FROM Signature
-			WHERE upper(signerName) like upper('%" . $q . "%')
-			ORDER BY 1;");
-
-		while ($row = $result->fetch_assoc()) {
-			$signArray[] = $row['signerName'] . "|" . $row['signerName'];
-		}
-
-		return $signArray;
 	}
 
+	public static function randomString($stringLength){
+
+		$string = '';
+		$chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+		$charsLength = strlen($chars)-1;
+
+		for ($i = 0;  $i != $stringLength; $i++){
+			$randInd = rand(0,$charsLength);
+			$string .= substr($chars, $randInd, 1);
+		}
+
+		return $string;
+	}
 }
 
 ?>

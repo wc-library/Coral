@@ -267,7 +267,7 @@ class Organization extends DatabaseObject {
 		$query = "SELECT i.* 
 				  FROM `{$this->db->config->settings->resourcesDatabaseName}`.Issue i
 				  LEFT JOIN `{$this->db->config->settings->resourcesDatabaseName}`.IssueRelationship ir ON ir.issueID=i.issueID
-				  WHERE ir.entityID={$this->organizationID} AND ir.entityTypeID=1";
+				  WHERE ir.entityID='$this->organizationID' AND ir.entityTypeID=1";
 		if ($archivedOnly) {
 			$query .= " AND i.dateClosed IS NOT NULL";
 		} else {
@@ -305,7 +305,7 @@ class Organization extends DatabaseObject {
 								WHERE sie.issueID=i.issueID) AS `CCs`
 				  FROM `{$resourceDB}`.Issue i
 				  LEFT JOIN `{$resourceDB}`.IssueRelationship ir ON ir.issueID=i.issueID
-				  WHERE ir.entityID={$this->organizationID} AND ir.entityTypeID=1";
+				  WHERE ir.entityID='$this->organizationID' AND ir.entityTypeID=1";
 
 		if ($archivedOnly) {
 			$query .= " AND i.dateClosed IS NOT NULL";
@@ -328,7 +328,7 @@ class Organization extends DatabaseObject {
 	private function getDownTimeResults($archivedOnly=false) {
 		$query = "SELECT d.* 
 			  FROM `{$this->db->config->settings->resourcesDatabaseName}`.Downtime d
-			  WHERE d.entityID={$this->organizationID} 
+			  WHERE d.entityID='{$this->organizationID}'
 			  AND d.entityTypeID=1";
 
 		if ($archivedOnly) {
