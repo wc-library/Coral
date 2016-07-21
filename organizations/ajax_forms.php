@@ -579,7 +579,7 @@ switch ($_GET['action']) {
 		$organizationID = $_GET["organizationID"];
 
 		$organization = new Organization(new NamedArguments(array('primaryKey' => $organizationID))); 
-		$organizationContactsArray = $organization->getContacts();
+		$organizationContactsArray = $organization->getUnarchivedContacts();
 		$organizationResourcesArray = $organization->getResources(5);
 ?>
 
@@ -694,6 +694,68 @@ switch ($_GET['action']) {
 
 <?php
 	break;
+		case 'getResolveDowntimeForm':
+			$downtimeID = is_numeric($_GET['downtimeID']) ? $_GET['downtimeID']:null;
+
+			if ($downtimeID) {
+				$downtime = new Downtime(new NamedArguments(array('primaryKey' => $downtimeID)));
+
+?>
+<form id="resolveDowntimeForm">
+	<input name="downtimeID" type="hidden" value="<?php echo $downtime->downtimeID;?>" />
+	<table class="thickboxTable" style="width:98%;background-image:url('images/title.gif');background-repeat:no-repeat;">
+		<tr>
+			<td colspan="2">
+				<h1>Resolve Downtime</h1>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<label>Downtime Resolution:</label>
+			</td>
+			<td>
+				<div>
+					<div><i>Date</i></div>
+					<input class="date-pick" type="text" name="endDate" id="endDate" />
+					<span id='span_error_endDate' class='smallDarkRedText updateDowntimeError'></span>
+				</div>
+				<div style="clear:both;">
+					<div><i>Time</i></div>
+<?php
+echo buildTimeForm("endTime");
+?>
+					<span id='span_error_endDate' class='smallDarkRedText updateDowntimeError'></span>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td><label>Note:</label></td>
+			<td>
+				<textarea name="note"><?php echo $downtime->note;?></textarea>
+			</td>
+		</tr>
+	</table>
+	<table class='noBorderTable' style='width:125px;'>
+		<tr>
+			<td style='text-align:left'><input type='button' value='submit' name='submitUpdatedDowntime' id='submitUpdatedDowntime'></td>
+			<td style='text-align:right'><input type='button' value='cancel' onclick="tb_remove();"></td>
+		</tr>
+	</table>
+</form>
+<?php
+			} else {
+?>
+		<div>
+			Unable to retrieve Downtime.
+		</div>
+		<table class='noBorderTable' style='width:125px;'>
+			<tr>
+				<td style='text-align:right'><input type='button' value='cancel' onclick="tb_remove();"></td>
+			</tr>
+		</table>
+<?php
+			}
+	break;
 		case 'getNewDowntimeForm':
 
 	$organizationID = $_GET["organizationID"];
@@ -705,9 +767,6 @@ switch ($_GET['action']) {
 
 	$downtimeObj = new Downtime();
 	$downtimeTypeNames = $downtimeObj->getDowntimeTypesArray();
-
-	$defaultStart = date("Y-m-d\TH:i");
-	$defaultEnd = date("Y-m-d\TH:i", strtotime("+1 day"));
 
 ?>
 
@@ -722,15 +781,35 @@ switch ($_GET['action']) {
 		<tr>
 			<td><label><?php echo _("Downtime Start:");?></label></td>
 			<td>
-				<input value="<?php echo $defaultStart; ?>" type="datetime-local" name="startDate" id="startDate" />
-				<span id='span_error_startDate' class='smallDarkRedText addDowntimeError'></span>
+				<div>
+					<div><i>Date</i></div>
+					<input class="date-pick" type="text" name="startDate" id="startDate" />
+					<span id='span_error_startDate' class='smallDarkRedText addDowntimeError'></span>
+				</div>
+				<div style="clear:both;">
+					<div><i>Time</i></div>
+<?php
+echo buildTimeForm("startTime");
+?>
+					<span id='span_error_startDate' class='smallDarkRedText addDowntimeError'></span>
+				</div>
 			</td>
 		</tr>
 		<tr>
 			<td><label><?php echo _("Downtime Resolution:");?></label></td>
 			<td>
-				<input value="<?php echo $defaultEnd; ?>"  type="datetime-local" name="endDate" id="endDate" />
-				<span id='span_error_endDate' class='smallDarkRedText addDowntimeError'></span>
+				<div>
+					<div><i>Date</i></div>
+					<input class="date-pick" type="text" name="endDate" id="endDate" />
+					<span id='span_error_endDate' class='smallDarkRedText addDowntimeError'></span>
+				</div>
+				<div style="clear:both;">
+					<div><i>Time</i></div>
+<?php
+echo buildTimeForm("endTime");
+?>
+					<span id='span_error_endDate' class='smallDarkRedText addDowntimeError'></span>
+				</div>
 			</td>
 		</tr>
 		<tr>

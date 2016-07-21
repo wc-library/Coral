@@ -38,9 +38,6 @@ if ($organizationID) {
 	$downtimeObj = new Downtime();
 	$downtimeTypeNames = $downtimeObj->getDowntimeTypesArray();
 
-	$defaultStart = date("Y-m-d\TH:i");
-	$defaultEnd = date("Y-m-d\TH:i", strtotime("+1 day"));
-
 ?>
 
 <form id='newDowntimeForm'>
@@ -60,15 +57,35 @@ if ($isOrgDowntime) {
 		<tr>
 			<td><label><?php echo _("Downtime Start:");?></label></td>
 			<td>
-				<input value="<?php echo $defaultStart; ?>" type="datetime-local" name="startDate" id="startDate" />
-				<span id='span_error_startDate' class='smallDarkRedText addDowntimeError'>
+				<div>
+					<div><i>Date</i></div>
+					<input class="date-pick" type="text" name="startDate" id="startDate" />
+					<span id='span_error_startDate' class='smallDarkRedText addDowntimeError'></span>
+				</div>
+				<div style="clear:both;">
+					<div><i>Time</i></div>
+<?php
+echo buildTimeForm("startTime");
+?>
+					<span id='span_error_startDate' class='smallDarkRedText addDowntimeError'></span>
+				</div>
 			</td>
 		</tr>
 		<tr>
 			<td><label><?php echo _("Downtime Resolution:");?></label></td>
 			<td>
-				<input value="<?php echo $defaultEnd; ?>"  type="datetime-local" name="endDate" id="endDate" />
-				<span id='span_error_endDate' class='smallDarkRedText addDowntimeError'>
+				<div>
+					<div><i>Date</i></div>
+					<input class="date-pick" type="text" name="endDate" id="endDate" />
+					<span id='span_error_endDate' class='smallDarkRedText addDowntimeError'></span>
+				</div>
+				<div style="clear:both;">
+					<div><i>Time</i></div>
+<?php
+echo buildTimeForm("endTime");
+?>
+					<span id='span_error_endDate' class='smallDarkRedText addDowntimeError'></span>
+				</div>
 			</td>
 		</tr>
 		<tr>

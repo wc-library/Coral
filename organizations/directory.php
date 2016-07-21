@@ -149,6 +149,35 @@ function format_date($mysqlDate) {
 
 }
 
+function buildSelectableHours($fieldNameBase,$defaultHour=8) {
+    $html = "<select name=\"{$fieldNameBase}[hour]\">";
+    for ($hour=1;$hour<13;$hour++) {
+        $html .= "<option".(($hour == $defaultHour) ? ' selected':'').">{$hour}</option>";
+    }
+    $html .= '</select>';
+    return $html;
+}
+
+function buildSelectableMinutes($fieldNameBase,$intervals=4) {
+    $html = "<select name=\"{$fieldNameBase}[minute]\">";
+    for ($minute=0;$minute<=($intervals-1);$minute++) {
+        $html .= "<option>".sprintf("%02d",$minute*(60/$intervals))."</option>";
+    }
+    $html .= '</select>';
+    return $html;
+}
+
+function buildSelectableMeridian($fieldNameBase) {
+    return "<select name=\"{$fieldNameBase}[meridian]\">
+                    <option>AM</option>
+                    <option>PM</option>
+                </select>";
+}
+
+function buildTimeForm($fieldNameBase,$defaultHour=8,$minuteIntervals=4) {
+    return buildSelectableHours($fieldNameBase,$defaultHour).buildSelectableMinutes($fieldNameBase,$minuteIntervals).buildSelectableMeridian($fieldNameBase);
+}
+
 // Include file of language codes
 include_once 'LangCodes.php';
 $lang_name = new LangCodes();

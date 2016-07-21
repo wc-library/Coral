@@ -75,20 +75,20 @@ if (count($organizationArray) > 0) {
 	foreach ($organizationArray as $orgData) {
 		if (!in_array($orgData['organizationID'],$issuedOrgs)) {
 			$organization = new Organization(new NamedArguments(array('primaryKey' => $orgData['organizationID'])));
-
 			$orgIssues = $organization->getIssues($archivedFlag);
 
 			if(count($orgIssues) > 0) {
 				foreach ($orgIssues as $issue) {
-					echo generateIssueHTML($issue,array(array("name"=>$orgData['organization'],"id"=>$organization->organizationID,"entityType"=>1)));
+					echo generateIssueHTML($issue,array(array("name"=>$orgData['organization'],"id"=>$orgData['organizationID'],"entityType"=>1)));
 				}
-			} else {
-				echo "<br><p>" . _("There are no organization level issues.") . "</p><br>";
 			}
 
 			$orgIssues = null;
 			$issuedOrgs[] = $orgData['organizationID'];
 		}
+	}
+	if (count($issuedOrgs) < 1) {
+		echo "<br><p>" . _("There are no organization level issues.") . "</p><br>";
 	}
 }
 

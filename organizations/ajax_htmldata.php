@@ -76,7 +76,7 @@ function generateIssueHTML($issue,$associatedEntities=null) {
 }
 
 //shared html template for organization and resource downtimes
-function generateDowntimeHTML($downtime,$associatedEntities=null) {
+function generateDowntimeHTML($downtime) {
 
 	$html = "
 	<div class=\"downtime\">";
@@ -90,7 +90,13 @@ function generateDowntimeHTML($downtime,$associatedEntities=null) {
 	  		<dd>{$downtime->startDate}</dd>
 
 	  		<dt>Downtime Resolved:</dt> 
-	  		<dd>{$downtime->endDate}</dd>";
+	  		<dd>";
+	if ($downtime->endDate != null) {
+		$html .= $downtime->endDate;
+	} else {
+		$html .= "<a class=\"thickbox\" href=\"ajax_forms.php?action=getResolveDowntimeForm&height=363&width=345&modal=true&downtimeID={$downtime->downtimeID}\">Resolve</a>";
+	}
+	$html .= "</dd>";
 
 	if($downtime->subjectText) {
 		$html .= "
@@ -667,7 +673,7 @@ switch ($_GET['action']) {
 				<th><?php echo _("Downtime");?></th>
 			</tr>
 			<tr>
-				<td><a id="createDowntimeBtn" class="thickbox" href="ajax_forms.php?action=getNewDowntimeForm&organizationID=<?php echo $_GET['organizationID']; ?>&height=200&width=390&modal=true"><?php echo _("report new Downtime");?></a></td>
+				<td><a id="createDowntimeBtn" class="thickbox" href="ajax_forms.php?action=getNewDowntimeForm&organizationID=<?php echo $_GET['organizationID']; ?>&height=264&width=390&modal=true"><?php echo _("report new Downtime");?></a></td>
 			</tr>
 			<tr>
 				<td>
@@ -709,7 +715,7 @@ switch ($_GET['action']) {
 
 		if(count($orgDowntime) > 0) {
 			foreach ($orgDowntime as $downtime) {
-				echo generateDowntimeHTML($downtime,array(array("name"=>$organization->name,"id"=>$organization->organizationID,"entityType"=>1)));
+				echo generateDowntimeHTML($downtime);
 			}
 		} else {
 			echo "<br><p>" . _("There are no organization level downtimes.") . "</p><br>";
