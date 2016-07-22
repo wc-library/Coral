@@ -21,15 +21,55 @@ function register_have_database_access_requirement()
 			$return->success = true;
 			$return->yield->title = _("Have database access");
 
-			if (!empty($_POST))
-			{
-				if (!isset($_SESSION["POSTDATA"]))
+			$shared_database_info = [];
+			foreach ($shared_module_info["modules_to_use"]["useModule"] as $key => $value) {
+				if ($value && isset($shared_module_info[$key]["database"]))
 				{
-					$_SESSION["POSTDATA"] = [];
+					$db_postvar_name = "db_" . $key . "_name";
+					if (!empty($_POST[$db_postvar_name]))
+					{
+						if (!isset($_SESSION["have_database_access"]))
+							$_SESSION["have_database_access"] = [];
+						$_SESSION["have_database_access"][$db_postvar_name] = $_POST[$db_postvar_name];
+					}
+					$shared_database_info[] = [
+						"title"			=> $shared_module_info[$key]["database"]["title"],
+						"default_value"	=> empty($_SESSION["have_database_access"][$db_postvar_name]) ? $shared_module_info[$key]["database"]["default_value"] : $_SESSION["have_database_access"][$db_postvar_name],
+						"name"			=> $db_postvar_name,
+						"feedback"		=> "db_" . $key . "_feedback",
+						"key"			=> $key,
+					];
 				}
-				// $_POST takes priority when merging arrays
-				$_SESSION["POSTDATA"] = array_merge($_SESSION["POSTDATA"], $_POST);
 			}
+
+			$db_access_postvar_names = [
+				"username"	=> "dbusername",
+				"password"	=> "dbpassword",
+				"host"		=> "dbhost"
+			];
+			foreach ($db_access_postvar_names as $value) {
+				if (!empty($_POST[$value]))
+				{
+					$_SESSION["have_database_access"][$value] = $_POST[$value];
+				}
+			}
+			$db_access_vars = [
+				"username"	=> [
+					"title"			=> _("Database Username"),
+					"placeholder"	=> isset($_SESSION["have_database_access"][$db_access_postvar_names["username"]]) ? $_SESSION["have_database_access"][$db_access_postvar_names["username"]] : _("Username"),
+					"name"			=> $db_access_postvar_names["username"]
+				],
+				"password"	=> [
+					"title"			=> _("Database Password"),
+					"placeholder"	=> isset($_SESSION["have_database_access"][$db_access_postvar_names["password"]]) ? _("leave blank to leave unchanged") : _("Password"),
+					"name"			=> $db_access_postvar_names["password"]
+				],
+				"host"		=> [
+					"title"			=> _("Database Host"),
+					"placeholder"	=> isset($_SESSION["have_database_access"][$db_access_postvar_names["host"]]) ? $_SESSION["have_database_access"][$db_access_postvar_names["host"]] : _("Hostname"),
+					"name"			=> $db_access_postvar_names["host"]
+				]
+			];
 
 			try
 			{
@@ -41,12 +81,12 @@ function register_have_database_access_requirement()
 					case Config::ERR_FILE_NOT_READABLE:
 					case Config::ERR_VARIABLES_MISSING:
 						// Config file not yet set up
-						if (isset($_SESSION["POSTDATA"]["dbusername"]))
+						if (isset($_SESSION["have_database_access"][$db_access_postvar_names["username"]]))
 						{
 							Config::loadTemporaryDBSettings([
-								"host" => $_SESSION["POSTDATA"]["dbhost"],
-								"username" => $_SESSION["POSTDATA"]["dbusername"],
-								"password" => $_SESSION["POSTDATA"]["dbpassword"]
+								"host" => $_SESSION["have_database_access"][$db_access_postvar_names["host"]],
+								"username" => $_SESSION["have_database_access"][$db_access_postvar_names["username"]],
+								"password" => $_SESSION["have_database_access"][$db_access_postvar_names["password"]]
 							]);
 						}
 						break;
@@ -57,20 +97,8 @@ function register_have_database_access_requirement()
 				}
 			}
 
-			$shared_database_info = [];
-			foreach ($shared_module_info["modules_to_use"]["useModule"] as $key => $value) {
-				if ($value && isset($shared_module_info[$key]["database"]))
-				{
-					$shared_database_info[] = [
-						"title" => $shared_module_info[$key]["database"]["title"],
-						"default_value" => $shared_module_info[$key]["database"]["default_value"],
-						"key" => $key,
-					];
-				}
-			}
-
 			require "install/templates/database_details_template.php";
-			$return->yield->body = database_details_template($shared_database_info);
+			$return->yield->body = database_details_template($db_access_vars, $shared_database_info);
 
 			// Try to connect
 			try
@@ -120,10 +148,10 @@ function register_have_database_access_requirement()
 			foreach ($shared_database_info as $db)
 			{
 				// $db["key"] is the module uid - dbtools uses this fact so if it changes dbtools will need to be fixed as well
-				$dbfeedback = "db_" . $db["key"] . "_feedback";
-				$dbnamestr = "db_" . $db["key"] . "_name";
-				$dbname = empty($_SESSION[$dbnamestr]) ? $db["default_value"] : $_SESSION[$dbnamestr];
-				$_SESSION[$dbfeedback] = !empty($_SESSION[$dbfeedback]) ? $_SESSION[$dbfeedback] : DBAccess::DB_FAILED;
+				$dbfeedback = $db["feedback"];
+				$dbnamestr = $db["name"];
+				$dbname = empty($_SESSION["have_database_access"][$dbnamestr]) ? $db["default_value"] : $_SESSION["have_database_access"][$dbnamestr];
+				$_SESSION["have_database_access"][$dbfeedback] = !empty($_SESSION["have_database_access"][$dbfeedback]) ? $_SESSION["have_database_access"][$dbfeedback] : DBAccess::DB_FAILED;
 				try
 				{
 					$dbconnection->selectDB($dbname);
@@ -131,21 +159,21 @@ function register_have_database_access_requirement()
 					// If DB is empty, pretend we created it
 					if ($result && $result->numRows() == 0)
 					{
-						$_SESSION[$dbfeedback] = DBAccess::DB_CREATED;
+						$_SESSION["have_database_access"][$dbfeedback] = DBAccess::DB_CREATED;
 					}
 					else
 					{
-						if ($_SESSION[$dbfeedback] == DBAccess::DB_CREATED)
+						if ($_SESSION["have_database_access"][$dbfeedback] == DBAccess::DB_CREATED)
 						{
 							$_SESSION["db_tools"]["use_tables"] = isset($_SESSION["db_tools"]["use_tables"]) ? $_SESSION["db_tools"]["use_tables"] : [];
 							$_SESSION["db_tools"]["use_tables"][] = $db["key"];
 						}
-						$_SESSION[$dbfeedback] = DBAccess::DB_ALREADY_EXISTED;
+						$_SESSION["have_database_access"][$dbfeedback] = DBAccess::DB_ALREADY_EXISTED;
 					}
 				}
 				catch (Exception $e)
 				{
-					$_SESSION[$dbfeedback] == DBAccess::DB_FAILED;
+					$_SESSION["have_database_access"][$dbfeedback] == DBAccess::DB_FAILED;
 					switch ($e->getCode())
 					{
 						case DBService::ERR_COULD_NOT_SELECT_DATABASE:
@@ -153,7 +181,7 @@ function register_have_database_access_requirement()
 								// The commented line is preferable (see http://stackoverflow.com/a/766996/123415) but we need to be backwards compatible to mysql 5.5
 								// $result = $dbconnection->processQuery("CREATE DATABASE `$dbname` DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci;");
 								$result = $dbconnection->processQuery("CREATE DATABASE `$dbname` DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_unicode_ci;");
-								$_SESSION[$dbfeedback] = DBAccess::DB_CREATED;
+								$_SESSION["have_database_access"][$dbfeedback] = DBAccess::DB_CREATED;
 
 								// If we have actually just created it, make sure that use_tables is not set because process Sql needs to happen!
 								if (isset($_SESSION["db_tools"]["use_tables"]) && in_array($db["key"], $_SESSION["db_tools"]["use_tables"]))
@@ -175,7 +203,7 @@ function register_have_database_access_requirement()
 					}
 				}
 				$shared_module_info["setSharedModuleInfo"]($db["key"], "db_name", $dbname);
-				$shared_module_info["setSharedModuleInfo"]($db["key"], "db_feedback", $_SESSION[$dbfeedback]);
+				$shared_module_info["setSharedModuleInfo"]($db["key"], "db_feedback", $_SESSION["have_database_access"][$dbfeedback]);
 			}
 
 			try
