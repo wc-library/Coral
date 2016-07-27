@@ -1,0 +1,6 @@
+# Composer: installed libs folder
+vendor/
+
+# Codeception temp and generated files
+tests/_output/
+tests/_support/_generated/
