@@ -2309,7 +2309,20 @@ class Resource extends DatabaseObject {
             $workflowID = $workflowObj->getWorkflowID($this->resourceTypeID, $this->resourceFormatID, $this->acquisitionTypeID);
         }
 		if ($workflowID){
+
 			$workflow = new Workflow(new NamedArguments(array('primaryKey' => $workflowID)));
+
+            //set new resourceType, resourceFormat and acquisitionType for the resource, according to the selected workflow
+            if ($workflow->resourceTypeIDValue != null)
+                $this->resourceTypeID = $workflow->resourceTypeIDValue;
+
+            if ($workflow->resourceFormatIDValue != null)
+                $this->resourceFormatID = $workflow->resourceFormatIDValue;
+
+            if ($workflow->acquisitionTypeIDValue != null) 
+                $this->acquisitionTypeID = $workflow->acquisitionTypeIDValue;
+
+            $this->save();
 
 			//Copy all of the step attributes for this workflow to a new resource step
 			foreach ($workflow->getSteps() as $step){
