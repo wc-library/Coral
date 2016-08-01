@@ -193,14 +193,14 @@ class Installer {
 	private function scanForModuleInstallers()
 	{
 		// Core Requirements
-		$core_requirements_path = "install/requirements/";
-		$core_requirements = scandir($core_requirements_path);
-		foreach ($core_requirements as $req_module)
+		$core_providers_path = "install/providers/";
+		$core_providers = scandir($core_providers_path);
+		foreach ($core_providers as $req_module)
 		{
 			if (trim($req_module, ".") !== "")
 			{
 				$module_name = basename($req_module, ".php");
-				$path = $core_requirements_path . $req_module;
+				$path = $core_providers_path . $req_module;
 				$this->addModule($path, $module_name, true);
 			}
 		}

@@ -17,6 +17,9 @@ HEREDOC;
 	};
 
 	return <<<HEREDOC
+<div class="row">
+	$instruction
+</div>
 <form class="pure-form pure-form-aligned">
 	<fieldset>
 		<div class="row">
