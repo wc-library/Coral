@@ -90,16 +90,17 @@ function register_db_tools_requirement()
 						$shared_module_info["setSharedModuleInfo"]($muid, "db_feedback", DBAccess::DB_CREATED);
 						return false;
 					};
+					$return->yield->title = sprintf(_("Database Already Exists For: %s"), $module_title);
 
 					$check_db_namespace = "db_tools_check_db_" . $muid;
 					$option_buttons = [
-						[ "name" => "use_tables",			"title" => _("Use Existing Tables")		],
-						[ "name" => "drop_tables",			"title" => _("Delete Existing Tables")	],
-						[ "name" => "check_again",			"title" => _("Check Again")				]
+						[ "name" => "use_tables",	"title" => _("Use Existing Tables")		],
+						[ "name" => "drop_tables",	"title" => _("Delete Existing Tables")	],
+						[ "name" => "check_again",	"title" => _("Check Again")				]
 					];
 					$are_you_sure_buttons = [
-						[ "name" => "i_am_sure",			"title" => _("I understand, start destroying my data")	],
-						[ "name" => "no_thanks",			"title" => _("On second thoughts, what else can I do?")	]
+						[ "name" => "i_am_sure",	"title" => _("I understand, start destroying my data")	],
+						[ "name" => "no_thanks",	"title" => _("On second thoughts, what else can I do?")	]
 					];
 
 					if (isset($_POST[$check_db_namespace . "_option_button"]) && $_POST[$check_db_namespace . "_option_button"] == "no_thanks")
