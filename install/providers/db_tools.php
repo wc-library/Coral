@@ -86,7 +86,7 @@ function register_db_tools_requirement()
 						return false;
 
 					$databaseFreshReturnFalse = function() use ($muid, $shared_module_info) {
-						$_SESSION["db_" . $muid . "_feedback"] = DBAccess::DB_CREATED;
+						$_SESSION["have_database_access"]["db_" . $muid . "_feedback"] = DBAccess::DB_CREATED;
 						$shared_module_info["setSharedModuleInfo"]($muid, "db_feedback", DBAccess::DB_CREATED);
 						return false;
 					};
@@ -130,38 +130,31 @@ function register_db_tools_requirement()
 							return $return;
 						}
 					}
-					else if (isset($_SESSION["db_tools"]["use_tables"]) && in_array($muid, $_SESSION["db_tools"]["use_tables"]))
+					else if (isset($_POST[$check_db_namespace . "_option_button"]) && $module_shared["db_feedback"] == DBAccess::DB_ALREADY_EXISTED)
 					{
-						// This if clause needs to come before the already existed clause so that when the db is created
-						// it can set this use_tables variable and move forward without "forgetting" that it was the thing
-						// that created the db to begin with.
-						return false;
-					}
-					else if ($module_shared["db_feedback"] == DBAccess::DB_ALREADY_EXISTED)
-					{
-						if (isset($_POST[$check_db_namespace . "_option_button"]))
+						switch ($_POST[$check_db_namespace . "_option_button"])
 						{
-							switch ($_POST[$check_db_namespace . "_option_button"])
-							{
-								case "use_tables":
-									if (!isset($_SESSION["db_tools"]["use_tables"]))
-										$_SESSION["db_tools"]["use_tables"] = [];
-									if (!in_array($muid, $_SESSION["db_tools"]["use_tables"]))
-										$_SESSION["db_tools"]["use_tables"][] = $muid;
-									return false;
+							case "use_tables":
+								if (!isset($_SESSION["db_tools"]["use_tables"]))
+									$_SESSION["db_tools"]["use_tables"] = [];
+								if (!in_array($muid, $_SESSION["db_tools"]["use_tables"]))
+									$_SESSION["db_tools"]["use_tables"][] = $muid;
+								return false;
 
-								case "drop_tables":
-									$return->success = false;
-									require_once "install/templates/option_buttons_template.php";
-									$return->yield->messages[] = sprintf(_("Are you sure you want to delete your %s tables.<br /><b>This action CANNOT BE UNDONE and it WILL DESTROY DATA.</b>"), $module_title);
-									$return->yield->body = option_buttons_template("", $are_you_sure_buttons, $check_db_namespace);
-									return $return;
+							case "drop_tables":
+								$return->success = false;
+								require_once "install/templates/option_buttons_template.php";
+								$return->yield->messages[] = sprintf(_("Are you sure you want to delete your %s tables.<br /><b>This action CANNOT BE UNDONE and it WILL DESTROY DATA.</b>"), $module_title);
+								$return->yield->body = option_buttons_template("", $are_you_sure_buttons, $check_db_namespace);
+								return $return;
 
-								case "check_again":
-									break;
-							}
+							case "check_again":
+								break;
 						}
 					}
+
+					if (isset($_SESSION["db_tools"]["use_tables"]) && in_array($muid, $_SESSION["db_tools"]["use_tables"]))
+						return false;
 
 					try
 					{
