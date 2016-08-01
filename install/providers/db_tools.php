@@ -128,6 +128,13 @@ function register_db_tools_requirement()
 							$return->yield->messages[] = "<b>Here is the exciting error:</b><br /><pre>" . var_export($e, 1) . "</pre>";
 						}
 					}
+					else if (isset($_SESSION["db_tools"]["use_tables"]) && in_array($muid, $_SESSION["db_tools"]["use_tables"]))
+					{
+						// This if clause needs to come before the already existed clause so that when the db is created
+						// it can set this use_tables variable and move forward without "forgetting" that it was the thing
+						// that created the db to begin with.
+						return false;
+					}
 					else if ($module_shared["db_feedback"] == DBAccess::DB_ALREADY_EXISTED)
 					{
 						if (isset($_POST[$check_db_namespace . "_option_button"]))
@@ -151,10 +158,6 @@ function register_db_tools_requirement()
 								case "check_again":
 									break;
 							}
-						}
-						else if (isset($_SESSION["db_tools"]["use_tables"]) && in_array($muid, $_SESSION["db_tools"]["use_tables"]))
-						{
-							return false;
 						}
 					}
 
