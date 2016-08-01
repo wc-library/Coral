@@ -57,12 +57,8 @@ function register_auth_requirement()
 			// Grab post vars
 			if (isset($_POST['session_timeout']))
 				$_SESSION[$MODULE_VARS["uid"]]["session_timeout"] = $_POST['session_timeout'];
-			else
-				$_SESSION[$MODULE_VARS["uid"]]["session_timeout"] = isset($_SESSION[$MODULE_VARS["uid"]]["session_timeout"]) ? $_SESSION[$MODULE_VARS["uid"]]["session_timeout"] : 3600;
 			if (isset($_POST['ldap_enabled']))
 				$_SESSION[$MODULE_VARS["uid"]]["ldap"]["ldap_enabled"] = $_POST['ldap_enabled'] == 1 ? "Y" : "N";
-			else
-				$_SESSION[$MODULE_VARS["uid"]]["ldap"]["ldap_enabled"] = isset($_SESSION[$MODULE_VARS["uid"]]["ldap"]["ldap_enabled"]) ? $_SESSION[$MODULE_VARS["uid"]]["ldap"]["ldap_enabled"] : "N";
 			$ldap_post_vars = [
 				"host" => "ldap_host",
 				"port" => "ldap_port",
@@ -81,7 +77,7 @@ function register_auth_requirement()
 				}
 				else
 				{
-					$ldap_session_var_by_reference[$key] = isset($ldap_session_var_by_reference[$key]) ? $ldap_session_var_by_reference[$key] : null;
+					$ldap_session_var_by_reference[$key] = !empty($ldap_session_var_by_reference[$key]) ? $ldap_session_var_by_reference[$key] : null;
 				}
 			}
 
@@ -144,12 +140,12 @@ function register_auth_requirement()
 				]
 			];
 			require_once "install/templates/auth_module_template.php";
-			$session_timeout_default = $_SESSION[$MODULE_VARS["uid"]]["session_timeout"];
-			$ldap_enabled_default = $ldap_session_var_by_reference["ldap_enabled"] == "Y";
+			$session_timeout_default = isset($_SESSION[$MODULE_VARS["uid"]]["session_timeout"]) ? $_SESSION[$MODULE_VARS["uid"]]["session_timeout"] : 3600;
+			$ldap_enabled_default = isset($ldap_session_var_by_reference["ldap_enabled"]) && $ldap_session_var_by_reference["ldap_enabled"] == "Y";
 			$return->yield->body = auth_module_template($session_timeout_default, $ldap_enabled_default, $ldap_fields);
-			if (!isset($_POST['ldap_enabled']))
+			if (empty($_POST['ldap_enabled']))
 			{
-				if (!isset($ldap_session_var_by_reference["ldap_enabled"]))
+				if (empty($ldap_session_var_by_reference["ldap_enabled"]))
 				{
 					//We set the return body just before entering the if so we can return now
 					$return->success = false;
