@@ -93,8 +93,6 @@ function register_db_tools_requirement()
 
 					$check_db_namespace = "db_tools_check_db_" . $muid;
 					$option_buttons = [
-						//TODO: Fix upgrade path...
-						[ "name" => "redirect_to_upgrade",	"title" => _("Whoops, I Want To Upgrade"), "custom_javascript" => 'window.location.href="upgrade.php";' ],
 						[ "name" => "use_tables",			"title" => _("Use Existing Tables")		],
 						[ "name" => "drop_tables",			"title" => _("Delete Existing Tables")	],
 						[ "name" => "check_again",			"title" => _("Check Again")				]
@@ -136,12 +134,6 @@ function register_db_tools_requirement()
 						{
 							switch ($_POST[$check_db_namespace . "_option_button"])
 							{
-								case "redirect_to_upgrade":
-									// This won't work because the installer is expecting a json response
-									// and it doesn't eval js in the response so we use "custom_javascript" above
-									header('Location: upgrade.php');
-									exit;
-
 								case "use_tables":
 									if (!isset($_SESSION["db_tools"]["use_tables"]))
 										$_SESSION["db_tools"]["use_tables"] = [];
