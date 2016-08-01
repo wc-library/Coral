@@ -1,6 +1,6 @@
 <?php
 
-function database_details_template($db_access_vars, $shared_database_info)
+function database_details_template($instruction, $db_access_vars, $shared_database_info)
 {
 	$submit     = _("Continue Installing");
 

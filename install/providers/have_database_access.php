@@ -98,7 +98,8 @@ function register_have_database_access_requirement()
 			}
 
 			require "install/templates/database_details_template.php";
-			$return->yield->body = database_details_template($db_access_vars, $shared_database_info);
+			$instruction = _("If you would like to use pre-existing databases or custom database names. Use the advanced section to configure these settings.");
+			$return->yield->body = database_details_template($instruction, $db_access_vars, $shared_database_info);
 
 			// Try to connect
 			try
