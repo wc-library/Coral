@@ -134,7 +134,7 @@ class Installer {
 	private function scanForInstallerProviders()
 	{
 		// Core Requirements
-		$core_install_provider_path = "install/install_providers/";
+		$core_install_provider_path = "install/providers/";
 		$core_install_providers = scandir($core_install_provider_path);
 		foreach ($core_install_providers as $provider)
 		{
