@@ -201,8 +201,14 @@ function register_auth_requirement()
 				}
 			}
 
-			// This should be successful because our database check passed (it will throw an error otherwise)
-			$result = $dbconnection->processQuery("SELECT loginID FROM User WHERE loginID like '%coral%';");
+			if (!(!empty($_SESSION[$MODULE_VARS["uid"]]["default_user_created"]) && $_SESSION[$MODULE_VARS["uid"]]["default_user_created"]))
+			{
+				$createDefaultAdmin = "INSERT INTO `User` VALUES ('" . $shared_module_info["have_default_coral_admin_user"]["default_user"] . "','1a5f55d06a3d1fcb709d6fcc7266bb49f668bc65a4117470cdca9d0162bc4e5294d1fa79bf4097ba54810a1902baf7fa5c0d506537f1fdba88bf27acc64d9275', 'E9RIQzB7N30p3ynJwMsih3FIE6jUGq2KpJT58U3MOu1Hi', 'Y');";
+				// This should be successful because our database check passed (it will throw an error otherwise and we will know about it)
+				$result = $dbconnection->processQuery($createDefaultAdmin);
+				// An error would be thrown here if the insert were not successful
+				$_SESSION[$MODULE_VARS["uid"]]["default_user_created"] = true;
+			}
 
 			// Write the config file
 			$configFile = $MODULE_VARS["sharedInfo"]["config_file"]["path"];
