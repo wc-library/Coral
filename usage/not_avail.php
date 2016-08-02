@@ -26,7 +26,7 @@ $pageTitle=_('Not Available');
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Usage Statistics Module - <?php echo $pageTitle; ?></title>
+<title><?php echo _("Usage Statistics Module") . " - " . $pageTitle;?></title>
 <link rel="stylesheet" href="css/style.css" type="text/css" />
 </head>
 <body>
@@ -39,7 +39,7 @@ $pageTitle=_('Not Available');
 <div style="text-align:left;">
 
 <center>
-<table class="titleTable" style="background-image:url('images/usagetitle.gif');background-repeat:no-repeat;width:900px;height:80px;text-align:left;">
+<table class="titleTable" style="background-image:url('images/usagetitle.jpg');background-repeat:no-repeat;width:900px;height:120px;text-align:left;">
 <tr style='vertical-align:bottom'>
 <td>
 &nbsp;
@@ -52,13 +52,13 @@ $pageTitle=_('Not Available');
 </tr>
 </table>
 
-<table class="headerTable" style='height:80px;'>
+<table class="headerTable">
 <tr><td>
 <?php
 if ($_GET['errorMessage']){
 	echo "<h3>" . $_GET['errorMessage'] . "</h3>";
 }else{
-	echo "<h3>"._("You have not been set up to have access to the Usage Statistics Module.  Please contact")." <a href=\"mailto:ERHELP@LISTSERV.ND.EDU\">ER Help</a> "._("to be added.")."</h3>";
+	echo "<h3>" . _("Please contact your Administrator for access to the Usage Statistics Module.") . "</h3>";
 }
 ?>
 

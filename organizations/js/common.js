@@ -36,10 +36,7 @@ Date.format = 'mm/dd/yyyy';
 
 
 $(function(){
-	$('.date-pick').datePicker({startDate:'01/01/1996'});
-	
-
-
+	refreshContext();	
 
 	$("#search_organization").autocomplete('ajax_processing.php?action=getOrganizationList', {
 		minChars: 2,
@@ -128,6 +125,10 @@ $(function(){
 
 	
 });
+
+function refreshContext() {
+	$('.date-pick').datePicker({startDate:'01/01/1996'});
+}
 
 function validateEmail(email) {
   var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;

@@ -7,7 +7,7 @@
 
 	if (!is_writable("attachments")) {
 		echo 3;
-		break;
+		return;
 	}
 
 

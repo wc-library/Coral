@@ -1,0 +1,1 @@
+ALTER TABLE `Downtime` CHANGE `endDate` `endDate` DATETIME NULL DEFAULT NULL;

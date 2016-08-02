@@ -49,7 +49,7 @@ foreach ($sushiServicesArray as $sushiService){
 //if more than one run, send email
 if (count($sushiServicesArray) > 0) {
 
-	$emailLog .= "<br /><br />"._("Log in to")." <a href='" . $util->getPageURL() . "sushi.php'>"._("Sushi Administration")."</a> "._("for more information.");
+	$emailLog .= "<br /><br />" . _("Log in to ") . "<a href='" . $util->getPageURL() . "sushi.php'>" . _("Sushi Administration") . "</a>" . _(" for more information.");
 
 	//send email to email addresses listed in DB
 	$logEmailAddress = new LogEmailAddress();
@@ -62,7 +62,7 @@ if (count($sushiServicesArray) > 0) {
 	if (count($emailAddresses) > 0){
 		$email = new Email();
 		$email->to 			= implode(", ", $emailAddresses);
-		$email->subject		= "SUSHI Scheduled run log for " . format_date(date) . " - " . count($sushiServicesArray) . " runs";
+		$email->subject		= _("SUSHI Scheduled run log for ") . format_date(date) . " - " . count($sushiServicesArray) . _(" runs");
 		$email->message		= $emailLog;
 
 

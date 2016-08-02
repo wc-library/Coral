@@ -242,6 +242,8 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 				}else{
 					$("#TB_ajaxContent").load(url += "&random=" + (new Date().getTime()),function(){//to do a post change this load method
 						tb_position();
+						//CORAL Customization: hook to allow us to update js listeners after AJAX content is loaded
+						refreshContext();
 						$("#TB_load").remove();
 						tb_init("#TB_ajaxContent a.thickbox");
 						$("#TB_window").css({display:"block"});
