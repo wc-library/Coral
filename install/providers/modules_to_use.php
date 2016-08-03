@@ -54,9 +54,9 @@ function register_modules_to_use_provider()
 						$dep_list = [];
 						// build dependency list
 						foreach ($module_list as $mod) {
-							if (!isset($mod["dependencies_array"]))
-							continue;
-							$dep_list = array_unique(array_merge($dep_list, $mod["dependencies_array"]));
+							if (!isset( $shared_module_info["dependencies"][$mod["uid"]] ))
+								continue;
+							$dep_list = array_unique(array_merge($dep_list, $shared_module_info["dependencies"][$mod["uid"]] ));
 						}
 						foreach ($modules_not_to_install as $mod) {
 							if (in_array($mod, $dep_list))

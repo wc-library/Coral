@@ -126,6 +126,7 @@ class Installer {
 			if (isset($obj["sharedInfo"]))
 			{
 				$this->shared_module_info[ $installer_object["uid"] ] = $obj["sharedInfo"];
+				$this->shared_module_info["dependencies"][ $installer_object["uid"] ] = $obj["dependencies_array"];
 			}
 		}
 		else
