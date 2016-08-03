@@ -9,9 +9,9 @@ function register_reports_provider()
 		"translatable_title" => _("Reports Module"),
 	];
 	return array_merge( $MODULE_VARS, [
-		"bundle" => function($version = 0) use ($MODULE_VARS, $protected_module_data) {
+		"bundle" => function($version) use ($MODULE_VARS, $protected_module_data) {
 			switch ($version) {
-				case "install":
+				case Installer::VERSION_STRING_INSTALL:
 					return [
 						"dependencies_array" => ["db_tools", "have_read_write_access_to_config", "modules_to_use", "usage", "have_default_db_user", "some_kind_of_auth"],
 						"sharedInfo" => [

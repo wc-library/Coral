@@ -16,6 +16,8 @@ class Installer {
 	const REQUIRED_FOR_UPGRADE = 502;
 	const REQUIRED_FOR_MODIFY  = 503;
 
+	const VERSION_STRING_INSTALL = "install";
+
 	protected $checklist = [];
 	protected $shared_module_info = [];
 	protected $messages = [];

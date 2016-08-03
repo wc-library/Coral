@@ -9,9 +9,9 @@ function register_auth_provider()
 		"translatable_title" => _("Authentication Module"),
 	];
 	return array_merge( $MODULE_VARS,[
-		"bundle" => function($version = "install") use ($MODULE_VARS, $protected_module_data) {
+		"bundle" => function($version) use ($MODULE_VARS, $protected_module_data) {
 			switch ($version) {
-				case "install":
+				case Installer::VERSION_STRING_INSTALL:
 					return [
 						"dependencies_array" => [ "db_tools", "have_read_write_access_to_config", "have_default_db_user", "have_default_coral_admin_user" ],
 						"sharedInfo" => [

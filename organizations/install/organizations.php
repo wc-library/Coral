@@ -9,9 +9,9 @@ function register_organizations_provider()
 		"translatable_title" => _("Organizations Module"),
 	];
 	return array_merge( $MODULE_VARS, [
-		"bundle" => function($version = 0) use ($MODULE_VARS, $protected_module_data) {
+		"bundle" => function($version) use ($MODULE_VARS, $protected_module_data) {
 			switch ($version) {
-				case "install":
+				case Installer::VERSION_STRING_INSTALL:
 					return [
 						"dependencies_array" => ["have_database_access", "modules_to_use", "have_default_coral_admin_user", "have_default_db_user", "some_kind_of_auth"],
 						"sharedInfo" => [
