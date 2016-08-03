@@ -117,7 +117,7 @@ function do_install()
 	}
 
 	$INSTALL_VERSION = 0;
-	run_loop($requirements, $INSTALL_VERSION);
+	run_loop($INSTALL_VERSION);
 }
 
 function do_upgrade($version)
