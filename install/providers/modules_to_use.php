@@ -72,8 +72,9 @@ function register_modules_to_use_provider()
 
 					if (!$return->success)
 					{
+						$instruction = _("Please select the modules that you would like to install:");
 						require_once "install/templates/modules_to_use_template.php";
-						$return->yield->body = modules_to_use_template($module_list);
+						$return->yield->body = modules_to_use_template($module_list, $instruction);
 					}
 					else
 					{

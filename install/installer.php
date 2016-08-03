@@ -134,14 +134,14 @@ class Installer {
 	private function scanForInstallerProviders()
 	{
 		// Core Requirements
-		$core_install_provider_path = "install/providers/";
-		$core_install_providers = scandir($core_install_provider_path);
-		foreach ($core_install_providers as $provider)
+		$core_provider_path = "install/providers/";
+		$core_providers = scandir($core_provider_path);
+		foreach ($core_providers as $provider)
 		{
 			if (trim($provider, ".") !== "")
 			{
 				$module_name = basename($provider, ".php");
-				$path = $core_install_provider_path . $provider;
+				$path = $core_provider_path . $req_module;
 				$this->addModule($path, $module_name, true);
 			}
 		}

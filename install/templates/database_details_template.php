@@ -1,22 +1,15 @@
 <?php
 
-function database_details_template($shared_database_info)
+function database_details_template($instruction, $db_access_vars, $shared_database_info)
 {
-	$dbusername = _("Database Username");
-	$dbpassword = _("Database Password");
-	$dbhost     = _("Database Host");
-	//TODO: pass variables as parameters! this is a travesty...
-	$username   = isset($_SESSION["POSTDATA"]["dbusername"]) ? $_SESSION["POSTDATA"]["dbusername"] : _("Username");
-	$password   = isset($_SESSION["POSTDATA"]["dbpassword"]) ? _("leave blank to leave unchanged") : _("Password");
-	$host       = isset($_SESSION["POSTDATA"]["dbhost"]) ? $_SESSION["POSTDATA"]["dbhost"] : _("Hostname");
 	$submit     = _("Continue Installing");
 
 	$cards = function($shared_database_info) {
 		return join(array_reduce($shared_database_info, function($carry, $item){
 			$carry[] = <<<HEREDOC
 			<div class="card-half">
-				<label for="db_{$item["key"]}_name">{$item["title"]}</label>
-				<input class="u-full-width" type="text" placeholder="{$item["default_value"]}" value="{$item["default_value"]}" name="db_{$item["key"]}_name">
+				<label for="{$item["name"]}">{$item["title"]}</label>
+				<input class="u-full-width" type="text" placeholder="{$item["default_value"]}" value="{$item["default_value"]}" name="{$item["name"]}">
 			</div>
 HEREDOC;
 			return $carry;
@@ -24,23 +17,26 @@ HEREDOC;
 	};
 
 	return <<<HEREDOC
+<div class="row">
+	$instruction
+</div>
 <form class="pure-form pure-form-aligned">
 	<fieldset>
 		<div class="row">
 			<div class="six columns">
-				<label for="dbusername">$dbusername</label>
-				<input class="u-full-width" type="text" placeholder="$username" name="dbusername">
+				<label for="dbusername">{$db_access_vars["username"]["title"]}</label>
+				<input class="u-full-width" type="text" placeholder="{$db_access_vars["username"]["placeholder"]}" name="{$db_access_vars["username"]["name"]}">
 			</div>
 
 			<div class="six columns">
-				<label for="dbpassword">$dbpassword</label>
-				<input class="u-full-width" type="password" placeholder="$password" name="dbpassword">
+				<label for="dbpassword">{$db_access_vars["password"]["title"]}</label>
+				<input class="u-full-width" type="password" placeholder="{$db_access_vars["password"]["placeholder"]}" name="{$db_access_vars["password"]["name"]}">
 			</div>
 		</div>
 		<div class="row">
 			<div class="twelve columns">
-				<label for="dbhost">$dbhost</label>
-				<input class="u-full-width" type="text" placeholder="$host" name="dbhost">
+				<label for="dbhost">{$db_access_vars["host"]["title"]}</label>
+				<input class="u-full-width" type="text" placeholder="{$db_access_vars["host"]["placeholder"]}" name="{$db_access_vars["host"]["name"]}">
 			</div>
 		</div>
 

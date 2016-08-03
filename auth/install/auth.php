@@ -56,12 +56,8 @@ function register_auth_provider()
 							// Grab post vars
 							if (isset($_POST['session_timeout']))
 								$_SESSION[$MODULE_VARS["uid"]]["session_timeout"] = $_POST['session_timeout'];
-							else
-								$_SESSION[$MODULE_VARS["uid"]]["session_timeout"] = isset($_SESSION[$MODULE_VARS["uid"]]["session_timeout"]) ? $_SESSION[$MODULE_VARS["uid"]]["session_timeout"] : 3600;
 							if (isset($_POST['ldap_enabled']))
 								$_SESSION[$MODULE_VARS["uid"]]["ldap"]["ldap_enabled"] = $_POST['ldap_enabled'] == 1 ? "Y" : "N";
-							else
-								$_SESSION[$MODULE_VARS["uid"]]["ldap"]["ldap_enabled"] = isset($_SESSION[$MODULE_VARS["uid"]]["ldap"]["ldap_enabled"]) ? $_SESSION[$MODULE_VARS["uid"]]["ldap"]["ldap_enabled"] : "N";
 							$ldap_post_vars = [
 								"host" => "ldap_host",
 								"port" => "ldap_port",
@@ -80,7 +76,7 @@ function register_auth_provider()
 								}
 								else
 								{
-									$ldap_session_var_by_reference[$key] = isset($ldap_session_var_by_reference[$key]) ? $ldap_session_var_by_reference[$key] : null;
+									$ldap_session_var_by_reference[$key] = !empty($ldap_session_var_by_reference[$key]) ? $ldap_session_var_by_reference[$key] : null;
 								}
 							}
 
@@ -143,12 +139,12 @@ function register_auth_provider()
 								]
 							];
 							require_once "install/templates/auth_module_template.php";
-							$session_timeout_default = $_SESSION[$MODULE_VARS["uid"]]["session_timeout"];
-							$ldap_enabled_default = $ldap_session_var_by_reference["ldap_enabled"] == "Y";
+							$session_timeout_default = isset($_SESSION[$MODULE_VARS["uid"]]["session_timeout"]) ? $_SESSION[$MODULE_VARS["uid"]]["session_timeout"] : 3600;
+							$ldap_enabled_default = isset($ldap_session_var_by_reference["ldap_enabled"]) && $ldap_session_var_by_reference["ldap_enabled"] == "Y";
 							$return->yield->body = auth_module_template($session_timeout_default, $ldap_enabled_default, $ldap_fields);
-							if (!isset($_POST['ldap_enabled']))
+							if (empty($_POST['ldap_enabled']))
 							{
-								if (!isset($ldap_session_var_by_reference["ldap_enabled"]))
+								if (empty($ldap_session_var_by_reference["ldap_enabled"]))
 								{
 									//We set the return body just before entering the if so we can return now
 									$return->success = false;
@@ -204,8 +200,14 @@ function register_auth_provider()
 								}
 							}
 
-							// This should be successful because our database check passed (it will throw an error otherwise)
-							$result = $dbconnection->processQuery("SELECT loginID FROM User WHERE loginID like '%coral%';");
+							if (!(!empty($_SESSION[$MODULE_VARS["uid"]]["default_user_created"]) && $_SESSION[$MODULE_VARS["uid"]]["default_user_created"]))
+							{
+								$createDefaultAdmin = "INSERT INTO `User` VALUES ('" . $shared_module_info["have_default_coral_admin_user"]["default_user"] . "','1a5f55d06a3d1fcb709d6fcc7266bb49f668bc65a4117470cdca9d0162bc4e5294d1fa79bf4097ba54810a1902baf7fa5c0d506537f1fdba88bf27acc64d9275', 'E9RIQzB7N30p3ynJwMsih3FIE6jUGq2KpJT58U3MOu1Hi', 'Y');";
+								// This should be successful because our database check passed (it will throw an error otherwise and we will know about it)
+								$result = $dbconnection->processQuery($createDefaultAdmin);
+								// An error would be thrown here if the insert were not successful
+								$_SESSION[$MODULE_VARS["uid"]]["default_user_created"] = true;
+							}
 
 							// Write the config file
 							$configFile = $protected_module_data["config_file_path"];

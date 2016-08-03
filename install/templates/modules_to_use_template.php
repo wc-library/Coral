@@ -1,6 +1,6 @@
 <?php
 
-function modules_to_use_template($module_list)
+function modules_to_use_template($module_list, $instruction)
 {
 	$submit     = _("Continue Installing");
 
@@ -23,7 +23,9 @@ HEREDOC;
 	return <<<HEREDOC
 <form class="pure-form pure-form-aligned">
 	<fieldset>
-
+		<div class="row">
+			$instruction
+		</div>
 		<div class="row">
 			{$cards($module_list)}
 		</div>

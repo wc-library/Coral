@@ -88,15 +88,14 @@ function register_db_tools_provider()
 								return false;
 
 							$databaseFreshReturnFalse = function() use ($muid, $shared_module_info) {
-								$_SESSION["db_" . $muid . "_feedback"] = DBAccess::DB_CREATED;
+								$_SESSION["have_database_access"]["db_" . $muid . "_feedback"] = DBAccess::DB_CREATED;
 								$shared_module_info["setSharedModuleInfo"]($muid, "db_feedback", DBAccess::DB_CREATED);
 								return false;
 							};
+							$return->yield->title = sprintf(_("Database Already Exists For: %s"), $module_title);
 
 							$check_db_namespace = "db_tools_check_db_" . $muid;
 							$option_buttons = [
-								//TODO: Fix upgrade path...
-								[ "name" => "redirect_to_upgrade",	"title" => _("Whoops, I Want To Upgrade"), "custom_javascript" => 'window.location.href="upgrade.php";' ],
 								[ "name" => "use_tables",			"title" => _("Use Existing Tables")		],
 								[ "name" => "drop_tables",			"title" => _("Delete Existing Tables")	],
 								[ "name" => "check_again",			"title" => _("Check Again")				]
@@ -130,43 +129,34 @@ function register_db_tools_provider()
 								{
 									$return->yield->messages[] = sprintf(_("We tried to delete the tables from %s but something went wrong. Maybe your user doesn't have the necessary rights?"), $module_shared['db_name']);
 									$return->yield->messages[] = "<b>Here is the exciting error:</b><br /><pre>" . var_export($e, 1) . "</pre>";
+									return $return;
 								}
 							}
-							else if ($module_shared["db_feedback"] == DBAccess::DB_ALREADY_EXISTED)
+							else if (isset($_POST[$check_db_namespace . "_option_button"]) && $module_shared["db_feedback"] == DBAccess::DB_ALREADY_EXISTED)
 							{
-								if (isset($_POST[$check_db_namespace . "_option_button"]))
+								switch ($_POST[$check_db_namespace . "_option_button"])
 								{
-									switch ($_POST[$check_db_namespace . "_option_button"])
-									{
-										case "redirect_to_upgrade":
-											// This won't work because the installer is expecting a json response
-											// and it doesn't eval js in the response so we use "custom_javascript" above
-											header('Location: upgrade.php');
-											exit;
+									case "use_tables":
+										if (!isset($_SESSION["db_tools"]["use_tables"]))
+											$_SESSION["db_tools"]["use_tables"] = [];
+										if (!in_array($muid, $_SESSION["db_tools"]["use_tables"]))
+											$_SESSION["db_tools"]["use_tables"][] = $muid;
+										return false;
 
-										case "use_tables":
-											if (!isset($_SESSION["db_tools"]["use_tables"]))
-												$_SESSION["db_tools"]["use_tables"] = [];
-											if (!in_array($muid, $_SESSION["db_tools"]["use_tables"]))
-												$_SESSION["db_tools"]["use_tables"][] = $muid;
-											return false;
+									case "drop_tables":
+										$return->success = false;
+										require_once "install/templates/option_buttons_template.php";
+										$return->yield->messages[] = sprintf(_("Are you sure you want to delete your %s tables.<br /><b>This action CANNOT BE UNDONE and it WILL DESTROY DATA.</b>"), $module_title);
+										$return->yield->body = option_buttons_template("", $are_you_sure_buttons, $check_db_namespace);
+										return $return;
 
-										case "drop_tables":
-											$return->success = false;
-											require_once "install/templates/option_buttons_template.php";
-											$return->yield->messages[] = sprintf(_("Are you sure you want to delete your %s tables.<br /><b>This action CANNOT BE UNDONE and it WILL DESTROY DATA.</b>"), $module_title);
-											$return->yield->body = option_buttons_template("", $are_you_sure_buttons, $check_db_namespace);
-											return $return;
-
-										case "check_again":
-											break;
-									}
-								}
-								else if (isset($_SESSION["db_tools"]["use_tables"]) && in_array($muid, $_SESSION["db_tools"]["use_tables"]))
-								{
-									return false;
+									case "check_again":
+										break;
 								}
 							}
+
+							if (isset($_SESSION["db_tools"]["use_tables"]) && in_array($muid, $_SESSION["db_tools"]["use_tables"]))
+								return false;
 
 							try
 							{
