@@ -1,8 +1,18 @@
 <?php
 function register_upgrade_helper_provider()
 {
-	require_once("common/Config.php");
-	$dynamic_dependencies = array_merge(["have_read_write_access_to_config"], Config::getInstalledModules());
+	try
+	{
+		require_once("common/Config.php");
+		$dynamic_dependencies = array_merge(["have_read_write_access_to_config"], Config::getInstalledModules());
+	}
+	catch (Exception $e)
+	{
+		// not installed!
+		/// TODO: figure out what to do...
+		$dynamic_dependencies = [];
+	}
+
 
 	return [
 		"uid" => "upgrade_helper",
