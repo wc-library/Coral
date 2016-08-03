@@ -13,7 +13,7 @@ function register_auth_provider()
 			switch ($version) {
 				case "install":
 					return [
-						"dependencies_array" => [ "db_tools", "have_read_write_access_to_config", "have_default_db_user" ],
+						"dependencies_array" => [ "db_tools", "have_read_write_access_to_config", "have_default_db_user", "have_default_coral_admin_user" ],
 						"sharedInfo" => [
 							"database" => [
 								"title" => _("Auth Database"),
