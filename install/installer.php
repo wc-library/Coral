@@ -141,7 +141,7 @@ class Installer {
 			if (trim($provider, ".") !== "")
 			{
 				$module_name = basename($provider, ".php");
-				$path = $core_provider_path . $req_module;
+				$path = $core_provider_path . $provider;
 				$this->addModule($path, $module_name, true);
 			}
 		}
