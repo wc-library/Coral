@@ -30,8 +30,8 @@ function register_have_default_coral_admin_user_provider()
 							"default_value" => $default_user
 						];
 
-						require "install/templates/have_default_coral_admin_user_template.php";
-						$return->yield->body = have_default_coral_admin_user_template($instruction, $field);
+						require "install/templates/text_field_template.php";
+						$return->yield->body = text_field_template($field, $instruction);
 					}
 					else
 					{
