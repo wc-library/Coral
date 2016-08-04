@@ -3,6 +3,7 @@
 function text_field_template($field, $instruction = "")
 {
 	$submit     = _("Continue Installing");
+	$field["default_value"] = htmlspecialchars($field["default_value"]);
 
 	return <<<HEREDOC
 <form class="pure-form pure-form-aligned">
