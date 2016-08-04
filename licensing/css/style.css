@@ -28,7 +28,6 @@ body {
 
 .wrapper {
 	margin: 0 auto -2em;
-	height: 120px;
 	background-image: url("../images/back-header.jpg");
 	background-repeat: repeat-x;
 }
