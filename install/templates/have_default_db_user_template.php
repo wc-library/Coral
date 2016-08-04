@@ -5,11 +5,8 @@ function have_default_db_user_template($instruction, $fields)
 	$submit     = _("Continue Installing");
 
 	//sanitize
-	foreach ($fields as $key => $value) {
-		foreach ($value as $k => $v) {
-			$fields[$key][$k] = htmlspecialchars($v);
-		}
-	}
+	$fields["username"]["default_value"] = htmlspecialchars($fields["username"]["default_value"]);
+	$fields["password"]["default_value"] = htmlspecialchars($fields["password"]["default_value"]);
 
 	return <<<HEREDOC
 <form class="pure-form pure-form-aligned">
