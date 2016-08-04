@@ -183,10 +183,68 @@ function register_auth_provider()
 							if (!$return->success)
 								return $return;
 
-							// Share data for other modules
-							if (isset($ldap_session_var_by_reference["ldap_enabled"]))
+							$ldap_enabled = isset($ldap_session_var_by_reference["ldap_enabled"]) && $ldap_session_var_by_reference["ldap_enabled"] == 'Y';
+							if (!$ldap_enabled)
 							{
-								$shared_module_info["setSharedModuleInfo"]( $MODULE_VARS["uid"], "ldap_enabled", 	$ldap_session_var_by_reference["ldap_enabled"] == 'Y');
+								// We need a password for the default admin account
+								if (isset($_POST["coral_default_admin_password"]))
+									$_SESSION[$MODULE_VARS["uid"]]["coral_default_admin_password"] = $_POST["coral_default_admin_password"];
+
+								$pwd_is_set = isset($_SESSION[$MODULE_VARS["uid"]]["coral_default_admin_password"]);
+								$pwd_is_valid = true;
+								if ($pwd_is_set)
+								{
+									$temp_pwd = $_SESSION[$MODULE_VARS["uid"]]["coral_default_admin_password"];
+									if (strlen($temp_pwd) < 8)
+									{
+										$pwd_is_valid = false;
+										$return->yield->messages[] = _("Sorry but your password needs to be at least 8 characters long");
+									}
+								}
+								if (!$pwd_is_set || !$pwd_is_valid)
+								{
+									$field = [
+										"uid" => "coral_default_admin_password",
+										"title" => _("Default Admin Password"),
+										"default_value" => isset($_SESSION[$MODULE_VARS["uid"]]["coral_default_admin_password"]) ? $_SESSION[$MODULE_VARS["uid"]]["coral_default_admin_password"] : ""
+									];
+									require_once "install/templates/text_field_template.php";
+									$instruction = sprintf(_("You have chosen not to use LDAP. In order for the auth module to authenticate your admin user (you chose: '<b>%s</b>') you will need to provide a default password."), $shared_module_info["have_default_coral_admin_user"]["default_user"]);
+									$return->yield->body = text_field_template($field, $instruction);
+									$return->success = false;
+									return $return;
+								}
+								else
+								{
+									// TODO: check that we only need to populate auth's db if ldap is disabled!
+									if (!(!empty($_SESSION[$MODULE_VARS["uid"]]["default_user_created"]) && $_SESSION[$MODULE_VARS["uid"]]["default_user_created"]))
+									{
+										$random_string = function($length)
+										{
+											$length += 2;
+											// The weird maths here is because of bytes to base64 encoding
+											$str_to_ret = base64_encode(openssl_random_pseudo_bytes(3*($length/4)));
+											return substr($str_to_ret, 0, $length - 2);
+										};
+
+										$admin_username = $shared_module_info["have_default_coral_admin_user"]["default_user"];
+										$random_prefix =$random_string(45);
+										$hashed_password = hash('sha512', $random_prefix . $_SESSION[$MODULE_VARS["uid"]]["coral_default_admin_password"]);
+										$random_prefix = $dbconnection->escapeString($random_prefix);
+										$admin_username = $dbconnection->escapeString($admin_username);
+										$createDefaultAdmin = "INSERT INTO `User` VALUES ('$admin_username', '$hashed_password', '$random_prefix', 'Y');";
+										// This should be successful because our database check passed (it will throw an error otherwise and we will know about it)
+										$result = $dbconnection->processQuery($createDefaultAdmin);
+										// An error would be thrown here if the insert were not successful
+										$_SESSION[$MODULE_VARS["uid"]]["default_user_created"] = true;
+									}
+								}
+							}
+
+							// Share data for other modules
+							$shared_module_info["setSharedModuleInfo"]( $MODULE_VARS["uid"], "ldap_enabled", $ldap_enabled);
+							if ($ldap_enabled)
+							{
 								$shared_module_info["setSharedModuleInfo"]( $MODULE_VARS["uid"], "host", 			$ldap_session_var_by_reference["host"]);
 								$shared_module_info["setSharedModuleInfo"]( $MODULE_VARS["uid"], "port", 			$ldap_session_var_by_reference["port"]);
 								$shared_module_info["setSharedModuleInfo"]( $MODULE_VARS["uid"], "search_key", 		$ldap_session_var_by_reference["search_key"]);
@@ -194,19 +252,7 @@ function register_auth_provider()
 								$shared_module_info["setSharedModuleInfo"]( $MODULE_VARS["uid"], "bindAccount", 	$ldap_session_var_by_reference["bindAccount"]);
 								$shared_module_info["setSharedModuleInfo"]( $MODULE_VARS["uid"], "fname", 			$ldap_session_var_by_reference["fname"]);
 								$shared_module_info["setSharedModuleInfo"]( $MODULE_VARS["uid"], "lname", 			$ldap_session_var_by_reference["lname"]);
-								if ($ldap_session_var_by_reference["bindPass"] == $ldap_session_var_by_reference["bindPassConfirm"])
-								{
-									$shared_module_info["setSharedModuleInfo"]( $MODULE_VARS["uid"], "bindPass", 	$ldap_session_var_by_reference["bindPass"]);
-								}
-							}
-
-							if (!(!empty($_SESSION[$MODULE_VARS["uid"]]["default_user_created"]) && $_SESSION[$MODULE_VARS["uid"]]["default_user_created"]))
-							{
-								$createDefaultAdmin = "INSERT INTO `User` VALUES ('" . $shared_module_info["have_default_coral_admin_user"]["default_user"] . "','1a5f55d06a3d1fcb709d6fcc7266bb49f668bc65a4117470cdca9d0162bc4e5294d1fa79bf4097ba54810a1902baf7fa5c0d506537f1fdba88bf27acc64d9275', 'E9RIQzB7N30p3ynJwMsih3FIE6jUGq2KpJT58U3MOu1Hi', 'Y');";
-								// This should be successful because our database check passed (it will throw an error otherwise and we will know about it)
-								$result = $dbconnection->processQuery($createDefaultAdmin);
-								// An error would be thrown here if the insert were not successful
-								$_SESSION[$MODULE_VARS["uid"]]["default_user_created"] = true;
+								$shared_module_info["setSharedModuleInfo"]( $MODULE_VARS["uid"], "bindPass", 		$ldap_session_var_by_reference["bindPass"]);
 							}
 
 							// Write the config file
@@ -223,6 +269,7 @@ function register_auth_provider()
 								"password" => $shared_module_info["have_default_db_user"]["password"]
 							];
 							$iniData["ldap"] = $ldap_session_var_by_reference;
+
 							$shared_module_info["provided"]["write_config_file"]($configFile, $iniData);
 
 							$return->yield->completionMessages[] = _("Set up your <span class='highlight'>.htaccess</span> file");
