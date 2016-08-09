@@ -170,7 +170,7 @@ $coralURL = $util->getCORALURL();
     </a>
 
 <?php if ($user->isAdmin() || $user->canEdit()){ ?>
-    <a href='ajax_forms.php?action=getNewResourceForm&height=503&width=775&resourceID=&modal=true' class='thickbox' id='newLicense'>
+    <a href='ajax_forms.php?action=getNewResourceForm&height=503&width=775&resourceID=&modal=true' class='thickbox' id='newResource'>
         <div class="main-menu-link">
             <img src="images/menu/icon-plus-square.png" />
             <span><?php echo _("New Resource");?></span>
