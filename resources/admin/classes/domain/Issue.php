@@ -31,7 +31,7 @@ class Issue extends DatabaseObject {
 		$query = "SELECT o.organizationID 
 				  FROM IssueRelationship ir
 				  LEFT JOIN `{$orgDB}`.Organization o ON (o.organizationID=ir.entityID AND ir.entityTypeID=1)
-				  WHERE ir.issueID={$this->issueID}";
+				  WHERE ir.issueID='$this->issueID'";
 		$result = $this->db->processQuery($query, 'assoc');
 		$objects = array();
 
@@ -47,7 +47,7 @@ class Issue extends DatabaseObject {
 		$query = "SELECT r.resourceID 
 				  FROM IssueRelationship ir
 				  LEFT JOIN Resource r ON (r.resourceID=ir.entityID AND ir.entityTypeID=2)
-				  WHERE ir.issueID={$this->issueID}";
+				  WHERE ir.issueID='$this->issueID'";
 		$result = $this->db->processQuery($query, 'assoc');
 		$objects = array();
 

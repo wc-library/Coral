@@ -43,14 +43,14 @@ include 'templates/header.php';
 <table class="headerTable" style="background-image:url('images/header.gif');background-repeat:no-repeat;">
 <tr style='vertical-align:top;'>
 <td style="width:155px;padding-right:10px;">
-  <form method="get" action="ajax_htmldata.php?action=getSearchResources" id="resourceSearchForm">
-    <?php 
-    foreach(array('orderBy','page','recordsPerPage','startWith') as $hidden) {
-      echo Html::hidden_search_field_tag($hidden, $search[$hidden]);
-    }
-    ?>
-    
-	<table class='noBorder'>
+	<form method="get" action="ajax_htmldata.php?action=getSearchResources" id="resourceSearchForm">
+		<?php
+		foreach(array('orderBy','page','recordsPerPage','startWith') as $hidden) {
+			echo Html::hidden_search_field_tag($hidden, $search[$hidden]);
+		}
+		?>
+		
+	<table class='noBorder' id='title-search'>
 	<tr><td style='text-align:left;width:75px;' align='left'>
 	<span style='font-size:130%;font-weight:bold;'><?php echo _("Search");?></span><br />
 	<a href='javascript:void(0)' class='newSearch'><?php echo _("new search");?></a>
@@ -73,7 +73,7 @@ include 'templates/header.php';
 
 
 	<tr>
-	<td class='searchRow'><label for='searchResourceISBNOrISSN'><b>ISBN/ISSN</b></label>
+	<td class='searchRow'><label for='searchResourceISBNOrISSN'><b><?php echo _("ISBN/ISSN");?></b></label>
 	<br />
 	<?php echo Html::text_search_field_tag('resourceISBNOrISSN', $search['resourceISBNOrISSN']); ?>
 	<br />
@@ -86,8 +86,26 @@ include 'templates/header.php';
 	<tr>
 	<td class='searchRow'><label for='searchFund'><b><?php echo _("Fund");?></b></label>
 	<br />
-	<?php echo Html::text_search_field_tag('fund', $search['fund']); ?><br />
-	<div id='div_searchFund' style='<?php if (!$search['fund']) echo "display:none;"; ?>margin-left:123px;'><input type='button' name='btn_searchFund' value='<?php echo _("go!");?>' class='searchButton' /></div>
+		<select name='search[fund]' id='searchFund' style='width:150px' class ='changeInput'>
+			<option value=''>All</option>
+			<?php
+				if ($search['fund'] == "none"){
+					echo "<option value='none' selected>" . _("(none)") . "</option>";
+				}else{
+					echo "<option value='none'>" . _("(none)") . "</option>";
+				}
+				$fundType = new Fund();
+			
+		foreach($fundType->allAsArray() as $fund) {
+				$fundCodeLength = strlen($fund['fundCode']) + 3;
+				$combinedLength = strlen($fund['shortName']) + $fundCodeLength;
+				$fundName = ($combinedLength <=50) ? $fund['shortName'] : substr($fund['shortName'],0,49-$fundCodeLength) . "&hellip;";
+				$fundName .= " [" . $fund['fundCode'] . "]</option>";
+				echo "<option value='" . $fund['fundID'] . "'>" . $fundName . "</option>";
+		}
+
+			?>
+		</select>
 	</td>
 	</tr>
 
@@ -100,8 +118,8 @@ include 'templates/header.php';
 	<option value=''><?php echo _("All");?></option>
 	<?php
 
-		$display = array();
-		$acquisitionType = new AcquisitionType();
+	  $display = array();
+	  $acquisitionType = new AcquisitionType();
 
 		foreach($acquisitionType->allAsArray() as $display) {
 			if ($search['acquisitionTypeID'] == $display['acquisitionTypeID']) {
@@ -553,8 +571,8 @@ include 'templates/header.php';
 	<option value=''><?php echo _("All");?></option>
 	<?php
 	  $step = new Step();
-    $stepNames = $step->allStepNames();
-    
+		$stepNames = $step->allStepNames();
+		
 		foreach($stepNames as $stepName) {
 		  if ($search['stepName'] == $stepName) {
 		    $stepSelected = " selected";
@@ -568,21 +586,21 @@ include 'templates/header.php';
 	</select>
 	</td>
 	</tr>
-  <tr>
-    <td class='searchRow'><label for='searchParents'><b>Relationship</b></label>
-    <select name='search[parent]' id='searchParents' style='width:150px'>
-      <option value=''>All</option>
-      <option value='RRC'>Parent</option>
-      <option value='RRP'>Child</option>
-    </select>
-  </td>
-  </tr>
+	<tr>
+		<td class='searchRow'><label for='searchParents'><b>Relationship</b></label>
+		<select name='search[parent]' id='searchParents' style='width:150px'>
+			<option value=''><?php echo _("All");?></option>
+			<option value='RRC'><?php echo _("Parent");?></option>
+			<option value='RRP'><?php echo _("Child");?></option>
+		</select>
+	</td>
+	</tr>
 
 
 	</table>
 	</div>
 
-  </form>
+	</form>
 </td>
 <td>
 <div id='div_searchResults'></div>
@@ -612,8 +630,8 @@ include 'templates/header.php';
 	  echo "orderBy = \"" . CoralSession::get('res_orderBy') . "\";";
   }
 
-  echo "</script>";
+	echo "</script>";
 
-  //print footer
-  include 'templates/footer.php';
+	//print footer
+	include 'templates/footer.php';
 ?>

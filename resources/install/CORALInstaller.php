@@ -69,7 +69,17 @@ class CORALInstaller {
         <li>Create the Issue and associated tables</li>
         <li>Create the Downtime and associated tables</li>
       </ul>"
-    )	
+    ),
+    "1.41" => array(
+      "privileges" => array("ALTER"),
+      "installedTablesCheck" => array("Issue","Downtime"),
+      "tablePropertiesCheck" => array(array("table"=>"Downtime","requirements"=>"`Field`='endDate' AND `Null`='YES'")),
+      "description" => "<p>The 1.41 update to the CORAL Resources module includes bug fixes and enhancements for the new Issue and Downtime tracking features.</p>
+      <p>This upgrade will connect to MySQL and run the CORAL Resources structure changes. Database structure changes include:</p>
+      <ul>
+        <li>Alter the Downtime table</li>
+      </ul>"
+    ) 
   );
   
   public function __construct() {
@@ -238,6 +248,16 @@ class CORALInstaller {
     }
     return false;
   }
+
+
+  public function tableIsCurrent($table,$check) {
+    $query = "SHOW COLUMNS FROM {$this->config->database->name}.{$table} WHERE {$check}";
+    $results = $this->query($query);
+    if ($results->num_rows > 0) {
+      return true;
+    }
+    return false;
+  }
   
   public function indexExists($table, $index) {
     $result = $this->query("SHOW INDEXES FROM $table WHERE Key_name = '$index'");
@@ -278,15 +298,27 @@ class CORALInstaller {
   public function isUpdateInstalled($version) {
     if ($this->installed()) {
       $installedTablesCheck = $this->updates[$version]["installedTablesCheck"];
+      $tablePropertiesCheck = (!empty($this->updates[$version]["tablePropertiesCheck"])) ? $this->updates[$version]["tablePropertiesCheck"]:null;
+      $isUpdated = true;
       if ($installedTablesCheck) {
         foreach ($installedTablesCheck as $table) {
           if (!$this->tableExists($table)) {
             $this->statusNotes["version_".$version] = "Version $version not installed. Could not find table: ".$table;
-            return false;
+            $isUpdated = false;
           }
         }
-        $this->statusNotes["version_".$version] = "Version $version already installed. Found tables: ".implode(", ", $installedTablesCheck);
-        return true;
+        if ($tablePropertiesCheck) {
+          foreach ($tablePropertiesCheck as $propertyCheck) {
+            if (!$this->tableIsCurrent($propertyCheck['table'],$propertyCheck['requirements'])) {
+              $this->statusNotes["version_".$version] = "Version $version not installed. Outdated table: ".$propertyCheck['table'];
+              $isUpdated = false;
+            }
+          }
+        }
+        if ($isUpdated) {
+          $this->statusNotes["version_".$version] = "Version $version already installed. Found tables: ".implode(", ", $installedTablesCheck);
+          return true;
+        }
       }
     }
     return false;

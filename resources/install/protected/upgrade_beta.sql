@@ -26,6 +26,34 @@ CREATE TABLE  `Currency` (
   UNIQUE KEY `currencyCode` (`currencyCode`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+DROP TABLE IF EXISTS `Fund`;
+CREATE TABLE `Fund` (
+  `fundID` int(11) NOT NULL auto_increment,
+  `fundCode` varchar(20) default NULL,
+  `shortName` varchar(200) default NULL,
+  `archived` boolean default NULL,
+  PRIMARY KEY (`fundID`),
+  UNIQUE `fundCode` (`fundCode`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS `ImportConfig`;
+CREATE TABLE `ImportConfig` (
+  `importConfigID` int(11) NOT NULL auto_increment,
+  `shortName` varchar(200) default NULL,
+  `configuration` varchar(1000) default NULL,
+  PRIMARY KEY (`importConfigID`)
+  ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=UTF8;
+
+DROP TABLE IF EXISTS `OrgNameMapping`;
+CREATE TABLE `OrgNameMapping` (
+  `orgNameMappingID` int(11) NOT NULL auto_increment,
+  `importConfigID` int(11) NOT NULL,
+  `orgNameImported` varchar(200) default NULL,
+  `orgNameMapped` varchar(200) default NULL,
+  PRIMARY KEY (`orgNameMappingID`),
+  KEY (`importConfigID`)
+  ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=UTF8;
+
 ALTER TABLE `Resource` ADD COLUMN `archiveDate` DATE AFTER `updateLoginID`,
  ADD COLUMN `archiveLoginID` VARCHAR(45) AFTER `archiveDate`,
  ADD COLUMN `workflowRestartDate` DATE AFTER `archiveLoginID`,
@@ -116,8 +144,8 @@ ALTER TABLE `Resource` ADD INDEX `Index_createDate`(`createDate`),
  ADD INDEX `Index_All`(`createDate`, `createLoginID`, `titleText`, `isbnOrISSN`, `statusID`, `resourceTypeID`, `resourceFormatID`, `acquisitionTypeID`);
  
 ALTER TABLE `ResourcePayment` ADD INDEX `Index_resourceID`(`resourceID`),
- ADD INDEX `Index_fundName`(`fundName`),
- ADD INDEX `Index_All`(`resourceID`, `fundName`); 
+ ADD INDEX `Index_fundID`(`fundID`),
+ ADD INDEX `Index_All`(`resourceID`, `fundID:`); 
  
 ALTER TABLE `ResourceNote` ADD INDEX `Index_resourceID`(`resourceID`),
  ADD INDEX `Index_noteTypeID`(`noteTypeID`),
@@ -185,3 +213,15 @@ INSERT INTO `Step` (stepID, priorStepID, stepName, userGroupID, workflowID, disp
 VALUES (5, NULL, 'Licensing', 2, 2, 1);
 INSERT INTO `Step` (stepID, priorStepID, stepName, userGroupID, workflowID, displayOrderSequence)
 VALUES (6, NULL, 'Activation', 1, 2, 2);
+
+INSERT INTO `Fund` (shortName) SELECT DISTINCT `fundName` FROM `ResourcePayment`;
+UPDATE `Fund` SET fundCode = fundID;
+
+ALTER TABLE `ResourcePayment` ADD COLUMN `fundID` int(10) AFTER `resourceID`;
+
+UPDATE `ResourcePayment`
+INNER JOIN `Fund`
+    ON `ResourcePayment`.fundName = `Fund`.shortName
+SET `ResourcePayment`.fundID = `Fund`.fundID;
+
+ALTER TABLE `ResourcePayment` DROP COLUMN `fundName`;

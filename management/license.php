@@ -55,7 +55,7 @@ if ($license->shortName){
 <input type='hidden' name='licenseID' id='licenseID' value='<?php echo $license->licenseID; ?>'>
 
 <div style="width: 899px;" id ='div_displayDocuments'>
-	<table cellpadding="0" cellspacing="0" style="width: 100%; table-layout: fixed;">
+	<table cellpadding="0" cellspacing="0">
 		<tr>
 			<td class="sidemenu">
 				<div class="sidemenuselected" style='position: relative; width: 91px'><a href='javascript:void(0)' class='showDocuments'><?php echo _("Documents");?></a></div>
@@ -64,7 +64,6 @@ if ($license->shortName){
 				<div class='sidemenuunselected'><a href='javascript:void(0)' class='showAttachments'><?php echo _("Attachments");?></a><br />&nbsp;<span class='span_AttachmentNumber'></span></div>
 			</td>
 			<td class='mainContent'>
-
 				<div id='div_documents'>
 				<img src = "images/circle.gif"><?php echo _("Loading...");?>
 				</div>
@@ -81,7 +80,7 @@ if ($license->shortName){
 
 
 <div id ='div_displayExpressions' style='display:none;width:899px;'>
-	<table cellpadding="0" cellspacing="0" style="width: 100%; table-layout: fixed;">
+	<table cellpadding="0" cellspacing="0" style="width: 100%;">
 		<tr>
 			<td class="sidemenu">
 				<div class="sidemenuunselected"><a href='javascript:void(0)' class='showDocuments'><?php echo _("Documents");?></a></div>
@@ -90,7 +89,6 @@ if ($license->shortName){
 				<div class='sidemenuunselected'><a href='javascript:void(0)' class='showAttachments'><?php echo _("Attachments");?></a><br />&nbsp;<span class='span_AttachmentNumber'></span></div>
 			</td>
 			<td class='mainContent'>
-
 				<div id='div_expressions'>
 				<img src = "images/circle.gif"><?php echo _("Loading...");?>
 				</div>
@@ -101,7 +99,7 @@ if ($license->shortName){
 
 
 <div id ='div_displaySFXProviders' style='display:none;width:899px;'>
-	<table cellpadding="0" cellspacing="0" style="width: 100%; table-layout: fixed;">
+	<table cellpadding="0" cellspacing="0" style="width: 100%;">
 		<tr>
 			<td class="sidemenu">
 				<div class="sidemenuunselected"><a href='javascript:void(0)' class='showDocuments'><?php echo _("Documents");?></a></div>
@@ -120,7 +118,7 @@ if ($license->shortName){
 
 
 <div id ='div_displayAttachments' style='display:none;width:899px;'>
-	<table cellpadding="0" cellspacing="0" style="width: 100%; table-layout: fixed;">
+	<table cellpadding="0" cellspacing="0" style="width: 100%;">
 		<tr>
 			<td class="sidemenu">
 				<div class="sidemenuunselected"><a href='javascript:void(0)' class='showDocuments'><?php echo _("Documents");?></a></div>
@@ -129,7 +127,6 @@ if ($license->shortName){
 				<div class='sidemenuselected' style='position: relative; width: 91px'><a href='javascript:void(0)' class='showAttachments'><?php echo _("Attachments");?></a><br />&nbsp;<span class='span_AttachmentNumber'></span></div>
 			</td>
 			<td class='mainContent'>
-
 				<div id='div_attachments'>
 				<img src = "images/circle.gif"><?php echo _("Loading...");?>
 				</div>
