@@ -129,9 +129,11 @@ if ($resource->titleText){
                         
                         $costDetails = new CostDetails(new NamedArguments(array('primaryKey' => $instance->costDetailsID)));
                         $sanitizedInstance['costDetails'] = $costDetails->shortName;
-
-
-			array_push($paymentArray, $sanitizedInstance);
+                        
+                        $fund=new Fund(new NamedArguments(array('primaryKey' => $instance->fundID)));
+                        $sanitizedInstance['fundName'] = $fund->shortName;
+			
+                        array_push($paymentArray, $sanitizedInstance);
 
 	}
 
