@@ -38,11 +38,8 @@ Date.format = 'mm/dd/yyyy';
 
 
 $(function(){
-	$('.date-pick').datePicker({startDate:'01/01/1996'});
+	refreshContext();
 	
-
-
-
 	$("#search_organization").autocomplete('ajax_processing.php?action=getOrganizationList', {
 		minChars: 2,
 		max: 20,
@@ -130,8 +127,9 @@ $(function(){
 });
 
 
-
-
+function refreshContext() {
+	$('.date-pick').datePicker({startDate:'01/01/1996'});
+}
 
 // 1 visible, 0 hidden
 function toggleDivState(divID, intDisplay) {

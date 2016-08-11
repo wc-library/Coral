@@ -110,7 +110,7 @@ abstract class Report implements ReportInterface {
                 ->selectDB(Config::$database->name)
                 ->query("SELECT reportParameterID
                     FROM ReportParameterMap
-                    WHERE reportID = '{$this->id}'
+                    WHERE reportID = '$this->id'
                     ORDER BY 1")
                 ->fetchRows(MYSQLI_ASSOC) as $row ){
             $objects[] = ParameterFactory::makeParam($this->id,$row['reportParameterID']);
@@ -129,7 +129,7 @@ abstract class Report implements ReportInterface {
         foreach($this->db
                 ->query("SELECT reportColumnName, reportAction
                         FROM ReportSum
-                        WHERE reportID = '{$this->id}'"
+                        WHERE reportID = '$this->id'"
                     )
                 ->fetchRows(MYSQLI_ASSOC) as $row ){
             $sumColsArray[$row['reportColumnName']] = $row['reportAction'];

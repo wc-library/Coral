@@ -37,23 +37,23 @@ class Organization extends DatabaseObject {
 
 	}
 
-	public function alreadyExists($shortName) {
+  public function alreadyExists($shortName) {
 		$query = "SELECT count(*) orgcount FROM Organization WHERE UPPER(shortName) = '" . str_replace("'", "''", strtoupper($shortName)) . "';";
 		$result = $this->db->processQuery($query, 'assoc');
 		return $result['orgcount'];
- 	}
+  }
 
-  	public function getOrganizationIDByName($shortName) {
-    	$query = "SELECT organizationID FROM Organization WHERE UPPER(shortName) = '" . str_replace("'", "''", strtoupper($shortName)) . "';";
+  public function getOrganizationIDByName($shortName) {
+    $query = "SELECT organizationID FROM Organization WHERE UPPER(shortName) = '" . str_replace("'", "''", strtoupper($shortName)) . "';";
 		$result = $this->db->processQuery($query, 'assoc');
 		return $result['organizationID'];
-  	}
+  }
 
 	public function getIssues($archivedOnly=false) {
 		$query = "SELECT i.* 
 			  FROM Issue i
 			  LEFT JOIN IssueRelationship ir ON (ir.issueID=i.issueID AND ir.entityTypeID=1)
-			  WHERE ir.entityID={$this->primaryKey}";
+			  WHERE ir.entityID='{$this->primaryKey}'";
 		if ($archivedOnly) {
 			$query .= " AND i.dateClosed IS NOT NULL";
 		} else {
@@ -70,35 +70,6 @@ class Organization extends DatabaseObject {
 		} else {
 			foreach ($result as $row) {
 				$object = new Issue(new NamedArguments(array('primaryKey' => $row['issueID'])));
-				array_push($objects, $object);
-			}
-		}
-		return $objects;
-	}
-
-	public function getDowntime($archivedOnly=false) {
-		$query = "SELECT d.* 
-			  FROM Downtime d
-			  WHERE d.entityID={$this->primaryKey} 
-			  AND d.entityTypeID=1";
-
-		if ($archivedOnly) {
-			$query .= " AND d.endDate < CURDATE()";
-		} else {
-			$query .= " AND d.endDate >= CURDATE()";
-		}
-		$query .= "	ORDER BY d.dateCreated DESC";
-
-		$result = $this->db->processQuery($query, 'assoc');
-
-		$objects = array();
-		//need to do this since it could be that there's only one request and this is how the dbservice returns result
-		if (isset($result['downtimeID'])) {
-			$object = new Downtime(new NamedArguments(array('primaryKey' => $result['downtimeID'])));
-			array_push($objects, $object);
-		} else {
-			foreach ($result as $row) {
-				$object = new Downtime(new NamedArguments(array('primaryKey' => $row['downtimeID'])));
 				array_push($objects, $object);
 			}
 		}
@@ -127,7 +98,7 @@ class Organization extends DatabaseObject {
 								WHERE sie.issueID=i.issueID) AS `CCs`
 			  FROM Issue i
 			  LEFT JOIN IssueRelationship ir ON (ir.issueID=i.issueID AND ir.entityTypeID=1)
-			  WHERE ir.entityID={$this->primaryKey}";
+			  WHERE ir.entityID='{$this->primaryKey}'";
 		if ($archivedOnly) {
 			$query .= " AND i.dateClosed IS NOT NULL";
 		} else {
@@ -145,19 +116,41 @@ class Organization extends DatabaseObject {
 		}
 	}
 
-	public function getExportableDowntimes($archivedOnly=false){
-		
-		$query = "SELECT d.*
-				  FROM Downtime d
-				  WHERE d.entityID={$this->primaryKey} AND d.entityTypeID=1";
+	private function getDownTimeResults($archivedOnly=false) {
+		$query = "SELECT d.* 
+			  FROM Downtime d
+			  WHERE d.entityID='{$this->primaryKey}'
+			  AND d.entityTypeID=1";
+
 		if ($archivedOnly) {
 			$query .= " AND d.endDate < CURDATE()";
 		} else {
-			$query .= " AND d.endDate >= CURDATE()";
+			$query .= " AND (d.endDate >= CURDATE() OR d.endDate IS NULL)";
 		}
 		$query .= "	ORDER BY d.dateCreated DESC";
 
-		$result = $this->db->processQuery($query, 'assoc');
+		return $this->db->processQuery($query, 'assoc');
+	}
+
+	public function getDowntime($archivedOnly=false) {
+		$result = $this->getDownTimeResults($archivedOnly);
+
+		$objects = array();
+		//need to do this since it could be that there's only one request and this is how the dbservice returns result
+		if (isset($result['downtimeID'])) {
+			$object = new Downtime(new NamedArguments(array('primaryKey' => $result['downtimeID'])));
+			array_push($objects, $object);
+		} else {
+			foreach ($result as $row) {
+				$object = new Downtime(new NamedArguments(array('primaryKey' => $row['downtimeID'])));
+				array_push($objects, $object);
+			}
+		}
+		return $objects;
+	}
+
+	public function getExportableDowntimes($archivedOnly=false){
+		$result = $this->getDownTimeResults($archivedOnly);
 
 		$objects = array();
 

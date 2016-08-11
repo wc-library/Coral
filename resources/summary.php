@@ -17,7 +17,6 @@
 **************************************************************************************************************************
 */
 
-session_start();
 include_once 'directory.php';
 
 $util = new Utility();
@@ -193,14 +192,14 @@ if ($resource->titleText){
 	<title>Resources Module - <?php echo $pageTitle; ?></title>
 	<link rel="stylesheet" href="css/style.css" type="text/css" media="print" />
 	<link rel="stylesheet" href="css/style.css" type="text/css" media="screen" />
-	<link rel="SHORTCUT ICON" href="images/butterflyfishfavicon.ico" />
+	<link rel="SHORTCUT ICON" href="images/favicon.ico" />
 
 	</head>
 	<body>
 
 
 	<div class='printContent'>
-	<table class='linedFormTable'>
+	<table class='linedFormTable' style='width:510px;'>
 		<tr>
 		<th colspan='2' style='margin-top: 7px; margin-bottom: 5px;'>
 		<span style='float:left; vertical-align:top; margin-left:3px;'><span style='font-weight:bold;font-size:120%;margin-right:8px;'><?php echo $resource->titleText; ?></span><span style='font-weight:normal;font-size:100%;'><?php echo $resourceFormat->shortName . " " . $resourceType->shortName; ?></span></span>
@@ -282,7 +281,7 @@ if ($resource->titleText){
 
 			foreach ($childResourceArray as $childResource){
 				$childResourceObj = new Resource(new NamedArguments(array('primaryKey' => $childResource['resourceID'])));
-				echo $childResourceObj->titleText . "&nbsp;&nbsp;<br />";
+				echo "<span style='float: left;'>" . $childResourceObj->titleText . "&nbsp;&nbsp;(child)</span>";
 			}
 
 
@@ -402,7 +401,7 @@ if ($resource->titleText){
 
 	if (count($noteArray) > 0){
 	?>
-		<table class='linedFormTable'>
+		<table class='linedFormTable' style='width:510px;'>
 			<tr>
 			<th colspan='2'><?php echo _("Additional Product Notes");?></th>
 			</tr>
@@ -421,7 +420,7 @@ if ($resource->titleText){
 	<br />
 
 
-	<table class='linedFormTable'>
+	<table class='linedFormTable' style='width:510px;'>
 	<tr>
 	<th colspan='2' style='vertical-align:bottom;'>
 	<span style='float:left;vertical-align:bottom;'><?php echo _("Order");?></span>
@@ -485,7 +484,7 @@ if ($resource->titleText){
 	</table>
 	<br />
 
-	<table class='linedFormTable'>
+	<table class='linedFormTable' style='width:510px;'>
 	<tr>
         <th colspan='2' style='vertical-align:bottom;'>
 	<span style='float:left;vertical-align:bottom;'><?php echo _("Cost History");?></span>
@@ -550,7 +549,7 @@ if ($resource->titleText){
 	</table>
 	<br />
 
-	<table class='linedFormTable'>
+	<table class='linedFormTable' style='width:510px;'>
 	<tr>
 	<th colspan='2'>
 	<span style='float:left;vertical-align:bottom;'><?php echo _("License");?></span>
@@ -595,7 +594,6 @@ if ($resource->titleText){
 
 	</table>
 
-	<br />
 
 	<?php
 
@@ -630,7 +628,7 @@ if ($resource->titleText){
 
 	if (count($noteArray) > 0){
 	?>
-		<table class='linedFormTable'>
+		<table class='linedFormTable' style='width:510px;'>
 			<tr>
 			<th colspan='2'><?php echo _("Additional Acquisitions Notes");?></th>
 			</th>&nbsp;
@@ -651,7 +649,7 @@ if ($resource->titleText){
 	<br />
 
 
-	<table class='linedFormTable'>
+	<table class='linedFormTable' style='width:510px;'>
 	<tr>
 	<th colspan='2'>
 	<span style='float:left;vertical-align:bottom;'><?php echo _("Access Information");?></span>
@@ -755,7 +753,7 @@ if ($resource->titleText){
 
 	if (count($noteArray) > 0){
 	?>
-		<table class='linedFormTable'>
+		<table class='linedFormTable' style='width:510px;'>
 			<tr>
 			<th colspan='2'><?php echo _("Additional Access Notes");?></th>
 			</tr>
@@ -770,7 +768,7 @@ if ($resource->titleText){
 	}
 	?>
 
-  <table class='linedFormTable'>
+  <table class='linedFormTable' style='width:510px;'>
     <tr>
       <th colspan='2' style='vertical-align:bottom;'>
         <span style='float:left;vertical-align:bottom;'><?php echo _("Cataloging");?></span>
@@ -868,7 +866,7 @@ if ($resource->titleText){
 
 	if (count($noteArray) > 0){
 	?>
-		<table class='linedFormTable'>
+		<table class='linedFormTable' style='width:510px;'>
 			<tr>
 			<th colspan='2'><?php echo _("Additional Cataloging Notes");?></th>
 			</tr>

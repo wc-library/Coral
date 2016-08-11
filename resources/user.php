@@ -35,9 +35,7 @@ if ($config->settings->authModule == 'Y'){
 
 	//if the user has an open session
 	if (($loginID) && ($user->hasOpenSession())){
-
-		session_start();
-		$_SESSION['loginID'] = $loginID;
+    CoralSession::set('loginID', $loginID);
 
 	//no open session
 	}else{
@@ -52,7 +50,8 @@ if ($config->settings->authModule == 'Y'){
 
 		$authURL = $util->getCORALURL() . "auth/" . $addURL . htmlentities($_SERVER['REQUEST_URI']);
 		header('Location: ' . $authURL, true);
-		exit("redirecting to " . $authURL);
+
+		exit; //PREVENT SECURITY HOLE
 	}
 
 
@@ -60,9 +59,7 @@ if ($config->settings->authModule == 'Y'){
 }else{
 
 	//get login id from server
-	if (!isset($_SESSION['loginID']) || ($_SESSION['loginID'] == '')){
-
-
+	if (!CoralSession::get('loginID') || (CoralSession::get('loginID') == '')){
 		$varName = $config->settings->remoteAuthVariableName;
 
 		//the following code takes the remote auth variable name from the config settings and evaluates it to get the actual value from web server
@@ -76,14 +73,12 @@ if ($config->settings->authModule == 'Y'){
 		//use the split in case the remote login is supplied as an email address
 		list ($loginID,$restofAddr) = explode("@", $remoteAuth);
 
-
-		session_start();
-		$_SESSION['loginID'] = $loginID;
+    CoralSession::set('loginID', $loginID); 
 
 
 	}else{
 
-		$loginID = $_SESSION['loginID'];
+		$loginID = CoralSession::get('loginID');
 
 	}
 

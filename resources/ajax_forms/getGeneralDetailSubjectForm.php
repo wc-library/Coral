@@ -72,7 +72,9 @@
 						</td>
 
 				<td style='vertical-align:top;text-align:left;width:40px;'>
-				<a href='javascript:void();'><img src='images/add.gif' class='adddetailedSubject' alt="<?php echo _("add detail subject");?>" title="<?php echo _("add detail subject");?>"></a>
+				<a href='javascript:void();'>
+					<input class='adddetailedSubject add-button' title='<?php echo _("add detail subject");?>' type='button' value='<?php echo _("Add");?>'/>
+				</a>
 				</td>
 				</tr>
 				</table>
@@ -125,8 +127,8 @@
 
 		<table class='noBorderTable' style='width:125px;'>
 			<tr>
-				<td style='text-align:left'><input type='button' value='<?php echo _("submit");?>' name='submitDetailSubjectForm' id ='submitDetailSubjectForm'></td>
-				<td style='text-align:right'><input type='button' value='<?php echo _("cancel");?>' onclick="kill(); tb_remove();"></td>
+				<td style='text-align:left'><input type='button' value='<?php echo _("submit");?>' name='submitDetailSubjectForm' id ='submitDetailSubjectForm' class='submit-button'></td>
+				<td style='text-align:right'><input type='button' value='<?php echo _("cancel");?>' onclick="kill(); tb_remove();" class='cancel-button'></td>
 			</tr>
 		</table>
 

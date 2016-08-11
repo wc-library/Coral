@@ -20,7 +20,7 @@ class Issue extends DatabaseObject {
 		$query = "SELECT ic.contactID,c.name,c.emailAddress
 				FROM `{$this->dbName}`.IssueContact ic
 				LEFT JOIN `{$this->db->config->database->name}`.Contact c ON c.contactID=ic.contactID 
-				WHERE ic.issueID=".$this->issueID;
+				WHERE ic.issueID='$this->issueID'";
 		$result = $this->db->processQuery($query, 'assoc');
 		$objects = array();
 
@@ -35,7 +35,7 @@ class Issue extends DatabaseObject {
 		$query = "SELECT o.organizationID 
 				  FROM `{$this->dbName}`.IssueRelationship ir
 				  LEFT JOIN Organization o ON o.organizationID=ir.entityID
-				  WHERE ir.issueID={$this->issueID}";
+				  WHERE ir.issueID='$this->issueID'";
 		$result = $this->db->processQuery($query, 'assoc');
 		$objects = array();
 
@@ -50,7 +50,7 @@ class Issue extends DatabaseObject {
 		$query = "SELECT r.resourceID 
 				  FROM `{$this->dbName}`.IssueRelationship ir
 				  LEFT JOIN `{$this->dbName}`.Resource r ON (r.resourceID=ir.entityID AND ir.entityTypeID=2)
-				  WHERE ir.issueID={$this->issueID}";
+				  WHERE ir.issueID='$this->issueID'";
 		$result = $this->db->processQuery($query, 'assoc');
 		$objects = array();
 

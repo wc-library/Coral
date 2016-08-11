@@ -11,7 +11,7 @@
 			?>
 			<table class='linedDataTable'>
 				<tr>
-				<th style='width:25px;'><?php echo _("Code");?></th>
+				<th style='width:180px;'><?php echo _("Code");?></th>
 				<th style='width:100%;'><?php echo _("Name");?></th>
 				<th>&nbsp;</th>
 				<th>&nbsp;</th>

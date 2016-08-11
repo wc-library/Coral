@@ -149,6 +149,35 @@ function format_date($mysqlDate) {
 
 }
 
+function buildSelectableHours($fieldNameBase,$defaultHour=8) {
+    $html = "<select name=\"{$fieldNameBase}[hour]\">";
+    for ($hour=1;$hour<13;$hour++) {
+        $html .= "<option".(($hour == $defaultHour) ? ' selected':'').">{$hour}</option>";
+    }
+    $html .= '</select>';
+    return $html;
+}
+
+function buildSelectableMinutes($fieldNameBase,$intervals=4) {
+    $html = "<select name=\"{$fieldNameBase}[minute]\">";
+    for ($minute=0;$minute<=($intervals-1);$minute++) {
+        $html .= "<option>".sprintf("%02d",$minute*(60/$intervals))."</option>";
+    }
+    $html .= '</select>';
+    return $html;
+}
+
+function buildSelectableMeridian($fieldNameBase) {
+    return "<select name=\"{$fieldNameBase}[meridian]\">
+                    <option>AM</option>
+                    <option>PM</option>
+                </select>";
+}
+
+function buildTimeForm($fieldNameBase,$defaultHour=8,$minuteIntervals=4) {
+    return buildSelectableHours($fieldNameBase,$defaultHour).buildSelectableMinutes($fieldNameBase,$minuteIntervals).buildSelectableMeridian($fieldNameBase);
+}
+
 // Include file of language codes
 include_once 'LangCodes.php';
 $lang_name = new LangCodes();
@@ -158,11 +187,13 @@ global $http_lang;
 if(isset($_COOKIE["lang"])){
     $http_lang = $_COOKIE["lang"];
 }else{        
-    $codeL = substr($_SERVER["HTTP_ACCEPT_LANGUAGE"],0,2);
+    $codeL = str_replace("-","_",substr($_SERVER["HTTP_ACCEPT_LANGUAGE"],0,5));
     $http_lang = $lang_name->getLanguage($codeL);
+    if($http_lang == "")
+      $http_lang = "en_US";
 }
 putenv("LC_ALL=$http_lang");
 setlocale(LC_ALL, $http_lang.".utf8");
-bindtextdomain("messages", "./locale");
+bindtextdomain("messages", dirname(__FILE__) . "/locale");
 textdomain("messages");
 ?>
