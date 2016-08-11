@@ -106,19 +106,19 @@
 			}else{
 				echo "<div style='vertical-align:bottom;text-align:left;clear:both;'>&nbsp;</div>";
 			}
-
-
 			?>
-			<table class='dataTable' style='width:840px'>
-			<tr>
+
+			<table id='resource_table' class='dataTable' style='width:840px'>
+			<thead><tr>
 			<th><table class='noBorderTable' style='width:100%'><tr><td><?php echo _("ID");?></td><td style='width:10px;'><a href='javascript:setOrder("R.resourceID + 0","asc");'><img src='images/arrowup.png' border=0></a></td><td style='width:10px;'><a href='javascript:setOrder("R.resourceID + 0","desc");'><img src='images/arrowdown.png' border=0></a></td></tr></table></th>
 			<th><table class='noBorderTable' style='width:100%'><tr><td><?php echo _("Name");?></td><td style='width:10px;'><a href='javascript:setOrder("R.titleText","asc");'><img src='images/arrowup.png' border=0></a></td><td style='width:10px;'><a href='javascript:setOrder("R.titleText","desc");'><img src='images/arrowdown.png' border=0></a></td></tr></table></th>
 			<th><table class='noBorderTable' style='width:100%'><tr><td><?php echo _("Creator");?></td><td style='width:10px;'><a href='javascript:setOrder("CU.loginID","asc");'><img src='images/arrowup.png' border=0></a></td><td style='width:10px;'><a href='javascript:setOrder("CU.loginID","desc");'><img src='images/arrowdown.png' border=0></a></td></tr></table></th>
 			<th><table class='noBorderTable' style='width:100%'><tr><td><?php echo _("Date Created");?></td><td style='width:10px;vertical-align:top;'><a href='javascript:setOrder("R.createDate","asc");'><img src='images/arrowup.png' border=0></a></td><td style='width:10px;vertical-align:top;'><a href='javascript:setOrder("R.createDate","desc");'><img src='images/arrowdown.png' border=0></a></td></tr></table></th>
 			<th><table class='noBorderTable' style='width:100%'><tr><td><?php echo _("Acquisition Type");?></td><td style='width:10px;vertical-align:top;'><a href='javascript:setOrder("acquisitionType","asc");'><img src='images/arrowup.png' border=0></a></td><td style='width:10px;vertical-align:top;'><a href='javascript:setOrder("acquisitionType","desc");'><img src='images/arrowdown.png' border=0></a></td></tr></table></th>
 			<th><table class='noBorderTable' style='width:100%'><tr><td><?php echo _("Status");?></td><td style='width:10px;'><a href='javascript:setOrder("S.shortName","asc");'><img src='images/arrowup.png' border=0></a></td><td style='width:10px;'><a href='javascript:setOrder("S.shortName","desc");'><img src='images/arrowdown.png' border=0></a></td></tr></table></th>
-			</tr>
+			</tr></thead>
 
+			<tbody>
 			<?php
 
 			$i=0;
@@ -146,7 +146,8 @@
 			}
 
 			?>
-			</table>
+
+			</tbody></table>
 
 			<table style='width:100%;margin-top:4px'>
 			<tr>
