@@ -18,6 +18,7 @@ function register_have_database_access_provider()
 					$return = new stdClass();
 					$return->yield = new stdClass();
 					$return->success = true;
+					$return->yield->messages = [];
 					$return->yield->title = _("Have database access");
 
 					$shared_database_info = [];
