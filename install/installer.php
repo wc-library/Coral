@@ -62,7 +62,6 @@ class Installer {
 	{
 		$haystack = $haystack === null ? $this->checklist : $haystack;
 
-		require_once("common/array_column.php");
 		$key = array_search($test_uid, array_column($haystack, 'uid'));
 		if ($key === false)
 			throw new OutOfBoundsException("Test '$test_uid' not found in checklist.", self::ERR_MODULE_DOES_NOT_EXIST);
@@ -71,7 +70,6 @@ class Installer {
 	}
 	public function getRequiredProviders($what_for = self::REQUIRED_FOR_INSTALL)
 	{
-		require_once("common/array_column.php");
 		return array_column(array_filter($this->checklist, function($item) use ($what_for) {
 			return isset($item["required_for"]) && in_array($what_for, $item["required_for"]);
 		}), "uid");
