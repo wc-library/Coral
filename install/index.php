@@ -36,8 +36,8 @@ if (dirname($_SERVER["SCRIPT_FILENAME"]) !== dirname(__DIR__) || basename($_SERV
  *
  * NOTE: It is assumed that version strings can be understood by php's version_compare function
  */
-const INSTALLATION_VERSION = "2.1.0";
-const INSTALLATION_VERSIONS = ["2.0.0", "2.1.0"];
+const INSTALLATION_VERSION = "2.0.0";
+const INSTALLATION_VERSIONS = ["2.0.0"];
 
 // TODO: if /index.php is calling this all the time, these lines make no sense
 // 			(we shouldn't set these constants for every page).
@@ -115,9 +115,7 @@ function do_install()
 		$return->redirect_home = true;
 		yield_test_results_and_exit($return, [], 1);
 	}
-
-	$INSTALL_VERSION = 0;
-	run_loop($INSTALL_VERSION);
+	run_loop(0);
 }
 
 function do_upgrade($version)

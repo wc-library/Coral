@@ -88,64 +88,9 @@ function register_licensing_provider()
 						}
 					];
 
-				case "2.0.1":
-					/**
-					 * Will update config file and process sql files
-					 */
-					$conf_data = parse_ini_file($protected_module_data["config_file_path"]);
-					return [
-						"dependencies_array" => [ "db_tools", "have_read_write_access_to_config" ],
-						"sharedInfo" => [
-							"database" => [
-								"title" => _("Licensing Database"),
-								"default_value" => "coral_licensing"
-							],
-							"config_file" => [
-								"path" => $protected_module_data["config_file_path"],
-							]
-						],
-						"function" => function($shared_module_info) use ($MODULE_VARS) {
-							$return = new stdClass();
-							$return->yield = new stdClass();
-							$return->success = true;
-							$return->yield->title = _("Licensing Module");
-							return $return;
-
-						}
-					];
-
 				default:
 					return null;
 			}
 		}
 	]);
 }
-
-
-/**
- * THE FUTURE:
- *
- * return [
- * 		uid
- * 		title
- * 		installer (i.e. installer/upgrader) => function($version_destination = 0)
- * 		{
- * 			if $version_destination == 0
- * 				return [
- * 					dependencies_array
- * 					shared_module_info
- * 					func (installer_function)
- * 				];
- * 			else
- * 				switch ($version_destination)
- * 				{
- * 					return [
- * 						dependencies_array
- * 						shared_module_info
- * 						func (upgrader_function)
- * 					]
- * 				}
- * 		}
- * ]
- *
- */
