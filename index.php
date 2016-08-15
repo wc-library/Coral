@@ -1,17 +1,7 @@
 <?php
-session_start();
-// "install/index.php" will check if CORAL is installed and version is current
-require_once("install/index.php");
-
-	//determine CORAL main path so we can check each module below to know which to display
-	$pagePath = $_SERVER["DOCUMENT_ROOT"];
-
-	$currentFile = $_SERVER["SCRIPT_NAME"];
-	$parts = Explode('/', $currentFile);
-	for($i=0; $i<count($parts) - 1; $i++){
-		$pagePath .= $parts[$i] . '/';
-	}
-
+	session_start();
+	// "install/index.php" will check if CORAL is installed and version is current
+	require_once("install/index.php");
 
 	// Include file of language codes
 	include_once 'LangCodes.php';
