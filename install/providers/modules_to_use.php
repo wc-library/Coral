@@ -23,12 +23,8 @@ function register_modules_to_use_provider()
 					foreach ($module_list as $i => $mod)
 					{
 						$mod_chosen = null;
-						// We can only auto-set if mod is required
 						if (isset($_POST[$mod["uid"]]))
-						{
 							$mod_chosen = $_POST[$mod["uid"]] == 1;
-							$return->success &= true;
-						}
 
 						if ($mod_chosen !== null || isset($_SESSION[ $MODULE_VARS["uid"] ]["useModule"][ $mod["uid"] ]))
 						{
@@ -53,18 +49,23 @@ function register_modules_to_use_provider()
 					{
 						$dep_list = [];
 						// build dependency list
-						foreach ($module_list as $mod) {
-							if (!isset( $shared_module_info["dependencies"][$mod["uid"]] ))
-								continue;
-							$dep_list = array_unique(array_merge($dep_list, $shared_module_info["dependencies"][$mod["uid"]] ));
-						}
-						foreach ($modules_not_to_install as $mod) {
-							if (in_array($mod, $dep_list))
+						foreach ($_SESSION[ $MODULE_VARS["uid"] ]["useModule"] as $key => $value) {
+							if (!$value) continue;
+
+							if (isset( $shared_module_info["dependencies"][$key]) &&
+								array_intersect($modules_not_to_install, $shared_module_info["dependencies"][$key]))
 							{
-								$mod_title = array_values(array_filter($module_list, function ($m) use ($mod) {
-									return $m["uid"] == $mod;
-								}))[0]["title"];
-								$return->yield->messages[] = sprintf(_("The modules that you have chosen to install work with additional modules. You need to add '%s'"), $mod_title);
+								$title_from_uid = function($module_list, $uid) {
+									return array_values(array_filter($module_list, function ($m) use ($uid) {
+										return $m["uid"] == $uid;
+									}))[0]["title"];
+								};
+								$mod_title = $title_from_uid($module_list, $key);
+								$return->yield->messages[] = _("The modules that you have chosen to install require additional modules.");
+								foreach (array_intersect($modules_not_to_install, $shared_module_info["dependencies"][$key]) as $dep) {
+									$dep_title = $title_from_uid($module_list, $dep);
+									$return->yield->messages[] = "$mod_title <i>" . _("requires") . "</i> $dep_title";
+								}
 								$return->success = false;
 							}
 						}
