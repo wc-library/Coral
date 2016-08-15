@@ -221,10 +221,11 @@ function register_auth_provider()
 									{
 										$random_string = function($length)
 										{
-											$length += 2;
 											// The weird maths here is because of bytes to base64 encoding
-											$str_to_ret = base64_encode(openssl_random_pseudo_bytes(3*($length/4)));
-											return substr($str_to_ret, 0, $length - 2);
+											// $length + 2 is because the last two characters are predictable in strings where length % 3 != 0
+											// (so the predictable characters are pushed out of our range)
+											$str_to_ret = base64_encode(openssl_random_pseudo_bytes(3*(($length+2)/4)));
+											return substr($str_to_ret, 0, $length);
 										};
 
 										$admin_username = $shared_module_info["have_default_coral_admin_user"]["default_user"];

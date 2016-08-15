@@ -26,7 +26,7 @@ function register_have_default_db_user_provider()
 											. "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 											. "=+-_.,<>@$;:#%*`/";
 						while (strlen($password) < $length)
-							$password .= $possibleCharacters[rand(0, strlen($possibleCharacters) - 1)];
+							$password .= $possibleCharacters[mt_rand(0, strlen($possibleCharacters) - 1)];
 
 						return htmlspecialchars($password);
 					};
