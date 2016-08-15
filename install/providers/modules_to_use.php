@@ -45,23 +45,21 @@ function register_modules_to_use_provider()
 					}
 
 					//check that all dependencies are met
+					$title_from_uid = function($module_list, $uid) {
+						return array_values(array_filter($module_list, function ($m) use ($uid) {
+							return $m["uid"] == $uid;
+						}))[0]["title"];
+					};
 					if (count($modules_not_to_install) > 0)
 					{
-						$dep_list = [];
-						// build dependency list
 						foreach ($_SESSION[ $MODULE_VARS["uid"] ]["useModule"] as $key => $value) {
 							if (!$value) continue;
 
 							if (isset( $shared_module_info["dependencies"][$key]) &&
 								array_intersect($modules_not_to_install, $shared_module_info["dependencies"][$key]))
 							{
-								$title_from_uid = function($module_list, $uid) {
-									return array_values(array_filter($module_list, function ($m) use ($uid) {
-										return $m["uid"] == $uid;
-									}))[0]["title"];
-								};
-								$mod_title = $title_from_uid($module_list, $key);
 								$return->yield->messages[] = _("The modules that you have chosen to install require additional modules.");
+								$mod_title = $title_from_uid($module_list, $key);
 								foreach (array_intersect($modules_not_to_install, $shared_module_info["dependencies"][$key]) as $dep) {
 									$dep_title = $title_from_uid($module_list, $dep);
 									$return->yield->messages[] = "$mod_title <i>" . _("requires") . "</i> $dep_title";
