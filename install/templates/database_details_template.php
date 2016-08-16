@@ -43,10 +43,8 @@ HEREDOC;
 		<div class="twelve columns">
 			<a href="#" class="toggleSection" data-alternate-message="hide advanced" data-toggle-section=".advancedSection" data-toggle-default="false">show advanced</a>
 		</div>
-		<span class="advancedSection">
-			<div class="row">
-				{$cards($shared_database_info)}
-			</div>
+		<span class="advancedSection twelve columns">
+			{$cards($shared_database_info)}
 		</span>
 		<div class="row">
 			<input type="submit" value="$submit" />
