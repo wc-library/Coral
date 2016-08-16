@@ -18,7 +18,7 @@ body {
  padding: 0;
  vertical-align:top;
  text-align: center; /* this centers the container in IE 5* browsers. The text is then set to the left aligned default in the #container selector */
- background: #E7E8E8 url(images/bg-gray-texture.jpg) repeat top left;
+ background: #E7E8E8 url('../images/bg-gray-texture.jpg') repeat top left;
  -webkit-font-smoothing: antialiased;
 }
 
@@ -26,7 +26,7 @@ body {
 
 #wrapper {
  margin: 0 auto -2em;
- background-image: url("images/back-header.jpg");
+ background-image: url('../images/back-header.jpg');
  background-repeat: repeat-x;
 }
 
@@ -75,7 +75,7 @@ div.coralbutton{margin:7px;}
 /*-----*/
 
 table.background {
- background-image:url('images/background.png');
+ background-image:url('../images/background.png');
  background-repeat:no-repeat;
  margin-top:3px;
  width: 636px;
@@ -97,7 +97,7 @@ select option { color: #3D545D; font-family: "arial"; font-size: 8pt; font-weigh
 
 input, select, multiple, textarea{color: #3D545D; font-family: "arial"; font-size: 8pt; font-weight: medium;}
 
-table#title {padding:0px; background-image:url('images/coraltitle.gif');background-repeat:no-repeat;height:80px;width:900px;}
+table#title {padding:0px; background-image:url('../images/coraltitle.gif');background-repeat:no-repeat;height:80px;width:900px;}
 table.headerTable {padding:1px;width:900px;min-height:40px;background-image:url('../images/header.gif');background-repeat:no-repeat;}
 
 .headerText {font-size:125%;font-weight:bold; }
