@@ -42,7 +42,7 @@ class DBService extends Object {
 				"password" => Config::dbInfo("password")
 			];
 
-			self::$db = new mysqli($dbInfo["host"], $dbInfo["username"], $dbInfo["password"]);
+			self::$db = @new mysqli($dbInfo["host"], $dbInfo["username"], $dbInfo["password"]);
 			if (self::$db->connect_errno)
 			{
 				switch (self::$db->connect_errno) {

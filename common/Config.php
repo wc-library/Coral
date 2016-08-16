@@ -42,12 +42,12 @@ class Config {
 	public static function dbInfo($db_variable)
 	{
 		self::init();
-		if (empty(self::$database))
+		if (empty(self::$module_settings["database"]))
 			throw new OutOfRangeException(_("Database settings are missing from the config file"), self::ERR_VARIABLES_MISSING);
 
 		$possible_values = ['host', 'username', 'password', 'name'];
 		if (in_array($db_variable, $possible_values))
-			return self::$database[$db_variable];
+			return self::$module_settings["database"][$db_variable];
 	}
 
 	public static function getSettingsFor($module_name) {
@@ -66,7 +66,7 @@ class Config {
 		if (!INSTALLATION_IN_PROGRESS)
 			throw new Exception("This method can only be used during installation.", self::ERR_NOT_INSTALLING);
 
-		self::$database = $database_settings;
+		self::$module_settings["database"] = $database_settings;
 		self::$bInit = 'y';
 	}
 
@@ -81,5 +81,20 @@ class Config {
 		{
 			return false;
 		}
+	}
+
+	public static function getInstalledModules()
+	{
+		self::init();
+		return array_keys(array_filter(self::$module_settings, function($item){
+			return in_array("installed", array_keys($item)) ? $item["installed"] == "Y" : false;
+		}));
+	}
+	public static function getEnabledModules()
+	{
+		self::init();
+		return array_keys(array_filter(self::$module_settings, function($item){
+			return in_array("enabled", array_keys($item)) ? $item["enabled"] == "Y" : false;
+		}));
 	}
 }

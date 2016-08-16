@@ -17,10 +17,6 @@
  *  								for the installation to complete.
  *  - dependencies_array		-> Array (String): Uids of installers that must
  *  								run before this installer can run.
- *  - wants						-> Array (String): Like dependencies_array but
- *  								of optional installers. Uids of installers
- *  								that should be run before this installer if
- *  								they are going to be run.
  *  - hide_from_completion_list	-> Bool: Whether or not the list of completed
  *  								installers should include this title (the
  *  								list is for the end user).
@@ -35,12 +31,6 @@
  *  								accessible to other installers before this
  *  								installer runs (such as request for a
  *  								database or a config file).
- *  - alternative				-> Assoc Array: Specifically for modules_to_use
- *  								installer - allows simple alternatives to
- *  								`required: true` installers that
- *  								modules_to_use can coordinate. Note, if this
- *  								value is set, the required value is handled
- *  								differently.
  */
 function register_readme_requirement()
 {

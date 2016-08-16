@@ -1,32 +1,14 @@
 <?php
-function is_installed()
-{
-	require_once("common/Config.php");
-	try {
-		$return = Config::getInstallationVersion();
-	} catch (Exception $e) {
-		$return = false;
-	}
-	return $return;
-}
-
 function continue_installing()
 {
 	$root_installation_namespace = "installation_root";
 	require_once "install/test_results_yielder.php";
 	if (!isset($_SESSION[$root_installation_namespace . "_do_install_anyway"]) || (isset($_SESSION[$root_installation_namespace . "_do_install_anyway"]) && $_SESSION[$root_installation_namespace . "_do_install_anyway"] !== true))
 	{
-		require_once "common/Config.php";
-		if (file_exists(Config::CONFIG_FILE_PATH) && is_readable(Config::CONFIG_FILE_PATH))
-		{
-			$common_config = parse_ini_file(Config::CONFIG_FILE_PATH, true);
-			$old_version = isset($common_config["installation_details"]["version"]) ? $common_config["installation_details"]["version"] : false;
-		}
-		else
-		{
-			$old_version = false;
-		}
-
+		$option_button_set = [
+			[ "name" => "install_anyway", "title" => _("Install CORAL") ],
+			[ "name" => "already_installed", "title" => _("CORAL Is Already Installed") ],
+		];
 		if ((isset($_POST[$root_installation_namespace . "_option_button"]) && $_POST[$root_installation_namespace . "_option_button"] == "already_installed") || (isset($_SESSION[$root_installation_namespace . "_do_already_installed"]) && $_SESSION[$root_installation_namespace . "_do_already_installed"]))
 		{
 			$_SESSION[$root_installation_namespace . "_do_already_installed"] = true;
@@ -39,13 +21,6 @@ function continue_installing()
 		}
 		else // ((isset($_POST[$root_installation_namespace . "_option_button"]) && $_POST[$root_installation_namespace . "_option_button"] !== "install_anyway") || !isset($_POST[$root_installation_namespace . "_option_button"]))
 		{
-			$option_button_set = [
-				[ "name" => "take_me_home", "title" => _("Take Me Home"), "custom_javascript" => 'window.location.href="index.php";' ],
-				//TODO: fix upgrade path
-				[ "name" => "try_upgrade", "title" => _("Try To Upgrade"), "custom_javascript" => 'window.location.href="upgrade.php";' ],
-				[ "name" => "install_anyway", "title" => _("Install CORAL") ],
-				[ "name" => "already_installed", "title" => _("CORAL Is Already Installed") ],
-			];
 			$allowed_options = function($allowed_array) use ($option_button_set) {
 				return array_filter($option_button_set, function($item) use ($allowed_array) {
 					return in_array($item["name"], $allowed_array);
@@ -59,7 +34,12 @@ function continue_installing()
 			$instruction = "";
 			$option_buttons = [];
 
-			if (!$old_version)
+			// TODO: test this script in live environment (to ensure relative paths work)
+			$possible_modules_with_conf_files = [ "auth", "licensing", "management", "organizations", "reports", "resources", "usage" ];
+			$maybe_installed = array_reduce($possible_modules_with_conf_files, function($carry, $item) {
+				return $carry || file_exists($item . "/admin/configuration.ini");
+			});
+			if ($maybe_installed)
 			{
 				// Installed not with unified installer
 				// OR not installed
@@ -67,24 +47,6 @@ function continue_installing()
 				$yield->messages[] = _("If CORAL is already installed you should <b>NOT</b> try to install.");
 				$instruction = _("Please choose one of the options below:");
 				$option_buttons = $allowed_options(["already_installed", "install_anyway"]);
-			}
-			elseif (version_compare(INSTALLATION_VERSION, $old_version) > 0)
-			{
-				// This installer installs a newer version
-				$instruction = _("This installer installs a newer version of CORAL than the one currently installed. This is <b>highly discouraged</b> and will probably result in the loss of data. Instead you should try to upgrade.");
-				$option_buttons = $allowed_options(["take_me_home", "try_upgrade", "install_anyway"]);
-			}
-			else if (version_compare(INSTALLATION_VERSION, $old_version) === 0)
-			{
-				// Already installed and current version
-				$instruction = _("You already have the current version installed. Are you looking for the home page?");
-				$option_buttons = $allowed_options(["take_me_home"]);
-			}
-			else if (version_compare(INSTALLATION_VERSION, $old_version) < 0)
-			{
-				// Apparently the already installed version is newer than this installer
-				$instruction = _("The installed version of CORAL is newer than the version this installer would try to install. Are you looking for the home page or perhaps trying to upgrade?");
-				$option_buttons = $allowed_options(["take_me_home", "try_upgrade"]);
 			}
 			require_once "install/templates/option_buttons_template.php";
 			$yield->body = option_buttons_template($instruction, $option_buttons, $root_installation_namespace);
@@ -96,6 +58,7 @@ function continue_installing()
 
 function upgradeToUnifiedInstaller($root_installation_namespace)
 {
+	// These can be hard coded because they are all the modules that could exist pre-unified installer
 	$fields = [
 		[ "uid" => "ui_upgrade_auth", "title" => "Auth", "required" => false, "module_name" => "auth" ],
 		[ "uid" => "ui_upgrade_licensing", "title" => "Licensing", "required" => false, "module_name" => "licensing" ],
