@@ -58,11 +58,21 @@ function is_installed()
 function run_loop($version)
 {
 	require_once "installer.php";
-	$requirement_filter = $version == 0 ? Installer::REQUIRED_FOR_INSTALL : Installer::REQUIRED_FOR_UPGRADE;
-	$installer = new Installer();
+	switch ($version) {
+		case Installer::VERSION_STRING_INSTALL:
+			$requirement_filter = Installer::REQUIRED_FOR_INSTALL;
+			break;
+		case Installer::VERSION_STRING_MODIFY:
+			$requirement_filter = Installer::REQUIRED_FOR_MODIFY;
+			break;
+		default:
+			$requirement_filter = Installer::REQUIRED_FOR_UPGRADE;
+			break;
+	}
+	$installer = new Installer($version);
 	$requirements = $installer->getRequiredProviders($requirement_filter);
 	foreach ($requirements as $i => $requirement) {
-		$testResult = $installer->runTestForResult($requirement, $version);
+		$testResult = $installer->runTestForResult($requirement);
 
 		if (isset($testResult->skipped))
 		{
@@ -95,7 +105,7 @@ function run_loop($version)
 	$installer->declareInstallationComplete();
 
 	$completed_tests = $installer->getSuccessfullyCompletedTestTitles();
-	while ($failingPostInstallationTest = $installer->postInstallationTest($version))
+	while ($failingPostInstallationTest = $installer->postInstallationTest())
 		yield_test_results_and_exit($failingPostInstallationTest->yield, $completed_tests, 97/100);
 
 	// Success!
@@ -115,7 +125,7 @@ function do_install()
 		$return->redirect_home = true;
 		yield_test_results_and_exit($return, [], 1);
 	}
-	run_loop(0);
+	run_loop(Installer::VERSION_STRING_INSTALL);
 }
 
 function do_upgrade($version)

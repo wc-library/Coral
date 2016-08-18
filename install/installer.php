@@ -25,7 +25,10 @@ class Installer {
 	protected $successfully_completed_tests = [];
 	protected $post_installation_mode = false;
 
-	function __construct() {
+	private $version_to_install = 0;
+
+	function __construct($version) {
+		$this->version_to_install = $version;
 		$this_shared_module_info  = &$this->shared_module_info;
 		$this_checklist           = &$this->checklist;
 		$this_post_installation_mode = &$this->post_installation_mode;
@@ -121,7 +124,7 @@ class Installer {
 				];
 				$this->shared_module_info["module_list"][] = $mod;
 			}
-			$obj = $installer_object["bundle"](0);
+			$obj = $installer_object["bundle"]($this->version_to_install);
 			if (isset($obj["sharedInfo"]))
 			{
 				$this->shared_module_info[ $installer_object["uid"] ] = $obj["sharedInfo"];
@@ -164,7 +167,7 @@ class Installer {
 		}
 	}
 
-	public function runTestForResult($test_uid, $version, $required_for = [])
+	public function runTestForResult($test_uid, $required_for = [])
 	{
 		$key = $this->getKeyFromUid($test_uid);
 		if ($key === false)
@@ -182,7 +185,7 @@ class Installer {
 			throw new RuntimeException("Error: You're trying to run the '$test_uid' post-installation test before the installation is complete.", self::ERR_RUNNING_POST_INSTALLATION_TEST_BEFORE_INSTALLATION_COMPLETE);
 		}
 
-		$bundle = $this->checklist[$key]["bundle"]($version);
+		$bundle = $this->checklist[$key]["bundle"]($this->version_to_install);
 		foreach ($this->getDependencies($test_uid, $bundle) as $dependency) {
 			$dep_key = array_search($dependency, array_column($this->checklist, 'uid'));
 			if ($dep_key === false)
@@ -202,7 +205,7 @@ class Installer {
 					throw new RuntimeException("Error: Circular dependencies ('$test_uid' in $required_array)", self::ERR_CIRCULAR_DEPENDENCIES);
 				}
 				$required_for[] = $dependency;
-				$result = $this->runTestForResult($dependency, $version, $required_for);
+				$result = $this->runTestForResult($dependency, $required_for);
 				// If one of the requirements fails, we need its result to be yielded
 				if (!$result->success)
 					return $result;
@@ -278,11 +281,11 @@ class Installer {
 		$this->shared_module_info["post_installation_mode"] = true;
 		$_SESSION["installer_post_installation"] = true;
 	}
-	public function postInstallationTest($version)
+	public function postInstallationTest()
 	{
 		foreach ($this->getPostInstallationUids() as $test)
 		{
-			$return = $this->runTestForResult($test["uid"], $version);
+			$return = $this->runTestForResult($test["uid"]);
 			if (!$return->success)
 				return $return;
 		}
