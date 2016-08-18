@@ -276,30 +276,47 @@ function submitResource(status){
 
 
 	if (validateNewResource() === true) {
-		$('.submitResource').attr("disabled", "disabled"); 
-		  $.ajax({
-			 type:       "POST",
-			 url:        "ajax_processing.php?action=submitNewResource",
-			 cache:      false,
-			 data:       { resourceID: $("#editResourceID").val(), resourceTypeID: $("input:radio[name='resourceTypeID']:checked").val(), resourceFormatID: $("input:radio[name='resourceFormatID']:checked").val(), acquisitionTypeID: $("input:radio[name='acquisitionTypeID']:checked").val(), titleText: $("#titleText").val(), descriptionText: $("#descriptionText").val(), providerText: $("#providerText").val(), organizationID: $("#organizationID").val(), resourceURL: $("#resourceURL").val(), resourceAltURL: $("#resourceAltURL").val(), noteText: $("#noteText").val(), orderTypes: orderTypeList, fundNames: fundNameList, paymentAmounts: paymentAmountList, currencyCodes: currencyCodeList, resourceStatus: status },
-			 success:    function(resourceID) {
+		$('.submitResource').attr("disabled", "disabled");
+		$.ajax({
+			type:       "POST",
+			url:        "ajax_processing.php?action=submitNewResource",
+			cache:      false,
+			data:       {
+				resourceID: $("#editResourceID").val(),
+				resourceTypeID: $("input:radio[name='resourceTypeID']:checked").val(),
+				resourceFormatID: $("input:radio[name='resourceFormatID']:checked").val(),
+				acquisitionTypeID: $("input:radio[name='acquisitionTypeID']:checked").val(),
+				titleText: $("#titleText").val(),
+				descriptionText: $("#descriptionText").val(),
+				providerText: $("#providerText").val(),
+				organizationID: $("#organizationID").val(),
+				resourceURL: $("#resourceURL").val(),
+				resourceAltURL: $("#resourceAltURL").val(),
+				noteText: $("#noteText").val(),
+				orderTypes: orderTypeList,
+				fundNames: fundNameList,
+				paymentAmounts: paymentAmountList,
+				currencyCodes: currencyCodeList,
+				resourceStatus: status
+			},
+			success:    function(resourceID) {
 				//go to the new resource page if this was submitted
-				if (status == 'progress'){
+				if (status == 'progress') {
 					window.parent.location=("resource.php?ref=new&resourceID=" + resourceID);
 					tb_remove();
-					return false;	
+					return false;
 				//otherwise go to queue
-				}else{
+				} else {
 					window.parent.location=("queue.php?ref=new");
 					tb_remove();
-					return false;			
-				
+					return false;
+
 				}
 
-			 }
+			}
 
 
-		 });
+		});
 
 	}
 

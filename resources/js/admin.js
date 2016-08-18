@@ -406,8 +406,9 @@ function submitImportConfigData() {
         });
         jsonData.isbnOrIssn = [];
         $('div.isbnOrIssn-record').each(function() {
-            var isbnOrIssnObj={};
+            var isbnOrIssnObj = {};
             isbnOrIssnObj.column = $(this).find('input.ic-column').val();
+            isbnOrIssnObj.delimiter = $(this).find('input.ic-delimiter').val();
             isbnOrIssnObj.dedupe = $(this).find('input.ic-dedupe').attr('checked');
             jsonData.isbnOrIssn.push(isbnOrIssnObj);
         });
@@ -415,9 +416,9 @@ function submitImportConfigData() {
         jsonData.resourceType = $("#resource_type").val();
         jsonData.subject = [];
         $('div.subject-record').each(function() {
-            var subjectObject={};
-            subjectObject.column=$(this).find('input.ic-column').val();
-            subjectObject.delimiter=$(this).find('input.ic-delimiter').val();
+            var subjectObject = {};
+            subjectObject.column = $(this).find('input.ic-column').val();
+            subjectObject.delimiter = $(this).find('input.ic-delimiter').val();
             jsonData.subject.push(subjectObject);
         });
         jsonData.note = [];

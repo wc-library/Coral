@@ -101,11 +101,13 @@
 						if(count($configuration["isbnOrIssn"]) > 0) {
 							foreach($configuration["isbnOrIssn"] as $isbnOrIssn) {
 								echo "<div class='isbnOrIssn-record'><p><span class='ic-label'>" . _("ISBN or ISSN") . "</span><span><input class='ic-column' value='" . $isbnOrIssn['column'] . "' /></span></p>";
+								echo "<p><span class='ic-label'>" . _("If delimited, delimited by") . "</span><span><input class='ic-delimiter' value='" . $isbnOrIssn["delimiter"]. "' /></span></p>";
 								echo "<p><span class='ic-dedupe'><input class='ic-dedupe' type='checkbox'" . (($isbnOrIssn['dedupe'])?' checked':'') . " /><span>" . _("Dedupe on this column") . "</span></p></div>";
 							}
 						}
 						else {
 							echo "<div class='isbnOrIssn-record'><p><span class='ic-label'>" . _("ISBN or ISSN") . "</span><span><input class='ic-column' value='' /></span></p>";
+							echo "<p><span class='ic-label'>" . _("If delimited, delimited by") . "</span><span><input class='ic-delimiter' value='' /></span></p>";
 							echo "<p><span class='ic-dedupe'><input class='ic-dedupe' type='checkbox' /><span>" . _("Dedupe on this column") . "</span></p></div>";
 						}
 					?>
@@ -254,7 +256,7 @@
    $('#add_isbnorissn').click(function (e) {
    		e.preventDefault();
    		$('#resource_isbnOrIssn').append (
-   			"<div class='isbnOrIssn-record'><p><span class='ic-label'><?php echo _('ISBN or ISSN');?></span><span><input class='ic-column' value='' /></span></p><p><span class='ic-dedupe'><input class='ic-dedupe' type='checkbox' /><span><?php echo _('Dedupe on this column');?></span></p></div>"
+   			"<div class='isbnOrIssn-record'><p><span class='ic-label'><?php echo _('ISBN or ISSN');?></span><span><input class='ic-column' value='' /></span></p><p><span class='ic-label'><?php echo _('If delimited, delimited by');?></span><input class='ic-delimiter' value='' /></span></p><p><span class='ic-dedupe'><input class='ic-dedupe' type='checkbox' /><span><?php echo _('Dedupe on this column');?></span></p></div>"
    		);
    });
    $('#add_subject').click(function (e) {

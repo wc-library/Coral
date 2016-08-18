@@ -1123,8 +1123,8 @@ class Resource extends DatabaseObject {
 			$whereAdd[] = "((RPAY.fundID IS NULL) OR (RPAY.fundID = '0'))";
 			$searchDisplay[] = "Fund: none";
 		}else if ($search['fund']) {
-			$fund = mysqli_real_escape_string(str_replace("-","",$search['fund']));
-			$whereAdd[] = "REPLACE(RPAY.fundID,'-','') = '" . $fund . "'";
+			$fund = str_replace("-","",$search['fund']);
+			$whereAdd[] = "RPAY.fundID = '" . $resource->db->escapeString($fund) . "'";
 			$searchDisplay[] = "Fund: " . $search['fund'];
 		}
 		if ($search['resourceTypeID'] == 'none') {

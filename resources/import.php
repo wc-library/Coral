@@ -125,6 +125,7 @@
 						$('div.isbnOrIssn-record').each(function() {
 			            var isbnOrIssnObj={};
             			isbnOrIssnObj.column = $(this).find('input.ic-column').val();
+			            isbnOrIssnObj.delimiter = $(this).find('input.ic-delimiter').val();
             			isbnOrIssnObj.dedupe = $(this).find('input.ic-dedupe').attr('checked');
             			jsonData.isbnOrIssn.push(isbnOrIssnObj);
 			        });
@@ -226,14 +227,19 @@
 
 		$delimiter = $_POST['delimiter'];
 		$deduping_columns = array();
+		$dedupeCriteria = array();
 		$allIsbnOrIssn_columns = array();
 		foreach($jsonData['isbnOrIssn'] as $isbnOrIssn)
 		{
+			$columnObj = array();
+			$columnObj['column'] = intval($isbnOrIssn['column'])-1;
+			$columnObj['delimiter'] = $isbnOrIssn['delimiter'];
 			if($isbnOrIssn['dedupe'] === true)
 			{
+				array_push($dedupeCriteria,$columnObj);
 				array_push($deduping_columns,intval($isbnOrIssn['column'])-1);
 			}
-			array_push($allIsbnOrIssn_columns,intval($isbnOrIssn['column'])-1);
+			array_push($allIsbnOrIssn_columns,$columnObj);
 		}
 		$uploadfile = $_POST['uploadfile'];
 		// Let's analyze this file
@@ -278,13 +284,47 @@
 					unset($isbnIssn_values);
 					$resource = new Resource(); 
 					$resourceObj = new Resource(); 
-					foreach ($deduping_columns as $value)
+					foreach($dedupeCriteria as $dedupeCriterion)
 					{
-						$deduping_values[] = $data[$value];
+						if($dedupeCriterion['delimiter'] !== '')
+						{
+							$columnValues = explode($dedupeCriterion['delimiter'],$data[$dedupeCriterion['column']]);
+							foreach($columnValues as $value)
+							{
+								if($value !== '')
+								{
+									$deduping_values[] = $value;
+								}
+							}
+						}
+						else
+						{
+							if($data[$dedupeCriterion['column']] != '')
+							{
+								$deduping_values[] = $data[$dedupeCriterion['column']];
+							}
+						}
 					}
-					foreach ($allIsbnOrIssn_columns as $value)
+					foreach ($allIsbnOrIssn_columns as $columnCriterion)
 					{
-						$isbnIssn_values[] = $data[$value];
+						if($columnCriterion['delimiter'] !== '')
+						{
+							$columnValues = explode($columnCriterion['delimiter'],$data[$columnCriterion['column']]);
+							foreach($columnValues as $value)
+							{
+								if($value != '')
+								{
+									$isbnIssn_values[] = $value;
+								}
+							}
+						}
+						else
+						{
+							if($data[$columnCriterion['column']] != '')
+							{
+								$isbnIssn_values[] = $data[$columnCriterion['column']];
+							}
+						}
 					}
 					$deduping_count = count($resourceObj->getResourceByIsbnOrISSN($deduping_values));
 					if ($deduping_count == 0)
