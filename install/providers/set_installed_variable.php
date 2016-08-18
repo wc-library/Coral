@@ -16,10 +16,21 @@ function register_set_installed_variable_provider()
 					$return->yield->messages = [];
 					$return->yield->title = _("Installation Variable Set");
 
+					$db_details = [ "type" => "mysql" ];
+					if (isset($shared_module_info["have_default_db_user"]["username"]))
+					{
+						$db_details["username"] = $shared_module_info["have_default_db_user"]["username"];
+						$db_details["password"] = $shared_module_info["have_default_db_user"]["password"];
+						try {
+							$db_details["host"] = Config::dbInfo("host");
+						} catch (Exception $e) { }
+					}
+
 					$confData = [
 						"installation_details" => [
 							"version" => INSTALLATION_VERSION
-						]
+						],
+						"database" => $db_details
 					];
 					foreach ($shared_module_info["modules_to_use"]["useModule"] as $key => $value) {
 						$confData[$key] = [
