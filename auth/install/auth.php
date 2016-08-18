@@ -282,6 +282,29 @@ function register_auth_provider()
 						}
 					];
 
+
+				case "2.0.1":
+					/**
+					 * Will update config file and process sql files
+					 */
+					$conf_data = parse_ini_file($protected_module_data["config_file_path"]);
+					return [
+						"dependencies_array" => [ "db_tools", "have_read_write_access_to_config" ],
+						"sharedInfo" => [
+							"config_file" => [
+								"path" => $protected_module_data["config_file_path"],
+							]
+						],
+						"function" => function($shared_module_info) use ($MODULE_VARS) {
+							$return = new stdClass();
+							$return->yield = new stdClass();
+							$return->success = false;
+							$return->yield->title = _("Auth Module");
+							return $return;
+						}
+					];
+
+
 				default:
 					return null;
 			}

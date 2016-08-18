@@ -88,6 +88,33 @@ function register_licensing_provider()
 						}
 					];
 
+
+				case "2.0.1":
+					/**
+					 * Will update config file and process sql files
+					 */
+					return [
+						"dependencies_array" => [ "db_tools", "have_read_write_access_to_config" ],
+						"sharedInfo" => [
+							"config_file" => [
+								"path" => $protected_module_data["config_file_path"],
+							]
+						],
+						"function" => function($shared_module_info) use ($MODULE_VARS) {
+							$return = new stdClass();
+							$return->yield = new stdClass();
+							$return->success = false;
+							$return->yield->title = _("Licensing Module");
+
+							//because we don't have a common conf file, this is still the way to do it...
+							$conf_data = parse_ini_file($protected_module_data["config_file_path"]);
+							$db_name = $conf_data["database"]["name"];
+
+							return $return;
+						}
+					];
+
+
 				default:
 					return null;
 			}
