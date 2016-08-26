@@ -515,6 +515,22 @@ if ($resource->titleText){
                     <td style='vertical-align:top;width:150px;'><?php echo _("Fund:");?></td>
                     <td><?php echo $payment['fundName']; ?></td>
                 </tr>
+            <?php if ($enhancedCostFlag){ ?>
+                <tr>
+                    <td style='vertical-align:top;width:150px;'><?php echo _("Tax Excl.:");?></td>
+                    <td><?php echo $payment['currencyCode'] . " " .integer_to_cost($payment['priceTaxExcluded']); ?></td>
+                </tr>
+                <tr>
+                    <td style='vertical-align:top;width:150px;'><?php echo _("Tax Rate:");?></td>
+                    <td><?php echo $payment['taxRate']/100 ."%"; ?></td>
+                </tr>
+              
+                <tr>
+                    <td style='vertical-align:top;width:150px;'><?php echo _("Tax Incl.:");?></td>
+                    <td><?php echo $payment['currencyCode'] . " " .integer_to_cost($payment['priceTaxIncluded']); ?></td>
+                </tr>
+            <?php } ?>  
+              
                 <tr>
                     <td style='vertical-align:top;width:150px;'><?php echo _("Payment:");?></td>
                     <td><?php echo $payment['currencyCode'] . " " . integer_to_cost($payment['paymentAmount']); ?></td>
