@@ -218,17 +218,17 @@ function submitCostForm()
 
 
 		priceTaxExcludedList ='';
-		$(".priceTaxExcluded").each(function(id) {
+		$(".paymentTable").find(".priceTaxExcluded").each(function(id) {
 			priceTaxExcludedList += $(this).val() + ":::";
 		}); 
 
 		taxRateList ='';
-		$(".taxRate").each(function(id) {
+		$(".paymentTable").find(".taxRate").each(function(id) {
 			taxRateList += $(this).val() + ":::";
 		}); 
 
 		priceTaxIncludedList ='';
-		$(".priceTaxIncluded").each(function(id) {
+		$(".paymentTable").find(".priceTaxIncluded").each(function(id) {
 			priceTaxIncludedList += $(this).val() + ":::";
 		}); 
 
@@ -261,7 +261,7 @@ function submitCostForm()
 		$(".paymentTable").find(".invoiceNum").each(function(id) {
 		      invoiceList += $(this).val() + ":::";
 		}); 
-
+                alert(priceTaxIncludedList);
 		$('#submitCost').attr("disabled", "disabled"); 
 		$.ajax({
 			type:  "POST",
