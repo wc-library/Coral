@@ -14,7 +14,7 @@ function register_have_database_access_provider()
 		"bundle" => function($version = 0){
 			return [
 				"dependencies_array" => ["meets_system_requirements", "modules_to_use", "get_db_connection"],
-				"function" => function($shared_module_info){
+				"function" => function($shared_module_info) use ($version){
 					$return = new stdClass();
 					$return->yield = new stdClass();
 					$return->success = true;
@@ -72,7 +72,16 @@ function register_have_database_access_provider()
 					];
 
 					require "install/templates/database_details_template.php";
-					$instruction = _("If you would like to use pre-existing databases or custom database names. Use the advanced section to configure these settings.");
+					switch ($version) {
+						case Installer::VERSION_STRING_INSTALL:
+							$instruction = _("If you would like to use pre-existing databases or custom database names. Use the advanced section to configure these settings.");
+							$db_access_vars = array_intersect_key($db_access_vars, ["username", "password", "host"]);
+							break;
+						default: // Upgrade
+							$instruction = _("In order to run the upgrade, we need database credentials that allow us to create and delete tables.");
+							$db_access_vars = array_intersect_key(["username", "password"], $db_access_vars);
+							break;
+					}
 					$return->yield->body = database_details_template($instruction, $db_access_vars, $shared_database_info);
 
 					try
