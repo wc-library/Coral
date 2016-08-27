@@ -191,6 +191,33 @@ CREATE TABLE  `IsbnOrIssn` (
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 
+DROP TABLE IF EXISTS `Fund`;
+CREATE TABLE `Fund` (
+  `fundID` int(11) NOT NULL auto_increment,
+  `fundCode` varchar(20) default NULL,
+  `shortName` varchar(200) default NULL,
+  `archived` boolean default NULL,
+  PRIMARY KEY (`fundID`),
+  UNIQUE `fundCode` (`fundCode`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `ImportConfig`;
+CREATE TABLE `ImportConfig` (
+  `importConfigID` int(11) NOT NULL auto_increment,
+  `shortName` varchar(200) default NULL,
+  `configuration` varchar(1000) default NULL,
+  PRIMARY KEY (`importConfigID`)
+  ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=UTF8;
+
+DROP TABLE IF EXISTS `OrgNameMapping`;
+CREATE TABLE `OrgNameMapping` (
+  `orgNameMappingID` int(11) NOT NULL auto_increment,
+  `importConfigID` int(11) NOT NULL,
+  `orgNameImported` varchar(200) default NULL,
+  `orgNameMapped` varchar(200) default NULL,
+  PRIMARY KEY (`orgNameMappingID`),
+  KEY (`importConfigID`)
+  ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=UTF8;
 
 DROP TABLE IF EXISTS `LicenseStatus`;
 CREATE TABLE  `LicenseStatus` (
@@ -401,8 +428,11 @@ DROP TABLE IF EXISTS `ResourcePayment`;
 CREATE TABLE  `ResourcePayment` (
   `resourcePaymentID` int(11) NOT NULL auto_increment,
   `resourceID` int(10) unsigned NOT NULL,
-  `fundName` varchar(200) default NULL,
+  `fundID` int(10) default NULL,
   `selectorLoginID` varchar(45) default NULL,
+  `priceTaxExcluded` int(10) unsigned default NULL,
+  `taxRate` int(10) unsigned default NULL,
+  `priceTaxIncluded` int(10) unsigned default NULL,
   `paymentAmount` int(10) unsigned default NULL,
   `orderTypeID` int(10) unsigned default NULL,
   `currencyCode` varchar(3) NOT NULL,
@@ -591,6 +621,83 @@ CREATE TABLE `CostDetails` (
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 
+DROP TABLE IF EXISTS `Issue`;
+CREATE TABLE `Issue` (
+  `issueID` int(11) NOT NULL AUTO_INCREMENT,
+  `creatorID` varchar(20) NOT NULL,
+  `subjectText` varchar(80) NOT NULL,
+  `bodyText` text NOT NULL,
+  `reminderInterval` int(11) DEFAULT NULL,
+  `dateCreated` datetime NOT NULL,
+  `dateClosed` datetime DEFAULT NULL,
+  `resolutionText` text,
+  PRIMARY KEY (`issueID`),
+  KEY `creatorID` (`creatorID`)
+) ENGINE=MyISAM DEFAULT CHARACTER SET = utf8 COLLATE = utf8_general_ci AUTO_INCREMENT=1;
+
+DROP TABLE IF EXISTS `IssueRelationship`;
+CREATE TABLE `IssueRelationship` (
+  `issueRelationshipID` int(11) NOT NULL AUTO_INCREMENT,
+  `issueID` int(11) NOT NULL,
+  `entityID` int(11) NOT NULL,
+  `entityTypeID` int(11) NOT NULL,
+  PRIMARY KEY (`issueRelationshipID`),
+  KEY `issueID` (`issueID`,`entityID`,`entityTypeID`)
+) ENGINE=MyISAM DEFAULT CHARACTER SET = utf8 COLLATE = utf8_general_ci AUTO_INCREMENT=1;
+
+
+DROP TABLE IF EXISTS `IssueEntityType`;
+CREATE TABLE `IssueEntityType` (
+  `entityTypeID` int(11) NOT NULL AUTO_INCREMENT,
+  `entityName` varchar(80) NOT NULL,
+  PRIMARY KEY (`entityTypeID`)
+) ENGINE=MyISAM DEFAULT CHARACTER SET = utf8 COLLATE = utf8_general_ci AUTO_INCREMENT=1;
+
+
+DROP TABLE IF EXISTS `IssueContact`;
+CREATE TABLE `IssueContact` (
+  `issueContactID` int(11) NOT NULL AUTO_INCREMENT,
+  `issueID` int(11) NOT NULL,
+  `contactID` int(11) NOT NULL,
+  PRIMARY KEY (`issueContactID`)
+) ENGINE=MyISAM DEFAULT CHARACTER SET = utf8 COLLATE = utf8_general_ci AUTO_INCREMENT=1;
+
+
+DROP TABLE IF EXISTS `IssueEmail`;
+CREATE TABLE `IssueEmail` (
+  `issueEmailID` int(11) NOT NULL AUTO_INCREMENT,
+  `issueID` int(11) NOT NULL,
+  `email` varchar(120) NOT NULL,
+  PRIMARY KEY (`IssueEmailID`),
+  KEY `IssueID` (`IssueID`)
+) ENGINE=MyISAM DEFAULT CHARACTER SET = utf8 COLLATE = utf8_general_ci AUTO_INCREMENT=1 ;
+
+DROP TABLE IF EXISTS `Downtime`;
+CREATE TABLE IF NOT EXISTS `Downtime` (
+  `downtimeID` int(11) NOT NULL AUTO_INCREMENT,
+  `issueID` int(11) DEFAULT NULL,
+  `entityID` int(11) NOT NULL,
+  `entityTypeID` int(11) NOT NULL DEFAULT '2',
+  `creatorID` varchar(80) NOT NULL,
+  `dateCreated` datetime NOT NULL,
+  `startDate` datetime NOT NULL,
+  `endDate` datetime DEFAULT NULL,
+  `downtimeTypeID` int(11) NOT NULL,
+  `note` TEXT DEFAULT NULL,
+   PRIMARY KEY (`downtimeID`),
+   KEY `IssueID` (`IssueID`)
+) ENGINE=MyISAM DEFAULT CHARACTER SET = utf8 COLLATE = utf8_general_ci AUTO_INCREMENT=1;
+
+DROP TABLE IF EXISTS `DowntimeType`;
+CREATE TABLE IF NOT EXISTS `DowntimeType` (
+  `downtimeTypeID` int(11) NOT NULL AUTO_INCREMENT,
+  `shortName` varchar(80) NOT NULL,
+  PRIMARY KEY (`downtimeTypeID`)
+) ENGINE=MyISAM DEFAULT CHARACTER SET = utf8 COLLATE = utf8_general_ci AUTO_INCREMENT=1;
+
+
+
+
 ALTER TABLE `Alias` ADD INDEX `Index_resourceID`(`resourceID`),
  ADD INDEX `Index_aliasTypeID`(`aliasTypeID`),
  ADD INDEX `shortName` ( `shortName` ),
@@ -611,12 +718,12 @@ ALTER TABLE `Resource` ADD INDEX `Index_createDate`(`createDate`),
 ALTER TABLE `ResourceFormat` ADD INDEX `shortName` ( `shortName` );
 
 ALTER TABLE `ResourcePayment` ADD INDEX `Index_resourceID`(`resourceID`),
- ADD INDEX `Index_fundName`(`fundName`),
+ ADD INDEX `Index_fundID`(`fundID`),
  ADD INDEX `Index_year`(`year`),
  ADD INDEX `Index_costDetailsID`(`costDetailsID`),
  ADD INDEX `Index_invoiceNum`(`invoiceNum`),
- ADD INDEX `Index_All`(`resourceID`, `fundName`, `year`, `costDetailsID`, `invoiceNum`); 
- 
+ ADD INDEX `Index_All`(`resourceID`, `fundID`, `year`, `costDetailsID`, `invoiceNum`);
+
 
 ALTER TABLE `ResourceNote` ADD INDEX `Index_resourceID`(`resourceID`),
  ADD INDEX `Index_noteTypeID`(`noteTypeID`),

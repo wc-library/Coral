@@ -13,8 +13,8 @@
 			<table class='linedDataTable'>
 				<tr>
 				<th style='width:100%;'>Value</th>
-				<th>&nbsp;</th>
-				<th>&nbsp;</th>
+				<th style='width:20px;'>&nbsp;</th>
+				<th style='width:20px;'>&nbsp;</th>
 				</tr>
 				<?php
 
@@ -55,8 +55,8 @@
 			<table class='linedDataTable'>
 				<tr>
 				<th style='width:100%;'><?php echo _("Value");?></th>
-				<th>&nbsp;</th>
-				<th>&nbsp;</th>
+				<th style='width:20px;'>&nbsp;</th>
+				<th style='width:20px;'>&nbsp;</th>
 				</tr>
 				<?php
 
@@ -97,8 +97,7 @@
 				<tr>
 				<th><?php echo _("General Subject");?></th>
 				<th><?php echo _("Detailed Subject");?></th>
-				<th>&nbsp;</th>
-				<th>&nbsp;</th>
+				<th style='width:20px;'>&nbsp;</th>
 				</tr>
 				<?php
 

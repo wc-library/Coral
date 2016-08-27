@@ -1,0 +1,232 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: messages\n"
+"POT-Creation-Date: 2016-06-13 13:00-06:00\n"
+"PO-Revision-Date: 2016-08-22 16:01-0600\n"
+"Last-Translator: <>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: zh_CN\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-Basepath: ../../..\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Generator: Poedit 1.8.8\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: js/admin.js:67
+msgid "Passwords do not match"
+msgstr "密码不匹配"
+
+#: js/admin.js:73
+msgid "Password is required"
+msgstr "密码为必填"
+
+#: js/admin.js:78
+msgid "UserID is required"
+msgstr "用户ID为必填"
+
+#: js/admin.js:89
+msgid "Do you really want to delete this user?"
+msgstr "您确认要删除此用户吗？"
+
+#: js/index.js:40
+msgid "Refreshing Contents..."
+msgstr "正在刷新内容..."
+
+#: admin.php:66 index.php:195
+msgid "JavaScript must be enabled in order for you to use CORAL. However, it seems JavaScript is either disabled or not supported by your browser. To use CORAL, enable JavaScript by changing your browser options, then"
+msgstr "必须启用 JavaScript 才能使用 CORAL。但是，或者您已禁用 JavaScript，或者您的浏览器不支持。若要使用 CORAL，则请更改您的浏览器选项以启用 JavaScript，并"
+
+#: admin.php:66 index.php:195
+msgid "try again"
+msgstr "重试"
+
+#: admin.php:75 index.php:205
+msgid "eRM Authentication"
+msgstr "eRM 身份验证"
+
+#: admin.php:82
+msgid "Users"
+msgstr "用户"
+
+#: admin.php:83
+msgid "Login ID must match the login ID set up in the modules"
+msgstr "登录 ID 必须用模块中设置的登录 ID 匹配"
+
+#: admin.php:89
+msgid "Processing..."
+msgstr "正在处理..."
+
+#: admin.php:93 index.php:226
+msgid "Change language:"
+msgstr "更改语言："
+
+#: admin.php:109 index.php:242
+msgid "Invalid translation route!"
+msgstr "无效的翻译路线！"
+
+#: admin.php:134
+msgid "Login page"
+msgstr "登录页面"
+
+#: admin/classes/common/DBService.php:39
+msgid "There was a problem with the database: "
+msgstr "数据库出现一个问题："
+
+#: admin/classes/common/LdapPerson.php:34
+msgid "Could not connect to "
+msgstr "无法连接到"
+
+#: admin/classes/common/Object.php:63
+msgid "Cannot set value for undefined key ("
+msgstr "无法为未定义的键设置值 ("
+
+#: admin/classes/common/Object.php:72
+msgid "Cannot get value for undefined key ("
+msgstr "无法为未定义的键获取值 ("
+
+#: admin/classes/domain/User.php:82 admin/classes/domain/User.php:89
+msgid "Could not connect to LDAP server."
+msgstr "无法连接到 LDAP 服务器。"
+
+#: admin/classes/domain/User.php:97
+msgid "There is a problem with the LDAP configuration, contact your server administrator."
+msgstr "LDAP 配置有问题，请与服务器管理员联系。"
+
+#: ajax_forms.php:43
+msgid "Edit User"
+msgstr "编辑用户"
+
+#: ajax_forms.php:43
+msgid "Add New User"
+msgstr "添加新用户"
+
+#: ajax_forms.php:56
+msgid "Login ID"
+msgstr "登录 ID"
+
+#: ajax_forms.php:58
+msgid "Enter password for changes only"
+msgstr "只为更改输入密码"
+
+#: ajax_forms.php:59
+msgid "New "
+msgstr "新"
+
+#: ajax_forms.php:59
+msgid "Password"
+msgstr "密码"
+
+#: ajax_forms.php:62
+msgid "Reenter Password"
+msgstr "重新输入密码"
+
+#: ajax_forms.php:65
+msgid "Admin?"
+msgstr "管理员？"
+
+#: ajax_forms.php:77
+msgid "submit"
+msgstr "提交"
+
+#: ajax_forms.php:78
+msgid "cancel"
+msgstr "取消"
+
+#: ajax_forms.php:114 ajax_htmldata.php:75 ajax_processing.php:89
+msgid "Action "
+msgstr "操作"
+
+#: ajax_forms.php:114 ajax_htmldata.php:75 ajax_processing.php:89
+msgid " not set up!"
+msgstr "未设置!"
+
+#: ajax_htmldata.php:53
+msgid "edit password or admin status"
+msgstr "编辑密码或管理员状态"
+
+#: ajax_htmldata.php:54
+msgid "remove"
+msgstr "移除"
+
+#: ajax_htmldata.php:60 ajax_htmldata.php:64
+msgid "add new user"
+msgstr "添加新用户"
+
+#: ajax_processing.php:77
+msgid "User successfully deleted."
+msgstr "用户已成功删除。"
+
+#: index.php:55
+msgid "You are successfully logged out of the system."
+msgstr "您已成功退出系统。"
+
+#: index.php:86
+msgid "Invalid login ID.  Please try again."
+msgstr "无效的登录 ID。请重试。"
+
+#: index.php:91
+msgid "Invalid password.  Please try again."
+msgstr "无效的密码。请重试。"
+
+#: index.php:108
+msgid "You are already logged in as "
+msgstr "您已登录为"
+
+#: index.php:108
+msgid "You may log in as another user below,"
+msgstr "您可以作为下面一位用户登录，"
+
+#: index.php:108
+msgid "return"
+msgstr "返回"
+
+#: index.php:108
+msgid "or"
+msgstr "或"
+
+#: index.php:108
+msgid "logout"
+msgstr "退出"
+
+#: index.php:129
+msgid "Please enter login credentials to sign in."
+msgstr "请输入登录凭据登录。"
+
+#: index.php:137
+msgid "Your session has timed out."
+msgstr "您的会话已超时。"
+
+#: index.php:146
+msgid "You do not have permission to enter."
+msgstr "你没有权限进入。"
+
+#: index.php:146
+msgid "Please contact an administrator."
+msgstr "请与管理员联系。"
+
+#: index.php:156
+msgid "You must log in before accessing the admin page."
+msgstr "您必须先登录再访问管理员页面。"
+
+#: index.php:211
+msgid "Login ID:"
+msgstr "登录 ID："
+
+#: index.php:214
+msgid "Password:"
+msgstr "密码："
+
+#: index.php:218
+msgid "Remember my login ID"
+msgstr "记住我的登录 ID"
+
+#: index.php:221
+msgid "Login"
+msgstr "登录"
+
+#: index.php:267
+msgid "Admin page"
+msgstr "管理员页面"

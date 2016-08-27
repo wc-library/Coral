@@ -28,8 +28,8 @@ include 'templates/header.php';
 	if (count($platformArray) > 0){
 		foreach($platformArray as $platform) {
 			echo "<div style='margin-bottom:15px;'>";
-			echo "<span class='PlatformText'>" . $platform['name'] . "</span>&nbsp;&nbsp;<a href='publisherPlatform.php?platformID=" . $platform['platformID'] . "' class='smallLink'>"._("view / edit")."</a>";
-			echo "<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href=\"javascript:showPublisherList('" . $platform['platformID'] . "');\"><img src='images/arrowright.gif' style='border:0px' alt='"._("show publisher list")."' id='image_" . $platform['platformID'] . "'></a>&nbsp;<a href=\"javascript:showPublisherList('" . $platform['platformID'] . "');\" id='link_" . $platform['platformID'] . "'>"._("show publisher list")."</a><br />";
+			echo "<span class='PlatformText'>" . $platform['name'] . "</span>&nbsp;&nbsp;<a href='publisherPlatform.php?platformID=" . $platform['platformID'] . "' class='smallLink'>" . _("view / edit") . "</a>";
+			echo "<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href=\"javascript:showPublisherList('" . $platform['platformID'] . "');\"><img src='images/arrowright.gif' style='border:0px' alt='" . _("show publisher list") . "' id='image_" . $platform['platformID'] . "'></a>&nbsp;<a href=\"javascript:showPublisherList('" . $platform['platformID'] . "');\" id='link_" . $platform['platformID'] . "'>" . _("show publisher list") . "</a><br />";
 
 			echo "<div id='div_" . $platform['platformID'] . "' style='display:none;width:600px;margin-left:40px'>";
 
@@ -39,7 +39,7 @@ include 'templates/header.php';
 			$publisherPlatform = new PublisherPlatform();
 			foreach($platformObj->getPublisherPlatforms() as $publisherPlatform) {
 				$publisher = new Publisher(new NamedArguments(array('primaryKey' => $publisherPlatform->publisherID)));
-				echo $publisher->name . "&nbsp;&nbsp;<a href='publisherPlatform.php?publisherPlatformID=" . $publisherPlatform->publisherPlatformID . "'>"._("view / edit")."</a><br />";
+				echo $publisher->name . "&nbsp;&nbsp;<a href='publisherPlatform.php?publisherPlatformID=" . $publisherPlatform->publisherPlatformID . "'>" . _("view / edit") . "</a><br />";
 			}
 
 			echo "</div>";
@@ -47,7 +47,7 @@ include 'templates/header.php';
 
 		}
 	}else{
-		echo "<i>"._("No publishers / platforms found.")."</i>";
+		echo "<i>" . _("No publishers / platforms found.") . "</i>";
 	}
 
 	echo "</div>\n";

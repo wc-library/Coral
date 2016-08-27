@@ -19,12 +19,12 @@
 
 include_once 'directory.php';
 
-$pageTitle=_('My Queue');
-include 'templates/header.php';
 
 //set referring page
-$_SESSION['ref_script']=$currentPage;
+CoralSession::set('ref_script', $currentPage);
 
+$pageTitle=_('My Queue');
+include 'templates/header.php';
 
 
 
@@ -34,7 +34,7 @@ $_SESSION['ref_script']=$currentPage;
 	<table class='headerTable'>
 	<tr>
 	<td style='margin:0;padding:0;text-align:left;'>
-		<table style='width:100%; margin:0 0 11px 0;padding:0;'>
+		<table style='width:100%; margin:0;padding:0;'>
 		<tr style='vertical-align:top'>
 		<td>
 		<span class="headerText"><?php echo _("My Queue");?></span>

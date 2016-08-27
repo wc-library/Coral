@@ -16,8 +16,8 @@
 				<th><?php echo _("Acquisition Type");?></th>
 				<th><?php echo _("Resource Format");?></th>
 				<th><?php echo _("Resource Type");?></th>
-				<th>&nbsp;</th>
-				<th>&nbsp;</th>
+				<th style='width:20px;'>&nbsp;</th>
+				<th style='width:20px;'>&nbsp;</th>
 				</tr>
 				<?php
 
@@ -72,8 +72,8 @@
 				<th><?php echo _("Group Name");?></th>
 				<th><?php echo _("Email Address");?></th>
 				<th><?php echo _("Users");?></th>
-				<th>&nbsp;</th>
-				<th>&nbsp;</th>
+				<th style='width:20px;'>&nbsp;</th>
+				<th style='width:20px;'>&nbsp;</th>
 				</tr>
 				<?php
 

@@ -18,6 +18,7 @@
 */
 
 class Downtime extends DatabaseObject {
+	protected $overloadKeys = array();
 
 	protected function defineRelationships() {}
 
@@ -30,6 +31,9 @@ class Downtime extends DatabaseObject {
 		if ($config->settings->resourcesModule == 'Y' && $config->settings->resourcesDatabaseName) {
 			$arguments->dbName = $config->settings->resourcesDatabaseName;
 		}
+		//these are values from other tables that we'll be SELECTing, but don't want to persist as part of DB update operations
+		$this->overloadKeys = array("shortName","subjectText");
+
 		parent::init($arguments);
 	}
 
@@ -43,7 +47,7 @@ class Downtime extends DatabaseObject {
 				  FROM `{$this->dbName}`.Downtime d
 				  LEFT JOIN `{$this->dbName}`.DowntimeType dt ON dt.downtimeTypeID=d.downtimeTypeID
 				  LEFT JOIN `{$this->dbName}`.Issue i ON i.issueID=d.issueID
-				  WHERE d.downtimeID={$this->primaryKey}";
+				  WHERE d.downtimeID='$this->primaryKey'";
 			
 			$result = $this->db->processQuery($query, 'assoc');
 
@@ -53,9 +57,6 @@ class Downtime extends DatabaseObject {
 			}
 
 		}else{
-
-			//This else block currently will not be used
-
 			// Figure out attributes from existing database
 			$query = "SELECT COLUMN_NAME FROM information_schema.`COLUMNS` WHERE table_schema = '";
 			$query .= $this->db->config->database->name . "' AND table_name = '$this->tableName'";// MySQL-specific
@@ -63,7 +64,22 @@ class Downtime extends DatabaseObject {
 				$attributeName = $result[0];
 				$this->addAttribute($attributeName);
 			}
+
+			//Add additional keys from joined tables
+			foreach ($this->overloadKeys as $attributeName) {
+				$this->addAttribute($attributeName);
+				$this->attributes[$attributeName] = $result[$attributeName];
+			}
 		}
+	}
+
+	public function save() {
+		//remove any overloadedKeys before attempting to save
+		foreach ($this->overloadKeys as $attributeName) {
+			unset($this->attributes[$attributeName]); 
+			unset($this->attributeNames[$attributeName]);
+		}
+		parent::save();
 	}
 
 	public function getDowntimeTypesArray() {
@@ -73,8 +89,12 @@ class Downtime extends DatabaseObject {
 		$result = $this->db->processQuery($query, "assoc");
 		$names = array();
 
-		foreach ($result as $name) {
-			array_push($names, $name);
+		if (is_array($result[0])) {
+			foreach ($result as $name) {
+				array_push($names, $name);
+			}
+		} else {
+			$names[] = $result;
 		}
 
 		return $names;

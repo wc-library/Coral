@@ -107,25 +107,25 @@ $(document).ready(function(){
 	  return false;
 	})
  });
- 
+
 function updateSearch(pageNumber) {
-  $("#div_feedback").html("<img src='images/circle.gif'>  <span style='font-size:90%'>"+_("Processing...")+"</span>");
-  if (!pageNumber) {
-    pageNumber = 1;
-  }
-  $('#searchPage').val(pageNumber);
-  
-  var form = $('#resourceSearchForm');
-  $.post(
-    form.attr('action'),
-    form.serialize(),
-    function(html) { 
-     	$("#div_feedback").html("&nbsp;");
-     	$('#div_searchResults').html(html);  
-     }
-   );
-   
-   window.scrollTo(0, 0);
+	$("#div_feedback").html("<img src='images/circle.gif'>  <span style='font-size:90%'>"+_("Processing...")+"</span>");
+	if (!pageNumber) {
+		pageNumber = 1;
+	}
+	$('#searchPage').val(pageNumber);
+
+	var form = $('#resourceSearchForm');
+	$.post(
+		form.attr('action'),
+		form.serialize(),
+		function(html) {
+			$("#div_feedback").html("&nbsp;");
+			$("#div_searchResults").html(html);
+		}
+	);
+
+	window.scrollTo(0, 0);
 }
 
 function searchValidResource(){

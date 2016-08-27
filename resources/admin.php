@@ -23,7 +23,7 @@ $pageTitle=_('Administration');
 include 'templates/header.php';
 
 //set referring page
-$_SESSION['ref_script']=$currentPage;
+CoralSession::set('ref_script', $currentPage);
 
 $config = new Configuration;
 
@@ -34,7 +34,7 @@ if ($user->isAdmin()){
 	<table class='headerTable'>
 	<tr>
 	<td style='margin:0;padding:0;text-align:left;'>
-		<table style='width:100%; margin:0 0 11px 0;padding:0;'>
+		<table style='width:100%; margin:0;padding:0;'>
 		<tr style='vertical-align:top'>
 		<td>
 		<span class="headerText"><?php echo _("Administration");?></span>
@@ -69,6 +69,8 @@ if ($user->isAdmin()){
 				<?php } ?>
 				<tr><td><div class='adminMenuLink'><a href='javascript:void(0);' class='CurrencyLink'><?php echo _("Currency");?></div></td></tr>
 				<tr><td><div class='adminMenuLink'><a href='javascript:void(0);' class='AdminLink' id="DowntimeType"><?php echo _("Downtime Types");?></div></td></tr>
+				<tr><td><div class='adminMenuLink'><a href='javascript:void(0);' class='FundLink'><?php echo _("Funds");?></div></td></tr>
+				<tr><td><div class='adminMenuLink'><a href='javascript:void(0);' class='ImportConfigLink'><?php echo _("Import Configuration");?></div></td></tr>
 				<tr><td><div class='adminMenuLink'><a href='javascript:void(0);' id='LicenseStatus' class='AdminLink'><?php echo _("License Status");?></div></td></tr>
 				<tr><td><div class='adminMenuLink'><a href='javascript:void(0);' id='NoteType' class='AdminLink'><?php echo _("Note Type");?></div></td></tr>
 				<tr><td><div class='adminMenuLink'><a href='javascript:void(0);' id='OrderType' class='AdminLink'><?php echo _("Order Type");?></div></td></tr>

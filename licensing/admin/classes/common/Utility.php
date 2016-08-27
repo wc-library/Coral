@@ -84,6 +84,10 @@ class Utility {
 		return $this->getCORALURL() . "organizations/orgDetail.php?organizationID=";
 	}
 
+	public function getResourceURL(){
+		return $this->getCORALURL() . "resources/resource.php?resourceID=";
+	}
+
 
 
 
@@ -100,10 +104,12 @@ class Utility {
 
 			if ($result['max_licenseID']){
 				header('Location: license.php?licenseID=' . $result['max_licenseID']);
+				exit; //PREVENT SECURITY HOLE
 			}
 
 		}else{
 			header('Location: license.php?licenseID=' . $editLicenseID);
+			exit; //PREVENT SECURITY HOLE
 		}
 	}
 
