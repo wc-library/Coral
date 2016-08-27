@@ -31,13 +31,13 @@ if (dirname($_SERVER["SCRIPT_FILENAME"]) !== dirname(__DIR__) || basename($_SERV
 }
 
 /**
- * INSTALLATION_VERSIONS is an array of all version strings that can be upgraded from
- * INSTALLATION_VERSION is the current version string (which should be the last element in the INSTALLATION_VERSIONS array)
+ * $INSTALLATION_VERSIONS is an array of all version strings that can be upgraded from
+ * INSTALLATION_VERSION is the current version string (which should be the last element in the $INSTALLATION_VERSIONS array)
  *
  * NOTE: It is assumed that version strings can be understood by php's version_compare function
  */
-const INSTALLATION_VERSION = "2.0.0";
-const INSTALLATION_VERSIONS = ["2.0.0"];
+$INSTALLATION_VERSION = "2.0.0";
+$INSTALLATION_VERSIONS = ["2.0.0"];
 
 // TODO: if /index.php is calling this all the time, these lines make no sense
 // 			(we shouldn't set these constants for every page).
@@ -146,15 +146,15 @@ function do_upgrade($version)
 	 *
 	 */
 
-	$current_version_index = array_search($version, INSTALLATION_VERSIONS);
-	for ($version_to_install_index = $current_version_index + 1; $version_to_install_index < count(INSTALLATION_VERSIONS); $version_to_install_index++)
+	$current_version_index = array_search($version, $INSTALLATION_VERSIONS);
+	for ($version_to_install_index = $current_version_index + 1; $version_to_install_index < count($INSTALLATION_VERSIONS); $version_to_install_index++)
 	{
-		run_loop(INSTALLATION_VERSIONS[$version_to_install_index]);
+		run_loop($INSTALLATION_VERSIONS[$version_to_install_index]);
 	}
 }
 
 $version = is_installed();
-if ($version !== INSTALLATION_VERSION || (isset($_SESSION["installer_post_installation"]) && $_SESSION["installer_post_installation"]))
+if ($version !== $INSTALLATION_VERSION || (isset($_SESSION["installer_post_installation"]) && $_SESSION["installer_post_installation"]))
 {
 	if (!isset($_POST["installing"]))
 	{
@@ -173,14 +173,14 @@ if ($version !== INSTALLATION_VERSION || (isset($_SESSION["installer_post_instal
 	{
 		$return = new stdClass();
 		$return->messages = [];
-		if (array_slice(INSTALLATION_VERSIONS, -1)[0] !== INSTALLATION_VERSION)
+		if (array_slice($INSTALLATION_VERSIONS, -1)[0] !== $INSTALLATION_VERSION)
 		{
 			// The instllation constants are not correctly set up
 			$return->messages[] = "<b>" . _("An error has occurred:") . "</b><br />" . _("Sorry but the installer has been incorrectly configured. Please contact the developer.");
 			$return->messages[] = _("Version of Installer does not match the last installation version in INSTALLATION_VERSIONS.");
 			yield_test_results_and_exit($return, [], 0);
 		}
-		elseif (!in_array($version, INSTALLATION_VERSIONS))
+		elseif (!in_array($version, $INSTALLATION_VERSIONS))
 		{
 			$return->messages[] = "<b>" . _("An error has occurred:") . "</b><br />" . _("Sorry but the installer has been incorrectly configured. Please contact the developer.");
 			$return->messages[] = _("The version currently installed is not a recognised version.");
