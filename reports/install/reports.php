@@ -2,7 +2,7 @@
 function register_reports_provider()
 {
 	$protected_module_data = [
-		"config_file_path" => "management/admin/configuration.ini"
+		"config_file_path" => "reports/admin/configuration.ini"
 	];
 	$MODULE_VARS = [
 		"uid" => "reports",
