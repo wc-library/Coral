@@ -15,7 +15,7 @@ function register_remote_auth_provider()
 					$return->yield = new stdClass();
 					$return->success = false;
 					$return->yield->messages = [];
-					$return->yield->title = _("Set Installation Variable");
+					$return->yield->title = _("Set Remote Auth Variable");
 
 					if (isset($_POST["remote_auth_variable"]))
 						$_SESSION[$MODULE_VARS["uid"]]["remote_auth_variable"] = $_POST["remote_auth_variable"];
