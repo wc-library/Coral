@@ -14,11 +14,12 @@ function register_set_installed_variable_provider()
 					$return->yield = new stdClass();
 					$return->success = true;
 					$return->yield->messages = [];
-					$return->yield->title = _("Installation Variable Set");
+					$return->yield->title = _("Setting Installation Version");
 
+					global $INSTALLATION_VERSION;
 					$confData = [
 						"installation_details" => [
-							"version" => INSTALLATION_VERSION
+							"version" => $INSTALLATION_VERSION
 						]
 					];
 					foreach ($shared_module_info["modules_to_use"]["useModule"] as $key => $value) {
