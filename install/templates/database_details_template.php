@@ -29,6 +29,19 @@ HEREDOC;
 		return $card_vomit;
 	};
 
+	$db_host_field = "";
+	if (!empty($db_access_vars["host"]))
+	{
+		$db_host_field = <<<HEREDOC
+			<div class="row">
+				<div class="twelve columns">
+					<label for="dbhost">{$db_access_vars["host"]["title"]}</label>
+					<input class="u-full-width" type="text" placeholder="{$db_access_vars["host"]["placeholder"]}" name="{$db_access_vars["host"]["name"]}">
+				</div>
+			</div>
+HEREDOC;
+	}
+
 	return <<<HEREDOC
 <div class="row">
 	$instruction
@@ -46,12 +59,7 @@ HEREDOC;
 				<input class="u-full-width" type="password" placeholder="{$db_access_vars["password"]["placeholder"]}" name="{$db_access_vars["password"]["name"]}">
 			</div>
 		</div>
-		<div class="row">
-			<div class="twelve columns">
-				<label for="dbhost">{$db_access_vars["host"]["title"]}</label>
-				<input class="u-full-width" type="text" placeholder="{$db_access_vars["host"]["placeholder"]}" name="{$db_access_vars["host"]["name"]}">
-			</div>
-		</div>
+		{$db_host_field}
 		{$cards($shared_database_info)}
 		<div class="row">
 			<input type="submit" value="$submit" />
