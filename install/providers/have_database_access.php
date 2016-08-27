@@ -22,10 +22,10 @@ function register_have_database_access_provider()
 					$return->yield->title = _("Have database access");
 
 					$shared_database_info = [];
-					foreach ($shared_module_info["modules_to_use"]["useModule"] as $key => $value) {
-						if ($value && isset($shared_module_info[$key]["database"]))
+					foreach ($shared_module_info["modules_to_use"]["useModule"] as $uid => $use_module) {
+						if ($use_module && isset($shared_module_info[$uid]["database"]))
 						{
-							$db_postvar_name = "db_" . $key . "_name";
+							$db_postvar_name = "db_" . $uid . "_name";
 							if (!empty($_POST[$db_postvar_name]))
 								{
 								if (!isset($_SESSION["have_database_access"]))
@@ -33,11 +33,11 @@ function register_have_database_access_provider()
 								$_SESSION["have_database_access"][$db_postvar_name] = $_POST[$db_postvar_name];
 							}
 							$shared_database_info[] = [
-								"title"			=> $shared_module_info[$key]["database"]["title"],
-								"default_value"	=> empty($_SESSION["have_database_access"][$db_postvar_name]) ? $shared_module_info[$key]["database"]["default_value"] : $_SESSION["have_database_access"][$db_postvar_name],
+								"title"			=> $shared_module_info[$uid]["database"]["title"],
+								"default_value"	=> empty($_SESSION["have_database_access"][$db_postvar_name]) ? $shared_module_info[$uid]["database"]["default_value"] : $_SESSION["have_database_access"][$db_postvar_name],
 								"name"			=> $db_postvar_name,
-								"feedback"		=> "db_" . $key . "_feedback",
-								"key"			=> $key,
+								"feedback"		=> "db_" . $uid . "_feedback",
+								"key"			=> $uid,
 							];
 						}
 					}
