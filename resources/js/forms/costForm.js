@@ -82,8 +82,6 @@ $(function(){
 	});
 
 
-
-
 	$(".remove").live('click', function () {
 	    $(this).parent().parent().parent().fadeTo(400, 0, function () {
 	    	$(this).next().remove(); //remove the error line first
@@ -92,7 +90,25 @@ $(function(){
 	    return false;
 	});
 
+	$(".priceTaxExcluded").change(function() {
+    	pte = $(this).val();
+    	taxRate = $(this).parent().next().children(".taxRate").val();
+    	if (pte && taxRate) {
+      		amount = parseFloat(pte) + (pte * taxRate / 100);
+      		$(this).parent().next().next().children(".priceTaxIncluded").val(amount);
+      		$(this).parent().next().next().next().children(".paymentAmount").val(amount);
+    	}
+	});
 
+	$(".taxRate").change(function() {
+    	taxRate = $(this).val();
+    	pte = $(this).parent().prev().children(".priceTaxExcluded").val();
+    	if (pte && taxRate) {
+    	  	amount = parseFloat(pte) + (pte * taxRate / 100);
+      		$(this).parent().next().children(".priceTaxIncluded").val(amount);
+      		$(this).parent().next().next().children(".paymentAmount").val(amount);
+	    }
+	});
 
 	$(".addPayment").click(function () {
 
@@ -100,6 +116,9 @@ $(function(){
 		var ssd       = $('.newPaymentTable').find('.susbcriptionStartDate').val();
 		var sed       = $('.newPaymentTable').find('.susbcriptionEndDate').val();
 		var fName     = $('.newPaymentTable').find('.fundName').val();
+		var pte       = $('.newPaymentTable').find('.priceTaxExcluded').val();
+		var tr        = $('.newPaymentTable').find('.taxRate').val();
+		var pti 	  = $('.newPaymentTable').find('.priceTaxIncluded').val();
 		var typeID    = $('.newPaymentTable').find('.orderTypeID').val();
 		var detailsID = $('.newPaymentTable').find('.costDetailsID').val();
 		var pAmount   = $('.newPaymentTable').find('.paymentAmount').val();
@@ -131,6 +150,9 @@ $(function(){
 			$('.newPaymentTable').find('.subscriptionStartDate').val('');
 			$('.newPaymentTable').find('.subscriptionEndDate').val('');
 			$('.newPaymentTable').find('.fundID').val('');
+			$('.newPaymentTable').find('.priceTaxExcluded').val('');
+			$('.newPaymentTable').find('.taxRate').val('');
+			$('.newPaymentTable').find('.priceTaxIncluded').val('');
 			$('.newPaymentTable').find('.paymentAmount').val('');
 			$('.newPaymentTable').find('.orderTypeID').val('');
 			$('.newPaymentTable').find('.costDetailsID').val('');
@@ -191,11 +213,27 @@ function submitCostForm()
 		fundNameList ='';
 		$(".paymentTable").find(".fundID").each(function(id) {
 		      fundNameList += $(this).val() + ":::";
+		});
+
+
+		priceTaxExcludedList ='';
+		$(".priceTaxExcluded").each(function(id) {
+			priceTaxExcludedList += $(this).val() + ":::";
+		}); 
+
+		taxRateList ='';
+		$(".taxRate").each(function(id) {
+			taxRateList += $(this).val() + ":::";
+		}); 
+
+		priceTaxIncludedList ='';
+		$(".priceTaxIncluded").each(function(id) {
+			priceTaxIncludedList += $(this).val() + ":::";
 		}); 
 
 		paymentAmountList ='';
 		$(".paymentTable").find(".paymentAmount").each(function(id) {
-		      paymentAmountList += $(this).val() + ":::";
+			paymentAmountList += $(this).val() + ":::";
 		}); 
 
 		currencyCodeList ='';
@@ -234,6 +272,9 @@ function submitCostForm()
 				subStarts: subStartList,
 				subEnds: subEndList,
 				fundIDs: fundNameList,
+				pricesTaxExcluded: priceTaxExcludedList,
+				taxRates: taxRateList,
+				pricesTaxIncluded: priceTaxIncludedList,
 				paymentAmounts: paymentAmountList,
 				currencyCodes: currencyCodeList,
 				orderTypes: orderTypeList,
@@ -277,6 +318,8 @@ function validateTable(objRows)
 		var pAmount    = $(objRows[currentRow]).find('.paymentAmount').val();
 		var typeID     = $(objRows[currentRow]).find('.orderTypeID').val();
 		var detailsID  = $(objRows[currentRow]).find('.costDetailsID').val();
+		var pte 	   = $(objRows[currentRow]).find('.priceTaxIncluded').val();
+		var pti 	   = $(objRows[currentRow]).find('.priceTaxExcluded').val();
 		var cNote      = $(objRows[currentRow]).find('.costNote').val();
 		var invoiceNum = $(objRows[currentRow]).find('.invoiceNum').val();
 
@@ -295,6 +338,15 @@ function validateTable(objRows)
 			$(objRows[currentRow+1]).find('.div_errorPayment').html(_("Error - price is not numeric"));
 			hasNoErrors = false;
 		}
+		else if ((pte != '') && (pte != null) && (isAmount(pte) === false)){
+			$(objRows[currentRow+1]).find('.div_errorPayment').html('Error - Price (tax excluded) is not numeric');
+			hasNoErrors = false;
+		}
+		else if ((pti != '') && (pti != null) && (isAmount(pti) === false)){
+			$(objRows[currentRow+1]).find('.div_errorPayment').html('Error - Price (tax included) is not numeric');
+			hasNoErrors = false;
+		}
+
 		currentRow += 2;
  	}
  	return hasNoErrors;
