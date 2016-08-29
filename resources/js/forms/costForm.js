@@ -261,8 +261,7 @@ function submitCostForm()
 		$(".paymentTable").find(".invoiceNum").each(function(id) {
 		      invoiceList += $(this).val() + ":::";
 		}); 
-                alert(priceTaxIncludedList);
-		$('#submitCost').attr("disabled", "disabled"); 
+                $('#submitCost').attr("disabled", "disabled"); 
 		$.ajax({
 			type:  "POST",
 			url:   "ajax_processing.php?action=submitCost",
