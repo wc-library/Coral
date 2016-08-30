@@ -186,6 +186,7 @@ function register_auth_provider()
 							$ldap_enabled = isset($ldap_session_var_by_reference["ldap_enabled"]) && $ldap_session_var_by_reference["ldap_enabled"] == 'Y';
 							if ($ldap_enabled)
 							{
+								// These values will be inserted for auth's admin user on the User table if ldap is enabled
 								$random_prefix = "NULL";
 								$hashed_password = "NULL";
 							}
