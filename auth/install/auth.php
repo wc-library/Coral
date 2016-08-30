@@ -184,7 +184,12 @@ function register_auth_provider()
 								return $return;
 
 							$ldap_enabled = isset($ldap_session_var_by_reference["ldap_enabled"]) && $ldap_session_var_by_reference["ldap_enabled"] == 'Y';
-							if (!$ldap_enabled)
+							if ($ldap_enabled)
+							{
+								$random_prefix = "NULL";
+								$hashed_password = "NULL";
+							}
+							else
 							{
 								// We need a password for the default admin account
 								if (isset($_POST["coral_default_admin_password"]))
@@ -216,30 +221,33 @@ function register_auth_provider()
 								}
 								else
 								{
-									// TODO: check that we only need to populate auth's db if ldap is disabled!
-									if (!(!empty($_SESSION[$MODULE_VARS["uid"]]["default_user_created"]) && $_SESSION[$MODULE_VARS["uid"]]["default_user_created"]))
+									//password is set and valid so now we set up the vars to insert
+									$password_to_use = $_SESSION[$MODULE_VARS["uid"]]["coral_default_admin_password"];
+									$random_string = function($length)
 									{
-										$random_string = function($length)
-										{
-											// The weird maths here is because of bytes to base64 encoding
-											// $length + 2 is because the last two characters are predictable in strings where length % 3 != 0
-											// (so the predictable characters are pushed out of our range)
-											$str_to_ret = base64_encode(openssl_random_pseudo_bytes(3*(($length+2)/4)));
-											return substr($str_to_ret, 0, $length);
-										};
+										// The weird maths here is because of bytes to base64 encoding
+										// $length + 2 is because the last two characters are predictable in strings where length % 3 != 0
+										// (so the predictable characters are pushed out of our range)
+										$str_to_ret = base64_encode(openssl_random_pseudo_bytes(3*(($length+2)/4)));
+										return substr($str_to_ret, 0, $length);
+									};
 
-										$admin_username = $shared_module_info["have_default_coral_admin_user"]["default_user"];
-										$random_prefix =$random_string(45);
-										$hashed_password = hash('sha512', $random_prefix . $_SESSION[$MODULE_VARS["uid"]]["coral_default_admin_password"]);
-										$random_prefix = $dbconnection->escapeString($random_prefix);
-										$admin_username = $dbconnection->escapeString($admin_username);
-										$createDefaultAdmin = "INSERT INTO `User` VALUES ('$admin_username', '$hashed_password', '$random_prefix', 'Y');";
-										// This should be successful because our database check passed (it will throw an error otherwise and we will know about it)
-										$result = $dbconnection->processQuery($createDefaultAdmin);
-										// An error would be thrown here if the insert were not successful
-										$_SESSION[$MODULE_VARS["uid"]]["default_user_created"] = true;
-									}
+									$random_prefix = $random_string(45);
+									$hashed_password = hash('sha512', $random_prefix . $password_to_use);
+									$random_prefix = $dbconnection->escapeString($random_prefix);
 								}
+							}
+
+							// hashed_password and random_prefix
+							// have been set up in the immediately preceeding if statement
+							if (!( !empty($_SESSION[$MODULE_VARS["uid"]]["default_user_created"]) && $_SESSION[$MODULE_VARS["uid"]]["default_user_created"] ))
+							{
+								$admin_username = $dbconnection->escapeString($shared_module_info["have_default_coral_admin_user"]["default_user"]);
+								$createDefaultAdmin = "INSERT INTO `User` VALUES ('$admin_username', '$hashed_password', '$random_prefix', 'Y');";
+								// This should be successful because our database check passed (it will throw an error otherwise and we will know about it)
+								$result = $dbconnection->processQuery($createDefaultAdmin);
+								// An error would be thrown here if the insert were not successful
+								$_SESSION[$MODULE_VARS["uid"]]["default_user_created"] = true;
 							}
 
 							// Share data for other modules
