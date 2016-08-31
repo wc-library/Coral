@@ -681,6 +681,7 @@ INSERT INTO `AccessMethod` (shortName) values ('Local Host');
 INSERT INTO `AcquisitionType` (acquisitionTypeID, shortName) values (1, 'Paid');
 INSERT INTO `AcquisitionType` (acquisitionTypeID, shortName) values (2, 'Free');
 INSERT INTO `AcquisitionType` (acquisitionTypeID, shortName) values (3, 'Trial');
+INSERT INTO `AcquisitionType` (acquisitionTypeID, shortName) values (4, 'Any');
 
 
 INSERT INTO `AdministeringSite` (shortName) values ('Main Library');
@@ -1260,7 +1261,9 @@ INSERT INTO `RelationshipType` (shortName) values ('General');
 
 INSERT INTO `ResourceFormat` (resourceFormatID, shortName) values (1, 'Print + Electronic');
 INSERT INTO `ResourceFormat` (resourceFormatID, shortName) values (2, 'Electronic');
+INSERT INTO `ResourceFormat` (resourceFormatID, shortName) values (3, 'Any');
 
+INSERT INTO `ResourceType` (resourceTypeID, shortName) values (1, 'Any');
 
 
 INSERT INTO `Status` (shortName) values ('In Progress');

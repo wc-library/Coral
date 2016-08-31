@@ -2311,16 +2311,14 @@ class Resource extends DatabaseObject {
 		if ($workflowID){
 
 			$workflow = new Workflow(new NamedArguments(array('primaryKey' => $workflowID)));
+			$resourceTypeObj = new ResourceType();
+            $resourceFormatObj = new ResourceFormat();
+            $acquisitionTypeObj = new AcquisitionType();
 
             //set new resourceType, resourceFormat and acquisitionType for the resource, according to the selected workflow
-            if ($workflow->resourceTypeIDValue != null)
-                $this->resourceTypeID = $workflow->resourceTypeIDValue;
-
-            if ($workflow->resourceFormatIDValue != null)
-                $this->resourceFormatID = $workflow->resourceFormatIDValue;
-
-            if ($workflow->acquisitionTypeIDValue != null) 
-                $this->acquisitionTypeID = $workflow->acquisitionTypeIDValue;
+            $this->resourceTypeID = ($workflow->resourceTypeIDValue != null) ? $workflow->resourceTypeIDValue : $resourceTypeObj->getResourceTypeIDByName('any');
+            $this->resourceFormatID =  ($workflow->resourceFormatIDValue != null) ? $workflow->resourceFormatIDValue : $resourceFormatObj->getResourceFormatIDByName('any');
+            $this->acquisitionTypeID = ($workflow->acquisitionTypeIDValue != null) ? $workflow->acquisitionTypeIDValue : $acquisitionTypeObj->getAcquisitionTypeIDByName('any');
 
             $this->save();
 
