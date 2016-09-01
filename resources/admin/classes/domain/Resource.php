@@ -1366,7 +1366,7 @@ class Resource extends DatabaseObject {
 		$alphArray = array();
 		$result = $this->db->query("SELECT DISTINCT UPPER(SUBSTR(TRIM(LEADING 'The ' FROM titleText),1,1)) letter, COUNT(SUBSTR(TRIM(LEADING 'The ' FROM titleText),1,1)) letter_count
 								FROM Resource R
-								GROUP BY SUBSTR(TRIM(LEADING 'The ' FROM titleText),1,1)
+								GROUP BY SUBSTR(TRIM(LEADING 'The ' FROM titleText),1,1), titleText
 								ORDER BY 1;");
 
 		while ($row = $result->fetch_assoc()) {
