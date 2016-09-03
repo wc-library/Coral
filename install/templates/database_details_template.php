@@ -25,18 +25,18 @@ HEREDOC;
 		<div class="row">
 			<div class="six columns">
 				<label for="dbusername">{$db_access_vars["username"]["title"]}</label>
-				<input class="u-full-width" type="text" placeholder="{$db_access_vars["username"]["placeholder"]}" name="{$db_access_vars["username"]["name"]}">
+				<input class="u-full-width" type="text" value="{$db_access_vars["username"]["default"]}" placeholder="{$db_access_vars["username"]["placeholder"]}" name="{$db_access_vars["username"]["name"]}">
 			</div>
 
 			<div class="six columns">
 				<label for="dbpassword">{$db_access_vars["password"]["title"]}</label>
-				<input class="u-full-width" type="password" placeholder="{$db_access_vars["password"]["placeholder"]}" name="{$db_access_vars["password"]["name"]}">
+				<input class="u-full-width" type="password" value="{$db_access_vars["password"]["default"]}" placeholder="{$db_access_vars["password"]["placeholder"]}" name="{$db_access_vars["password"]["name"]}">
 			</div>
 		</div>
 		<div class="row">
 			<div class="twelve columns">
 				<label for="dbhost">{$db_access_vars["host"]["title"]}</label>
-				<input class="u-full-width" type="text" placeholder="{$db_access_vars["host"]["placeholder"]}" name="{$db_access_vars["host"]["name"]}">
+				<input class="u-full-width" type="text" value="{$db_access_vars["host"]["default"]}" placeholder="{$db_access_vars["host"]["placeholder"]}" name="{$db_access_vars["host"]["name"]}">
 			</div>
 		</div>
 

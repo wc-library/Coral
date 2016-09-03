@@ -57,17 +57,20 @@ function register_have_database_access_provider()
 						"username"	=> [
 							"title"			=> _("Database Username"),
 							"placeholder"	=> isset($_SESSION["have_database_access"][$db_access_postvar_names["username"]]) ? $_SESSION["have_database_access"][$db_access_postvar_names["username"]] : _("Username"),
-							"name"			=> $db_access_postvar_names["username"]
+							"name"			=> $db_access_postvar_names["username"],
+							"default"		=> ""
 						],
 						"password"	=> [
 							"title"			=> _("Database Password"),
 							"placeholder"	=> isset($_SESSION["have_database_access"][$db_access_postvar_names["password"]]) ? _("leave blank to leave unchanged") : _("Password"),
-							"name"			=> $db_access_postvar_names["password"]
+							"name"			=> $db_access_postvar_names["password"],
+							"default"		=> ""
 						],
 						"host"		=> [
 							"title"			=> _("Database Host"),
 							"placeholder"	=> isset($_SESSION["have_database_access"][$db_access_postvar_names["host"]]) ? $_SESSION["have_database_access"][$db_access_postvar_names["host"]] : _("Hostname"),
-							"name"			=> $db_access_postvar_names["host"]
+							"name"			=> $db_access_postvar_names["host"],
+							"default"		=> "localhost"
 						]
 					];
 
