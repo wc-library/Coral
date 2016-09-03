@@ -32,9 +32,7 @@ class Config {
 			if (!is_readable(self::CONFIG_FILE_PATH))
 				throw new Exception(_("Config file not found or not readable"), self::ERR_FILE_NOT_READABLE);
 			$data = parse_ini_file(self::CONFIG_FILE_PATH, true);
-
 			self::$module_settings = $data;
-
 			self::$bInit = 'y';
 		}
 	}
@@ -66,7 +64,9 @@ class Config {
 		if (!INSTALLATION_IN_PROGRESS)
 			throw new Exception("This method can only be used during installation.", self::ERR_NOT_INSTALLING);
 
-		self::$module_settings["database"] = $database_settings;
+		if (!isset(self::$module_settings["database"]))
+			self::$module_settings["database"] = [];
+		self::$module_settings["database"] = array_merge(self::$module_settings["database"], $database_settings);
 		self::$bInit = 'y';
 	}
 
