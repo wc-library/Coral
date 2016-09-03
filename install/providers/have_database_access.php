@@ -88,7 +88,15 @@ function register_have_database_access_provider()
 							case Config::ERR_FILE_NOT_READABLE:
 							case Config::ERR_VARIABLES_MISSING:
 								// Config file not yet set up
-								if (isset($_SESSION["have_database_access"][$db_access_postvar_names["username"]]))
+								// Figure out which settings are missing
+								$missing_vars = [];
+								foreach ($db_access_vars as $key => $value) {
+									if (empty($_SESSION["have_database_access"][$value["name"]]))
+									{
+										$missing_vars[] = $value["title"];
+									}
+								}
+								if (count($missing_vars) == 0)
 								{
 									Config::loadTemporaryDBSettings([
 										"host" => $_SESSION["have_database_access"][$db_access_postvar_names["host"]],
@@ -98,7 +106,8 @@ function register_have_database_access_provider()
 								}
 								else
 								{
-									$return->yield->messages[] = _("To begin with, we need a username and password to create the databases CORAL and its modules will be using.");
+									$return->yield->messages[] = _("To access your database, please fill in all the required fields.");
+									$return->yield->messages[] = _("You are missing: ") . join($missing_vars, ", ");
 									$return->success = false;
 									return $return;
 								}
