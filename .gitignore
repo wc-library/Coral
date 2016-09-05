@@ -1,7 +1,7 @@
 # Composer: installed libs folder
 vendor/
 
-# Composer: installed binaries: PhantomJS and PHPUnit
+# Composer: installed binaries: PhantomJS, Codeception
 bin/
 
 # Codeception temp and generated files

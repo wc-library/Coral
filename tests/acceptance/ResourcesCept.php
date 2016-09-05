@@ -5,6 +5,7 @@ $I->wantTo("ensure that I can create/delete a resource and see it in the list");
 // Resources creation
 $I->amOnPage("/resources/");
 $I->click("New Resource");
+$I->waitForPageToBeReady(); // Ensure that the modal form loaded
 $I->fillField("#titleText", "test resource");
 $I->click(".submit-button");
 // we are redirected to the resource details page
@@ -17,10 +18,8 @@ $I->click("test resource");
 
 // delete resource
 $I->willAcceptTheNextConfirmBox();
-// $I->waitForPageToBeReady(); // Ensure that the buttons have loaded
 $I->click("remove resource"); // button title/name
 $I->waitForText("records per page"); // Ensure that the list has loaded by Ajax.
 // So the next check can't do a false positive (classic trap when asserting that
 // something is not here).
-$I->makeScreenshot("example_screenshot"); // will be saved in ./tests/_output/debug/example_screenshot.png
 $I->dontSee("test resource");
