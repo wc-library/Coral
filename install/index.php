@@ -20,12 +20,51 @@
  * @author j3frea+coral@gmail.com
  */
 
+// Replace backslashes in dirname(__DIR__) with forward slashes
+// (for Windows, since other systems should always have forward slashes according to the dirname and basename documentation)
+// TODO: apply only if PHP_OS = WIN*
+$slash_fix = function ($to_fix) {return str_replace('\\', '/', $to_fix); };
+
 // TODO: go through template.php and remove hard coded vars
-if (dirname($_SERVER["SCRIPT_FILENAME"]) !== dirname(__DIR__) || basename($_SERVER["SCRIPT_FILENAME"]) !== basename(__FILE__))
+if ($slash_fix(dirname($_SERVER["SCRIPT_FILENAME"])) !== $slash_fix(dirname(__DIR__)) || $slash_fix(basename($_SERVER["SCRIPT_FILENAME"])) !== $slash_fix(basename(__FILE__)))
 {
 	// Calculating $location allows the root to be something other than / (e.g. /Coral/)
 	$trim_from_left = function ($str_to_trim, $trim) { return preg_replace('/^' . preg_quote($trim, '/') . '/', '', $str_to_trim); };
 	$location = $trim_from_left(dirname(__DIR__), $_SERVER["DOCUMENT_ROOT"]);
+
+
+    // TODO: remove after testing
+    /*if(dirname($_SERVER["SCRIPT_FILENAME"]) !== dirname(__DIR__)) {
+        echo "1st = true </br>";
+        echo "dirname(\$_SERVER[\"SCRIPT_FILENAME\"]) = " . dirname($_SERVER["SCRIPT_FILENAME"]) . "</br>";
+        echo "dirname(__DIR__) = " . dirname(__DIR__) . "</br>";
+    }
+    if(basename($_SERVER["SCRIPT_FILENAME"]) !== basename(__FILE__)) {
+        echo "2nd = true </br>";
+        echo "basename(\$_SERVER[\"SCRIPT_FILENAME\"]) = " . basename($_SERVER["SCRIPT_FILENAME"]) . "</br>";
+        echo "basename(__FILE__)" . basename(__FILE__) . "</br>";
+    }
+
+    exit();*/
+
+/*
+    echo "\$location: $location</br>";
+    echo "HTTP_HOST: " . $_SERVER["HTTP_HOST"] . "</br>";
+    echo "DOCUMENT_ROOT: " . $_SERVER["DOCUMENT_ROOT"] . "</br>";
+    echo "dirname(__DIR__): " . dirname(__DIR__) . "</br></br>";
+
+    // replace backslashes with forward slashes (for Windows)
+    $dir_forward_slash = str_replace('\\', '/', dirname(__DIR__));
+    // replace DOCUMENT_ROOT with HTTP_HOST
+    $location_test = str_replace($_SERVER["DOCUMENT_ROOT"], $_SERVER["HTTP_HOST"], $dir_forward_slash);
+    // determine if protocol is HTTP or HTTPS
+    $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+    $location_test = $protocol . $location_test;
+    echo $location_test;
+
+    echo phpinfo();
+    exit();*/
+
 	header("Location: " . $location);
 	exit();
 }
