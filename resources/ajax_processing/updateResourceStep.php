@@ -1,6 +1,7 @@
 <?php
 $resourceStepID = $_POST['resourceStepID'];
 $userGroupID = $_POST['userGroupID'];
+$note = $_POST['note'];
 $applyToAll = ($_POST['applyToAll'] == "true")? true:false;
 
 
@@ -9,6 +10,7 @@ if($resourceStepID != ''){
 
     //business logic
     $step->userGroupID = $userGroupID;
+    $step->note = $note;
 
     //if apply to all selected, we need to cycle through later steps.
 
