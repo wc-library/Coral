@@ -2045,7 +2045,7 @@ class Resource extends DatabaseObject {
 
 		$query = "DELETE
 			FROM ResourceStep
-			WHERE resourceID = '" . $this->resourceID . "'";
+			WHERE resourceID = '" . $this->resourceID . "' AND archivingDate IS NOT NULL";
 
 		$result = $this->db->processQuery($query);
 	}
@@ -2150,7 +2150,7 @@ class Resource extends DatabaseObject {
 
 		$query = "SELECT * FROM ResourceStep
 					WHERE resourceID = '" . $this->resourceID . "'
-					ORDER BY displayOrderSequence, stepID";
+					ORDER BY (archivingDate IS NOT NULL), archivingDate DESC, displayOrderSequence, stepID";
 
 		$result = $this->db->processQuery($query, 'assoc');
 
@@ -2171,7 +2171,67 @@ class Resource extends DatabaseObject {
 
 	}
 
+    public function getCurrentWorkflowID() {
+        $query = "SELECT Step.workflowID FROM Step, ResourceStep 
+                    WHERE ResourceStep.resourceID = '" . $this->resourceID . "'
+                    AND ResourceStep.archivingDate IS NULL 
+                    AND ResourceStep.stepID = Step.stepID LIMIT 1";
 
+		$result = $this->db->processQuery($query, 'assoc');
+        return $result['workflowID'];
+    }
+
+    public function getCurrentWorkflowResourceSteps(){
+
+
+		$query = "SELECT * FROM ResourceStep
+					WHERE resourceID = '" . $this->resourceID . "'
+                    AND archivingDate IS NULL ORDER BY displayOrderSequence, stepID";
+
+		$result = $this->db->processQuery($query, 'assoc');
+
+		$objects = array();
+
+		//need to do this since it could be that there's only one request and this is how the dbservice returns result
+		if (isset($result['resourceStepID'])){
+			$object = new ResourceStep(new NamedArguments(array('primaryKey' => $result['resourceStepID'])));
+			array_push($objects, $object);
+		}else{
+			foreach ($result as $row) {
+				$object = new ResourceStep(new NamedArguments(array('primaryKey' => $row['resourceStepID'])));
+				array_push($objects, $object);
+			}
+		}
+
+		return $objects;
+
+	}
+
+    public function isCurrentWorkflowComplete() {
+        $steps = $this->getCurrentWorkflowResourceSteps(); 
+        foreach ($steps as $step) {
+            if (!$step->isComplete()) return false;
+        }
+        return true;
+    }
+
+
+    public function getDistinctWorkflows() {
+        $query = "SELECT DISTINCT archivingDate FROM ResourceStep
+					WHERE resourceID = '" . $this->resourceID . "'
+                    AND archivingDate IS NOT NULL
+					ORDER BY archivingDate ASC";
+
+		$result = $this->db->processQuery($query, 'assoc');
+
+		return $result;
+
+    }
+
+
+    public function getArchivedResourceSteps() {
+        return $this->getResourceSteps(true);
+    }
 
 
 	//returns current step location in the workflow for this resource
@@ -2202,6 +2262,7 @@ class Resource extends DatabaseObject {
 		$query = "SELECT * FROM ResourceStep
 					WHERE resourceID = '" . $this->resourceID . "'
 					AND (priorStepID is null OR priorStepID = '0')
+                    AND archivingDate IS NULL
 					ORDER BY stepID";
 
 		$result = $this->db->processQuery($query, 'assoc');
@@ -2224,14 +2285,21 @@ class Resource extends DatabaseObject {
 
 	}
 
+    public function archiveWorkflow() {
 
+        // And archive the workflow
+        $query = "UPDATE ResourceStep SET archivingDate=NOW() WHERE archivingDate IS NULL AND resourceID = '" . $this->resourceID . "'";
+		$result = $this->db->processQuery($query);
+    }
+
+    public function deleteWorkflow() {
+        $query = "DELETE FROM ResourceStep WHERE archivingDate IS NULL AND resourceID = '" . $this->resourceID . "'";
+		$result = $this->db->processQuery($query);
+    }
 
 	//enters resource into new workflow
-	public function enterNewWorkflow() {
+	public function enterNewWorkflow($workflowID = null){
 		$config = new Configuration();
-
-		//remove any current workflow steps
-		$this->removeResourceSteps();
 
 		//make sure this resource is marked in progress in case it was archived
 		$status = new Status();
@@ -2241,11 +2309,23 @@ class Resource extends DatabaseObject {
 
 		//Determine the workflow this resource belongs to
 		$workflowObj = new Workflow();
-		$workflowID = $workflowObj->getWorkflowID($this->resourceTypeID, $this->resourceFormatID, $this->acquisitionTypeID);
 
-		if ($workflowID) {
+        if ($workflowID == null) {
+            $workflowID = $workflowObj->getWorkflowID($this->resourceTypeID, $this->resourceFormatID, $this->acquisitionTypeID);
+        }
+		if ($workflowID){
+
 			$workflow = new Workflow(new NamedArguments(array('primaryKey' => $workflowID)));
+			$resourceTypeObj = new ResourceType();
+            $resourceFormatObj = new ResourceFormat();
+            $acquisitionTypeObj = new AcquisitionType();
 
+            //set new resourceType, resourceFormat and acquisitionType for the resource, according to the selected workflow
+            $this->resourceTypeID = ($workflow->resourceTypeIDValue != null) ? $workflow->resourceTypeIDValue : $resourceTypeObj->getResourceTypeIDByName('any');
+            $this->resourceFormatID =  ($workflow->resourceFormatIDValue != null) ? $workflow->resourceFormatIDValue : $resourceFormatObj->getResourceFormatIDByName('any');
+            $this->acquisitionTypeID = ($workflow->acquisitionTypeIDValue != null) ? $workflow->acquisitionTypeIDValue : $acquisitionTypeObj->getAcquisitionTypeIDByName('any');
+
+            $this->save();
 
 			//Copy all of the step attributes for this workflow to a new resource step
 			foreach ($workflow->getSteps() as $step) {
