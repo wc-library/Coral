@@ -18,6 +18,7 @@
 $(document).ready(function(){
 
 
+
     $("#submitResourceStepForm").click(function () {
         updateResourceStep();
 
@@ -98,12 +99,13 @@ $(document).ready(function(){
 
 
 function updateResourceStep(){
+        var reassigned = $("#userGroupID").val() == $("#currentGroupID").val() ? 0 : 1;
         $('#submitResourceStepForm').attr("disabled", "disabled");
         $.ajax({
             type:       "POST",
             url:        "ajax_processing.php?action=updateResourceStep",
             cache:      false,
-            data:       { resourceStepID: $("#editRSID").val(), userGroupID: $("#userGroupID").val(), applyToAll: $('#applyToAll').is(':checked'), orderNum: $('#orderNum').val(), note: $('#note').val() },
+            data:       { resourceStepID: $("#editRSID").val(), userGroupID: $("#userGroupID").val(), applyToAll: $('#applyToAll').is(':checked'), orderNum: $('#orderNum').val(), note: $('#note').val(), userGroupIDChanged: reassigned },
             success:    function(html) {
                 if (html){
                     $("#span_errors").html(html);
