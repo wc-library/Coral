@@ -24,6 +24,9 @@ $util = new Utility();
 $resourceID = $_GET['resourceID'];
 $resource = new Resource(new NamedArguments(array('primaryKey' => $resourceID)));
 
+//used to get default currency
+		$config = new Configuration();
+		$enhancedCostFlag = ($config->settings->enhancedCostHistory == 'Y') ? 1 : 0;
 
 //if this is a valid resource
 if ($resource->titleText){
@@ -106,8 +109,7 @@ if ($resource->titleText){
 	foreach ($resource->getResourceAuthorizedSites() as $instance) {
 		$authorizedSiteArray[]=$instance->shortName;
 	}
-
-
+                
 	//get payments
 	$sanitizedInstance = array();
 	$instance = new ResourcePayment();
@@ -124,9 +126,14 @@ if ($resource->titleText){
 
 			$orderType = new OrderType(new NamedArguments(array('primaryKey' => $instance->orderTypeID)));
 			$sanitizedInstance['orderType'] = $orderType->shortName;
-
-
-			array_push($paymentArray, $sanitizedInstance);
+                        
+                        $costDetails = new CostDetails(new NamedArguments(array('primaryKey' => $instance->costDetailsID)));
+                        $sanitizedInstance['costDetails'] = $costDetails->shortName;
+                        
+                        $fund=new Fund(new NamedArguments(array('primaryKey' => $instance->fundID)));
+                        $sanitizedInstance['fundName'] = $fund->shortName;
+			
+                        array_push($paymentArray, $sanitizedInstance);
 
 	}
 
@@ -481,21 +488,77 @@ if ($resource->titleText){
 
 	<table class='linedFormTable' style='width:510px;'>
 	<tr>
-	<th colspan='3'><?php echo _("Cost History");?></th>
+        <th colspan='2' style='vertical-align:bottom;'>
+	<span style='float:left;vertical-align:bottom;'><?php echo _("Cost History");?></span>
 	</th>
 	</tr>
 
 	<?php
-	if (count($paymentArray) > 0){
-		foreach ($paymentArray as $payment){ ?>
-		<tr>
-		<td><?php echo $payment['fundName']; ?></td>
-		<td><?php echo $payment['currencyCode'] . " " . integer_to_cost($payment['paymentAmount']); ?></td>
-		<td><?php echo $payment['orderType']; ?></td>
+	if (count($paymentArray) > 0){ 
+            foreach ($paymentArray as $payment){ ?>
+              <tr><td style='vertical-align:top;width:150px;' colspan='2'></td></tr>
+            <?php if ($enhancedCostFlag){ ?>
+                <tr>
+                    <td style='vertical-align:top;width:150px;'><?php echo _("Year:");?></td>
+                    <td><?php echo $payment['year']; ?></td>
+                </tr>
+                <tr>
+                    <td style='vertical-align:top;width:150px;'><?php echo _("Sub StartDate:");?></td>
+                    <td><?php echo $payment['subscriptionStartDate']; ?></td>
+                </tr>
+                <tr>
+                    <td style='vertical-align:top;width:150px;'><?php echo _("Sub EndDate:");?></td>
+                    <td><?php echo $payment['subscriptionEndDate']; ?></td>
+                </tr>
+             <?php } ?>
+                <tr>
+                    <td style='vertical-align:top;width:150px;'><?php echo _("Fund:");?></td>
+                    <td><?php echo $payment['fundName']; ?></td>
+                </tr>
+            <?php if ($enhancedCostFlag){ ?>
+                <tr>
+                    <td style='vertical-align:top;width:150px;'><?php echo _("Tax Excl.:");?></td>
+                    <td><?php echo $payment['currencyCode'] . " " .integer_to_cost($payment['priceTaxExcluded']); ?></td>
+                </tr>
+                <tr>
+                    <td style='vertical-align:top;width:150px;'><?php echo _("Tax Rate:");?></td>
+                    <td><?php echo $payment['taxRate']/100 ."%"; ?></td>
+                </tr>
+              
+                <tr>
+                    <td style='vertical-align:top;width:150px;'><?php echo _("Tax Incl.:");?></td>
+                    <td><?php echo $payment['currencyCode'] . " " .integer_to_cost($payment['priceTaxIncluded']); ?></td>
+                </tr>
+            <?php } ?>  
+              
+                <tr>
+                    <td style='vertical-align:top;width:150px;'><?php echo _("Payment:");?></td>
+                    <td><?php echo $payment['currencyCode'] . " " . integer_to_cost($payment['paymentAmount']); ?></td>
+                </tr> 
+                <tr>
+                    <td style='vertical-align:top;width:150px;'><?php echo _("Order Type:");?></td>
+                    <td><?php echo $payment['orderType']; ?></td>
+                </tr> 
+            <?php if ($enhancedCostFlag){ ?>   
+                <tr>
+                    <td style='vertical-align:top;width:150px;'><?php echo _("Details:");?></td>
+                    <td><?php echo $payment['costDetails']; ?></td>
 		</tr>
+             <?php } ?>   
+                <tr>
+                    <td style='vertical-align:top;width:150px;'><?php echo _("Note:");?></td>
+                    <td><?php echo $payment['costNote']; ?></td>
+		</tr>
+            <?php if ($enhancedCostFlag){ ?>
+                <tr>
+                    <td style='vertical-align:top;width:150px;'><?php echo _("Invoice No.:");?></td>
+                    <td><?php echo $payment['invoiceNum']; ?></td>
+                </tr>
+            <?php } ?>
+               
 
-		<?php
-		}
+	<?php
+	 }
 	}else{
 		echo "<tr><td colspan='3'><i>"._("No payment information available.")."</i></td></tr>";
 	}
