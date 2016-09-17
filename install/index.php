@@ -154,6 +154,7 @@ function do_install()
 		$return->redirect_home = true;
 		yield_test_results_and_exit($return, [], 1);
 	}
+	require_once "installer.php";
 	run_loop(Installer::VERSION_STRING_INSTALL);
 }
 
