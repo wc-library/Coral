@@ -11,7 +11,7 @@ function register_have_database_access_provider()
 	return [
 		"uid" => "have_database_access",
 		"translatable_title" => _("Database Access"),
-		"bundle" => function($version = 0){
+		"bundle" => function($version){
 			return [
 				"dependencies_array" => ["meets_system_requirements", "modules_to_use", "get_db_connection"],
 				"function" => function($shared_module_info) use ($version){

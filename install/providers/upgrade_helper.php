@@ -4,7 +4,7 @@ function register_upgrade_helper_provider()
 	try
 	{
 		require_once("common/Config.php");
-		$dynamic_dependencies = array_merge(["have_read_write_access_to_config", "the upgrader hasn't been written yet so it's not going to work..."], Config::getInstalledModules());
+		$dynamic_dependencies = array_merge(["have_read_write_access_to_config"], Config::getInstalledModules());
 	}
 	catch (Exception $e)
 	{

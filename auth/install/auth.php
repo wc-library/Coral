@@ -296,18 +296,19 @@ function register_auth_provider()
 					/**
 					 * Will update config file and process sql files
 					 */
-					$conf_data = parse_ini_file($protected_module_data["config_file_path"]);
+					$conf_data = parse_ini_file($protected_module_data["config_file_path"], true);
 					return [
 						"dependencies_array" => [ "db_tools", "have_read_write_access_to_config" ],
 						"sharedInfo" => [
 							"config_file" => [
 								"path" => $protected_module_data["config_file_path"],
-							]
+							],
+							"database_name" => $conf_data["database"]["name"]
 						],
 						"function" => function($shared_module_info) use ($MODULE_VARS) {
 							$return = new stdClass();
 							$return->yield = new stdClass();
-							$return->success = false;
+							$return->success = true;
 							$return->yield->title = _("Auth Module");
 							return $return;
 						}
