@@ -20,12 +20,41 @@
  * @author j3frea+coral@gmail.com
  */
 
+
+//Used to avoid issues that occur when Windows is the PHP OS, as it treats both backslashes and forward slashes as valid separators.
+$uses_backslash = DIRECTORY_SEPARATOR == '\\';
+
+// Replace backslashes in dirname(__DIR__) with forward slashes (for Windows, since other systems should always have forward slashes according to the dirname and basename documentation)
+$slash_fix = function ($to_fix) {return str_replace('\\', '/', $to_fix); };
+
+// dirnames and basenames used in below if statement
+// dirname($_SERVER["SCRIPT_FILENAME"])
+$dirname_script_filename = dirname($_SERVER["SCRIPT_FILENAME"]);
+// dirname(__DIR__)
+$dirname_dir = dirname(__DIR__);
+// basename($_SERVER["SCRIPT_FILENAME"])
+$basename_script_filename = basename($_SERVER["SCRIPT_FILENAME"]);
+// basename(__FILE__)
+$basename_file = basename(__FILE__);
+
+// make appropriate changes to the dirnames and basenames if uses_backslash is true
+if ($uses_backslash)
+{
+    $dirname_script_filename = $slash_fix($dirname_script_filename);
+    $dirname_dir = $slash_fix($dirname_dir);
+    $basename_script_filename = $slash_fix($basename_script_filename);
+    $basename_file = $slash_fix($basename_file);
+}
+
+
 // TODO: go through template.php and remove hard coded vars
-if (dirname($_SERVER["SCRIPT_FILENAME"]) !== dirname(__DIR__) || basename($_SERVER["SCRIPT_FILENAME"]) !== basename(__FILE__))
+if ($dirname_script_filename !== $dirname_dir || $basename_script_filename !== $basename_file)
 {
 	// Calculating $location allows the root to be something other than / (e.g. /Coral/)
 	$trim_from_left = function ($str_to_trim, $trim) { return preg_replace('/^' . preg_quote($trim, '/') . '/', '', $str_to_trim); };
-	$location = $trim_from_left(dirname(__DIR__), $_SERVER["DOCUMENT_ROOT"]);
+	$location = $trim_from_left($dirname_dir, $slash_fix($_SERVER["DOCUMENT_ROOT"]));
+
+
 	header("Location: " . $location);
 	exit();
 }
