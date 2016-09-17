@@ -38,11 +38,11 @@ foreach ($resource->getResourcePayments() as $instance)
 // Table geometry is different if enhanced cost history is enabled
 $baseWidth = 345;
 $numCols = 6;
-if ($enhancedCostFlag)
-{
-	$baseWidth += 388;
-	$numCols += 5; // year, sub start, sub end, cost details, invoice num
+if ($enhancedCostFlag){
+	$baseWidth += 688;
+	$numCols += 8; // year, sub start, sub end, cost details, invoice num
 }
+
 ?>
 
 		<div id='div_resourceForm'>
@@ -69,6 +69,11 @@ if ($enhancedCostFlag)
 							<th><?php echo _("Sub End");?></th>
 							<?php } ?>
 							<th><?php echo _("Fund");?></th>
+							<?php if ($enhancedCostFlag){ ?>
+							<th><?php echo _("Tax Excl.");?></th>
+							<th><?php echo _("Tax Rate");?></th>
+							<th><?php echo _("Tax Incl.");?></th>
+							<?php } ?>
 							<th><?php echo _("Payment");?></th>
 							<th><?php echo _("Currency");?></th>
 							<th><?php echo _("Type");?></th>
@@ -89,10 +94,10 @@ if ($enhancedCostFlag)
 								<input type='text' value='' class='changeDefaultWhite changeInput year costHistoryYear' />
 							</td>
 							<td>
-								<input type='text' value='' class='date-pick changeDefaultWhite changeInput subscriptionStartDate costHistorySubStart' />
+								<input type='text' value='' class='date-pick changeDefaultWhite changeInput subscriptionStartDate costHistorySubStart' placeholder='mm/dd/yyyy' />
 							</td>
 							<td>
-								<input type='text' value='' class='date-pick changeDefaultWhite changeInput subscriptionEndDate costHistorySubEnd' />
+								<input type='text' value='' class='date-pick changeDefaultWhite changeInput subscriptionEndDate costHistorySubEnd' placeholder='mm/dd/yyyy' />
 							</td>
 							<?php } ?>
 							<td>
@@ -111,9 +116,20 @@ if ($enhancedCostFlag)
 									?>
 								</select>
 							</td>
+							<?php if ($enhancedCostFlag){ ?>
+						    <td>
+								<input type='text' value='' style='width:60px;' class='changeDefaultWhite changeInput priceTaxExcluded' />
+							</td>
+						    <td>
+								<input type='text' value='' style='width:60px;' class='changeDefaultWhite changeInput taxRate' />
+							</td>
+						    <td>
+								<input type='text' value='' style='width:60px;' class='changeDefaultWhite changeInput priceTaxIncluded' />
+							</td>
 							<td>
 								<input type='text' value='' class='changeDefaultWhite changeInput paymentAmount costHistoryPayment' />
 							</td>
+							<?php } ?>
 							<td>
 								<select class='changeSelect currencyCode costHistoryCurrency'>
 								<?php
@@ -169,6 +185,7 @@ if ($enhancedCostFlag)
 								</a>
 							</td>
 
+
 						</tr>
 						<tr>
 							<td colspan='<?php echo $numCols; ?>'>
@@ -192,10 +209,10 @@ if ($enhancedCostFlag)
 									<input type='text' value='<?php echo $payment['year']; ?>' class='changeInput year costHistoryYear' />
 								</td>
 								<td>
-									<input type='text' value='<?php echo normalize_date($payment['subscriptionStartDate']); ?>' class='date-pick changeInput subscriptionStartDate costHistorySubStart' />
+									<input type='text' value='<?php echo normalize_date($payment['subscriptionStartDate']); ?>' class='date-pick changeInput subscriptionStartDate costHistorySubStart' placeholder="mm/dd/yyyy" />
 								</td>
 								<td>
-									<input type='text' value='<?php echo normalize_date($payment['subscriptionEndDate']); ?>' class='date-pick changeInput subscriptionEndDate costHistorySubEnd' />
+									<input type='text' value='<?php echo normalize_date($payment['subscriptionEndDate']); ?>' class='date-pick changeInput subscriptionEndDate costHistorySubEnd' placeholder="mm/dd/yyyy" />
 								</td>
 								<?php } ?>
 								<td>
@@ -228,6 +245,17 @@ if ($enhancedCostFlag)
 										?>
 									</select>
 								</td>
+								<?php if ($enhancedCostFlag){ ?>
+						        <td>
+									<input type='text' value='<?php echo integer_to_cost($payment['priceTaxExcluded']); ?>' style='width:60px;' class='changeInput priceTaxExcluded' />
+								</td>
+						        <td>
+									<input type='text' value='<?php echo integer_to_cost($payment['taxRate']); ?>' style='width:60px;' class='changeInput taxRate' />
+								</td>
+						        <td>
+									<input type='text' value='<?php echo integer_to_cost($payment['priceTaxIncluded']); ?>' style='width:60px;' class='changeInput priceTaxIncluded' />
+								</td>
+								<?php } ?>
 								<td>
 									<input type='text' value='<?php echo integer_to_cost($payment['paymentAmount']); ?>' class='changeInput paymentAmount costHistoryPayment' />
 								</td>
@@ -266,7 +294,6 @@ if ($enhancedCostFlag)
 										?>
 									</select>
 								</td>
-
 								<?php if ($enhancedCostFlag){ ?>
 								<td>
 									<select class='changeSelect costDetailsID costHistoryCostDetails'>

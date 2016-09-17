@@ -268,7 +268,7 @@ echo '</div>';
 //only show the 'Change Module' if there are other modules installed or if there is an index to the main CORAL page
 $config = new Configuration();
 
-if ((file_exists($util->getCORALPath() . "index.php")) || ($config->settings->organizationsModule == 'Y') || ($config->settings->resourcesModule == 'Y') || ($config->settings->licensingModule == 'Y') || ($config->settings->usageModule == 'Y')) {
+if ((file_exists($util->getCORALPath() . "index.php")) || ($config->settings->organizationsModuleInstalled == 'Y') || ($config->settings->resourcesModule == 'Y') || ($config->settings->licensingModule == 'Y') || ($config->settings->usageModule == 'Y')) {
 
 	?>
 
@@ -285,7 +285,7 @@ if ((file_exists($util->getCORALPath() . "index.php")) || ($config->settings->or
 					<li class="change-mod-item"><a href="<?php echo $coralURL; ?>resources/" target='_blank'><img src='images/change/icon-mod-resources.png'><span><?php echo _("Resources");?></span></a></li>
 					<?php
 					}
-					if ($config->settings->organizationsModule == 'Y') {
+					if ($config->settings->organizationsModuleInstalled == 'Y') {
 					?>
 					<li class="change-mod-item"><a href="<?php echo $coralURL; ?>organizations/" target='_blank'><img src='images/change/icon-mod-organizations.png'><span><?php echo _("Organizations");?></span></a></li>
 					<?php
