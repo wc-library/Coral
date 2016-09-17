@@ -74,15 +74,28 @@ function register_have_database_access_provider()
 						]
 					];
 
+					/*
+						We're trying to figure out how to use the common config's host setting if we are in upgrade mode.
+						I don't like the empty catch on ln 94ish and I don't like the random if on ln 117ish
+					 */
+
 					require "install/templates/database_details_template.php";
 					switch ($version) {
 						case Installer::VERSION_STRING_INSTALL:
-							$instruction = _("If you would like to use pre-existing databases or custom database names. Use the advanced section to configure these settings.");
-							$db_access_vars = array_intersect_key($db_access_vars, ["username", "password", "host"]);
+							$instruction = _("To begin with, we need a username and password to create the databases CORAL and its modules will be using.")
+										. "<br />"
+										.  _("If you would like to use pre-existing databases or custom database names. Use the advanced section to configure these settings.");
+							$db_access_vars = array_intersect_key($db_access_vars, ["username" => 1, "password" => 1, "host" => 1]);
 							break;
 						default: // Upgrade
 							$instruction = _("In order to run the upgrade, we need database credentials that allow us to create and delete tables.");
-							$db_access_vars = array_intersect_key(["username", "password"], $db_access_vars);
+							$db_access_vars = array_intersect_key($db_access_vars, ["username" => 1, "password" => 1]);
+							if (!isset($_SESSION["have_database_access"][$db_access_postvar_names["host"]]))
+							{
+								try {
+									$_SESSION["have_database_access"][$db_access_postvar_names["host"]] = Config::dbInfo("host");
+								} catch (Exception $e) { }
+							}
 							break;
 					}
 					$return->yield->body = database_details_template($instruction, $db_access_vars, $shared_database_info);
@@ -107,14 +120,25 @@ function register_have_database_access_provider()
 								}
 								if (count($missing_vars) == 0)
 								{
+									var_dump(Config::dbInfo("host"));
 									Config::loadTemporaryDBSettings([
-										"host" => $_SESSION["have_database_access"][$db_access_postvar_names["host"]],
 										"username" => $_SESSION["have_database_access"][$db_access_postvar_names["username"]],
 										"password" => $_SESSION["have_database_access"][$db_access_postvar_names["password"]]
 									]);
+									if (!empty($_SESSION["have_database_access"][$db_access_postvar_names["host"]]))
+									{
+										Config::loadTemporaryDBSettings([
+											"host" => $_SESSION["have_database_access"][$db_access_postvar_names["host"]],
+										]);
+									}
 								}
 								else
 								{
+									if (isset($_SESSION["have_database_access"]["variables_missing"]) && $_SESSION["have_database_access"]["variables_missing"])
+									{
+										$_SESSION["have_database_access"]["variables_missing"] = true;
+										$return->yield->messages[] = _("It seems that some details are still missing. Please make sure you have entered everything required.");
+									}
 									$return->yield->messages[] = _("To access your database, please fill in all the required fields.");
 									$return->yield->messages[] = _("You are missing: ") . join($missing_vars, ", ");
 									$return->success = false;
