@@ -40,10 +40,10 @@ $basename_file = basename(__FILE__);
 // make appropriate changes to the dirnames and basenames if uses_backslash is true
 if ($uses_backslash)
 {
-    $dirname_script_filename = $slash_fix($dirname_script_filename);
-    $dirname_dir = $slash_fix($dirname_dir);
-    $basename_script_filename = $slash_fix($basename_script_filename);
-    $basename_file = $slash_fix($basename_file);
+	$dirname_script_filename = $slash_fix($dirname_script_filename);
+	$dirname_dir = $slash_fix($dirname_dir);
+	$basename_script_filename = $slash_fix($basename_script_filename);
+	$basename_file = $slash_fix($basename_file);
 }
 
 
@@ -195,6 +195,9 @@ function do_upgrade($version)
 	}
 }
 
+/**
+ * somehow we are ending up with $version set to the installed version but unable to figure out where to go from there...
+ */
 $version = is_installed();
 if ($version !== $INSTALLATION_VERSION || (isset($_SESSION["installer_post_installation"]) && $_SESSION["installer_post_installation"]))
 {
