@@ -21,6 +21,7 @@ function register_have_database_access_provider()
 					$return->yield->messages = [];
 					$return->yield->title = _("Have database access");
 
+					// Build up a list of $shared_database_info - information about modules that require a database
 					$shared_database_info = [];
 					foreach ($shared_module_info["modules_to_use"]["useModule"] as $uid => $use_module) {
 						if ($use_module && isset($shared_module_info[$uid]["database"]))
@@ -42,6 +43,7 @@ function register_have_database_access_provider()
 						}
 					}
 
+					// The logic for getting user settings from POST into SESSION
 					$db_access_postvar_names = [
 						"username"	=> "dbusername",
 						"password"	=> "dbpassword",
@@ -98,7 +100,21 @@ function register_have_database_access_provider()
 							}
 							break;
 					}
+
 					$return->yield->body = database_details_template($instruction, $db_access_vars, $shared_database_info);
+					if (!empty($_SESSION["have_database_access"][$db_access_postvar_names["username"]]) && !empty($_SESSION["have_database_access"][$db_access_postvar_names["password"]]))
+					{
+						Config::loadTemporaryDBSettings([
+							"username" => $_SESSION["have_database_access"][$db_access_postvar_names["username"]],
+							"password" => $_SESSION["have_database_access"][$db_access_postvar_names["password"]]
+						]);
+						if (!empty($_SESSION["have_database_access"][$db_access_postvar_names["host"]]))
+						{
+							Config::loadTemporaryDBSettings([
+								"host" => $_SESSION["have_database_access"][$db_access_postvar_names["host"]],
+							]);
+						}
+					}
 
 					try
 					{
@@ -118,29 +134,14 @@ function register_have_database_access_provider()
 										$missing_vars[] = $value["title"];
 									}
 								}
-								if (count($missing_vars) == 0)
-								{
-									var_dump(Config::dbInfo("host"));
-									Config::loadTemporaryDBSettings([
-										"username" => $_SESSION["have_database_access"][$db_access_postvar_names["username"]],
-										"password" => $_SESSION["have_database_access"][$db_access_postvar_names["password"]]
-									]);
-									if (!empty($_SESSION["have_database_access"][$db_access_postvar_names["host"]]))
-									{
-										Config::loadTemporaryDBSettings([
-											"host" => $_SESSION["have_database_access"][$db_access_postvar_names["host"]],
-										]);
-									}
-								}
-								else
+								if (count($missing_vars) > 0)
 								{
 									if (isset($_SESSION["have_database_access"]["variables_missing"]) && $_SESSION["have_database_access"]["variables_missing"])
 									{
 										$_SESSION["have_database_access"]["variables_missing"] = true;
-										$return->yield->messages[] = _("It seems that some details are still missing. Please make sure you have entered everything required.");
+										$return->yield->messages[] = _("To access your database, please fill in all the required fields.");
+										$return->yield->messages[] = _("You are missing: ") . join($missing_vars, ", ");
 									}
-									$return->yield->messages[] = _("To access your database, please fill in all the required fields.");
-									$return->yield->messages[] = _("You are missing: ") . join($missing_vars, ", ");
 									$return->success = false;
 									return $return;
 								}
