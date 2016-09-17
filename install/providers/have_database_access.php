@@ -172,79 +172,108 @@ function register_have_database_access_provider()
 						$dbconnection = $get_db_connection_return_value;
 					}
 
+
 					// Go through the databases and try to create them all (or see if they already exist)
-					foreach ($shared_database_info as $db)
+					$list_of_dbnames = [];
+					if ($version == Installer::VERSION_STRING_INSTALL)
 					{
-						// $db["key"] is the module uid - dbtools uses this fact so if it changes dbtools will need to be fixed as well
-						$dbfeedback = $db["feedback"];
-						$dbnamestr = $db["name"];
-						$dbname = empty($_SESSION["have_database_access"][$dbnamestr]) ? $db["default_value"] : $_SESSION["have_database_access"][$dbnamestr];
-						$_SESSION["have_database_access"][$dbfeedback] = !empty($_SESSION["have_database_access"][$dbfeedback]) ? $_SESSION["have_database_access"][$dbfeedback] : DBAccess::DB_FAILED;
-						try
+						foreach ($shared_database_info as $db)
 						{
-							$dbconnection->selectDB($dbname);
-							$result = $dbconnection->processQuery("SELECT * FROM `information_schema`.`tables` WHERE `table_schema`='$dbname';");
-							// If DB is empty, pretend we created it
-							if ($result && $result->numRows() == 0)
+							// $db["key"] is the module uid - dbtools uses this fact so if it changes dbtools will need to be fixed as well
+							$dbfeedback = $db["feedback"];
+							$dbnamestr = $db["name"];
+							$dbname = empty($_SESSION["have_database_access"][$dbnamestr]) ? $db["default_value"] : $_SESSION["have_database_access"][$dbnamestr];
+							$_SESSION["have_database_access"][$dbfeedback] = !empty($_SESSION["have_database_access"][$dbfeedback]) ? $_SESSION["have_database_access"][$dbfeedback] : DBAccess::DB_FAILED;
+							try
 							{
-								$_SESSION["have_database_access"][$dbfeedback] = DBAccess::DB_CREATED;
-							}
-							else
-							{
-								if ($_SESSION["have_database_access"][$dbfeedback] == DBAccess::DB_CREATED)
+								$dbconnection->selectDB($dbname);
+								$result = $dbconnection->processQuery("SELECT * FROM `information_schema`.`tables` WHERE `table_schema`='$dbname';");
+								// If DB is empty, pretend we created it
+								if ($result && $result->numRows() == 0)
 								{
-									$_SESSION["db_tools"]["use_tables"] = isset($_SESSION["db_tools"]["use_tables"]) ? $_SESSION["db_tools"]["use_tables"] : [];
-									$_SESSION["db_tools"]["use_tables"][] = $db["key"];
+									$_SESSION["have_database_access"][$dbfeedback] = DBAccess::DB_CREATED;
 								}
-								$_SESSION["have_database_access"][$dbfeedback] = DBAccess::DB_ALREADY_EXISTED;
-							}
-						}
-						catch (Exception $e)
-						{
-							$_SESSION["have_database_access"][$dbfeedback] == DBAccess::DB_FAILED;
-							switch ($e->getCode())
-							{
-								case DBService::ERR_COULD_NOT_SELECT_DATABASE:
-									try {
-										// The commented line is preferable (see http://stackoverflow.com/a/766996/123415) but we need to be backwards compatible to mysql 5.5
-										// $result = $dbconnection->processQuery("CREATE DATABASE `$dbname` DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci;");
-										$result = $dbconnection->processQuery("CREATE DATABASE `$dbname` DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_unicode_ci;");
-										$_SESSION["have_database_access"][$dbfeedback] = DBAccess::DB_CREATED;
-
-										// If we have actually just created it, make sure that use_tables is not set because process Sql needs to happen!
-										if (isset($_SESSION["db_tools"]["use_tables"]) && in_array($db["key"], $_SESSION["db_tools"]["use_tables"]))
-											unset($_SESSION["db_tools"]["use_tables"][$db["key"]]);
-									} catch (Exception $e) {
-										$return->yield->messages[] = _("We tried to select a database with the name $dbname but failed. We also could not create it.");
-										$return->yield->messages[] = _("In order to proceed, we need access rights to create databases or you need to manually create the databases and provide their names and the credentials for a user with access rights to them.");
-										$return->success = false;
-										return $return;
+								else
+								{
+									if ($_SESSION["have_database_access"][$dbfeedback] == DBAccess::DB_CREATED)
+									{
+										$_SESSION["db_tools"]["use_tables"] = isset($_SESSION["db_tools"]["use_tables"]) ? $_SESSION["db_tools"]["use_tables"] : [];
+										$_SESSION["db_tools"]["use_tables"][] = $db["key"];
 									}
-									// THIS SHOULDN'T FAIL BECAUSE WE'VE JUST CREATED THE DB SUCCESSFULLY.
-									$result = $dbconnection->selectDB( $dbname );
-									break;
+									$_SESSION["have_database_access"][$dbfeedback] = DBAccess::DB_ALREADY_EXISTED;
+								}
+							}
+							catch (Exception $e)
+							{
+								$_SESSION["have_database_access"][$dbfeedback] == DBAccess::DB_FAILED;
+								switch ($e->getCode())
+								{
+									case DBService::ERR_COULD_NOT_SELECT_DATABASE:
+										try {
+											// The commented line is preferable (see http://stackoverflow.com/a/766996/123415) but we need to be backwards compatible to mysql 5.5
+											// $result = $dbconnection->processQuery("CREATE DATABASE `$dbname` DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci;");
+											$result = $dbconnection->processQuery("CREATE DATABASE `$dbname` DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_unicode_ci;");
+											$_SESSION["have_database_access"][$dbfeedback] = DBAccess::DB_CREATED;
 
-								default:
-									echo "We haven't prepared for the following error (have_database_access.php #2):<br />\n";
-									var_dump($e);
-									break;
+											// If we have actually just created it, make sure that use_tables is not set because process Sql needs to happen!
+											if (isset($_SESSION["db_tools"]["use_tables"]) && in_array($db["key"], $_SESSION["db_tools"]["use_tables"]))
+												unset($_SESSION["db_tools"]["use_tables"][$db["key"]]);
+										} catch (Exception $e) {
+											$return->yield->messages[] = _("We tried to select a database with the name $dbname but failed. We also could not create it.");
+											$return->yield->messages[] = _("In order to proceed, we need access rights to create databases or you need to manually create the databases and provide their names and the credentials for a user with access rights to them.");
+											$return->success = false;
+											return $return;
+										}
+										// THIS SHOULDN'T FAIL BECAUSE WE'VE JUST CREATED THE DB SUCCESSFULLY.
+										$result = $dbconnection->selectDB( $dbname );
+										break;
+
+									default:
+										echo "We haven't prepared for the following error (have_database_access.php #2):<br />\n";
+										var_dump($e);
+										break;
+								}
+							}
+							$shared_module_info["setSharedModuleInfo"]($db["key"], "db_name", $dbname);
+							$shared_module_info["setSharedModuleInfo"]($db["key"], "db_feedback", $_SESSION["have_database_access"][$dbfeedback]);
+							$list_of_dbnames[] = $dbname;
+						}
+					}
+					else if ($version == Installer::VERSION_STRING_MODIFY)
+					{
+						var_dump("epic fail - we're not ready for this...");
+						exit(999);
+					}
+					else
+					{
+						// UPGRADE
+						foreach ($shared_module_info["modules_to_use"]["useModule"] as $uid => $use_module) {
+							if ($use_module && !empty($shared_module_info[$uid]["database_name"]))
+							{
+								$list_of_dbnames[] = $shared_module_info[$uid]["database_name"];
 							}
 						}
-						$shared_module_info["setSharedModuleInfo"]($db["key"], "db_name", $dbname);
-						$shared_module_info["setSharedModuleInfo"]($db["key"], "db_feedback", $_SESSION["have_database_access"][$dbfeedback]);
 					}
 
 					try
 					{
 						$temporary_test_table_name = "temp_test";
-						$result = $dbconnection->processQuery("DROP TABLE IF EXISTS `$temporary_test_table_name`;");
-						$result = $dbconnection->processQuery("CREATE TABLE `$temporary_test_table_name` (id int);");
-						$result = $dbconnection->processQuery("INSERT INTO `$temporary_test_table_name` VALUES (0);");
-						$result = $dbconnection->processQuery("DROP TABLE IF EXISTS `$temporary_test_table_name`;");
+						foreach ($list_of_dbnames as $db_name_to_use)
+						{
+							$dbconnection->selectDB($db_name_to_use);
+							$result = $dbconnection->processQuery("DROP TABLE IF EXISTS `$temporary_test_table_name`;");
+							$result = $dbconnection->processQuery("CREATE TABLE `$temporary_test_table_name` (id int);");
+							$result = $dbconnection->processQuery("INSERT INTO `$temporary_test_table_name` VALUES (0);");
+							$result = $dbconnection->processQuery("DROP TABLE IF EXISTS `$temporary_test_table_name`;");
+						}
 					}
 					catch (Exception $e)
 					{
-						$return->yield->messages[] = _("We were unable to create/delete a table. Please check your user rights. ({$e->getCode()})");
+						if (!empty($_SESSION["have_database_access"]["tried_createdelete_already"]))
+						{
+							$return->yield->messages[] = _("We were unable to create/delete a table. Please provide credentials for a user with privileges to create and delete tables.");
+						}
+						$_SESSION["have_database_access"]["tried_createdelete_already"] = true;
 						$return->success = false;
 						return $return;
 					}
