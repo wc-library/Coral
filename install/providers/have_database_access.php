@@ -118,6 +118,12 @@ function register_have_database_access_provider()
 
 					try
 					{
+						/**
+						 * If it's in SESSION, it's just been loaded, otherwise
+						 * this should try to get it from the conf file (which
+						 * will throw an error if it can't find the file and
+						 * values haven't been loaded)
+						 */
 						Config::dbInfo("username");
 					}
 					catch (Exception $e)
