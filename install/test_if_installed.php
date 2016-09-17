@@ -2,26 +2,29 @@
 function continue_installing()
 {
 	$root_installation_namespace = "installation_root";
+	$ns_install_anyway = $root_installation_namespace . "_do_install_anyway";
+	$ns_option_button = $root_installation_namespace . "_option_button";
+	$ns_already_installed = $root_installation_namespace . "_do_already_installed";
+
 	require_once "install/test_results_yielder.php";
-	if (!isset($_SESSION[$root_installation_namespace . "_do_install_anyway"]) || (isset($_SESSION[$root_installation_namespace . "_do_install_anyway"]) && $_SESSION[$root_installation_namespace . "_do_install_anyway"] !== true))
+	if (!isset($_SESSION[$ns_install_anyway]) || (isset($_SESSION[$ns_install_anyway]) && $_SESSION[$ns_install_anyway] !== true))
 	{
 		$option_button_set = [
 			[ "name" => "install_anyway", "title" => _("Install CORAL") ],
 			[ "name" => "already_installed", "title" => _("CORAL Is Already Installed") ],
 		];
-		if ((isset($_POST[$root_installation_namespace . "_option_button"]) && $_POST[$root_installation_namespace . "_option_button"] == "already_installed") || (isset($_SESSION[$root_installation_namespace . "_do_already_installed"]) && $_SESSION[$root_installation_namespace . "_do_already_installed"]))
+		if ((isset($_POST[$ns_option_button]) && $_POST[$ns_option_button] == "already_installed") || (isset($_SESSION[$ns_already_installed]) && $_SESSION[$ns_already_installed]))
 		{
-			$_SESSION[$root_installation_namespace . "_do_already_installed"] = true;
+			$_SESSION[$ns_already_installed] = true;
 			upgradeToUnifiedInstaller($root_installation_namespace);
 			return false; //i.e. do not continue installing
 		}
-		elseif (isset($_POST[$root_installation_namespace . "_option_button"]) && $_POST[$root_installation_namespace . "_option_button"] == "install_anyway")
+		elseif (isset($_POST[$ns_option_button]) && $_POST[$ns_option_button] == "install_anyway")
 		{
-			$_SESSION[$root_installation_namespace . "_do_install_anyway"] = true;
+			$_SESSION[$ns_install_anyway] = true;
 		}
-		else // ((isset($_POST[$root_installation_namespace . "_option_button"]) && $_POST[$root_installation_namespace . "_option_button"] !== "install_anyway") || !isset($_POST[$root_installation_namespace . "_option_button"]))
+		else // ((isset($_POST[$ns_option_button]) && $_POST[$ns_option_button] !== "install_anyway") || !isset($_POST[$ns_option_button]))
 		{
-			// TODO: test this script in live environment (to ensure relative paths work)
 			$possible_modules_with_conf_files = [ "auth", "licensing", "management", "organizations", "reports", "resources", "usage" ];
 			$maybe_installed = array_reduce($possible_modules_with_conf_files, function($carry, $item) {
 				return $carry || file_exists($item . "/admin/configuration.ini");
@@ -103,7 +106,7 @@ function upgradeToUnifiedInstaller($root_installation_namespace)
 			}
 			fwrite($file, implode("\r\n",$dataToWrite));
 			fclose($file);
-			$_SESSION[$root_installation_namespace . "_do_already_installed"] = false;
+			$_SESSION[$ns_already_installed] = false;
 			return true;
 		}
 		else
