@@ -185,6 +185,8 @@ function do_upgrade($version)
 	 *
 	 */
 
+	// global $INSTALLATION_VERSION;
+	global $INSTALLATION_VERSIONS;
 	$current_version_index = array_search($version, $INSTALLATION_VERSIONS);
 	for ($version_to_install_index = $current_version_index + 1; $version_to_install_index < count($INSTALLATION_VERSIONS); $version_to_install_index++)
 	{
