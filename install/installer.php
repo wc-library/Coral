@@ -55,7 +55,7 @@ class Installer {
 				}
 				$this_checklist[] = $installer_object;
 			},
-			"getPostInstallationMode" => function() use (&$this_post_installation_mode) {
+			"isInPostInstallationMode" => function() use (&$this_post_installation_mode) {
 				return isset($_SESSION["installer_post_installation"]) && $_SESSION["installer_post_installation"];
 			}
 		];
@@ -180,7 +180,7 @@ class Installer {
 			$return->cause = self::CAUSE_ALREADY_EXISTED;
 			return $return;
 		}
-		if (!$this->shared_module_info["getPostInstallationMode"]() && isset($this->checklist[$key]["post_installation"]) && $this->checklist[$key]["post_installation"])
+		if (!$this->shared_module_info["isInPostInstallationMode"]() && isset($this->checklist[$key]["post_installation"]) && $this->checklist[$key]["post_installation"])
 		{
 			throw new RuntimeException("Error: You're trying to run the '$test_uid' post-installation test before the installation is complete.", self::ERR_RUNNING_POST_INSTALLATION_TEST_BEFORE_INSTALLATION_COMPLETE);
 		}
@@ -280,6 +280,10 @@ class Installer {
 		//       are installed before we allow this.
 		$this->shared_module_info["post_installation_mode"] = true;
 		$_SESSION["installer_post_installation"] = true;
+	}
+	public function isInPostInstallationMode()
+	{
+		return $this->shared_module_info["isInPostInstallationMode"]();
 	}
 	public function postInstallationTest()
 	{
