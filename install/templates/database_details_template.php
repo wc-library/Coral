@@ -36,7 +36,7 @@ HEREDOC;
 			<div class="row">
 				<div class="twelve columns">
 					<label for="dbhost">{$db_access_vars["host"]["title"]}</label>
-					<input class="u-full-width" type="text" placeholder="{$db_access_vars["host"]["placeholder"]}" name="{$db_access_vars["host"]["name"]}">
+					<input class="u-full-width" type="text" value="{$db_access_vars["host"]["default"]}" placeholder="{$db_access_vars["host"]["placeholder"]}" name="{$db_access_vars["host"]["name"]}">
 				</div>
 			</div>
 HEREDOC;
