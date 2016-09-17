@@ -6,7 +6,7 @@ function register_have_read_write_access_to_config_provider()
 		"translatable_title" => _("Config File Access"),
 		"bundle" => function($version = 0) {
 			return [
-				"dependencies_array" => ["meets_system_requirements", "have_default_db_user"],
+				"dependencies_array" => ["meets_system_requirements", "modules_to_use"],
 				"function" => function($shared_module_info) {
 					$return = new stdClass();
 					$return->yield = new stdClass();
