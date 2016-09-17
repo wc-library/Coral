@@ -21,19 +21,6 @@ function continue_installing()
 		}
 		else // ((isset($_POST[$root_installation_namespace . "_option_button"]) && $_POST[$root_installation_namespace . "_option_button"] !== "install_anyway") || !isset($_POST[$root_installation_namespace . "_option_button"]))
 		{
-			$allowed_options = function($allowed_array) use ($option_button_set) {
-				return array_filter($option_button_set, function($item) use ($allowed_array) {
-					return in_array($item["name"], $allowed_array);
-				});
-			};
-
-			$yield = new stdClass();
-			$yield->messages = [];
-			$yield->title = _("CORAL Pre-Installation Check");
-
-			$instruction = "";
-			$option_buttons = [];
-
 			// TODO: test this script in live environment (to ensure relative paths work)
 			$possible_modules_with_conf_files = [ "auth", "licensing", "management", "organizations", "reports", "resources", "usage" ];
 			$maybe_installed = array_reduce($possible_modules_with_conf_files, function($carry, $item) {
@@ -41,16 +28,31 @@ function continue_installing()
 			});
 			if ($maybe_installed)
 			{
+				$allowed_options = function($allowed_array) use ($option_button_set) {
+					return array_filter($option_button_set, function($item) use ($allowed_array) {
+						return in_array($item["name"], $allowed_array);
+					});
+				};
+
+				$yield = new stdClass();
+				$yield->messages = [];
+				$yield->title = _("CORAL Pre-Installation Check");
+
+				$instruction = "";
+				$option_buttons = [];
+
 				// Installed not with unified installer
 				// OR not installed
 				$yield->messages[] = _("We cannot tell whether or not CORAL is installed. Either it is not installed or it was installed using another installer.");
 				$yield->messages[] = _("If CORAL is already installed you should <b>NOT</b> try to install.");
 				$instruction = _("Please choose one of the options below:");
 				$option_buttons = $allowed_options(["already_installed", "install_anyway"]);
+
+				require_once "install/templates/option_buttons_template.php";
+				$yield->body = option_buttons_template($instruction, $option_buttons, $root_installation_namespace);
+				yield_test_results_and_exit($yield, [], 0);
 			}
-			require_once "install/templates/option_buttons_template.php";
-			$yield->body = option_buttons_template($instruction, $option_buttons, $root_installation_namespace);
-			yield_test_results_and_exit($yield, [], 0);
+			// else falls through to return true (i.e. "continue installing")
 		}
 	}
 	return true;
