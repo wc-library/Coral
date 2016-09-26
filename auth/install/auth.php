@@ -13,6 +13,7 @@ function register_auth_provider()
 			switch ($version) {
 				case Installer::VERSION_STRING_INSTALL:
 					return [
+						"version" => "2.0.0",
 						"dependencies_array" => [ "db_tools", "have_read_write_access_to_config", "have_default_db_user", "have_default_coral_admin_user" ],
 						"sharedInfo" => [
 							"database" => [
@@ -305,11 +306,33 @@ function register_auth_provider()
 							],
 							"database_name" => $conf_data["database"]["name"]
 						],
-						"function" => function($shared_module_info) use ($MODULE_VARS) {
+						"function" => function($shared_module_info) use ($MODULE_VARS, $protected_module_data) {
 							$return = new stdClass();
 							$return->yield = new stdClass();
 							$return->success = true;
 							$return->yield->title = _("Auth Module");
+							$return->yield->messages = [];
+
+							$conf_data = parse_ini_file($protected_module_data["config_file_path"], true);
+
+							// Process sql files
+							$db_name = $conf_data["database"]["name"];
+							$dbconnection = $shared_module_info["provided"]["get_db_connection"]( $db_name );
+							$sql_files_to_process = ["auth/install/upgrade.sql"];
+							$ret = $shared_module_info["provided"]["process_sql_files"]( $dbconnection, $sql_files_to_process, $MODULE_VARS["uid"] );
+							if (!$ret["success"])
+							{
+								$return->success = false;
+								$return->yield->messages = array_merge($return->yield->messages, $ret["messages"]);
+								return $return;
+							}
+
+							$configFile = $protected_module_data["config_file_path"];
+							if (empty($conf_data["general"]))
+								$conf_data["general"] = [];
+							$conf_data["general"]["random"] = "something";
+							$shared_module_info["provided"]["write_config_file"]($configFile, $conf_data);
+
 							return $return;
 						}
 					];

@@ -25,24 +25,21 @@ function register_upgrade_helper_provider()
 				"function" => function($shared_module_info) use ($version){
 					$return = new stdClass();
 					$return->yield = new stdClass();
-					$return->success = true;
+					$return->success = false;
 					$return->yield->messages = [];
 					$return->yield->title = _("Incremental Upgrade: ") . $version;
 
-					// $confData = [
-					// 	"installation_details" => [
-					// 		"version" => $version
-					// 	]
-					// ];
+					require_once "common/Config.php";
+					$confData = parse_ini_file(Config::CONFIG_FILE_PATH, 1);
+					$confData["installation_details"]["version"] = $version;
+
 					// foreach ($shared_module_info["modules_to_use"]["useModule"] as $key => $value) {
 					// 	$confData[$key] = [
 					// 		"enabled" => $value ? "Y" : "N",
 					// 		"installed" => $value ? "Y" : "N",
 					// 	];
 					// }
-					//
-					// require_once "common/Config.php";
-					// $shared_module_info["provided"]["write_config_file"](Config::CONFIG_FILE_PATH, $confData);
+					$shared_module_info["provided"]["write_config_file"](Config::CONFIG_FILE_PATH, $confData);
 
 					return $return;
 				}

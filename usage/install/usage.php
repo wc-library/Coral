@@ -105,6 +105,20 @@ function register_usage_provider()
 						}
 					];
 
+
+				case "2.0.1":
+					/**
+					 * Will update config file and process sql files
+					 */
+					return [
+						"function" => function($shared_module_info) use ($MODULE_VARS, $protected_module_data) {
+							$return = new stdClass();
+							$return->success = true;
+							return $return;
+						}
+					];
+
+
 				default:
 					return null;
 			}

@@ -13,6 +13,7 @@ function register_licensing_provider()
 			switch ($version) {
 				case Installer::VERSION_STRING_INSTALL:
 					return [
+						"version" => "2.0.0",
 						"dependencies_array" => [ "db_tools", "have_read_write_access_to_config", "modules_to_use", "have_default_coral_admin_user", "have_default_db_user" ],
 						"sharedInfo" => [
 							"database" => [
@@ -105,12 +106,22 @@ function register_licensing_provider()
 						"function" => function($shared_module_info) use ($MODULE_VARS, $protected_module_data) {
 							$return = new stdClass();
 							$return->yield = new stdClass();
-							$return->success = false;
+							$return->success = true;
 							$return->yield->title = _("Licensing Module");
 
-							//because we don't have a common conf file, this is still the way to do it...
 							$conf_data = parse_ini_file($protected_module_data["config_file_path"], true);
+
+							// Process sql files
 							$db_name = $conf_data["database"]["name"];
+							$dbconnection = $shared_module_info["provided"]["get_db_connection"]( $db_name );
+							$sql_files_to_process = ["licensing/install/protected/upgrade.sql"];
+							$ret = $shared_module_info["provided"]["process_sql_files"]( $dbconnection, $sql_files_to_process, $MODULE_VARS["uid"] );
+							if (!$ret["success"])
+							{
+								$return->success = false;
+								$return->yield->messages = array_merge($return->yield->messages, $ret["messages"]);
+								return $return;
+							}
 
 							return $return;
 						}
