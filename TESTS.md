@@ -43,12 +43,16 @@ GRANT CREATE, DROP, ALTER, SELECT, INSERT, UPDATE, DELETE, LOCK TABLES ON coral_
 `bin/phantomjs --webdriver=4444 --webdriver-loglevel=DEBUG`
 ## 2. Run the test suite (provide the url of your local Coral instance)
 `BASE_URL=http://localhost/coral/ bin/codecept run -vv`
+### To run a specific test suite (replacing `suite` accordingly):
+`BASE_URL=http://localhost/coral/ bin/codecept run suite -vv`
+### To run a single test (replacing `suite` and `testnameCept.php` accordingly):
+`BASE_URL=http://localhost/coral/ bin/codecept run suite testnameCept.php -vv`
 
 # Writing new tests
 ## Generate test stub
 `bin/codecept generate:cept suite testname`
 
-Where `suite` is the test suite you want to create a new test (e.g. acceptance). This will create a new test scenario `tests/suite/testnameCept.php` 
+Where `suite` is the test suite you want to create a new test (e.g. acceptance). This will create a new test scenario `tests/suite/testnameCept.php`
 
 # Guidelines writing new tests
 ## Be careful when checking that something is not here
