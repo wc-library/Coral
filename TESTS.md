@@ -44,6 +44,11 @@ GRANT CREATE, DROP, ALTER, SELECT, INSERT, UPDATE, DELETE, LOCK TABLES ON coral_
 ## 2. Run the test suite (provide the url of your local Coral instance)
 `BASE_URL=http://localhost/coral/ bin/codecept run -vv`
 
+# Writing new tests
+## Generate test stub
+`bin/codecept generate:cept suite testname`
+
+Where `suite` is the test suite you want to create a new test (e.g. acceptance). This will create a new test scenario `tests/suite/testnameCept.php` 
 
 # Guidelines writing new tests
 ## Be careful when checking that something is not here
