@@ -24,3 +24,9 @@ $I->willAcceptTheNextConfirmBox();
 $I->click("remove resource"); // button title/name
 $I->waitForText("Organization successfully deleted.", 5); // Ensure that the list has loaded by Ajax.
 $I->dontSee("Test Organization");
+
+// Attempt to create an organization with the same name as an existing one
+$I->amOnPage("/organizations/");
+$I->click("New Organization");
+$I->fillField("#organizationName", "abc news"); // Organization added by default
+$I->see("This organization already exists!");

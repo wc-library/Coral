@@ -709,6 +709,7 @@ CREATE TABLE `Document` (
 
 LOCK TABLES `Document` WRITE;
 /*!40000 ALTER TABLE `Document` DISABLE KEYS */;
+INSERT INTO `document` VALUES (1, 'Filler Doc', 1, 1, '2016-10-03', NULL, 'filler_doc.txt', NULL, NULL, '2016-10-03');
 /*!40000 ALTER TABLE `Document` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -925,6 +926,7 @@ CREATE TABLE `License` (
 
 LOCK TABLES `License` WRITE;
 /*!40000 ALTER TABLE `License` DISABLE KEYS */;
+INSERT INTO `license` VALUES (1, NULL, 1, 'Filler Doc', NULL, '2016-10-03 22:14:57', '2016-10-03 22:14:57', 1, NULL, 'coral_test', 'coral_test');
 /*!40000 ALTER TABLE `License` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -948,6 +950,7 @@ CREATE TABLE `Organization` (
 
 LOCK TABLES `Organization` WRITE;
 /*!40000 ALTER TABLE `Organization` DISABLE KEYS */;
+INSERT INTO `Organization` VALUES (1, 'Default Internal');
 /*!40000 ALTER TABLE `Organization` ENABLE KEYS */;
 UNLOCK TABLES;
 
