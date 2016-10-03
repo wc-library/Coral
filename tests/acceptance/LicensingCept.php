@@ -21,6 +21,6 @@ $I->click("Test License");
 // Delete license
 $I->willAcceptTheNextConfirmBox();
 $I->click("remove license");
-$I->waitForText("records per page"); // Ensure that the list has loaded by Ajax.
+$I->waitForText("records per page", 5); // Ensure that the list has loaded by Ajax.
 // So the next check can't do a false positive
 $I->dontSee("Test License");
