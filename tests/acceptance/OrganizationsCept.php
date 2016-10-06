@@ -10,7 +10,7 @@ $I->click(".submit-button");
 // We are redirected to the test organization's details page
 $I->waitForText("Created:", 5); // Ensure that we are on details page
 
-// Find resource in list and go to its page
+// Find organization in list and go to its page
 $I->amOnPage("/organizations/");
 $I->waitForPageToBeReady();
 // Since test_database has several organizations in it already, we'll need to search to get Test Organization in the list
