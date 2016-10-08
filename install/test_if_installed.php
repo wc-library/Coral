@@ -79,7 +79,8 @@ function upgradeToUnifiedInstaller($root_installation_namespace)
 		$configFilePath = Config::CONFIG_FILE_PATH;
 
 		$iniFile = file_exists($configFilePath) ? parse_ini_file($configFilePath, true) : [];
-		$iniFile["installation_details"] = ["version" => INSTALLATION_VERSION];
+		global $INSTALLATION_VERSION;
+		$iniFile["installation_details"] = ["version" => $INSTALLATION_VERSION];
 
 		foreach ($fields as $field)
 		{
