@@ -131,8 +131,7 @@ function upgradeToUnifiedInstaller($root_installation_namespace)
 		$yield = new stdClass();
 		$yield->title = _("Select Installed Modules");
 		$yield->messages = [];
-		$yield->messages[] = _("Please select the modules that you have installed.");
-		$yield->body = modules_to_use_template($fields);
+		$yield->body = modules_to_use_template($fields, _("Please select the modules that you have installed."));
 		yield_test_results_and_exit($yield, [], 0);
 	}
 }
