@@ -1,29 +1,32 @@
 <?php
 function continue_installing()
 {
-	$root_installation_namespace = "installation_root";
-	$ns_install_anyway = $root_installation_namespace . "_do_install_anyway";
-	$ns_option_button = $root_installation_namespace . "_option_button";
-	$ns_already_installed = $root_installation_namespace . "_do_already_installed";
+	$rin = "installation_root";
+	$namespace = [
+		"root_installation" => $rin,
+		"install_anyway" => $rin . "_do_install_anyway",
+		"option_button" => $rin . "_option_button",
+		"already_installed" => $rin . "_do_already_installed"
+	];
 
 	require_once "install/test_results_yielder.php";
-	if (!isset($_SESSION[$ns_install_anyway]) || (isset($_SESSION[$ns_install_anyway]) && $_SESSION[$ns_install_anyway] !== true))
+	if (!isset($_SESSION[$namespace["install_anyway"]]) || (isset($_SESSION[$namespace["install_anyway"]]) && $_SESSION[$namespace["install_anyway"]] !== true))
 	{
 		$option_button_set = [
 			[ "name" => "install_anyway", "title" => _("Install CORAL") ],
 			[ "name" => "already_installed", "title" => _("CORAL Is Already Installed") ],
 		];
-		if ((isset($_POST[$ns_option_button]) && $_POST[$ns_option_button] == "already_installed") || (isset($_SESSION[$ns_already_installed]) && $_SESSION[$ns_already_installed]))
+		if ((isset($_POST[$namespace["option_button"]]) && $_POST[$namespace["option_button"]] == "already_installed") || (isset($_SESSION[$namespace["already_installed"]]) && $_SESSION[$namespace["already_installed"]]))
 		{
-			$_SESSION[$ns_already_installed] = true;
-			upgradeToUnifiedInstaller($root_installation_namespace);
+			$_SESSION[$namespace["already_installed"]] = true;
+			upgradeToUnifiedInstaller($namespace);
 			return false; //i.e. do not continue installing
 		}
-		elseif (isset($_POST[$ns_option_button]) && $_POST[$ns_option_button] == "install_anyway")
+		elseif (isset($_POST[$namespace["option_button"]]) && $_POST[$namespace["option_button"]] == "install_anyway")
 		{
-			$_SESSION[$ns_install_anyway] = true;
+			$_SESSION[$namespace["install_anyway"]] = true;
 		}
-		else // ((isset($_POST[$ns_option_button]) && $_POST[$ns_option_button] !== "install_anyway") || !isset($_POST[$ns_option_button]))
+		else // ((isset($_POST[$namespace["option_button"]]) && $_POST[$namespace["option_button"]] !== "install_anyway") || !isset($_POST[$namespace["option_button"]]))
 		{
 			$possible_modules_with_conf_files = [ "auth", "licensing", "management", "organizations", "reports", "resources", "usage" ];
 			$maybe_installed = array_reduce($possible_modules_with_conf_files, function($carry, $item) {
@@ -52,7 +55,7 @@ function continue_installing()
 				$option_buttons = $allowed_options(["already_installed", "install_anyway"]);
 
 				require_once "install/templates/option_buttons_template.php";
-				$yield->body = option_buttons_template($instruction, $option_buttons, $root_installation_namespace);
+				$yield->body = option_buttons_template($instruction, $option_buttons, $namespace["root_installation"]);
 				yield_test_results_and_exit($yield, [], 0);
 			}
 			// else falls through to return true (i.e. "continue installing")
@@ -61,7 +64,7 @@ function continue_installing()
 	return true;
 }
 
-function upgradeToUnifiedInstaller($root_installation_namespace)
+function upgradeToUnifiedInstaller($namespace)
 {
 	// These can be hard coded because they are all the modules that could exist pre-unified installer
 	$fields = [
@@ -107,7 +110,7 @@ function upgradeToUnifiedInstaller($root_installation_namespace)
 			}
 			fwrite($file, implode("\r\n",$dataToWrite));
 			fclose($file);
-			$_SESSION[$ns_already_installed] = false;
+			$_SESSION[$namespace["already_installed"]] = false;
 			return true;
 		}
 		else
