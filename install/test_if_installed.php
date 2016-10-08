@@ -77,7 +77,7 @@ function upgradeToUnifiedInstaller($ns)
 		[ "uid" => "ui_upgrade_resources", "title" => "Resources", "required" => false, "module_name" => "resources" ],
 		[ "uid" => "ui_upgrade_usage", "title" => "Usage", "required" => false, "module_name" => "usage" ],
 	];
-	if (isset($_POST["ui_upgrade_auth"]))
+	if (isset($_POST["ui_upgrade_auth"]) || isset($_SESSION[$ns["module_selections"]]["ui_upgrade_auth"]))
 	{
 		require_once "common/Config.php";
 		$configFilePath = Config::CONFIG_FILE_PATH;
@@ -86,11 +86,19 @@ function upgradeToUnifiedInstaller($ns)
 		global $INSTALLATION_VERSION;
 		$iniFile["installation_details"] = ["version" => $INSTALLATION_VERSION];
 
+		if (empty($_SESSION[$ns["module_selections"]]))
+		{
+			$_SESSION[$ns["module_selections"]] = [];
+		}
 		foreach ($fields as $field)
 		{
+			$_SESSION[$ns["module_selections"]][$field["uid"]] =
+				isset($_POST[$field["uid"]]) ? ($_POST[$field["uid"]] ? "Y" : "N") :
+				(isset($_SESSION[$ns["module_selections"]][$field["uid"]]) ? $_SESSION[$ns["module_selections"]][$field["uid"]] : "N");
+
 			$iniFile[$field["module_name"]] = [
-				"installed" => isset($_POST[$field["uid"]]) ? ($_POST[$field["uid"]] ? "Y" : "N") : "N",
-				"enabled" => isset($_POST[$field["uid"]]) ? ($_POST[$field["uid"]] ? "Y" : "N") : "N"
+				"installed" => $_SESSION[$ns["module_selections"]][$field["uid"]],
+				"enabled" => $_SESSION[$ns["module_selections"]][$field["uid"]]
 			];
 		}
 
