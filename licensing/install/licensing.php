@@ -89,11 +89,16 @@ function register_licensing_provider()
 						}
 					];
 
-
-				case "2.0.1":
-					/**
-					 * Will update config file and process sql files
-					 */
+				/*
+				 * To add other files that only need to run a sql file, simply
+				 * add other cases. To do more than process a sql file (in the
+				 * format "licensing/install/protected/update_$version.sql"),
+				 * copy this function and add other steps.
+				 */
+				case "2.0.0":
+				// case "2.0.1":
+				// case "2.0.2":
+				// case "2.0.3":
 					$conf_data = parse_ini_file($protected_module_data["config_file_path"], true);
 					return [
 						"dependencies_array" => [ "db_tools", "have_read_write_access_to_config" ],
@@ -103,7 +108,7 @@ function register_licensing_provider()
 							],
 							"database_name" => $conf_data["database"]["name"]
 						],
-						"function" => function($shared_module_info) use ($MODULE_VARS, $protected_module_data) {
+						"function" => function($shared_module_info) use ($MODULE_VARS, $protected_module_data, $version) {
 							$return = new stdClass();
 							$return->yield = new stdClass();
 							$return->success = true;
@@ -112,9 +117,9 @@ function register_licensing_provider()
 							$conf_data = parse_ini_file($protected_module_data["config_file_path"], true);
 
 							// Process sql files
+							$sql_files_to_process = ["licensing/install/protected/update_$version.sql"];
 							$db_name = $conf_data["database"]["name"];
 							$dbconnection = $shared_module_info["provided"]["get_db_connection"]( $db_name );
-							$sql_files_to_process = ["licensing/install/protected/upgrade.sql"];
 							$ret = $shared_module_info["provided"]["process_sql_files"]( $dbconnection, $sql_files_to_process, $MODULE_VARS["uid"] );
 							if (!$ret["success"])
 							{
