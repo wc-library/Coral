@@ -25,20 +25,16 @@ function register_upgrade_helper_provider()
 				"function" => function($shared_module_info) use ($version){
 					$return = new stdClass();
 					$return->yield = new stdClass();
-					$return->success = false;
+					$return->success = true;
 					$return->yield->messages = [];
 					$return->yield->title = _("Incremental Upgrade: ") . $version;
+
+					// TODO: Figure out way of telling user that upgrade should be run
+					// TODO: Figure out way of telling user upgrade is complete!
 
 					require_once "common/Config.php";
 					$confData = parse_ini_file(Config::CONFIG_FILE_PATH, 1);
 					$confData["installation_details"]["version"] = $version;
-
-					// foreach ($shared_module_info["modules_to_use"]["useModule"] as $key => $value) {
-					// 	$confData[$key] = [
-					// 		"enabled" => $value ? "Y" : "N",
-					// 		"installed" => $value ? "Y" : "N",
-					// 	];
-					// }
 					$shared_module_info["provided"]["write_config_file"](Config::CONFIG_FILE_PATH, $confData);
 
 					return $return;
