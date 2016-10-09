@@ -81,15 +81,13 @@ function upgradeToUnifiedInstaller($ns)
 	{
 		require_once "common/Config.php";
 		$configFilePath = Config::CONFIG_FILE_PATH;
-
 		$iniFile = file_exists($configFilePath) ? parse_ini_file($configFilePath, true) : [];
-		global $INSTALLATION_VERSION;
-		$iniFile["installation_details"] = ["version" => $INSTALLATION_VERSION];
+		$iniFile["installation_details"] = ["version" => "1.9.0"];
 
 		if (empty($_SESSION[$ns["module_selections"]]))
-		{
 			$_SESSION[$ns["module_selections"]] = [];
-		}
+
+		$matching_db_details = true;
 		foreach ($fields as $field)
 		{
 			$_SESSION[$ns["module_selections"]][$field["uid"]] =
@@ -100,7 +98,31 @@ function upgradeToUnifiedInstaller($ns)
 				"installed" => $_SESSION[$ns["module_selections"]][$field["uid"]],
 				"enabled" => $_SESSION[$ns["module_selections"]][$field["uid"]]
 			];
+
+			if ($_SESSION[$ns["module_selections"]][$field["uid"]] == "Y")
+			{
+				// Check db variables are the same so they can be stored in common
+				$field_conf = parse_ini_file($field["module_name"]."/admin/configuration.ini", true);
+				$field_conf_db = $field_conf["database"];
+				$allowed_fields = ["host", "type", "username", "password"];
+				$field_conf_db_allowed = array_intersect_key($field_conf_db, array_flip($allowed_fields));
+				$matching_db_details = $matching_db_details === true ? $field_conf_db_allowed :
+					($field_conf_db_allowed == $matching_db_details ? $matching_db_details : false);
+				if (!$matching_db_details)
+					break;
+			}
 		}
+		if (!$matching_db_details)
+		{
+			// Fail because matching db details are required for a common conf file
+			$yield = new stdClass();
+			$yield->messages[] = _("In order to upgrade to Coral 2.0, you need to have a database user with SELECT, INSERT, UPDATE and DELETE rights on each module's database.");
+			$yield->messages[] = _("The installation will continue when your config files have matching database access details.");
+			require_once "install/templates/try_again_template.php";
+			$yield->body = try_again_template();
+			yield_test_results_and_exit($yield, [], 0);
+		}
+		$iniFile["database"] = $matching_db_details;
 
 
 		$file = @fopen($configFilePath, 'w');
@@ -124,7 +146,6 @@ function upgradeToUnifiedInstaller($ns)
 		}
 		else
 		{
-			$yield = new stdClass();
 			$yield = new stdClass();
 			$yield->messages[] = sprintf(_("In order to proceed with the installation, we must be able to write to the main configuration file at '<span class=\"highlight\">%s</span>'. Try:"), $configFilePath);
 			if (!file_exists($configFilePath))
