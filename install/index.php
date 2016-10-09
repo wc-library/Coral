@@ -65,8 +65,8 @@ if ($dirname_script_filename !== $dirname_dir || $basename_script_filename !== $
  *
  * NOTE: It is assumed that version strings can be understood by php's version_compare function
  */
-$INSTALLATION_VERSION = "2.0.1";
-$INSTALLATION_VERSIONS = ["2.0.0", "2.0.1"];
+$INSTALLATION_VERSION = "2.0.0";
+$INSTALLATION_VERSIONS = ["1.9.0", "2.0.0"];
 
 // TODO: if /index.php is calling this all the time, these lines make no sense
 // 			(we shouldn't set these constants for every page).
