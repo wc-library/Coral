@@ -45,7 +45,16 @@ class Config {
 
 		$possible_values = ['host', 'username', 'password', 'name'];
 		if (in_array($db_variable, $possible_values))
-			return self::$module_settings["database"][$db_variable];
+		{
+			if (!empty(self::$module_settings["database"][$db_variable]))
+				return self::$module_settings["database"][$db_variable];
+			else
+				throw new OutOfRangeException(_("Database setting empty in config"), self::ERR_VARIABLES_MISSING);
+		}
+		else
+		{
+			throw new OutOfRangeException(_("Invalid database setting requested"), self::ERR_VARIABLES_MISSING);
+		}
 	}
 
 	public static function getSettingsFor($module_name) {
