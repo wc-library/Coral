@@ -1,25 +1,29 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: messages\n"
-"POT-Creation-Date: 2016-06-27 7:01-06:00\n"
-"PO-Revision-Date: 2016-08-22 16:07-0600\n"
+"POT-Creation-Date: 2016-10-04 10:18-0600\n"
+"PO-Revision-Date: 2016-10-04 10:18-0600\n"
 "Last-Translator: <>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: zh_TW\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-Basepath: ../../..\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.8.8\n"
+"X-Generator: Poedit 1.8.9\n"
+"X-Poedit-KeywordsList: watchString\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: js/admin.js:62
 msgid "Do you really want to delete this user?"
 msgstr "您確認要刪除該使用者嗎？"
 
-#: js/admin.js:64 js/index.js:41 js/publisherPlatform.js:81 js/publisherPlatform.js:99 js/publisherPlatform.js:117 js/publisherPlatform.js:136 js/publisherPlatform.js:155 js/publisherPlatform.js:227 js/sushi.js:80
+#: js/admin.js:64 js/index.js:41 js/publisherPlatform.js:81
+#: js/publisherPlatform.js:99 js/publisherPlatform.js:117
+#: js/publisherPlatform.js:136 js/publisherPlatform.js:155
+#: js/publisherPlatform.js:227 js/sushi.js:80
 msgid "Processing..."
 msgstr "正在處理..."
 
@@ -65,7 +69,9 @@ msgid "This organization doesn't exist in the CORAL Organizations Module."
 msgstr "CORAL 「組織」模組中不存在該組織。"
 
 #: js/forms/outlierSubmitForm.js:94
-msgid "Count is required.  If you wish to remove the count the outlier should be ignored."
+msgid ""
+"Count is required.  If you wish to remove the count the outlier should be "
+"ignored."
 msgstr "計數是必需的。如果您希望移除計數，那麼異常值應被忽略。"
 
 #: js/forms/overrideSubmitForm.js:58
@@ -88,7 +94,8 @@ msgstr "請為遵從 COUNTER 選擇「是」或「否」。"
 msgid "Platform must be entered."
 msgstr "必須輸入平臺。"
 
-#: js/import.js:38 js/publisherPlatform.js:139 admin.php:16 admin.php:31 admin.php:46
+#: js/import.js:38 js/publisherPlatform.js:139 admin.php:16 admin.php:31
+#: admin.php:46
 msgid "Loading..."
 msgstr "正在載入..."
 
@@ -96,7 +103,8 @@ msgstr "正在載入..."
 msgid "Please select a file."
 msgstr "請選擇一個檔。"
 
-#: js/index.js:133 ajax_htmldata.php:1541 publisherPlatformList.php:32 reporting.php:41
+#: js/index.js:133 ajax_htmldata.php:1541 publisherPlatformList.php:32
+#: reporting.php:41
 msgid "show publisher list"
 msgstr "顯示出版商清單"
 
@@ -204,11 +212,13 @@ msgstr "連接測試成功！"
 msgid "No report types are set up!"
 msgstr "未設定報表類型！"
 
-#: ajax_forms.php:39 ajax_forms.php:167 ajax_forms.php:256 ajax_forms.php:353 ajax_forms.php:420 ajax_forms.php:485 ajax_forms.php:978
+#: ajax_forms.php:39 ajax_forms.php:167 ajax_forms.php:256 ajax_forms.php:353
+#: ajax_forms.php:420 ajax_forms.php:485 ajax_forms.php:978
 msgid "Update"
 msgstr "更新"
 
-#: ajax_forms.php:43 ajax_forms.php:256 ajax_forms.php:362 ajax_forms.php:426 ajax_forms.php:489
+#: ajax_forms.php:43 ajax_forms.php:256 ajax_forms.php:362 ajax_forms.php:426
+#: ajax_forms.php:489
 msgid "Add"
 msgstr "添加"
 
@@ -248,7 +258,9 @@ msgstr "確認平臺名稱保持為「CORAL 的平臺名稱」："
 msgid "submit for processing"
 msgstr "提交進行處理"
 
-#: ajax_forms.php:128 ajax_forms.php:168 ajax_forms.php:325 ajax_forms.php:394 ajax_forms.php:461 ajax_forms.php:627 ajax_forms.php:831 ajax_forms.php:885 ajax_forms.php:1023
+#: ajax_forms.php:128 ajax_forms.php:168 ajax_forms.php:325 ajax_forms.php:394
+#: ajax_forms.php:461 ajax_forms.php:627 ajax_forms.php:831 ajax_forms.php:885
+#: ajax_forms.php:1023
 msgid "cancel"
 msgstr "取消"
 
@@ -276,7 +288,9 @@ msgstr "% 超過之前的 12 個月"
 msgid "Update Report Display Name"
 msgstr "更新報表顯示名稱"
 
-#: ajax_forms.php:222 ajax_forms.php:771 ajax_forms.php:778 ajax_forms.php:785 ajax_htmldata.php:1013 ajax_htmldata.php:1020 ajax_htmldata.php:1027 ajax_htmldata.php:1418
+#: ajax_forms.php:222 ajax_forms.php:771 ajax_forms.php:778 ajax_forms.php:785
+#: ajax_htmldata.php:1013 ajax_htmldata.php:1020 ajax_htmldata.php:1027
+#: ajax_htmldata.php:1418
 msgid "update"
 msgstr "更新"
 
@@ -308,7 +322,8 @@ msgstr "否"
 msgid "Interface Notes:"
 msgstr "介面備註："
 
-#: ajax_forms.php:324 ajax_forms.php:393 ajax_forms.php:460 ajax_forms.php:626 ajax_forms.php:830 ajax_forms.php:884
+#: ajax_forms.php:324 ajax_forms.php:393 ajax_forms.php:460 ajax_forms.php:626
+#: ajax_forms.php:830 ajax_forms.php:884
 msgid "submit"
 msgstr "提交"
 
@@ -468,7 +483,8 @@ msgstr "添加識別碼"
 msgid "Identifier Type"
 msgstr "識別碼類型"
 
-#: ajax_forms.php:867 ajax_htmldata.php:720 ajax_htmldata.php:796 spreadsheet.php:86 titles_spreadsheet.php:55
+#: ajax_forms.php:867 ajax_htmldata.php:720 ajax_htmldata.php:796
+#: spreadsheet.php:86 titles_spreadsheet.php:55
 msgid "ISSN"
 msgstr "ISSN"
 
@@ -476,7 +492,8 @@ msgstr "ISSN"
 msgid "eISSN"
 msgstr "eISSN"
 
-#: ajax_forms.php:869 ajax_htmldata.php:795 spreadsheet.php:85 titles_spreadsheet.php:54
+#: ajax_forms.php:869 ajax_htmldata.php:795 spreadsheet.php:85
+#: titles_spreadsheet.php:54
 msgid "ISBN"
 msgstr "ISBN"
 
@@ -484,7 +501,9 @@ msgstr "ISBN"
 msgid "eISBN"
 msgstr "eISBN"
 
-#: ajax_forms.php:871 ajax_htmldata.php:719 ajax_htmldata.php:794 spreadsheet.php:63 spreadsheet.php:83 titles_spreadsheet.php:49 titles_spreadsheet.php:53
+#: ajax_forms.php:871 ajax_htmldata.php:719 ajax_htmldata.php:794
+#: spreadsheet.php:63 spreadsheet.php:83 titles_spreadsheet.php:49
+#: titles_spreadsheet.php:53
 msgid "DOI"
 msgstr "DOI"
 
@@ -580,7 +599,8 @@ msgstr "出版商登入"
 msgid "Interface Login"
 msgstr "介面登入"
 
-#: ajax_htmldata.php:114 ajax_htmldata.php:175 ajax_htmldata.php:242 ajax_htmldata.php:471
+#: ajax_htmldata.php:114 ajax_htmldata.php:175 ajax_htmldata.php:242
+#: ajax_htmldata.php:471
 msgid "Password"
 msgstr "密碼"
 
@@ -592,15 +612,20 @@ msgstr "URL"
 msgid "Login Notes"
 msgstr "登入備註"
 
-#: ajax_htmldata.php:128 ajax_htmldata.php:189 ajax_htmldata.php:351 ajax_htmldata.php:420 ajax_htmldata.php:901 ajax_htmldata.php:925 uploadComplete.php:357
+#: ajax_htmldata.php:128 ajax_htmldata.php:189 ajax_htmldata.php:351
+#: ajax_htmldata.php:420 ajax_htmldata.php:901 ajax_htmldata.php:925
+#: uploadComplete.php:357
 msgid "edit"
 msgstr "編輯"
 
-#: ajax_htmldata.php:128 ajax_htmldata.php:189 ajax_htmldata.php:351 ajax_htmldata.php:420 ajax_htmldata.php:1419
+#: ajax_htmldata.php:128 ajax_htmldata.php:189 ajax_htmldata.php:351
+#: ajax_htmldata.php:420 ajax_htmldata.php:1419
 msgid "remove"
 msgstr "移除"
 
-#: ajax_htmldata.php:138 ajax_htmldata.php:199 ajax_htmldata.php:359 ajax_htmldata.php:428 ajax_htmldata.php:478 ajax_htmldata.php:638 ajax_htmldata.php:665 ajax_htmldata.php:699 ajax_htmldata.php:1428
+#: ajax_htmldata.php:138 ajax_htmldata.php:199 ajax_htmldata.php:359
+#: ajax_htmldata.php:428 ajax_htmldata.php:478 ajax_htmldata.php:638
+#: ajax_htmldata.php:665 ajax_htmldata.php:699 ajax_htmldata.php:1428
 #: ajax_htmldata.php:1536
 msgid "(none found)"
 msgstr "(未找到)"
@@ -831,10 +856,13 @@ msgid "% over - displayed "
 msgstr "% 超過 - 已顯示"
 
 #: ajax_htmldata.php:929
-msgid "Outliers are currently disabled in the configuration file.  Contact your technical support to enable them."
+msgid ""
+"Outliers are currently disabled in the configuration file.  Contact your "
+"technical support to enable them."
 msgstr "設定檔中當前已禁用異常值。請聯絡您的技術支援啟用異常值。"
 
-#: ajax_htmldata.php:1055 ajax_htmldata.php:1080 reporting.php:36 reporting.php:59
+#: ajax_htmldata.php:1055 ajax_htmldata.php:1080 reporting.php:36
+#: reporting.php:59
 msgid "edit report display name"
 msgstr "編輯報表顯示名稱"
 
@@ -967,7 +995,9 @@ msgid "Incorrect File format, must be .txt!"
 msgstr "檔案格式不正確，必須是.txt！"
 
 #: import.php:28
-msgid "There was an error uploading the file.  Please verify the size is not over 5MB and try again!"
+msgid ""
+"There was an error uploading the file.  Please verify the size is not over "
+"5MB and try again!"
 msgstr "上傳檔時出錯。 請驗證大小不超過 5MB，然後重試！"
 
 #: import.php:31
@@ -1003,7 +1033,8 @@ msgid "File may not be larger than 5MB"
 msgstr "檔不能大於 5MB"
 
 #: import.php:72
-msgid "Ensure column headers conform to Counter's standards for the report type"
+msgid ""
+"Ensure column headers conform to Counter's standards for the report type"
 msgstr "確保欄標題符合 COUNTER 的報表類型標準"
 
 #: import.php:73
@@ -1043,12 +1074,33 @@ msgid "Usage Statistics Module"
 msgstr "使用統計資訊模組"
 
 #: not_avail.php:61
-msgid "Please contact your Administrator for access to the Usage Statistics Module."
+msgid ""
+"Please contact your Administrator for access to the Usage Statistics Module."
 msgstr "請聯絡您的管理員以訪問「使用統計模組」。"
 
 #: publisherPlatform.php:20
 msgid "View or Edit Publisher / Platform"
 msgstr "查看或編輯出版商/平臺"
+
+#: publisherPlatform.php:57
+msgid "imports"
+msgstr ""
+
+#: publisherPlatform.php:71
+msgid "titles"
+msgstr ""
+
+#: publisherPlatform.php:84
+msgid "statistics"
+msgstr ""
+
+#: publisherPlatform.php:97
+msgid "logins"
+msgstr ""
+
+#: publisherPlatform.php:111
+msgid "sushi"
+msgstr ""
 
 #: publisherPlatformList.php:4
 msgid "Edit Publishers / Platforms"
@@ -1079,11 +1131,15 @@ msgid "Directions:"
 msgstr "方向："
 
 #: reporting.php:12
-msgid "Mark the checkboxes to add / remove specific Platforms or Publishers to the default report list."
+msgid ""
+"Mark the checkboxes to add / remove specific Platforms or Publishers to the "
+"default report list."
 msgstr "勾選核取方塊以在預設的報表清單中添加/移除特定的平臺或出版商。"
 
 #: reporting.php:12
-msgid "Click 'edit report display name' to change the display name in the reporting system for specific Platforms or Publishers."
+msgid ""
+"Click 'edit report display name' to change the display name in the reporting "
+"system for specific Platforms or Publishers."
 msgstr "按一下「編輯報表顯示名稱」可更改報表系統中特定平臺或出版商的顯示名稱。"
 
 #: reporting.php:25
@@ -1258,13 +1314,34 @@ msgstr "失敗！"
 msgid "Nothing to see here!  (no sushi scheduled today)"
 msgstr "此處無內容可顯示！ (今天沒有計劃的 SUSHI)"
 
+#: templates/footer.php:10
+msgid "Copyright"
+msgstr ""
+
+#: templates/footer.php:10
+msgid "Usage Statistics Module version"
+msgstr ""
+
+#: templates/footer.php:10
+msgid "CORAL Project Website"
+msgstr ""
+
+#: templates/footer.php:10
+msgid "Report an issue"
+msgstr ""
+
 #: templates/header.php:40 templates/header.php:92
 msgid "Usage Statistics"
 msgstr "使用統計資訊"
 
 #: templates/header.php:72
-msgid "JavaScript must be enabled in order for you to use CORAL. However, it seems JavaScript is either disabled or not supported by your browser. To use CORAL, enable JavaScript by changing your browser options, then "
-msgstr "先啟用JavaScript以後才能使用COREL。然而，您的瀏覽器似乎停用了JavaScript，不然就是不支援JavaScript。要使用COREL，先到瀏覽器選項內更改為啟用JavaScript，然後"
+msgid ""
+"JavaScript must be enabled in order for you to use CORAL. However, it seems "
+"JavaScript is either disabled or not supported by your browser. To use "
+"CORAL, enable JavaScript by changing your browser options, then "
+msgstr ""
+"先啟用JavaScript以後才能使用COREL。然而，您的瀏覽器似乎停用了JavaScript，不然"
+"就是不支援JavaScript。要使用COREL，先到瀏覽器選項內更改為啟用JavaScript，然後"
 
 #: templates/header.php:72
 msgid "try again"
@@ -1364,7 +1441,9 @@ msgid "Override indicator set - all months will be imported."
 msgstr "越權指示符設定 - 將輸入所有月份。"
 
 #: uploadComplete.php:292
-msgid "Entire year already exists for this Platform / year.  No counts will be imported."
+msgid ""
+"Entire year already exists for this Platform / year.  No counts will be "
+"imported."
 msgstr "全年已存在於該平臺/年。不會輸入計數。"
 
 #: uploadComplete.php:296
@@ -1372,11 +1451,14 @@ msgid "Month Started at: "
 msgstr "月份始于："
 
 #: uploadComplete.php:298
-msgid "No records exist for this Platform / year.  Import will start with month 1."
+msgid ""
+"No records exist for this Platform / year.  Import will start with month 1."
 msgstr "該平臺/年份不存在紀錄。輸入將始于月份 1。"
 
 #: uploadComplete.php:301
-msgid "Partial year records exist for this Platform / year.  Import will start with month 1 and end with month "
+msgid ""
+"Partial year records exist for this Platform / year.  Import will start with "
+"month 1 and end with month "
 msgstr "該平臺/年份已存在部分紀錄。輸入將始于月份 1，並結束于月份"
 
 #: uploadComplete.php:320
@@ -1456,7 +1538,9 @@ msgid "No YTD import performed since monthly stats were not imported"
 msgstr "由於未輸入每月統計而未執行 YTD 輸入"
 
 #: uploadComplete.php:918
-msgid "Title match did not complete correctly, please check ISBN / ISSN to verify for Title:  "
+msgid ""
+"Title match did not complete correctly, please check ISBN / ISSN to verify "
+"for Title:  "
 msgstr "題名比對沒有正確完成，請檢查 ISBN/ISSN 以驗證題名："
 
 #: uploadComplete.php:970
@@ -1544,7 +1628,8 @@ msgid "Report format is set to "
 msgstr "報表格式設定為"
 
 #: uploadConfirmation.php:307
-msgid " but does not match the column names listed in layouts.ini for this format"
+msgid ""
+" but does not match the column names listed in layouts.ini for this format"
 msgstr "但是不與佈局 .ini 中為該格式列出的列名稱相對應"
 
 #: uploadConfirmation.php:307
@@ -1556,7 +1641,9 @@ msgid "Found columns: "
 msgstr "找到列："
 
 #: uploadConfirmation.php:307
-msgid "If problems persist you can copy an existing header that works into this file."
+msgid ""
+"If problems persist you can copy an existing header that works into this "
+"file."
 msgstr "如果問題持續存在，您可以複製一個可用於該檔的現有標題。"
 
 #: uploadConfirmation.php:312
@@ -1564,7 +1651,8 @@ msgid "Error with Setup:  This report format is not set up in layouts.ini."
 msgstr "安裝錯誤：未在 layouts.ini 中設定該報表格式。"
 
 #: uploadConfirmation.php:317
-msgid "Error with Format:  The line preceding the first should start with 'Total'."
+msgid ""
+"Error with Format:  The line preceding the first should start with 'Total'."
 msgstr "格式錯誤：第一行之前應以「總計」開始。"
 
 #: uploadConfirmation.php:322
@@ -1576,16 +1664,26 @@ msgid "may not be ahead of current year.  Please correct and submit again."
 msgstr "不能超過當前年份。請更正並再次提交。"
 
 #: uploadConfirmation.php:327
-msgid "File is flagged to override verifications of previous month data.  If this is incorrect use 'Cancel' to fix."
-msgstr "檔被標記用於覆蓋之前月份資料的驗證。如果不正確，則使用「取消」進行修復。"
+msgid ""
+"File is flagged to override verifications of previous month data.  If this "
+"is incorrect use 'Cancel' to fix."
+msgstr ""
+"檔被標記用於覆蓋之前月份資料的驗證。如果不正確，則使用「取消」進行修復。"
 
 #: uploadConfirmation.php:334
-msgid "If this is incorrect, please use 'Cancel' to go back and fix the headers of the file."
+msgid ""
+"If this is incorrect, please use 'Cancel' to go back and fix the headers of "
+"the file."
 msgstr "如果不正確，則請使用「取消」返回並修復檔標題。"
 
 #: uploadConfirmation.php:337
-msgid "File has been imported from SUSHI. The default behavior for imported SUSHI files is to overwrite previously imported data. If this is incorrect, please contact a system administrator."
-msgstr "已從 SUSHI 輸入檔。被輸入的 SUSHI 檔的預設行為是覆蓋之前輸入的資料。如果不正確，請聯絡一位系統管理員。"
+msgid ""
+"File has been imported from SUSHI. The default behavior for imported SUSHI "
+"files is to overwrite previously imported data. If this is incorrect, please "
+"contact a system administrator."
+msgstr ""
+"已從 SUSHI 輸入檔。被輸入的 SUSHI 檔的預設行為是覆蓋之前輸入的資料。如果不正"
+"確，請聯絡一位系統管理員。"
 
 #: uploadConfirmation.php:354
 msgid "Confirm"
