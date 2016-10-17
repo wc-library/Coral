@@ -69,7 +69,15 @@ $INSTALLATION_VERSION = "2.0.0";
 $INSTALLATION_VERSIONS = ["1.9.0", "2.0.0"];
 $UPDATE_AVAILABLE = false;
 
-
+function make_sure_template_is_drawn()
+{
+	if (!isset($_POST["installing"]))
+	{
+		require_once "templates/install_page_template.php";
+		draw_install_page_template();
+		exit();
+	}
+}
 function is_installed()
 {
 	require_once("common/Config.php");
@@ -83,6 +91,7 @@ function is_installed()
 
 function run_loop($version)
 {
+	make_sure_template_is_drawn();
 	require_once "installer.php";
 	switch ($version) {
 		case Installer::VERSION_STRING_INSTALL:
@@ -157,31 +166,6 @@ function do_install()
 
 function do_upgrade($version)
 {
-	// Need to figure out a modular way of handling this:
-	/**
-	 * Maybe we need to consider installation modes:
-	 * 		upgrade
-	 * 		modify
-	 * 		install
-	 * 	 along with the flag "post_mode" => for post-installation/modification/upgrade scripts to run
-	 *
-	 * Maybe upgrader should return an installer array with dependencies and
-	 * everything depending on the version we give it and maybe we should
-	 * have an installer that upgraders can depend on that will process sql
-	 * files and update conf files but how do we get it to run after them?
-	 * that implies we have functional "required" flag but they only work
-	 * for the installer...
-	 *
-	 * So new plan:
-	 * 	We check the required_for var which will tell us whether needed for
-	 * 	upgrade, modify or install. Installers with required_for set are
-	 * 	basically doing all the heavy lifting (fancy type stuff that
-	 * 	modules_to_use_helper does). When we are installing, we look for
-	 * 	inarray(required_for, install)...
-	 *
-	 * It depends on everything needed for that thing...
-	 *
-	 */
 	if (empty($_SESSION["actually_do_upgrade"]) && empty($_POST["actually_do_upgrade"]))
 	{
 		global $UPDATE_AVAILABLE;
@@ -228,6 +212,7 @@ if ($CURRENT_VERSION !== $INSTALLATION_VERSION || (isset($_SESSION["installer_po
 		$return->messages = [];
 		if (array_slice($INSTALLATION_VERSIONS, -1)[0] !== $INSTALLATION_VERSION)
 		{
+			make_sure_template_is_drawn();
 			// The instllation constants are not correctly set up
 			$return->messages[] = "<b>" . _("An error has occurred:") . "</b><br />" . _("Sorry but the installer has been incorrectly configured. Please contact the developer.");
 			$return->messages[] = _("Version of Installer does not match the last installation version in INSTALLATION_VERSIONS.");
@@ -235,6 +220,7 @@ if ($CURRENT_VERSION !== $INSTALLATION_VERSION || (isset($_SESSION["installer_po
 		}
 		elseif (!in_array($CURRENT_VERSION, $INSTALLATION_VERSIONS))
 		{
+			make_sure_template_is_drawn();
 			$return->messages[] = "<b>" . _("An error has occurred:") . "</b><br />" . _("Sorry but the installer has been incorrectly configured. Please contact the developer.");
 			$return->messages[] = _("The version currently installed is not a recognised version.");
 			yield_test_results_and_exit($return, [], 0);
@@ -244,6 +230,7 @@ if ($CURRENT_VERSION !== $INSTALLATION_VERSION || (isset($_SESSION["installer_po
 }
 
 
+// TODO: Handle these variations
 // TAKEN FROM test_if_installed.php -> needs to be handled in do_upgrade()
 
 // elseif (version_compare(INSTALLATION_VERSION, $old_version) > 0)
