@@ -61,7 +61,13 @@ class Installer {
 	private function getKeyFromUid($test_uid, $haystack = null)
 	{
 		$haystack = $haystack === null ? $this->checklist : $haystack;
-
+		/**
+		 * TODO: remove this shim when we stop caring about PHP <= 5.5.0 being
+		 *       able to *run* the installer. Note that this is needed before we
+		 *       test for meeting system requirements and the installer needs
+		 *       to be more generous about system reqs than CORAL as a whole.
+		 */
+		require_once("common/array_column.php");
 		$key = array_search($test_uid, array_column($haystack, 'uid'));
 		if ($key === false)
 			throw new OutOfBoundsException("Test '$test_uid' not found in checklist.", self::ERR_MODULE_DOES_NOT_EXIST);
@@ -70,6 +76,7 @@ class Installer {
 	}
 	public function getRequiredProviders($what_for = self::REQUIRED_FOR_INSTALL)
 	{
+		require_once("common/array_column.php");
 		return array_column(array_filter($this->checklist, function($item) use ($what_for) {
 			return isset($item["required_for"]) && in_array($what_for, $item["required_for"]);
 		}), "uid");
@@ -183,6 +190,7 @@ class Installer {
 
 		$bundle = $this->checklist[$key]["bundle"]($version);
 		foreach ($this->getDependencies($test_uid, $bundle) as $dependency) {
+			require_once("common/array_column.php");
 			$dep_key = array_search($dependency, array_column($this->checklist, 'uid'));
 			if ($dep_key === false)
 			{
