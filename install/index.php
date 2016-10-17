@@ -68,10 +68,6 @@ if ($dirname_script_filename !== $dirname_dir || $basename_script_filename !== $
 $INSTALLATION_VERSION = "2.0.0";
 $INSTALLATION_VERSIONS = ["1.9.0", "2.0.0"];
 
-// TODO: if /index.php is calling this all the time, these lines make no sense
-// 			(we shouldn't set these constants for every page).
-const INSTALLATION_IN_PROGRESS = true;
-
 
 function is_installed()
 {

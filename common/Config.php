@@ -70,9 +70,6 @@ class Config {
 	}
 
 	public static function loadTemporaryDBSettings($database_settings) {
-		if (!INSTALLATION_IN_PROGRESS)
-			throw new Exception("This method can only be used during installation.", self::ERR_NOT_INSTALLING);
-
 		if (!isset(self::$module_settings["database"]))
 			self::$module_settings["database"] = [];
 		self::$module_settings["database"] = array_merge(self::$module_settings["database"], $database_settings);
