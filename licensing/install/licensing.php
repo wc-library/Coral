@@ -93,7 +93,8 @@ function register_licensing_provider()
 				 * To add other files that only need to run a sql file, simply
 				 * add other cases. To do more than process a sql file (in the
 				 * format "licensing/install/protected/update_$version.sql"),
-				 * copy this function and add other steps.
+				 * copy this function and add other steps. See the auth module's
+				 * installer for a more detailed comment.
 				 */
 				case "2.0.0":
 				// case "2.0.1":
@@ -110,9 +111,10 @@ function register_licensing_provider()
 						],
 						"function" => function($shared_module_info) use ($MODULE_VARS, $protected_module_data, $version) {
 							$return = new stdClass();
-							$return->yield = new stdClass();
 							$return->success = true;
+							$return->yield = new stdClass();
 							$return->yield->title = _("Licensing Module");
+							$return->yield->messages = [];
 
 							$conf_data = parse_ini_file($protected_module_data["config_file_path"], true);
 

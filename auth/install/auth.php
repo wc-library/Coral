@@ -293,50 +293,74 @@ function register_auth_provider()
 					];
 
 
+				/**
+				 * This code is for when the upgrade requires no changes to the
+				 * database or conf files etc.
+				 */
 				case "2.0.0":
-					/**
-					 * Will update config file and process sql files
-					 */
-					$conf_data = parse_ini_file($protected_module_data["config_file_path"], true);
 					return [
-						"dependencies_array" => [ "db_tools", "have_read_write_access_to_config" ],
-						"sharedInfo" => [
-							"config_file" => [
-								"path" => $protected_module_data["config_file_path"],
-							],
-							"database_name" => $conf_data["database"]["name"]
-						],
-						"function" => function($shared_module_info) use ($MODULE_VARS, $protected_module_data) {
-							// NOTHING NECESSARY FOR THIS UPGRADE
+						"function" => function($shared_module_info) {
 							$return = new stdClass();
 							$return->yield = new stdClass();
 							$return->success = true;
 							$return->yield->title = _("Auth Module");
-							$return->yield->messages = [];
-
-							// $conf_data = parse_ini_file($protected_module_data["config_file_path"], true);
-							//
-							// // Process sql files
-							// $db_name = $conf_data["database"]["name"];
-							// $dbconnection = $shared_module_info["provided"]["get_db_connection"]( $db_name );
-							// $sql_files_to_process = ["auth/install/upgrade_2.0.sql"];
-							// $ret = $shared_module_info["provided"]["process_sql_files"]( $dbconnection, $sql_files_to_process, $MODULE_VARS["uid"] );
-							// if (!$ret["success"])
-							// {
-							// 	$return->success = false;
-							// 	$return->yield->messages = array_merge($return->yield->messages, $ret["messages"]);
-							// 	return $return;
-							// }
-							//
-							// $configFile = $protected_module_data["config_file_path"];
-							// if (empty($conf_data["general"]))
-							// 	$conf_data["general"] = [];
-							// $conf_data["general"]["random"] = "something";
-							// $shared_module_info["provided"]["write_config_file"]($configFile, $conf_data);
-
 							return $return;
 						}
-					];
+				];
+
+				/**
+				 * To process sql files or edit the config file,
+				 * see this function...
+				 */
+				// case "2.0.0":
+				// 	$conf_data = parse_ini_file($protected_module_data["config_file_path"], true);
+				// 	return [
+				// 		"dependencies_array" => [ "db_tools", "have_read_write_access_to_config" ],
+				// 		"sharedInfo" => [
+				// 			"config_file" => [
+				// 				"path" => $protected_module_data["config_file_path"],
+				// 			],
+				// 			"database_name" => $conf_data["database"]["name"]
+				// 		],
+				// 		"function" => function($shared_module_info) use ($MODULE_VARS, $protected_module_data) {
+				// 			// Standard setup of a return variable:
+				// 			$return = new stdClass();
+				// 			$return->yield = new stdClass();
+				// 			$return->success = true;
+				// 			$return->yield->title = _("Auth Module");
+				// 			$return->yield->messages = [];
+				//
+				// 			// We can read in the current conf file like this:
+				// 			$conf_data = parse_ini_file($protected_module_data["config_file_path"], true);
+				//
+				// 			// PROCESS SQL FILES
+				// 			// Note the "db_tools" dependency above - it ensure we have the "provided" methods below...
+				// 			$db_name = $conf_data["database"]["name"];
+				// 			$dbconnection = $shared_module_info["provided"]["get_db_connection"]( $db_name );
+				// 			$sql_files_to_process = ["path/to/sql_file.sql"]; // Note that this should be in an array
+				// 			$ret = $shared_module_info["provided"]["process_sql_files"]($dbconnection, $sql_files_to_process, $MODULE_VARS["uid"]);
+				// 			// Handle failure to process sql files
+				// 			if (!$ret["success"])
+				// 			{
+				// 				$return->success = false;
+				// 				$return->yield->messages = array_merge($return->yield->messages, $ret["messages"]);
+				// 				return $return;
+				// 			}
+				//
+				// 			// EDIT CONF FILE
+				// 			// Note the "have_read_write_access_to_config" dependency above - it ensure we have the "provided" method below...
+				// 			$configFile = $protected_module_data["config_file_path"];
+				// 			// Make sure the parent category exists
+				// 			if (empty($conf_data["general"]))
+				// 				$conf_data["general"] = [];
+				// 			// Populate the variable with a value
+				// 			// Warning: do not set $conf_data["general"] = ["random" => "something"] or you will lose other variables. Rather:
+				// 			$conf_data["general"]["random"] = "something";
+				// 			$shared_module_info["provided"]["write_config_file"]($configFile, $conf_data);
+				//
+				// 			return $return;
+				// 		}
+				// 	];
 
 
 				default:

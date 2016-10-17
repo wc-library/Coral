@@ -85,15 +85,13 @@ function register_organizations_provider()
 						}
 					];
 
-
-				case "2.0.1":
-					/**
-					 * Will update config file and process sql files
-					 */
+				case "2.0.0":
 					return [
-						"function" => function($shared_module_info) use ($MODULE_VARS, $protected_module_data) {
+						"function" => function($shared_module_info) {
 							$return = new stdClass();
 							$return->success = true;
+							$return->yield = new stdClass();
+							$return->yield->title = _("Organizations Module");
 							return $return;
 						}
 					];
