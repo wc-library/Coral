@@ -1,18 +1,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: messages\n"
-"POT-Creation-Date: 2016-10-04 10:51-0600\n"
-"PO-Revision-Date: 2016-10-04 10:52-0600\n"
-"Last-Translator: \n"
-"Language-Team: \n"
+"POT-Creation-Date: 2016-10-04 10:07-0600\n"
+"PO-Revision-Date: 2016-10-16 20:14-0600\n"
+"Last-Translator: <>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.9\n"
-"X-Poedit-Basepath: ../../..\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Poedit-Basepath: ../../..\n"
 "X-Poedit-SourceCharset: UTF-8\n"
+"X-Generator: Poedit 1.8.10\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: js/admin.js:106 js/admin.js:232 js/admin.js:257 js/admin.js:283
@@ -22,7 +22,7 @@ msgstr "Traitement en cours..."
 
 #: js/admin.js:135
 msgid "That "
-msgstr "Ceci "
+msgstr "Ce "
 
 #: js/admin.js:135
 msgid " is already in use."
@@ -184,11 +184,11 @@ msgstr "Voulez-vous vraiment supprimer ce document ?"
 
 #: js/license.js:276
 msgid "record"
-msgstr ""
+msgstr "notice"
 
 #: js/license.js:278
 msgid "records"
-msgstr ""
+msgstr "notices"
 
 #: js/license.js:311
 msgid "Do you really want to archive this document?"
@@ -227,7 +227,7 @@ msgstr ""
 
 #: js/license.js:450 js/license.js:480
 msgid "File name is already being used."
-msgstr "Ce nom de fichier est déjà utilisé."
+msgstr "Ce nom de fichier est utilisé"
 
 #: js/plugins/date.js:30
 msgid "Sunday"
@@ -407,11 +407,11 @@ msgstr "Administration"
 
 #: admin.php:35
 msgid "Users"
-msgstr "Utilisateurs"
+msgstr "Utilisateurs/usagers"
 
 #: admin.php:36
 msgid "add new user"
-msgstr "Ajouter un nouvel utilisateur"
+msgstr "Ajouter utilisateur"
 
 #: admin.php:39 admin.php:53 admin.php:67 admin.php:155 in_progress.php:38
 #: license.php:68 license.php:93 license.php:112 license.php:131
@@ -537,7 +537,7 @@ msgstr "Valider"
 #: ajax_forms.php:983 ajax_forms.php:1065 ajax_forms.php:1200
 #: ajax_forms.php:1246 ajax_forms.php:1302
 msgid "cancel"
-msgstr "Annuler"
+msgstr "annuler"
 
 #: ajax_forms.php:304
 msgid "Document Upload"
@@ -674,7 +674,7 @@ msgstr "mettre à jour"
 
 #: ajax_forms.php:1107
 msgid "close"
-msgstr "Fermer"
+msgstr "fermer"
 
 #: ajax_forms.php:1139 ajax_forms.php:1222 ajax_forms.php:1267
 msgid "Add New"
@@ -682,7 +682,7 @@ msgstr "Ajouter"
 
 #: ajax_forms.php:1147
 msgid "User"
-msgstr "Utilisateur"
+msgstr "Utilisateur/usager"
 
 #: ajax_forms.php:1148 ajax_htmldata.php:1356
 msgid "Login ID"
@@ -853,7 +853,7 @@ msgstr "Affichage de "
 
 #: ajax_htmldata.php:425
 msgid " to "
-msgstr " sur "
+msgstr " de "
 
 #: ajax_htmldata.php:425
 msgid " of "
@@ -1249,19 +1249,19 @@ msgstr ""
 
 #: templates/footer.php:33
 msgid "Copyright"
-msgstr ""
+msgstr "Copyright"
 
 #: templates/footer.php:33
 msgid "Management Module version"
-msgstr ""
+msgstr "Version du Module de Gestion"
 
 #: templates/footer.php:33
 msgid "CORAL Project Website"
-msgstr ""
+msgstr "Site web du Projet CORAL"
 
 #: templates/footer.php:33
 msgid "Report an issue"
-msgstr ""
+msgstr "Signaler un incident"
 
 #: templates/header.php:34
 msgid ""
@@ -1282,7 +1282,7 @@ msgstr ""
 
 #: templates/header.php:84
 msgid "try again"
-msgstr "réessayez à nouveau"
+msgstr "réessayez"
 
 #: templates/header.php:104
 msgid "Management"
@@ -1343,20 +1343,3 @@ msgstr "Statistiques d'utilisation"
 #: terms_report.php:22
 msgid "Terms Report"
 msgstr "Rapport des termes"
-
-#~ msgid " User"
-#~ msgstr " Utilisateur"
-
-#~ msgid " Expression Type"
-#~ msgstr " Type d'expression"
-
-#~ msgid "SQL Insert Failed. "
-#~ msgstr "L'insertion SQL a échoué. "
-
-#~ msgid ""
-#~ "Enter email address if you wish this user to receive email notifications "
-#~ "when the terms tool box is checked on the Expressions tab.<br /><br />"
-#~ msgstr ""
-#~ "Entrez une adresse email si vous voulez que cet utilisateur reçoive des "
-#~ "notifications par email lorsque la boîte d'outils des termes est activée "
-#~ "dans l'onglet Expressions.<br /><br />"
