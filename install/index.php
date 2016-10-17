@@ -67,6 +67,7 @@ if ($dirname_script_filename !== $dirname_dir || $basename_script_filename !== $
  */
 $INSTALLATION_VERSION = "2.0.0";
 $INSTALLATION_VERSIONS = ["1.9.0", "2.0.0"];
+$UPDATE_AVAILABLE = false;
 
 
 function is_installed()
@@ -181,34 +182,45 @@ function do_upgrade($version)
 	 * It depends on everything needed for that thing...
 	 *
 	 */
-
-	// global $INSTALLATION_VERSION;
-	global $INSTALLATION_VERSIONS;
-	$current_version_index = array_search($version, $INSTALLATION_VERSIONS);
-	for ($version_to_install_index = $current_version_index + 1; $version_to_install_index < count($INSTALLATION_VERSIONS); $version_to_install_index++)
+	if (empty($_SESSION["actually_do_upgrade"]) && empty($_POST["actually_do_upgrade"]))
 	{
-		run_loop($INSTALLATION_VERSIONS[$version_to_install_index]);
+		global $UPDATE_AVAILABLE;
+		$UPDATE_AVAILABLE = <<<EOF
+			<a href="#" id="do_upgrade_button">Update available: click to upgrade</a>
+			<form method="post" action="#" id="actually_do_upgrade_form">
+				<input type="hidden" name="actually_do_upgrade" value="1" />
+			</form>
+			<script>
+				document.getElementById("do_upgrade_button").onclick = function(e){
+					document.getElementById("actually_do_upgrade_form").submit();
+					e.preventDefault();
+					return false;
+				}
+			</script>
+EOF;
+	}
+	else
+	{
+		if (empty($_SESSION["actually_do_upgrade"]))
+			$_SESSION["actually_do_upgrade"] = $_POST["actually_do_upgrade"];
+
+		global $INSTALLATION_VERSIONS;
+		$current_version_index = array_search($version, $INSTALLATION_VERSIONS);
+		for ($version_to_install_index = $current_version_index + 1; $version_to_install_index < count($INSTALLATION_VERSIONS); $version_to_install_index++)
+		{
+			run_loop($INSTALLATION_VERSIONS[$version_to_install_index]);
+		}
 	}
 }
 
-/**
- * somehow we are ending up with $version set to the installed version but unable to figure out where to go from there...
- */
-$version = is_installed();
-if ($version !== $INSTALLATION_VERSION || (isset($_SESSION["installer_post_installation"]) && $_SESSION["installer_post_installation"]))
-{
-	if (!isset($_POST["installing"]))
-	{
-		require_once "templates/install_page_template.php";
-		draw_install_page_template();
-		exit();
-	}
 
+$CURRENT_VERSION = is_installed();
+if ($CURRENT_VERSION !== $INSTALLATION_VERSION || (isset($_SESSION["installer_post_installation"]) && $_SESSION["installer_post_installation"]))
+{
 	require_once "test_results_yielder.php";
-	if (!$version || (isset($_SESSION["installer_post_installation"]) && $_SESSION["installer_post_installation"]))
+	if (!$CURRENT_VERSION || (isset($_SESSION["installer_post_installation"]) && $_SESSION["installer_post_installation"]))
 	{
 		do_install();
-		exit();
 	}
 	else
 	{
@@ -221,14 +233,13 @@ if ($version !== $INSTALLATION_VERSION || (isset($_SESSION["installer_post_insta
 			$return->messages[] = _("Version of Installer does not match the last installation version in INSTALLATION_VERSIONS.");
 			yield_test_results_and_exit($return, [], 0);
 		}
-		elseif (!in_array($version, $INSTALLATION_VERSIONS))
+		elseif (!in_array($CURRENT_VERSION, $INSTALLATION_VERSIONS))
 		{
 			$return->messages[] = "<b>" . _("An error has occurred:") . "</b><br />" . _("Sorry but the installer has been incorrectly configured. Please contact the developer.");
 			$return->messages[] = _("The version currently installed is not a recognised version.");
 			yield_test_results_and_exit($return, [], 0);
 		}
-		do_upgrade($version);
-		exit();
+		do_upgrade($CURRENT_VERSION);
 	}
 }
 
