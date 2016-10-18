@@ -91,7 +91,7 @@ function is_installed()
 
 function run_loop($version)
 {
-	make_sure_template_is_drawn();
+	$_SESSION["run_loop_version"] = $version;
 	require_once "installer.php";
 	switch ($version) {
 		case Installer::VERSION_STRING_INSTALL:
@@ -146,6 +146,19 @@ function run_loop($version)
 	// Success!
 	$return = new stdClass();
 	$return->show_completion = true;
+	$return->completion_title = _("Congratulations");
+	$return->redirection_message = _("Redirecting Home: ");
+	switch ($version) {
+		case Installer::VERSION_STRING_INSTALL:
+			$return->completion_message = _("Installation has been successfully completed.");
+			break;
+		case Installer::VERSION_STRING_MODIFY:
+			$return->completion_message = _("Installation modification has been successfully completed.");
+			break;
+		default:
+			$return->completion_message = _("Upgrade has been successfully completed.");
+			break;
+	}
 	session_unset();
 	yield_test_results_and_exit($return, $completed_tests, 100/100);
 }
@@ -166,45 +179,27 @@ function do_install()
 
 function do_upgrade($version)
 {
-	if (empty($_SESSION["actually_do_upgrade"]) && empty($_POST["actually_do_upgrade"]))
-	{
-		global $UPDATE_AVAILABLE;
-		$UPDATE_AVAILABLE = <<<EOF
-			<a href="#" id="do_upgrade_button">Update available: click to upgrade</a>
-			<form method="post" action="#" id="actually_do_upgrade_form">
-				<input type="hidden" name="actually_do_upgrade" value="1" />
-			</form>
-			<script>
-				document.getElementById("do_upgrade_button").onclick = function(e){
-					document.getElementById("actually_do_upgrade_form").submit();
-					e.preventDefault();
-					return false;
-				}
-			</script>
-EOF;
-	}
-	else
-	{
-		if (empty($_SESSION["actually_do_upgrade"]))
-			$_SESSION["actually_do_upgrade"] = $_POST["actually_do_upgrade"];
-
-		global $INSTALLATION_VERSIONS;
-		$current_version_index = array_search($version, $INSTALLATION_VERSIONS);
-		for ($version_to_install_index = $current_version_index + 1; $version_to_install_index < count($INSTALLATION_VERSIONS); $version_to_install_index++)
-		{
-			run_loop($INSTALLATION_VERSIONS[$version_to_install_index]);
-		}
-	}
+	global $INSTALLATION_VERSIONS;
+	$current_version_index = array_search($version, $INSTALLATION_VERSIONS);
+	run_loop($INSTALLATION_VERSIONS[++$current_version_index]);
 }
 
 
 $CURRENT_VERSION = is_installed();
-if ($CURRENT_VERSION !== $INSTALLATION_VERSION || (isset($_SESSION["installer_post_installation"]) && $_SESSION["installer_post_installation"]))
+if ($CURRENT_VERSION !== $INSTALLATION_VERSION || !empty($_SESSION["run_loop_version"]))
 {
 	require_once "test_results_yielder.php";
-	if (!$CURRENT_VERSION || (isset($_SESSION["installer_post_installation"]) && $_SESSION["installer_post_installation"]))
+	if (!empty($_SESSION["run_loop_version"]))
 	{
+		make_sure_template_is_drawn();
+		run_loop($_SESSION["run_loop_version"]);
+		exit();
+	}
+	elseif (!$CURRENT_VERSION)
+	{
+		make_sure_template_is_drawn();
 		do_install();
+		exit();
 	}
 	else
 	{
@@ -225,7 +220,36 @@ if ($CURRENT_VERSION !== $INSTALLATION_VERSION || (isset($_SESSION["installer_po
 			$return->messages[] = _("The version currently installed is not a recognised version.");
 			yield_test_results_and_exit($return, [], 0);
 		}
-		do_upgrade($CURRENT_VERSION);
+
+		// Do upgrade (or show upgrade button)
+		if (empty($_SESSION["actually_do_upgrade"]) && empty($_POST["actually_do_upgrade"]))
+		{
+			global $UPDATE_AVAILABLE;
+			$UPDATE_AVAILABLE = <<<EOF
+				<a href="#" id="do_upgrade_button">Update available: click to upgrade</a>
+				<form method="post" action="#" id="actually_do_upgrade_form">
+					<input type="hidden" name="actually_do_upgrade" value="1" />
+				</form>
+				<script>
+					document.getElementById("do_upgrade_button").onclick = function(e){
+						document.getElementById("actually_do_upgrade_form").submit();
+						e.preventDefault();
+						return false;
+					}
+				</script>
+EOF;
+			// Fall through to index.html so:
+			// 1. don't make_sure_template_is_drawn();
+			// 2. don't exit();
+		}
+		else
+		{
+			if (empty($_SESSION["actually_do_upgrade"]))
+				$_SESSION["actually_do_upgrade"] = $_POST["actually_do_upgrade"];
+			make_sure_template_is_drawn();
+			do_upgrade($CURRENT_VERSION);
+			exit();
+		}
 	}
 }
 
