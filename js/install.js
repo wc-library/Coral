@@ -64,6 +64,9 @@ function submit_install_step(dataToSubmit)
 					$(".installation_stuff").hide();
 					var countdown = 10;
 					$(".redirection .countdown").text(countdown);
+					$(".completion_title").text(data.completion_title);
+					$(".completion_message").text(data.completion_message);
+					$(".redirection_message").text(data.redirection_message);
 					var $holder = $(".completed_test_holder");
 					data.completed_tests.forEach(function(test){
 						$holder.append($("<li>").addClass("completed_test").text(test));

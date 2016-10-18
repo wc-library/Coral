@@ -29,9 +29,6 @@ function register_upgrade_helper_provider()
 					$return->yield->messages = [];
 					$return->yield->title = _("Incremental Upgrade: ") . $version;
 
-					// TODO: Figure out way of telling user that upgrade should be run
-					// TODO: Figure out way of telling user upgrade is complete!
-
 					require_once "common/Config.php";
 					$confData = parse_ini_file(Config::CONFIG_FILE_PATH, 1);
 					$confData["installation_details"]["version"] = $version;
