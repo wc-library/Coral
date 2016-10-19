@@ -1,5 +1,5 @@
 Book Report 2 (R4)	Number of Successful Section Requests by Month and Title													
-WHEATON COLLEGE	Section Type:													
+GENERIC UNIVERSITY	Section Type:													
 	Book Chapter													
 Period covered by Report:														
 2014-01-01 to 2014-07-31														
