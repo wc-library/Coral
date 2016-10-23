@@ -1,22 +1,20 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: messages\n"
-"POT-Creation-Date: 2016-10-04 10:07-0600\n"
-"PO-Revision-Date: 2016-10-04 10:07-0600\n"
+"POT-Creation-Date: 2016-10-04 10:07-06:00\n"
+"PO-Revision-Date: 2016-10-23 00:09-0600\n"
 "Last-Translator: <>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
-"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Poedit-Basepath: ../../..\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.8.9\n"
+"X-Generator: Poedit 1.8.11\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: js/admin.js:106 js/admin.js:232 js/admin.js:257 js/admin.js:283
-#: js/admin.js:310 js/index.js:43
+#: js/admin.js:106 js/admin.js:232 js/admin.js:257 js/admin.js:283 js/admin.js:310 js/index.js:43
 msgid "Processing..."
 msgstr "正在处理..."
 
@@ -34,24 +32,18 @@ msgstr "您确认要删除此数据吗？"
 
 #: js/admin.js:255
 msgid "Do you really want to delete this user?"
-msgstr "您确认要删除此用户吗？"
+msgstr "开始字母您确认要删除此用户吗？"
 
 #: js/admin.js:281
-msgid ""
-"Do you really want to delete this expression type?  Any associated "
-"Qualifiers will be deleted as well."
+msgid "Do you really want to delete this expression type?  Any associated Qualifiers will be deleted as well."
 msgstr "您真的想要删除此表达式类型吗？任何关联的限定符也将被删除。"
 
-#: js/admin.js:332 js/forms/documentForm.js:189 js/forms/expressionForm.js:78
-#: js/forms/licenseForm.js:196 js/forms/licenseForm.js:234
-#: js/forms/licenseForm.js:270 js/forms/licenseForm.js:306
-#: js/forms/noteForm.js:37 js/forms/signatureForm.js:104 ajax_forms.php:634
-#: ajax_forms.php:896
+#: js/admin.js:332 js/forms/documentForm.js:189 js/forms/expressionForm.js:78 js/forms/licenseForm.js:196 js/forms/licenseForm.js:234 js/forms/licenseForm.js:270 js/forms/licenseForm.js:306 js/forms/noteForm.js:37
+#: js/forms/signatureForm.js:104 ajax_forms.php:634 ajax_forms.php:896
 msgid "add"
 msgstr "添加"
 
-#: js/forms/attachmentForm.js:41 js/forms/attachmentForm.js:54
-#: js/forms/documentForm.js:102 js/forms/licenseForm.js:358
+#: js/forms/attachmentForm.js:41 js/forms/attachmentForm.js:54 js/forms/documentForm.js:102 js/forms/licenseForm.js:358
 msgid "File name is already being used..."
 msgstr "文件名称已正被使用..."
 
@@ -59,16 +51,12 @@ msgstr "文件名称已正被使用..."
 msgid "The attachments directory is not writable."
 msgstr "该附件目录不可写。"
 
-#: js/forms/attachmentForm.js:84 js/forms/documentForm.js:134
-#: js/forms/licenseForm.js:390 js/license.js:482
+#: js/forms/attachmentForm.js:84 js/forms/documentForm.js:134 js/forms/licenseForm.js:390 js/license.js:482
 msgid " successfully uploaded."
 msgstr "成功上载。"
 
-#: js/forms/attachmentForm.js:84 ajax_forms.php:612 ajax_forms.php:881
-#: ajax_forms.php:966 ajax_htmldata.php:48 ajax_htmldata.php:157
-#: ajax_htmldata.php:236 ajax_htmldata.php:319 ajax_htmldata.php:1258
-#: ajax_htmldata.php:1329 ajax_htmldata.php:1383 ajax_htmldata.php:1424
-#: ajax_htmldata.php:1467
+#: js/forms/attachmentForm.js:84 ajax_forms.php:612 ajax_forms.php:881 ajax_forms.php:966 ajax_htmldata.php:48 ajax_htmldata.php:157 ajax_htmldata.php:236 ajax_htmldata.php:319 ajax_htmldata.php:1258
+#: ajax_htmldata.php:1329 ajax_htmldata.php:1383 ajax_htmldata.php:1424 ajax_htmldata.php:1467
 msgid "remove"
 msgstr "移除"
 
@@ -81,9 +69,7 @@ msgid "This name is already being used!"
 msgstr "该名称已被使用！"
 
 #: js/forms/documentForm.js:106 js/forms/licenseForm.js:362
-msgid ""
-"File name may not contain special characters - ampersand, single quote, "
-"double quote or less than/greater than characters"
+msgid "File name may not contain special characters - ampersand, single quote, double quote or less than/greater than characters"
 msgstr "文件名称不能包括特殊字符——&、单引号、双引号或大于号、小于号等字符。"
 
 #: js/forms/documentForm.js:110 js/forms/licenseForm.js:366
@@ -92,11 +78,11 @@ msgstr "该文档目录不可写。"
 
 #: js/forms/documentForm.js:177
 msgid "Document Type is required."
-msgstr "文档类型是必填。"
+msgstr "“文档类型”是必需的。"
 
 #: js/forms/documentForm.js:178
 msgid "Short Name is required."
-msgstr "短名称是必填。"
+msgstr "“短名称”是必需的。"
 
 #: js/forms/documentForm.js:216 js/forms/licenseForm.js:260
 msgid "DocumentType has been added"
@@ -116,11 +102,11 @@ msgstr "警告！该组织将被添加为新组织。"
 
 #: js/forms/licenseForm.js:222
 msgid "Category has been added"
-msgstr "已添加类别"
+msgstr "类别已被添加"
 
 #: js/forms/licenseForm.js:225
 msgid "That Category is already in use."
-msgstr "该类别已在使用。"
+msgstr "该“类别”已在使用。"
 
 #: js/forms/licenseForm.js:295 js/forms/noteForm.js:62
 msgid "Note Type has been added"
@@ -128,15 +114,15 @@ msgstr "已添加注释类型"
 
 #: js/forms/licenseForm.js:298 js/forms/noteForm.js:65
 msgid "That Note Type is already in use."
-msgstr "该注释类型已在使用。"
+msgstr "该“注释类型”已在使用。"
 
 #: js/forms/licenseForm.js:322
 msgid "Document Name is required."
-msgstr "文档名称为必填。"
+msgstr "“文档名称”为必填。"
 
 #: js/forms/licenseForm.js:323
 msgid "A Category is required."
-msgstr "一个类别为必填。"
+msgstr "一个“类别”为必填。"
 
 #: js/forms/licenseForm.js:326
 msgid "Edit"
@@ -144,7 +130,7 @@ msgstr "编辑"
 
 #: js/forms/licenseForm.js:327
 msgid "successfully uploaded"
-msgstr "成功上载"
+msgstr "已成功上载"
 
 #: js/forms/licenseForm.js:330
 msgid "File is required"
@@ -180,33 +166,26 @@ msgstr "您确认要删除此文档吗？"
 
 #: js/license.js:276
 msgid "record"
-msgstr ""
+msgstr "记录"
 
 #: js/license.js:278
 msgid "records"
-msgstr ""
+msgstr "记录"
 
 #: js/license.js:311
 msgid "Do you really want to archive this document?"
 msgstr "您确认要将该文档存档吗？"
 
 #: js/license.js:336
-msgid ""
-"There was a problem with deleting the document.  You may not delete a "
-"document if there are associated expressions.  Remove all expressions and "
-"try again."
-msgstr ""
-"删除文档时出现问题。您不能删除一个与表达式相关联的文档。移除所有关联的表达"
-"式，然后重试。"
+msgid "There was a problem with deleting the document.  You may not delete a document if there are associated expressions.  Remove all expressions and try again."
+msgstr "删除文档时出现问题。您不能删除一个与表达式相关联的文档。移除所有关联的表达式，然后重试。"
 
 #: js/license.js:350
 msgid "Do you really want to delete this expression?"
 msgstr "您确认要删除此表达式吗？"
 
 #: js/license.js:365
-msgid ""
-"Do you really want to delete this attachment?  This will also delete all "
-"attached files."
+msgid "Do you really want to delete this attachment?  This will also delete all attached files."
 msgstr "您确认要删除该附件吗？该操作也会删除所有关联的文件。"
 
 #: js/license.js:381
@@ -405,8 +384,7 @@ msgstr "用户"
 msgid "add new user"
 msgstr "添加新用户"
 
-#: admin.php:39 admin.php:53 admin.php:67 admin.php:155 in_progress.php:38
-#: license.php:68 license.php:93 license.php:112 license.php:131
+#: admin.php:39 admin.php:53 admin.php:67 admin.php:155 in_progress.php:38 license.php:68 license.php:93 license.php:112 license.php:131
 msgid "Loading..."
 msgstr "正在加载..."
 
@@ -416,7 +394,7 @@ msgstr "文档类型"
 
 #: admin.php:50
 msgid "add new document type"
-msgstr "添加新的文档类型"
+msgstr "添加新文档类型"
 
 #: admin.php:63
 msgid "Note Types"
@@ -424,7 +402,7 @@ msgstr "注释类型"
 
 #: admin.php:64
 msgid "add new note type"
-msgstr "添加新的注释类型"
+msgstr "添加新注释类型"
 
 #: admin.php:151
 msgid "Categories"
@@ -472,7 +450,7 @@ msgstr "类型："
 
 #: ajax_forms.php:114
 msgid "add type"
-msgstr "停借类型"
+msgstr "添加类型"
 
 #: ajax_forms.php:120 ajax_forms.php:307
 msgid "Last Document Revision:"
@@ -483,13 +461,8 @@ msgid "Categories:"
 msgstr "类别："
 
 #: ajax_forms.php:163 ajax_htmldata.php:591 index.php:95
-msgid ""
-"There was an error processing this request - please verify configuration.ini "
-"is set up for organizations correctly and the database and tables have been "
-"created."
-msgstr ""
-"处理该请求时出错——请验证为组织正确配置了 configuration.ini，并创建了数据库和"
-"表格。"
+msgid "There was an error processing this request - please verify configuration.ini is set up for organizations correctly and the database and tables have been created."
+msgstr "处理该请求时出错——请验证为组织正确配置了 configuration.ini，并创建了数据库和表格。"
 
 #: ajax_forms.php:175
 msgid "add category"
@@ -509,7 +482,7 @@ msgstr "添加可选的注释"
 
 #: ajax_forms.php:221 ajax_forms.php:1021
 msgid "Note:"
-msgstr "注释："
+msgstr "注意："
 
 #: ajax_forms.php:226 ajax_forms.php:1025
 msgid "Note Type:"
@@ -519,14 +492,11 @@ msgstr "注释类型："
 msgid "add note type"
 msgstr "添加注释类型"
 
-#: ajax_forms.php:252 ajax_forms.php:425 ajax_forms.php:523 ajax_forms.php:793
-#: ajax_forms.php:982 ajax_forms.php:1064
+#: ajax_forms.php:252 ajax_forms.php:425 ajax_forms.php:523 ajax_forms.php:793 ajax_forms.php:982 ajax_forms.php:1064
 msgid "submit"
 msgstr "提交"
 
-#: ajax_forms.php:253 ajax_forms.php:426 ajax_forms.php:524 ajax_forms.php:794
-#: ajax_forms.php:983 ajax_forms.php:1065 ajax_forms.php:1200
-#: ajax_forms.php:1246 ajax_forms.php:1302
+#: ajax_forms.php:253 ajax_forms.php:426 ajax_forms.php:524 ajax_forms.php:794 ajax_forms.php:983 ajax_forms.php:1065 ajax_forms.php:1200 ajax_forms.php:1246 ajax_forms.php:1302
 msgid "cancel"
 msgstr "取消"
 
@@ -554,8 +524,7 @@ msgstr "存档文档日期"
 msgid "Archive Date:"
 msgstr "存档日期："
 
-#: ajax_forms.php:460 ajax_processing.php:561 ajax_processing.php:573
-#: ajax_processing.php:586
+#: ajax_forms.php:460 ajax_processing.php:561 ajax_processing.php:573 ajax_processing.php:586
 msgid "Continue"
 msgstr "继续"
 
@@ -583,9 +552,7 @@ msgstr "签名人姓名"
 msgid "Date"
 msgstr "日期"
 
-#: ajax_forms.php:563 ajax_htmldata.php:480 ajax_htmldata.php:866
-#: ajax_htmldata.php:871 ajax_htmldata.php:1002 ajax_htmldata.php:1007
-#: ajax_htmldata.php:1191
+#: ajax_forms.php:563 ajax_htmldata.php:480 ajax_htmldata.php:866 ajax_htmldata.php:871 ajax_htmldata.php:1002 ajax_htmldata.php:1007 ajax_htmldata.php:1191
 msgid "Type"
 msgstr "类型"
 
@@ -593,9 +560,7 @@ msgstr "类型"
 msgid "commit update"
 msgstr "提交更新"
 
-#: ajax_forms.php:611 ajax_forms.php:880 ajax_htmldata.php:48
-#: ajax_htmldata.php:156 ajax_htmldata.php:236 ajax_htmldata.php:319
-#: ajax_htmldata.php:1258 ajax_htmldata.php:1328
+#: ajax_forms.php:611 ajax_forms.php:880 ajax_htmldata.php:48 ajax_htmldata.php:156 ajax_htmldata.php:236 ajax_htmldata.php:319 ajax_htmldata.php:1258 ajax_htmldata.php:1328
 msgid "edit"
 msgstr "编辑"
 
@@ -623,17 +588,15 @@ msgstr "限定符："
 msgid "Document Text:"
 msgstr "文档文本："
 
-#: ajax_forms.php:827 ajax_forms.php:837 ajax_forms.php:1018
-#: ajax_htmldata.php:186
+#: ajax_forms.php:827 ajax_forms.php:837 ajax_forms.php:1018 ajax_htmldata.php:186
 msgid "Notes"
-msgstr "注释"
+msgstr "備註"
 
 #: ajax_forms.php:828
 msgid "For Document Text:"
 msgstr "文档文本："
 
-#: ajax_forms.php:942 license.php:64 license.php:89 license.php:108
-#: license.php:127
+#: ajax_forms.php:942 license.php:64 license.php:89 license.php:108 license.php:127
 msgid "Attachments"
 msgstr "附件"
 
@@ -653,13 +616,11 @@ msgstr "附件："
 msgid "All Documents"
 msgstr "所有文档"
 
-#: ajax_forms.php:1093 ajax_forms.php:1136 ajax_forms.php:1219
-#: ajax_forms.php:1264
+#: ajax_forms.php:1093 ajax_forms.php:1136 ajax_forms.php:1219 ajax_forms.php:1264
 msgid "Update"
 msgstr "更新"
 
-#: ajax_forms.php:1102 ajax_htmldata.php:1382 ajax_htmldata.php:1423
-#: ajax_htmldata.php:1466
+#: ajax_forms.php:1102 ajax_htmldata.php:1382 ajax_htmldata.php:1423 ajax_htmldata.php:1466
 msgid "update"
 msgstr "更新"
 
@@ -669,7 +630,7 @@ msgstr "关闭"
 
 #: ajax_forms.php:1139 ajax_forms.php:1222 ajax_forms.php:1267
 msgid "Add New"
-msgstr "添加新的"
+msgstr "新增"
 
 #: ajax_forms.php:1147
 msgid "User"
@@ -697,24 +658,19 @@ msgstr "添加/编辑用户可以添加、编辑或移除授权和关联的字�
 
 #: ajax_forms.php:1154 ajax_forms.php:1157
 msgid "Admin users have access to the Admin page and the SFX tab."
-msgstr "管理员用户可以访问管理页面和 SFX 选项卡。"
+msgstr "管理员用户可以访问“管理”页面和 SFX 选项卡。"
 
 #: ajax_forms.php:1154 ajax_forms.php:1157
-msgid ""
-"View only users can view all license information, including the license pdf"
-msgstr "仅可查看用户可以查看所有的授权信息，包括授权 PDF 术语工具电子邮件"
+msgid "View only users can view all license information, including the license pdf"
+msgstr "仅可查看用户可以查看所有的授权信息，包括授权 PDF"
 
 #: ajax_forms.php:1186
 msgid "Terms Tool Email"
 msgstr "术语工具电子邮件"
 
 #: ajax_forms.php:1189
-msgid ""
-"Enter email address if you wish this user to receive email notifications "
-"when the terms tool box is checked on the Expressions tab."
-msgstr ""
-"如果您希望该用户在“表达式”选项卡上勾选了条款工具框时可以接收电子邮件通知，则"
-"请输入电子邮件地址。"
+msgid "Enter email address if you wish this user to receive email notifications when the terms tool box is checked on the Expressions tab."
+msgstr "如果您希望该用户在“表达式”选项卡上勾选了条款工具框时可以接收电子邮件通知，则请输入电子邮件地址。"
 
 #: ajax_forms.php:1189
 msgid "Leave this field blank if the user shouldn't receive emails."
@@ -748,8 +704,7 @@ msgstr "限定符"
 msgid "For Expression Type"
 msgstr "表达式类型"
 
-#: ajax_forms.php:1298 ajax_htmldata.php:1194 ajax_htmldata.php:1454
-#: index.php:213
+#: ajax_forms.php:1298 ajax_htmldata.php:1194 ajax_htmldata.php:1454 index.php:213
 msgid "Qualifier"
 msgstr "限定符"
 
@@ -785,9 +740,7 @@ msgstr "文档："
 msgid "Resource"
 msgstr "资源"
 
-#: ajax_htmldata.php:170 ajax_htmldata.php:247 ajax_htmldata.php:330
-#: ajax_htmldata.php:1071 ajax_htmldata.php:1128 ajax_htmldata.php:1304
-#: ajax_htmldata.php:1338 ajax_htmldata.php:1392 ajax_htmldata.php:1433
+#: ajax_htmldata.php:170 ajax_htmldata.php:247 ajax_htmldata.php:330 ajax_htmldata.php:1071 ajax_htmldata.php:1128 ajax_htmldata.php:1304 ajax_htmldata.php:1338 ajax_htmldata.php:1392 ajax_htmldata.php:1433
 msgid "(none found)"
 msgstr "(未找到)"
 
@@ -851,8 +804,7 @@ msgstr "条记录"
 msgid "Category"
 msgstr "类别"
 
-#: ajax_htmldata.php:478 ajax_htmldata.php:558 ajax_htmldata.php:865
-#: ajax_htmldata.php:870 ajax_htmldata.php:1001 ajax_htmldata.php:1006
+#: ajax_htmldata.php:478 ajax_htmldata.php:558 ajax_htmldata.php:865 ajax_htmldata.php:870 ajax_htmldata.php:1001 ajax_htmldata.php:1006
 msgid "Name"
 msgstr "名称"
 
@@ -888,8 +840,7 @@ msgstr "查看/编辑"
 msgid " notes"
 msgstr "注释"
 
-#: ajax_htmldata.php:630 ajax_htmldata.php:632 ajax_htmldata.php:964
-#: ajax_htmldata.php:1082
+#: ajax_htmldata.php:630 ajax_htmldata.php:632 ajax_htmldata.php:964 ajax_htmldata.php:1082
 msgid "view document"
 msgstr "查看文档"
 
@@ -935,7 +886,7 @@ msgstr "已存档文档"
 
 #: ajax_htmldata.php:837
 msgid "hide archives"
-msgstr "隐藏档案"
+msgstr "隐藏存档"
 
 #: ajax_htmldata.php:914 ajax_htmldata.php:1034
 msgid "archived on: "
@@ -965,13 +916,11 @@ msgstr "未显示的子文档。"
 msgid "show all documents for this parent"
 msgstr "为父级显示所有文档"
 
-#: ajax_htmldata.php:993 ajax_htmldata.php:995 ajax_htmldata.php:1103
-#: ajax_htmldata.php:1105
+#: ajax_htmldata.php:993 ajax_htmldata.php:995 ajax_htmldata.php:1103 ajax_htmldata.php:1105
 msgid "The following "
 msgstr "如下"
 
-#: ajax_htmldata.php:993 ajax_htmldata.php:995 ajax_htmldata.php:1103
-#: ajax_htmldata.php:1105
+#: ajax_htmldata.php:993 ajax_htmldata.php:995 ajax_htmldata.php:1103 ajax_htmldata.php:1105
 msgid " document(s) belong to "
 msgstr "文档属于"
 
@@ -1005,7 +954,7 @@ msgstr "个有效档案。"
 
 #: ajax_htmldata.php:1132
 msgid "show archives"
-msgstr "显示档案"
+msgstr "显示存档"
 
 #: ajax_htmldata.php:1141
 msgid "upload new document"
@@ -1033,7 +982,7 @@ msgstr "添加/查看"
 
 #: ajax_htmldata.php:1308
 msgid "add new expression"
-msgstr "添加新的表达式"
+msgstr "添加新表达式"
 
 #: ajax_htmldata.php:1363
 msgid "Terms Tool Update Email"
@@ -1068,8 +1017,7 @@ msgid "Expression Removed Successfully."
 msgstr "已成功移除表达式。"
 
 #: ajax_processing.php:340
-msgid ""
-"An expression in the licensing module has been approved for terms tool use."
+msgid "An expression in the licensing module has been approved for terms tool use."
 msgstr "授权模块中的一个表达式已被批准用于条款工具。"
 
 #: ajax_processing.php:341
@@ -1094,7 +1042,7 @@ msgstr "从条款工具显示移除。"
 
 #: ajax_processing.php:380
 msgid "Expression Note Updated Successfully."
-msgstr "已成功更新表达式注释。"
+msgstr "成功更新表达式注释。"
 
 #: ajax_processing.php:396
 msgid "Expression Note Added Successfully."
@@ -1129,14 +1077,11 @@ msgid "Unable to delete  - this "
 msgstr "无法删除 - 该"
 
 #: ajax_processing.php:911
-msgid ""
-" is in use.  Please make sure no documents are set up with this information."
+msgid " is in use.  Please make sure no documents are set up with this information."
 msgstr "正在使用中。请确保没有使用该信息设置的文档。"
 
 #: ajax_processing.php:917
-msgid ""
-"Unable to delete.  Please make sure no documents are set up with this "
-"information."
+msgid "Unable to delete.  Please make sure no documents are set up with this information."
 msgstr "无法删除。请确保没有使用该信息设置的文档。"
 
 #: ajax_processing.php:1145
@@ -1163,14 +1108,13 @@ msgstr "表达式比较"
 msgid "Limit by Expression Type:"
 msgstr "按表达式类型限制："
 
-#: in_progress.php:23 index.php:23 templates/header.php:210
-#: templates/header.php:233 templates/header.php:249
+#: in_progress.php:23 index.php:23 templates/header.php:210 templates/header.php:233 templates/header.php:249
 msgid "Home"
 msgstr "主页"
 
 #: in_progress.php:33
 msgid "Licenses In Progress"
-msgstr "授权在进行中"
+msgstr "进行中的授权"
 
 #: in_progress.php:33
 msgid "Browse All"
@@ -1182,7 +1126,7 @@ msgstr "检索"
 
 #: index.php:49 index.php:246
 msgid "new search"
-msgstr "新的检索"
+msgstr "新检索"
 
 #: index.php:58
 msgid "Name (contains)"
@@ -1214,7 +1158,7 @@ msgstr "条款工具"
 
 #: not_available.php:21
 msgid "Not Available"
-msgstr "不可用"
+msgstr "无有效复本"
 
 #: not_available.php:29
 msgid "Management Module"
@@ -1226,33 +1170,27 @@ msgstr "请联系您的管理员以访问“管理模块”。"
 
 #: templates/footer.php:33
 msgid "Copyright"
-msgstr ""
+msgstr "版权所有"
 
 #: templates/footer.php:33
 msgid "Management Module version"
-msgstr ""
+msgstr "管理模块版本"
 
 #: templates/footer.php:33
 msgid "CORAL Project Website"
-msgstr ""
+msgstr "CORAL 项目网站"
 
 #: templates/footer.php:33
 msgid "Report an issue"
-msgstr ""
+msgstr "报告问题"
 
 #: templates/header.php:34
-msgid ""
-"Both license name and organization must be filled out.  Please try again."
+msgid "Both license name and organization must be filled out.  Please try again."
 msgstr "必须填写授权名称及组织。请再试一次。"
 
 #: templates/header.php:84
-msgid ""
-"JavaScript must be enabled in order for you to use CORAL. However, it seems "
-"JavaScript is either disabled or not supported by your browser. To use "
-"CORAL, enable JavaScript by changing your browser options, then "
-msgstr ""
-"必须启用 JavaScript 才能使用 CORAL。但是，或者您已禁用 JavaScript，或者您的浏"
-"览器不支持。若要使用 CORAL，则请更改您的浏览器选项以启用 JavaScript，并"
+msgid "JavaScript must be enabled in order for you to use CORAL. However, it seems JavaScript is either disabled or not supported by your browser. To use CORAL, enable JavaScript by changing your browser options, then "
+msgstr "必须启用 JavaScript 才能使用 CORAL。但是，或者您已禁用 JavaScript，或者您的浏览器不支持。若要使用 CORAL，则请更改您的浏览器选项以启用 JavaScript，并"
 
 #: templates/header.php:84
 msgid "try again"
@@ -1268,7 +1206,7 @@ msgstr "技术支持："
 
 #: templates/header.php:111
 msgid "Hello"
-msgstr "你好"
+msgstr "您好"
 
 #: templates/header.php:121
 msgid "logout"
@@ -1288,7 +1226,7 @@ msgstr "新文档"
 
 #: templates/header.php:224
 msgid "Admin"
-msgstr "管理员"
+msgstr "管理"
 
 #: templates/header.php:277
 msgid "Change Module"
@@ -1308,7 +1246,7 @@ msgstr "组织"
 
 #: templates/header.php:295
 msgid "Licensing"
-msgstr "授权许可"
+msgstr "授权"
 
 #: templates/header.php:300
 msgid "Usage Statistics"
