@@ -35,7 +35,7 @@ if ($_POST['submitProposeResourceForm']) {
             <li>Hold location (patron pickup library for item held): <?php echo $_POST['holdLocation']; ?></li>
             <li>Patron hold (patrons' name, email): <?php echo $_POST['patronHold']; ?></li>
             <li>Rip code (serials): <?php echo $_POST['ripCode']; ?></li>
-            <li>Fund: <?php echo $_POST['fund']; ?></li>
+            <li>Fund code: <?php echo $_POST['fund']; ?></li>
             <li>Cost: <?php echo $_POST['cost']; ?></li>
             <?php $formatResponse = Unirest\Request::post($server . "getResourceFormat/" . $_POST['resourceFormatID']); ?>
             <li>Format: <?php echo $formatResponse->body; ?></li>
@@ -122,7 +122,7 @@ if ($_POST['submitProposeResourceForm']) {
 <label for="ripCode">RIP code (serials)</label><input name="ripCode" type="text" /><br />
 </div>
 <div class="pure-control-group">
-<label for="fund">Fund</label><input name="fund" type="text" /><br />
+<label for="fund">Fund code</label><input name="fund" type="text" /><br />
 </div>
 <div class="pure-control-group">
 <label for="cost">Cost</label><input name="cost" type="text" /><br />

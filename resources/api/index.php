@@ -25,6 +25,7 @@ include_once '../admin/classes/domain/Workflow.php';
 include_once '../admin/classes/domain/Step.php';
 include_once '../admin/classes/domain/ResourceStep.php';
 include_once '../admin/classes/domain/UserGroup.php';
+include_once '../admin/classes/domain/Fund.php';
 
 if (!isAllowed()) {
     header('HTTP/1.0 403 Forbidden');
@@ -198,12 +199,31 @@ Flight::route('/proposeResource/', function(){
             $rp->costNote = ''; 
             $rp->invoiceNum = ''; 
             $rp->resourceID = $resourceID;
-            $rp->fundName = Flight::request()->data['fund'];
             $rp->paymentAmount = cost_to_integer(Flight::request()->data['cost']);
             $rp->currencyCode = 'USD';
             $rp->orderTypeID = 2;
+            $rp->priceTaxExcluded = '';
+            $rp->priceTaxIncluded = '';
+            $rp->taxRate = '';
+            $fundCode = Flight::request()->data['fund'];
+			// Check if the fund already exists
+            
+			$fundObj = new Fund();
+			$fundID = $fundObj->getFundIDFromFundCode($fundCode);
+
+			// Add it if not
+			if (!$fundID) {
+               $fundObj->fundID = '';
+			   $fundObj->fundCode = $fundCode;
+			   $fundObj->shortName = $fundCode;
+               $fundObj->archived = null;
+			   $fundObj->save();
+			}
+			// Create the resourcePayment
+			$rp->fundID = $fundID;
             $rp->save();
         }
+        
 
       $resource->enterNewWorkflow();
 
