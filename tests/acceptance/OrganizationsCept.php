@@ -5,6 +5,7 @@ $I->wantTo('Ensure that I can create/delete an organization and see it in the li
 // Organization creation
 $I->amOnPage("/organizations/");
 $I->click("New Organization");
+$I->waitForPageToBeReady();
 $I->fillField("#organizationName", "Test Organization");
 $I->click(".submit-button");
 // We are redirected to the test organization's details page
@@ -21,6 +22,7 @@ $I->click("Test Organization");
 
 // Delete organization
 $I->willAcceptTheNextConfirmBox();
+$I->waitForPageToBeReady();
 $I->click("remove resource"); // button title/name
 $I->waitForText("Organization successfully deleted.", 5); // Ensure that the list has loaded by Ajax.
 $I->dontSee("Test Organization");
@@ -29,4 +31,4 @@ $I->dontSee("Test Organization");
 $I->amOnPage("/organizations/");
 $I->click("New Organization");
 $I->fillField("#organizationName", "abc news"); // Organization added by default
-$I->see("This organization already exists!");
+$I->waitForText("This organization already exists!");
