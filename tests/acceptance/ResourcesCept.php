@@ -18,6 +18,7 @@ $I->click("test resource");
 
 // delete resource
 $I->willAcceptTheNextConfirmBox();
+$I->waitForPageToBeReady(); // Ensure that the modal form loaded
 $I->click("remove resource"); // button title/name
 $I->waitForText("records per page"); // Ensure that the list has loaded by Ajax.
 // So the next check can't do a false positive (classic trap when asserting that
