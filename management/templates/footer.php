@@ -17,17 +17,20 @@
 */
 ?>
 
-<br />
-<div class="footer">&nbsp;</div>
-</div>
+								<!-- footer.php -->
+								<br />
 
-</td>
-</tr>
-</table>
-<br />
-</center>
+							</div>
+						</td>
+					</tr>
+				</table>
+				<br />
+			</center>
 
-</div>
+		</div>
+	</center>
+
+	<div class="footer"><?php echo _("Copyright");?> &copy; 2016. <?php echo _("Management Module version");?> 1.1<br/><a href="http://coral-erm.org/"><?php echo _("CORAL Project Website");?></a> | <a href="https://github.com/Coral-erm/Coral/issues"><?php echo _("Report an issue");?></a></div>
 
 </body>
 </html>

@@ -17,7 +17,6 @@
 **************************************************************************************************************************
 */
 
-session_start();
 include_once 'directory.php';
 
 $util = new Utility();
@@ -25,6 +24,9 @@ $util = new Utility();
 $resourceID = $_GET['resourceID'];
 $resource = new Resource(new NamedArguments(array('primaryKey' => $resourceID)));
 
+//used to get default currency
+		$config = new Configuration();
+		$enhancedCostFlag = ($config->settings->enhancedCostHistory == 'Y') ? 1 : 0;
 
 //if this is a valid resource
 if ($resource->titleText){
@@ -107,8 +109,7 @@ if ($resource->titleText){
 	foreach ($resource->getResourceAuthorizedSites() as $instance) {
 		$authorizedSiteArray[]=$instance->shortName;
 	}
-
-
+                
 	//get payments
 	$sanitizedInstance = array();
 	$instance = new ResourcePayment();
@@ -125,9 +126,14 @@ if ($resource->titleText){
 
 			$orderType = new OrderType(new NamedArguments(array('primaryKey' => $instance->orderTypeID)));
 			$sanitizedInstance['orderType'] = $orderType->shortName;
-
-
-			array_push($paymentArray, $sanitizedInstance);
+                        
+                        $costDetails = new CostDetails(new NamedArguments(array('primaryKey' => $instance->costDetailsID)));
+                        $sanitizedInstance['costDetails'] = $costDetails->shortName;
+                        
+                        $fund=new Fund(new NamedArguments(array('primaryKey' => $instance->fundID)));
+                        $sanitizedInstance['fundName'] = $fund->shortName;
+			
+                        array_push($paymentArray, $sanitizedInstance);
 
 	}
 
@@ -188,14 +194,14 @@ if ($resource->titleText){
 	<title>Resources Module - <?php echo $pageTitle; ?></title>
 	<link rel="stylesheet" href="css/style.css" type="text/css" media="print" />
 	<link rel="stylesheet" href="css/style.css" type="text/css" media="screen" />
-	<link rel="SHORTCUT ICON" href="images/butterflyfishfavicon.ico" />
+	<link rel="SHORTCUT ICON" href="images/favicon.ico" />
 
 	</head>
 	<body>
 
 
 	<div class='printContent'>
-	<table class='linedFormTable'>
+	<table class='linedFormTable' style='width:510px;'>
 		<tr>
 		<th colspan='2' style='margin-top: 7px; margin-bottom: 5px;'>
 		<span style='float:left; vertical-align:top; margin-left:3px;'><span style='font-weight:bold;font-size:120%;margin-right:8px;'><?php echo $resource->titleText; ?></span><span style='font-weight:normal;font-size:100%;'><?php echo $resourceFormat->shortName . " " . $resourceType->shortName; ?></span></span>
@@ -277,7 +283,7 @@ if ($resource->titleText){
 
 			foreach ($childResourceArray as $childResource){
 				$childResourceObj = new Resource(new NamedArguments(array('primaryKey' => $childResource['resourceID'])));
-				echo $childResourceObj->titleText . "&nbsp;&nbsp;<br />";
+				echo "<span style='float: left;'>" . $childResourceObj->titleText . "&nbsp;&nbsp;(child)</span>";
 			}
 
 
@@ -397,7 +403,7 @@ if ($resource->titleText){
 
 	if (count($noteArray) > 0){
 	?>
-		<table class='linedFormTable'>
+		<table class='linedFormTable' style='width:510px;'>
 			<tr>
 			<th colspan='2'><?php echo _("Additional Product Notes");?></th>
 			</tr>
@@ -416,7 +422,7 @@ if ($resource->titleText){
 	<br />
 
 
-	<table class='linedFormTable'>
+	<table class='linedFormTable' style='width:510px;'>
 	<tr>
 	<th colspan='2' style='vertical-align:bottom;'>
 	<span style='float:left;vertical-align:bottom;'><?php echo _("Order");?></span>
@@ -480,23 +486,79 @@ if ($resource->titleText){
 	</table>
 	<br />
 
-	<table class='linedFormTable'>
+	<table class='linedFormTable' style='width:510px;'>
 	<tr>
-	<th colspan='3'><?php echo _("Cost History");?></th>
+        <th colspan='2' style='vertical-align:bottom;'>
+	<span style='float:left;vertical-align:bottom;'><?php echo _("Cost History");?></span>
 	</th>
 	</tr>
 
 	<?php
-	if (count($paymentArray) > 0){
-		foreach ($paymentArray as $payment){ ?>
-		<tr>
-		<td><?php echo $payment['fundName']; ?></td>
-		<td><?php echo $payment['currencyCode'] . " " . integer_to_cost($payment['paymentAmount']); ?></td>
-		<td><?php echo $payment['orderType']; ?></td>
+	if (count($paymentArray) > 0){ 
+            foreach ($paymentArray as $payment){ ?>
+              <tr><td style='vertical-align:top;width:150px;' colspan='2'></td></tr>
+            <?php if ($enhancedCostFlag){ ?>
+                <tr>
+                    <td style='vertical-align:top;width:150px;'><?php echo _("Year:");?></td>
+                    <td><?php echo $payment['year']; ?></td>
+                </tr>
+                <tr>
+                    <td style='vertical-align:top;width:150px;'><?php echo _("Sub StartDate:");?></td>
+                    <td><?php echo $payment['subscriptionStartDate']; ?></td>
+                </tr>
+                <tr>
+                    <td style='vertical-align:top;width:150px;'><?php echo _("Sub EndDate:");?></td>
+                    <td><?php echo $payment['subscriptionEndDate']; ?></td>
+                </tr>
+             <?php } ?>
+                <tr>
+                    <td style='vertical-align:top;width:150px;'><?php echo _("Fund:");?></td>
+                    <td><?php echo $payment['fundName']; ?></td>
+                </tr>
+            <?php if ($enhancedCostFlag){ ?>
+                <tr>
+                    <td style='vertical-align:top;width:150px;'><?php echo _("Tax Excl.:");?></td>
+                    <td><?php echo $payment['currencyCode'] . " " .integer_to_cost($payment['priceTaxExcluded']); ?></td>
+                </tr>
+                <tr>
+                    <td style='vertical-align:top;width:150px;'><?php echo _("Tax Rate:");?></td>
+                    <td><?php echo $payment['taxRate']/100 ."%"; ?></td>
+                </tr>
+              
+                <tr>
+                    <td style='vertical-align:top;width:150px;'><?php echo _("Tax Incl.:");?></td>
+                    <td><?php echo $payment['currencyCode'] . " " .integer_to_cost($payment['priceTaxIncluded']); ?></td>
+                </tr>
+            <?php } ?>  
+              
+                <tr>
+                    <td style='vertical-align:top;width:150px;'><?php echo _("Payment:");?></td>
+                    <td><?php echo $payment['currencyCode'] . " " . integer_to_cost($payment['paymentAmount']); ?></td>
+                </tr> 
+                <tr>
+                    <td style='vertical-align:top;width:150px;'><?php echo _("Order Type:");?></td>
+                    <td><?php echo $payment['orderType']; ?></td>
+                </tr> 
+            <?php if ($enhancedCostFlag){ ?>   
+                <tr>
+                    <td style='vertical-align:top;width:150px;'><?php echo _("Details:");?></td>
+                    <td><?php echo $payment['costDetails']; ?></td>
 		</tr>
+             <?php } ?>   
+                <tr>
+                    <td style='vertical-align:top;width:150px;'><?php echo _("Note:");?></td>
+                    <td><?php echo $payment['costNote']; ?></td>
+		</tr>
+            <?php if ($enhancedCostFlag){ ?>
+                <tr>
+                    <td style='vertical-align:top;width:150px;'><?php echo _("Invoice No.:");?></td>
+                    <td><?php echo $payment['invoiceNum']; ?></td>
+                </tr>
+            <?php } ?>
+               
 
-		<?php
-		}
+	<?php
+	 }
 	}else{
 		echo "<tr><td colspan='3'><i>"._("No payment information available.")."</i></td></tr>";
 	}
@@ -505,7 +567,7 @@ if ($resource->titleText){
 	</table>
 	<br />
 
-	<table class='linedFormTable'>
+	<table class='linedFormTable' style='width:510px;'>
 	<tr>
 	<th colspan='2'>
 	<span style='float:left;vertical-align:bottom;'><?php echo _("License");?></span>
@@ -550,7 +612,6 @@ if ($resource->titleText){
 
 	</table>
 
-	<br />
 
 	<?php
 
@@ -585,7 +646,7 @@ if ($resource->titleText){
 
 	if (count($noteArray) > 0){
 	?>
-		<table class='linedFormTable'>
+		<table class='linedFormTable' style='width:510px;'>
 			<tr>
 			<th colspan='2'><?php echo _("Additional Acquisitions Notes");?></th>
 			</th>&nbsp;
@@ -606,7 +667,7 @@ if ($resource->titleText){
 	<br />
 
 
-	<table class='linedFormTable'>
+	<table class='linedFormTable' style='width:510px;'>
 	<tr>
 	<th colspan='2'>
 	<span style='float:left;vertical-align:bottom;'><?php echo _("Access Information");?></span>
@@ -710,7 +771,7 @@ if ($resource->titleText){
 
 	if (count($noteArray) > 0){
 	?>
-		<table class='linedFormTable'>
+		<table class='linedFormTable' style='width:510px;'>
 			<tr>
 			<th colspan='2'><?php echo _("Additional Access Notes");?></th>
 			</tr>
@@ -725,7 +786,7 @@ if ($resource->titleText){
 	}
 	?>
 
-  <table class='linedFormTable'>
+  <table class='linedFormTable' style='width:510px;'>
     <tr>
       <th colspan='2' style='vertical-align:bottom;'>
         <span style='float:left;vertical-align:bottom;'><?php echo _("Cataloging");?></span>
@@ -823,7 +884,7 @@ if ($resource->titleText){
 
 	if (count($noteArray) > 0){
 	?>
-		<table class='linedFormTable'>
+		<table class='linedFormTable' style='width:510px;'>
 			<tr>
 			<th colspan='2'><?php echo _("Additional Cataloging Notes");?></th>
 			</tr>

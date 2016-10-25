@@ -49,12 +49,12 @@ if ($publisherPlatformID) {
 
 	<div style='width:900px;'>
 	
-		<div style='float:left; width:597px;vertical-align:top;margin:0; padding:0;'>
+		<div style='float:left; width:797px;vertical-align:top;margin:0; padding:0;'>
 		<div style="width: 797px;" id ='div_imports' class="usage_tab_content">
-			<table cellpadding="0" cellspacing="0" style="width: 100%; table-layout: fixed;">
+			<table cellpadding="0" cellspacing="0" style="width: 100%; table-layout: initial;">
 				<tr>
 					<td class="sidemenu">
-						<?php echo usage_sidemenu('imports'); ?>
+						<?php echo usage_sidemenu(watchString('imports')); ?>
 					</td>
 					<td class='mainContent'>
 						<div class='div_mainContent'>
@@ -65,10 +65,10 @@ if ($publisherPlatformID) {
 		</div>
 
 		<div style="display:none;width: 797px;" id ='div_titles' class="usage_tab_content">
-			<table cellpadding="0" cellspacing="0" style="width: 100%; table-layout: fixed;">
+			<table cellpadding="0" cellspacing="0" style="width: 100%; table-layout: initial;">
 				<tr>
 					<td class="sidemenu">
-						<?php echo usage_sidemenu('titles'); ?>
+						<?php echo usage_sidemenu(watchString('titles')); ?>
 					</td>
 					<td class='mainContent'>
 						<div class='div_mainContent'>
@@ -77,11 +77,11 @@ if ($publisherPlatformID) {
 				</tr>
 			</table>
 		</div>
-		<div style="display:none;width: 597px;" id ='div_statistics' class="usage_tab_content">
-			<table cellpadding="0" cellspacing="0" style="width: 100%; table-layout: fixed;">
+		<div style="display:none;width: 797px;" id ='div_statistics' class="usage_tab_content">
+			<table cellpadding="0" cellspacing="0" style="width: 100%; table-layout: initial;">
 				<tr>
 					<td class="sidemenu">
-						<?php echo usage_sidemenu('statistics'); ?>
+						<?php echo usage_sidemenu(watchString('statistics')); ?>
 					</td>
 					<td class='mainContent'>
 						<div class='div_mainContent'>
@@ -91,10 +91,10 @@ if ($publisherPlatformID) {
 			</table>
 		</div>
 		<div style="display:none;width: 797px;" id ='div_logins' class="usage_tab_content">
-			<table cellpadding="0" cellspacing="0" style="width: 100%; table-layout: fixed;">
+			<table cellpadding="0" cellspacing="0" style="width: 100%; table-layout: initial;">
 				<tr>
 					<td class="sidemenu">
-						<?php echo usage_sidemenu('logins'); ?>
+						<?php echo usage_sidemenu(watchString('logins')); ?>
 					</td>
 					<td class='mainContent'>
 						<div class='div_mainContent'>
@@ -105,10 +105,10 @@ if ($publisherPlatformID) {
 		</div>
 			<div style="display:none;width: 797px;" id ='div_sushi' class="usage_tab_content">
 
-			<table cellpadding="0" cellspacing="0" style="width: 100%; table-layout: fixed;">
+			<table cellpadding="0" cellspacing="0" style="width: 100%; table-layout: initial;">
 				<tr>
 					<td class="sidemenu">
-						<?php echo usage_sidemenu('sushi'); ?>
+						<?php echo usage_sidemenu(watchString('sushi')); ?>
 					</td>
 					<td class='mainContent'>
 						<div class='div_mainContent'>

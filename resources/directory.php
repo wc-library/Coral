@@ -134,6 +134,11 @@ function previous_year($year) {
     );
 }
 
+//Watched function to catch the strings being passed into resource_sidemenu for translation
+function watchString($string) {
+  return $string;
+}
+
 function resource_sidemenu($selected_link = '') {
   global $user;
   $links = array(
@@ -166,7 +171,7 @@ function resource_sidemenu($selected_link = '') {
     }
     if ($key != 'accounts' || $user->accountTabIndicator == '1') {
     ?>
-    <div class="<?php echo $class; ?>" style='position: relative; width: 105px'><span class='icon' id='<?php echo $icon_id; ?>'><img src='<?php echo $image; ?>'></span><span class='link'><a href='javascript:void(0)' class='show<?php echo $name; ?>'><?php echo $name; ?></a></span>
+    <div class="<?php echo $class; ?>" style='position: relative; width: 105px'><span class='icon' id='<?php echo $icon_id; ?>'><img src='<?php echo $image; ?>'></span><span class='link'><a href='javascript:void(0)' class='show<?php echo $name; ?>'><?php echo _($key);?></a></span>
       <?php if ($key == 'attachments') { ?>
         <span class='span_AttachmentNumber smallGreyText' style='clear:right; margin-left:18px;'></span>
       <?php } ?>
@@ -174,6 +179,35 @@ function resource_sidemenu($selected_link = '') {
     <?php
     }
   }
+}
+
+function buildSelectableHours($fieldNameBase,$defaultHour=8) {
+  $html = "<select name=\"{$fieldNameBase}[hour]\">";
+  for ($hour=1;$hour<13;$hour++) {
+    $html .= "<option".(($hour == $defaultHour) ? ' selected':'').">{$hour}</option>";
+  }
+  $html .= '</select>';
+  return $html;
+}
+
+function buildSelectableMinutes($fieldNameBase,$intervals=4) {
+  $html = "<select name=\"{$fieldNameBase}[minute]\">";
+  for ($minute=0;$minute<=($intervals-1);$minute++) {
+    $html .= "<option>".sprintf("%02d",$minute*(60/$intervals))."</option>";
+  }
+  $html .= '</select>';
+  return $html;
+}
+
+function buildSelectableMeridian($fieldNameBase) {
+  return "<select name=\"{$fieldNameBase}[meridian]\">
+          <option>AM</option>
+          <option>PM</option>
+        </select>";
+}
+
+function buildTimeForm($fieldNameBase,$defaultHour=8,$minuteIntervals=4) {
+  return buildSelectableHours($fieldNameBase,$defaultHour).buildSelectableMinutes($fieldNameBase,$minuteIntervals).buildSelectableMeridian($fieldNameBase);
 }
 
 function debug($value) {
@@ -189,12 +223,14 @@ global $http_lang;
 if(isset($_COOKIE["lang"])){
     $http_lang = $_COOKIE["lang"];
 }else{        
-    $codeL = substr($_SERVER["HTTP_ACCEPT_LANGUAGE"],0,2);
+    $codeL = str_replace("-","_",substr($_SERVER["HTTP_ACCEPT_LANGUAGE"],0,5));
     $http_lang = $lang_name->getLanguage($codeL);
+    if($http_lang == "")
+      $http_lang = "en_US";
 }
 putenv("LC_ALL=$http_lang");
 setlocale(LC_ALL, $http_lang.".utf8");
-bindtextdomain("messages", "./locale");
+bindtextdomain("messages", dirname(__FILE__) . "/locale");
 textdomain("messages");
 
 ?>

@@ -45,14 +45,14 @@ $catalogingType = new CatalogingType();
 		</tr>
 		
 		<tr>
-		<td style='vertical-align:top;text-align:left;font-weight:bold;'><?php echo Html::label_tag('catalogingTypeID'); ?></td>
+		<td style='vertical-align:top;text-align:left;font-weight:bold;'><?php echo Html::label_tag('catalogingTypeID', _('Cataloging Type')); ?></td>
 		<td>
 		  <?php echo Html::select_field('catalogingTypeID', $resource, $catalogingType->all(), array('width' => '150px')); ?>
 		</td>
 		</tr>
 		
 		<tr>
-		<td style='vertical-align:top;text-align:left;font-weight:bold;'><?php echo Html::label_tag('catalogingStatusID'); ?></td>
+		<td style='vertical-align:top;text-align:left;font-weight:bold;'><?php echo Html::label_tag('catalogingStatusID', _('Cataloging Status')); ?></td>
 		<td>
 		  <?php echo Html::select_field('catalogingStatusID', $resource, $catalogingStatus->all(), array('width' => '150px')); ?>
 		</td>
@@ -99,8 +99,8 @@ $catalogingType = new CatalogingType();
 
 <table class='noBorderTable' style='width:125px;'>
 <tr>
-	<td style='text-align:left'><input type='submit' value='<?php echo _("submit");?>' name='submitCatalogingChanges' id ='submitCatalogingChanges'></td>
-	<td style='text-align:right'><input type='button' value='<?php echo _("cancel");?>' onclick="kill(); tb_remove();"></td>
+	<td style='text-align:left'><input type='submit' value='<?php echo _("submit");?>' name='submitCatalogingChanges' id ='submitCatalogingChanges' class='submit-button'></td>
+	<td style='text-align:right'><input type='button' value='<?php echo _("cancel");?>' onclick="kill(); tb_remove();" class='cancel-button'></td>
 </tr>
 </table>
 

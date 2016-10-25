@@ -45,17 +45,19 @@ $coralURL = $util->getCORALURL();
 <link rel="stylesheet" href="css/datePicker.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="css/jquery.autocomplete.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="css/jquery.tooltip.css" type="text/css" media="screen" />
-<link rel="SHORTCUT ICON" href="images/turtlefavicon.ico" />
+<link rel="SHORTCUT ICON" href="images/favicon.ico" />
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
 <script type="text/javascript" src="js/plugins/jquery.js"></script>
 <script type="text/javascript" src="js/plugins/ajaxupload.3.5.js"></script>
 <script type="text/javascript" src="js/plugins/thickbox.js"></script>
+<script type="text/javascript" src="js/plugins/Gettext.js"></script>
 <script type="text/javascript" src="js/plugins/jquery.autocomplete.js"></script>
 <script type="text/javascript" src="js/plugins/jquery.tooltip.js"></script>
-<script type="text/javascript" src="js/plugins/Gettext.js"></script>
 <?php
     // Add translation for the JavaScript files
     global $http_lang;
-    $str = substr($_SERVER["HTTP_ACCEPT_LANGUAGE"],0,2);
+    $str = substr($_SERVER["HTTP_ACCEPT_LANGUAGE"],0,5);
     $default_l = $lang_name->getLanguage($str);
     if($default_l==null || empty($default_l)){$default_l=$str;}
     if(isset($_COOKIE["lang"])){
@@ -76,132 +78,215 @@ $coralURL = $util->getCORALURL();
 
 <div class="wrapper">
 <center>
-<table>
+
+<table id="main-table">
+
 <tr>
 <td style='vertical-align:top;'>
 <div style="text-align:left;">
 
 <center>
-<table class="titleTable" style="background-image:url('images/organizationstitle.gif');background-repeat:no-repeat;width:900px;text-align:left;">
-<tr style='vertical-align:top;'>
-<td style='height:53px;'>
-&nbsp;
-</td>
-<td style='text-align:right;height:53px;'>
-<div style='margin-top:1px;'>
-<span class='smallText' style='color:#526972;'>
-<?php
-	echo _("Hello, ");
-	//user may not have their first name / last name set up
-	if ($user->lastName){
-		echo $user->firstName . " " . $user->lastName;
-	}else{
-		echo $user->loginID;
-	}
+    
+<table class="titleTable" style="width:1024px;text-align:left;">
 
-?>
-</span>
-<br /><?php if($config->settings->authModule == 'Y'){ echo "<a href='" . $coralURL . "auth/?logout'>"._("logout")."</a>"; } ?>
-</div>
-</td>
-</tr>
+    <tr style='vertical-align:top;'>
+        <td style='height:53px;' colspan='3'>
+                
+            <div id="main-title">
+                <img src="images/title-icon-organizations.png" />
+                <span id="main-title-text"><?php echo _("Organizations"); ?></span>
+                <span id="powered-by-text"><?php echo _("Powered by");?><img src="images/logo-coral.jpg" /></span>
+            </div>
+
+            <div id="menu-login" style='margin-top:1px;'>
+                <span class='smallText' style='color:#526972;'>
+                <?php
+                    echo _("Hello") . ", ";
+                    //user may not have their first name / last name set up
+                    if ($user->lastName){
+                        echo $user->firstName . " " . $user->lastName;
+                    }else{
+                        echo $user->loginID;
+                    }
+                ?>
+                </span><br />
+
+            <?php if($config->settings->authModule == 'Y'){ echo "<a href='" . $coralURL . "auth/?logout' id='logout'>" . _("logout") . "</a><span id='divider'> | </span><a href='https://js-erm-helps.bc.sirsidynix.net' id='help' target='_blank'>" . _("Help") . "</a><span id='divider'> | </span>"; } ?>
+
+                <span id="setLanguage">
+                    <select name="lang" id="lang" class="dropDownLang">
+                       <?php
+                        // Get all translations on the 'locale' folder
+                        $route='locale';
+                        $lang[]="en_US"; // add default language
+                        if (is_dir($route)) {
+                            if ($dh = opendir($route)) {
+                                while (($file = readdir($dh)) !== false) {
+                                    if (is_dir("$route/$file") && $file!="." && $file!=".."){
+                                        $lang[]=$file;
+                                    } 
+                                } 
+                                closedir($dh); 
+                            } 
+                        }else {
+                            echo "<br>"._("Invalid translation route!"); 
+                        }
+                        // Get language of navigator
+                        $defLang = substr($_SERVER["HTTP_ACCEPT_LANGUAGE"],0,5);
+                        
+                        // Show an ordered list
+                        sort($lang); 
+                        for($i=0; $i<count($lang); $i++){
+                            if(isset($_COOKIE["lang"])){
+                                if($_COOKIE["lang"]==$lang[$i]){
+                                    echo "<option value='".$lang[$i]."' selected='selected'>".$lang_name->getNameLang($lang[$i])."</option>";
+                                }else{
+                                    echo "<option value='".$lang[$i]."'>".$lang_name->getNameLang($lang[$i])."</option>";
+                                }
+                            }else{
+                                if($defLang==substr($lang[$i],0,5)){
+                                    echo "<option value='".$lang[$i]."' selected='selected'>".$lang_name->getNameLang($lang[$i])."</option>";
+                                }else{
+                                    echo "<option value='".$lang[$i]."'>".$lang_name->getNameLang($lang[$i])."</option>";
+                                }
+                            }
+                        }
+                        ?>
+                        
+                    </select>
+                </span>
+            </div>
+
+        </td>
+    </tr>
 
 <tr style='vertical-align:top'>
-<td style='width:870px;height:19px;'>
+<td style='width:870px;height:19px;' id="main-menu-titles" colspan="2">
 
 <?php if ($user->isAdmin()){ ?>
-<a href='index.php'><span class="menubtn<?php if ($currentPage == 'index.php') { echo " active"; } ?>" id="firstmenubtn"><?php echo _("Home");?></span></a><a href='ajax_forms.php?action=getOrganizationForm&height=364&width=345&modal=true' class='thickbox' id='newLicense'><span class="menubtn"><?php echo _("New Organization");?></span></a><a href='admin.php'><span class="menubtn<?php if ($currentPage == 'admin.php') { echo " active"; } ?>" id="lastmenubtn"><?php echo _("Admin");?></span></a>
 
+    <a href='index.php'>
+        <div class="main-menu-link <?php if ($currentPage == 'index.php') { echo "active"; } ?>">
+            <img src="images/menu/icon-home.png" />
+            <span><?php echo _("Home"); ?></span>
+        </div>
+    </a>
+
+    <a href='ajax_forms.php?action=getOrganizationForm&height=364&width=345&modal=true' class='thickbox' id='newLicense'>
+        <div class="main-menu-link">
+            <img src="images/menu/icon-new-org.png" />
+            <span><?php echo _("New Organization"); ?></span>
+        </div>
+    </a>
+
+
+    <a href='admin.php'>
+        <div class="main-menu-link <?php if ($currentPage == 'admin.php') { echo "active"; } ?>">
+            <img src="images/menu/icon-admin.png" />
+            <span><?php echo _("Admin"); ?></span>
+        </div>
+    </a>   
 
 <?php }else if ($user->canEdit()){?>
-<a href='index.php'><span class="menubtn<?php if ($currentPage == 'index.php') { echo " active"; } ?>" id="firstmenubtn"><?php echo _("Home");?></span></a><a href='ajax_forms.php?action=getOrganizationForm&height=364&width=345&modal=true' class='thickbox' id='newLicense'><span class="menubtn" id="lastmenubtn"><?php echo _("New Organization");?></span></a>
 
+    <a href='index.php'>
+        <div class="main-menu-link <?php if ($currentPage == 'index.php') { echo "active"; } ?>">
+            <img src="images/menu/icon-home.png" />
+            <span><?php echo _("Home"); ?></span>
+        </div>
+    </a>
+
+    <a href='ajax_forms.php?action=getOrganizationForm&height=364&width=345&modal=true' class='thickbox' id='newLicense'>
+        <div class="main-menu-link">
+            <img src="images/menu/icon-new-org.png" />
+            <span><?php echo _("New Organization"); ?></span>
+        </div>
+    </a>
 
 <?php }else{ ?>
-<a href='index.php'><span class="menubtn<?php if ($currentPage == 'index.php') { echo " active"; } ?>" id="onlyButton"><?php echo _("Home");?></span></a>
+
+    <a href='index.php'>
+        <div class="main-menu-link <?php if ($currentPage == 'index.php') { echo "active"; } ?>">
+            <img src="images/menu/icon-home.png" />
+            <span><?php echo _("Home"); ?></span>
+        </div>
+    </a>
+
+    <a href='ajax_forms.php?action=getOrganizationForm&height=364&width=345&modal=true' class='thickbox' id='newLicense'>
+        <div class="main-menu-link">
+            <img src="images/menu/icon-new-org.png" />
+            <span><?php echo _("New Organization"); ?></span>
+        </div>
+    </a>
+
+
+    <a href='admin.php'>
+        <div class="main-menu-link <?php if ($currentPage == 'admin.php') { echo "active"; } ?>">
+            <img src="images/menu/icon-admin.png" />
+            <span><?php echo _("Admin"); ?></span>
+        </div>
+    </a>  
+
 <?php } ?>
 </td>
 
-<td style='width:230px;height:19px;' align='right'>
+<td style='width:130px;height:19px;' align='right'>
 <?php
 
 //only show the 'Change Module' if there are other modules installed or if there is an index to the main CORAL page
 
-if ((file_exists($util->getCORALPath() . "index.php")) || ($config->settings->licensingModule == 'Y') || ($config->settings->resourcesModule == 'Y') || ($config->settings->cancellationModule == 'Y') || ($config->settings->usageModule == 'Y')) {
+if ((file_exists($util->getCORALPath() . "index.php")) || ($config->settings->licensingModule == 'Y') || ($config->settings->resourcesModule == 'Y') || ($config->settings->managementModule == 'Y') || ($config->settings->usageModule == 'Y')) {
 
 	?>
 
 	<div style='text-align:left;'>
 		<ul class="tabs">
-		<li class="changeMod"><?php echo _("Change Module");?>&nbsp;▼
-			<ul class="coraldropdown">
-				<?php if (file_exists($util->getCORALPath() . "index.php")) {?>
-				<li><a href="<?php echo $coralURL; ?>" target='_blank'><img src='images/change/coral-main.gif'></a></li>
-				<?php
-				}
-				if ($config->settings->licensingModule == 'Y') {
-				?>
-				<li><a href="<?php echo $coralURL; ?>licensing/" target='_blank'><img src='images/change/coral-licensing.gif'></a></li>
-				<?php
-				}
-				if ($config->settings->resourcesModule == 'Y') {
-				?>
-				<li><a href="<?php echo $coralURL; ?>resources/" target='_blank'><img src='images/change/coral-resources.gif'></a></li>
-				<?php
-				}
-				if ($config->settings->cancellationModule == 'Y') {
-				?>
-				<li><a href="<?php echo $coralURL; ?>cancellation/" target='_blank'><img src='images/change/coral-cancellation.gif'></a></li>
-				<?php
-				}
-				if ($config->settings->usageModule == 'Y') {
-				?>
-				<li><a href="<?php echo $coralURL; ?>usage/" target='_blank'><img src='images/change/coral-usage.gif'></a></li>
-				<?php } ?>
-			</ul>
-		</li>
+			<li id="change-mod-menu"><span><?php echo _("Change Module"); ?></span><i class="fa fa-chevron-down"></i>
+				<ul class="coraldropdown">
+					<?php if (file_exists($util->getCORALPath() . "index.php")) {?>
+					<li class="change-mod-item"><a href="<?php echo $coralURL; ?>" target='_blank'><img src='images/change/icon-mod-main.png'><span><?php echo _("Main Menu"); ?></span></a></li>
+					<?php
+					}
+					if ($config->settings->licensingModule == 'Y') {
+					?>
+					<li class="change-mod-item"><a href="<?php echo $coralURL; ?>licensing/" target='_blank'><img src='images/change/icon-mod-licensing.png'><span><?php echo _("Licensing"); ?></span></a></li>
+					<?php
+					}
+					if ($config->settings->resourcesModule == 'Y') {
+					?>
+					<li class="change-mod-item"><a href="<?php echo $coralURL; ?>resources/" target='_blank'><img src='images/change/icon-mod-resources.png'><span><?php echo _("Resources"); ?></span></a></li>
+					<?php
+					}
+					if ($config->settings->cancellationModule == 'Y') {
+					?>
+					<li class="change-mod-item"><a href="<?php echo $coralURL; ?>cancellation/" target='_blank'><img src='images/change/icon-mod-cancellation.png'></a><span><?php echo _("Cancel"); ?></span></li>
+					<?php
+					}
+					if ($config->settings->usageModule == 'Y') {
+					?>
+					<li class="change-mod-item"><a href="<?php echo $coralURL; ?>usage/" target='_blank'><img src='images/change/icon-mod-usage.png'><span><?php echo _("Usage Statistics"); ?></span></a></li>
+					<?php
+					}
+					if ($config->settings->managementModule == 'Y') {
+					?>
+					<li class="change-mod-item"><a href="<?php echo $coralURL; ?>management/" target='_blank'><img src='images/change/icon-mod-management.png'><span><?php echo _("Management"); ?></span></a></li>
+					<?php } ?>
+				</ul>
+			</li>
 		</ul>
-        <select name="lang" id="lang" class="dropDownLang">
-               <?php
-                // Get all translations on the 'locale' folder
-            $route='locale';
-            $lang[]="en_US"; // add default language
-            if (is_dir($route)) { 
-                if ($dh = opendir($route)) { 
-                    while (($file = readdir($dh)) !== false) {
-                        if (is_dir("$route/$file") && $file!="." && $file!=".."){
-                            $lang[]=$file;
-                        } 
-                    } 
-                    closedir($dh); 
-                } 
-            }else {
-                echo "<br>"._("Invalid translation route!"); 
-            }
-            // Get language of navigator
-            $defLang = substr($_SERVER["HTTP_ACCEPT_LANGUAGE"],0,2);
-            
-            // Show an ordered list
-            sort($lang); 
-            for($i=0; $i<count($lang); $i++){
-                if(isset($_COOKIE["lang"])){
-                    if($_COOKIE["lang"]==$lang[$i]){
-                        echo "<option value='".$lang[$i]."' selected='selected'>".$lang_name->getNameLang(substr($lang[$i],0,2))."</option>";
-                    }else{
-                        echo "<option value='".$lang[$i]."'>".$lang_name->getNameLang(substr($lang[$i],0,2))."</option>";
-                    }
-                }else{
-                    if($defLang==substr($lang[$i],0,2)){
-                        echo "<option value='".$lang[$i]."' selected='selected'>".$lang_name->getNameLang(substr($lang[$i],0,2))."</option>";
-                    }else{
-                        echo "<option value='".$lang[$i]."'>".$lang_name->getNameLang(substr($lang[$i],0,2))."</option>";
-                    }
-                }
-            }
-                ?>
+	</div>
 
-            </select>
-        </div>
+	<?php
+
+} else {
+	echo "&nbsp;";
+}
+
+?>
+
+</td>
+</tr>
+</table>
         <script>
             $("#lang").change(function() {
                 setLanguage($("#lang").val());
@@ -216,15 +301,4 @@ if ((file_exists($util->getCORALPath() . "index.php")) || ($config->settings->li
                 document.cookie ='lang='+lang+';path=/'+';domain='+wl.host+';expires='+now;
             }
         </script>
-	<?php
-
-} else {
-	echo "&nbsp;";
-}
-
-?>
-
-</td>
-</tr>
-</table>
 <span id='span_message' style='color:red;text-align:left;'><?php if (isset($_POST['message'])) echo $_POST['message']; if (isset($errorMessage)) echo $errorMessage; ?></span>

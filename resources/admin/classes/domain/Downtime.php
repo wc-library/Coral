@@ -1,10 +1,17 @@
 <?php
 
 class Downtime extends DatabaseObject {
+	protected $overloadKeys = array();
 
 	protected function defineRelationships() {}
 
 	protected function overridePrimaryKeyName() {}
+
+	protected function init(NamedArguments $arguments) {
+		//these are values from other tables that we'll be SELECTing in load(), but don't want to persist as part of DB update operations
+		$this->overloadKeys = array("shortName","subjectText");
+		parent::init($arguments);
+	}
 
 	public function load() {
 
@@ -16,7 +23,7 @@ class Downtime extends DatabaseObject {
 				  FROM Downtime d
 				  LEFT JOIN DowntimeType dt ON dt.downtimeTypeID=d.downtimeTypeID
 				  LEFT JOIN Issue i ON i.issueID=d.issueID
-				  WHERE d.downtimeID={$this->primaryKey}";
+				  WHERE d.downtimeID='$this->primaryKey'";
 			
 			$result = $this->db->processQuery($query, 'assoc');
 
@@ -25,26 +32,28 @@ class Downtime extends DatabaseObject {
 				$this->attributes[$attributeName] = $result[$attributeName];
 			}
 
-		}else{
+		} else {
 			// Figure out attributes from existing database
-			$query = "SELECT COLUMN_NAME FROM information_schema.`COLUMNS` WHERE table_schema = '";
-			$query .= $this->db->config->database->name . "' AND table_name = '$this->tableName'";// MySQL-specific
+			$query = "SELECT COLUMN_NAME 
+					FROM information_schema.`COLUMNS` 
+					WHERE table_schema = '{$this->db->config->database->name}' AND table_name = '{$this->tableName}'";// MySQL-specific
 			foreach ($this->db->processQuery($query) as $result) {
-				$attributeName = $result[0];
+				$this->addAttribute($result[0]);
+			}
+
+			//Add additional keys from joined tables
+			foreach ($this->overloadKeys as $attributeName) {
 				$this->addAttribute($attributeName);
 			}
 		}
 	}
 
 	public function save() {
-
-		//We have added the name attribute after the fact, and here, we are cleaning it up
-		unset($this->attributes["shortName"]); 
-		unset($this->attributesNames["shortName"]);
-
-		unset($this->attributes["subjectText"]); 
-		unset($this->attributesNames["subjectText"]);
-
+		//remove any overloadedKeys before attempting to save
+		foreach ($this->overloadKeys as $attributeName) {
+			unset($this->attributes[$attributeName]); 
+			unset($this->attributeNames[$attributeName]);
+		}
 		parent::save();
 	}
 
@@ -55,8 +64,12 @@ class Downtime extends DatabaseObject {
 		$result = $this->db->processQuery($query, "assoc");
 		$names = array();
 
-		foreach ($result as $name) {
-			array_push($names, $name);
+		if (is_array($result[0])) {
+			foreach ($result as $name) {
+				array_push($names, $name);
+			}
+		} else {
+			$names[] = $result;
 		}
 
 		return $names;

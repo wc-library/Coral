@@ -35,7 +35,7 @@ $_SESSION['ref_script']=$currentPage;
 <br />
 <div id='div_licenses'>
 
-<img src = "images/circle.gif"><?= _("Loading...");?>
+<img src = "images/circle.gif"><?php echo _("Loading...");?>
 
 </div>
 </td></tr>

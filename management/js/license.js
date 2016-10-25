@@ -273,9 +273,9 @@ function updateAttachmentsNumber(){
 	 data:       "action=getAttachmentsNumber&licenseID=" + $("#licenseID").val(),
 	 success:    function(remaining) {
 	 	if (remaining == "1"){
-			$(".span_AttachmentNumber").html("(" + remaining + " record)");
+			$(".span_AttachmentNumber").html("(" + remaining + " " + _("record") + ")");
 		}else{
-			$(".span_AttachmentNumber").html("(" + remaining + " records)");
+			$(".span_AttachmentNumber").html("(" + remaining + " " + _("records") + ")");
 		}
 	 }
  });
@@ -447,7 +447,7 @@ function hideFullNoteText(noteID){
  		 success:    function(response) {
  			if (response == "1"){
  				exists = "1";
- 				$("#div_file_message").html("  <font color='red'>"+_("File name is already being used.")+"</font>");
+ 				$("#div_file_message").html("  <font color='red'>" + _("File name is already being used.") + "</font>");
  				return false;
  			}else{
  				$("#div_file_message").html("");
@@ -477,7 +477,7 @@ function hideFullNoteText(noteID){
  					fileName=data;
 
  					if (exists == "1"){
- 						$("#div_file_message").html("  <font color='red'>"+_("File name is already being used.")+"</font>");
+ 						$("#div_file_message").html("  <font color='red'>" + _("File name is already being used.") + "</font>");
  					}else{
  						$("#div_uploadFile").html("<img src='images/paperclip.gif'>" + fileName + _(" successfully uploaded."));
 

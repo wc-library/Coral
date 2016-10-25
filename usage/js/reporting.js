@@ -58,7 +58,7 @@ function updateReportDisplayName(){
 
 function validateDisplay(){
     if($('#reportDisplayName').val() == ''){
-        $("#span_errors").html('Error - Please enter a value.');
+        $("#span_errors").html(_('Error - Please enter a value.'));
         $('#reportDisplayName').focus();
         return false;
     }else{

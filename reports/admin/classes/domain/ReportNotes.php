@@ -50,8 +50,8 @@ class ReportNotes {
 	}
 
     public static function displayNotes() {
-        $header = array("Platform Interface Notes (if available)",
-            "Publisher Notes (if available)");
+        $header = array(_("Platform Interface Notes (if available)"),
+            _("Publisher Notes (if available)"));
         $dataList = array(
             ReportNotes::hasPlatforms()?ReportNotes::platformNotes():array(),
             ReportNotes::hasPublishers()?ReportNotes::publisherNotes():array()

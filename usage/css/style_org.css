@@ -10,6 +10,7 @@ body {
  color:  #2c3c42;
  font-family: "arial";
  font-size: 10pt;
+ font-weight: heavy;
  background: #FFFFFF;
  margin: 0; /* it's good practice to zero the margin and padding of the body element to account for differing browser defaults */
  padding: 0;
@@ -331,6 +332,7 @@ table.thickboxTable{
  color:  #2c3c42;
  font-family: "arial";
  font-size: 8pt;
+ font-weight: heavy;
 }
 
 table.thickboxTable td{
@@ -383,9 +385,9 @@ width:100%;
 } 
 
 
-select option { color: #3D545D; font-family: "arial"; font-size: 8pt; }
-.optionStyle { color: #3D545D; font-family: "arial"; font-size: 8pt; }
+select option { color: #3D545D; font-family: "arial"; font-size: 8pt; font-weight: medium; }
+.optionStyle { color: #3D545D; font-family: "arial"; font-size: 8pt; font-weight: medium; }
 
-input, select, multiple, textarea{color: #3D545D; font-family: "arial"; font-size: 8pt;}
+input, select, multiple, textarea{color: #3D545D; font-family: "arial"; font-size: 8pt; font-weight: medium;}
 
 input.bigger {font-size: 10pt;}
