@@ -144,6 +144,7 @@ $(function(){
 			replaceInputWithImage.replaceWith("<img src='images/cross.gif' class='remove' alt='" + _("remove this payment") + "' title='" + _("remove this payment") + "'/>");
 
 			duplicateTR.appendTo('.paymentTable');
+                        $('<tr><td colspan="11"><div class="smallDarkRedText div_errorPayment" style="margin:0px 20px 0px 26px;"></div></td></tr>').appendTo('.paymentTable');
 
 			//reset the add line values
 			$('.newPaymentTable').find('.year').val('');
@@ -217,17 +218,17 @@ function submitCostForm()
 
 
 		priceTaxExcludedList ='';
-		$(".priceTaxExcluded").each(function(id) {
+		$(".paymentTable").find(".priceTaxExcluded").each(function(id) {
 			priceTaxExcludedList += $(this).val() + ":::";
 		}); 
 
 		taxRateList ='';
-		$(".taxRate").each(function(id) {
+		$(".paymentTable").find(".taxRate").each(function(id) {
 			taxRateList += $(this).val() + ":::";
 		}); 
 
 		priceTaxIncludedList ='';
-		$(".priceTaxIncluded").each(function(id) {
+		$(".paymentTable").find(".priceTaxIncluded").each(function(id) {
 			priceTaxIncludedList += $(this).val() + ":::";
 		}); 
 
@@ -260,8 +261,7 @@ function submitCostForm()
 		$(".paymentTable").find(".invoiceNum").each(function(id) {
 		      invoiceList += $(this).val() + ":::";
 		}); 
-
-		$('#submitCost').attr("disabled", "disabled"); 
+                $('#submitCost').attr("disabled", "disabled"); 
 		$.ajax({
 			type:  "POST",
 			url:   "ajax_processing.php?action=submitCost",
@@ -305,11 +305,12 @@ function submitCostForm()
 
 function validateTable(objRows)
 {
-	var currentRow = 0;
+	//var currentRow = 0;
 	var hasNoErrors = true;
  	
  	$(objRows).find('.div_errorPayment').each(function() {$(this).html('');}); //clear existing errors
- 	while(typeof objRows[currentRow] !== "undefined")
+ 	//while(typeof objRows[currentRow] !== "undefined")
+        for (var currentRow = 0; currentRow < objRows.length; currentRow += 2)
  	{
 		var y          = $(objRows[currentRow]).find('.year').val();
 		var ssd        = $(objRows[currentRow]).find('.subscriptionStartDate').val();
@@ -346,8 +347,6 @@ function validateTable(objRows)
 			$(objRows[currentRow+1]).find('.div_errorPayment').html('Error - Price (tax included) is not numeric');
 			hasNoErrors = false;
 		}
-
-		currentRow += 2;
  	}
  	return hasNoErrors;
 }

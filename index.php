@@ -66,7 +66,7 @@
 	<div id="title-main">
 		<div id="main-page-title"><strong><?php echo _("eRM");?></strong> &bullet; <?php echo _("eResource Management");?></div>
 		<div class='boxRight'>
-			<p class="fontText"><?= _("Change language:");?></p>
+			<p class="fontText"><?php echo _("Change language:");?></p>
 			<select name="lang" id="lang" class="dropDownLang">
 				<?php
 	            // Get all translations on the 'locale' folder
