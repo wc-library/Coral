@@ -32,7 +32,7 @@ if (!isset($_GET['resourceID'])){
                                     <table class='noBorder newStepTable' style='width:660px; margin:15px 20px 10px 20px;'>
                                         <tr>
                                             <td><?php echo _("Order"); ?></td>
-                                            <td><?php echo _("Reminder delay"); ?></td>
+                                            <td><?php echo _("Reminder delay (in days)"); ?></td>
                                             <td><?php echo _("Name"); ?></td>
                                             <td><?php echo _("Approval/Notification group"); ?></td>
                                             <td><?php echo _("Parent Step"); ?></td>
