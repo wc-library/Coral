@@ -62,7 +62,7 @@ function register_db_tools_provider()
 							{
 								if (isset($_SESSION["db_tools"]["sql_files"][$muid][$sql_file]) && $_SESSION["db_tools"]["sql_files"][$muid][$sql_file])
 								{
-									var_dump($muid);
+									// skipping this file because session says we've already processed it
 									continue;
 								}
 

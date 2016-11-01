@@ -67,7 +67,6 @@ if ($dirname_script_filename !== $dirname_dir || $basename_script_filename !== $
  */
 $INSTALLATION_VERSION = "2.0.0";
 $INSTALLATION_VERSIONS = ["1.9.0", "2.0.0"];
-$UPDATE_AVAILABLE = false;
 
 function make_sure_template_is_drawn()
 {
@@ -138,7 +137,6 @@ function run_loop($version)
 	}
 
 	$installer->declareInstallationComplete();
-
 	$completed_tests = $installer->getSuccessfullyCompletedTestTitles();
 	while ($failingPostInstallationTest = $installer->postInstallationTest())
 		yield_test_results_and_exit($failingPostInstallationTest->yield, $completed_tests, 97/100);
@@ -188,16 +186,15 @@ function do_upgrade($version)
 $CURRENT_VERSION = is_installed();
 if ($CURRENT_VERSION !== $INSTALLATION_VERSION || !empty($_SESSION["run_loop_version"]))
 {
+	make_sure_template_is_drawn();
 	require_once "test_results_yielder.php";
 	if (!empty($_SESSION["run_loop_version"]))
 	{
-		make_sure_template_is_drawn();
 		run_loop($_SESSION["run_loop_version"]);
 		exit();
 	}
 	elseif (!$CURRENT_VERSION)
 	{
-		make_sure_template_is_drawn();
 		do_install();
 		exit();
 	}
@@ -207,7 +204,6 @@ if ($CURRENT_VERSION !== $INSTALLATION_VERSION || !empty($_SESSION["run_loop_ver
 		$return->messages = [];
 		if (array_slice($INSTALLATION_VERSIONS, -1)[0] !== $INSTALLATION_VERSION)
 		{
-			make_sure_template_is_drawn();
 			// The instllation constants are not correctly set up
 			$return->messages[] = "<b>" . _("An error has occurred:") . "</b><br />" . _("Sorry but the installer has been incorrectly configured. Please contact the developer.");
 			$return->messages[] = _("Version of Installer does not match the last installation version in INSTALLATION_VERSIONS.");
@@ -215,41 +211,14 @@ if ($CURRENT_VERSION !== $INSTALLATION_VERSION || !empty($_SESSION["run_loop_ver
 		}
 		elseif (!in_array($CURRENT_VERSION, $INSTALLATION_VERSIONS))
 		{
-			make_sure_template_is_drawn();
 			$return->messages[] = "<b>" . _("An error has occurred:") . "</b><br />" . _("Sorry but the installer has been incorrectly configured. Please contact the developer.");
 			$return->messages[] = _("The version currently installed is not a recognised version.");
 			yield_test_results_and_exit($return, [], 0);
 		}
 
-		// Do upgrade (or show upgrade button)
-		if (empty($_SESSION["actually_do_upgrade"]) && empty($_POST["actually_do_upgrade"]))
-		{
-			global $UPDATE_AVAILABLE;
-			$UPDATE_AVAILABLE = <<<EOF
-				<a href="#" id="do_upgrade_button">Update available: click to upgrade</a>
-				<form method="post" action="#" id="actually_do_upgrade_form">
-					<input type="hidden" name="actually_do_upgrade" value="1" />
-				</form>
-				<script>
-					document.getElementById("do_upgrade_button").onclick = function(e){
-						document.getElementById("actually_do_upgrade_form").submit();
-						e.preventDefault();
-						return false;
-					}
-				</script>
-EOF;
-			// Fall through to index.html so:
-			// 1. don't make_sure_template_is_drawn();
-			// 2. don't exit();
-		}
-		else
-		{
-			if (empty($_SESSION["actually_do_upgrade"]))
-				$_SESSION["actually_do_upgrade"] = $_POST["actually_do_upgrade"];
-			make_sure_template_is_drawn();
-			do_upgrade($CURRENT_VERSION);
-			exit();
-		}
+		// Do upgrade
+		do_upgrade($CURRENT_VERSION);
+		exit();
 	}
 }
 

@@ -132,7 +132,7 @@
 
 	</section>
 
-	<footer><?= _("Powered by");?><img src="images/logo-coral.jpg" /><?php echo $UPDATE_AVAILABLE ? "<br />".$UPDATE_AVAILABLE : "" ?></footer>
+	<footer><?= _("Powered by");?><img src="images/logo-coral.jpg" /></footer>
 
 	<script>
 		/*

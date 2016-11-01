@@ -91,12 +91,3 @@ footer img {
 	vertical-align: middle;
 	margin-left: 8px;
 }
-footer a#do_upgrade_button {
-	font-size: 0.8em;
-	text-decoration: none;
-	color: #60A4C9;
-}
-footer a#do_upgrade_button:hover {
-	text-decoration: underline;
-	color: #1B77AA;
-}
