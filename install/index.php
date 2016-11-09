@@ -1,23 +1,15 @@
 <?php
 /*
- * *************************************************************************************************************************
- * * CORAL Unified Installer v. 0.1.0
- * *
- * * Copyright (c) 2010 University of Notre Dame
- * *
- * * This file is part of CORAL.
- * *
- * * CORAL is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
- * *
- * * CORAL is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- * *
- * * You should have received a copy of the GNU General Public License along with CORAL. If not, see <http://www.gnu.org/licenses/>.
- * *
- * *************************************************************************************************************************
- */
+If I remember correctly, we are at the point where I need to run through an
+upgrade of “1.9” to 2.0 with the current upgrade branch? Is that correct?
 
-/**
- * @author j3frea+coral@gmail.com
+The remaining priorities will be to:
+
+	1. Fix any bugs in the upgrader
+	2. Make sure developer documentation for installer and upgrader are as
+		complete as possible.
+	3. Make sure that we can enable or disable modules that were previously
+		installed/uninstalled. (i.e. the checkboxes in the installer)
  */
 
 
