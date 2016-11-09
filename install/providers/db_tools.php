@@ -36,6 +36,10 @@ function register_db_tools_provider()
 								{
 									try
 									{
+										/**
+										 * Considering implementing dry running of some kind?
+										 * https://secure.php.net/manual/en/mysqli.autocommit.php
+										 */
 										$db->processQuery($stmt);
 									}
 									catch (Exception $e)
