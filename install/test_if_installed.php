@@ -14,7 +14,7 @@ function continue_installing()
 	{
 		$option_button_set = [
 			[ "name" => "install_anyway", "title" => _("Install CORAL") ],
-			[ "name" => "already_installed", "title" => _("CORAL Is Already Installed") ],
+			[ "name" => "already_installed", "title" => _("CORAL Already Installed (Upgrade/Repair)") ],
 		];
 		if ((isset($_POST[$ns["option_button"]]) && $_POST[$ns["option_button"]] == "already_installed") || (isset($_SESSION[$ns["already_installed"]]) && $_SESSION[$ns["already_installed"]]))
 		{
