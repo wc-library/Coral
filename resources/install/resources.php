@@ -138,11 +138,11 @@ function register_resources_provider()
 					];
 
 
-					/*
-					* For more on this upgrader, see the licensing module.
-					* Additionally, the auth module has helpfully commented code.
-					*/
-					case "2.0.0":
+				/*
+				* For more on this upgrader, see the licensing module.
+				* Additionally, the auth module has helpfully commented code.
+				*/
+				case "2.0.0":
 					$conf_data = parse_ini_file($protected_module_data["config_file_path"], true);
 					return [
 						"dependencies_array" => [ "db_tools", "have_read_write_access_to_config" ],

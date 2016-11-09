@@ -306,7 +306,7 @@ function register_auth_provider()
 							$return->yield->title = _("Auth Module");
 							return $return;
 						}
-				];
+					];
 
 				/**
 				 * To process sql files or edit the config file,
