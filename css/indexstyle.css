@@ -1,0 +1,93 @@
+html {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	text-decoration: none;
+	background: #E7E8E8 url('../images/bg-gray-texture.jpg') repeat top left;
+	color:  #2c3c42;
+	font-family: "Open Sans", "Arial";
+	font-size: 10pt;
+	text-align: center; /* this centers the container in IE 5* browsers. The text is then set to the left aligned default in the #container selector */
+	-webkit-font-smoothing: antialiased;
+}
+
+header {
+	background: #1B77AA;
+	margin: 0 auto;
+	padding-top: 30px;
+	padding-bottom: 20px;
+}
+
+header .title-main {
+	font-size: 28px;
+	color: #fff;
+}
+header .language-select {
+	display: inline-block;
+	color: #fff;
+	font-weight: 600;
+}
+select {color: #3D545D; font-size: 8pt;}
+
+
+.icons {
+	background: #fff;
+	padding: 30px 0;
+	display: flex;
+	justify-content: center;
+}
+.icons img {
+	padding: 25px;
+	border: none;
+}
+
+
+.main-page-icons {
+	margin: 0 30px;
+	width: 160px;
+}
+
+.main-page-icons a {
+	display: block;
+	text-decoration: none;
+}
+
+.main-page-icons span {
+	text-decoration: none;
+	font-size: 21px;
+	color: #777;
+	font-weight: 100;
+}
+
+.main-page-icons:hover {
+	cursor: pointer;
+}
+.main-page-icons:hover a {
+	opacity: 0.6;
+}
+
+.main-page-icons span {
+	display: block;
+}
+
+.main-page-icons-off:hover {
+	cursor: initial;
+}
+
+/*--- Control Powered By Logo on Main Menu Page ---*/
+
+footer {
+	color: #687FA1;
+	margin-top: 20px;
+	font-size: 14px;
+}
+footer img {
+	vertical-align: middle;
+	margin-left: 8px;
+}

@@ -1,0 +1,5 @@
+# Config files
+/common/configuration.ini
+
+# Workspace directory for IDE
+/.idea
