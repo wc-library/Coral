@@ -1115,7 +1115,7 @@ switch ($_GET['action']) {
 		
 		
 		<tr>
-		<td style="padding-top:18px;width:60px;"><input type='button' value='<?php echo $update; ?>' onclick='javascript:window.parent.submitCalendarSettings();' class='submit-button'></td>
+		<td style="width:60px;"><input type='button' value='<?php echo $update; ?>' onclick='javascript:window.parent.submitCalendarSettings();' class='submit-button'></td>
 		<td><input type='button' value='<?php echo _("cancel");?>' onclick="window.parent.tb_remove(); return false" class='cancel-button'></td>
 		</tr>
 		</table>
