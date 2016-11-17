@@ -1,18 +1,19 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: messages\n"
-"POT-Creation-Date: 2016-10-04 8:57-06:00\n"
-"PO-Revision-Date: 2016-10-23 00:13-0600\n"
+"POT-Creation-Date: 2016-11-03 12:59-0600\n"
+"PO-Revision-Date: 2016-11-03 13:23-0600\n"
 "Last-Translator: <>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Generator: Poedit 1.8.11\n"
 "X-Poedit-KeywordsList: watchString\n"
+"X-Poedit-Basepath: ../../..\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: js/admin.js:493
@@ -63,7 +64,8 @@ msgstr "错误 - 订单类型是必填字段"
 msgid "Error - price is not numeric"
 msgstr "错误 - 价格不是数字"
 
-#: js/forms/acquisitionsForm.js:147 js/forms/acquisitionsForm.js:148 js/forms/costForm.js:144
+#: js/forms/acquisitionsForm.js:147 js/forms/acquisitionsForm.js:148
+#: js/forms/costForm.js:144
 msgid "remove this payment"
 msgstr "移除该付款"
 
@@ -76,7 +78,9 @@ msgid "File name is already being used..."
 msgstr "文件名称已正被使用..."
 
 #: js/forms/attachmentForm.js:98
-msgid "File name may not contain special characters - ampersand, single quote, double quote or less than/greater than characters"
+msgid ""
+"File name may not contain special characters - ampersand, single quote, "
+"double quote or less than/greater than characters"
 msgstr "文件名称不能包括特殊字符——&、单引号、双引号或大于号、小于号等字符。"
 
 #: js/forms/attachmentForm.js:102
@@ -115,11 +119,13 @@ msgstr "错误 - 请输入一个值"
 msgid "Error - Detailed Subject is required"
 msgstr "错误 - 详细的主题是必需的"
 
-#: js/forms/generalDetailSubjectForm.js:108 js/forms/generalDetailSubjectForm.js:109
+#: js/forms/generalDetailSubjectForm.js:108
+#: js/forms/generalDetailSubjectForm.js:109
 msgid "Error - Detail Subject Already Added"
 msgstr "错误 - 已添加详细的主题"
 
-#: js/forms/generalDetailSubjectForm.js:133 ajax_forms/getGeneralDetailSubjectForm.php:107
+#: js/forms/generalDetailSubjectForm.js:133
+#: ajax_forms/getGeneralDetailSubjectForm.php:107
 msgid "remove detailed subject"
 msgstr "移除详细的主题"
 
@@ -159,7 +165,8 @@ msgstr "必须输入注释才能继续。"
 msgid "Error - Parent cannot be the same as the child"
 msgstr "错误 - 父级不能与子级相同"
 
-#: js/forms/resourceUpdateForm.js:223 js/forms/resourceUpdateForm.js:307 js/forms/resourceUpdateForm.js:392 js/forms/resourceUpdateForm.js:403
+#: js/forms/resourceUpdateForm.js:223 js/forms/resourceUpdateForm.js:307
+#: js/forms/resourceUpdateForm.js:392 js/forms/resourceUpdateForm.js:403
 msgid "Error - Both fields are required"
 msgstr "错误 - 两个字段都是必填"
 
@@ -211,7 +218,8 @@ msgstr "必须输入组名称才能继续。"
 msgid "Error - Step name is required"
 msgstr "错误 - 步骤名称为必填"
 
-#: js/forms/workflowForm.js:201 js/forms/workflowForm.js:202 ajax_forms/getAdminWorkflowForm.php:238
+#: js/forms/workflowForm.js:201 js/forms/workflowForm.js:202
+#: ajax_forms/getAdminWorkflowForm.php:238
 msgid "remove this step"
 msgstr "移除该步骤"
 
@@ -220,7 +228,9 @@ msgid "Please add at least one step to this workflow."
 msgstr "请为该工作流添加至少一个步骤。"
 
 #: js/forms/workflowForm.js:379
-msgid "Please click the Add button to the first step before submitting this workflow."
+msgid ""
+"Please click the Add button to the first step before submitting this "
+"workflow."
 msgstr "请在提交此工作流之前为第一步单击“添加”按钮。"
 
 #: js/index.js:112
@@ -440,7 +450,9 @@ msgid "Refreshing Contents..."
 msgstr "正在刷新内容..."
 
 #: js/resource.js:469
-msgid "Opening an issue requires a resource to be associated with an organization. Please contact your IT department."
+msgid ""
+"Opening an issue requires a resource to be associated with an organization. "
+"Please contact your IT department."
 msgstr "新建问题需要一个与一个组织相关联的资源。请联系您的 IT 部门。"
 
 #: js/resource.js:474
@@ -488,22 +500,31 @@ msgid "Do you really want to delete this note?"
 msgstr "您确认要删除该注释吗？"
 
 #: js/resource.js:896
-msgid "Warning!  You are about to remove any steps that have been started and completed.  Are you sure you wish to continue?"
+msgid ""
+"Warning!  You are about to remove any steps that have been started and "
+"completed.  Are you sure you wish to continue?"
 msgstr "警告！您将要移除任何已开始和已完成的步骤。您确认要继续吗？"
 
 #: js/resource.js:913
-msgid "Do you really want to mark this resource complete?  This action cannot be undone."
+msgid ""
+"Do you really want to mark this resource complete?  This action cannot be "
+"undone."
 msgstr "您确认要将该资源标记为完成吗？该操作无法被撤销。"
 
 #: js/resource.js:927
-msgid "Do you really want to delete this step? If other steps depended on this one, they will be started upon deletion. This action cannot be undone"
-msgstr "您确认要删除该步骤吗？如果其它步骤取决于该步骤，那么将会在删除后重新启动。该操作无法被撤销。"
+msgid ""
+"Do you really want to delete this step? If other steps depended on this one, "
+"they will be started upon deletion. This action cannot be undone"
+msgstr ""
+"您确认要删除该步骤吗？如果其它步骤取决于该步骤，那么将会在删除后重新启动。该"
+"操作无法被撤销。"
 
 #: admin.php:22 admin.php:40
 msgid "Administration"
 msgstr "管理"
 
-#: admin.php:51 ajax_htmldata/getAdminUserDisplay.php:19 ajax_htmldata/getAdminWorkflowDisplay.php:74
+#: admin.php:51 ajax_htmldata/getAdminUserDisplay.php:19
+#: ajax_htmldata/getAdminWorkflowDisplay.php:74
 msgid "Users"
 msgstr "用户"
 
@@ -515,7 +536,11 @@ msgstr "工作流 / 用户组"
 msgid "Access Method"
 msgstr "访问方式"
 
-#: admin.php:54 ajax_forms/getNewResourceForm.php:176 ajax_htmldata/getAdminWorkflowDisplay.php:16 ajax_htmldata/getOutstandingQueue.php:21 ajax_htmldata/getSavedQueue.php:20 ajax_htmldata/getSearchResources.php:117 ajax_htmldata/getSubmittedQueue.php:17 index.php:115
+#: admin.php:54 ajax_forms/getNewResourceForm.php:176
+#: ajax_htmldata/getAdminWorkflowDisplay.php:16
+#: ajax_htmldata/getOutstandingQueue.php:21 ajax_htmldata/getSavedQueue.php:20
+#: ajax_htmldata/getSearchResources.php:117
+#: ajax_htmldata/getSubmittedQueue.php:17 index.php:115
 msgid "Acquisition Type"
 msgstr "采访类型"
 
@@ -527,7 +552,8 @@ msgstr "管理站点"
 msgid "Alert Settings"
 msgstr "提醒设置"
 
-#: admin.php:59 ajax_forms/getImportConfigForm.php:57 ajax_forms/getImportConfigForm.php:71 ajax_forms/getImportConfigForm.php:247
+#: admin.php:59 ajax_forms/getImportConfigForm.php:57
+#: ajax_forms/getImportConfigForm.php:71 ajax_forms/getImportConfigForm.php:247
 msgid "Alias Type"
 msgstr "别名类型"
 
@@ -559,7 +585,8 @@ msgstr "联系人角色"
 msgid "Cost Details"
 msgstr "成本详细信息"
 
-#: admin.php:69 ajax_forms/getCostForm.php:78 ajax_htmldata/getAdminCurrencyDisplay.php:8
+#: admin.php:69 ajax_forms/getCostForm.php:78
+#: ajax_htmldata/getAdminCurrencyDisplay.php:8
 msgid "Currency"
 msgstr "货币"
 
@@ -583,7 +610,9 @@ msgstr "导入配置"
 msgid "License Status"
 msgstr "授权状态"
 
-#: admin.php:75 ajax_forms/getImportConfigForm.php:149 ajax_forms/getImportConfigForm.php:163 ajax_forms/getImportConfigForm.php:271 index.php:359
+#: admin.php:75 ajax_forms/getImportConfigForm.php:149
+#: ajax_forms/getImportConfigForm.php:163
+#: ajax_forms/getImportConfigForm.php:271 index.php:359
 msgid "Note Type"
 msgstr "注释类型"
 
@@ -591,7 +620,9 @@ msgstr "注释类型"
 msgid "Order Type"
 msgstr "订单类型"
 
-#: admin.php:83 ajax_forms/getImportConfigForm.php:184 ajax_forms/getImportConfigForm.php:196 ajax_forms/getImportConfigForm.php:277
+#: admin.php:83 ajax_forms/getImportConfigForm.php:184
+#: ajax_forms/getImportConfigForm.php:196
+#: ajax_forms/getImportConfigForm.php:277
 msgid "Organization Role"
 msgstr "组织角色"
 
@@ -603,11 +634,14 @@ msgstr "组织"
 msgid "Purchasing Site"
 msgstr "采购站点"
 
-#: admin.php:89 ajax_forms/getImportConfigForm.php:49 ajax_htmldata/getAdminWorkflowDisplay.php:17 index.php:201
+#: admin.php:89 ajax_forms/getImportConfigForm.php:49
+#: ajax_htmldata/getAdminWorkflowDisplay.php:17 index.php:201
 msgid "Resource Format"
 msgstr "资源格式"
 
-#: admin.php:90 ajax_forms/getImportConfigForm.php:50 ajax_forms/getNewResourceForm.php:223 ajax_htmldata/getAdminWorkflowDisplay.php:18 index.php:225
+#: admin.php:90 ajax_forms/getImportConfigForm.php:50
+#: ajax_forms/getNewResourceForm.php:223
+#: ajax_htmldata/getAdminWorkflowDisplay.php:18 index.php:225
 msgid "Resource Type"
 msgstr "资源类型"
 
@@ -655,6 +689,132 @@ msgstr "编辑 DDW 分面/条款选择于："
 msgid "Email template file not found: "
 msgstr "未找到电子邮件模板文件："
 
+#: admin/classes/domain/Resource.php:1034
+msgid "Name contains: "
+msgstr "名称包括："
+
+#: admin/classes/domain/Resource.php:1040
+msgid "Resource ID: "
+msgstr "资源 ID："
+
+#: admin/classes/domain/Resource.php:1045
+msgid "ISSN/ISBN: "
+msgstr "ISSN / ISBN："
+
+#: admin/classes/domain/Resource.php:1052
+msgid "Routing Step: "
+msgstr "传阅步骤："
+
+#: admin/classes/domain/Resource.php:1067
+msgid "Status: "
+msgstr "状态："
+
+#: admin/classes/domain/Resource.php:1079
+msgid "Creator: "
+msgstr "著者："
+
+#: admin/classes/domain/Resource.php:1085
+msgid "Resource Format: "
+msgstr "资源格式："
+
+#: admin/classes/domain/Resource.php:1091
+msgid "Acquisition Type: "
+msgstr "采访类型："
+
+#: admin/classes/domain/Resource.php:1097
+msgid "Note contains: "
+msgstr "注释包括："
+
+#: admin/classes/domain/Resource.php:1103
+msgid "Created on or after: "
+msgstr "创建日期或在此之后创建："
+
+#: admin/classes/domain/Resource.php:1105
+msgid "Created between: "
+msgstr "创建日期介于："
+
+#: admin/classes/domain/Resource.php:1112
+msgid "Created on or before: "
+msgstr "创建日期或在此之前创建："
+
+#: admin/classes/domain/Resource.php:1118
+msgid "Starts with: "
+msgstr "开始字母："
+
+#: admin/classes/domain/Resource.php:1124
+msgid "Fund: none"
+msgstr "经费：无"
+
+#: admin/classes/domain/Resource.php:1128
+msgid "Fund: "
+msgstr "经费："
+
+#: admin/classes/domain/Resource.php:1132
+#: admin/classes/domain/Resource.php:1142
+#: admin/classes/domain/Resource.php:1151
+msgid "Resource Type: none"
+msgstr "资源类型：无"
+
+#: admin/classes/domain/Resource.php:1136
+msgid "Resource Type: "
+msgstr "资源类型："
+
+#: admin/classes/domain/Resource.php:1146
+msgid "General Subject: "
+msgstr "一般主题："
+
+#: admin/classes/domain/Resource.php:1155
+msgid "Detailed Subject: "
+msgstr "详细的主题："
+
+#: admin/classes/domain/Resource.php:1160
+msgid "Note Type: none"
+msgstr "注释类型：无"
+
+#: admin/classes/domain/Resource.php:1164
+msgid "Note Type: "
+msgstr "注释类型："
+
+#: admin/classes/domain/Resource.php:1170
+msgid "Purchase Site: none"
+msgstr "购买站点：无"
+
+#: admin/classes/domain/Resource.php:1174
+msgid "Purchase Site: "
+msgstr "购买站点："
+
+#: admin/classes/domain/Resource.php:1180
+msgid "Authorized Site: none"
+msgstr "授权站点：无"
+
+#: admin/classes/domain/Resource.php:1184
+msgid "Authorized Site: "
+msgstr "授权站点："
+
+#: admin/classes/domain/Resource.php:1190
+msgid "Administering Site: none"
+msgstr "管理站点：无"
+
+#: admin/classes/domain/Resource.php:1194
+msgid "Administering Site: "
+msgstr "管理站点："
+
+#: admin/classes/domain/Resource.php:1200
+msgid "Authentication Type: none"
+msgstr "身份验证类型：无"
+
+#: admin/classes/domain/Resource.php:1204
+msgid "Authentication Type: "
+msgstr "身份验证类型："
+
+#: admin/classes/domain/Resource.php:1209
+msgid "Cataloging Status: none"
+msgstr "编目状态：无"
+
+#: admin/classes/domain/Resource.php:1213
+msgid "Cataloging Status: "
+msgstr "编目状态："
+
 #: ajax_forms.php:25
 msgid "Form action "
 msgstr "表格操作"
@@ -671,7 +831,8 @@ msgstr "编辑访问权"
 msgid "Access"
 msgstr "访问"
 
-#: ajax_forms/getAccessForm.php:75 ajax_htmldata/getAccessDetails.php:57 summary.php:694
+#: ajax_forms/getAccessForm.php:75 ajax_htmldata/getAccessDetails.php:57
+#: summary.php:694
 msgid "Authentication Type:"
 msgstr "身份验证类型："
 
@@ -679,19 +840,23 @@ msgstr "身份验证类型："
 msgid "Username:"
 msgstr "用户名："
 
-#: ajax_forms/getAccessForm.php:94 ajax_htmldata/getAccessDetails.php:102 summary.php:731
+#: ajax_forms/getAccessForm.php:94 ajax_htmldata/getAccessDetails.php:102
+#: summary.php:731
 msgid "Access Method:"
 msgstr "访问方式："
 
-#: ajax_forms/getAccessForm.php:109 ajax_forms/getAccountForm.php:65 ajax_htmldata/getAccountDetails.php:80
+#: ajax_forms/getAccessForm.php:109 ajax_forms/getAccountForm.php:65
+#: ajax_htmldata/getAccountDetails.php:80
 msgid "Password:"
 msgstr "密码："
 
-#: ajax_forms/getAccessForm.php:113 ajax_htmldata/getAccessDetails.php:88 summary.php:724
+#: ajax_forms/getAccessForm.php:113 ajax_htmldata/getAccessDetails.php:88
+#: summary.php:724
 msgid "Storage Location:"
 msgstr "存储位置："
 
-#: ajax_forms/getAccessForm.php:128 ajax_htmldata/getAccessDetails.php:72 summary.php:708
+#: ajax_forms/getAccessForm.php:128 ajax_htmldata/getAccessDetails.php:72
+#: summary.php:708
 msgid "Simultaneous User Limit:"
 msgstr "并发用户限制："
 
@@ -707,13 +872,50 @@ msgstr "授权站点"
 msgid "Administering Site(s)"
 msgstr "管理站点"
 
-#: ajax_forms/getAccessForm.php:251 ajax_forms/getAccountForm.php:86 ajax_forms/getAdminAlertDaysForm.php:34 ajax_forms/getAdminAlertEmailForm.php:34 ajax_forms/getAdminCurrencyUpdateForm.php:38 ajax_forms/getAdminFundUpdateForm.php:45 ajax_forms/getAdminImportConfigUpdateForm.php:40 ajax_forms/getAdminUpdateForm.php:44 ajax_forms/getAdminUserGroupForm.php:147 ajax_forms/getAdminUserUpdateForm.php:66 ajax_forms/getAdminWorkflowForm.php:266 ajax_forms/getAttachmentForm.php:89 ajax_forms/getContactForm.php:161 ajax_forms/getCostForm.php:362 ajax_forms/getDetailSubjectUpdateForm.php:38 ajax_forms/getGeneralDetailSubjectForm.php:130 ajax_forms/getGeneralSubjectUpdateForm.php:38 ajax_forms/getLicenseForm.php:191 ajax_forms/getNewDowntimeForm.php:132 ajax_forms/getNewIssueForm.php:132 ajax_forms/getNewResourceForm.php:295 ajax_forms/getNoteForm.php:61
-#: ajax_forms/getOrderForm.php:160 ajax_forms/getResourceStepForm.php:64 ajax_forms/getUpdateProductForm.php:429 resources/cataloging_edit.php:102
+#: ajax_forms/getAccessForm.php:251 ajax_forms/getAccountForm.php:86
+#: ajax_forms/getAdminAlertDaysForm.php:34
+#: ajax_forms/getAdminAlertEmailForm.php:34
+#: ajax_forms/getAdminCurrencyUpdateForm.php:38
+#: ajax_forms/getAdminFundUpdateForm.php:45
+#: ajax_forms/getAdminImportConfigUpdateForm.php:40
+#: ajax_forms/getAdminUpdateForm.php:44
+#: ajax_forms/getAdminUserGroupForm.php:147
+#: ajax_forms/getAdminUserUpdateForm.php:66
+#: ajax_forms/getAdminWorkflowForm.php:266 ajax_forms/getAttachmentForm.php:89
+#: ajax_forms/getContactForm.php:161 ajax_forms/getCostForm.php:362
+#: ajax_forms/getDetailSubjectUpdateForm.php:38
+#: ajax_forms/getGeneralDetailSubjectForm.php:130
+#: ajax_forms/getGeneralSubjectUpdateForm.php:38
+#: ajax_forms/getLicenseForm.php:191 ajax_forms/getNewDowntimeForm.php:132
+#: ajax_forms/getNewIssueForm.php:132 ajax_forms/getNewResourceForm.php:295
+#: ajax_forms/getNoteForm.php:61 ajax_forms/getOrderForm.php:160
+#: ajax_forms/getResourceStepForm.php:64
+#: ajax_forms/getUpdateProductForm.php:429 resources/cataloging_edit.php:102
 msgid "submit"
 msgstr "提交"
 
-#: ajax_forms/getAccessForm.php:252 ajax_forms/getAccountForm.php:87 ajax_forms/getAdminAlertDaysForm.php:35 ajax_forms/getAdminAlertEmailForm.php:35 ajax_forms/getAdminCurrencyUpdateForm.php:39 ajax_forms/getAdminFundUpdateForm.php:46 ajax_forms/getAdminImportConfigUpdateForm.php:41 ajax_forms/getAdminUpdateForm.php:45 ajax_forms/getAdminUserGroupForm.php:148 ajax_forms/getAdminUserUpdateForm.php:67 ajax_forms/getAdminWorkflowForm.php:267 ajax_forms/getAttachmentForm.php:90 ajax_forms/getContactForm.php:162 ajax_forms/getCostForm.php:363 ajax_forms/getDetailSubjectUpdateForm.php:39 ajax_forms/getGeneralDetailSubjectForm.php:131 ajax_forms/getGeneralSubjectUpdateForm.php:39 ajax_forms/getImportSaveCfgForm.php:28 ajax_forms/getLicenseForm.php:192 ajax_forms/getNewDowntimeForm.php:133 ajax_forms/getNewDowntimeForm.php:142
-#: ajax_forms/getNewIssueForm.php:133 ajax_forms/getNewIssueForm.php:142 ajax_forms/getNewResourceForm.php:296 ajax_forms/getNoteForm.php:62 ajax_forms/getOrderForm.php:161 ajax_forms/getResourceStepForm.php:65 ajax_forms/getResourceSubjectForm.php:48 ajax_forms/getUpdateProductForm.php:430 importFunds.php:64 resources/cataloging_edit.php:103
+#: ajax_forms/getAccessForm.php:252 ajax_forms/getAccountForm.php:87
+#: ajax_forms/getAdminAlertDaysForm.php:35
+#: ajax_forms/getAdminAlertEmailForm.php:35
+#: ajax_forms/getAdminCurrencyUpdateForm.php:39
+#: ajax_forms/getAdminFundUpdateForm.php:46
+#: ajax_forms/getAdminImportConfigUpdateForm.php:41
+#: ajax_forms/getAdminUpdateForm.php:45
+#: ajax_forms/getAdminUserGroupForm.php:148
+#: ajax_forms/getAdminUserUpdateForm.php:67
+#: ajax_forms/getAdminWorkflowForm.php:267 ajax_forms/getAttachmentForm.php:90
+#: ajax_forms/getContactForm.php:162 ajax_forms/getCostForm.php:363
+#: ajax_forms/getDetailSubjectUpdateForm.php:39
+#: ajax_forms/getGeneralDetailSubjectForm.php:131
+#: ajax_forms/getGeneralSubjectUpdateForm.php:39
+#: ajax_forms/getImportSaveCfgForm.php:28 ajax_forms/getLicenseForm.php:192
+#: ajax_forms/getNewDowntimeForm.php:133 ajax_forms/getNewDowntimeForm.php:142
+#: ajax_forms/getNewIssueForm.php:133 ajax_forms/getNewIssueForm.php:142
+#: ajax_forms/getNewResourceForm.php:296 ajax_forms/getNoteForm.php:62
+#: ajax_forms/getOrderForm.php:161 ajax_forms/getResourceStepForm.php:65
+#: ajax_forms/getResourceSubjectForm.php:48
+#: ajax_forms/getUpdateProductForm.php:430 importFunds.php:64
+#: resources/cataloging_edit.php:103
 msgid "cancel"
 msgstr "取消"
 
@@ -729,7 +931,8 @@ msgstr "添加帐户"
 msgid "Login Type:"
 msgstr "登录类型︰"
 
-#: ajax_forms/getAccountForm.php:44 ajax_forms/getNewResourceForm.php:115 ajax_forms/getUpdateProductForm.php:101 summary.php:804
+#: ajax_forms/getAccountForm.php:44 ajax_forms/getNewResourceForm.php:115
+#: ajax_forms/getUpdateProductForm.php:101 summary.php:804
 msgid "URL:"
 msgstr "URL："
 
@@ -737,7 +940,9 @@ msgstr "URL："
 msgid "Registered Email:"
 msgstr "注册的电子邮件："
 
-#: ajax_forms/getAccountForm.php:72 ajax_forms/getContactForm.php:138 ajax_forms/getNoteForm.php:48 ajax_htmldata/getAccountDetails.php:104 ajax_htmldata/getContactDetails.php:165
+#: ajax_forms/getAccountForm.php:72 ajax_forms/getContactForm.php:138
+#: ajax_forms/getNoteForm.php:48 ajax_htmldata/getAccountDetails.php:104
+#: ajax_htmldata/getContactDetails.php:165
 msgid "Notes:"
 msgstr "注释："
 
@@ -765,11 +970,21 @@ msgstr "编辑货币"
 msgid "Add Currency"
 msgstr "添加货币"
 
-#: ajax_forms/getAdminCurrencyUpdateForm.php:24 ajax_forms/getAdminFundUpdateForm.php:25 ajax_htmldata/getAdminCurrencyDisplay.php:14 ajax_htmldata/getAdminFundDisplay.php:14
+#: ajax_forms/getAdminCurrencyUpdateForm.php:24
+#: ajax_forms/getAdminFundUpdateForm.php:25
+#: ajax_htmldata/getAdminCurrencyDisplay.php:14
+#: ajax_htmldata/getAdminFundDisplay.php:14
 msgid "Code"
 msgstr "代码"
 
-#: ajax_forms/getAdminCurrencyUpdateForm.php:27 ajax_forms/getAdminFundUpdateForm.php:28 ajax_htmldata/getAdminCurrencyDisplay.php:15 ajax_htmldata/getAdminFundDisplay.php:15 ajax_htmldata/getAdminImportConfigDisplay.php:13 ajax_htmldata/getOutstandingQueue.php:20 ajax_htmldata/getSavedQueue.php:18 ajax_htmldata/getSearchResources.php:114 ajax_htmldata/getSubmittedQueue.php:15
+#: ajax_forms/getAdminCurrencyUpdateForm.php:27
+#: ajax_forms/getAdminFundUpdateForm.php:28
+#: ajax_htmldata/getAdminCurrencyDisplay.php:15
+#: ajax_htmldata/getAdminFundDisplay.php:15
+#: ajax_htmldata/getAdminImportConfigDisplay.php:13
+#: ajax_htmldata/getOutstandingQueue.php:20 ajax_htmldata/getSavedQueue.php:18
+#: ajax_htmldata/getSearchResources.php:114
+#: ajax_htmldata/getSubmittedQueue.php:15
 msgid "Name"
 msgstr "名称"
 
@@ -798,14 +1013,36 @@ msgid "Configuration Name"
 msgstr "配置名称"
 
 #: ajax_forms/getAdminImportConfigUpdateForm.php:34
-msgid "For each of the resource fields please input the number of the column in your CSV file that corresponds to the resource field. For example, if your import file has a second column called Name that corresponds to the Resource Title, then you would input 2 for the value for the Resource Title field. For columns with multiple values that are character-delimited, indicate the delimiter using the If delimited, delimited by field. For fields with values across multiple columns, add additional sets using the +Add another links. Use the Dedupe on this column option for ISBN/ISSN sets to ignore any duplicate values that might occur across those columns. The Alias Types, Note Types, and Organization Roles that you can assign to your mapped columns can be configured on the Admin page."
-msgstr "对于每一个资源字段，请在您的 CSV 文件中输入与资源字段对应的栏数。例如，如果在您的输入文件中与“资源标题”相对应的栏是称作“名称”的第二栏，那么您需要为“资源标题”字段输入值“2”。对于包含多个被字符分隔的值的栏，使用 If 指示分隔符，并按字段分隔。对于包含跨多栏的值的字段，使用“+添加另一个链接”以添加集。为 ISBN/ISSN 集使用该栏选项的“消除重复数据”功能可以忽略任何可能出现在这些栏中的重复值。您可以在“管理员”页面配置可将之分配给您的映射栏的“别名类型”、“注释类型”和“组织角色”。"
+msgid ""
+"For each of the resource fields please input the number of the column in "
+"your CSV file that corresponds to the resource field. For example, if your "
+"import file has a second column called Name that corresponds to the Resource "
+"Title, then you would input 2 for the value for the Resource Title field. "
+"For columns with multiple values that are character-delimited, indicate the "
+"delimiter using the If delimited, delimited by field. For fields with values "
+"across multiple columns, add additional sets using the +Add another links. "
+"Use the Dedupe on this column option for ISBN/ISSN sets to ignore any "
+"duplicate values that might occur across those columns. The Alias Types, "
+"Note Types, and Organization Roles that you can assign to your mapped "
+"columns can be configured on the Admin page."
+msgstr ""
+"对于每一个资源字段，请在您的 CSV 文件中输入与资源字段对应的栏数。例如，如果在"
+"您的输入文件中与“资源标题”相对应的栏是称作“名称”的第二栏，那么您需要为“资源标"
+"题”字段输入值“2”。对于包含多个被字符分隔的值的栏，使用 If 指示分隔符，并按字"
+"段分隔。对于包含跨多栏的值的字段，使用“+添加另一个链接”以添加集。为 ISBN/"
+"ISSN 集使用该栏选项的“消除重复数据”功能可以忽略任何可能出现在这些栏中的重复"
+"值。您可以在“管理员”页面配置可将之分配给您的映射栏的“别名类型”、“注释类"
+"型”和“组织角色”。"
 
-#: ajax_forms/getAdminUpdateForm.php:16 ajax_forms/getDetailSubjectUpdateForm.php:16 ajax_forms/getGeneralSubjectUpdateForm.php:16
+#: ajax_forms/getAdminUpdateForm.php:16
+#: ajax_forms/getDetailSubjectUpdateForm.php:16
+#: ajax_forms/getGeneralSubjectUpdateForm.php:16
 msgid "Edit "
 msgstr "编辑"
 
-#: ajax_forms/getAdminUpdateForm.php:16 ajax_forms/getDetailSubjectUpdateForm.php:16 ajax_forms/getGeneralSubjectUpdateForm.php:16
+#: ajax_forms/getAdminUpdateForm.php:16
+#: ajax_forms/getDetailSubjectUpdateForm.php:16
+#: ajax_forms/getGeneralSubjectUpdateForm.php:16
 msgid "Add "
 msgstr "添加"
 
@@ -841,7 +1078,16 @@ msgstr "分配的用户"
 msgid "add user"
 msgstr "添加用户"
 
-#: ajax_forms/getAdminUserGroupForm.php:82 ajax_forms/getAdminWorkflowForm.php:155 ajax_forms/getCostForm.php:184 ajax_forms/getGeneralDetailSubjectForm.php:76 ajax_forms/getLicenseForm.php:76 ajax_forms/getNewIssueForm.php:75 ajax_forms/getResourceSubjectForm.php:26 ajax_forms/getResourceSubjectForm.php:33 ajax_forms/getUpdateProductForm.php:124 ajax_forms/getUpdateProductForm.php:153 ajax_forms/getUpdateProductForm.php:266 ajax_forms/getUpdateProductForm.php:359
+#: ajax_forms/getAdminUserGroupForm.php:82
+#: ajax_forms/getAdminWorkflowForm.php:155 ajax_forms/getCostForm.php:184
+#: ajax_forms/getGeneralDetailSubjectForm.php:76
+#: ajax_forms/getLicenseForm.php:76 ajax_forms/getNewIssueForm.php:75
+#: ajax_forms/getResourceSubjectForm.php:26
+#: ajax_forms/getResourceSubjectForm.php:33
+#: ajax_forms/getUpdateProductForm.php:124
+#: ajax_forms/getUpdateProductForm.php:153
+#: ajax_forms/getUpdateProductForm.php:266
+#: ajax_forms/getUpdateProductForm.php:359
 msgid "Add"
 msgstr "添加"
 
@@ -853,27 +1099,35 @@ msgstr "编辑用户"
 msgid "Add New User"
 msgstr "添加新用户"
 
-#: ajax_forms/getAdminUserUpdateForm.php:32 ajax_htmldata/getAdminUserDisplay.php:22
+#: ajax_forms/getAdminUserUpdateForm.php:32
+#: ajax_htmldata/getAdminUserDisplay.php:22
 msgid "Login ID"
 msgstr "登录 ID"
 
-#: ajax_forms/getAdminUserUpdateForm.php:33 ajax_htmldata/getAdminUserDisplay.php:23
+#: ajax_forms/getAdminUserUpdateForm.php:33
+#: ajax_htmldata/getAdminUserDisplay.php:23
 msgid "First Name"
 msgstr "名"
 
-#: ajax_forms/getAdminUserUpdateForm.php:34 ajax_htmldata/getAdminUserDisplay.php:24
+#: ajax_forms/getAdminUserUpdateForm.php:34
+#: ajax_htmldata/getAdminUserDisplay.php:24
 msgid "Last Name"
 msgstr "姓"
 
-#: ajax_forms/getAdminUserUpdateForm.php:35 ajax_htmldata/getAdminAlertDisplay.php:16 ajax_htmldata/getAdminUserDisplay.php:27 ajax_htmldata/getAdminWorkflowDisplay.php:73
+#: ajax_forms/getAdminUserUpdateForm.php:35
+#: ajax_htmldata/getAdminAlertDisplay.php:16
+#: ajax_htmldata/getAdminUserDisplay.php:27
+#: ajax_htmldata/getAdminWorkflowDisplay.php:73
 msgid "Email Address"
 msgstr "电子邮件地址"
 
-#: ajax_forms/getAdminUserUpdateForm.php:36 ajax_htmldata/getAdminUserDisplay.php:25
+#: ajax_forms/getAdminUserUpdateForm.php:36
+#: ajax_htmldata/getAdminUserDisplay.php:25
 msgid "Privilege"
 msgstr "特权"
 
-#: ajax_forms/getAdminUserUpdateForm.php:54 ajax_htmldata/getAdminUserDisplay.php:26
+#: ajax_forms/getAdminUserUpdateForm.php:54
+#: ajax_htmldata/getAdminUserDisplay.php:26
 msgid "View Accounts"
 msgstr "查看帐户"
 
@@ -885,15 +1139,20 @@ msgstr "编辑工作流"
 msgid "Resource Entry Requirements"
 msgstr "资源条目要求"
 
-#: ajax_forms/getAdminWorkflowForm.php:58 ajax_forms/getOrderForm.php:46 ajax_htmldata/getAcquisitionsDetails.php:111 summary.php:435
+#: ajax_forms/getAdminWorkflowForm.php:58 ajax_forms/getOrderForm.php:46
+#: ajax_htmldata/getAcquisitionsDetails.php:111 summary.php:435
 msgid "Acquisition Type:"
 msgstr "采访类型："
 
-#: ajax_forms/getAdminWorkflowForm.php:74 ajax_forms/getUpdateProductForm.php:176
+#: ajax_forms/getAdminWorkflowForm.php:74
+#: ajax_forms/getUpdateProductForm.php:176
 msgid "Format:"
 msgstr "格式："
 
-#: ajax_forms/getAdminWorkflowForm.php:89 ajax_forms/getAttachmentForm.php:35 ajax_forms/getUpdateProductForm.php:336 ajax_htmldata/getAttachmentDetails.php:47 ajax_htmldata/getDowntimeList.php:17
+#: ajax_forms/getAdminWorkflowForm.php:89 ajax_forms/getAttachmentForm.php:35
+#: ajax_forms/getUpdateProductForm.php:336
+#: ajax_htmldata/getAttachmentDetails.php:47
+#: ajax_htmldata/getDowntimeList.php:17
 msgid "Type:"
 msgstr "类型："
 
@@ -901,7 +1160,9 @@ msgstr "类型："
 msgid "Workflow Steps"
 msgstr "工作流步骤"
 
-#: ajax_forms/getAdminWorkflowForm.php:123 ajax_forms/getAttachmentForm.php:27 ajax_forms/getContactForm.php:43 ajax_forms/getImportSaveCfgForm.php:16 ajax_forms/getNewResourceForm.php:100 ajax_forms/getUpdateProductForm.php:91
+#: ajax_forms/getAdminWorkflowForm.php:123 ajax_forms/getAttachmentForm.php:27
+#: ajax_forms/getContactForm.php:43 ajax_forms/getImportSaveCfgForm.php:16
+#: ajax_forms/getNewResourceForm.php:100 ajax_forms/getUpdateProductForm.php:91
 msgid "Name:"
 msgstr "名称："
 
@@ -933,7 +1194,8 @@ msgstr "文件："
 msgid "replace with new file"
 msgstr "替换为新文件"
 
-#: ajax_forms/getAttachmentForm.php:76 ajax_htmldata/getAttachmentDetails.php:55 summary.php:544
+#: ajax_forms/getAttachmentForm.php:76
+#: ajax_htmldata/getAttachmentDetails.php:55 summary.php:544
 msgid "Details:"
 msgstr "详细信息："
 
@@ -969,7 +1231,8 @@ msgstr "电子邮件："
 msgid "Address:"
 msgstr "地址："
 
-#: ajax_forms/getContactForm.php:92 ajax_forms/getUpdateProductForm.php:214 ajax_htmldata/getProductDetails.php:116
+#: ajax_forms/getContactForm.php:92 ajax_forms/getUpdateProductForm.php:214
+#: ajax_htmldata/getProductDetails.php:116
 msgid "Archived:"
 msgstr "已存档："
 
@@ -981,7 +1244,8 @@ msgstr "角色："
 msgid "Edit Cost Information"
 msgstr "编辑成本信息"
 
-#: ajax_forms/getCostForm.php:59 ajax_htmldata/getAcquisitionsDetails.php:172 summary.php:492
+#: ajax_forms/getCostForm.php:59 ajax_htmldata/getAcquisitionsDetails.php:172
+#: summary.php:492
 msgid "Cost History"
 msgstr "成本历史记录"
 
@@ -997,7 +1261,8 @@ msgstr "订阅开始"
 msgid "Sub End"
 msgstr "订阅结束"
 
-#: ajax_forms/getCostForm.php:71 ajax_htmldata/getAcquisitionsDetails.php:185 ajax_htmldata/getAdminFundDisplay.php:8 index.php:87
+#: ajax_forms/getCostForm.php:71 ajax_htmldata/getAcquisitionsDetails.php:185
+#: ajax_htmldata/getAdminFundDisplay.php:8 index.php:87
 msgid "Fund"
 msgstr "经费"
 
@@ -1021,7 +1286,9 @@ msgstr "付款"
 msgid "Type"
 msgstr "类型"
 
-#: ajax_forms/getCostForm.php:83 ajax_forms/getImportConfigForm.php:148 ajax_forms/getImportConfigForm.php:162 ajax_forms/getImportConfigForm.php:271
+#: ajax_forms/getCostForm.php:83 ajax_forms/getImportConfigForm.php:148
+#: ajax_forms/getImportConfigForm.php:162
+#: ajax_forms/getImportConfigForm.php:271
 msgid "Note"
 msgstr "注释"
 
@@ -1037,7 +1304,9 @@ msgstr "添加付款"
 msgid "Add / Edit Subject Relationships"
 msgstr "添加/编辑主题关系"
 
-#: ajax_forms/getGeneralDetailSubjectForm.php:27 ajax_htmldata/getAdminSubjectDisplay.php:9 ajax_htmldata/getAdminSubjectDisplay.php:98 index.php:266
+#: ajax_forms/getGeneralDetailSubjectForm.php:27
+#: ajax_htmldata/getAdminSubjectDisplay.php:9
+#: ajax_htmldata/getAdminSubjectDisplay.php:98 index.php:266
 msgid "General Subject"
 msgstr "一般主题"
 
@@ -1049,7 +1318,9 @@ msgstr "详细主题"
 msgid "add detail subject"
 msgstr "添加详细主题"
 
-#: ajax_forms/getGeneralDetailSubjectForm.php:109 ajax_htmldata/getAdminSubjectDisplay.php:30 ajax_htmldata/getAdminSubjectDisplay.php:71
+#: ajax_forms/getGeneralDetailSubjectForm.php:109
+#: ajax_htmldata/getAdminSubjectDisplay.php:30
+#: ajax_htmldata/getAdminSubjectDisplay.php:71
 msgid "subject in use"
 msgstr "使用中的主题"
 
@@ -1077,11 +1348,22 @@ msgstr "备用 URL"
 msgid "Alias Sets"
 msgstr "别名集"
 
-#: ajax_forms/getImportConfigForm.php:56 ajax_forms/getImportConfigForm.php:70 ajax_forms/getImportConfigForm.php:247
+#: ajax_forms/getImportConfigForm.php:56 ajax_forms/getImportConfigForm.php:70
+#: ajax_forms/getImportConfigForm.php:247
 msgid "Alias"
 msgstr "别名"
 
-#: ajax_forms/getImportConfigForm.php:66 ajax_forms/getImportConfigForm.php:76 ajax_forms/getImportConfigForm.php:104 ajax_forms/getImportConfigForm.php:110 ajax_forms/getImportConfigForm.php:128 ajax_forms/getImportConfigForm.php:133 ajax_forms/getImportConfigForm.php:158 ajax_forms/getImportConfigForm.php:168 ajax_forms/getImportConfigForm.php:247 ajax_forms/getImportConfigForm.php:259 ajax_forms/getImportConfigForm.php:265 ajax_forms/getImportConfigForm.php:271
+#: ajax_forms/getImportConfigForm.php:66 ajax_forms/getImportConfigForm.php:76
+#: ajax_forms/getImportConfigForm.php:104
+#: ajax_forms/getImportConfigForm.php:110
+#: ajax_forms/getImportConfigForm.php:128
+#: ajax_forms/getImportConfigForm.php:133
+#: ajax_forms/getImportConfigForm.php:158
+#: ajax_forms/getImportConfigForm.php:168
+#: ajax_forms/getImportConfigForm.php:247
+#: ajax_forms/getImportConfigForm.php:259
+#: ajax_forms/getImportConfigForm.php:265
+#: ajax_forms/getImportConfigForm.php:271
 msgid "If delimited, delimited by"
 msgstr "如果分隔，分隔符为"
 
@@ -1093,7 +1375,8 @@ msgstr "+ 添加另一个别名集"
 msgid "Resource Parents"
 msgstr "资源父级"
 
-#: ajax_forms/getImportConfigForm.php:85 ajax_forms/getImportConfigForm.php:89 ajax_forms/getImportConfigForm.php:253
+#: ajax_forms/getImportConfigForm.php:85 ajax_forms/getImportConfigForm.php:89
+#: ajax_forms/getImportConfigForm.php:253
 msgid "Parent Resource"
 msgstr "父资源"
 
@@ -1105,11 +1388,15 @@ msgstr "+ 添加另一个父资源"
 msgid "ISBN/ISSN Sets"
 msgstr "ISBN/ISSN 集"
 
-#: ajax_forms/getImportConfigForm.php:103 ajax_forms/getImportConfigForm.php:109 ajax_forms/getImportConfigForm.php:259
+#: ajax_forms/getImportConfigForm.php:103
+#: ajax_forms/getImportConfigForm.php:109
+#: ajax_forms/getImportConfigForm.php:259
 msgid "ISBN or ISSN"
 msgstr "ISBN 或 ISSN"
 
-#: ajax_forms/getImportConfigForm.php:105 ajax_forms/getImportConfigForm.php:111 ajax_forms/getImportConfigForm.php:259
+#: ajax_forms/getImportConfigForm.php:105
+#: ajax_forms/getImportConfigForm.php:111
+#: ajax_forms/getImportConfigForm.php:259
 msgid "Dedupe on this column"
 msgstr "对此栏消除重复数据"
 
@@ -1121,7 +1408,9 @@ msgstr "+ 添加另一个 ISBN 或 ISSN 集"
 msgid "Subject Sets"
 msgstr "主题集"
 
-#: ajax_forms/getImportConfigForm.php:127 ajax_forms/getImportConfigForm.php:132 ajax_forms/getImportConfigForm.php:265
+#: ajax_forms/getImportConfigForm.php:127
+#: ajax_forms/getImportConfigForm.php:132
+#: ajax_forms/getImportConfigForm.php:265
 msgid "Subject"
 msgstr "主题"
 
@@ -1141,7 +1430,9 @@ msgstr "+ 添加另一个注释集"
 msgid "Organization Sets"
 msgstr "组织设置"
 
-#: ajax_forms/getImportConfigForm.php:184 ajax_forms/getImportConfigForm.php:196 ajax_forms/getImportConfigForm.php:277
+#: ajax_forms/getImportConfigForm.php:184
+#: ajax_forms/getImportConfigForm.php:196
+#: ajax_forms/getImportConfigForm.php:277
 msgid "Organization"
 msgstr "组织"
 
@@ -1154,8 +1445,20 @@ msgid "Organization Name Mapping"
 msgstr "组织名称映射"
 
 #: ajax_forms/getImportConfigForm.php:209
-msgid "Use these mappings to normalize different variations of an organization’s name to a single value. For example, you could have a publisher with three variations of their name across your import file: PublisherHouse, PublisherH, and PH. You could create a mapping for each one and normalize them all to PublisherHouse, to prevent duplicate organizations from being created. Each column that is added to an Organization set above is checked against the complete list of mappings that you create. "
-msgstr "使用这些映射可以将一个组织的不同名称规范化为一个单个值。例如，可能您的导入文件中出现了同一出版商的三个不同的名称：PublisherHouse、PublisherH 和 PH。您可以为每一个名称创建一个映射并将它们全部规范化为 PublisherHouse，以避免创建重复的组织。每一个被添加至一个“组织”集上方的栏都会与您创建的完整映射列表进行比较。"
+msgid ""
+"Use these mappings to normalize different variations of an organization’s "
+"name to a single value. For example, you could have a publisher with three "
+"variations of their name across your import file: PublisherHouse, "
+"PublisherH, and PH. You could create a mapping for each one and normalize "
+"them all to PublisherHouse, to prevent duplicate organizations from being "
+"created. Each column that is added to an Organization set above is checked "
+"against the complete list of mappings that you create. "
+msgstr ""
+"使用这些映射可以将一个组织的不同名称规范化为一个单个值。例如，可能您的导入文"
+"件中出现了同一出版商的三个不同的名称：PublisherHouse、PublisherH 和 PH。您可"
+"以为每一个名称创建一个映射并将它们全部规范化为 PublisherHouse，以避免创建重复"
+"的组织。每一个被添加至一个“组织”集上方的栏都会与您创建的完整映射列表进行比"
+"较。"
 
 #: ajax_forms/getImportConfigForm.php:209
 msgid "PCRE regular expressions"
@@ -1213,7 +1516,9 @@ msgstr "授权"
 msgid "Licensing Status"
 msgstr "授权状态"
 
-#: ajax_forms/getLicenseForm.php:136 ajax_htmldata/getAcquisitionsDetails.php:286 ajax_htmldata/getProductDetails.php:106 summary.php:218 summary.php:578
+#: ajax_forms/getLicenseForm.php:136
+#: ajax_htmldata/getAcquisitionsDetails.php:286
+#: ajax_htmldata/getProductDetails.php:106 summary.php:218 summary.php:578
 msgid "Status:"
 msgstr "状态："
 
@@ -1221,11 +1526,27 @@ msgstr "状态："
 msgid "History:"
 msgstr "历史记录："
 
-#: ajax_forms/getLicenseForm.php:166 ajax_htmldata/getAccessDetails.php:173 ajax_htmldata/getAcquisitionsDetails.php:292 ajax_htmldata/getAcquisitionsDetails.php:386 ajax_htmldata/getProductDetails.php:125 ajax_htmldata/getProductDetails.php:127 ajax_htmldata/getProductDetails.php:150 ajax_htmldata/getProductDetails.php:152 ajax_htmldata/getProductDetails.php:174 ajax_htmldata/getProductDetails.php:176 ajax_htmldata/getProductDetails.php:454 ajax_htmldata/getRoutingDetails.php:53 ajax_htmldata/getRoutingDetails.php:55 ajax_htmldata/getRoutingDetails.php:88 ajax_htmldata/getRoutingDetails.php:90 resources/cataloging.php:221 summary.php:232 summary.php:258 summary.php:413 summary.php:584 summary.php:659 summary.php:781 summary.php:894
+#: ajax_forms/getLicenseForm.php:166 ajax_htmldata/getAccessDetails.php:173
+#: ajax_htmldata/getAcquisitionsDetails.php:292
+#: ajax_htmldata/getAcquisitionsDetails.php:386
+#: ajax_htmldata/getProductDetails.php:125
+#: ajax_htmldata/getProductDetails.php:127
+#: ajax_htmldata/getProductDetails.php:150
+#: ajax_htmldata/getProductDetails.php:152
+#: ajax_htmldata/getProductDetails.php:174
+#: ajax_htmldata/getProductDetails.php:176
+#: ajax_htmldata/getProductDetails.php:454
+#: ajax_htmldata/getRoutingDetails.php:53
+#: ajax_htmldata/getRoutingDetails.php:55
+#: ajax_htmldata/getRoutingDetails.php:88
+#: ajax_htmldata/getRoutingDetails.php:90 resources/cataloging.php:221
+#: summary.php:232 summary.php:258 summary.php:413 summary.php:584
+#: summary.php:659 summary.php:781 summary.php:894
 msgid " by "
 msgstr "由"
 
-#: ajax_forms/getLicenseForm.php:169 ajax_htmldata/getAcquisitionsDetails.php:295 summary.php:587
+#: ajax_forms/getLicenseForm.php:169
+#: ajax_htmldata/getAcquisitionsDetails.php:295 summary.php:587
 msgid "No license status information available."
 msgstr "没有可用的授权状态信息。"
 
@@ -1257,12 +1578,15 @@ msgstr "问题类型："
 msgid "Link to open issue:"
 msgstr "开放问题的链接："
 
-#: ajax_forms/getNewDowntimeForm.php:123 ajax_htmldata/getDowntimeList.php:39 summary.php:549
+#: ajax_forms/getNewDowntimeForm.php:123 ajax_htmldata/getDowntimeList.php:39
+#: summary.php:549
 msgid "Note:"
 msgstr "注意："
 
 #: ajax_forms/getNewDowntimeForm.php:141
-msgid "Creating downtime requires an organization or a resource to be associated with an organization."
+msgid ""
+"Creating downtime requires an organization or a resource to be associated "
+"with an organization."
 msgstr "创建停机时间要求一个组织或与一个组织相关联的资源。"
 
 #: ajax_forms/getNewIssueForm.php:24
@@ -1273,7 +1597,8 @@ msgstr "报告新问题"
 msgid "* required fields"
 msgstr "*必填字段"
 
-#: ajax_forms/getNewIssueForm.php:29 ajax_forms/getUpdateProductForm.php:244 ajax_htmldata/getContactDetails.php:83
+#: ajax_forms/getNewIssueForm.php:29 ajax_forms/getUpdateProductForm.php:244
+#: ajax_htmldata/getContactDetails.php:83
 msgid "Organization:"
 msgstr "组织："
 
@@ -1281,7 +1606,9 @@ msgstr "组织："
 msgid "Contact:"
 msgstr "联系人："
 
-#: ajax_forms/getNewIssueForm.php:57 ajax_htmldata/getContactDetails.php:43 ajax_htmldata/getContactDetails.php:187 ajax_htmldata/getContactDetails.php:197
+#: ajax_forms/getNewIssueForm.php:57 ajax_htmldata/getContactDetails.php:43
+#: ajax_htmldata/getContactDetails.php:187
+#: ajax_htmldata/getContactDetails.php:197
 msgid "add contact"
 msgstr "添加联系人"
 
@@ -1330,7 +1657,8 @@ msgid "day(s)"
 msgstr "天"
 
 #: ajax_forms/getNewIssueForm.php:141
-msgid "Opening an issue requires a resource to be associated with an organization."
+msgid ""
+"Opening an issue requires a resource to be associated with an organization."
 msgstr "新建问题需要一个与一个组织相关联的资源。"
 
 #: ajax_forms/getNewResourceForm.php:84
@@ -1349,7 +1677,8 @@ msgstr "必填字段"
 msgid "Product"
 msgstr "产品"
 
-#: ajax_forms/getNewResourceForm.php:105 ajax_forms/getUpdateProductForm.php:96 ajax_htmldata/getProductDetails.php:291 summary.php:361
+#: ajax_forms/getNewResourceForm.php:105 ajax_forms/getUpdateProductForm.php:96
+#: ajax_htmldata/getProductDetails.php:291 summary.php:361
 msgid "Description:"
 msgstr "描述︰"
 
@@ -1357,7 +1686,9 @@ msgstr "描述︰"
 msgid "Provider:"
 msgstr "提供商︰"
 
-#: ajax_forms/getNewResourceForm.php:120 ajax_forms/getUpdateProductForm.php:106 ajax_htmldata/getProductDetails.php:283 summary.php:353
+#: ajax_forms/getNewResourceForm.php:120
+#: ajax_forms/getUpdateProductForm.php:106
+#: ajax_htmldata/getProductDetails.php:283 summary.php:353
 msgid "Alt URL:"
 msgstr "备用 URL："
 
@@ -1365,7 +1696,8 @@ msgstr "备用 URL："
 msgid "Format"
 msgstr "格式"
 
-#: ajax_forms/getNewResourceForm.php:269 ajax_htmldata/getAcquisitionsDetails.php:199
+#: ajax_forms/getNewResourceForm.php:269
+#: ajax_htmldata/getAcquisitionsDetails.php:199
 msgid "Notes"
 msgstr "注释"
 
@@ -1389,19 +1721,23 @@ msgstr "注释类型："
 msgid "Edit Acquisitions Information"
 msgstr "编辑采访信息"
 
-#: ajax_forms/getOrderForm.php:40 ajax_htmldata/getAcquisitionsDetails.php:101 summary.php:428
+#: ajax_forms/getOrderForm.php:40 ajax_htmldata/getAcquisitionsDetails.php:101
+#: summary.php:428
 msgid "Order"
 msgstr "订单"
 
-#: ajax_forms/getOrderForm.php:64 ajax_htmldata/getAcquisitionsDetails.php:118 summary.php:442
+#: ajax_forms/getOrderForm.php:64 ajax_htmldata/getAcquisitionsDetails.php:118
+#: summary.php:442
 msgid "Order Number:"
 msgstr "订单号："
 
-#: ajax_forms/getOrderForm.php:69 ajax_htmldata/getAcquisitionsDetails.php:125 summary.php:449
+#: ajax_forms/getOrderForm.php:69 ajax_htmldata/getAcquisitionsDetails.php:125
+#: summary.php:449
 msgid "System Number:"
 msgstr "系统号："
 
-#: ajax_forms/getOrderForm.php:74 ajax_htmldata/getAcquisitionsDetails.php:146 summary.php:472
+#: ajax_forms/getOrderForm.php:74 ajax_htmldata/getAcquisitionsDetails.php:146
+#: summary.php:472
 msgid "Sub Start:"
 msgstr "订阅开始："
 
@@ -1449,11 +1785,23 @@ msgstr "一般主题名称"
 msgid "Detail Subject Name"
 msgstr "详细主题名称"
 
-#: ajax_forms/getResourceSubjectForm.php:26 ajax_forms/getResourceSubjectForm.php:33
+#: ajax_forms/getResourceSubjectForm.php:26
+#: ajax_forms/getResourceSubjectForm.php:33
 msgid "add"
 msgstr "添加"
 
-#: ajax_forms/getResourceSubjectForm.php:44 ajax_htmldata/getAdminAlertDisplay.php:35 ajax_htmldata/getAdminAlertDisplay.php:65 ajax_htmldata/getAdminDisplay.php:38 ajax_htmldata/getAdminFundDisplay.php:44 ajax_htmldata/getAdminSubjectDisplay.php:41 ajax_htmldata/getAdminSubjectDisplay.php:81 ajax_htmldata/getAdminSubjectDisplay.php:123 ajax_htmldata/getAdminUserDisplay.php:58 ajax_htmldata/getAdminWorkflowDisplay.php:49 ajax_htmldata/getAdminWorkflowDisplay.php:100 ajax_htmldata/getGeneralSubjectDisplay.php:35
+#: ajax_forms/getResourceSubjectForm.php:44
+#: ajax_htmldata/getAdminAlertDisplay.php:35
+#: ajax_htmldata/getAdminAlertDisplay.php:65
+#: ajax_htmldata/getAdminDisplay.php:38
+#: ajax_htmldata/getAdminFundDisplay.php:44
+#: ajax_htmldata/getAdminSubjectDisplay.php:41
+#: ajax_htmldata/getAdminSubjectDisplay.php:81
+#: ajax_htmldata/getAdminSubjectDisplay.php:123
+#: ajax_htmldata/getAdminUserDisplay.php:58
+#: ajax_htmldata/getAdminWorkflowDisplay.php:49
+#: ajax_htmldata/getAdminWorkflowDisplay.php:100
+#: ajax_htmldata/getGeneralSubjectDisplay.php:35
 msgid "(none found)"
 msgstr "(未找到)"
 
@@ -1469,7 +1817,8 @@ msgstr "父："
 msgid "add Parent Resource"
 msgstr "添加父资源"
 
-#: ajax_forms/getUpdateProductForm.php:148 ajax_htmldata/getProductDetails.php:223 summary.php:298
+#: ajax_forms/getUpdateProductForm.php:148
+#: ajax_htmldata/getProductDetails.php:223 summary.php:298
 msgid "ISSN / ISBN:"
 msgstr "ISSN / ISBN："
 
@@ -1513,12 +1862,32 @@ msgstr "数据操作"
 msgid "Access Information"
 msgstr "访问信息"
 
-#: ajax_htmldata/getAccessDetails.php:35 ajax_htmldata/getAccessDetails.php:170 ajax_htmldata/getAccountDetails.php:44 ajax_htmldata/getAcquisitionsDetails.php:103 ajax_htmldata/getAcquisitionsDetails.php:174 ajax_htmldata/getAcquisitionsDetails.php:280 ajax_htmldata/getAcquisitionsDetails.php:383 ajax_htmldata/getAdminAlertDisplay.php:25 ajax_htmldata/getAdminAlertDisplay.php:55 ajax_htmldata/getAdminCurrencyDisplay.php:25 ajax_htmldata/getAdminDisplay.php:28 ajax_htmldata/getAdminSubjectDisplay.php:66 ajax_htmldata/getAdminSubjectDisplay.php:114 ajax_htmldata/getAdminUserDisplay.php:47 ajax_htmldata/getAdminWorkflowDisplay.php:39 ajax_htmldata/getAdminWorkflowDisplay.php:90 ajax_htmldata/getAttachmentDetails.php:35 ajax_htmldata/getContactDetails.php:68 ajax_htmldata/getGeneralSubjectDisplay.php:25 ajax_htmldata/getProductDetails.php:75
+#: ajax_htmldata/getAccessDetails.php:35 ajax_htmldata/getAccessDetails.php:170
+#: ajax_htmldata/getAccountDetails.php:44
+#: ajax_htmldata/getAcquisitionsDetails.php:103
+#: ajax_htmldata/getAcquisitionsDetails.php:174
+#: ajax_htmldata/getAcquisitionsDetails.php:280
+#: ajax_htmldata/getAcquisitionsDetails.php:383
+#: ajax_htmldata/getAdminAlertDisplay.php:25
+#: ajax_htmldata/getAdminAlertDisplay.php:55
+#: ajax_htmldata/getAdminCurrencyDisplay.php:25
+#: ajax_htmldata/getAdminDisplay.php:28
+#: ajax_htmldata/getAdminSubjectDisplay.php:66
+#: ajax_htmldata/getAdminSubjectDisplay.php:114
+#: ajax_htmldata/getAdminUserDisplay.php:47
+#: ajax_htmldata/getAdminWorkflowDisplay.php:39
+#: ajax_htmldata/getAdminWorkflowDisplay.php:90
+#: ajax_htmldata/getAttachmentDetails.php:35
+#: ajax_htmldata/getContactDetails.php:68
+#: ajax_htmldata/getGeneralSubjectDisplay.php:25
+#: ajax_htmldata/getProductDetails.php:75
 #: ajax_htmldata/getProductDetails.php:451 ajax_htmldata/getSavedQueue.php:49
 msgid "edit"
 msgstr "编辑"
 
-#: ajax_htmldata/getAccessDetails.php:35 ajax_htmldata/getAcquisitionsDetails.php:280 ajax_htmldata/getProductDetails.php:76
+#: ajax_htmldata/getAccessDetails.php:35
+#: ajax_htmldata/getAcquisitionsDetails.php:280
+#: ajax_htmldata/getProductDetails.php:76
 msgid "edit resource"
 msgstr "编辑资源"
 
@@ -1546,23 +1915,37 @@ msgstr "无可用的访问信息"
 msgid "edit access information"
 msgstr "编辑访问信息"
 
-#: ajax_htmldata/getAccessDetails.php:159 ajax_htmldata/getAcquisitionsDetails.php:372 ajax_htmldata/getProductDetails.php:440 resources/cataloging.php:207
+#: ajax_htmldata/getAccessDetails.php:159
+#: ajax_htmldata/getAcquisitionsDetails.php:372
+#: ajax_htmldata/getProductDetails.php:440 resources/cataloging.php:207
 msgid "Additional Notes"
 msgstr "附加注释"
 
-#: ajax_htmldata/getAccessDetails.php:162 ajax_htmldata/getAccessDetails.php:181 ajax_htmldata/getAcquisitionsDetails.php:375 ajax_htmldata/getAcquisitionsDetails.php:394 ajax_htmldata/getProductDetails.php:443 ajax_htmldata/getProductDetails.php:462 resources/cataloging.php:210 resources/cataloging.php:229
+#: ajax_htmldata/getAccessDetails.php:162
+#: ajax_htmldata/getAccessDetails.php:181
+#: ajax_htmldata/getAcquisitionsDetails.php:375
+#: ajax_htmldata/getAcquisitionsDetails.php:394
+#: ajax_htmldata/getProductDetails.php:443
+#: ajax_htmldata/getProductDetails.php:462 resources/cataloging.php:210
+#: resources/cataloging.php:229
 msgid "add new note"
 msgstr "添加新注释"
 
-#: ajax_htmldata/getAccessDetails.php:170 ajax_htmldata/getAcquisitionsDetails.php:383 ajax_htmldata/getProductDetails.php:451 resources/cataloging.php:218
+#: ajax_htmldata/getAccessDetails.php:170
+#: ajax_htmldata/getAcquisitionsDetails.php:383
+#: ajax_htmldata/getProductDetails.php:451 resources/cataloging.php:218
 msgid "edit note"
 msgstr "编辑注释"
 
-#: ajax_htmldata/getAccessDetails.php:170 ajax_htmldata/getAcquisitionsDetails.php:383 ajax_htmldata/getContactDetails.php:69 ajax_htmldata/getProductDetails.php:451 resources/cataloging.php:218
+#: ajax_htmldata/getAccessDetails.php:170
+#: ajax_htmldata/getAcquisitionsDetails.php:383
+#: ajax_htmldata/getContactDetails.php:69
+#: ajax_htmldata/getProductDetails.php:451 resources/cataloging.php:218
 msgid "remove note"
 msgstr "移除注释"
 
-#: ajax_htmldata/getAccountDetails.php:14 ajax_htmldata/getContactDetails.php:35
+#: ajax_htmldata/getAccountDetails.php:14
+#: ajax_htmldata/getContactDetails.php:35
 msgid "Resource Specific:"
 msgstr "特定于资源："
 
@@ -1570,11 +1953,13 @@ msgstr "特定于资源："
 msgid "No Resource Specific Accounts"
 msgstr "无特定资源的帐户"
 
-#: ajax_htmldata/getAccountDetails.php:22 ajax_htmldata/getAccountDetails.php:119
+#: ajax_htmldata/getAccountDetails.php:22
+#: ajax_htmldata/getAccountDetails.php:119
 msgid "add new account"
 msgstr "添加新帐户"
 
-#: ajax_htmldata/getAccountDetails.php:27 ajax_htmldata/getContactDetails.php:48
+#: ajax_htmldata/getAccountDetails.php:27
+#: ajax_htmldata/getContactDetails.php:48
 msgid "Inherited:"
 msgstr "已继承："
 
@@ -1598,7 +1983,8 @@ msgstr "访问登录 URL"
 msgid "User Name:"
 msgstr "用户名："
 
-#: ajax_htmldata/getAccountDetails.php:88 ajax_htmldata/getContactDetails.php:173
+#: ajax_htmldata/getAccountDetails.php:88
+#: ajax_htmldata/getContactDetails.php:173
 msgid "Last Updated:"
 msgstr "最后一次更新："
 
@@ -1606,7 +1992,8 @@ msgstr "最后一次更新："
 msgid "No accounts available"
 msgstr "无可用的帐户"
 
-#: ajax_htmldata/getAcquisitionsDetails.php:103 ajax_htmldata/getAcquisitionsDetails.php:162 resources/cataloging.php:104
+#: ajax_htmldata/getAcquisitionsDetails.php:103
+#: ajax_htmldata/getAcquisitionsDetails.php:162 resources/cataloging.php:104
 msgid "edit order information"
 msgstr "编辑订单信息"
 
@@ -1622,7 +2009,8 @@ msgstr "采购站点："
 msgid "Expiration Alert Enabled"
 msgstr "过期提醒已启用"
 
-#: ajax_htmldata/getAcquisitionsDetails.php:174 ajax_htmldata/getAcquisitionsDetails.php:269
+#: ajax_htmldata/getAcquisitionsDetails.php:174
+#: ajax_htmldata/getAcquisitionsDetails.php:269
 msgid "edit cost history"
 msgstr "编辑成本历史记录"
 
@@ -1662,7 +2050,16 @@ msgstr "编辑授权和状态"
 msgid "edit license status"
 msgstr "编辑授权状态"
 
-#: ajax_htmldata/getAdminAlertDisplay.php:26 ajax_htmldata/getAdminAlertDisplay.php:56 ajax_htmldata/getAdminCurrencyDisplay.php:26 ajax_htmldata/getAdminDisplay.php:29 ajax_htmldata/getAdminSubjectDisplay.php:28 ajax_htmldata/getAdminSubjectDisplay.php:69 ajax_htmldata/getAdminUserDisplay.php:48 ajax_htmldata/getAdminWorkflowDisplay.php:40 ajax_htmldata/getAdminWorkflowDisplay.php:91 ajax_htmldata/getGeneralSubjectDisplay.php:26
+#: ajax_htmldata/getAdminAlertDisplay.php:26
+#: ajax_htmldata/getAdminAlertDisplay.php:56
+#: ajax_htmldata/getAdminCurrencyDisplay.php:26
+#: ajax_htmldata/getAdminDisplay.php:29
+#: ajax_htmldata/getAdminSubjectDisplay.php:28
+#: ajax_htmldata/getAdminSubjectDisplay.php:69
+#: ajax_htmldata/getAdminUserDisplay.php:48
+#: ajax_htmldata/getAdminWorkflowDisplay.php:40
+#: ajax_htmldata/getAdminWorkflowDisplay.php:91
+#: ajax_htmldata/getGeneralSubjectDisplay.php:26
 msgid "remove"
 msgstr "移除"
 
@@ -1682,11 +2079,17 @@ msgstr "添加天数"
 msgid "add new currency"
 msgstr "添加新货币"
 
-#: ajax_htmldata/getAdminDisplay.php:19 ajax_htmldata/getAdminSubjectDisplay.php:15 ajax_htmldata/getAdminSubjectDisplay.php:57 ajax_htmldata/getGeneralSubjectDisplay.php:16
+#: ajax_htmldata/getAdminDisplay.php:19
+#: ajax_htmldata/getAdminSubjectDisplay.php:15
+#: ajax_htmldata/getAdminSubjectDisplay.php:57
+#: ajax_htmldata/getGeneralSubjectDisplay.php:16
 msgid "Value"
 msgstr "值"
 
-#: ajax_htmldata/getAdminDisplay.php:41 ajax_htmldata/getAdminSubjectDisplay.php:44 ajax_htmldata/getAdminSubjectDisplay.php:84 ajax_htmldata/getGeneralSubjectDisplay.php:38
+#: ajax_htmldata/getAdminDisplay.php:41
+#: ajax_htmldata/getAdminSubjectDisplay.php:44
+#: ajax_htmldata/getAdminSubjectDisplay.php:84
+#: ajax_htmldata/getGeneralSubjectDisplay.php:38
 msgid "add new "
 msgstr "添加"
 
@@ -1702,7 +2105,8 @@ msgstr "导入资金"
 msgid "add new import configuration"
 msgstr "添加新导入配置"
 
-#: ajax_htmldata/getAdminSubjectDisplay.php:51 ajax_htmldata/getAdminSubjectDisplay.php:99 index.php:297
+#: ajax_htmldata/getAdminSubjectDisplay.php:51
+#: ajax_htmldata/getAdminSubjectDisplay.php:99 index.php:297
 msgid "Detailed Subject"
 msgstr "详细的主题"
 
@@ -1714,7 +2118,8 @@ msgstr "主题关系"
 msgid "edit user"
 msgstr "编辑用户"
 
-#: ajax_htmldata/getAdminUserDisplay.php:54 ajax_htmldata/getAdminUserDisplay.php:58
+#: ajax_htmldata/getAdminUserDisplay.php:54
+#: ajax_htmldata/getAdminUserDisplay.php:58
 msgid "add new user"
 msgstr "添加新用户"
 
@@ -1822,7 +2227,8 @@ msgstr "组织"
 msgid "There are no organization level downtimes."
 msgstr "没有组织层级的停机时间。"
 
-#: ajax_htmldata/getDowntimeList.php:79 ajax_htmldata/getIssuesList.php:97 templates/header.php:96
+#: ajax_htmldata/getDowntimeList.php:79 ajax_htmldata/getIssuesList.php:97
+#: templates/header.php:96
 msgid "Resources"
 msgstr "资源"
 
@@ -1898,7 +2304,9 @@ msgstr "未完成的任务"
 msgid "No outstanding requests"
 msgstr "没有未完成的请求"
 
-#: ajax_htmldata/getOutstandingQueue.php:19 ajax_htmldata/getSavedQueue.php:17 ajax_htmldata/getSearchResources.php:113 ajax_htmldata/getSubmittedQueue.php:14
+#: ajax_htmldata/getOutstandingQueue.php:19 ajax_htmldata/getSavedQueue.php:17
+#: ajax_htmldata/getSearchResources.php:113
+#: ajax_htmldata/getSubmittedQueue.php:14
 msgid "ID"
 msgstr "ID"
 
@@ -1906,15 +2314,18 @@ msgstr "ID"
 msgid "Routing Step"
 msgstr "传阅步骤"
 
-#: ajax_htmldata/getOutstandingQueue.php:23 ajax_htmldata/getRoutingDetails.php:24
+#: ajax_htmldata/getOutstandingQueue.php:23
+#: ajax_htmldata/getRoutingDetails.php:24
 msgid "Start Date"
 msgstr "开始日期"
 
-#: ajax_htmldata/getProductDetails.php:84 ajax_htmldata/getProductDetails.php:85
+#: ajax_htmldata/getProductDetails.php:84
+#: ajax_htmldata/getProductDetails.php:85
 msgid "remove resource"
 msgstr "移除资源"
 
-#: ajax_htmldata/getProductDetails.php:91 ajax_htmldata/getProductDetails.php:92
+#: ajax_htmldata/getProductDetails.php:91
+#: ajax_htmldata/getProductDetails.php:92
 msgid "remove resource and its children"
 msgstr "移除资源及其子资源"
 
@@ -1934,11 +2345,14 @@ msgstr "最后更新："
 msgid "Related Products:"
 msgstr "相关产品："
 
-#: ajax_htmldata/getProductDetails.php:199 ajax_htmldata/getProductDetails.php:207
+#: ajax_htmldata/getProductDetails.php:199
+#: ajax_htmldata/getProductDetails.php:207
 msgid "view resource"
 msgstr "查看资源"
 
-#: ajax_htmldata/getProductDetails.php:199 ajax_htmldata/getProductDetails.php:207 ajax_htmldata/getProductDetails.php:261
+#: ajax_htmldata/getProductDetails.php:199
+#: ajax_htmldata/getProductDetails.php:207
+#: ajax_htmldata/getProductDetails.php:261
 msgid "View "
 msgstr "查看"
 
@@ -1966,7 +2380,8 @@ msgstr "访问次级资源 URL"
 msgid "edit product details"
 msgstr "编辑产品详细信息"
 
-#: ajax_htmldata/getProductDetails.php:371 ajax_htmldata/getProductDetails.php:372
+#: ajax_htmldata/getProductDetails.php:371
+#: ajax_htmldata/getProductDetails.php:372
 msgid "remove subject"
 msgstr "移除主题"
 
@@ -2007,11 +2422,14 @@ msgid "Get Statistics"
 msgstr "获取统计信息"
 
 #: ajax_htmldata/getRoutingDetails.php:13
-msgid "No workflow steps have been set up for this resource's combination of Acquisition Type and Resource Format."
+msgid ""
+"No workflow steps have been set up for this resource's combination of "
+"Acquisition Type and Resource Format."
 msgstr "尚未为该资源的“采访类型”和“资源格式”组合设置工作流步骤。"
 
 #: ajax_htmldata/getRoutingDetails.php:13
-msgid "If you think this is in error, please contact your workflow administrator."
+msgid ""
+"If you think this is in error, please contact your workflow administrator."
 msgstr "如果您认为这是一个错误，则请联系您的工作流管理员。"
 
 #: ajax_htmldata/getRoutingDetails.php:15
@@ -2038,11 +2456,13 @@ msgstr "删除"
 msgid "mark complete"
 msgstr "标记为已完成"
 
-#: ajax_htmldata/getRoutingDetails.php:88 ajax_htmldata/getRoutingDetails.php:90
+#: ajax_htmldata/getRoutingDetails.php:88
+#: ajax_htmldata/getRoutingDetails.php:90
 msgid "Workflow completed on "
 msgstr "工作流完成于"
 
-#: ajax_htmldata/getRoutingDetails.php:94 ajax_htmldata/getRoutingDetails.php:96
+#: ajax_htmldata/getRoutingDetails.php:94
+#: ajax_htmldata/getRoutingDetails.php:96
 msgid "Workflow restarted on "
 msgstr "工作流重启于"
 
@@ -2062,11 +2482,13 @@ msgstr "已保存的请求"
 msgid "No saved requests"
 msgstr "无已保存的请求"
 
-#: ajax_htmldata/getSavedQueue.php:19 ajax_htmldata/getSearchResources.php:116 ajax_htmldata/getSubmittedQueue.php:16
+#: ajax_htmldata/getSavedQueue.php:19 ajax_htmldata/getSearchResources.php:116
+#: ajax_htmldata/getSubmittedQueue.php:16
 msgid "Date Created"
 msgstr "创建日期"
 
-#: ajax_htmldata/getSavedQueue.php:21 ajax_htmldata/getSearchResources.php:118 ajax_htmldata/getSubmittedQueue.php:18 index.php:138
+#: ajax_htmldata/getSavedQueue.php:21 ajax_htmldata/getSearchResources.php:118
+#: ajax_htmldata/getSubmittedQueue.php:18 index.php:138
 msgid "Status"
 msgstr "状态"
 
@@ -2088,11 +2510,13 @@ msgid "Displaying %d to %d of %d Resource Record"
 msgid_plural "Displaying %d to %d of %d Resource Records"
 msgstr[0] "显示第 %d 到第 %d 条记录，共 %d 条资源记录"
 
-#: ajax_htmldata/getSearchResources.php:66 ajax_htmldata/getSearchResources.php:164
+#: ajax_htmldata/getSearchResources.php:66
+#: ajax_htmldata/getSearchResources.php:164
 msgid "previous page"
 msgstr "上一页"
 
-#: ajax_htmldata/getSearchResources.php:100 ajax_htmldata/getSearchResources.php:198
+#: ajax_htmldata/getSearchResources.php:100
+#: ajax_htmldata/getSearchResources.php:198
 msgid "next page"
 msgstr "下一页"
 
@@ -2116,8 +2540,12 @@ msgstr "无提交的请求"
 msgid "Processing action "
 msgstr "处理操作"
 
-#: ajax_processing/deleteDetailedSubject.php:12 ajax_processing/deleteGeneralSubject.php:12 ajax_processing/deleteInstance.php:18
-msgid "Unable to delete.  Please make sure no resources are set up with this information."
+#: ajax_processing/deleteDetailedSubject.php:12
+#: ajax_processing/deleteGeneralSubject.php:12
+#: ajax_processing/deleteInstance.php:18
+msgid ""
+"Unable to delete.  Please make sure no resources are set up with this "
+"information."
 msgstr "无法删除。请确保没有使用该信息设置的资源。"
 
 #: ajax_processing/deleteImportConfig.php:7
@@ -2129,10 +2557,12 @@ msgid "Unable to delete  - this "
 msgstr "无法删除 - 该"
 
 #: ajax_processing/deleteInstance.php:12
-msgid " is in use.  Please make sure no resources are set up with this information."
+msgid ""
+" is in use.  Please make sure no resources are set up with this information."
 msgstr "正在使用中。请确保没有使用该信息设置的组织。"
 
-#: ajax_processing/deleteResource.php:7 ajax_processing/deleteResourceAndChildren.php:8
+#: ajax_processing/deleteResource.php:7
+#: ajax_processing/deleteResourceAndChildren.php:8
 msgid "Resource successfully deleted."
 msgstr "已成功删除资源。"
 
@@ -2144,11 +2574,13 @@ msgstr "已成功删除注释。"
 msgid "Subject successfully removed."
 msgstr "已成功移除主题。"
 
-#: ajax_processing/updateDetailedSubject.php:22 ajax_processing/updateGeneralSubject.php:21
+#: ajax_processing/updateDetailedSubject.php:22
+#: ajax_processing/updateGeneralSubject.php:21
 msgid "A duplicate "
 msgstr "一个重复的"
 
-#: ajax_processing/updateDetailedSubject.php:22 ajax_processing/updateGeneralSubject.php:21
+#: ajax_processing/updateDetailedSubject.php:22
+#: ajax_processing/updateGeneralSubject.php:21
 msgid " exists."
 msgstr "存在。"
 
@@ -2193,8 +2625,27 @@ msgid "Error: "
 msgstr "错误："
 
 #: import.php:71
-msgid "If you have not previously created an Import Configuration, then for each of the resource fields please input the number of the column in your CSV file that corresponds to the resource field. For example, if your import file has a second column called Name that corresponds to the Resource Title, then you would input 2 for the value for the Resource Title field. For columns with multiple values that are character-delimited, indicate the delimiter using the If delimited, delimited by field. For fields with values across multiple columns, add additional sets using the +Add another links. Use the Dedupe on this column option for ISBN/ISSN sets to ignore any duplicate values that might occur across those columns. The Alias Types, Note Types, and Organization Roles that you can assign to your mapped columns can be configured on the Admin page."
-msgstr "如果您之前尚未创建一个“导入配置”，那么对于每一个资源字段，请在您的 CSV 文件中输入与资源字段对应的栏数。例如，如果在您的输入文件中与“资源标题”相对应的栏是称作“名称”的第二栏，那么您需要为“资源标题”字段输入值“2”。对于包含多个被字符分隔的值的栏，使用 If 指示分隔符，并按字段分隔。对于包含跨多栏的值的字段，使用“+添加另一个链接”以添加集。为 ISBN/ISSN 集使用该栏选项的“消除重复数据”功能可以忽略任何可能出现在这些栏中的重复值。您可以在“管理员”页面配置可将之分配给您的映射栏的“别名类型”、“注释类型”和“组织角色”。"
+msgid ""
+"If you have not previously created an Import Configuration, then for each of "
+"the resource fields please input the number of the column in your CSV file "
+"that corresponds to the resource field. For example, if your import file has "
+"a second column called Name that corresponds to the Resource Title, then you "
+"would input 2 for the value for the Resource Title field. For columns with "
+"multiple values that are character-delimited, indicate the delimiter using "
+"the If delimited, delimited by field. For fields with values across multiple "
+"columns, add additional sets using the +Add another links. Use the Dedupe on "
+"this column option for ISBN/ISSN sets to ignore any duplicate values that "
+"might occur across those columns. The Alias Types, Note Types, and "
+"Organization Roles that you can assign to your mapped columns can be "
+"configured on the Admin page."
+msgstr ""
+"如果您之前尚未创建一个“导入配置”，那么对于每一个资源字段，请在您的 CSV 文件中"
+"输入与资源字段对应的栏数。例如，如果在您的输入文件中与“资源标题”相对应的栏是"
+"称作“名称”的第二栏，那么您需要为“资源标题”字段输入值“2”。对于包含多个被字符分"
+"隔的值的栏，使用 If 指示分隔符，并按字段分隔。对于包含跨多栏的值的字段，使"
+"用“+添加另一个链接”以添加集。为 ISBN/ISSN 集使用该栏选项的“消除重复数据”功能"
+"可以忽略任何可能出现在这些栏中的重复值。您可以在“管理员”页面配置可将之分配给"
+"您的映射栏的“别名类型”、“注释类型”和“组织角色”。"
 
 #: import.php:72
 msgid "Please select the import configuration to load: "
@@ -2285,7 +2736,9 @@ msgid " notes have been created"
 msgstr "个注释已被创建"
 
 #: import.php:676
-msgid "The first line of the CSV file must contain column names, and not data. These names will be used during the import process."
+msgid ""
+"The first line of the CSV file must contain column names, and not data. "
+"These names will be used during the import process."
 msgstr "CSV 文件的第一行必须包含栏名称而不是数据。这些名称将在导入过程中使用。"
 
 #: import.php:679
@@ -2360,11 +2813,17 @@ msgstr "检索！"
 msgid "ISBN/ISSN"
 msgstr "ISBN/ISSN"
 
-#: index.php:90 index.php:118 index.php:141 index.php:172 index.php:204 index.php:228 index.php:269 index.php:300 index.php:362 index.php:420 index.php:452 index.php:484 index.php:514 index.php:544 index.php:571 index.php:592
+#: index.php:90 index.php:118 index.php:141 index.php:172 index.php:204
+#: index.php:228 index.php:269 index.php:300 index.php:362 index.php:420
+#: index.php:452 index.php:484 index.php:514 index.php:544 index.php:571
+#: index.php:592
 msgid "All"
 msgstr "所有"
 
-#: index.php:93 index.php:95 index.php:233 index.php:235 index.php:274 index.php:276 index.php:305 index.php:307 index.php:366 index.php:368 index.php:424 index.php:426 index.php:456 index.php:458 index.php:488 index.php:490 index.php:518 index.php:520 index.php:547 index.php:549
+#: index.php:93 index.php:95 index.php:233 index.php:235 index.php:274
+#: index.php:276 index.php:305 index.php:307 index.php:366 index.php:368
+#: index.php:424 index.php:426 index.php:456 index.php:458 index.php:488
+#: index.php:490 index.php:518 index.php:520 index.php:547 index.php:549
 msgid "(none)"
 msgstr "(无)"
 
@@ -2557,7 +3016,9 @@ msgid "Alerts not enabled in configuration.ini file"
 msgstr "未在 configuration.ini 文件中启用提醒"
 
 #: setuser.php:44
-msgid "LDAP Connection is not working or has timed out.  Please check configuration.ini to verify settings."
+msgid ""
+"LDAP Connection is not working or has timed out.  Please check configuration."
+"ini to verify settings."
 msgstr "LDAP 连接不工作或已超时。请检查 configuration.ini 以验证设置。"
 
 #: summary.php:36
@@ -2653,8 +3114,13 @@ msgid "Report an issue"
 msgstr "报告问题"
 
 #: templates/header.php:76
-msgid "JavaScript must be enabled in order for you to use CORAL. However, it seems JavaScript is either disabled or not supported by your browser. To use CORAL, enable JavaScript by changing your browser options, then "
-msgstr "必须启用 JavaScript 才能使用 CORAL。但是，或者您已禁用 JavaScript，或者您的浏览器不支持。若要使用 CORAL，则请更改您的浏览器选项以启用 JavaScript，并"
+msgid ""
+"JavaScript must be enabled in order for you to use CORAL. However, it seems "
+"JavaScript is either disabled or not supported by your browser. To use "
+"CORAL, enable JavaScript by changing your browser options, then "
+msgstr ""
+"必须启用 JavaScript 才能使用 CORAL。但是，或者您已禁用 JavaScript，或者您的浏"
+"览器不支持。若要使用 CORAL，则请更改您的浏览器选项以启用 JavaScript，并"
 
 #: templates/header.php:76
 msgid "try again"
@@ -2713,5 +3179,9 @@ msgid "Management"
 msgstr "管理"
 
 #: user.php:95
-msgid "Login is not working.  Check the .htaccess file and the remoteAuthVariableName specified in /admin/configuration.ini"
-msgstr "登录不工作。请检查 /admin/configuration.ini 中指定的 .htaccess 文件和 remoteAuthVariableName"
+msgid ""
+"Login is not working.  Check the .htaccess file and the "
+"remoteAuthVariableName specified in /admin/configuration.ini"
+msgstr ""
+"登录不工作。请检查 /admin/configuration.ini 中指定的 .htaccess 文件和 "
+"remoteAuthVariableName"

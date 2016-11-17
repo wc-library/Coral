@@ -448,7 +448,7 @@ function updateIssues(){
 	 cache:      false,
 	 data:       "action=getIssues&resourceID=" + $("#resourceID").val(),
 	 success:    function(html) {
-		$(".div_mainContent").html(html);
+		$("#div_issues .div_mainContent").html(html);
 		bind_removes();
 		tb_reinit();
 	 }

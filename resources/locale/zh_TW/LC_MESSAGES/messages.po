@@ -1,18 +1,19 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: messages\n"
-"POT-Creation-Date: 2016-10-04 8:57-06:00\n"
-"PO-Revision-Date: 2016-10-23 00:28-0600\n"
+"POT-Creation-Date: 2016-11-03 12:51-0600\n"
+"PO-Revision-Date: 2016-11-03 13:22-0600\n"
 "Last-Translator: <>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: zh_TW\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Generator: Poedit 1.8.11\n"
 "X-Poedit-KeywordsList: watchString\n"
+"X-Poedit-Basepath: ../../..\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: js/admin.js:493
@@ -77,7 +78,9 @@ msgid "File name is already being used..."
 msgstr "文檔名稱已被使用..."
 
 #: js/forms/attachmentForm.js:98
-msgid "File name may not contain special characters - ampersand, single quote, double quote or less than/greater than characters"
+msgid ""
+"File name may not contain special characters - ampersand, single quote, "
+"double quote or less than/greater than characters"
 msgstr "檔案名稱不能包括特殊字元——&、單引號、雙引號或大於號、小於號等字元。"
 
 #: js/forms/attachmentForm.js:102
@@ -225,7 +228,9 @@ msgid "Please add at least one step to this workflow."
 msgstr "請為該工作流添加至少一個步驟。"
 
 #: js/forms/workflowForm.js:379
-msgid "Please click the Add button to the first step before submitting this workflow."
+msgid ""
+"Please click the Add button to the first step before submitting this "
+"workflow."
 msgstr "請在提交此工作流之前為第一步按一下「添加」按鈕。"
 
 #: js/index.js:112
@@ -445,7 +450,9 @@ msgid "Refreshing Contents..."
 msgstr "正在刷新內容......"
 
 #: js/resource.js:469
-msgid "Opening an issue requires a resource to be associated with an organization. Please contact your IT department."
+msgid ""
+"Opening an issue requires a resource to be associated with an organization. "
+"Please contact your IT department."
 msgstr "新建問題需要一個與一個組織關聯的資源。請聯絡您的 IT 部門。"
 
 #: js/resource.js:474
@@ -493,16 +500,24 @@ msgid "Do you really want to delete this note?"
 msgstr "您確認要刪除該備註嗎？"
 
 #: js/resource.js:896
-msgid "Warning!  You are about to remove any steps that have been started and completed.  Are you sure you wish to continue?"
+msgid ""
+"Warning!  You are about to remove any steps that have been started and "
+"completed.  Are you sure you wish to continue?"
 msgstr "警告！您將要移除任何已開始和已完成的步驟。您確認要繼續嗎？"
 
 #: js/resource.js:913
-msgid "Do you really want to mark this resource complete?  This action cannot be undone."
+msgid ""
+"Do you really want to mark this resource complete?  This action cannot be "
+"undone."
 msgstr "您確認要將該資源標記為完成嗎？ 該動作無法被撤銷。"
 
 #: js/resource.js:927
-msgid "Do you really want to delete this step? If other steps depended on this one, they will be started upon deletion. This action cannot be undone"
-msgstr "您確認要刪除該步驟嗎？ 如果其它步驟取決於該步驟，那麼將會在刪除後重新開機。該動作無法被撤銷。"
+msgid ""
+"Do you really want to delete this step? If other steps depended on this one, "
+"they will be started upon deletion. This action cannot be undone"
+msgstr ""
+"您確認要刪除該步驟嗎？ 如果其它步驟取決於該步驟，那麼將會在刪除後重新開機。該"
+"動作無法被撤銷。"
 
 #: admin.php:22 admin.php:40
 msgid "Administration"
@@ -673,6 +688,132 @@ msgstr "編輯 DDW 主題層面篩選工具/條款選擇于："
 #: admin/classes/common/Utility.php:148
 msgid "Email template file not found: "
 msgstr "未找到電子郵件範本檔："
+
+#: admin/classes/domain/Resource.php:1034
+msgid "Name contains: "
+msgstr "名稱包括："
+
+#: admin/classes/domain/Resource.php:1040
+msgid "Resource ID: "
+msgstr "資源 ID："
+
+#: admin/classes/domain/Resource.php:1045
+msgid "ISSN/ISBN: "
+msgstr "ISSN/ISBN："
+
+#: admin/classes/domain/Resource.php:1052
+msgid "Routing Step: "
+msgstr "傳閱步驟："
+
+#: admin/classes/domain/Resource.php:1067
+msgid "Status: "
+msgstr "狀態："
+
+#: admin/classes/domain/Resource.php:1079
+msgid "Creator: "
+msgstr "作者："
+
+#: admin/classes/domain/Resource.php:1085
+msgid "Resource Format: "
+msgstr "資源格式："
+
+#: admin/classes/domain/Resource.php:1091
+msgid "Acquisition Type: "
+msgstr "採訪類型："
+
+#: admin/classes/domain/Resource.php:1097
+msgid "Note contains: "
+msgstr "註釋包括："
+
+#: admin/classes/domain/Resource.php:1103
+msgid "Created on or after: "
+msgstr "建立日期或在此之後建立："
+
+#: admin/classes/domain/Resource.php:1105
+msgid "Created between: "
+msgstr "建立日期介於："
+
+#: admin/classes/domain/Resource.php:1112
+msgid "Created on or before: "
+msgstr "建立日期或在此之前建立："
+
+#: admin/classes/domain/Resource.php:1118
+msgid "Starts with: "
+msgstr "開始字母："
+
+#: admin/classes/domain/Resource.php:1124
+msgid "Fund: none"
+msgstr "經費：無"
+
+#: admin/classes/domain/Resource.php:1128
+msgid "Fund: "
+msgstr "經費："
+
+#: admin/classes/domain/Resource.php:1132
+#: admin/classes/domain/Resource.php:1142
+#: admin/classes/domain/Resource.php:1151
+msgid "Resource Type: none"
+msgstr "資源類型：無"
+
+#: admin/classes/domain/Resource.php:1136
+msgid "Resource Type: "
+msgstr "資源類型："
+
+#: admin/classes/domain/Resource.php:1146
+msgid "General Subject: "
+msgstr "一般主題："
+
+#: admin/classes/domain/Resource.php:1155
+msgid "Detailed Subject: "
+msgstr "詳細的主題："
+
+#: admin/classes/domain/Resource.php:1160
+msgid "Note Type: none"
+msgstr "備註類型：無"
+
+#: admin/classes/domain/Resource.php:1164
+msgid "Note Type: "
+msgstr "備註類型："
+
+#: admin/classes/domain/Resource.php:1170
+msgid "Purchase Site: none"
+msgstr "購買網站：無"
+
+#: admin/classes/domain/Resource.php:1174
+msgid "Purchase Site: "
+msgstr "購買網站："
+
+#: admin/classes/domain/Resource.php:1180
+msgid "Authorized Site: none"
+msgstr "授權網站：無"
+
+#: admin/classes/domain/Resource.php:1184
+msgid "Authorized Site: "
+msgstr "授權網站："
+
+#: admin/classes/domain/Resource.php:1190
+msgid "Administering Site: none"
+msgstr "管理網站：無"
+
+#: admin/classes/domain/Resource.php:1194
+msgid "Administering Site: "
+msgstr "管理網站："
+
+#: admin/classes/domain/Resource.php:1200
+msgid "Authentication Type: none"
+msgstr "身份驗證類型：無"
+
+#: admin/classes/domain/Resource.php:1204
+msgid "Authentication Type: "
+msgstr "身份驗證類型："
+
+#: admin/classes/domain/Resource.php:1209
+msgid "Cataloging Status: none"
+msgstr "編目狀態：無"
+
+#: admin/classes/domain/Resource.php:1213
+msgid "Cataloging Status: "
+msgstr "編目狀態："
 
 #: ajax_forms.php:25
 msgid "Form action "
@@ -872,8 +1013,26 @@ msgid "Configuration Name"
 msgstr "設定名稱"
 
 #: ajax_forms/getAdminImportConfigUpdateForm.php:34
-msgid "For each of the resource fields please input the number of the column in your CSV file that corresponds to the resource field. For example, if your import file has a second column called Name that corresponds to the Resource Title, then you would input 2 for the value for the Resource Title field. For columns with multiple values that are character-delimited, indicate the delimiter using the If delimited, delimited by field. For fields with values across multiple columns, add additional sets using the +Add another links. Use the Dedupe on this column option for ISBN/ISSN sets to ignore any duplicate values that might occur across those columns. The Alias Types, Note Types, and Organization Roles that you can assign to your mapped columns can be configured on the Admin page."
-msgstr "對於每一個資源欄位，請在您的 CSV 檔中輸入與資源欄位對應的欄數。 例如，如果在您的輸入檔中與「資源標題」相對應的欄是稱作「名稱」的第二欄，那麼您需要為「資源標題」欄位輸入值「2」。對於包含多個被字元分隔的值的欄，使用 If 指示分隔符號，並按欄位分隔。對於包含跨多欄的值的欄位，使用「+添加另一個連結」以添加集。為 ISBN/ISSN 集使用該欄選項的「消除重復資料」功能可以忽略任何可能出現在這些欄中的重複值。您可以在「管理員」頁面設定可將之分配給您的對照列的「別名類型」、「備註類型」和「組織角色」。"
+msgid ""
+"For each of the resource fields please input the number of the column in "
+"your CSV file that corresponds to the resource field. For example, if your "
+"import file has a second column called Name that corresponds to the Resource "
+"Title, then you would input 2 for the value for the Resource Title field. "
+"For columns with multiple values that are character-delimited, indicate the "
+"delimiter using the If delimited, delimited by field. For fields with values "
+"across multiple columns, add additional sets using the +Add another links. "
+"Use the Dedupe on this column option for ISBN/ISSN sets to ignore any "
+"duplicate values that might occur across those columns. The Alias Types, "
+"Note Types, and Organization Roles that you can assign to your mapped "
+"columns can be configured on the Admin page."
+msgstr ""
+"對於每一個資源欄位，請在您的 CSV 檔中輸入與資源欄位對應的欄數。 例如，如果在"
+"您的輸入檔中與「資源標題」相對應的欄是稱作「名稱」的第二欄，那麼您需要為「資"
+"源標題」欄位輸入值「2」。對於包含多個被字元分隔的值的欄，使用 If 指示分隔符"
+"號，並按欄位分隔。對於包含跨多欄的值的欄位，使用「+添加另一個連結」以添加集。"
+"為 ISBN/ISSN 集使用該欄選項的「消除重復資料」功能可以忽略任何可能出現在這些欄"
+"中的重複值。您可以在「管理員」頁面設定可將之分配給您的對照列的「別名類型」、"
+"「備註類型」和「組織角色」。"
 
 #: ajax_forms/getAdminUpdateForm.php:16
 #: ajax_forms/getDetailSubjectUpdateForm.php:16
@@ -1286,8 +1445,20 @@ msgid "Organization Name Mapping"
 msgstr "組織名稱映射"
 
 #: ajax_forms/getImportConfigForm.php:209
-msgid "Use these mappings to normalize different variations of an organization’s name to a single value. For example, you could have a publisher with three variations of their name across your import file: PublisherHouse, PublisherH, and PH. You could create a mapping for each one and normalize them all to PublisherHouse, to prevent duplicate organizations from being created. Each column that is added to an Organization set above is checked against the complete list of mappings that you create. "
-msgstr "使用這些對照表可以將一個組織的不同名稱規範化為一個單個值。例如，可能您的導入檔中出現了同一出版商的三個不同的名稱：PublisherHouse、PublisherH 和 PH。您可以為每一個名稱建立一個映射並將它們全部規範化為 PublisherHouse，以避免建立重複的組織。每一個被添加至一個「組織」集上方的列都會與您建立的完整對照清單進行比較。"
+msgid ""
+"Use these mappings to normalize different variations of an organization’s "
+"name to a single value. For example, you could have a publisher with three "
+"variations of their name across your import file: PublisherHouse, "
+"PublisherH, and PH. You could create a mapping for each one and normalize "
+"them all to PublisherHouse, to prevent duplicate organizations from being "
+"created. Each column that is added to an Organization set above is checked "
+"against the complete list of mappings that you create. "
+msgstr ""
+"使用這些對照表可以將一個組織的不同名稱規範化為一個單個值。例如，可能您的導入"
+"檔中出現了同一出版商的三個不同的名稱：PublisherHouse、PublisherH 和 PH。您可"
+"以為每一個名稱建立一個映射並將它們全部規範化為 PublisherHouse，以避免建立重複"
+"的組織。每一個被添加至一個「組織」集上方的列都會與您建立的完整對照清單進行比"
+"較。"
 
 #: ajax_forms/getImportConfigForm.php:209
 msgid "PCRE regular expressions"
@@ -1413,7 +1584,9 @@ msgid "Note:"
 msgstr "注意："
 
 #: ajax_forms/getNewDowntimeForm.php:141
-msgid "Creating downtime requires an organization or a resource to be associated with an organization."
+msgid ""
+"Creating downtime requires an organization or a resource to be associated "
+"with an organization."
 msgstr "建立停機時間需要一個組織或與一個組織關聯的資源。"
 
 #: ajax_forms/getNewIssueForm.php:24
@@ -1484,7 +1657,8 @@ msgid "day(s)"
 msgstr "天"
 
 #: ajax_forms/getNewIssueForm.php:141
-msgid "Opening an issue requires a resource to be associated with an organization."
+msgid ""
+"Opening an issue requires a resource to be associated with an organization."
 msgstr "新建問題需要一個與一個組織關聯的資源。"
 
 #: ajax_forms/getNewResourceForm.php:84
@@ -2248,11 +2422,14 @@ msgid "Get Statistics"
 msgstr "取得統計資訊"
 
 #: ajax_htmldata/getRoutingDetails.php:13
-msgid "No workflow steps have been set up for this resource's combination of Acquisition Type and Resource Format."
+msgid ""
+"No workflow steps have been set up for this resource's combination of "
+"Acquisition Type and Resource Format."
 msgstr "尚無為該資源的“採訪類型”和“資源格式”組合設定的工作流步驟。"
 
 #: ajax_htmldata/getRoutingDetails.php:13
-msgid "If you think this is in error, please contact your workflow administrator."
+msgid ""
+"If you think this is in error, please contact your workflow administrator."
 msgstr "如果您認為這是一個錯誤，則請聯絡您的工作流管理員。"
 
 #: ajax_htmldata/getRoutingDetails.php:15
@@ -2366,7 +2543,9 @@ msgstr "處理動作"
 #: ajax_processing/deleteDetailedSubject.php:12
 #: ajax_processing/deleteGeneralSubject.php:12
 #: ajax_processing/deleteInstance.php:18
-msgid "Unable to delete.  Please make sure no resources are set up with this information."
+msgid ""
+"Unable to delete.  Please make sure no resources are set up with this "
+"information."
 msgstr "無法刪除。請確保不要用此資訊設立任何資源。"
 
 #: ajax_processing/deleteImportConfig.php:7
@@ -2378,7 +2557,8 @@ msgid "Unable to delete  - this "
 msgstr "無法刪除-這個"
 
 #: ajax_processing/deleteInstance.php:12
-msgid " is in use.  Please make sure no resources are set up with this information."
+msgid ""
+" is in use.  Please make sure no resources are set up with this information."
 msgstr "正在使用中。請確保不要用此資訊設立任何資源。"
 
 #: ajax_processing/deleteResource.php:7
@@ -2445,8 +2625,27 @@ msgid "Error: "
 msgstr "錯誤："
 
 #: import.php:71
-msgid "If you have not previously created an Import Configuration, then for each of the resource fields please input the number of the column in your CSV file that corresponds to the resource field. For example, if your import file has a second column called Name that corresponds to the Resource Title, then you would input 2 for the value for the Resource Title field. For columns with multiple values that are character-delimited, indicate the delimiter using the If delimited, delimited by field. For fields with values across multiple columns, add additional sets using the +Add another links. Use the Dedupe on this column option for ISBN/ISSN sets to ignore any duplicate values that might occur across those columns. The Alias Types, Note Types, and Organization Roles that you can assign to your mapped columns can be configured on the Admin page."
-msgstr "如果您之前尚未建立一個「輸入設定」，那麼對於每一個資源欄位，請在您的 CSV 檔中輸入與資源欄位對應的列數。例如，如果在您的輸入檔中與「資源標題」相對應的列是稱作「名稱」的第二列，那麼您需要為「資源標題」欄位輸入值「2」。對於包含多個被字元分隔的值的列，使用 If 指示分隔符號，並按欄位分隔。對於包含跨多列的值的欄位，使用「+添加另一個連結」以添加集。為 ISBN/ISSN 集使用該列選項的「消除重復資料」功能可以忽略任何可能出現在這些列中的重複值。您可以在「管理員」頁面設定可將之分配給您的對照列的「別名類型」、「備註類型」和「組織角色」。"
+msgid ""
+"If you have not previously created an Import Configuration, then for each of "
+"the resource fields please input the number of the column in your CSV file "
+"that corresponds to the resource field. For example, if your import file has "
+"a second column called Name that corresponds to the Resource Title, then you "
+"would input 2 for the value for the Resource Title field. For columns with "
+"multiple values that are character-delimited, indicate the delimiter using "
+"the If delimited, delimited by field. For fields with values across multiple "
+"columns, add additional sets using the +Add another links. Use the Dedupe on "
+"this column option for ISBN/ISSN sets to ignore any duplicate values that "
+"might occur across those columns. The Alias Types, Note Types, and "
+"Organization Roles that you can assign to your mapped columns can be "
+"configured on the Admin page."
+msgstr ""
+"如果您之前尚未建立一個「輸入設定」，那麼對於每一個資源欄位，請在您的 CSV 檔中"
+"輸入與資源欄位對應的列數。例如，如果在您的輸入檔中與「資源標題」相對應的列是"
+"稱作「名稱」的第二列，那麼您需要為「資源標題」欄位輸入值「2」。對於包含多個被"
+"字元分隔的值的列，使用 If 指示分隔符號，並按欄位分隔。對於包含跨多列的值的欄"
+"位，使用「+添加另一個連結」以添加集。為 ISBN/ISSN 集使用該列選項的「消除重復"
+"資料」功能可以忽略任何可能出現在這些列中的重複值。您可以在「管理員」頁面設定"
+"可將之分配給您的對照列的「別名類型」、「備註類型」和「組織角色」。"
 
 #: import.php:72
 msgid "Please select the import configuration to load: "
@@ -2537,7 +2736,9 @@ msgid " notes have been created"
 msgstr "個備註已被建立"
 
 #: import.php:676
-msgid "The first line of the CSV file must contain column names, and not data. These names will be used during the import process."
+msgid ""
+"The first line of the CSV file must contain column names, and not data. "
+"These names will be used during the import process."
 msgstr "CSV 檔的第一行必須包含列名稱而不是資料。這些名稱將在輸入過程中使用。"
 
 #: import.php:679
@@ -2815,7 +3016,9 @@ msgid "Alerts not enabled in configuration.ini file"
 msgstr "未在 configuration.ini 檔中啟用提醒"
 
 #: setuser.php:44
-msgid "LDAP Connection is not working or has timed out.  Please check configuration.ini to verify settings."
+msgid ""
+"LDAP Connection is not working or has timed out.  Please check configuration."
+"ini to verify settings."
 msgstr "LDAP 連線故障或已逾時。 請檢查 configuration.ini 驗證設定。"
 
 #: summary.php:36
@@ -2911,8 +3114,13 @@ msgid "Report an issue"
 msgstr "報告問題"
 
 #: templates/header.php:76
-msgid "JavaScript must be enabled in order for you to use CORAL. However, it seems JavaScript is either disabled or not supported by your browser. To use CORAL, enable JavaScript by changing your browser options, then "
-msgstr "先啟用JavaScript以後才能使用COREL。然而，您的瀏覽器似乎停用了JavaScript，不然就是不支援JavaScript。要使用COREL，先到瀏覽器選項內更改為啟用JavaScript，然後"
+msgid ""
+"JavaScript must be enabled in order for you to use CORAL. However, it seems "
+"JavaScript is either disabled or not supported by your browser. To use "
+"CORAL, enable JavaScript by changing your browser options, then "
+msgstr ""
+"先啟用JavaScript以後才能使用COREL。然而，您的瀏覽器似乎停用了JavaScript，不然"
+"就是不支援JavaScript。要使用COREL，先到瀏覽器選項內更改為啟用JavaScript，然後"
 
 #: templates/header.php:76
 msgid "try again"
@@ -2971,5 +3179,9 @@ msgid "Management"
 msgstr "管理"
 
 #: user.php:95
-msgid "Login is not working.  Check the .htaccess file and the remoteAuthVariableName specified in /admin/configuration.ini"
-msgstr "登錄無法使用。請檢查.htaccess 檔，以及在 /admin/configuration.ini 中指定的 remoteAuthVariableName"
+msgid ""
+"Login is not working.  Check the .htaccess file and the "
+"remoteAuthVariableName specified in /admin/configuration.ini"
+msgstr ""
+"登錄無法使用。請檢查.htaccess 檔，以及在 /admin/configuration.ini 中指定的 "
+"remoteAuthVariableName"
