@@ -59,8 +59,7 @@ function updatePage(activeTab,requestAction) {
 function updateTaskNumbers(classSuffix,requestAction) {
 	taskData = [{"classSuffix":"OutstandingTasksNumber","requestAction":"getOutstandingTasksNumber"},
 				{"classSuffix":"SavedRequestsNumber","requestAction":"getSavedRequestsNumber"},
-				{"classSuffix":"SubmittedRequestsNumber","requestAction":"getSubmittedRequestsNumber"},
-				{"classSuffix":"CompletedRequestsNumber","requestAction":"getCompletedRequestsNumber"}];
+				{"classSuffix":"SubmittedRequestsNumber","requestAction":"getSubmittedRequestsNumber"}];
 	$.each(taskData,function(i,task) {
 	   $.ajax({
 	 	 type:       "GET",
