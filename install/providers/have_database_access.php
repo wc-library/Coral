@@ -11,21 +11,22 @@ function register_have_database_access_provider()
 	return [
 		"uid" => "have_database_access",
 		"translatable_title" => _("Database Access"),
-		"bundle" => function($version = 0){
+		"bundle" => function($version){
 			return [
 				"dependencies_array" => ["meets_system_requirements", "modules_to_use", "get_db_connection"],
-				"function" => function($shared_module_info){
+				"function" => function($shared_module_info) use ($version){
 					$return = new stdClass();
 					$return->yield = new stdClass();
 					$return->success = true;
 					$return->yield->messages = [];
 					$return->yield->title = _("Have database access");
 
+					// Build up a list of $shared_database_info - information about modules that require a database
 					$shared_database_info = [];
-					foreach ($shared_module_info["modules_to_use"]["useModule"] as $key => $value) {
-						if ($value && isset($shared_module_info[$key]["database"]))
+					foreach ($shared_module_info["modules_to_use"]["useModule"] as $uid => $use_module) {
+						if ($use_module && isset($shared_module_info[$uid]["database"]))
 						{
-							$db_postvar_name = "db_" . $key . "_name";
+							$db_postvar_name = "db_" . $uid . "_name";
 							if (!empty($_POST[$db_postvar_name]))
 								{
 								if (!isset($_SESSION["have_database_access"]))
@@ -33,15 +34,16 @@ function register_have_database_access_provider()
 								$_SESSION["have_database_access"][$db_postvar_name] = $_POST[$db_postvar_name];
 							}
 							$shared_database_info[] = [
-								"title"			=> $shared_module_info[$key]["database"]["title"],
-								"default_value"	=> empty($_SESSION["have_database_access"][$db_postvar_name]) ? $shared_module_info[$key]["database"]["default_value"] : $_SESSION["have_database_access"][$db_postvar_name],
+								"title"			=> $shared_module_info[$uid]["database"]["title"],
+								"default_value"	=> empty($_SESSION["have_database_access"][$db_postvar_name]) ? $shared_module_info[$uid]["database"]["default_value"] : $_SESSION["have_database_access"][$db_postvar_name],
 								"name"			=> $db_postvar_name,
-								"feedback"		=> "db_" . $key . "_feedback",
-								"key"			=> $key,
+								"feedback"		=> "db_" . $uid . "_feedback",
+								"key"			=> $uid,
 							];
 						}
 					}
 
+					// The logic for getting user settings from POST into SESSION
 					$db_access_postvar_names = [
 						"username"	=> "dbusername",
 						"password"	=> "dbpassword",
@@ -74,12 +76,54 @@ function register_have_database_access_provider()
 						]
 					];
 
+					/*
+						We're trying to figure out how to use the common config's host setting if we are in upgrade mode.
+						I don't like the empty catch on ln 94ish and I don't like the random if on ln 117ish
+					 */
+
 					require "install/templates/database_details_template.php";
-					$instruction = _("If you would like to use pre-existing databases or custom database names. Use the advanced section to configure these settings.");
+					switch ($version) {
+						case Installer::VERSION_STRING_INSTALL:
+							$instruction = _("To begin with, we need a username and password to create the databases CORAL and its modules will be using.")
+										. "<br />"
+										.  _("If you would like to use pre-existing databases or custom database names. Use the advanced section to configure these settings.");
+							$db_access_vars = array_intersect_key($db_access_vars, ["username" => 1, "password" => 1, "host" => 1]);
+							break;
+						default: // Upgrade
+							$instruction = _("In order to run the upgrade, we need database credentials that allow us to create and delete tables.");
+							$db_access_vars = array_intersect_key($db_access_vars, ["username" => 1, "password" => 1]);
+							if (!isset($_SESSION["have_database_access"][$db_access_postvar_names["host"]]))
+							{
+								try {
+									$_SESSION["have_database_access"][$db_access_postvar_names["host"]] = Config::dbInfo("host");
+								} catch (Exception $e) { }
+							}
+							break;
+					}
+
 					$return->yield->body = database_details_template($instruction, $db_access_vars, $shared_database_info);
+					if (!empty($_SESSION["have_database_access"][$db_access_postvar_names["username"]]) && !empty($_SESSION["have_database_access"][$db_access_postvar_names["password"]]))
+					{
+						Config::loadTemporaryDBSettings([
+							"username" => $_SESSION["have_database_access"][$db_access_postvar_names["username"]],
+							"password" => $_SESSION["have_database_access"][$db_access_postvar_names["password"]]
+						]);
+						if (!empty($_SESSION["have_database_access"][$db_access_postvar_names["host"]]))
+						{
+							Config::loadTemporaryDBSettings([
+								"host" => $_SESSION["have_database_access"][$db_access_postvar_names["host"]],
+							]);
+						}
+					}
 
 					try
 					{
+						/**
+						 * If it's in SESSION, it's just been loaded, otherwise
+						 * this should try to get it from the conf file (which
+						 * will throw an error if it can't find the file and
+						 * values haven't been loaded)
+						 */
 						Config::dbInfo("username");
 					}
 					catch (Exception $e)
@@ -96,18 +140,14 @@ function register_have_database_access_provider()
 										$missing_vars[] = $value["title"];
 									}
 								}
-								if (count($missing_vars) == 0)
+								if (count($missing_vars) > 0)
 								{
-									Config::loadTemporaryDBSettings([
-										"host" => $_SESSION["have_database_access"][$db_access_postvar_names["host"]],
-										"username" => $_SESSION["have_database_access"][$db_access_postvar_names["username"]],
-										"password" => $_SESSION["have_database_access"][$db_access_postvar_names["password"]]
-									]);
-								}
-								else
-								{
-									$return->yield->messages[] = _("To access your database, please fill in all the required fields.");
-									$return->yield->messages[] = _("You are missing: ") . join($missing_vars, ", ");
+									if (isset($_SESSION["have_database_access"]["variables_missing"]) && $_SESSION["have_database_access"]["variables_missing"])
+									{
+										$_SESSION["have_database_access"]["variables_missing"] = true;
+										$return->yield->messages[] = _("To access your database, please fill in all the required fields.");
+										$return->yield->messages[] = _("You are missing: ") . join($missing_vars, ", ");
+									}
 									$return->success = false;
 									return $return;
 								}
@@ -132,79 +172,108 @@ function register_have_database_access_provider()
 						$dbconnection = $get_db_connection_return_value;
 					}
 
+
 					// Go through the databases and try to create them all (or see if they already exist)
-					foreach ($shared_database_info as $db)
+					$list_of_dbnames = [];
+					if ($version == Installer::VERSION_STRING_INSTALL)
 					{
-						// $db["key"] is the module uid - dbtools uses this fact so if it changes dbtools will need to be fixed as well
-						$dbfeedback = $db["feedback"];
-						$dbnamestr = $db["name"];
-						$dbname = empty($_SESSION["have_database_access"][$dbnamestr]) ? $db["default_value"] : $_SESSION["have_database_access"][$dbnamestr];
-						$_SESSION["have_database_access"][$dbfeedback] = !empty($_SESSION["have_database_access"][$dbfeedback]) ? $_SESSION["have_database_access"][$dbfeedback] : DBAccess::DB_FAILED;
-						try
+						foreach ($shared_database_info as $db)
 						{
-							$dbconnection->selectDB($dbname);
-							$result = $dbconnection->processQuery("SELECT * FROM `information_schema`.`tables` WHERE `table_schema`='$dbname';");
-							// If DB is empty, pretend we created it
-							if ($result && $result->numRows() == 0)
+							// $db["key"] is the module uid - dbtools uses this fact so if it changes dbtools will need to be fixed as well
+							$dbfeedback = $db["feedback"];
+							$dbnamestr = $db["name"];
+							$dbname = empty($_SESSION["have_database_access"][$dbnamestr]) ? $db["default_value"] : $_SESSION["have_database_access"][$dbnamestr];
+							$_SESSION["have_database_access"][$dbfeedback] = !empty($_SESSION["have_database_access"][$dbfeedback]) ? $_SESSION["have_database_access"][$dbfeedback] : DBAccess::DB_FAILED;
+							try
 							{
-								$_SESSION["have_database_access"][$dbfeedback] = DBAccess::DB_CREATED;
-							}
-							else
-							{
-								if ($_SESSION["have_database_access"][$dbfeedback] == DBAccess::DB_CREATED)
+								$dbconnection->selectDB($dbname);
+								$result = $dbconnection->processQuery("SELECT * FROM `information_schema`.`tables` WHERE `table_schema`='$dbname';");
+								// If DB is empty, pretend we created it
+								if ($result && $result->numRows() == 0)
 								{
-									$_SESSION["db_tools"]["use_tables"] = isset($_SESSION["db_tools"]["use_tables"]) ? $_SESSION["db_tools"]["use_tables"] : [];
-									$_SESSION["db_tools"]["use_tables"][] = $db["key"];
+									$_SESSION["have_database_access"][$dbfeedback] = DBAccess::DB_CREATED;
 								}
-								$_SESSION["have_database_access"][$dbfeedback] = DBAccess::DB_ALREADY_EXISTED;
-							}
-						}
-						catch (Exception $e)
-						{
-							$_SESSION["have_database_access"][$dbfeedback] == DBAccess::DB_FAILED;
-							switch ($e->getCode())
-							{
-								case DBService::ERR_COULD_NOT_SELECT_DATABASE:
-									try {
-										// The commented line is preferable (see http://stackoverflow.com/a/766996/123415) but we need to be backwards compatible to mysql 5.5
-										// $result = $dbconnection->processQuery("CREATE DATABASE `$dbname` DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci;");
-										$result = $dbconnection->processQuery("CREATE DATABASE `$dbname` DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_unicode_ci;");
-										$_SESSION["have_database_access"][$dbfeedback] = DBAccess::DB_CREATED;
-
-										// If we have actually just created it, make sure that use_tables is not set because process Sql needs to happen!
-										if (isset($_SESSION["db_tools"]["use_tables"]) && in_array($db["key"], $_SESSION["db_tools"]["use_tables"]))
-											unset($_SESSION["db_tools"]["use_tables"][$db["key"]]);
-									} catch (Exception $e) {
-										$return->yield->messages[] = _("We tried to select a database with the name $dbname but failed. We also could not create it.");
-										$return->yield->messages[] = _("In order to proceed, we need access rights to create databases or you need to manually create the databases and provide their names and the credentials for a user with access rights to them.");
-										$return->success = false;
-										return $return;
+								else
+								{
+									if ($_SESSION["have_database_access"][$dbfeedback] == DBAccess::DB_CREATED)
+									{
+										$_SESSION["db_tools"]["use_tables"] = isset($_SESSION["db_tools"]["use_tables"]) ? $_SESSION["db_tools"]["use_tables"] : [];
+										$_SESSION["db_tools"]["use_tables"][] = $db["key"];
 									}
-									// THIS SHOULDN'T FAIL BECAUSE WE'VE JUST CREATED THE DB SUCCESSFULLY.
-									$result = $dbconnection->selectDB( $dbname );
-									break;
+									$_SESSION["have_database_access"][$dbfeedback] = DBAccess::DB_ALREADY_EXISTED;
+								}
+							}
+							catch (Exception $e)
+							{
+								$_SESSION["have_database_access"][$dbfeedback] == DBAccess::DB_FAILED;
+								switch ($e->getCode())
+								{
+									case DBService::ERR_COULD_NOT_SELECT_DATABASE:
+										try {
+											// The commented line is preferable (see http://stackoverflow.com/a/766996/123415) but we need to be backwards compatible to mysql 5.5
+											// $result = $dbconnection->processQuery("CREATE DATABASE `$dbname` DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci;");
+											$result = $dbconnection->processQuery("CREATE DATABASE `$dbname` DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_unicode_ci;");
+											$_SESSION["have_database_access"][$dbfeedback] = DBAccess::DB_CREATED;
 
-								default:
-									echo "We haven't prepared for the following error (have_database_access.php #2):<br />\n";
-									var_dump($e);
-									break;
+											// If we have actually just created it, make sure that use_tables is not set because process Sql needs to happen!
+											if (isset($_SESSION["db_tools"]["use_tables"]) && in_array($db["key"], $_SESSION["db_tools"]["use_tables"]))
+												unset($_SESSION["db_tools"]["use_tables"][$db["key"]]);
+										} catch (Exception $e) {
+											$return->yield->messages[] = _("We tried to select a database with the name $dbname but failed. We also could not create it.");
+											$return->yield->messages[] = _("In order to proceed, we need access rights to create databases or you need to manually create the databases and provide their names and the credentials for a user with access rights to them.");
+											$return->success = false;
+											return $return;
+										}
+										// THIS SHOULDN'T FAIL BECAUSE WE'VE JUST CREATED THE DB SUCCESSFULLY.
+										$result = $dbconnection->selectDB( $dbname );
+										break;
+
+									default:
+										echo "We haven't prepared for the following error (have_database_access.php #2):<br />\n";
+										var_dump($e);
+										break;
+								}
+							}
+							$shared_module_info["setSharedModuleInfo"]($db["key"], "db_name", $dbname);
+							$shared_module_info["setSharedModuleInfo"]($db["key"], "db_feedback", $_SESSION["have_database_access"][$dbfeedback]);
+							$list_of_dbnames[] = $dbname;
+						}
+					}
+					else if ($version == Installer::VERSION_STRING_MODIFY)
+					{
+						var_dump("epic fail - we're not ready for this...");
+						exit(999);
+					}
+					else
+					{
+						// UPGRADE
+						foreach ($shared_module_info["modules_to_use"]["useModule"] as $uid => $use_module) {
+							if ($use_module && !empty($shared_module_info[$uid]["database_name"]))
+							{
+								$list_of_dbnames[] = $shared_module_info[$uid]["database_name"];
 							}
 						}
-						$shared_module_info["setSharedModuleInfo"]($db["key"], "db_name", $dbname);
-						$shared_module_info["setSharedModuleInfo"]($db["key"], "db_feedback", $_SESSION["have_database_access"][$dbfeedback]);
 					}
 
 					try
 					{
 						$temporary_test_table_name = "temp_test";
-						$result = $dbconnection->processQuery("DROP TABLE IF EXISTS `$temporary_test_table_name`;");
-						$result = $dbconnection->processQuery("CREATE TABLE `$temporary_test_table_name` (id int);");
-						$result = $dbconnection->processQuery("INSERT INTO `$temporary_test_table_name` VALUES (0);");
-						$result = $dbconnection->processQuery("DROP TABLE IF EXISTS `$temporary_test_table_name`;");
+						foreach ($list_of_dbnames as $db_name_to_use)
+						{
+							$dbconnection->selectDB($db_name_to_use);
+							$result = $dbconnection->processQuery("DROP TABLE IF EXISTS `$temporary_test_table_name`;");
+							$result = $dbconnection->processQuery("CREATE TABLE `$temporary_test_table_name` (id int);");
+							$result = $dbconnection->processQuery("INSERT INTO `$temporary_test_table_name` VALUES (0);");
+							$result = $dbconnection->processQuery("DROP TABLE IF EXISTS `$temporary_test_table_name`;");
+						}
 					}
 					catch (Exception $e)
 					{
-						$return->yield->messages[] = _("We were unable to create/delete a table. Please check your user rights. ({$e->getCode()})");
+						if (!empty($_SESSION["have_database_access"]["tried_createdelete_already"]))
+						{
+							$return->yield->messages[] = _("We were unable to create/delete a table. Please provide credentials for a user with privileges to create and delete tables.");
+						}
+						$_SESSION["have_database_access"]["tried_createdelete_already"] = true;
 						$return->success = false;
 						return $return;
 					}

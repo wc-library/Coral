@@ -39,12 +39,10 @@ function draw_install_page_template()
 						<svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"><circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/></svg>
 					</div>
 					<div class="nine columns">
-						<div class="title">Congratulations</div>
+						<div class="completion_title"></div>
+						<p class="completion_message"></p>
 						<p>
-							Installation has been successfully completed.
-						</p>
-						<p>
-							Redirecting Home: <span class="countdown"></span>
+							<span class="redirection_message"></span><span class="countdown"></span>
 						</p>
 						<ul class="completed_test_holder">
 						</ul>

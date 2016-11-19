@@ -105,6 +105,19 @@ function register_usage_provider()
 						}
 					];
 
+
+				case "2.0.0":
+					return [
+						"function" => function($shared_module_info) {
+							$return = new stdClass();
+							$return->success = true;
+							$return->yield = new stdClass();
+							$return->yield->title = _("Usage Module");
+							return $return;
+						}
+					];
+
+
 				default:
 					return null;
 			}

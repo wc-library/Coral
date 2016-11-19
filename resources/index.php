@@ -87,7 +87,7 @@ include 'templates/header.php';
 	<td class='searchRow'><label for='searchFund'><b><?php echo _("Fund");?></b></label>
 	<br />
 		<select name='search[fund]' id='searchFund' style='width:150px' class ='changeInput'>
-			<option value=''>All</option>
+			<option value=''><?php echo _("All");?></option>
 			<?php
 				if ($search['fund'] == "none"){
 					echo "<option value='none' selected>" . _("(none)") . "</option>";

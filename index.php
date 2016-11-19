@@ -51,8 +51,8 @@
 <body>
 
 	<header>
-		<div class="title-main"><strong><?= _("eRM");?></strong> &bullet; <?= _("eResource Management");?></div>
-		<nav class="language-select"><?= _("Change language:");?>
+		<div class="title-main"><strong><?php echo _("eRM");?></strong> &bullet; <?php echo _("eResource Management");?></div>
+		<nav class="language-select"><?php echo _("Change language:");?>
 			<select name="lang" id="lang" class="dropDownLang">
 				<?php
 				// Get all translations on the 'locale' folder
@@ -132,7 +132,7 @@
 
 	</section>
 
-	<footer><?= _("Powered by");?><img src="images/logo-coral.jpg" /></footer>
+	<footer><?php echo _("Powered by");?><img src="images/logo-coral.jpg" /></footer>
 
 	<script>
 		/*

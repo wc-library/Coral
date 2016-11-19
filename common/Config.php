@@ -45,7 +45,16 @@ class Config {
 
 		$possible_values = ['host', 'username', 'password', 'name'];
 		if (in_array($db_variable, $possible_values))
-			return self::$module_settings["database"][$db_variable];
+		{
+			if (!empty(self::$module_settings["database"][$db_variable]))
+				return self::$module_settings["database"][$db_variable];
+			else
+				throw new OutOfRangeException(_("Database setting empty in config"), self::ERR_VARIABLES_MISSING);
+		}
+		else
+		{
+			throw new OutOfRangeException(_("Invalid database setting requested"), self::ERR_VARIABLES_MISSING);
+		}
 	}
 
 	public static function getSettingsFor($module_name) {
@@ -61,9 +70,6 @@ class Config {
 	}
 
 	public static function loadTemporaryDBSettings($database_settings) {
-		if (!INSTALLATION_IN_PROGRESS)
-			throw new Exception("This method can only be used during installation.", self::ERR_NOT_INSTALLING);
-
 		if (!isset(self::$module_settings["database"]))
 			self::$module_settings["database"] = [];
 		self::$module_settings["database"] = array_merge(self::$module_settings["database"], $database_settings);

@@ -1031,25 +1031,25 @@ class Resource extends DatabaseObject {
 
 			}
 
-			$searchDisplay[] = "Name contains: " . $search['name'];
+			$searchDisplay[] = _("Name contains: ") . $search['name'];
 		}
 
 		//get where statements together (and escape single quotes)
 		if ($search['resourceID']) {
 			$whereAdd[] = "R.resourceID = '" . $resource->db->escapeString($search['resourceID']) . "'";
-			$searchDisplay[] = "Resource ID: " . $search['resourceID'];
+			$searchDisplay[] = _("Resource ID: ") . $search['resourceID'];
 		}
 		if ($search['resourceISBNOrISSN']) {
 			$resourceISBNOrISSN = $resource->db->escapeString(str_replace("-","",$search['resourceISBNOrISSN']));
 			$whereAdd[] = "REPLACE(I.isbnOrIssn,'-','') = '" . $resourceISBNOrISSN . "'";
-			$searchDisplay[] = "ISSN/ISBN: " . $search['resourceISBNOrISSN'];
+			$searchDisplay[] = _("ISSN/ISBN: ") . $search['resourceISBNOrISSN'];
 		}
 
 		if ($search['stepName']) {
 			$status = new Status();
 			$completedStatusID = $status->getIDFromName('complete');
 			$whereAdd[] = "(R.statusID != $completedStatusID AND RS.stepName = '" . $resource->db->escapeString($search['stepName']) . "' AND RS.stepStartDate IS NOT NULL AND RS.stepEndDate IS NULL)";
-			$searchDisplay[] = "Routing Step: " . $search['stepName'];
+			$searchDisplay[] = _("Routing Step: ") . $search['stepName'];
 		}
 
 
@@ -1064,7 +1064,7 @@ class Resource extends DatabaseObject {
 		if ($search['statusID']) {
 			$whereAdd[] = "R.statusID = '" . $resource->db->escapeString($search['statusID']) . "'";
 			$status = new Status(new NamedArguments(array('primaryKey' => $search['statusID'])));
-			$searchDisplay[] = "Status: " . $status->shortName;
+			$searchDisplay[] = _("Status: ") . $status->shortName;
 		}
 
 		if ($search['creatorLoginID']) {
@@ -1076,141 +1076,141 @@ class Resource extends DatabaseObject {
 			}else{
 				$name = $createUser->loginID;
 			}
-			$searchDisplay[] = "Creator: " . $name;
+			$searchDisplay[] = _("Creator: ") . $name;
 		}
 
 		if ($search['resourceFormatID']) {
 			$whereAdd[] = "R.resourceFormatID = '" . $resource->db->escapeString($search['resourceFormatID']) . "'";
 			$resourceFormat = new ResourceFormat(new NamedArguments(array('primaryKey' => $search['resourceFormatID'])));
-			$searchDisplay[] = "Resource Format: " . $resourceFormat->shortName;
+			$searchDisplay[] = _("Resource Format: ") . $resourceFormat->shortName;
 		}
 
 		if ($search['acquisitionTypeID']) {
 			$whereAdd[] = "R.acquisitionTypeID = '" . $resource->db->escapeString($search['acquisitionTypeID']) . "'";
 			$acquisitionType = new AcquisitionType(new NamedArguments(array('primaryKey' => $search['acquisitionTypeID'])));
-			$searchDisplay[] = "Acquisition Type: " . $acquisitionType->shortName;
+			$searchDisplay[] = _("Acquisition Type: ") . $acquisitionType->shortName;
 		}
 
 
 		if ($search['resourceNote']) {
 			$whereAdd[] = "UPPER(RN.noteText) LIKE UPPER('%" . $resource->db->escapeString($search['resourceNote']) . "%')";
-			$searchDisplay[] = "Note contains: " . $search['resourceNote'];
+			$searchDisplay[] = _("Note contains: ") . $search['resourceNote'];
 		}
 
 		if ($search['createDateStart']) {
 			$whereAdd[] = "R.createDate >= STR_TO_DATE('" . $resource->db->escapeString($search['createDateStart']) . "','%m/%d/%Y')";
 			if (!$search['createDateEnd']) {
-				$searchDisplay[] = "Created on or after: " . $search['createDateStart'];
+				$searchDisplay[] = _("Created on or after: ") . $search['createDateStart'];
 			} else {
-				$searchDisplay[] = "Created between: " . $search['createDateStart'] . " and " . $search['createDateEnd'];
+				$searchDisplay[] = _("Created between: ") . $search['createDateStart'] . " and " . $search['createDateEnd'];
 			}
 		}
 
 		if ($search['createDateEnd']) {
 			$whereAdd[] = "R.createDate <= STR_TO_DATE('" . $resource->db->escapeString($search['createDateEnd']) . "','%m/%d/%Y')";
 			if (!$search['createDateStart']) {
-				$searchDisplay[] = "Created on or before: " . $search['createDateEnd'];
+				$searchDisplay[] = _("Created on or before: ") . $search['createDateEnd'];
 			}
 		}
 
 		if ($search['startWith']) {
 			$whereAdd[] = "TRIM(LEADING 'THE ' FROM UPPER(R.titleText)) LIKE UPPER('" . $resource->db->escapeString($search['startWith']) . "%')";
-			$searchDisplay[] = "Starts with: " . $search['startWith'];
+			$searchDisplay[] = _("Starts with: ") . $search['startWith'];
 		}
 
 		//the following are not-required fields with dropdowns and have "none" as an option
 		if ($search['fund'] == 'none') {
 			$whereAdd[] = "((RPAY.fundID IS NULL) OR (RPAY.fundID = '0'))";
-			$searchDisplay[] = "Fund: none";
+			$searchDisplay[] = _("Fund: none");
 		}else if ($search['fund']) {
 			$fund = str_replace("-","",$search['fund']);
 			$whereAdd[] = "RPAY.fundID = '" . $resource->db->escapeString($fund) . "'";
-			$searchDisplay[] = "Fund: " . $search['fund'];
+			$searchDisplay[] = _("Fund: ") . $search['fund'];
 		}
 		if ($search['resourceTypeID'] == 'none') {
 			$whereAdd[] = "((R.resourceTypeID IS NULL) OR (R.resourceTypeID = '0'))";
-			$searchDisplay[] = "Resource Type: none";
+			$searchDisplay[] = _("Resource Type: none");
 		}else if ($search['resourceTypeID']) {
 			$whereAdd[] = "R.resourceTypeID = '" . $resource->db->escapeString($search['resourceTypeID']) . "'";
 			$resourceType = new ResourceType(new NamedArguments(array('primaryKey' => $search['resourceTypeID'])));
-			$searchDisplay[] = "Resource Type: " . $resourceType->shortName;
+			$searchDisplay[] = _("Resource Type: ") . $resourceType->shortName;
 		}
 
 
 		if ($search['generalSubjectID'] == 'none') {
 			$whereAdd[] = "((GDLINK.generalSubjectID IS NULL) OR (GDLINK.generalSubjectID = '0'))";
-			$searchDisplay[] = "Resource Type: none";
+			$searchDisplay[] = _("Resource Type: none");
 		}else if ($search['generalSubjectID']) {
 			$whereAdd[] = "GDLINK.generalSubjectID = '" . $resource->db->escapeString($search['generalSubjectID']) . "'";
 			$generalSubject = new GeneralSubject(new NamedArguments(array('primaryKey' => $search['generalSubjectID'])));
-			$searchDisplay[] = "General Subject: " . $generalSubject->shortName;
+			$searchDisplay[] = _("General Subject: ") . $generalSubject->shortName;
 		}
 
 		if ($search['detailedSubjectID'] == 'none') {
 			$whereAdd[] = "((GDLINK.detailedSubjectID IS NULL) OR (GDLINK.detailedSubjectID = '0') OR (GDLINK.detailedSubjectID = '-1'))";
-			$searchDisplay[] = "Resource Type: none";
+			$searchDisplay[] = _("Resource Type: none");
 		}else if ($search['detailedSubjectID']) {
 			$whereAdd[] = "GDLINK.detailedSubjectID = '" . $resource->db->escapeString($search['detailedSubjectID']) . "'";
 			$detailedSubject = new DetailedSubject(new NamedArguments(array('primaryKey' => $search['detailedSubjectID'])));
-			$searchDisplay[] = "Detailed Subject: " . $detailedSubject->shortName;
+			$searchDisplay[] = _("Detailed Subject: ") . $detailedSubject->shortName;
 		}
 
 		if ($search['noteTypeID'] == 'none') {
 			$whereAdd[] = "(RN.noteTypeID IS NULL) AND (RN.noteText IS NOT NULL)";
-			$searchDisplay[] = "Note Type: none";
+			$searchDisplay[] = _("Note Type: none");
 		}else if ($search['noteTypeID']) {
 			$whereAdd[] = "RN.noteTypeID = '" . $resource->db->escapeString($search['noteTypeID']) . "'";
 			$noteType = new NoteType(new NamedArguments(array('primaryKey' => $search['noteTypeID'])));
-			$searchDisplay[] = "Note Type: " . $noteType->shortName;
+			$searchDisplay[] = _("Note Type: ") . $noteType->shortName;
 		}
 
 
 		if ($search['purchaseSiteID'] == 'none') {
 			$whereAdd[] = "RPSL.purchaseSiteID IS NULL";
-			$searchDisplay[] = "Purchase Site: none";
+			$searchDisplay[] = _("Purchase Site: none");
 		}else if ($search['purchaseSiteID']) {
 			$whereAdd[] = "RPSL.purchaseSiteID = '" . $resource->db->escapeString($search['purchaseSiteID']) . "'";
 			$purchaseSite = new PurchaseSite(new NamedArguments(array('primaryKey' => $search['purchaseSiteID'])));
-			$searchDisplay[] = "Purchase Site: " . $purchaseSite->shortName;
+			$searchDisplay[] = _("Purchase Site: ") . $purchaseSite->shortName;
 		}
 
 
 		if ($search['authorizedSiteID'] == 'none') {
 			$whereAdd[] = "RAUSL.authorizedSiteID IS NULL";
-			$searchDisplay[] = "Authorized Site: none";
+			$searchDisplay[] = _("Authorized Site: none");
 		}else if ($search['authorizedSiteID']) {
 			$whereAdd[] = "RAUSL.authorizedSiteID = '" . $resource->db->escapeString($search['authorizedSiteID']) . "'";
 			$authorizedSite = new AuthorizedSite(new NamedArguments(array('primaryKey' => $search['authorizedSiteID'])));
-			$searchDisplay[] = "Authorized Site: " . $authorizedSite->shortName;
+			$searchDisplay[] = _("Authorized Site: ") . $authorizedSite->shortName;
 		}
 
 
 		if ($search['administeringSiteID'] == 'none') {
 			$whereAdd[] = "RADSL.administeringSiteID IS NULL";
-			$searchDisplay[] = "Administering Site: none";
+			$searchDisplay[] = _("Administering Site: none");
 		}else if ($search['administeringSiteID']) {
 			$whereAdd[] = "RADSL.administeringSiteID = '" . $resource->db->escapeString($search['administeringSiteID']) . "'";
 			$administeringSite = new AdministeringSite(new NamedArguments(array('primaryKey' => $search['administeringSiteID'])));
-			$searchDisplay[] = "Administering Site: " . $administeringSite->shortName;
+			$searchDisplay[] = _("Administering Site: ") . $administeringSite->shortName;
 		}
 
 
 		if ($search['authenticationTypeID'] == 'none') {
 			$whereAdd[] = "R.authenticationTypeID IS NULL";
-			$searchDisplay[] = "Authentication Type: none";
+			$searchDisplay[] = _("Authentication Type: none");
 		}else if ($search['authenticationTypeID']) {
 			$whereAdd[] = "R.authenticationTypeID = '" . $resource->db->escapeString($search['authenticationTypeID']) . "'";
 			$authenticationType = new AuthenticationType(new NamedArguments(array('primaryKey' => $search['authenticationTypeID'])));
-			$searchDisplay[] = "Authentication Type: " . $authenticationType->shortName;
+			$searchDisplay[] = _("Authentication Type: ") . $authenticationType->shortName;
 		}
 
 		if ($search['catalogingStatusID'] == 'none') {
 			$whereAdd[] = "(R.catalogingStatusID IS NULL)";
-			$searchDisplay[] = "Cataloging Status: none";
+			$searchDisplay[] = _("Cataloging Status: none");
 		} else if ($search['catalogingStatusID']) {
 			$whereAdd[] = "R.catalogingStatusID = '" . $resource->db->escapeString($search['catalogingStatusID']) . "'";
 			$catalogingStatus = new CatalogingStatus(new NamedArguments(array('primaryKey' => $search['catalogingStatusID'])));
-			$searchDisplay[] = "Cataloging Status: " . $catalogingStatus->shortName;
+			$searchDisplay[] = _("Cataloging Status: ") . $catalogingStatus->shortName;
 		}
 
 

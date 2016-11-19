@@ -1,27 +1,33 @@
 <?php
 function continue_installing()
 {
-	$root_installation_namespace = "installation_root";
+	$rin = "installation_root";
+	$ns = [ // "ns" = "namespace" : its just too unwieldly without this abbreviation
+		"root_installation" => $rin,
+		"install_anyway" => $rin . "_do_install_anyway",
+		"option_button" => $rin . "_option_button",
+		"already_installed" => $rin . "_do_already_installed"
+	];
+
 	require_once "install/test_results_yielder.php";
-	if (!isset($_SESSION[$root_installation_namespace . "_do_install_anyway"]) || (isset($_SESSION[$root_installation_namespace . "_do_install_anyway"]) && $_SESSION[$root_installation_namespace . "_do_install_anyway"] !== true))
+	if (!isset($_SESSION[$ns["install_anyway"]]) || (isset($_SESSION[$ns["install_anyway"]]) && $_SESSION[$ns["install_anyway"]] !== true))
 	{
 		$option_button_set = [
 			[ "name" => "install_anyway", "title" => _("Install CORAL") ],
-			[ "name" => "already_installed", "title" => _("CORAL Is Already Installed") ],
+			[ "name" => "already_installed", "title" => _("CORAL Already Installed (Upgrade/Repair)") ],
 		];
-		if ((isset($_POST[$root_installation_namespace . "_option_button"]) && $_POST[$root_installation_namespace . "_option_button"] == "already_installed") || (isset($_SESSION[$root_installation_namespace . "_do_already_installed"]) && $_SESSION[$root_installation_namespace . "_do_already_installed"]))
+		if ((isset($_POST[$ns["option_button"]]) && $_POST[$ns["option_button"]] == "already_installed") || (isset($_SESSION[$ns["already_installed"]]) && $_SESSION[$ns["already_installed"]]))
 		{
-			$_SESSION[$root_installation_namespace . "_do_already_installed"] = true;
-			upgradeToUnifiedInstaller($root_installation_namespace);
+			$_SESSION[$ns["already_installed"]] = true;
+			upgradeToUnifiedInstaller($ns);
 			return false; //i.e. do not continue installing
 		}
-		elseif (isset($_POST[$root_installation_namespace . "_option_button"]) && $_POST[$root_installation_namespace . "_option_button"] == "install_anyway")
+		elseif (isset($_POST[$ns["option_button"]]) && $_POST[$ns["option_button"]] == "install_anyway")
 		{
-			$_SESSION[$root_installation_namespace . "_do_install_anyway"] = true;
+			$_SESSION[$ns["install_anyway"]] = true;
 		}
-		else // ((isset($_POST[$root_installation_namespace . "_option_button"]) && $_POST[$root_installation_namespace . "_option_button"] !== "install_anyway") || !isset($_POST[$root_installation_namespace . "_option_button"]))
+		else // ((isset($_POST[$ns["option_button"]]) && $_POST[$ns["option_button"]] !== "install_anyway") || !isset($_POST[$ns["option_button"]]))
 		{
-			// TODO: test this script in live environment (to ensure relative paths work)
 			$possible_modules_with_conf_files = [ "auth", "licensing", "management", "organizations", "reports", "resources", "usage" ];
 			$maybe_installed = array_reduce($possible_modules_with_conf_files, function($carry, $item) {
 				return $carry || file_exists($item . "/admin/configuration.ini");
@@ -49,7 +55,7 @@ function continue_installing()
 				$option_buttons = $allowed_options(["already_installed", "install_anyway"]);
 
 				require_once "install/templates/option_buttons_template.php";
-				$yield->body = option_buttons_template($instruction, $option_buttons, $root_installation_namespace);
+				$yield->body = option_buttons_template($instruction, $option_buttons, $ns["root_installation"]);
 				yield_test_results_and_exit($yield, [], 0);
 			}
 			// else falls through to return true (i.e. "continue installing")
@@ -58,8 +64,9 @@ function continue_installing()
 	return true;
 }
 
-function upgradeToUnifiedInstaller($root_installation_namespace)
+function upgradeToUnifiedInstaller($ns)
 {
+	$ns["module_selections"] = "upgradeToUnifiedInstaller_module_selections";
 	// These can be hard coded because they are all the modules that could exist pre-unified installer
 	$fields = [
 		[ "uid" => "ui_upgrade_auth", "title" => "Auth", "required" => false, "module_name" => "auth" ],
@@ -70,21 +77,52 @@ function upgradeToUnifiedInstaller($root_installation_namespace)
 		[ "uid" => "ui_upgrade_resources", "title" => "Resources", "required" => false, "module_name" => "resources" ],
 		[ "uid" => "ui_upgrade_usage", "title" => "Usage", "required" => false, "module_name" => "usage" ],
 	];
-	if (isset($_POST["ui_upgrade_auth"]))
+	if (isset($_POST["ui_upgrade_auth"]) || isset($_SESSION[$ns["module_selections"]]["ui_upgrade_auth"]))
 	{
 		require_once "common/Config.php";
 		$configFilePath = Config::CONFIG_FILE_PATH;
-
 		$iniFile = file_exists($configFilePath) ? parse_ini_file($configFilePath, true) : [];
-		$iniFile["installation_details"] = ["version" => INSTALLATION_VERSION];
+		$iniFile["installation_details"] = ["version" => "1.9.0"];
 
+		if (empty($_SESSION[$ns["module_selections"]]))
+			$_SESSION[$ns["module_selections"]] = [];
+
+		$matching_db_details = true;
 		foreach ($fields as $field)
 		{
+			$_SESSION[$ns["module_selections"]][$field["uid"]] =
+				isset($_POST[$field["uid"]]) ? ($_POST[$field["uid"]] ? "Y" : "N") :
+				(isset($_SESSION[$ns["module_selections"]][$field["uid"]]) ? $_SESSION[$ns["module_selections"]][$field["uid"]] : "N");
+
 			$iniFile[$field["module_name"]] = [
-				"installed" => isset($_POST[$field["uid"]]) ? ($_POST[$field["uid"]] ? "Y" : "N") : "N",
-				"enabled" => isset($_POST[$field["uid"]]) ? ($_POST[$field["uid"]] ? "Y" : "N") : "N"
+				"installed" => $_SESSION[$ns["module_selections"]][$field["uid"]],
+				"enabled" => $_SESSION[$ns["module_selections"]][$field["uid"]]
 			];
+
+			if ($_SESSION[$ns["module_selections"]][$field["uid"]] == "Y")
+			{
+				// Check db variables are the same so they can be stored in common
+				$field_conf = parse_ini_file($field["module_name"]."/admin/configuration.ini", true);
+				$field_conf_db = $field_conf["database"];
+				$allowed_fields = ["host", "type", "username", "password"];
+				$field_conf_db_allowed = array_intersect_key($field_conf_db, array_flip($allowed_fields));
+				$matching_db_details = $matching_db_details === true ? $field_conf_db_allowed :
+					($field_conf_db_allowed == $matching_db_details ? $matching_db_details : false);
+				if (!$matching_db_details)
+					break;
+			}
 		}
+		if (!$matching_db_details)
+		{
+			// Fail because matching db details are required for a common conf file
+			$yield = new stdClass();
+			$yield->messages[] = _("In order to upgrade to Coral 2.0, you need to have a database user with SELECT, INSERT, UPDATE and DELETE rights on each module's database.");
+			$yield->messages[] = _("The installation will continue when your config files have matching database access details.");
+			require_once "install/templates/try_again_template.php";
+			$yield->body = try_again_template();
+			yield_test_results_and_exit($yield, [], 0);
+		}
+		$iniFile["database"] = $matching_db_details;
 
 
 		$file = @fopen($configFilePath, 'w');
@@ -103,12 +141,11 @@ function upgradeToUnifiedInstaller($root_installation_namespace)
 			}
 			fwrite($file, implode("\r\n",$dataToWrite));
 			fclose($file);
-			$_SESSION[$root_installation_namespace . "_do_already_installed"] = false;
+			$_SESSION[$ns["already_installed"]] = false;
 			return true;
 		}
 		else
 		{
-			$yield = new stdClass();
 			$yield = new stdClass();
 			$yield->messages[] = sprintf(_("In order to proceed with the installation, we must be able to write to the main configuration file at '<span class=\"highlight\">%s</span>'. Try:"), $configFilePath);
 			if (!file_exists($configFilePath))
@@ -127,8 +164,7 @@ function upgradeToUnifiedInstaller($root_installation_namespace)
 		$yield = new stdClass();
 		$yield->title = _("Select Installed Modules");
 		$yield->messages = [];
-		$yield->messages[] = _("Please select the modules that you have installed.");
-		$yield->body = modules_to_use_template($fields);
+		$yield->body = modules_to_use_template($fields, _("Please select the modules that you have installed."));
 		yield_test_results_and_exit($yield, [], 0);
 	}
 }
