@@ -96,7 +96,6 @@
 	</header>
 
 	<section class="icons">
-
 		<?php
 		$mainPageIcon = "";
 		$modules = [ "resources" => _("Resources"), "licensing" => _("Licensing"), "organizations" => _("Organizations"), "usage" => _("Usage Statistics"), "management" => _("Management") ];
@@ -128,13 +127,11 @@
 		}
 		echo $mainPageIcon;
 		?>
-
-
 	</section>
 
 	<footer><?php echo _("Powered by");?><img src="images/logo-coral.jpg" /></footer>
 
-	<script>
+	<script type="text/javascript">
 		/*
 		 * Functions to change the language with the dropdown
 		 */

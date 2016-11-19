@@ -630,6 +630,10 @@ img[src*="arrowup.png"] {
 
 /*--- Table Column Widths ---*/
 
+table.dataTable {
+			white-space: nowrap;
+}
+
 table.dataTable th:nth-of-type(1) {
 			min-width: 36px;
 }
