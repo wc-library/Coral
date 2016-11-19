@@ -245,6 +245,10 @@ function register_auth_provider()
 							if (!( !empty($_SESSION[$MODULE_VARS["uid"]]["default_user_created"]) && $_SESSION[$MODULE_VARS["uid"]]["default_user_created"] ))
 							{
 								$admin_username = $dbconnection->escapeString($shared_module_info["have_default_coral_admin_user"]["default_user"]);
+
+								$ensureNoDuplicates = "DELETE FROM User WHERE loginID = '$admin_username';";
+								$dbconnection->processQuery($ensureNoDuplicates);
+
 								$createDefaultAdmin = "INSERT INTO `User` VALUES ('$admin_username', '$hashed_password', '$random_prefix', 'Y');";
 								// This should be successful because our database check passed (it will throw an error otherwise and we will know about it)
 								$result = $dbconnection->processQuery($createDefaultAdmin);
