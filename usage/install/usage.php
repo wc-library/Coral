@@ -13,7 +13,6 @@ function register_usage_provider()
 			switch ($version) {
 				case Installer::VERSION_STRING_INSTALL:
 					return [
-						//TODO: Find out if usage needs resources (I have a note that claims that)
 						"dependencies_array" => [ "db_tools", "have_read_write_access_to_config", "modules_to_use", "have_default_coral_admin_user", "have_default_db_user" ],
 						"sharedInfo" => [
 							"database" => [
@@ -104,6 +103,19 @@ function register_usage_provider()
 							return $return;
 						}
 					];
+
+
+				case "2.0.0":
+					return [
+						"function" => function($shared_module_info) {
+							$return = new stdClass();
+							$return->success = true;
+							$return->yield = new stdClass();
+							$return->yield->title = _("Usage Module");
+							return $return;
+						}
+					];
+
 
 				default:
 					return null;

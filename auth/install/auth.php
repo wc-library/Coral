@@ -13,6 +13,7 @@ function register_auth_provider()
 			switch ($version) {
 				case Installer::VERSION_STRING_INSTALL:
 					return [
+						"version" => "2.0.0",
 						"dependencies_array" => [ "db_tools", "have_read_write_access_to_config", "have_default_db_user", "have_default_coral_admin_user" ],
 						"sharedInfo" => [
 							"database" => [
@@ -244,6 +245,10 @@ function register_auth_provider()
 							if (!( !empty($_SESSION[$MODULE_VARS["uid"]]["default_user_created"]) && $_SESSION[$MODULE_VARS["uid"]]["default_user_created"] ))
 							{
 								$admin_username = $dbconnection->escapeString($shared_module_info["have_default_coral_admin_user"]["default_user"]);
+
+								$ensureNoDuplicates = "DELETE FROM User WHERE loginID = '$admin_username';";
+								$dbconnection->processQuery($ensureNoDuplicates);
+
 								$createDefaultAdmin = "INSERT INTO `User` VALUES ('$admin_username', '$hashed_password', '$random_prefix', 'Y');";
 								// This should be successful because our database check passed (it will throw an error otherwise and we will know about it)
 								$result = $dbconnection->processQuery($createDefaultAdmin);
@@ -290,6 +295,77 @@ function register_auth_provider()
 							return $return;
 						}
 					];
+
+
+				/**
+				 * This code is for when the upgrade requires no changes to the
+				 * database or conf files etc.
+				 */
+				case "2.0.0":
+					return [
+						"function" => function($shared_module_info) {
+							$return = new stdClass();
+							$return->yield = new stdClass();
+							$return->success = true;
+							$return->yield->title = _("Auth Module");
+							return $return;
+						}
+					];
+
+				/**
+				 * To process sql files or edit the config file,
+				 * see this function...
+				 */
+				// case "2.0.0":
+				// 	$conf_data = parse_ini_file($protected_module_data["config_file_path"], true);
+				// 	return [
+				// 		"dependencies_array" => [ "db_tools", "have_read_write_access_to_config" ],
+				// 		"sharedInfo" => [
+				// 			"config_file" => [
+				// 				"path" => $protected_module_data["config_file_path"],
+				// 			],
+				// 			"database_name" => $conf_data["database"]["name"]
+				// 		],
+				// 		"function" => function($shared_module_info) use ($MODULE_VARS, $protected_module_data) {
+				// 			// Standard setup of a return variable:
+				// 			$return = new stdClass();
+				// 			$return->yield = new stdClass();
+				// 			$return->success = true;
+				// 			$return->yield->title = _("Auth Module");
+				// 			$return->yield->messages = [];
+				//
+				// 			// We can read in the current conf file like this:
+				// 			$conf_data = parse_ini_file($protected_module_data["config_file_path"], true);
+				//
+				// 			// PROCESS SQL FILES
+				// 			// Note the "db_tools" dependency above - it ensure we have the "provided" methods below...
+				// 			$db_name = $conf_data["database"]["name"];
+				// 			$dbconnection = $shared_module_info["provided"]["get_db_connection"]( $db_name );
+				// 			$sql_files_to_process = ["path/to/sql_file.sql"]; // Note that this should be in an array
+				// 			$ret = $shared_module_info["provided"]["process_sql_files"]($dbconnection, $sql_files_to_process, $MODULE_VARS["uid"]);
+				// 			// Handle failure to process sql files
+				// 			if (!$ret["success"])
+				// 			{
+				// 				$return->success = false;
+				// 				$return->yield->messages = array_merge($return->yield->messages, $ret["messages"]);
+				// 				return $return;
+				// 			}
+				//
+				// 			// EDIT CONF FILE
+				// 			// Note the "have_read_write_access_to_config" dependency above - it ensure we have the "provided" method below...
+				// 			$configFile = $protected_module_data["config_file_path"];
+				// 			// Make sure the parent category exists
+				// 			if (empty($conf_data["general"]))
+				// 				$conf_data["general"] = [];
+				// 			// Populate the variable with a value
+				// 			// Warning: do not set $conf_data["general"] = ["random" => "something"] or you will lose other variables. Rather:
+				// 			$conf_data["general"]["random"] = "something";
+				// 			$shared_module_info["provided"]["write_config_file"]($configFile, $conf_data);
+				//
+				// 			return $return;
+				// 		}
+				// 	];
+
 
 				default:
 					return null;

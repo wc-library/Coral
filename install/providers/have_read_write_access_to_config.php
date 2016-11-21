@@ -6,7 +6,7 @@ function register_have_read_write_access_to_config_provider()
 		"translatable_title" => _("Config File Access"),
 		"bundle" => function($version = 0) {
 			return [
-				"dependencies_array" => ["meets_system_requirements", "have_default_db_user"],
+				"dependencies_array" => ["meets_system_requirements", "modules_to_use"],
 				"function" => function($shared_module_info) {
 					$return = new stdClass();
 					$return->yield = new stdClass();
@@ -81,7 +81,7 @@ function register_have_read_write_access_to_config_provider()
 						}
 					}
 
-					if ($shared_module_info["getPostInstallationMode"]())
+					if ($shared_module_info["isInPostInstallationMode"]())
 					{
 						// if we're actually in post-installation then make test successful
 						// (doesn't matter any more whether we could read config files)
@@ -94,7 +94,7 @@ function register_have_read_write_access_to_config_provider()
 							"provided",
 							"write_config_file",
 							function($path, $settingsObject) use ($shared_module_info) {
-								if ($shared_module_info["getPostInstallationMode"]())
+								if ($shared_module_info["isInPostInstallationMode"]())
 									return; //If we're in post-installation mode we don't want to change files
 
 								$file = fopen($path, 'w');

@@ -87,7 +87,7 @@ include 'templates/header.php';
 	<td class='searchRow'><label for='searchFund'><b><?php echo _("Fund");?></b></label>
 	<br />
 		<select name='search[fund]' id='searchFund' style='width:150px' class ='changeInput'>
-			<option value=''>All</option>
+			<option value=''><?php echo _("All");?></option>
 			<?php
 				if ($search['fund'] == "none"){
 					echo "<option value='none' selected>" . _("(none)") . "</option>";
@@ -252,15 +252,6 @@ include 'templates/header.php';
 	</td>
 	</tr>
 
-
-	<tr>
-	<td class='searchRow'><label for='searchResourceID'><b><?php echo _("Record ID");?></b></label>
-	<br />
-	<?php echo Html::text_search_field_tag('resourceID', ''); ?>
-	<br />
-	<div id='div_searchID' style='<?php if (!$search['resourceID']) echo "display:none;"; ?>margin-left:123px;'><input type='button' value='<?php echo _("go!");?>' id='searchResourceIDButton' /></div>
-	</td>
-	</tr>
 
 	<tr>
 	<td class='searchRow'><label for='searchGeneralSubjectID'><b><?php echo _("General Subject");?></b></label>

@@ -36,6 +36,10 @@ function register_db_tools_provider()
 								{
 									try
 									{
+										/**
+										 * Considering implementing dry running of some kind?
+										 * https://secure.php.net/manual/en/mysqli.autocommit.php
+										 */
 										$db->processQuery($stmt);
 									}
 									catch (Exception $e)
@@ -62,7 +66,7 @@ function register_db_tools_provider()
 							{
 								if (isset($_SESSION["db_tools"]["sql_files"][$muid][$sql_file]) && $_SESSION["db_tools"]["sql_files"][$muid][$sql_file])
 								{
-									var_dump($muid);
+									// skipping this file because session says we've already processed it
 									continue;
 								}
 

@@ -4,7 +4,7 @@ function register_upgrade_helper_provider()
 	try
 	{
 		require_once("common/Config.php");
-		$dynamic_dependencies = array_merge(["have_read_write_access_to_config", "the upgrader hasn't been written yet so it's not going to work..."], Config::getInstalledModules());
+		$dynamic_dependencies = array_merge(["have_read_write_access_to_config"], Config::getInstalledModules());
 	}
 	catch (Exception $e)
 	{
@@ -29,20 +29,10 @@ function register_upgrade_helper_provider()
 					$return->yield->messages = [];
 					$return->yield->title = _("Incremental Upgrade: ") . $version;
 
-					// $confData = [
-					// 	"installation_details" => [
-					// 		"version" => $version
-					// 	]
-					// ];
-					// foreach ($shared_module_info["modules_to_use"]["useModule"] as $key => $value) {
-					// 	$confData[$key] = [
-					// 		"enabled" => $value ? "Y" : "N",
-					// 		"installed" => $value ? "Y" : "N",
-					// 	];
-					// }
-					//
-					// require_once "common/Config.php";
-					// $shared_module_info["provided"]["write_config_file"](Config::CONFIG_FILE_PATH, $confData);
+					require_once "common/Config.php";
+					$confData = parse_ini_file(Config::CONFIG_FILE_PATH, 1);
+					$confData["installation_details"]["version"] = $version;
+					$shared_module_info["provided"]["write_config_file"](Config::CONFIG_FILE_PATH, $confData);
 
 					return $return;
 				}

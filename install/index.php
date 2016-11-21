@@ -1,23 +1,15 @@
 <?php
 /*
- * *************************************************************************************************************************
- * * CORAL Unified Installer v. 0.1.0
- * *
- * * Copyright (c) 2010 University of Notre Dame
- * *
- * * This file is part of CORAL.
- * *
- * * CORAL is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
- * *
- * * CORAL is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- * *
- * * You should have received a copy of the GNU General Public License along with CORAL. If not, see <http://www.gnu.org/licenses/>.
- * *
- * *************************************************************************************************************************
- */
+If I remember correctly, we are at the point where I need to run through an
+upgrade of “1.9” to 2.0 with the current upgrade branch? Is that correct?
 
-/**
- * @author j3frea+coral@gmail.com
+The remaining priorities will be to:
+
+	1. Fix any bugs in the upgrader
+	2. Make sure developer documentation for installer and upgrader are as
+		complete as possible.
+	3. Make sure that we can enable or disable modules that were previously
+		installed/uninstalled. (i.e. the checkboxes in the installer)
  */
 
 
@@ -40,10 +32,10 @@ $basename_file = basename(__FILE__);
 // make appropriate changes to the dirnames and basenames if uses_backslash is true
 if ($uses_backslash)
 {
-    $dirname_script_filename = $slash_fix($dirname_script_filename);
-    $dirname_dir = $slash_fix($dirname_dir);
-    $basename_script_filename = $slash_fix($basename_script_filename);
-    $basename_file = $slash_fix($basename_file);
+	$dirname_script_filename = $slash_fix($dirname_script_filename);
+	$dirname_dir = $slash_fix($dirname_dir);
+	$basename_script_filename = $slash_fix($basename_script_filename);
+	$basename_file = $slash_fix($basename_file);
 }
 
 
@@ -66,13 +58,17 @@ if ($dirname_script_filename !== $dirname_dir || $basename_script_filename !== $
  * NOTE: It is assumed that version strings can be understood by php's version_compare function
  */
 $INSTALLATION_VERSION = "2.0.0";
-$INSTALLATION_VERSIONS = ["2.0.0"];
+$INSTALLATION_VERSIONS = ["1.9.0", "2.0.0"];
 
-// TODO: if /index.php is calling this all the time, these lines make no sense
-// 			(we shouldn't set these constants for every page).
-const INSTALLATION_IN_PROGRESS = true;
-
-
+function make_sure_template_is_drawn()
+{
+	if (!isset($_POST["installing"]))
+	{
+		require_once "templates/install_page_template.php";
+		draw_install_page_template();
+		exit();
+	}
+}
 function is_installed()
 {
 	require_once("common/Config.php");
@@ -86,12 +82,23 @@ function is_installed()
 
 function run_loop($version)
 {
+	$_SESSION["run_loop_version"] = $version;
 	require_once "installer.php";
-	$requirement_filter = $version == 0 ? Installer::REQUIRED_FOR_INSTALL : Installer::REQUIRED_FOR_UPGRADE;
-	$installer = new Installer();
+	switch ($version) {
+		case Installer::VERSION_STRING_INSTALL:
+			$requirement_filter = Installer::REQUIRED_FOR_INSTALL;
+			break;
+		case Installer::VERSION_STRING_MODIFY:
+			$requirement_filter = Installer::REQUIRED_FOR_MODIFY;
+			break;
+		default:
+			$requirement_filter = Installer::REQUIRED_FOR_UPGRADE;
+			break;
+	}
+	$installer = new Installer($version);
 	$requirements = $installer->getRequiredProviders($requirement_filter);
 	foreach ($requirements as $i => $requirement) {
-		$testResult = $installer->runTestForResult($requirement, $version);
+		$testResult = $installer->runTestForResult($requirement);
 
 		if (isset($testResult->skipped))
 		{
@@ -122,14 +129,26 @@ function run_loop($version)
 	}
 
 	$installer->declareInstallationComplete();
-
 	$completed_tests = $installer->getSuccessfullyCompletedTestTitles();
-	while ($failingPostInstallationTest = $installer->postInstallationTest($version))
+	while ($failingPostInstallationTest = $installer->postInstallationTest())
 		yield_test_results_and_exit($failingPostInstallationTest->yield, $completed_tests, 97/100);
 
 	// Success!
 	$return = new stdClass();
 	$return->show_completion = true;
+	$return->completion_title = _("Congratulations");
+	$return->redirection_message = _("Redirecting Home: ");
+	switch ($version) {
+		case Installer::VERSION_STRING_INSTALL:
+			$return->completion_message = _("Installation has been successfully completed.");
+			break;
+		case Installer::VERSION_STRING_MODIFY:
+			$return->completion_message = _("Installation modification has been successfully completed.");
+			break;
+		default:
+			$return->completion_message = _("Upgrade has been successfully completed.");
+			break;
+	}
 	session_unset();
 	yield_test_results_and_exit($return, $completed_tests, 100/100);
 }
@@ -144,56 +163,29 @@ function do_install()
 		$return->redirect_home = true;
 		yield_test_results_and_exit($return, [], 1);
 	}
-	run_loop(0);
+	require_once "installer.php";
+	run_loop(Installer::VERSION_STRING_INSTALL);
 }
 
 function do_upgrade($version)
 {
-	// Need to figure out a modular way of handling this:
-	/**
-	 * Maybe we need to consider installation modes:
-	 * 		upgrade
-	 * 		modify
-	 * 		install
-	 * 	 along with the flag "post_mode" => for post-installation/modification/upgrade scripts to run
-	 *
-	 * Maybe upgrader should return an installer array with dependencies and
-	 * everything depending on the version we give it and maybe we should
-	 * have an installer that upgraders can depend on that will process sql
-	 * files and update conf files but how do we get it to run after them?
-	 * that implies we have functional "required" flag but they only work
-	 * for the installer...
-	 *
-	 * So new plan:
-	 * 	We check the required_for var which will tell us whether needed for
-	 * 	upgrade, modify or install. Installers with required_for set are
-	 * 	basically doing all the heavy lifting (fancy type stuff that
-	 * 	modules_to_use_helper does). When we are installing, we look for
-	 * 	inarray(required_for, install)...
-	 *
-	 * It depends on everything needed for that thing...
-	 *
-	 */
-
+	global $INSTALLATION_VERSIONS;
 	$current_version_index = array_search($version, $INSTALLATION_VERSIONS);
-	for ($version_to_install_index = $current_version_index + 1; $version_to_install_index < count($INSTALLATION_VERSIONS); $version_to_install_index++)
-	{
-		run_loop($INSTALLATION_VERSIONS[$version_to_install_index]);
-	}
+	run_loop($INSTALLATION_VERSIONS[++$current_version_index]);
 }
 
-$version = is_installed();
-if ($version !== $INSTALLATION_VERSION || (isset($_SESSION["installer_post_installation"]) && $_SESSION["installer_post_installation"]))
+
+$CURRENT_VERSION = is_installed();
+if ($CURRENT_VERSION !== $INSTALLATION_VERSION || !empty($_SESSION["run_loop_version"]))
 {
-	if (!isset($_POST["installing"]))
+	make_sure_template_is_drawn();
+	require_once "test_results_yielder.php";
+	if (!empty($_SESSION["run_loop_version"]))
 	{
-		require_once "templates/install_page_template.php";
-		draw_install_page_template();
+		run_loop($_SESSION["run_loop_version"]);
 		exit();
 	}
-
-	require_once "test_results_yielder.php";
-	if (!$version || (isset($_SESSION["installer_post_installation"]) && $_SESSION["installer_post_installation"]))
+	elseif (!$CURRENT_VERSION)
 	{
 		do_install();
 		exit();
@@ -209,18 +201,21 @@ if ($version !== $INSTALLATION_VERSION || (isset($_SESSION["installer_post_insta
 			$return->messages[] = _("Version of Installer does not match the last installation version in INSTALLATION_VERSIONS.");
 			yield_test_results_and_exit($return, [], 0);
 		}
-		elseif (!in_array($version, $INSTALLATION_VERSIONS))
+		elseif (!in_array($CURRENT_VERSION, $INSTALLATION_VERSIONS))
 		{
 			$return->messages[] = "<b>" . _("An error has occurred:") . "</b><br />" . _("Sorry but the installer has been incorrectly configured. Please contact the developer.");
 			$return->messages[] = _("The version currently installed is not a recognised version.");
 			yield_test_results_and_exit($return, [], 0);
 		}
-		do_upgrade($version);
+
+		// Do upgrade
+		do_upgrade($CURRENT_VERSION);
 		exit();
 	}
 }
 
 
+// TODO: Handle these variations
 // TAKEN FROM test_if_installed.php -> needs to be handled in do_upgrade()
 
 // elseif (version_compare(INSTALLATION_VERSION, $old_version) > 0)

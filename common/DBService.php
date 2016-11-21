@@ -26,7 +26,7 @@ class DBService extends Object {
 	protected static $db = null;
 	protected $error;
 
-	public function __construct($dbname = null)
+	public function __construct($databaseName = null)
 	{
 		if (!self::$db)
 		{
@@ -62,9 +62,8 @@ class DBService extends Object {
 			}
 		}
 
-		// Allow db not to be selected if installation in progress
-		if ($dbname !== false && INSTALLATION_IN_PROGRESS)
-			self::selectDB($dbname ? $dbname : Config::dbInfo("name"));
+		if ($databaseName !== false)
+			self::selectDB($databaseName ? $databaseName : Config::dbInfo("name"));
 	}
 
 	public function getError()

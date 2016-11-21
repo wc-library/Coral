@@ -85,6 +85,18 @@ function register_organizations_provider()
 						}
 					];
 
+				case "2.0.0":
+					return [
+						"function" => function($shared_module_info) {
+							$return = new stdClass();
+							$return->success = true;
+							$return->yield = new stdClass();
+							$return->yield->title = _("Organizations Module");
+							return $return;
+						}
+					];
+
+
 				default:
 					return null;
 			}

@@ -13,6 +13,7 @@ function register_licensing_provider()
 			switch ($version) {
 				case Installer::VERSION_STRING_INSTALL:
 					return [
+						"version" => "2.0.0",
 						"dependencies_array" => [ "db_tools", "have_read_write_access_to_config", "modules_to_use", "have_default_coral_admin_user", "have_default_db_user" ],
 						"sharedInfo" => [
 							"database" => [
@@ -87,6 +88,52 @@ function register_licensing_provider()
 							return $return;
 						}
 					];
+
+				/*
+				 * To add other files that only need to run a sql file, simply
+				 * add other cases. To do more than process a sql file (in the
+				 * format "licensing/install/protected/update_$version.sql"),
+				 * copy this function and add other steps. See the auth module's
+				 * installer for a more detailed comment.
+				 */
+				case "2.0.0":
+				// case "2.0.1":
+				// case "2.0.2":
+				// case "2.0.3":
+					$conf_data = parse_ini_file($protected_module_data["config_file_path"], true);
+					return [
+						"dependencies_array" => [ "db_tools", "have_read_write_access_to_config" ],
+						"sharedInfo" => [
+							"config_file" => [
+								"path" => $protected_module_data["config_file_path"],
+							],
+							"database_name" => $conf_data["database"]["name"]
+						],
+						"function" => function($shared_module_info) use ($MODULE_VARS, $protected_module_data, $version) {
+							$return = new stdClass();
+							$return->success = true;
+							$return->yield = new stdClass();
+							$return->yield->title = _("Licensing Module");
+							$return->yield->messages = [];
+
+							$conf_data = parse_ini_file($protected_module_data["config_file_path"], true);
+
+							// Process sql files
+							$sql_files_to_process = ["licensing/install/protected/update_$version.sql"];
+							$db_name = $conf_data["database"]["name"];
+							$dbconnection = $shared_module_info["provided"]["get_db_connection"]( $db_name );
+							$ret = $shared_module_info["provided"]["process_sql_files"]( $dbconnection, $sql_files_to_process, $MODULE_VARS["uid"] );
+							if (!$ret["success"])
+							{
+								$return->success = false;
+								$return->yield->messages = array_merge($return->yield->messages, $ret["messages"]);
+								return $return;
+							}
+
+							return $return;
+						}
+					];
+
 
 				default:
 					return null;
