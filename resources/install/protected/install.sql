@@ -406,7 +406,7 @@ CREATE TABLE  `ResourceNote` (
   `resourceID` int(11) default NULL,
   `noteTypeID` int(11) default NULL,
   `tabName` varchar(45) default NULL,
-  `updateDate` timestamp NOT NULL default '0000-00-00 00:00:00',
+  `updateDate` timestamp NOT NULL default CURRENT_TIMESTAMP,
   `updateLoginID` varchar(45) default NULL,
   `noteText` text,
   PRIMARY KEY  (`resourceNoteID`)
