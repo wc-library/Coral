@@ -105,33 +105,12 @@ function register_usage_provider()
 					];
 
 				case "2.0.0":
-					$conf_data = parse_ini_file($protected_module_data["config_file_path"], true);
 					return [
-						"dependencies_array" => [ "db_tools" ],
-						"sharedInfo" => [
-							"database_name" => $conf_data["database"]["name"]
-						],
-						"function" => function($shared_module_info) use ($MODULE_VARS, $protected_module_data, $version) {
+						"function" => function($shared_module_info) {
 							$return = new stdClass();
-							$return->success = true;
 							$return->yield = new stdClass();
+							$return->success = true;
 							$return->yield->title = _("Usage Module");
-							$return->yield->messages = [];
-
-							$conf_data = parse_ini_file($protected_module_data["config_file_path"], true);
-
-							// Process sql files
-							$sql_files_to_process = ["usage/install/protected/update_$version.sql"];
-							$db_name = $conf_data["database"]["name"];
-							$dbconnection = $shared_module_info["provided"]["get_db_connection"]( $db_name );
-							$ret = $shared_module_info["provided"]["process_sql_files"]( $dbconnection, $sql_files_to_process, $MODULE_VARS["uid"] );
-							if (!$ret["success"])
-							{
-								$return->success = false;
-								$return->yield->messages = array_merge($return->yield->messages, $ret["messages"]);
-								return $return;
-							}
-
 							return $return;
 						}
 					];
