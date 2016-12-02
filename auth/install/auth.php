@@ -302,9 +302,6 @@ function register_auth_provider()
 					return [
 						"dependencies_array" => [ "db_tools" ],
 						"sharedInfo" => [
-							"config_file" => [
-								"path" => $protected_module_data["config_file_path"],
-							],
 							"database_name" => $conf_data["database"]["name"]
 						],
 						"function" => function($shared_module_info) use ($MODULE_VARS, $protected_module_data, $version) {
