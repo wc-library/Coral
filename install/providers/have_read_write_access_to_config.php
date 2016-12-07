@@ -9,8 +9,9 @@ function register_have_read_write_access_to_config_provider()
 				"dependencies_array" => ["meets_system_requirements", "modules_to_use"],
 				"function" => function($shared_module_info) {
 					$return = new stdClass();
-					$return->yield = new stdClass();
 					$return->success = false;
+					$return->yield = new stdClass();
+					$return->yield->messages = [];
 
 					require_once "install/templates/try_again_template.php";
 					$return->yield->body = try_again_template();
@@ -23,13 +24,25 @@ function register_have_read_write_access_to_config_provider()
 
 					$config_files = [];
 					foreach ($shared_module_info["modules_to_use"]["useModule"] as $key => $value) {
-						if ($value && isset($shared_module_info[$key]["config_file"]))
+						if ($value &&
+							$shared_module_info["dependencies"][$key] &&
+							in_array("have_read_write_access_to_config", $shared_module_info["dependencies"][$key]))
 						{
-							$cfgFile = $shared_module_info[$key]["config_file"];
-							$cfgFile["key"] = $key;
-							$config_files[] = $cfgFile;
+							if (isset($shared_module_info[$key]["config_file"]))
+							{
+								$cfgFile = $shared_module_info[$key]["config_file"];
+								$cfgFile["key"] = $key;
+								$config_files[] = $cfgFile;
+							}
+							else
+							{
+								$return->yield->messages[] = _("One of your modules is not configured correctly. Although it requires r/w access to a config file, it does not provide a config file path. Offending module: ") . "<b>$key</b>";
+								$return->success = false;
+							}
 						}
 					}
+					if (!$return->success)
+						return $return;
 
 					$fileACCESS = [
 						"FULL_ACCESS" => 0, "NOT_READABLE" => 1, "NOT_WRITABLE" => 2, "DOESNT_EXIST" => 3
@@ -189,7 +202,6 @@ function register_have_read_write_access_to_config_provider()
 					else
 					{
 						$return->yield->messages[] = "<b>" . _("Be sure to reset permissions to any files you change.") . "</b>";
-						//TODO: register post installation check to ensure that these have been reset.
 					}
 					return $return;
 				}
