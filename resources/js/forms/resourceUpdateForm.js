@@ -271,7 +271,7 @@ $(function(){
 
 $(".addParent").live('click', function() {
 
-    var parentID = $("#newParent .oneParent input[name='parentResourceID']'").val();
+    var parentID = $("#newParent .oneParent input[name='parentResourceNewID']'").val();
     var parentName = $("#newParent .oneParent input[name='parentResourceName']'").val();
 
     if (parentName == '') {
@@ -284,6 +284,7 @@ $(".addParent").live('click', function() {
     }
 
     var newParentValue = $('.parentResource_new').clone();
+    newParentValue.filter("input[name='parentResourceNewID']").attr("name","parentResourceID");
     newParentValue.removeClass('parentResource_new').css({"width": "180px"});
     newParentValue.attr('disabled', 'disabled');
     var newParentStr = "<div class='oneParent'></div>";
