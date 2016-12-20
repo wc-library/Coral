@@ -114,7 +114,7 @@
 
 			<div class='main-page-icons'>
 				<?php if (file_exists($pagePath . "resources/index.php")) {?>
-					<a href='resources/'>
+					<a href='resources/' title="Resources module">
 						<img src='images/icon-resources.png' class="rollover" />
 						<span><?php echo _("Resources");?></span>
 					</a>
@@ -129,7 +129,7 @@
 
 			<div class='main-page-icons'>
 				<?php if (file_exists($pagePath . "licensing/index.php")) {?>
-					<a href='licensing/'>
+					<a href='licensing/' title="Licensing module">
 						<img src='images/icon-licensing.png' class="rollover" />
 						<span><?php echo _("Licensing");?></span>
 					</a>
@@ -143,7 +143,7 @@
 
 			<div class='main-page-icons'>
 				<?php if (file_exists($pagePath . "organizations/index.php")) {?>
-					<a href='organizations/'>
+					<a href='organizations/' title="Organizations module">
 						<img src='images/icon-organizations.png' class="rollover" />
 						<span><?php echo _("Organizations");?></span>
 					</a>
@@ -157,7 +157,7 @@
 
 			<div class='main-page-icons'>
 				<?php if (file_exists($pagePath . "usage/index.php")) {?>
-					<a href='usage/'>
+					<a href='usage/' title="Usage module">
 						<img src='images/icon-usage.png' class="rollover" />
 						<span><?php echo _("Usage Statistics");?></span>
 					</a>
@@ -171,7 +171,7 @@
 
 			<div class='main-page-icons'>
 				<?php if (file_exists($pagePath . "management/index.php")) {?>
-					<a href='management/'>
+					<a href='management/' title="Management module">
 						<img src='images/icon-management.png' class="rollover" />
 						<span><?php echo _("Management");?></span>
 					</a>
