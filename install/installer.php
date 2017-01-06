@@ -145,7 +145,7 @@ class Installer {
 	}
 	private function scanForInstallerProviders()
 	{
-		// Core Requirements
+		// Core Providers
 		$core_provider_path = "install/providers/";
 		$core_providers = scandir($core_provider_path);
 		foreach ($core_providers as $provider)
@@ -158,17 +158,37 @@ class Installer {
 			}
 		}
 
-		// Module Installers
+		// Module Install Providers
 		$MODULE_ROOT = ".";
-		$module_directories = scandir($MODULE_ROOT);
-		foreach ($module_directories as $dir)
+		// If we're installing, then find all the modules
+		if ($this->version_to_install == self::VERSION_STRING_INSTALL ||
+			$this->version_to_install == self::VERSION_STRING_MODIFY)
 		{
-			if (is_dir("$MODULE_ROOT/$dir"))
+			$module_directories = scandir($MODULE_ROOT);
+			foreach ($module_directories as $dir)
 			{
-				$installation_root_file = "$MODULE_ROOT/$dir/install/$dir.php";
-				if (file_exists($installation_root_file))
+				if (is_dir("$MODULE_ROOT/$dir"))
 				{
-					$this->addModule($installation_root_file, $dir);
+					$installation_root_file = "$MODULE_ROOT/$dir/install/$dir.php";
+					if (file_exists($installation_root_file))
+					{
+						$this->addModule($installation_root_file, $dir);
+					}
+				}
+			}
+		}
+		else // Otherwise, only already installed modules are available
+		{
+			require_once("common/Config.php");
+			foreach (Config::getInstalledModules() as $module)
+			{
+				if (is_dir("$MODULE_ROOT/$module"))
+				{
+					$installation_root_file = "$MODULE_ROOT/$module/install/$module.php";
+					if (file_exists($installation_root_file))
+					{
+						$this->addModule($installation_root_file, $module);
+					}
 				}
 			}
 		}
