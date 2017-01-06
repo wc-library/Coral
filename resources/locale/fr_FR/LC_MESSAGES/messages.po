@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: messages\n"
-"POT-Creation-Date: 2016-10-16 20:03-0600\n"
-"PO-Revision-Date: 2016-10-16 20:07-0600\n"
+"POT-Creation-Date: 2016-11-21 11:05-0700\n"
+"PO-Revision-Date: 2016-11-21 11:05-0700\n"
 "Last-Translator: <>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "Language: fr_FR\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Poedit-Basepath: ../../..\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.8.10\n"
+"X-Generator: Poedit 1.8.11\n"
 "X-Poedit-KeywordsList: watchString\n"
 "X-Poedit-SearchPath-0: .\n"
 
@@ -238,11 +238,11 @@ msgstr ""
 "Cliquez sur le bouton Ajouter de la première étape avant de valider ce "
 "workflow."
 
-#: js/index.js:112
+#: js/index.js:100
 msgid "Processing..."
 msgstr "Traitement en cours..."
 
-#: js/index.js:240 index.php:354
+#: js/index.js:202 index.php:345
 msgid "more options..."
 msgstr "Plus d'options..."
 
@@ -559,7 +559,7 @@ msgstr "Mèthode d'accès"
 msgid "Acquisition Type"
 msgstr "Type d'acquisition"
 
-#: admin.php:55 index.php:481
+#: admin.php:55 index.php:472
 msgid "Administering Site"
 msgstr "Site gérant"
 
@@ -576,15 +576,15 @@ msgstr "Type d'alias"
 msgid "Attachment Type"
 msgstr "Type de pièce jointe"
 
-#: admin.php:61 index.php:511
+#: admin.php:61 index.php:502
 msgid "Authentication Type"
 msgstr "Type d'authentification"
 
-#: admin.php:62 index.php:449
+#: admin.php:62 index.php:440
 msgid "Authorized Site"
 msgstr "Site autorisé"
 
-#: admin.php:63 index.php:541 resources/cataloging_edit.php:55
+#: admin.php:63 index.php:532 resources/cataloging_edit.php:55
 msgid "Cataloging Status"
 msgstr "Statut de catalogage"
 
@@ -627,7 +627,7 @@ msgstr "Statut de licence"
 
 #: admin.php:75 ajax_forms/getImportConfigForm.php:149
 #: ajax_forms/getImportConfigForm.php:163
-#: ajax_forms/getImportConfigForm.php:271 index.php:359
+#: ajax_forms/getImportConfigForm.php:271 index.php:350
 msgid "Note Type"
 msgstr "Type de remarque"
 
@@ -664,7 +664,7 @@ msgstr "Type de ressource"
 msgid "Storage Location"
 msgstr "Lieu de stockage"
 
-#: admin.php:92 ajax_htmldata/getProductDetails.php:327
+#: admin.php:92 ajax_htmldata/getProductDetails.php:322
 msgid "Subjects"
 msgstr "Sujets"
 
@@ -704,6 +704,127 @@ msgstr "Modifier les sélections de facettes DDW /termes à : "
 #: admin/classes/common/Utility.php:148
 msgid "Email template file not found: "
 msgstr "Fichier du modèle d'email non-trouvé : "
+
+#: admin/classes/domain/Resource.php:860
+msgid "Name contains: "
+msgstr "Nom contient : "
+
+#: admin/classes/domain/Resource.php:867
+msgid "ISSN/ISBN: "
+msgstr "ISSN/ISBN : "
+
+#: admin/classes/domain/Resource.php:874
+msgid "Routing Step: "
+msgstr "Étape du routage :"
+
+#: admin/classes/domain/Resource.php:889
+msgid "Status: "
+msgstr "Statut :"
+
+#: admin/classes/domain/Resource.php:901
+msgid "Creator: "
+msgstr "Créé par :"
+
+#: admin/classes/domain/Resource.php:907
+msgid "Resource Format: "
+msgstr "Format de ressource :"
+
+#: admin/classes/domain/Resource.php:913
+msgid "Acquisition Type: "
+msgstr "Type d'acquisition :"
+
+#: admin/classes/domain/Resource.php:919
+msgid "Note contains: "
+msgstr "Remarque contient :"
+
+#: admin/classes/domain/Resource.php:925
+msgid "Created on or after: "
+msgstr "Créé sur le ou après :"
+
+#: admin/classes/domain/Resource.php:927
+msgid "Created between: "
+msgstr "Créé entre :"
+
+#: admin/classes/domain/Resource.php:934
+msgid "Created on or before: "
+msgstr "Créé sur le ou après le :"
+
+#: admin/classes/domain/Resource.php:940
+msgid "Starts with: "
+msgstr "Commençe par :"
+
+#: admin/classes/domain/Resource.php:946
+msgid "Fund: none"
+msgstr "Fonds : aucun"
+
+#: admin/classes/domain/Resource.php:950
+msgid "Fund: "
+msgstr "Fonds :"
+
+#: admin/classes/domain/Resource.php:954 admin/classes/domain/Resource.php:964
+#: admin/classes/domain/Resource.php:973
+msgid "Resource Type: none"
+msgstr "Type de ressource : aucun"
+
+#: admin/classes/domain/Resource.php:958
+msgid "Resource Type: "
+msgstr "Type de ressource :"
+
+#: admin/classes/domain/Resource.php:968
+msgid "General Subject: "
+msgstr "Sugjet général :"
+
+#: admin/classes/domain/Resource.php:977
+msgid "Detailed Subject: "
+msgstr "Sujet spécifique :"
+
+#: admin/classes/domain/Resource.php:982
+msgid "Note Type: none"
+msgstr "Type de remarque : aucun"
+
+#: admin/classes/domain/Resource.php:986
+msgid "Note Type: "
+msgstr "Type de remarque :"
+
+#: admin/classes/domain/Resource.php:992
+msgid "Purchase Site: none"
+msgstr "Site d'achat : aucun"
+
+#: admin/classes/domain/Resource.php:996
+msgid "Purchase Site: "
+msgstr "Site d'achat :"
+
+#: admin/classes/domain/Resource.php:1002
+msgid "Authorized Site: none"
+msgstr "Site autorisé : aucun"
+
+#: admin/classes/domain/Resource.php:1006
+msgid "Authorized Site: "
+msgstr "Site autorisé : "
+
+#: admin/classes/domain/Resource.php:1012
+msgid "Administering Site: none"
+msgstr "Site gérant : aucun"
+
+#: admin/classes/domain/Resource.php:1016
+msgid "Administering Site: "
+msgstr "Site gérant : "
+
+#: admin/classes/domain/Resource.php:1022
+msgid "Authentication Type: none"
+msgstr "Type d'authentification : aucun"
+
+#: admin/classes/domain/Resource.php:1026
+msgid "Authentication Type: "
+msgstr "Type d'authentification : "
+
+#: admin/classes/domain/Resource.php:1031
+msgid "Cataloging Status: none"
+msgstr "Statut de catalogage : aucun"
+
+#: admin/classes/domain/Resource.php:1035
+msgid "Cataloging Status: "
+msgstr "Statut de catalogage : "
 
 #: ajax_forms.php:25
 msgid "Form action "
@@ -873,7 +994,7 @@ msgstr "Code"
 #: ajax_htmldata/getAdminFundDisplay.php:15
 #: ajax_htmldata/getAdminImportConfigDisplay.php:13
 #: ajax_htmldata/getOutstandingQueue.php:20 ajax_htmldata/getSavedQueue.php:18
-#: ajax_htmldata/getSearchResources.php:114
+#: ajax_htmldata/getSearchResources.php:113
 #: ajax_htmldata/getSubmittedQueue.php:15
 msgid "Name"
 msgstr "Nom"
@@ -1046,6 +1167,7 @@ msgid "Format:"
 msgstr "Format :"
 
 #: ajax_forms/getAdminWorkflowForm.php:89 ajax_forms/getAttachmentForm.php:35
+#: ajax_forms/getUpdateProductForm.php:195
 #: ajax_forms/getUpdateProductForm.php:336
 #: ajax_htmldata/getAttachmentDetails.php:47
 #: ajax_htmldata/getDowntimeList.php:17
@@ -1128,7 +1250,7 @@ msgid "Address:"
 msgstr "Adresse :"
 
 #: ajax_forms/getContactForm.php:92 ajax_forms/getUpdateProductForm.php:214
-#: ajax_htmldata/getProductDetails.php:116
+#: ajax_htmldata/getProductDetails.php:111
 msgid "Archived:"
 msgstr "Archivé :"
 
@@ -1202,7 +1324,7 @@ msgstr "Ajouter / modifier les liens entre sujets"
 
 #: ajax_forms/getGeneralDetailSubjectForm.php:27
 #: ajax_htmldata/getAdminSubjectDisplay.php:9
-#: ajax_htmldata/getAdminSubjectDisplay.php:98 index.php:266
+#: ajax_htmldata/getAdminSubjectDisplay.php:98 index.php:257
 msgid "General Subject"
 msgstr "Sujet général"
 
@@ -1416,7 +1538,7 @@ msgstr "Statut des licences"
 
 #: ajax_forms/getLicenseForm.php:136
 #: ajax_htmldata/getAcquisitionsDetails.php:286
-#: ajax_htmldata/getProductDetails.php:106 summary.php:218 summary.php:578
+#: ajax_htmldata/getProductDetails.php:101 summary.php:218 summary.php:578
 msgid "Status:"
 msgstr "Statut :"
 
@@ -1427,13 +1549,13 @@ msgstr "Historique :"
 #: ajax_forms/getLicenseForm.php:166 ajax_htmldata/getAccessDetails.php:173
 #: ajax_htmldata/getAcquisitionsDetails.php:292
 #: ajax_htmldata/getAcquisitionsDetails.php:386
-#: ajax_htmldata/getProductDetails.php:125
-#: ajax_htmldata/getProductDetails.php:127
-#: ajax_htmldata/getProductDetails.php:150
-#: ajax_htmldata/getProductDetails.php:152
-#: ajax_htmldata/getProductDetails.php:174
-#: ajax_htmldata/getProductDetails.php:176
-#: ajax_htmldata/getProductDetails.php:454
+#: ajax_htmldata/getProductDetails.php:120
+#: ajax_htmldata/getProductDetails.php:122
+#: ajax_htmldata/getProductDetails.php:145
+#: ajax_htmldata/getProductDetails.php:147
+#: ajax_htmldata/getProductDetails.php:169
+#: ajax_htmldata/getProductDetails.php:171
+#: ajax_htmldata/getProductDetails.php:449
 #: ajax_htmldata/getRoutingDetails.php:53
 #: ajax_htmldata/getRoutingDetails.php:55
 #: ajax_htmldata/getRoutingDetails.php:88
@@ -1580,7 +1702,7 @@ msgid "Product"
 msgstr "Produit"
 
 #: ajax_forms/getNewResourceForm.php:105 ajax_forms/getUpdateProductForm.php:96
-#: ajax_htmldata/getProductDetails.php:291 summary.php:361
+#: ajax_htmldata/getProductDetails.php:286 summary.php:361
 msgid "Description:"
 msgstr "Description :"
 
@@ -1590,7 +1712,7 @@ msgstr "Fournisseur :"
 
 #: ajax_forms/getNewResourceForm.php:120
 #: ajax_forms/getUpdateProductForm.php:106
-#: ajax_htmldata/getProductDetails.php:283 summary.php:353
+#: ajax_htmldata/getProductDetails.php:278 summary.php:353
 msgid "Alt URL:"
 msgstr "Autre URL :"
 
@@ -1720,7 +1842,7 @@ msgid "add Parent Resource"
 msgstr "Ajouter une ressource principale"
 
 #: ajax_forms/getUpdateProductForm.php:148
-#: ajax_htmldata/getProductDetails.php:223 summary.php:298
+#: ajax_htmldata/getProductDetails.php:218 summary.php:298
 msgid "ISSN / ISBN:"
 msgstr "ISSN / ISBN :"
 
@@ -1783,7 +1905,7 @@ msgstr "Accéder aux informations"
 #: ajax_htmldata/getContactDetails.php:68
 #: ajax_htmldata/getGeneralSubjectDisplay.php:25
 #: ajax_htmldata/getProductDetails.php:75
-#: ajax_htmldata/getProductDetails.php:451 ajax_htmldata/getSavedQueue.php:49
+#: ajax_htmldata/getProductDetails.php:446 ajax_htmldata/getSavedQueue.php:49
 msgid "edit"
 msgstr "Modifier"
 
@@ -1819,7 +1941,7 @@ msgstr "Modifier les informations d'accès"
 
 #: ajax_htmldata/getAccessDetails.php:159
 #: ajax_htmldata/getAcquisitionsDetails.php:372
-#: ajax_htmldata/getProductDetails.php:440 resources/cataloging.php:207
+#: ajax_htmldata/getProductDetails.php:435 resources/cataloging.php:207
 msgid "Additional Notes"
 msgstr "Remarques supplémentaires"
 
@@ -1827,22 +1949,22 @@ msgstr "Remarques supplémentaires"
 #: ajax_htmldata/getAccessDetails.php:181
 #: ajax_htmldata/getAcquisitionsDetails.php:375
 #: ajax_htmldata/getAcquisitionsDetails.php:394
-#: ajax_htmldata/getProductDetails.php:443
-#: ajax_htmldata/getProductDetails.php:462 resources/cataloging.php:210
+#: ajax_htmldata/getProductDetails.php:438
+#: ajax_htmldata/getProductDetails.php:457 resources/cataloging.php:210
 #: resources/cataloging.php:229
 msgid "add new note"
 msgstr "Ajouter une nouvelle remarque"
 
 #: ajax_htmldata/getAccessDetails.php:170
 #: ajax_htmldata/getAcquisitionsDetails.php:383
-#: ajax_htmldata/getProductDetails.php:451 resources/cataloging.php:218
+#: ajax_htmldata/getProductDetails.php:446 resources/cataloging.php:218
 msgid "edit note"
 msgstr "Modifier remarque"
 
 #: ajax_htmldata/getAccessDetails.php:170
 #: ajax_htmldata/getAcquisitionsDetails.php:383
 #: ajax_htmldata/getContactDetails.php:69
-#: ajax_htmldata/getProductDetails.php:451 resources/cataloging.php:218
+#: ajax_htmldata/getProductDetails.php:446 resources/cataloging.php:218
 msgid "remove note"
 msgstr "Supprimer une remarque"
 
@@ -2008,7 +2130,7 @@ msgid "add new import configuration"
 msgstr "Ajouter une configuration importée"
 
 #: ajax_htmldata/getAdminSubjectDisplay.php:51
-#: ajax_htmldata/getAdminSubjectDisplay.php:99 index.php:297
+#: ajax_htmldata/getAdminSubjectDisplay.php:99 index.php:288
 msgid "Detailed Subject"
 msgstr "Sujet spécifique"
 
@@ -2208,12 +2330,12 @@ msgid "No outstanding requests"
 msgstr "Aucune demande en attente"
 
 #: ajax_htmldata/getOutstandingQueue.php:19 ajax_htmldata/getSavedQueue.php:17
-#: ajax_htmldata/getSearchResources.php:113
+#: ajax_htmldata/getSearchResources.php:114
 #: ajax_htmldata/getSubmittedQueue.php:14
 msgid "ID"
 msgstr "Identifiant"
 
-#: ajax_htmldata/getOutstandingQueue.php:22 index.php:568
+#: ajax_htmldata/getOutstandingQueue.php:22 index.php:559
 msgid "Routing Step"
 msgstr "Étape de routage"
 
@@ -2232,63 +2354,59 @@ msgstr "Supprimer une ressource"
 msgid "remove resource and its children"
 msgstr "Supprimer la ressource et ses éléments subsidiaires"
 
-#: ajax_htmldata/getProductDetails.php:101 summary.php:212
-msgid "Record ID:"
-msgstr "Numéro de fiche :"
-
-#: ajax_htmldata/getProductDetails.php:141 summary.php:224
+#: ajax_htmldata/getProductDetails.php:136 summary.php:224
 msgid "Created:"
 msgstr "Créée le :"
 
-#: ajax_htmldata/getProductDetails.php:166 summary.php:250
+#: ajax_htmldata/getProductDetails.php:161 summary.php:250
 msgid "Last Update:"
 msgstr "Dernière mise à jour le :"
 
-#: ajax_htmldata/getProductDetails.php:191 summary.php:275
+#: ajax_htmldata/getProductDetails.php:186 summary.php:275
 msgid "Related Products:"
 msgstr "Produits associés :"
 
-#: ajax_htmldata/getProductDetails.php:199
-#: ajax_htmldata/getProductDetails.php:207
+#: ajax_htmldata/getProductDetails.php:194
+#: ajax_htmldata/getProductDetails.php:202
 msgid "view resource"
 msgstr "Afficher la ressource"
 
-#: ajax_htmldata/getProductDetails.php:199
-#: ajax_htmldata/getProductDetails.php:207
-#: ajax_htmldata/getProductDetails.php:261
+#: ajax_htmldata/getProductDetails.php:194
+#: ajax_htmldata/getProductDetails.php:202
+#: ajax_htmldata/getProductDetails.php:256
 msgid "View "
 msgstr "Afficher "
 
-#: ajax_htmldata/getProductDetails.php:237 summary.php:307
+#: ajax_htmldata/getProductDetails.php:232 summary.php:307
 msgid "Aliases:"
 msgstr "Alias :"
 
-#: ajax_htmldata/getProductDetails.php:254 summary.php:324
+#: ajax_htmldata/getProductDetails.php:249 summary.php:324
 msgid "Organizations:"
 msgstr "Organisations :"
 
-#: ajax_htmldata/getProductDetails.php:275 summary.php:345
+#: ajax_htmldata/getProductDetails.php:270 summary.php:345
 msgid "Resource URL:"
 msgstr "URL de la ressource :"
 
-#: ajax_htmldata/getProductDetails.php:276
+#: ajax_htmldata/getProductDetails.php:271
 msgid "Visit Resource URL"
 msgstr "Aller à l'URL de la ressource"
 
-#: ajax_htmldata/getProductDetails.php:284
+#: ajax_htmldata/getProductDetails.php:279
 msgid "Visit Secondary Resource URL"
 msgstr "Aller à l'URL secondaire de la ressource"
 
-#: ajax_htmldata/getProductDetails.php:299
+#: ajax_htmldata/getProductDetails.php:294
 msgid "edit product details"
 msgstr "Modifier les détails du produit"
 
-#: ajax_htmldata/getProductDetails.php:371
-#: ajax_htmldata/getProductDetails.php:372
+#: ajax_htmldata/getProductDetails.php:366
+#: ajax_htmldata/getProductDetails.php:367
 msgid "remove subject"
 msgstr "Supprimer un sujet"
 
-#: ajax_htmldata/getProductDetails.php:393
+#: ajax_htmldata/getProductDetails.php:388
 msgid "add new subject"
 msgstr "Ajouter un nouveau sujet"
 
@@ -2419,12 +2537,12 @@ msgstr[0] "Affichage de %d à %d de %d fiche de ressource"
 msgstr[1] "Affichage de %d à %d de %d fiches de ressource"
 
 #: ajax_htmldata/getSearchResources.php:66
-#: ajax_htmldata/getSearchResources.php:164
+#: ajax_htmldata/getSearchResources.php:173
 msgid "previous page"
 msgstr "Page précédente"
 
 #: ajax_htmldata/getSearchResources.php:100
-#: ajax_htmldata/getSearchResources.php:198
+#: ajax_htmldata/getSearchResources.php:207
 msgid "next page"
 msgstr "Page suivante"
 
@@ -2432,7 +2550,7 @@ msgstr "Page suivante"
 msgid "Creator"
 msgstr "Créé par"
 
-#: ajax_htmldata/getSearchResources.php:215
+#: ajax_htmldata/getSearchResources.php:224
 msgid "records per page"
 msgstr "résultats par page"
 
@@ -2729,7 +2847,7 @@ msgstr "Nouvelle recherche"
 msgid "Name (contains)"
 msgstr "Nom (contient)"
 
-#: index.php:69 index.php:80 index.php:261 index.php:393 index.php:410
+#: index.php:69 index.php:80 index.php:384 index.php:401
 msgid "go!"
 msgstr "OK !"
 
@@ -2738,48 +2856,44 @@ msgid "ISBN/ISSN"
 msgstr "ISBN/ISSN"
 
 #: index.php:90 index.php:118 index.php:141 index.php:172 index.php:204
-#: index.php:228 index.php:269 index.php:300 index.php:362 index.php:420
-#: index.php:452 index.php:484 index.php:514 index.php:544 index.php:571
-#: index.php:592
+#: index.php:228 index.php:260 index.php:291 index.php:353 index.php:411
+#: index.php:443 index.php:475 index.php:505 index.php:535 index.php:562
+#: index.php:583
 msgid "All"
 msgstr "Tous"
 
-#: index.php:93 index.php:95 index.php:233 index.php:235 index.php:274
-#: index.php:276 index.php:305 index.php:307 index.php:366 index.php:368
-#: index.php:424 index.php:426 index.php:456 index.php:458 index.php:488
-#: index.php:490 index.php:518 index.php:520 index.php:547 index.php:549
+#: index.php:93 index.php:95 index.php:233 index.php:235 index.php:265
+#: index.php:267 index.php:296 index.php:298 index.php:357 index.php:359
+#: index.php:415 index.php:417 index.php:447 index.php:449 index.php:479
+#: index.php:481 index.php:509 index.php:511 index.php:538 index.php:540
 msgid "(none)"
 msgstr "(aucun)"
 
-#: index.php:257
-msgid "Record ID"
-msgstr "Numéro de notice"
-
-#: index.php:328
+#: index.php:319
 msgid "Starts with"
 msgstr "Commençant par"
 
-#: index.php:389
+#: index.php:380
 msgid "Note (contains)"
 msgstr "Remarque (contient)"
 
-#: index.php:401
+#: index.php:392
 msgid "Date Created Between"
 msgstr "Date de création entre"
 
-#: index.php:403
+#: index.php:394
 msgid "and"
 msgstr "et"
 
-#: index.php:417
+#: index.php:408
 msgid "Purchase Site"
 msgstr "Site d'achat"
 
-#: index.php:593
+#: index.php:584
 msgid "Parent"
 msgstr "Parent"
 
-#: index.php:594
+#: index.php:585
 msgid "Child"
 msgstr "Enfant"
 
@@ -2951,6 +3065,10 @@ msgstr ""
 msgid " Summary"
 msgstr " Résumé"
 
+#: summary.php:212
+msgid "Record ID:"
+msgstr "Numéro de fiche :"
+
 #: summary.php:281
 msgid "(Parent)"
 msgstr "(Principal)"
@@ -3112,3 +3230,9 @@ msgid ""
 msgstr ""
 "La connexion ne fonctionne pas. Vérifiez le fichier .htaccess et la valeur "
 "remoteAuthVariableName indiquée dans le fichier /admin/configuration.ini"
+
+#~ msgid "Resource ID: "
+#~ msgstr "Identifiant de ressource: "
+
+#~ msgid "Record ID"
+#~ msgstr "Numéro de notice"
