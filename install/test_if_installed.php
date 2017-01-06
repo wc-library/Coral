@@ -77,7 +77,23 @@ function upgradeToUnifiedInstaller($ns)
 		[ "uid" => "ui_upgrade_resources", "title" => "Resources", "required" => false, "module_name" => "resources" ],
 		[ "uid" => "ui_upgrade_usage", "title" => "Usage", "required" => false, "module_name" => "usage" ],
 	];
-	if (isset($_POST["ui_upgrade_auth"]) || isset($_SESSION[$ns["module_selections"]]["ui_upgrade_auth"]))
+
+	// If modules are selected, check we can access their config files
+	$chosen_modules_missing_config_files = [];
+	if (isset($_POST["ui_upgrade_auth"]))
+	{
+		foreach ($fields as $field)
+		{
+			if ($_POST[$field["uid"]] && !is_readable($field["module_name"]."/admin/configuration.ini"))
+			{
+				$chosen_modules_missing_config_files[] = $field["title"];
+			}
+		}
+	}
+
+	// test $_SESSION[$ns["module_selections"]]["ui_upgrade_auth"] for a t/f value - that it's auth is irrelevant
+	if (count($chosen_modules_missing_config_files) == 0 &&
+		(isset($_POST["ui_upgrade_auth"]) || isset($_SESSION[$ns["module_selections"]]["ui_upgrade_auth"])))
 	{
 		require_once "common/Config.php";
 		$configFilePath = Config::CONFIG_FILE_PATH;
@@ -164,6 +180,11 @@ function upgradeToUnifiedInstaller($ns)
 		$yield = new stdClass();
 		$yield->title = _("Select Installed Modules");
 		$yield->messages = [];
+		if (count($chosen_modules_missing_config_files) > 0)
+		{
+			$yield->messages[] = _("You seem to have chosen modules that are not installed (in other words, they are missing configuration files).");
+			$yield->messages[] = _("The problematic modules are: ") . join(", ", $chosen_modules_missing_config_files);
+		}
 		$yield->body = modules_to_use_template($fields, _("Please select the modules that you have installed."));
 		yield_test_results_and_exit($yield, [], 0);
 	}
