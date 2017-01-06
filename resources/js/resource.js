@@ -20,8 +20,7 @@ $(document).ready(function(){
  	updateRightPanel();
  	updateAttachmentsNumber();
 
-
-
+    
 	$(".showProduct").click(function () {
 	  $('.resource_tab_content').hide();
 		$('#div_product').show();
@@ -251,6 +250,7 @@ $(document).ready(function(){
 		$('#div_routing').show();
 		$('#div_fullRightPanel').hide();
 		updateRouting();
+        $('#restartWorkflowDiv').hide();
 		return false;
 	});
 	
@@ -686,7 +686,7 @@ function updateCataloging(){
 	 cache:      false,
 	 data:       "resourceID=" + $("#resourceID").val(),
 	 success:    function(html) {
-		$(".div_mainContent").html(html);
+		$("#div_cataloging .div_mainContent").html(html);
 		bind_removes();
 		tb_reinit();
 		$("#icon_cataloging").html("<img src='images/cataloging.gif' />");
@@ -891,14 +891,22 @@ function bind_routing(){
    });
 
 
+   $(".restartWorkflow").unbind('click').click(function() {
+        $('#restartWorkflowDiv').show();
+   });
 
-   $(".restartWorkflow").unbind('click').click(function () {
+
+$("select").change(function() {
+    console.log($("#restartWorkflowForm select").val());
+});
+
+   $(".restartWorkflowSubmit").unbind('click').click(function () {
 	  if (confirm(_("Warning!  You are about to remove any steps that have been started and completed.  Are you sure you wish to continue?")) == true) {
 		  $.ajax({
 			 type:       "GET",
 			 url:        "ajax_processing.php",
 			 cache:      false,
-			 data:       "action=restartWorkflow&resourceID=" + $(this).attr("id"),
+			 data:       "action=restartWorkflow&resourceID=" + $(this).attr("id") + "&deleteWorkflow=" + $("#deleteWorkflow").is(':checked') + "&workflow=" + $("#workflowArchivingDate").val(),
 			 success:    function(html) {
 				updateRouting();
 			 }
@@ -908,6 +916,16 @@ function bind_routing(){
 	  }
    });
 
+   $(".displayArchivedWorkflows").unbind('click').click(function () {
+      $(".archivedWorkflow").toggle();
+      if ($(".archivedWorkflow").is(":visible")) {
+        $(this).html(_("hide archived workflows")); 
+        $("#displayArchivedWorkflowsIcon").attr("src", "images/minus_12.gif");
+      } else {
+        $(this).html(_("display archived workflows"));
+        $("#displayArchivedWorkflowsIcon").attr("src", "images/plus_12.gif");
+      }
+   });
 
    $(".markResourceComplete").unbind('click').click(function () {
 	  if (confirm(_("Do you really want to mark this resource complete?  This action cannot be undone.")) == true) {   
