@@ -1,22 +1,24 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: messages\n"
-"POT-Creation-Date: 2016-10-04 9:49-06:00\n"
-"PO-Revision-Date: 2016-10-23 00:10-0600\n"
+"POT-Creation-Date: 2016-11-21 11:20-0700\n"
+"PO-Revision-Date: 2016-11-21 11:20-0700\n"
 "Last-Translator: <>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Generator: Poedit 1.8.11\n"
+"X-Poedit-Basepath: ../../..\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: js/admin.js:81 js/admin.js:133 js/admin.js:159 js/admin.js:200 js/index.js:46
+#: js/admin.js:81 js/admin.js:133 js/admin.js:159 js/admin.js:200
+#: js/index.js:46
 msgid "Processing..."
-msgstr "正在处理..."
+msgstr "正在处理...z"
 
 #: js/admin.js:131
 msgid "Do you really want to delete this data?"
@@ -38,7 +40,8 @@ msgstr "没有匹配！"
 msgid "Selected: "
 msgstr "已选："
 
-#: js/forms/aliasSubmitForm.js:43 js/forms/contactSubmitForm.js:125 js/forms/organizationSubmitForm.js:109
+#: js/forms/aliasSubmitForm.js:43 js/forms/contactSubmitForm.js:125
+#: js/forms/organizationSubmitForm.js:109
 msgid "Name must be entered to continue."
 msgstr "必须输入名称才能继续。"
 
@@ -50,20 +53,36 @@ msgstr "请至少选择一个角色。"
 msgid "This organization already exists!"
 msgstr "该组织已经存在！"
 
+#: js/orgDetail.js:159
+msgid "Must set a date."
+msgstr "必须设置一个日期。"
+
 #: js/orgDetail.js:185
 msgid "Must set an end date."
 msgstr "必须设置一个结束日期。"
 
-#: js/orgDetail.js:247 js/orgDetail.js:281 js/orgDetail.js:300 js/orgDetail.js:324 js/orgDetail.js:342 js/orgDetail.js:504 js/orgDetail.js:560
+#: js/orgDetail.js:247 js/orgDetail.js:281 js/orgDetail.js:300
+#: js/orgDetail.js:324 js/orgDetail.js:342 js/orgDetail.js:504
+#: js/orgDetail.js:560
 msgid "Refreshing Contents..."
 msgstr "正在刷新内容..."
+
+#: js/orgDetail.js:527
+msgid "New contact must have a name."
+msgstr "新的联系人必须有一个名字。"
+
+#: js/orgDetail.js:534
+msgid "CC must be a valid email."
+msgstr "密送必须有一个有效的电子邮件。"
 
 #: js/orgDetail.js:578
 msgid "Do you really want to delete this organization?"
 msgstr "您确认要删除该组织吗？"
 
 #: js/orgDetail.js:591
-msgid "This Organization cannot be deleted because it has at least one License Record associated."
+msgid ""
+"This Organization cannot be deleted because it has at least one License "
+"Record associated."
 msgstr "由于至少有一个关联的“授权记录”而无法删除该“组织”。"
 
 #: js/orgDetail.js:655
@@ -266,7 +285,8 @@ msgstr "用户"
 msgid "add new user"
 msgstr "添加新用户"
 
-#: admin.php:37 admin.php:52 admin.php:66 admin.php:81 admin.php:95 admin.php:106
+#: admin.php:37 admin.php:52 admin.php:66 admin.php:81 admin.php:95
+#: admin.php:106
 msgid "Loading..."
 msgstr "正在加载..."
 
@@ -354,15 +374,19 @@ msgstr "角色："
 msgid "Account Details:"
 msgstr "帐户详细信息："
 
-#: ajax_forms.php:144 ajax_forms.php:416 ajax_forms.php:519 ajax_forms.php:934 ajax_htmldata.php:256 ajax_htmldata.php:493 ajax_htmldata.php:615 summary.php:185 summary.php:393 summary.php:497
+#: ajax_forms.php:144 ajax_forms.php:416 ajax_forms.php:519 ajax_forms.php:934
+#: ajax_htmldata.php:256 ajax_htmldata.php:493 ajax_htmldata.php:615
+#: summary.php:185 summary.php:393 summary.php:497
 msgid "Notes:"
 msgstr "注释："
 
-#: ajax_forms.php:154 ajax_forms.php:231 ajax_forms.php:425 ajax_forms.php:529 ajax_forms.php:688 ajax_forms.php:856 ajax_forms.php:943
+#: ajax_forms.php:154 ajax_forms.php:231 ajax_forms.php:425 ajax_forms.php:529
+#: ajax_forms.php:688 ajax_forms.php:856 ajax_forms.php:943
 msgid "submit"
 msgstr "提交"
 
-#: ajax_forms.php:155 ajax_forms.php:232 ajax_forms.php:426 ajax_forms.php:530 ajax_forms.php:689 ajax_forms.php:857 ajax_forms.php:944 ajax_forms.php:1154
+#: ajax_forms.php:155 ajax_forms.php:232 ajax_forms.php:426 ajax_forms.php:530
+#: ajax_forms.php:689 ajax_forms.php:857 ajax_forms.php:944 ajax_forms.php:1154
 msgid "cancel"
 msgstr "取消"
 
@@ -510,7 +534,8 @@ msgstr "发送提醒频率为每"
 msgid "day(s)"
 msgstr "天"
 
-#: ajax_forms.php:718 ajax_forms.php:785 ajax_forms.php:802 ajax_htmldata.php:760
+#: ajax_forms.php:718 ajax_forms.php:785 ajax_forms.php:802
+#: ajax_htmldata.php:760
 msgid "Date"
 msgstr "日期"
 
@@ -562,7 +587,8 @@ msgstr "开始日期："
 msgid "End date:"
 msgstr "结束日期："
 
-#: ajax_forms.php:984 ajax_htmldata.php:194 ajax_htmldata.php:338 ajax_htmldata.php:426 ajax_htmldata.php:561 ajax_htmldata.php:794
+#: ajax_forms.php:984 ajax_htmldata.php:194 ajax_htmldata.php:338
+#: ajax_htmldata.php:426 ajax_htmldata.php:561 ajax_htmldata.php:794
 msgid "edit"
 msgstr "编辑"
 
@@ -851,8 +877,13 @@ msgid "No licenses set up for this organization"
 msgstr "没有为此组织设置授权"
 
 #: ajax_htmldata.php:867 summary.php:624
-msgid "Unable to access the licensing database.  Make sure the configuration.ini is pointing to the correct place and that the database and associated tables have been set up."
-msgstr "无法访问授权数据库。请确保 configuration.ini 指向正确的位置，并且已设置该数据库和相关联的表格。"
+msgid ""
+"Unable to access the licensing database.  Make sure the configuration.ini is "
+"pointing to the correct place and that the database and associated tables "
+"have been set up."
+msgstr ""
+"无法访问授权数据库。请确保 configuration.ini 指向正确的位置，并且已设置该数据"
+"库和相关联的表格。"
 
 #: ajax_htmldata.php:909
 msgid "Sorry, no requests fit your query"
@@ -903,11 +934,15 @@ msgid "Unable to delete  - this "
 msgstr "无法删除 - 该"
 
 #: ajax_processing.php:411
-msgid " is in use.  Please make sure no organizations are set up with this information."
+msgid ""
+" is in use.  Please make sure no organizations are set up with this "
+"information."
 msgstr "正在使用中。请确保没有使用该信息设置的组织。"
 
 #: ajax_processing.php:417
-msgid "Unable to delete.  Please make sure no organizations are set up with this information."
+msgid ""
+"Unable to delete.  Please make sure no organizations are set up with this "
+"information."
 msgstr "无法删除。请确保没有使用该信息设置的组织。"
 
 #: ajax_processing.php:430
@@ -918,7 +953,8 @@ msgstr "组织已成功删除。"
 msgid "User successfully saved."
 msgstr "已成功保存用户。"
 
-#: index.php:26 templates/header.php:171 templates/header.php:195 templates/header.php:211
+#: index.php:26 templates/header.php:171 templates/header.php:195
+#: templates/header.php:211
 msgid "Home"
 msgstr "主页"
 
@@ -974,36 +1010,45 @@ msgstr "之："
 msgid "(archived)"
 msgstr "(已存档)"
 
-#: orgDetail.php:119 orgDetail.php:150 orgDetail.php:187 orgDetail.php:224 orgDetail.php:277 orgDetail.php:303
+#: orgDetail.php:119 orgDetail.php:150 orgDetail.php:187 orgDetail.php:224
+#: orgDetail.php:277 orgDetail.php:303
 msgid "Organization"
 msgstr "组织"
 
-#: orgDetail.php:120 orgDetail.php:151 orgDetail.php:188 orgDetail.php:225 orgDetail.php:278 orgDetail.php:304 summary.php:248
+#: orgDetail.php:120 orgDetail.php:151 orgDetail.php:188 orgDetail.php:225
+#: orgDetail.php:278 orgDetail.php:304 summary.php:248
 msgid "Aliases"
 msgstr "别名"
 
-#: orgDetail.php:121 orgDetail.php:152 orgDetail.php:189 orgDetail.php:226 orgDetail.php:279 orgDetail.php:305 summary.php:314
+#: orgDetail.php:121 orgDetail.php:152 orgDetail.php:189 orgDetail.php:226
+#: orgDetail.php:279 orgDetail.php:305 summary.php:314
 msgid "Contacts"
 msgstr "联系人"
 
-#: orgDetail.php:122 orgDetail.php:153 orgDetail.php:190 orgDetail.php:227 orgDetail.php:280 orgDetail.php:306
+#: orgDetail.php:122 orgDetail.php:153 orgDetail.php:190 orgDetail.php:227
+#: orgDetail.php:280 orgDetail.php:306
 msgid "Accounts"
 msgstr "帐户"
 
-#: orgDetail.php:125 orgDetail.php:127 orgDetail.php:156 orgDetail.php:158 orgDetail.php:193 orgDetail.php:195 orgDetail.php:230 orgDetail.php:232 orgDetail.php:259 orgDetail.php:281 orgDetail.php:309 orgDetail.php:311
+#: orgDetail.php:125 orgDetail.php:127 orgDetail.php:156 orgDetail.php:158
+#: orgDetail.php:193 orgDetail.php:195 orgDetail.php:230 orgDetail.php:232
+#: orgDetail.php:259 orgDetail.php:281 orgDetail.php:309 orgDetail.php:311
 #: summary.php:540
 msgid "Issues"
 msgstr "问题"
 
-#: orgDetail.php:130 orgDetail.php:161 orgDetail.php:198 orgDetail.php:235 orgDetail.php:282 orgDetail.php:314 summary.php:590
+#: orgDetail.php:130 orgDetail.php:161 orgDetail.php:198 orgDetail.php:235
+#: orgDetail.php:282 orgDetail.php:314 summary.php:590
 msgid "Licenses"
 msgstr "授权"
 
-#: orgDetail.php:130 orgDetail.php:161 orgDetail.php:198 orgDetail.php:235 orgDetail.php:282 orgDetail.php:314
+#: orgDetail.php:130 orgDetail.php:161 orgDetail.php:198 orgDetail.php:235
+#: orgDetail.php:282 orgDetail.php:314
 msgid " record"
 msgstr "记录"
 
-#: orgDetail.php:130 orgDetail.php:161 orgDetail.php:198 orgDetail.php:235 orgDetail.php:282 orgDetail.php:314
+#: orgDetail.php:130 orgDetail.php:161 orgDetail.php:198 orgDetail.php:235
+#: orgDetail.php:282 orgDetail.php:314
 msgid " records"
 msgstr "记录"
 
@@ -1012,7 +1057,9 @@ msgid "invalid organization"
 msgstr "无效的组织"
 
 #: setuser.php:41
-msgid "LDAP Connection is not working or has timed out.  Please check configuration.ini to verify settings."
+msgid ""
+"LDAP Connection is not working or has timed out.  Please check configuration."
+"ini to verify settings."
 msgstr "LDAP 连接不工作或已超时。请检查 configuration.ini 以验证设置。"
 
 #: summary.php:202
@@ -1052,8 +1099,13 @@ msgid "Report an issue"
 msgstr "报告问题"
 
 #: templates/header.php:77
-msgid "JavaScript must be enabled in order for you to use CORAL. However, it seems JavaScript is either disabled or not supported by your browser. To use CORAL, enable JavaScript by changing your browser options, then "
-msgstr "必须启用 JavaScript 才能使用 CORAL。但是，或者您已禁用 JavaScript，或者您的浏览器不支持。若要使用 CORAL，则请更改您的浏览器选项以启用 JavaScript，并"
+msgid ""
+"JavaScript must be enabled in order for you to use CORAL. However, it seems "
+"JavaScript is either disabled or not supported by your browser. To use "
+"CORAL, enable JavaScript by changing your browser options, then "
+msgstr ""
+"必须启用 JavaScript 才能使用 CORAL。但是，或者您已禁用 JavaScript，或者您的浏"
+"览器不支持。若要使用 CORAL，则请更改您的浏览器选项以启用 JavaScript，并"
 
 #: templates/header.php:77
 msgid "try again"
@@ -1120,5 +1172,9 @@ msgid "Management"
 msgstr "管理"
 
 #: user.php:106
-msgid "Login is not working.  Check the .htaccess file and the remoteAuthVariableName specified in /admin/configuration.ini"
-msgstr "登录不工作。请检查 /admin/configuration.ini 中指定的 .htaccess 文件和 remoteAuthVariableName"
+msgid ""
+"Login is not working.  Check the .htaccess file and the "
+"remoteAuthVariableName specified in /admin/configuration.ini"
+msgstr ""
+"登录不工作。请检查 /admin/configuration.ini 中指定的 .htaccess 文件和 "
+"remoteAuthVariableName"

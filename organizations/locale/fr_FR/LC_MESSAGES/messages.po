@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: messages\n"
-"POT-Creation-Date: 2016-10-04 09:49-0600\n"
-"PO-Revision-Date: 2016-10-16 20:16-0600\n"
+"POT-Creation-Date: 2016-11-21 11:06-0700\n"
+"PO-Revision-Date: 2016-11-21 11:06-0700\n"
 "Last-Translator: <>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "Language: fr_FR\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Poedit-Basepath: ../../..\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.8.10\n"
+"X-Generator: Poedit 1.8.11\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: js/admin.js:81 js/admin.js:133 js/admin.js:159 js/admin.js:200
@@ -53,6 +53,10 @@ msgstr "Sélectionnez au moins un rôle."
 msgid "This organization already exists!"
 msgstr "Cette organisation existe déjà !"
 
+#: js/orgDetail.js:159
+msgid "Must set a date."
+msgstr "Indiquez une date."
+
 #: js/orgDetail.js:185
 msgid "Must set an end date."
 msgstr "Indiquez une date de fin."
@@ -62,6 +66,14 @@ msgstr "Indiquez une date de fin."
 #: js/orgDetail.js:560
 msgid "Refreshing Contents..."
 msgstr "Rechargement des contenus..."
+
+#: js/orgDetail.js:527
+msgid "New contact must have a name."
+msgstr "Le nouveau contact doit avoir un nom."
+
+#: js/orgDetail.js:534
+msgid "CC must be a valid email."
+msgstr "CC doit être une adresse email valide."
 
 #: js/orgDetail.js:578
 msgid "Do you really want to delete this organization?"
@@ -451,15 +463,15 @@ msgstr "Adresse email du compte local :"
 
 #: ajax_forms.php:505
 msgid "Username:"
-msgstr "Nom d'utilisateur:"
+msgstr "Nom d'utilisateur :"
 
 #: ajax_forms.php:512 ajax_htmldata.php:599 summary.php:481
 msgid "Password:"
-msgstr "Mot de passe:"
+msgstr "Mot de passe :"
 
 #: ajax_forms.php:591
 msgid "Report New Problem"
-msgstr "Signaler un nouveau problème"
+msgstr "Signaler un problème"
 
 #: ajax_forms.php:592
 msgid "* required fields"
@@ -467,7 +479,7 @@ msgstr "* champs obligatoires"
 
 #: ajax_forms.php:596
 msgid "Organization:"
-msgstr "Organisation:"
+msgstr "Organisation :"
 
 #: ajax_forms.php:603
 msgid "Contact:"
@@ -511,7 +523,7 @@ msgstr "S'applique à tous "
 
 #: ajax_forms.php:661 ajax_forms.php:664
 msgid "resources"
-msgstr "Ressources"
+msgstr "ressources"
 
 #: ajax_forms.php:664
 msgid "Applies to selected "
@@ -536,7 +548,7 @@ msgstr "Heure"
 
 #: ajax_forms.php:778
 msgid "Resource Downtime Report"
-msgstr "Rapport d'indisponibilité de la ressource"
+msgstr "Rapport Indisponibilité de la ressource"
 
 #: ajax_forms.php:782
 msgid "Downtime Start:"
@@ -717,7 +729,7 @@ msgstr "Tous les contacts sont archivés"
 
 #: ajax_htmldata.php:519
 msgid " archived contact(s) available.  "
-msgstr " contact(s) archivé(s) disponible(s).    "
+msgstr " contact(s) archivé(s) disponible(s). "
 
 #: ajax_htmldata.php:519
 msgid "show archived contacts"
@@ -765,7 +777,7 @@ msgstr "Incidents/problèmes"
 
 #: ajax_htmldata.php:653
 msgid "report new issue"
-msgstr "Signaler un nouvel incident"
+msgstr "Signaler un incident"
 
 #: ajax_htmldata.php:657
 msgid "view open issues"
@@ -821,7 +833,7 @@ msgstr " de "
 
 #: ajax_htmldata.php:784
 msgid "start: "
-msgstr "Début :  "
+msgstr "Début : "
 
 #: ajax_htmldata.php:786
 msgid "end: "

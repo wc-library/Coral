@@ -25,7 +25,7 @@ function register_have_read_write_access_to_config_provider()
 					$config_files = [];
 					foreach ($shared_module_info["modules_to_use"]["useModule"] as $key => $value) {
 						if ($value &&
-							$shared_module_info["dependencies"][$key] &&
+							!empty($shared_module_info["dependencies"][$key]) &&
 							in_array("have_read_write_access_to_config", $shared_module_info["dependencies"][$key]))
 						{
 							if (isset($shared_module_info[$key]["config_file"]))
