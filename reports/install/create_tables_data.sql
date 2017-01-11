@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `ReportParameter` (
 
 DROP TABLE IF EXISTS `ReportParameterMap`;
 CREATE TABLE IF NOT EXISTS `ReportParameterMap` (
-  `reportID` int(11) default NULL,
+  `reportID` int(11) NOT NULL,
   `reportParameterID` int(11) NOT NULL auto_increment,
   `parentReportParameterID` int(11) default NULL,
   PRIMARY KEY  (`reportID`,`reportParameterID`)
@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS `ReportParameterMap` (
 DROP TABLE IF EXISTS `ReportSum`;
 CREATE TABLE IF NOT EXISTS `ReportSum` (
   `reportID` int(11) NOT NULL,
-  `reportColumnName` varchar(45) default NULL,
+  `reportColumnName` varchar(45) NOT NULL,
   `reportAction` varchar(45) default NULL,
   PRIMARY KEY  (`reportID`,`reportColumnName`)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
