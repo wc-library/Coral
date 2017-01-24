@@ -1149,11 +1149,11 @@ img[src*="arrowup.png"] {
 /*--- Table Column Widths ---*/
 
 table.dataTable th:nth-of-type(1) {
-			min-width: 36px;
+			min-width: 250px;
 }
 
 table.dataTable th:nth-of-type(2) {
-			min-width: 250px;
+			min-width: 36px;
 }
 
 table.dataTable th:nth-of-type(3) {
@@ -1478,91 +1478,47 @@ table.headerTable > tbody > tr > td > table:nth-child(1) > tbody > tr > td {
 
 /*--- My Queue Page Side Menu ---*/
 
-a#OutstandingTasks:before {
+.queueMenuLink a {
+	text-decoration: none;
+	text-transform: capitalize;
+	font-size: 12px;
+}
+
+.queueMenuLink a:before {
 	font-family: FontAwesome;
-	content: "\f192";
 	font-size: 11px;
 	margin-right: 5px;
 }
 
-a#OutstandingTasks {
-			text-decoration: none;
-			text-transform: capitalize;
-			font-size: 12px;
+.queueMenuLink a:hover {
+	color: #ccc;
 }
 
-a#OutstandingTasks:hover {
-			color: #ccc;
+a#OutstandingTasks:before {
+	content: "\f192";
 }
 
 a#SavedRequests:before {
-	font-family: FontAwesome;
 	content: "\f0fe";
-	font-size: 11px;
-	margin-right: 5px;
-}
-
-a#SavedRequests {
-			text-decoration: none;
-			text-transform: capitalize;
-			font-size: 12px;
-}
-
-a#SavedRequests:hover {
-			color: #ccc;
 }
 
 a#SubmittedRequests:before {
-	font-family: FontAwesome;
 	content: "\f045";
-	font-size: 11px;
-	margin-right: 5px;
 }
 
-a#SubmittedRequests {
-			text-decoration: none;
-			text-transform: capitalize;
-			font-size: 12px;
+a#CompletedRequests:before {
+	content: "\f00c";
 }
 
-a#SubmittedRequests:hover {
-			color: #ccc;
-}
 
-.span_OutstandingTasksNumber {
+.task-number {
 			color: #FFF654;
 			font-size: 85%;
 			margin-left: 15px !important;
 }
 
-.span_SubmittedRequestsNumber {
-			color: #FFF654;
-			font-size: 85%;
-			margin-left: 15px !important;
-}
-
-.span_SavedRequestsNumber {
-			color: #FFF654;
-			font-size: 85%;
-			margin-left: 15px !important;
-}
-
-.selected .span_OutstandingTasksNumber {
+.selected .task-number, .selected .queueMenuLink a {
 			color: #666672;
-			font-size: 85%;
-			margin-left: 15px !important;
-}
-
-.selected  .span_SubmittedRequestsNumber {
-			color: #666672;
-			font-size: 85%;
-			margin-left: 15px !important;
-}
-
-.selected .span_SavedRequestsNumber {
-			color: #666672;
-			font-size: 85%;
-			margin-left: 15px !important;
 }
 
 #print-view a.helpfulLink {
@@ -3079,6 +3035,7 @@ span#divider {
     text-decoration: none;
     font-size: 13px;
     font-weight: 600;
+    line-height: 15px;
 }
 
 .main-menu-link img {
