@@ -11,6 +11,7 @@ class Installer {
 	const ERR_UPGRADE_DOES_NOT_EXIST = 20046;
 	const ERR_INVALID_TEST_RESULT = 20047;
 	const ERR_RUNNING_POST_INSTALLATION_TEST_BEFORE_INSTALLATION_COMPLETE = 20048;
+	const ERR_CANNOT_READ_PROVIDER_SCRIPT = 20049;
 
 	const REQUIRED_FOR_INSTALL = 501;
 	const REQUIRED_FOR_UPGRADE = 502;
@@ -116,6 +117,10 @@ class Installer {
 
 	private function addModule($path, $module_name, $core_module = false)
 	{
+		// we should only be trying to add modules that are actually readable
+		if (!is_readable($path))
+			throw new RuntimeException("Error: For some reason you are trying to add a module that is not readable: `$module_name` -> `$path`", self::ERR_CANNOT_READ_PROVIDER_SCRIPT);
+
 		require $path;
 		$function_name = "register_${module_name}_provider";
 		if (is_callable($function_name))
@@ -189,6 +194,12 @@ class Installer {
 					{
 						$this->addModule($installation_root_file, $module);
 					}
+					else {
+						throw new OutOfBoundsException("Error: Although the module folder is there for '$module', the install script cannot be accessed (probably because of wrong permissions)", self::ERR_CANNOT_READ_PROVIDER_SCRIPT);
+					}
+				}
+				else {
+					throw new OutOfBoundsException("Error: Although the module '$module' is registered as installed, the folder cannot be accessed (probably because of wrong permissions)", self::ERR_CANNOT_READ_PROVIDER_SCRIPT);
 				}
 			}
 		}
