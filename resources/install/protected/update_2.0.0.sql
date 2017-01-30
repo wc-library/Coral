@@ -1,9 +1,5 @@
-ALTER TABLE 'ResourcePayment'
-	ADD `includeStats` boolean default NULL;
-
-ALTER TABLE `Resource`
-ADD INDEX `catalogingTypeID` ( `catalogingTypeID` ),
-ADD INDEX `catalogingStatusID` ( `catalogingStatusID` );
+ALTER TABLE `ResourcePayment`
+	ADD COLUMN `includeStats` boolean default NULL;
 
 DROP TABLE IF EXISTS `Fund`;
 CREATE TABLE `Fund` (
@@ -33,12 +29,6 @@ CREATE TABLE `OrgNameMapping` (
   KEY (`importConfigID`)
   ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=UTF8;
 
-ALTER TABLE `ResourcePayment`
- ADD INDEX `Index_fundID`(`fundID`),
- DROP INDEX `Index_All`,
- ADD INDEX `Index_All`(`resourceID`, `fundID`, `year`, `costDetailsID`, `invoiceNum`);
- 
-
 INSERT INTO `Fund` (shortName) SELECT DISTINCT `fundName` FROM `ResourcePayment`;
 UPDATE `Fund` SET fundCode = fundID;
 
@@ -49,4 +39,12 @@ INNER JOIN `Fund`
     ON `ResourcePayment`.fundName = `Fund`.shortName
 SET `ResourcePayment`.fundID = `Fund`.fundID;
 
+ALTER TABLE `ResourcePayment`
+ ADD INDEX `Index_fundID`(`fundID`),
+ DROP INDEX `Index_All`,
+ ADD INDEX `Index_All`(`resourceID`, `fundID`, `year`, `costDetailsID`, `invoiceNum`);
+ 
+
 ALTER TABLE `ResourcePayment` DROP COLUMN `fundName`;
+
+ALTER TABLE  `ResourceNote` MODIFY `updateDate` timestamp NOT NULL default CURRENT_TIMESTAMP;
