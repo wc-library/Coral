@@ -132,7 +132,7 @@ if (isset($user) && ($user->isAdmin) && ($user->getOpenSession())){
 		</select>
 	</div>
 	<div class='smallerText' style='text-align:center; margin-top:13px;'><a href='index.php' id='login-link'><?php echo _("Login page")?></a></div>
-
+    <?php include '../templates/footer.php'; ?>
 
 </form>
 

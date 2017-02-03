@@ -25,9 +25,7 @@
 </table>
 <br />
 </center>
-<div class="push">&nbsp;</div>
-</div>
+<?php include '../templates/footer.php'; ?>
 
-<div class="footer"><?php echo _("Copyright");?> &copy; 2016. <?php echo _("Resources Module version");?> 1.41<br/><a href="http://coral-erm.org/" title="<?php echo _("CORAL Project Website");?>"><?php echo _("CORAL Project Website");?></a> | <a href="https://github.com/Coral-erm/Coral/issues" title="<?php echo _("Report an issue");?>"><?php echo _("Report an issue");?></a></div>
 </body>
 </html>
