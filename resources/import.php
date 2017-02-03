@@ -422,7 +422,7 @@
 						$resource->createLoginID    = $loginID;
 						$resource->createDate       = date( 'Y-m-d' );
 						$resource->updateLoginID    = '';
-						$resource->updateDate       = time();
+						$resource->updateDate       = date('Y-m-d');
 						$resource->titleText        = trim($data[$resourceTitleColumn]);
 						$resource->descriptionText  = trim($data[$resourceDescColumn]);
 						$resource->resourceURL      = trim($data[$resourceURLColumn]);
@@ -486,7 +486,7 @@
 								$noteObj->resourceID = $resource->primaryKey;
 								$noteObj->noteTypeID = $note['noteType'];
 								$noteObj->updateLoginID = '';
-								$noteObj->updateDate = time();
+								$noteObj->updateDate = date('Y-m-d H:i:s');
 								$noteObj->noteText = $currentNote;
 								$noteObj->tabName = 'Product';
 								$noteObj->save();
