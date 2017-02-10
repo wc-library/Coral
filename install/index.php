@@ -95,7 +95,18 @@ function run_loop($version)
 			$requirement_filter = Installer::REQUIRED_FOR_UPGRADE;
 			break;
 	}
-	$installer = new Installer($version);
+	try {
+		$installer = new Installer($version);
+	}
+	catch (Exception $e) {
+		switch ($e->getCode()) {
+			case Installer::ERR_CANNOT_READ_PROVIDER_SCRIPT:
+				$yield = new stdClass();
+				$yield->messages = [ _("While trying to load module scripts an error occurred."), _("Please check that PHP has execute (probably 644) permission on your install folders.") ];
+				yield_test_results_and_exit($yield, [], 0);
+				break;
+		}
+	}
 	$requirements = $installer->getRequiredProviders($requirement_filter);
 	foreach ($requirements as $i => $requirement) {
 		$testResult = $installer->runTestForResult($requirement);

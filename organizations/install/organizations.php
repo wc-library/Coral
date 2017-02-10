@@ -13,7 +13,13 @@ function register_organizations_provider()
 			switch ($version) {
 				case Installer::VERSION_STRING_INSTALL:
 					return [
-						"dependencies_array" => ["have_read_write_access_to_config", "have_database_access", "modules_to_use", "have_default_coral_admin_user", "have_default_db_user", "some_kind_of_auth"],
+						"dependencies_array" => [
+							"modules_to_use",
+							"db_tools",
+							"have_read_write_access_to_config",
+							"have_default_coral_admin_user",
+							"have_default_db_user",
+							"some_kind_of_auth"],
 						"sharedInfo" => [
 							"database" => [
 								"title" => _("Organizations Database"),

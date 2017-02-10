@@ -1,3 +1,5 @@
+$waitingdiv = $("<div>").addClass("xhr_waiting");
+
 $.fn.serializeObject = function()
 {
 	var o = {};
@@ -55,6 +57,7 @@ function submit_install_step(dataToSubmit)
 		dataType: "json",
 		success: function(data){
 			$(".main").animate({"opacity": 0, "paddingRight": 30 }, 200, function(){
+				$waitingdiv.fadeOut("fast");
 				if (data.redirect_home)
 				{
 					window.location.reload(true);
@@ -135,6 +138,7 @@ function submit_install_step(dataToSubmit)
 		}
 	}).fail(function(jqXHR){
 		$(".main").animate({"opacity": 0, "paddingRight": 30 }, 500, function(){
+			$waitingdiv.fadeOut("fast");
 			$(".content-head").text("CORAL Installer Failed");
 			$(".section-title, .messages, .mainbody").empty();
 			$(".messages").append(
@@ -149,21 +153,21 @@ function submit_install_step(dataToSubmit)
 $(document).ready(function(){
 	console.log("ready");
 	$(".main").css({"opacity": 0});
+	$waitingdiv.appendTo("body").hide();
 	submit_install_step();
 }).on("submit", function(){
-	$(".main").animate({"opacity": 0, "paddingRight": 30 }, 200, function(){
-		var $form_elements = $("form :input:visible, form input[type=hidden]");
-		//But sometimes checkboxes are hidden and their labels are used:
-		$form_elements = $form_elements.add($(":checkbox:hidden").filter(function(){
-			return $("label[for='" + $(this).attr("id") + "']").is(":visible");
-		}));
-		$form_elements.filter(':checkbox').each(function() {
-			$(this).val($(this).is(":checked") ? 1 : 0);
-			$(this).attr('type', 'hidden');
-		});
-		var data = $form_elements.serializeObject();
-		submit_install_step(data);
+	$waitingdiv.fadeIn()
+	var $form_elements = $("form :input:visible, form input[type=hidden]");
+	//But sometimes checkboxes are hidden and their labels are used:
+	$form_elements = $form_elements.add($(":checkbox:hidden").filter(function(){
+		return $("label[for='" + $(this).attr("id") + "']").is(":visible");
+	}));
+	$form_elements.filter(':checkbox').each(function() {
+		$(this).val($(this).is(":checked") ? 1 : 0);
+		$(this).attr('type', 'hidden');
 	});
+	var data = $form_elements.serializeObject();
+	submit_install_step(data);
 	return false; // Prevent submit
 }).on("click", ".toggleSection", function(){
 	var original_message = $(this).html();
