@@ -285,7 +285,7 @@ if ((file_exists($util->getCORALPath() . "index.php")) || ($config->settings->or
 					<li class="change-mod-item"><a href="<?php echo $coralURL; ?>resources/" target='_blank'><img src='images/change/icon-mod-resources.png'><span><?php echo _("Resources");?></span></a></li>
 					<?php
 					}
-					if ($config->settings->organizationsModuleInstalled == 'Y') {
+					if ($config->settings->organizationsModule == 'Y') {
 					?>
 					<li class="change-mod-item"><a href="<?php echo $coralURL; ?>organizations/" target='_blank'><img src='images/change/icon-mod-organizations.png'><span><?php echo _("Organizations");?></span></a></li>
 					<?php

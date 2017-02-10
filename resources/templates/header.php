@@ -237,7 +237,7 @@ if ((file_exists($util->getCORALPath() . "index.php")) || ($config->settings->li
 				}
 				if ($config->settings->managementModule == 'Y') {
 				?>
-				<li class="change-mod-item"><a href="<?php echo $coralURL; ?>management/" target='_blank' title="<?php echo _("Management module"); ?>">><img src='images/change/icon-mod-management.png'><span><?php echo _("Management");?></span></a></li>
+				<li class="change-mod-item"><a href="<?php echo $coralURL; ?>management/" target='_blank' title="<?php echo _("Management module"); ?>"><img src='images/change/icon-mod-management.png'><span><?php echo _("Management");?></span></a></li>
 				<?php } ?>
 			</ul>
 		</li>
