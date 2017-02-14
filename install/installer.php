@@ -11,6 +11,7 @@ class Installer {
 	const ERR_UPGRADE_DOES_NOT_EXIST = 20046;
 	const ERR_INVALID_TEST_RESULT = 20047;
 	const ERR_RUNNING_POST_INSTALLATION_TEST_BEFORE_INSTALLATION_COMPLETE = 20048;
+	const ERR_CANNOT_READ_PROVIDER_SCRIPT = 20049;
 
 	const REQUIRED_FOR_INSTALL = 501;
 	const REQUIRED_FOR_UPGRADE = 502;
@@ -116,6 +117,10 @@ class Installer {
 
 	private function addModule($path, $module_name, $core_module = false)
 	{
+		// we should only be trying to add modules that are actually readable
+		if (!is_readable($path))
+			throw new RuntimeException("Error: For some reason you are trying to add a module that is not readable: `$module_name` -> `$path`", self::ERR_CANNOT_READ_PROVIDER_SCRIPT);
+
 		require $path;
 		$function_name = "register_${module_name}_provider";
 		if (is_callable($function_name))
@@ -189,6 +194,12 @@ class Installer {
 					{
 						$this->addModule($installation_root_file, $module);
 					}
+					else {
+						throw new OutOfBoundsException("Error: Although the module folder is there for '$module', the install script cannot be accessed (probably because of wrong permissions)", self::ERR_CANNOT_READ_PROVIDER_SCRIPT);
+					}
+				}
+				else {
+					throw new OutOfBoundsException("Error: Although the module '$module' is registered as installed, the folder cannot be accessed (probably because of wrong permissions)", self::ERR_CANNOT_READ_PROVIDER_SCRIPT);
 				}
 			}
 		}
@@ -212,38 +223,56 @@ class Installer {
 			throw new RuntimeException("Error: You're trying to run the '$test_uid' post-installation test before the installation is complete.", self::ERR_RUNNING_POST_INSTALLATION_TEST_BEFORE_INSTALLATION_COMPLETE);
 		}
 
-		$bundle = $this->checklist[$key]["bundle"]($this->version_to_install);
-		foreach ($this->getDependencies($test_uid, $bundle) as $dependency) {
-			require_once("common/array_column.php");
-			$dep_key = array_search($dependency, array_column($this->checklist, 'uid'));
-			if ($dep_key === false)
-			{
-				$return = new stdClass();
-				$return->skipped = false;
-				$return->cause = self::CAUSE_DEPENDENCY_NOT_FOUND;
-				$return->missing_dependency = $dependency;
-				return $return;
-			}
-
-			if (!isset($this->checklist[$dep_key]["result"]))
-			{
-				if (in_array($dependency, $required_for))
+		// The current solution for just in time dependencies
+		/**
+		 *  The problem was introduced in
+		 *  51dfdfa80c44c40090ea11eb72fa86ef0ce8d902:
+		 *
+		 * That commit is right but breaks the installer by not forcing a run of
+		 * the loop which resulted in modules_to_use never being able to set its
+		 * 'dynamic' dependencies - I think the installer would still have worked
+		 * but it would have done silly things like tell the user to take away
+		 * write permissions to the common/config file and then go back to the
+		 * start of the process (and possibly fail to write the conf file at the
+		 * end).
+		 *
+		 * TODO: What we really need is a way to request dependencies using
+		 * $shared_module_info but for now, we are just going to check that the
+		 * module hasn't changed its dependencies between start and finish.
+		 */
+		do {
+			$bundle = $this->checklist[$key]["bundle"]($this->version_to_install);
+			foreach ($this->getDependencies($bundle) as $dependency) {
+				require_once("common/array_column.php");
+				$dep_key = array_search($dependency, array_column($this->checklist, 'uid'));
+				if ($dep_key === false)
 				{
-					$required_array = var_export($required_for, true);
-					throw new RuntimeException("Error: Circular dependencies ('$test_uid' in $required_array)", self::ERR_CIRCULAR_DEPENDENCIES);
+					$return = new stdClass();
+					$return->skipped = false;
+					$return->cause = self::CAUSE_DEPENDENCY_NOT_FOUND;
+					$return->missing_dependency = $dependency;
+					return $return;
 				}
-				$required_for[] = $dependency;
-				$result = $this->runTestForResult($dependency, $required_for);
-				// If one of the requirements fails, we need its result to be yielded
-				if (!$result->success)
-					return $result;
+
+				if (!isset($this->checklist[$dep_key]["result"]))
+				{
+					if (in_array($dependency, $required_for))
+					{
+						$required_array = var_export($required_for, true);
+						throw new RuntimeException("Error: Circular dependencies ('$test_uid' in $required_array)", self::ERR_CIRCULAR_DEPENDENCIES);
+					}
+					$required_for[] = $dependency;
+					$result = $this->runTestForResult($dependency, $required_for);
+					// If one of the requirements fails, we need its result to be yielded
+					if (!$result->success)
+						return $result;
+				}
 			}
-		}
+		} while ($this->getDependencies($bundle) !== $this->getDependencies($this->checklist[$key]["bundle"]($this->version_to_install)));
 		return $this->actuallyRunTest($test_uid, $bundle);
 	}
-	private function getDependencies($uid, $versioned_bundle)
+	private function getDependencies($versioned_bundle)
 	{
-		$key = $this->getKeyFromUid($uid);
 		return isset($versioned_bundle["dependencies_array"]) ? $versioned_bundle["dependencies_array"] : [];
 	}
 	private function actuallyRunTest($uid, $versioned_bundle)
@@ -284,11 +313,9 @@ class Installer {
 	}
 	public function getSuccessfullyCompletedTestTitles()
 	{
-		$titles = [];
-		foreach ($this->getSuccessfullyCompletedTests() as $uid) {
-			$titles[] = $this->getTitleFromUid($uid);
-		}
-		return $titles;
+		return array_map(function($uid){
+			return $this->getTitleFromUid($uid);
+		}, $this->getSuccessfullyCompletedTests());
 	}
 	public function getApproxiamateCompletion()
 	{

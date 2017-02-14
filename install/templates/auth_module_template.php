@@ -5,7 +5,7 @@ function auth_module_template($session_timeout_default, $ldap_enabled_default, $
 	$submit = _("Continue Installing");
 
 	$session_timeout_title = _("Session Timeout (cookie expiration for logged in users)");
-	$use_ldap = _("Use LDAP for authenticaion instead of Auth Module");
+	$use_ldap = _("Use LDAP for authentication instead of Auth Module");
 	$ldap_enabled_default = $ldap_enabled_default ? "true" : "false";
 
 	$leave_blank_instruction = _("Leave fields blank if you do not intend to install respective modules.");
