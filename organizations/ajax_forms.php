@@ -70,7 +70,7 @@ switch ($_GET['action']) {
 
 		<tr>
 		<td style='vertical-align:top;text-align:right;padding-top:10px;'><label for='organizationName'><b><?php echo _("Name:");?></b></label></td>
-		<td style='vertical-align:top;padding-top:10px;'><input type='text' id='organizationName' name='organizationName' value = "<?php echo htmlentities($organization->name); ?>" style='width:220px;' /><span id='span_errors' style='color:red'></span></td>
+		<td style='vertical-align:top;padding-top:10px;'><input type='text' id='organizationName' name='organizationName' value = "<?php echo htmlentities($organization->name); ?>" style='width:220px;' /> [...] <span id='span_errors' style='color:red'></span></td>
 		</tr>
 
 		<?php if (count($parentOrganizationArray) > 0){ ?>

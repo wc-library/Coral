@@ -21,6 +21,7 @@
 include_once 'directory.php';
 include_once 'user.php';
 
+$config = new Configuration();
 
 switch ($_GET['action']) {
 
@@ -64,12 +65,18 @@ switch ($_GET['action']) {
 			//first remove all orgs, then we'll add them back
 			$organization->removeOrganizationRoles();
 
+            $sendToILS = false;
 			foreach (explode(',', $_POST['organizationRoles']) as $id){
 				if ($id){
 					$organizationRoleProfile = new OrganizationRoleProfile();
 					$organizationRoleProfile->organizationID = $organizationID;
 					$organizationRoleProfile->organizationRoleID = $id;
 					$organizationRoleProfile->save();
+
+                    $organizationRole = new OrganizationRole(new NamedArguments(array('primaryKey' => $id)));
+                    if ($organizationRole->shortName == $config->ils->ilsVendorRole) {
+                        $sendToILS = true;
+                    }
 				}
 			}
 
@@ -87,6 +94,11 @@ switch ($_GET['action']) {
 
 
 			}
+
+            if ($sendToILS == true) {
+                $ilsClient = (new ILSClientSelector())->select();
+                $ilsClient->addVendor();
+            }
 
 
 		} catch (Exception $e) {
