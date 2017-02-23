@@ -156,7 +156,7 @@ class Resource extends DatabaseObject {
 			$object = new ResourceRelationship(new NamedArguments(array('primaryKey' => $result['resourceRelationshipID'])));
 			array_push($objects, $object);
 		}else{
-			$db = new DBService;
+			$db = DBService::getInstance();
 			foreach ($result as $row) {
 				$object = new ResourceRelationship(new NamedArguments(array('primaryKey' => $row['resourceRelationshipID'],'db'=>$db)));
 				array_push($objects, $object);
