@@ -25,7 +25,22 @@ class Resource extends DatabaseObject {
 
 	protected function overridePrimaryKeyName() {}
 
-
+    public function asArray() {
+		$rarray = array();
+		foreach (array_keys($this->attributeNames) as $attributeName) {
+			if ($this->$attributeName != null) {
+				$rarray[$attributeName] = $this->$attributeName;
+			}
+		}
+		$identifiers = $this->getIsbnOrIssn();
+		$rarray['isbnOrIssn'] = array();
+		foreach ($identifiers as $identifier) {
+				array_push($rarray['isbnOrIssn'], $identifier->isbnOrIssn);
+		}
+		return $rarray;
+		
+  
+    }
 
 	//returns resource objects by title
 	public function getResourceByTitle($title) {
