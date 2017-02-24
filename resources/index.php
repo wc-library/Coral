@@ -64,7 +64,7 @@ include 'templates/header.php';
 	<tr>
 	<td class='searchRow'><label for='searchName'><b><?php echo _("Name (contains)");?></b></label>
 	<br />
-	<?php if (isset($search['name']))echo Html::text_search_field_tag('name', $search['name']); else echo Html::text_search_field_tag('name',''); ?>
+	<?php echo Html::text_search_field_tag('name', isset($search['name']) ? $search['name'] : '' ); ?>
 	<br />
 	<div id='div_searchName' style='<?php if (!$search['name']) echo "display:none;"; ?>margin-left:123px;'><input type='button' name='btn_searchName' value='<?php echo _("go!");?>' class='searchButton' /></div>
 	</td>
