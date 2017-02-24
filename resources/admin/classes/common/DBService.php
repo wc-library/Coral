@@ -66,6 +66,11 @@ class DBService extends Object {
 		$this->checkForError();
 	}
 
+    public function changeDb($name = null) {
+        $dbName =  ($name == null) ? $this->config->database->name : $this->config->settings->$name;
+        $this->db->select_db($dbName);
+    }
+
 	protected function disconnect() {
 		//mysqli_close($this->db);
 	}

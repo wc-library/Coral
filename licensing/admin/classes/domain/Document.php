@@ -23,6 +23,16 @@ class Document extends DatabaseObject {
 
 	protected function overridePrimaryKeyName() {}
 
+    protected function asArray() {
+        $aarray = array();
+		foreach (array_keys($this->attributeNames) as $attributeName) {
+			if ($this->$attributeName != null) {
+				$aarray[$attributeName] = $this->$attributeName;
+			}
+		}
+        return $aarray;
+    }
+
 
 	//returns 1 or 0 indicating if this particular document has children agreements
 	public function getNumberOfChildren(){

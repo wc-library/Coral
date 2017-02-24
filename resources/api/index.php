@@ -29,6 +29,10 @@ include_once '../admin/classes/domain/UserGroup.php';
 include_once '../admin/classes/domain/Fund.php';
 include_once '../admin/classes/domain/IsbnOrIssn.php';
 include_once '../../licensing/admin/classes/domain/License.php';
+include_once '../../licensing/admin/classes/domain/Document.php';
+include_once '../../licensing/admin/classes/domain/Expression.php';
+include_once '../../licensing/admin/classes/domain/ExpressionNote.php';
+include_once '../../licensing/admin/classes/domain/ExpressionType.php';
 
 if (!isAllowed()) {
     header('HTTP/1.0 403 Forbidden');
@@ -316,13 +320,16 @@ Flight::route('GET /resources/@id/titles', function($id) {
 });
 
 Flight::route('GET /resources/@id/licenses', function($id) {
+    $db = DBService::getInstance();
     $r = new Resource(new NamedArguments(array('primaryKey' => $id)));
 	$licensesArray = array();
-	foreach($r->getLicenseArray() as $license) {
-		// TODO: We need a way to call Objects from other modules. Currently, this won't work:
+    $rla = $r->getLicenseArray();
+    $db->changeDb('licensingDatabaseName');
+	foreach($rla as $license) {
 		$l = new License(new NamedArguments(array('primaryKey' => $license['licenseID'])));
-		array_push($licensesArray, $l);
+		array_push($licensesArray, $l->asArray());
 	}
+    $db->changeDb();
 	Flight::json($licensesArray);
 });
 
