@@ -32,6 +32,23 @@ class Resource extends DatabaseObject {
 				$rarray[$attributeName] = $this->$attributeName;
 			}
 		}
+
+        $status = new Status(new NamedArguments(array('primaryKey' => $this->statusID)));
+        $rarray['status'] = $status->shortName;
+
+/*
+        // TODO: This works in /resources but not in /resources/id/titles
+        $resourceType = new ResourceType(new NamedArguments(array('primaryKey' => $this->resourceTypeID)));
+        $rarray['resourceType'] = ($resourceType->shortName != null) ? $resourceType->shortName : null;
+
+        $resourceFormat = new ResourceFormat(new NamedArguments(array('primaryKey' => $this->resourceFormatID)));
+        $rarray['resourceFormat'] = isset($resourceFormat->shortName) ? $resourceFormat->shortName : null;
+
+        $acquisitionType = new AcquisitionType(new NamedArguments(array('primaryKey' => $this->acquisitionTypeID)));
+        $rarray['acquisitionType'] = isset($acquisitionType->shortName) ? $acquisitionType->shortName : null;
+*/
+
+
 		$identifiers = $this->getIsbnOrIssn();
 		$rarray['isbnOrIssn'] = array();
 		foreach ($identifiers as $identifier) {
