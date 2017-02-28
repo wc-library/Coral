@@ -30,9 +30,14 @@ include_once '../admin/classes/domain/Fund.php';
 include_once '../admin/classes/domain/IsbnOrIssn.php';
 include_once '../../licensing/admin/classes/domain/License.php';
 include_once '../../licensing/admin/classes/domain/Document.php';
+include_once '../../licensing/admin/classes/domain/DocumentType.php';
 include_once '../../licensing/admin/classes/domain/Expression.php';
 include_once '../../licensing/admin/classes/domain/ExpressionNote.php';
 include_once '../../licensing/admin/classes/domain/ExpressionType.php';
+include_once '../../organizations/admin/classes/domain/Organization.php';
+include_once '../../organizations/admin/classes/domain/Alias.php';
+
+
 
 if (!isAllowed()) {
     header('HTTP/1.0 403 Forbidden');
@@ -331,6 +336,15 @@ Flight::route('GET /resources/@id/licenses', function($id) {
 	}
     $db->changeDb();
 	Flight::json($licensesArray);
+});
+
+
+Flight::route('GET /organizations/@id', function($id) {
+    $db = DBService::getInstance();
+    $db->changeDb('organizationsDatabaseName');
+    $organization = new Organization(new NamedArguments(array('primaryKey' => $id))); 
+    Flight::json($organization->asArray());
+    $db->changeDb();
 });
 
 Flight::start();

@@ -32,7 +32,7 @@ class License extends DatabaseObject {
 		}
         $doccount = 0;
 		foreach ($this->getDocuments() as $document) {
-            $larray['documents'][$doccount]['content'] = $document->asArray();
+            $larray['documents'][$doccount]['content'] = $document->asArray();;
             $exprcount = 0;
 			foreach ($document->getExpressions() as $expression) {
                 $expressionType = new ExpressionType(new NamedArguments(array('primaryKey' => $expression->expressionTypeID)));
@@ -78,7 +78,6 @@ class License extends DatabaseObject {
 				array_push($objects, $object);
 			}
 		}
-
 		return $objects;
 	}
 

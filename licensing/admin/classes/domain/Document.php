@@ -23,13 +23,15 @@ class Document extends DatabaseObject {
 
 	protected function overridePrimaryKeyName() {}
 
-    protected function asArray() {
+    public function asArray() {
         $aarray = array();
 		foreach (array_keys($this->attributeNames) as $attributeName) {
 			if ($this->$attributeName != null) {
 				$aarray[$attributeName] = $this->$attributeName;
 			}
 		}
+        $documentType = new DocumentType(new NamedArguments(array("primaryKey" => $this->documentTypeID)));
+        $aarray['documentType'] = $documentType->shortName;
         return $aarray;
     }
 

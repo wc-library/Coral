@@ -30,8 +30,9 @@ class Expression extends DatabaseObject {
 				$aarray[$attributeName] = $this->$attributeName;
 			}
 		}
+        $expressionType = new ExpressionType(new NamedArguments(array("primaryKey" => $this->expressionTypeID)));
+        $aarray['expressionType'] = $expressionType->shortName;
         return $aarray;
- //      return parent::asArray();
     }
 
 
