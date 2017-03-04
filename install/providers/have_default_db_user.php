@@ -116,7 +116,8 @@ function register_have_default_db_user_provider()
 									try {
 										$db->processQuery("REVOKE ALL ON {$db_details["dbname"]}.* FROM {$db_details["username"]}@{$db_details["host"]}");
 									} catch(Exception $e){ }
-									$db->processQuery("GRANT SELECT, INSERT, UPDATE, DELETE ON {$db_details["dbname"]}.* TO {$db_details["username"]}@{$db_details["host"]} IDENTIFIED BY '$slash_pass'");
+									$coral_web_server = $_SERVER["SERVER_NAME"];
+									$db->processQuery("GRANT SELECT, INSERT, UPDATE, DELETE ON {$db_details["dbname"]}.* TO {$db_details["username"]}@{$coral_web_server} IDENTIFIED BY '$slash_pass'");
 								}
 								catch (Exception $e)
 								{
