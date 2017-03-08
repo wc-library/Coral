@@ -42,8 +42,8 @@ class Configuration extends DynamicObject {
 		$config["database"]["username"] = "coral_test";
 		$config["database"]["password"] = "coral_test";
 
-		if(isset($config["database"]["usageDatabase"])) {
-			$config["database"]["usageDatabase"] = "coral_usage_test";
+		if(isset($config["database"]["usageDatabaseName"])) {
+			$config["database"]["usageDatabaseName"] = "coral_usage_test";
 		}
 
 		if(isset($config["settings"]["authDatabaseName"])) {

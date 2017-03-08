@@ -196,7 +196,7 @@ $coralURL = $util->getCORALURL();
         </div>
     </a>     
     
-    <?php if ($config->settings->reportingModule == "Y") {
+    <?php if ($config->settings->reportsModule == "Y") {
     ?>
     <a href='../reports/' target='_blank'>
         <div class="main-menu-link">
@@ -237,7 +237,7 @@ else
             <span><?php echo _("Report Options");?></span>
         </div>
     </a>     
-    <?php if ($config->settings->reportingModule == "Y") {
+    <?php if ($config->settings->reportsModule == "Y") {
     ?>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <a href='../reports/' target='_blank' id='usage-reports'>

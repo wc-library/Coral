@@ -52,27 +52,27 @@ CREATE TABLE IF NOT EXISTS `ReportSum` (
 
 DELETE FROM Report;
 INSERT INTO Report (reportID, reportName, defaultRecPageNumber, excelOnlyInd, reportDatabaseName)
-VALUES ('1','Usage Statistics by Titles','100','0', 'usageDatabase');
+VALUES ('1','Usage Statistics by Titles','100','0', 'usageDatabaseName');
 
 
 INSERT INTO Report (reportID, reportName, defaultRecPageNumber, excelOnlyInd, reportDatabaseName)
-VALUES ('2','Usage Statistics by Provider / Publisher','100','0', 'usageDatabase');
+VALUES ('2','Usage Statistics by Provider / Publisher','100','0', 'usageDatabaseName');
 
 
 INSERT INTO Report (reportID, reportName, defaultRecPageNumber, excelOnlyInd, reportDatabaseName)
-VALUES ('3','Usage Statistics - Provider Rollup','100','0', 'usageDatabase');
+VALUES ('3','Usage Statistics - Provider Rollup','100','0', 'usageDatabaseName');
 
 
 INSERT INTO Report (reportID, reportName, defaultRecPageNumber, excelOnlyInd, reportDatabaseName)
-VALUES ('4','Usage Statistics - Publisher Rollup','100','0', 'usageDatabase');
+VALUES ('4','Usage Statistics - Publisher Rollup','100','0', 'usageDatabaseName');
 
 
 INSERT INTO Report (reportID, reportName, defaultRecPageNumber, excelOnlyInd, reportDatabaseName)
-VALUES ('5','Usage Statistics - Top Resource Requests','100', '0', 'usageDatabase');
+VALUES ('5','Usage Statistics - Top Resource Requests','100', '0', 'usageDatabaseName');
 
 
 INSERT INTO Report (reportID, reportName, defaultRecPageNumber, excelOnlyInd, reportDatabaseName)
-VALUES ('6','Usage Statistics - Yearly Usage Statistics','100','0', 'usageDatabase');
+VALUES ('6','Usage Statistics - Yearly Usage Statistics','100','0', 'usageDatabaseName');
 
 DELETE FROM ReportSum;
 INSERT INTO ReportSum (reportID, reportColumnName, reportAction)  VALUES ('1','JAN','sum');
