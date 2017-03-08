@@ -170,7 +170,7 @@ function register_db_tools_provider()
 								{
 									// SOLUTION: we're going to ask if the user meant to do an update and then redirect or just use the existing db.
 									$return->success = false;
-									$instruction = sprintf(_('The tables for %s already exist. If you intend to upgrade, please run upgrade.php instead. If you would like to perform a fresh install you will need to delete all of the tables in this schema first. Alternatively, if your tables are prepopulated, you can continue the install and we will assume that they are set up correctly.'), $module_title);
+									$instruction = sprintf(_('The tables for %s already exist. If you would like to perform a fresh install you will need to delete all of the tables in this schema first. Alternatively, if your tables are prepopulated, you can continue the install and we will assume that they are set up correctly.'), $module_title);
 									require_once "install/templates/option_buttons_template.php";
 									$return->yield->body = option_buttons_template($instruction, $option_buttons, $check_db_namespace);
 									return $return;
