@@ -1,9 +1,10 @@
 <?php
 
 interface ILSClient {
-    function addVendor();
+    function addVendor($vendor);
     function getVendor();
-    function getILSVersion();
+    function getILSName();
+    function getILSURL();
 }
 
 ?>

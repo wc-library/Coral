@@ -97,7 +97,12 @@ switch ($_GET['action']) {
 
             if ($sendToILS == true) {
                 $ilsClient = (new ILSClientSelector())->select();
-                $ilsClient->addVendor();
+                $ilsClient->addVendor(array(
+                                            "name" => $organization->name, 
+                                            "url" => $organization->companyUrl,
+                                            "note" => $organization->noteText
+                                            )
+                                        );
             }
 
 
