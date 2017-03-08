@@ -5,13 +5,12 @@ require 'ILSClient.php';
 
 class KohaClient implements ILSClient {
 
-
     function addVendor($vendor) {
         $server = "http://pro.koha.local/api/v1/";
         $headers = array("Accept" => "application/json");
         $body = Unirest\Request\Body::json($this->_vendorToKoha($vendor));
         $response = Unirest\Request::post($server . "/acquisitions/vendors", $headers, $body);
-        return $response->raw_body;
+        return ($response->body->id) ? $response->body->id : null;
     }
 
     function getVendor() {

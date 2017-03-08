@@ -94,15 +94,25 @@ switch ($_GET['action']) {
 
 
 			}
-
             if ($sendToILS == true) {
+                error_log("send");
                 $ilsClient = (new ILSClientSelector())->select();
-                $ilsClient->addVendor(array(
+                $ilsID = $ilsClient->addVendor(array(
                                             "name" => $organization->name, 
-                                            "url" => $organization->companyUrl,
-                                            "note" => $organization->noteText
+                                            "companyURL" => $organization->companyURL,
+                                            "noteText" => $organization->noteText
                                             )
                                         );
+                if ($ilsID) {
+                    $organization->ilsID = $ilsID;
+			        $organization->save();
+                }
+            } else {
+                // Remove ilsID (in case we just removed the vendor role)
+                if ($organization->ilsID) {
+                    $organization->ilsID = null;
+                    $organization->save();
+                }
             }
 
 
