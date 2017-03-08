@@ -132,7 +132,7 @@ function register_db_tools_provider()
 								catch (Exception $e)
 								{
 									$return->yield->messages[] = sprintf(_("We tried to delete the tables from %s but something went wrong. Maybe your user doesn't have the necessary rights?"), $module_shared['db_name']);
-									$return->yield->messages[] = "<b>Here is the exciting error:</b><br /><pre>" . var_export($e, 1) . "</pre>";
+									$return->yield->messages[] = "<b>Here is the error we received:</b><br /><pre>" . var_export($e, 1) . "</pre>";
 									return $return;
 								}
 							}
