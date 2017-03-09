@@ -101,7 +101,7 @@ switch ($_GET['action']) {
                                             "name" => $organization->name, 
                                             "companyURL" => $organization->companyURL,
                                             "noteText" => $organization->noteText,
-//                                            "coralID" => $organization->organizationID,
+                                            "coralID" => (int) $organization->organizationID,
                                             )
                                         );
                 if ($ilsID) {
