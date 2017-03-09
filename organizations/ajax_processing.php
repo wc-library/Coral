@@ -100,7 +100,8 @@ switch ($_GET['action']) {
                 $ilsID = $ilsClient->addVendor(array(
                                             "name" => $organization->name, 
                                             "companyURL" => $organization->companyURL,
-                                            "noteText" => $organization->noteText
+                                            "noteText" => $organization->noteText,
+//                                            "coralID" => $organization->organizationID,
                                             )
                                         );
                 if ($ilsID) {
