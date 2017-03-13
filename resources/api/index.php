@@ -301,8 +301,12 @@ Flight::route('GET /resources/@id', function($id) {
     
 });
 
-Flight::route('GET /resources?identifier=@id', function($id) {
-	Flight::json($id);
+Flight::route('GET /resources/', function() {
+    $identifier = Flight::request()->query->identifier;
+    if ($identifier) {
+        $r = new Resource();
+        Flight::json(array_map(function($value) { return $value->asArray(); }, $r->getResourceByIsbnOrISSN($identifier)));
+    }
 });
 
 Flight::route('GET /resources/@id/titles', function($id) {
