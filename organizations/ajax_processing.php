@@ -65,18 +65,12 @@ switch ($_GET['action']) {
 			//first remove all orgs, then we'll add them back
 			$organization->removeOrganizationRoles();
 
-            $sendToILS = false;
 			foreach (explode(',', $_POST['organizationRoles']) as $id){
 				if ($id){
 					$organizationRoleProfile = new OrganizationRoleProfile();
 					$organizationRoleProfile->organizationID = $organizationID;
 					$organizationRoleProfile->organizationRoleID = $id;
 					$organizationRoleProfile->save();
-
-                    $organizationRole = new OrganizationRole(new NamedArguments(array('primaryKey' => $id)));
-                    if ($organizationRole->shortName == $config->ils->ilsVendorRole) {
-                        $sendToILS = true;
-                    }
 				}
 			}
 
@@ -94,28 +88,33 @@ switch ($_GET['action']) {
 
 
 			}
-            if ($sendToILS == true) {
-                error_log("send");
-                $ilsClient = (new ILSClientSelector())->select();
-                $ilsID = $ilsClient->addVendor(array(
-                                            "name" => $organization->name, 
-                                            "companyURL" => $organization->companyURL,
-                                            "noteText" => $organization->noteText,
-                                            "coralID" => (int) $organization->organizationID,
-                                            )
-                                        );
-                if ($ilsID) {
-                    $organization->ilsID = $ilsID;
-			        $organization->save();
-                }
-            } else {
-                // Remove ilsID (in case we just removed the vendor role)
-                if ($organization->ilsID) {
-                    $organization->ilsID = null;
-                    $organization->save();
-                }
-            }
 
+            if ($organization->hasILSVendorRole()) {
+                $ilsClient = (new ILSClientSelector())->select();
+                // Create vendor in ILS
+                if ($organization->ilsID == null) {
+                    $ilsID = $ilsClient->addVendor(array(
+                                                "name" => $organization->name, 
+                                                "companyURL" => $organization->companyURL,
+                                                "noteText" => $organization->noteText,
+                                                "accountDetailText" => $organization->accountDetailText,
+                                                "coralID" => (int) $organization->organizationID,
+                                                )
+                                            );
+                    if ($ilsID) {
+                        $organization->ilsID = $ilsID;
+                    }
+
+                } else {
+                    // Retrieve organization data from ILS
+                    $ilsVendor = $ilsClient->getVendor($organization->ilsID);
+                    $organization->name = $ilsVendor['name'];
+                    $organization->companyURL = $ilsVendor['companyURL'];
+                    $organization->noteText = $ilsVendor['noteText'];
+                    $organization->accountDetailText = $ilsVendor['accountDetailText'];
+                }
+                $organization->save();
+            } 
 
 		} catch (Exception $e) {
 			echo $e->getMessage();

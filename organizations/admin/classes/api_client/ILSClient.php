@@ -2,7 +2,7 @@
 
 interface ILSClient {
     function addVendor($vendor);
-    function getVendor();
+    function getVendor($id);
     function getILSName();
     function getILSURL();
 }

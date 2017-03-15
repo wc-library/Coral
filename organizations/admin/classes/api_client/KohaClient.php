@@ -6,10 +6,14 @@ require 'ILSClient.php';
 class KohaClient implements ILSClient {
 
     private $server;
+    private $coralToKohaKeys;
+    private $kohaToCoralKeys;
 
     function __construct() {
         $config = new Configuration();
         $this->server = $config->ils->ilsApiUrl;
+        $this->coralToKohaKeys = array("companyURL" => "url", "noteText" => "notes", "accountDetailText" => "accountnumber");
+        $this->kohaToCoralKeys = array_flip($this->coralToKohaKeys);
     }
 
     function addVendor($vendor) {
@@ -20,9 +24,9 @@ class KohaClient implements ILSClient {
         //return ($response->body->id) ? $response->body->id : $response->raw_body;
     }
 
-    function getVendor() {
-        $response = Unirest\Request::get($this->server . "/acquisitions/vendors/");
-        return "Getting vendor from koha";
+    function getVendor($id) {
+        $response = Unirest\Request::get($this->server . "/acquisitions/vendors/$id");
+        return $this->_vendorToCoral((array) $response->body);
     }
 
     function getILSName() {
@@ -34,15 +38,24 @@ class KohaClient implements ILSClient {
         return $this->server;
     }
 
+    private function _vendorToCoral($vendor) {
+        $kohaToCoralKeys = $this->kohaToCoralKeys;
+        return $this->_changeKeys($vendor, $kohaToCoralKeys);
+    }
+
     private function _vendorToKoha($vendor) {
-        $coralToKohaKeys = array("companyURL" => "url", "noteText" => "notes");
-        foreach ($coralToKohaKeys as $coralKey => $kohaKey) {
-            if (array_key_exists($coralKey, $vendor)) {
-                $vendor[$kohaKey] = $vendor[$coralKey];
-                unset($vendor[$coralKey]);
+        $coralToKohaKeys = $this->coralToKohaKeys;
+        return $this->_changeKeys($vendor, $coralToKohaKeys);
+    }
+
+    private function _changeKeys($array, $keys) {
+        foreach ($keys as $oldKey => $newKey) {
+            if (array_key_exists($oldKey, $array)) {
+                $array[$newKey] = $array[$oldKey];
+                unset($array[$oldKey]);
             }
         }
-        return $vendor;
+        return $array;
     }
 
 }
