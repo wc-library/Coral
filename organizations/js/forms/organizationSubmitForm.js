@@ -24,20 +24,24 @@
 			 url:        "ajax_processing.php",
 			 cache:      false,
 			 async:	     true,
-			 data:       "action=getExistingOrganizationName&name=" + $("#organizationName").val() + "&organizationID=" + $("#editOrganizationID").val(),
+			 data:       "action=getExistingOrganizationOrVendor&name=" + $("#organizationName").val() + "&organizationID=" + $("#editOrganizationID").val(),
 			 success:    function(exists) {
 				if (exists == 0){
 					$("#span_errors").html("");
 					$("#submitOrganizationChanges").removeAttr("disabled");
 				}else{
-				  $("#span_errors").html("<br />"+_("This organization already exists!"));
+                  if (exists == 1) {
+                      $("#span_errors").html("<br />"+_("This organization already exists!"));
+                  } else if (exists == 2) {
+                      $("#span_errors").html("<br />"+_("This organization already exists in the ILS!"));
+                  } else if (exists == 3) {
+                      $("#span_errors").html("<br />"+_("This organization already exists in Coral and in the ILS!"));
+                  }
 				  $("#submitOrganizationChanges").attr("disabled","disabled");
 
 				}
 			 }
 		  });
-
-
     	});
 
 

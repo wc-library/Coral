@@ -29,6 +29,21 @@ class KohaClient implements ILSClient {
         return $this->_vendorToCoral((array) $response->body);
     }
 
+    function getVendorByName($name) {
+        $response = Unirest\Request::get($this->server . "/acquisitions/vendors/?name=$name");
+        return $this->_vendorToCoral((array) $response->body);
+    }
+
+    function getVendorByExactName($name) {
+        $response = Unirest\Request::get($this->server . "/acquisitions/vendors/?exactname=$name");
+        return $this->_vendorToCoral((array) $response->body);
+    }
+
+    function vendorExists($name) {
+        $response = Unirest\Request::get($this->server . "/acquisitions/vendors/?exactname=$name");
+        return (count((array) $response->body) > 0) ? true : false;;
+    }
+
     function getILSName() {
         return "Koha";
     }

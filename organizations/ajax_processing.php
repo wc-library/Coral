@@ -543,7 +543,7 @@ switch ($_GET['action']) {
 
 
 
-	case 'getExistingOrganizationName':
+	case 'getExistingOrganizationOrVendor':
 		$name = $_GET['name'];
 		if (isset($_GET['organizationID'])) $organizationID = $_GET['organizationID']; else $organizationID = '';
 
@@ -551,18 +551,26 @@ switch ($_GET['action']) {
 		$organization = new Organization();
 		$orgArray = array();
 
-		$exists = 0;
+		$existsInCoral = 0;
+		$existsInILS = 0;
 
 		foreach ($organization->allAsArray() as $orgArray) {
 			if ((strtoupper($orgArray['name']) == strtoupper($name)) && ($orgArray['organizationID'] != $organizationID)) {
-				$exists = $orgArray['organizationID']; break;
+				$existsInCoral = 1; break;
 			}
 		}
+        
+         if ($config->ils->ilsConnector) {
+            $ilsClient = (new ILSClientSelector())->select(); 
+            if ($ilsClient->vendorExists($name)) {
+                $existsInILS = 2;
+            }
+        }
 
-		echo $exists;
+
+		echo $existsInCoral + $existsInILS;
 
 		break;
-
 
 
 	default:
