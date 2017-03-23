@@ -5,7 +5,7 @@ interface ILSClient {
     function getVendor($id);
     function getVendorByName($name);
     function getVendorByExactName($name);
-    function vendorExits($name);
+    function vendorExists($name);
     function getILSName();
     function getILSURL();
 }
