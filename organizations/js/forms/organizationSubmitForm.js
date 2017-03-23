@@ -18,6 +18,7 @@
  $(function(){
 
 	//check this name to make sure it isn't already being used
+
 	$("#organizationName").keyup(function() {
 		  $.ajax({
 			 type:       "GET",
@@ -43,6 +44,22 @@
 			 }
 		  });
     	});
+
+
+	$("#organizationName").autocomplete('ajax_processing.php?action=getOrganizationList', {
+		minChars: 2,
+		max: 20,
+		width: 142,
+		delay: 20,
+		matchContains: false,
+		formatItem: function(row) {
+			return "<span style='font-size: 80%;'>" + row[0] + "</span>";
+		},
+		formatResult: function(row) {
+			return row[0].replace(/(<.+?>)/gi, '');
+		}
+
+	 });
 
 
 	 $("#openOrganizationURL").click(function () {

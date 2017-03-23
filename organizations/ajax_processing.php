@@ -541,6 +541,17 @@ switch ($_GET['action']) {
 		break;
 
 
+    case 'getILSVendors':
+        if ($config->ils->ilsConnector) {
+            $ilsClient = (new ILSClientSelector())->select();
+            $vendors = $ilsClient->getVendorByName($_GET['q']);
+            foreach ($vendors as $vendor) {
+                $av = (array) $vendor;
+                print $av['name'] . "\n";
+            }
+        }
+
+        break;
 
 
 	case 'getExistingOrganizationOrVendor':
@@ -560,7 +571,7 @@ switch ($_GET['action']) {
 			}
 		}
         
-         if ($config->ils->ilsConnector) {
+        if ($config->ils->ilsConnector) {
             $ilsClient = (new ILSClientSelector())->select(); 
             if ($ilsClient->vendorExists($name)) {
                 $existsInILS = 2;
