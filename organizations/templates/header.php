@@ -45,7 +45,6 @@ $coralURL = $util->getCORALURL();
 <link rel="stylesheet" href="css/datePicker.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="css/jquery.autocomplete.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="css/jquery.tooltip.css" type="text/css" media="screen" />
-<link type="text/css" rel="stylesheet" href="css/jquery.dropdown.min.css" />
 <link rel="SHORTCUT ICON" href="images/favicon.ico" />
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
@@ -55,7 +54,6 @@ $coralURL = $util->getCORALURL();
 <script type="text/javascript" src="js/plugins/Gettext.js"></script>
 <script type="text/javascript" src="js/plugins/jquery.autocomplete.js"></script>
 <script type="text/javascript" src="js/plugins/jquery.tooltip.js"></script>
-<script type="text/javascript" src="js/plugins/jquery.dropdown.min.js"></script>
 <?php
     // Add translation for the JavaScript files
     global $http_lang;
