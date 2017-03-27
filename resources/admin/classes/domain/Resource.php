@@ -126,11 +126,12 @@ class Resource extends DatabaseObject {
   // return array of related resource objects
   private function getRelatedResources($key) {
 
-		$query = "SELECT *
-			FROM ResourceRelationship
-			WHERE $key = '" . $this->resourceID . "'
+		$query = "SELECT rr.resourceRelationshipID
+			FROM ResourceRelationship rr
+            JOIN Resource r on rr.resourceID = r.resourceID
+			WHERE rr.$key = '" . $this->resourceID . "'
 			AND relationshipTypeID = '1'
-			ORDER BY 1";
+			ORDER BY r.titleText";
 
 		$result = $this->db->processQuery($query, 'assoc');
 
