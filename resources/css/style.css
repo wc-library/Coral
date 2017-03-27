@@ -2192,6 +2192,10 @@ a.showAccounts:before {
 		margin-right: 5px;
 }
 
+a.showAccounts {
+	text-transform: capitalize;
+}
+
 /*--- IE 11 Fix for Sidemenu Link Color ---*/
 
 .sidemenu span.link a {
@@ -2337,6 +2341,10 @@ a.showIssues:before {
     content: "\f071";
     font-size: 11px;
     margin-right: 5px;
+}
+
+a.showIssues {
+	text-transform: capitalize;
 }
 
 #issueTable img {
