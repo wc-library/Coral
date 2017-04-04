@@ -268,6 +268,7 @@ function submitCostForm()
 			cache: false,
 			data: {
 				resourceID: $("#editResourceID").val(),
+				resourceAcquisitionID: $("#editResourceAcquisitionID").val(),
 				years: yearList,
 				subStarts: subStartList,
 				subEnds: subEndList,

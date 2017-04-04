@@ -44,6 +44,11 @@ class ResourcePayment extends DatabaseObject {
 		}
 		return 'n/a';
 	}
+
+    public function dbClone() {
+
+
+    }
 }
 
 ?>

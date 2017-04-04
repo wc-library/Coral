@@ -146,7 +146,7 @@ function submitContact(){
 			 type:       "POST",
 			 url:        "ajax_processing.php?action=submitContact",
 			 cache:      false,
-			 data:       { contactID: $("#editContactID").val(), resourceID: $("#editResourceID").val(), name: $("#contactName").val(), title: $("#contactTitle").val(), addressText: $("#addressText").val(), phoneNumber: $("#phoneNumber").val(), altPhoneNumber: $("#altPhoneNumber").val(), faxNumber: $("#faxNumber").val(), emailAddress: $("#emailAddress").val(), archiveInd: getCheckboxValue('invalidInd'), noteText: $("#noteText").val(),  contactRoles: contactRolesList },
+			 data:       { contactID: $("#editContactID").val(), resourceID: $("#editResourceID").val(), resourceAcquisitionID: $("#editResourceAcquisitionID").val(), name: $("#contactName").val(), title: $("#contactTitle").val(), addressText: $("#addressText").val(), phoneNumber: $("#phoneNumber").val(), altPhoneNumber: $("#altPhoneNumber").val(), faxNumber: $("#faxNumber").val(), emailAddress: $("#emailAddress").val(), archiveInd: getCheckboxValue('invalidInd'), noteText: $("#noteText").val(),  contactRoles: contactRolesList },
 			 success:    function(html) {
 				if (html){
 					$("#span_errors").html(html);

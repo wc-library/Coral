@@ -215,7 +215,7 @@ class DatabaseObject extends DynamicObject {
 		return $this->db->processQuery($query);
 	}
 
-	public function save() {
+	public function save($new = 0) {
 		$pairs = array();
 		foreach (array_keys($this->attributeNames) as $attributeName) {
 			$value = $this->attributes[$attributeName];
@@ -229,18 +229,25 @@ class DatabaseObject extends DynamicObject {
 			array_push($pairs, $pair);
 		}
 		$set = implode(', ', $pairs);
-		if (isset($this->primaryKey)) {
+		if (($new == 0) && isset($this->primaryKey)) {
 			// Update object
 			$query = "UPDATE `$this->tableName` SET $set WHERE `$this->primaryKeyName` = '$this->primaryKey'";
+            //error_log($query);
 			//echo $query;
 			$this->db->processQuery($query);
 		} else {
 			// Insert object
 			$query = "INSERT INTO `$this->tableName` SET $set";
 			//echo $query;
+            //error_log($query);
 			$this->primaryKey = $this->db->processQuery($query);
+            if ($new) return $this->primaryKey;
 		}
 	}
+
+    public function saveAsNew() {
+        return $this->save(1);
+    }
 
 
 	public function all() {

@@ -50,7 +50,7 @@ function submitResourceNote(){
 				 type:       "POST",
 				 url:        "ajax_processing.php?action=submitResourceNote",
 				 cache:      false,
-				 data:       { resourceNoteID: $("#editResourceNoteID").val(), noteTypeID: $("#noteTypeID").val(), tabName: $("#tab").val(), noteText: $("#noteText").val(), resourceID: $("#editResourceID").val() },
+				 data:       { resourceNoteID: $("#editResourceNoteID").val(), noteTypeID: $("#noteTypeID").val(), tabName: $("#tab").val(), noteText: $("#noteText").val(), entityID: $("#editEntityID").val() },
 				 success:    function(html) {
 					if (html){
 						$("#span_errors").html(html);

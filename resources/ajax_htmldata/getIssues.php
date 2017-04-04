@@ -1,13 +1,14 @@
 <?php
 	$resourceID = $_GET['resourceID'];
-
+    $resourceAcquisitionID = $_GET['resourceAcquisitionID'];
 	$resource = new Resource(new NamedArguments(array('primaryKey' => $resourceID)));
+    $resourceAcquisition = new ResourceAcquisition(new NamedArguments(array('primaryKey' => $resourceAcquisitionID)));
 
 	$util = new Utility();
-	$getIssuesFormData = "action=getIssuesList&resourceID=".$resourceID;
-	$getDowntimeFormData = "action=getDowntimeList&resourceID=".$resourceID;
-	$exportIssuesUrl = "export_issues.php?resourceID={$resourceID}";
-	$exportDowntimesUrl = "export_downtimes.php?resourceID={$resourceID}";
+	$getIssuesFormData = "action=getIssuesList&resourceID=".$resourceID . "&resourceAcquisitionID=" . $resourceAcquisitionID;
+	$getDowntimeFormData = "action=getDowntimeList&resourceID=".$resourceID . "&resourceAcquisitionID=" . $resourceAcquisitionID;
+	$exportIssuesUrl = "export_issues.php?resourceID={$resourceID}&resourceAcquisitionID=" . $resourceAcquisitionID;
+	$exportDowntimesUrl = "export_downtimes.php?resourceID={$resourceID}&resourceAcquisitionID=" . $resourceAcquisitionID;
 
 
 ?>
@@ -17,7 +18,7 @@
 			<th><?php echo _("Issues/Problems");?></th>
 		</tr>
 		<tr>
-			<td><a id="createIssueBtn" class="thickbox" href="ajax_forms.php?action=getNewIssueForm&resourceID=<?php echo $resourceID; ?>&modal=true&height=425&width=500"><?php echo _("report new issue");?></a></td>
+			<td><a id="createIssueBtn" class="thickbox" href="ajax_forms.php?action=getNewIssueForm&resourceID=<?php echo $resourceID; ?>&resourceAcquisitionID=<?php echo $resourceAcquisitionID; ?>&modal=true&height=425&width=500"><?php echo _("report new issue");?></a></td>
 		</tr>
 		<tr>
 			<td>
@@ -40,7 +41,7 @@
 			<th><?php echo _("Downtime");?></th>
 		</tr>
 		<tr>
-			<td><a id="createDowntimeBtn" class="thickbox" href="ajax_forms.php?action=getNewDowntimeForm&resourceID=<?php echo $resourceID; ?>&height=264&width=390&modal=true"><?php echo _("report new Downtime");?></a></td>
+			<td><a id="createDowntimeBtn" class="thickbox" href="ajax_forms.php?action=getNewDowntimeForm&resourceID=<?php echo $resourceID; ?>&resourceAcquisitionID=<?php echo $resourceAcquisitionID; ?>&height=264&width=390&modal=true"><?php echo _("report new Downtime");?></a></td>
 		</tr>
 		<tr>
 			<td>

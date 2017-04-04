@@ -435,6 +435,13 @@
 						$resource->setIsbnOrIssn($isbnIssn_values);
 						$inserted++;
 
+
+                        $resourceAcquisition = new ResourceAcquisition(); 
+                        $resourceAcquisition->resourceID = $resource->resourceID;
+                        $resourceAcquisition->subscriptionStartDate = date('Y-m-d');
+                        $resourceAcquisition->subscriptionEndDate = date('Y-m-d');
+                        $resourceAcquisition->save();
+
 						// If Alias is mapped, check to see if it exists
 						foreach($jsonData['alias'] as $alias)
 						{

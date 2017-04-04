@@ -127,7 +127,7 @@ function submitAccess(){
 		 type:       "POST",
 		 url:        "ajax_processing.php?action=submitAccess",
 		 cache:      false,
-		 data:       { resourceID: $("#editResourceID").val(), authenticationTypeID: $("#authenticationTypeID").val(), accessMethodID: $("#accessMethodID").val(), coverageText: $("#coverageText").val(), authenticationUserName: $("#authenticationUserName").val(), authenticationPassword: $("#authenticationPassword").val(), storageLocationID: $("#storageLocationID").val(), userLimitID: $("#userLimitID").val(), administeringSites: administeringSitesList, authorizedSites: authorizedSitesList },
+		 data:       { resourceID: $("#editResourceID").val(), resourceAcquisitionID: $("#editResourceAcquisitionID").val(), authenticationTypeID: $("#authenticationTypeID").val(), accessMethodID: $("#accessMethodID").val(), coverageText: $("#coverageText").val(), authenticationUserName: $("#authenticationUserName").val(), authenticationPassword: $("#authenticationPassword").val(), storageLocationID: $("#storageLocationID").val(), userLimitID: $("#userLimitID").val(), administeringSites: administeringSitesList, authorizedSites: authorizedSitesList },
 		 success:    function(html) {
 			if (html){
 				$("#span_errors").html(html);

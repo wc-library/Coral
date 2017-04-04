@@ -1,8 +1,10 @@
 <?php
 $resourceID = $_GET['resourceID'];
+$resourceAcquisitionID = $_GET['resourceAcquisitionID'];
 $archivedFlag = (!empty($_GET['archived']) && $_GET['archived'] == 1) ? true:false;
 
 $resource = new Resource(new NamedArguments(array('primaryKey' => $resourceID)));
+$resourceAcquisition = new ResourceAcquisition(new NamedArguments(array('primaryKey' => $resourceAcquisitionID)));
 $util = new Utility();
 
 
@@ -93,7 +95,7 @@ if (count($organizationArray) > 0) {
 }
 
 //display any resource level issues for the resource (shows any other resources associated with the issue, too)
-$resourceIssues = $resource->getIssues($archivedFlag);
+$resourceIssues = $resourceAcquisition->getIssues($archivedFlag);
 echo '<h3 class="text-center">' . _("Resources") . '</h3>';
 if(count($resourceIssues) > 0) {
 	foreach ($resourceIssues as $issue) {
@@ -106,6 +108,6 @@ if(count($resourceIssues) > 0) {
 		echo generateIssueHTML($issue,$associatedEntities);
 	}
 } else {
-	echo "<br><p>" . _("There are no resource level issues.") . "</p><br>";
+	echo "<br><p>" . _("There are no order level issues.") . "</p><br>";
 }
 ?>
