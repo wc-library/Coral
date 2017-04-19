@@ -31,6 +31,9 @@ function register_set_installed_variable_provider()
 						"installation_details" => [
 							"version" => $INSTALLATION_VERSION
 						],
+						"settings" => [
+							"environment" => "prod"
+						],
 						"database" => $db_details
 					];
 					foreach ($shared_module_info["modules_to_use"]["useModule"] as $key => $value) {

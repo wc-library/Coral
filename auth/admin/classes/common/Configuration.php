@@ -20,10 +20,10 @@
 class Configuration extends DynamicObject {
 
 	public function init(NamedArguments $arguments) {
-		$global_config = parse_ini_file(BASE_DIR . "../admin/configuration.ini", true);
+		$global_config = parse_ini_file(BASE_DIR . "../common/configuration.ini", true);
 		$arguments->setDefaultValueForArgumentName("filename", BASE_DIR . "/admin/configuration.ini");
 		$module_config = parse_ini_file($arguments->filename, true);
-		$config = array_merge_recursive($module_config, $global_config);
+		$config = array_replace_recursive($global_config, $module_config);
 
 		// use other DBs for tests
 		if($config["settings"]["environment"] === "test") {
