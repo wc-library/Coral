@@ -1619,7 +1619,7 @@ CREATE TABLE `Report` (
 
 LOCK TABLES `Report` WRITE;
 /*!40000 ALTER TABLE `Report` DISABLE KEYS */;
-INSERT INTO `Report` VALUES (1,'Usage Statistics by Titles',100,0,'usageDatabase'),(2,'Usage Statistics by Provider / Publisher',100,0,'usageDatabase'),(3,'Usage Statistics - Provider Rollup',100,0,'usageDatabase'),(4,'Usage Statistics - Publisher Rollup',100,0,'usageDatabase'),(5,'Usage Statistics - Top Resource Requests',100,0,'usageDatabase'),(6,'Usage Statistics - Yearly Usage Statistics',100,0,'usageDatabase');
+INSERT INTO `Report` VALUES (1,'Usage Statistics by Titles',100,0,'usageDatabaseName'),(2,'Usage Statistics by Provider / Publisher',100,0,'usageDatabaseName'),(3,'Usage Statistics - Provider Rollup',100,0,'usageDatabaseName'),(4,'Usage Statistics - Publisher Rollup',100,0,'usageDatabaseName'),(5,'Usage Statistics - Top Resource Requests',100,0,'usageDatabaseName'),(6,'Usage Statistics - Yearly Usage Statistics',100,0,'usageDatabaseName');
 /*!40000 ALTER TABLE `Report` ENABLE KEYS */;
 UNLOCK TABLES;
 
