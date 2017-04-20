@@ -203,7 +203,7 @@ if ($resource->titleText){
 			<table cellpadding="0" cellspacing="0" style="width: 100%;">
 				<tr>
 					<td class="sidemenu">
-						<?php echo resource_sidemenu(watchString('routing')); ?>
+						<?php echo resource_sidemenu(watchString('workflow')); ?>
 					</td>
 					<td class='mainContent'>
 
