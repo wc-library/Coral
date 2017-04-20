@@ -475,6 +475,7 @@ CREATE TABLE  `ResourceStep` (
   `stepID` int(11) default NULL,
   `stepStartDate` date default NULL,
   `stepEndDate` date default NULL,
+  `archivingDate` DATETIME NULL,
   `endLoginID` varchar(200) default NULL,
   `priorStepID` int(11) default NULL,
   `stepName` varchar(200) default NULL,
