@@ -245,7 +245,7 @@ $(document).ready(function(){
 		return false;
 	});
 
-	$(".showRouting").click(function () {
+	$(".showWorkflow").click(function () {
 	  $('.resource_tab_content').hide();
 		$('#div_routing').show();
 		$('#div_fullRightPanel').hide();
