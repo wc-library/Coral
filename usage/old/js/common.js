@@ -21,16 +21,16 @@
 
 
 $(function(){
-	
+
 	//preload images
 	jQuery.preLoadImages("images/menu-home-over.gif", "images/menu-fileimport-over.gif", "images/menu-publisherplatformupdate-over.gif", "images/menu-reportingoptions-over.gif", "images/menu-admin-over.gif", "images/menu-end-over.gif");
-	 
+
 	 //for swapping menu images
 	$('.rollover').hover(function() {
 		var currentImg = $(this).attr('src');
 		$(this).attr('src', $(this).attr('hover'));
 		$(this).attr('hover', currentImg);
-		
+
 		if ($(this).attr('id') == 'menu-last'){
 			var endImg = $("#menu-end").attr('src');
 			$('#menu-end').attr('src', $("#menu-end").attr('hover'));
@@ -40,16 +40,16 @@ $(function(){
 		var currentImg = $(this).attr('src');
 		$(this).attr('src', $(this).attr('hover'));
 		$(this).attr('hover', currentImg);
-		
+
 		if ($(this).attr('id') == 'menu-last'){
 			var endImg = $("#menu-end").attr('src');
 			$('#menu-end').attr('src', $("#menu-end").attr('hover'));
 			$('#menu-end').attr('hover', endImg);
 		}
-		
+
 	 });
-	 
-	 
+
+
 	 //for the Change Module drop down
 	 $('.coraldropdown').each(function () {
 		$(this).parent().eq(0).hover(function () {
@@ -57,7 +57,7 @@ $(function(){
 			}, function () {
 			$('.coraldropdown:eq(0)', this).slideUp(100);
 		});
-	 });	 
+	 });
 });
 
 
@@ -84,29 +84,29 @@ function toggleDivState(divID, intDisplay) {
 
 // 1 visible, 0 hidden
 function toggleDivs(platformID) {
-	
+
 	imageName = "document.image_" + platformID;
 	imageName.src="images/arrowdown.gif";
-	
+
 	divID = 'div_' + platformID;
-		
-	
+
+
 	if (typeof displayInds[divID] == "undefined") displayInds[divID] = 1;
 
 	toggleDivState(divID, displayInds[divID]);
 
 	if (displayInds[divID] == 0) displayInds[divID]=1; else displayInds[divID]=0
-		
-		
+
+
 }
 
 
 function replaceSpecial(myString){
 
 	var re = new RegExp(/.?&/);
-	
+
 	myString=myString.replace(/\//gi, "\\/");
-	
+
 	return myString.replace(/\./gi, "\\.");
 
 }
@@ -153,10 +153,10 @@ function validateNumber(field,alerttxt){
 
 function validateDate(field,alerttxt) {
      $("#span_error_" + field).html('');
-     sDate =$("#" + field).val(); 
-   
+     sDate =$("#" + field).val();
+
      if (sDate){
-   
+
 	   var re = /^\d{1,2}\/\d{1,2}\/\d{4}$/
 	   if (re.test(sDate)) {
 	      var dArr = sDate.split("/");
@@ -164,7 +164,7 @@ function validateDate(field,alerttxt) {
 
 	      if (!(d.getMonth() + 1 == dArr[0] && d.getDate() == dArr[1] && d.getFullYear() == dArr[2])) {
 		$("#span_error_" + field).html(alerttxt);
-	       $("#" + field).focus();   
+	       $("#" + field).focus();
 		return false;
 	      }else{
 		return true;
@@ -172,11 +172,11 @@ function validateDate(field,alerttxt) {
 
 	   } else {
 	      $("#span_error_" + field).html(alerttxt);
-	      $("#" + field).focus();   
+	      $("#" + field).focus();
 	      return false;
 	   }
      }
-     
+
      return true;
 }
 
@@ -232,22 +232,22 @@ if (!Array.prototype.indexOf)
 
 function isEmpty(value) {
     var error = "";
- 
+
     if (value.length == 0) {
         return true;
-    }else{    
-    	return false;  
+    }else{
+    	return false;
     }
 }
 
 
 function isISSN (value) {
-  
+
   value = value.replace('-', '');
-  
+
   if (value.length == 8) {
   	var objRegExp  = /^[a-zA-Z0-9]*$/;
-		
+
   	return (objRegExp.test(value));
   }else{
   	return false;
@@ -258,10 +258,10 @@ function isISSN (value) {
 
 
 function isYear (value) {
-    
+
   if (value.length == 4) {
   	var objRegExp  = /^19|20[0-9][0-9]$/;
-		
+
   	return (objRegExp.test(value));
   }else{
   	return false;
@@ -274,5 +274,5 @@ function isNumber (value) {
 
   var objRegExp  = /^[0-9]*$/;
   return (objRegExp.test(value));
-  
+
 }

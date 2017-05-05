@@ -24,7 +24,7 @@
  	updateIssues();
  	updateResourceIssues();
  	updateLicenses();
- 
+
 
 
 	viewAll=0;
@@ -151,15 +151,15 @@
 
 	$("#submitNewDowntime").live("click", function(e) {
 		e.preventDefault();
-		
+
 		var errors = [];
 
-		if($("#startDate").val()=="") {	
+		if($("#startDate").val()=="") {
 			errors.push({
 				message: _("Must set a date."),
 				target: '#span_error_startDate'
 			});
-		} 
+		}
 
 		if(errors.length == 0) {
 			submitNewDowntime();
@@ -172,20 +172,20 @@
 				$(error.target).html(error.message);
 			}
 		}
-	
+
 	});
 
 	$("#submitUpdatedDowntime").live("click", function(e) {
 		e.preventDefault();
-		
+
 		var errors = [];
 
-		if($("#endDate").val()=="") {	
+		if($("#endDate").val()=="") {
 			errors.push({
 				message: _("Must set an end date."),
 				target: '#span_error_endDate'
 			});
-		} 
+		}
 
 		if(errors.length == 0) {
 			submitUpdatedDowntime();
@@ -198,7 +198,7 @@
 				$(error.target).html(error.message);
 			}
 		}
-	
+
 	});
 
 	$(".issuesBtn").live("click", function(e) {
@@ -239,8 +239,8 @@
 	});
 
  });
- 
- 
+
+
 var showArchivedContacts = 0;
 
 function updateOrganization(){
@@ -260,7 +260,7 @@ function updateOrganization(){
   });
 
 }
- 
+
 function updateOrganizationName(){
   $.ajax({
 	 type:       "GET",
@@ -275,8 +275,8 @@ function updateOrganizationName(){
   });
 
 }
- 
- 
+
+
 function updateAliases(){
   $("#div_aliasDetails").append("<img src='images/circle.gif'>  "+_("Refreshing Contents..."));
   $.ajax({
@@ -294,8 +294,8 @@ function updateAliases(){
 
 }
 
- 
- 
+
+
 function updateContacts(){
   $("#div_contactDetails").append("<img src='images/circle.gif'>  "+_("Refreshing Contents..."));
   $.ajax({
@@ -314,13 +314,13 @@ function updateContacts(){
 }
 
 
- 
+
 function updateArchivedContacts(showArchivedPassed){
   if (typeof(showArchivedPassed) != 'undefined'){
 	showArchivedContacts = showArchivedPassed;
   }
 
-  
+
   $("#div_archivedContactDetails").append("<img src='images/circle.gif'>  "+_("Refreshing Contents..."));
   $.ajax({
 	 type:       "GET",
@@ -336,8 +336,8 @@ function updateArchivedContacts(showArchivedPassed){
   });
 
 }
- 
- 
+
+
 function updateAccount(){
   $("#div_accountDetails").append("<img src='images/circle.gif'>  "+_("Refreshing Contents..."));
   $.ajax({
@@ -392,7 +392,7 @@ function createOrganizationContact(contact) {
 }
 
 function getInlineContactForm() {
-	
+
 	$.ajax({
 		 type:       "GET",
 		 url:        "ajax_forms.php",
@@ -405,7 +405,7 @@ function getInlineContactForm() {
 }
 
 function submitNewDowntime() {
-	
+
 	var data = $("#newDowntimeForm").serialize();
 
 	$.ajax({
@@ -422,7 +422,7 @@ function submitNewDowntime() {
 }
 
 function submitUpdatedDowntime() {
-	
+
 	var data = $("#resolveDowntimeForm").serialize();
 
 	$.ajax({
@@ -454,7 +454,7 @@ function updateResourceIssues(){
 }
 
 function submitCloseResourceIssue() {
-	$('#submitCloseIssue').attr("disabled", "disabled"); 
+	$('#submitCloseIssue').attr("disabled", "disabled");
 	$.ajax({
 		type:       "POST",
 		url:        "ajax_processing.php?action=submitCloseResourceIssue",
@@ -467,7 +467,7 @@ function submitCloseResourceIssue() {
 				tb_remove();
 				updateIssues();
 				return false;
-			}			
+			}
 		}
 	});
 }
@@ -483,7 +483,7 @@ function getResourceIssues(element) {
 			tb_reinit();
 		}
 	});
-	
+
 }
 
 function getDowntime(element) {
@@ -497,9 +497,9 @@ function getDowntime(element) {
 			tb_reinit();
 		}
 	});
-	
+
 }
- 
+
 function updateIssues(){
   $("#div_issueDetails").append("<img src='images/circle.gif'>  "+_("Refreshing Contents..."));
   $.ajax({
@@ -522,19 +522,19 @@ $("#createContact").live("click",function(e) {
 
 	var errors = [];
 
-	if($("#contactAddName").val() == "") {	
+	if($("#contactAddName").val() == "") {
 		errors.push({
 			message: _("New contact must have a name."),
 			target: '#span_error_contactAddName'
 		});
-	} 
+	}
 
-	if(!validateEmail($("#emailAddress").val())) {	
+	if(!validateEmail($("#emailAddress").val())) {
 		errors.push({
 			message: _("CC must be a valid email."),
 			target: '#span_error_contactEmailAddress'
 		});
-	} 
+	}
 
 	if(errors.length == 0) {
 		var roles = new Array();
@@ -551,11 +551,11 @@ $("#createContact").live("click",function(e) {
 			error = errors[index];
 			$(error.target).html(error.message);
 		}
-	}	 
-		
+	}
+
 });
 
- 
+
 function updateLicenses(){
   $("#div_licenseDetails").append("<img src='images/circle.gif'>  "+_("Refreshing Contents..."));
   $.ajax({
@@ -581,17 +581,17 @@ function removeOrganization() {
 			 url:        "ajax_processing.php",
 			 cache:      false,
 			 data:       "action=deleteOrganization&organizationID=" + $("#organizationID").val(),
-			 success:    function(html) { 
+			 success:    function(html) {
 				 //post return message to index
 				postwith('index.php',{message:html});
 			 }
 		 });
-	  }			
+	  }
 	} else {
 		alert (_("This Organization cannot be deleted because it has at least one License Record associated."));
 	}
 }
-   
+
 function submitNewResourceIssue() {
 	if(validateNewIssue()) {
 		$.ajax({
@@ -643,14 +643,14 @@ function validateNewIssue () {
 			errorFlag=1;
 		}
 	}
-	
+
  	if (errorFlag == 0) {
-		return true; 	
+		return true;
  	}
 	return false;
 }
-   
-   
+
+
 function removeAlias(id){
   if (confirm(_("Do you really want to delete this alias?")) == true) {
 	  $.ajax({

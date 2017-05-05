@@ -17,9 +17,9 @@
 
  $(function(){
 
-	  	 
+
  });
- 
+
 
 
 
@@ -27,7 +27,7 @@
 
 function updateYTDOverride(yearlyUsageSummaryIDValue, overrideColumn){
 
-  
+
   if (validateForm(overrideColumn + "_" + yearlyUsageSummaryIDValue) === true) {
 
 	  $.ajax({
@@ -37,15 +37,15 @@ function updateYTDOverride(yearlyUsageSummaryIDValue, overrideColumn){
 		 data:       { overrideCount: $("#" + overrideColumn + "_" + yearlyUsageSummaryIDValue).val(), overrideColumn: overrideColumn, yearlyUsageSummaryID: yearlyUsageSummaryIDValue },
 		 success:    function(html) {
 		 	$('#span_error_' + yearlyUsageSummaryIDValue + '_response').html(html);
-		 	
+
 
 			 // close the span in 3 secs
-			 setTimeout("emptyResponse('" + yearlyUsageSummaryIDValue + "');",3000); 		 	
+			 setTimeout("emptyResponse('" + yearlyUsageSummaryIDValue + "');",3000);
 		 }
 
 
 	 });
-	 
+
    }
 
 }
@@ -69,4 +69,4 @@ function validateForm (columnName){
  function emptyResponse(spanname){
  	$('#span_error_' + spanname + '_response').html("");
  }
- 
+

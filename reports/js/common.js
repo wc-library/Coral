@@ -49,7 +49,7 @@ if (!Array.prototype.indexOf)
 
 		for (; from < len; from++)
 		{
-			if (from in this && 
+			if (from in this &&
 					this[from] === elt)
 				return from;
 		}

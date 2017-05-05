@@ -658,7 +658,7 @@ table.sample td.bottom {
 		text-align:left;
 		background-color: white;
 		vertical-align: top;
-		
+
 }
 
 
@@ -2497,7 +2497,7 @@ a#getCreateContactForm {
 
 #newDowntimeForm label {
 	font-weight: bold;
-	color: #3D545D; 
+	color: #3D545D;
 }
 
 /*#newDowntimeForm input#submitNewDowntime {
@@ -2629,32 +2629,32 @@ a#archiveddowntimeBtn {
 #import_configuration_table td {
     padding:5px;
 }
-  
+
 .import_column_num {
     width: 25px;
     text-align: center;
     margin-left: 10px;
 }
- 
+
 #configuration {
     width: 300px;
     display: block;
     margin: 15px 0px;
 }
- 
+
 .config_label {
     text-align: right;
 }
- 
+
 .delimited_by {
     padding-left: 10px;
 }
- 
+
 .delimiter {
    width: 30px;
    margin-left: 10px;
 }
- 
+
 .check_label {
     margin-left: 5px;
 }
@@ -3158,7 +3158,7 @@ table.titleTable {
 /* #TB_window {
 	position: absolute !important;
 	margin-top: 100px !important;
-	top: 0 !important; 
+	top: 0 !important;
 } */
 
 /*--- Allow for Language Changes to Helpful Links Side Menu ---*/

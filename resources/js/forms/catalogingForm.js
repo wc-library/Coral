@@ -19,8 +19,8 @@ function submitCataloging(){
 			}
 		}
   );
-  
-  
+
+
   return false;
 }
 
@@ -46,12 +46,12 @@ $('.changeDefaultWhite').live('focus', function(e) {
  $('.changeDefaultWhite').live('blur', function() {
 	if(this.value == ''){
 		this.value = this.defaultValue;
-	}		
+	}
  });
 
 
   	$('.changeInput').addClass("idleField");
-  	
+
 $('.changeInput').live('focus', function() {
 
 
@@ -80,9 +80,9 @@ $('.changeAutocomplete').live('focus', function() {
  $('.changeAutocomplete').live('blur', function() {
 	if(this.value == ''){
 		this.value = this.defaultValue;
-	}	
+	}
  });
- 
+
 
 
 
@@ -102,7 +102,7 @@ $('textarea').addClass("idleField");
 $('textarea').focus(function() {
 	$(this).removeClass("idleField").addClass("focusField");
 });
-    
+
 $('textarea').blur(function() {
 	$(this).removeClass("focusField").addClass("idleField");
 });

@@ -21,14 +21,14 @@
 		</tr>
 		<tr>
 			<td>
-				<a href="<?php echo $getIssuesFormData; ?>" class="issuesBtn" id="openIssuesBtn"><?php echo _("view open issues");?></a> 
+				<a href="<?php echo $getIssuesFormData; ?>" class="issuesBtn" id="openIssuesBtn"><?php echo _("view open issues");?></a>
 				<a target="_blank" href="<?php echo $exportIssuesUrl;?>"><img src="images/xls.gif" /></a>
 				<div class="issueList" id="openIssues" style="display:none;"></div>
 			</td>
 		</tr>
 		<tr>
 			<td>
-				<a href="<?php echo $getIssuesFormData."&archived=1"; ?>" class="issuesBtn" id="archivedIssuesBtn"><?php echo _("view archived issues");?></a> 
+				<a href="<?php echo $getIssuesFormData."&archived=1"; ?>" class="issuesBtn" id="archivedIssuesBtn"><?php echo _("view archived issues");?></a>
 				<a target="_blank" href="<?php echo $exportIssuesUrl;?>&archived=1"><img src="images/xls.gif" /></a>
 				<div class="issueList" id="archivedIssues"></div>
 			</td>
@@ -44,14 +44,14 @@
 		</tr>
 		<tr>
 			<td>
-				<a href="<?php echo $getDowntimeFormData; ?>" class="downtimeBtn" id="openDowntimeBtn"><?php echo _("view current/upcoming downtime");?></a> 
+				<a href="<?php echo $getDowntimeFormData; ?>" class="downtimeBtn" id="openDowntimeBtn"><?php echo _("view current/upcoming downtime");?></a>
 				<a target="_blank" href="<?php echo $exportDowntimesUrl;?>"><img src="images/xls.gif" /></a>
 				<div class="downtimeList" id="currentDowntime" style="display:none;"></div>
 			</td>
 		</tr>
 		<tr>
 			<td>
-				<a href="<?php echo $getDowntimeFormData."&archived=1"; ?>" class="downtimeBtn" id="archiveddowntimeBtn"><?php echo _("view archived downtime");?></a> 
+				<a href="<?php echo $getDowntimeFormData."&archived=1"; ?>" class="downtimeBtn" id="archiveddowntimeBtn"><?php echo _("view archived downtime");?></a>
 				<a target="_blank" href="<?php echo $exportDowntimesUrl;?>&archived=1"><img src="images/xls.gif" /></a>
 				<div class="downtimeList" id="archivedDowntime"></div>
 			</td>

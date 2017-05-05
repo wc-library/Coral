@@ -14,12 +14,12 @@
 **
 **************************************************************************************************************************
 */
- 
- 
+
+
  $(document).ready(function(){
 
       updateImportTable();
-      
+
  });
 
 
@@ -33,7 +33,7 @@
           url:        "ajax_htmldata.php",
           cache:      false,
           data:       "action=getImportTable&pageStart=" + pageStart,
-          success:    function(html) { 
+          success:    function(html) {
           	$('#span_feedback').html('');
           	$('#div_recentImports').html(html);
           	tb_reinit();

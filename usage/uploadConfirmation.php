@@ -232,7 +232,7 @@ include 'templates/header.php';
 								$unmatched = _("Looking for ") . "\"$colCheckName\"" . _(" in column ") . $key . _("but found ") . "\"$fileColName\"";
 							}
 							$formatCorrectFlag='N';
-						}	
+						}
 
 						}
 					}

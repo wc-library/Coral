@@ -72,7 +72,7 @@ if ($resourceType == "Journal"){
 		echo "\n<td>" . $doi . "</td>";
 		echo "\n<td>" . $issn . "</td>";
 		echo "\n<td>" . $eissn . "</td>";
-		
+
 
 		echo "</tr>";
 

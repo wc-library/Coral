@@ -119,7 +119,7 @@ $licenseArray = $resource->getLicenseArray();
     	<td style='width:350px;'><?php echo $resource->bibSourceURL ?><?php if ($resource->bibSourceURL) { ?> &nbsp;&nbsp;<a href='<?php echo $resource->bibSourceURL; ?>' target='_blank'><img src='images/arrow-up-right.gif' alt='Visit Source URL' title='<?php echo _("Visit Source URL");?>' style='vertical-align:top;'></a><?php } ?></td>
   	</tr>
   	<?php } ?>
-  	<?php if ($resource->catalogingTypeID) { 
+  	<?php if ($resource->catalogingTypeID) {
       $catalogingType = new CatalogingType(new NamedArguments(array('primaryKey' => $resource->catalogingTypeID)));
       ?>
   	<tr>
@@ -127,7 +127,7 @@ $licenseArray = $resource->getLicenseArray();
     	<td style='width:350px;'><?php echo $catalogingType->shortName ?></td>
   	</tr>
   	<?php } ?>
-  	<?php if ($resource->catalogingStatusID) { 
+  	<?php if ($resource->catalogingStatusID) {
       $catalogingStatus = new CatalogingStatus(new NamedArguments(array('primaryKey' => $resource->catalogingStatusID)));
       ?>
   	<tr>

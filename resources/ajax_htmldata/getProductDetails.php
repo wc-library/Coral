@@ -217,7 +217,7 @@
 			<tr>
 			<td style='vertical-align:top;width:115px;'><?php echo _("ISSN / ISBN:");?></td>
       <td style='width:345px;'>
-      <?php 
+      <?php
         foreach ($isbnOrIssns as $isbnOrIssn) {
           print $isbnOrIssn->isbnOrIssn . "<br />";
         }

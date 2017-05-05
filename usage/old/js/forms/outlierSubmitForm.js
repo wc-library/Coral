@@ -17,9 +17,9 @@
 
  $(function(){
 
-	  	 
+
  });
- 
+
 
 
 
@@ -36,15 +36,15 @@ function updateOverride(titleStatsMonthlyIDValue){
 		 data:       { overrideUsageCount: $("#overrideUsageCount_" + titleStatsMonthlyIDValue).val(), titleStatsMonthlyID: titleStatsMonthlyIDValue },
 		 success:    function(html) {
 		 	$('#span_' + titleStatsMonthlyIDValue + '_response').html("<br />" + html);
-		 	
+
 
 			 // close the span in 3 secs
-			 setTimeout("emptyResponse('" + titleStatsMonthlyIDValue + "');",3000); 		 	
+			 setTimeout("emptyResponse('" + titleStatsMonthlyIDValue + "');",3000);
 		 }
 
 
 	 });
-	 
+
    }
 
 }
@@ -67,7 +67,7 @@ function ignoreOutlier(titleStatsMonthlyIDValue){
 
 
 	 });
-	 
+
 
 }
 
@@ -78,7 +78,7 @@ function ignoreOutlier(titleStatsMonthlyIDValue){
           url:        "ajax_forms.php",
           cache:      false,
           data:       "action=getMonthlyOutlierForm&platformID=" + $("#platformID").val() + "&publisherPlatformID=" + $("#publisherPlatformID").val() + "&archiveInd=" + $("#archiveInd").val() + "&year=" + $("#year").val() + "&month=" + $("#month").val(),
-          success:    function(html) { 
+          success:    function(html) {
           	$('#div_outlierForm').html(html);
           }
        });
@@ -105,4 +105,4 @@ function validateForm (titleStatsMonthlyIDValue){
  function emptyResponse(spanname){
  	$('#span_' + spanname + '_response').html("");
  }
- 
+

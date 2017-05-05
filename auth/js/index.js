@@ -22,16 +22,16 @@ function _(msgid) {
 }
 
 $(document).ready(function(){
-	     
-});
- 
- 
 
- 
+});
+
+
+
+
 $("#reportID").change(function () {
 	updateParms();
 });
-  
+
 
 
 function updateParms() {
@@ -48,7 +48,7 @@ function updateParms() {
 		 }
 
 
-	  }); 
+	  });
 	}else{
 		$("#div_parm").html("");
 	}
@@ -90,13 +90,13 @@ function updateChildren(parmID){
 				 }
 
 
-			     }); 
+			     });
 
 
 
 
 			}
-			
+
 		 }
 
 
@@ -174,11 +174,11 @@ function toggleLayer(whichLayer, state) {
       elem = document.all[whichLayer];
   else if(document.layers) // this is the way nn4 works
     elem = document.layers[whichLayer];
-  
+
   if (elem){
    vis = elem.style;
    vis.display = state;
   }
 }
 
-   
+

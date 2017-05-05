@@ -21,18 +21,18 @@
 	 $("#submitISSNForm").click(function () {
 	 	submitISSN();
 	 });
-	 
+
 
 	//do submit if enter is hit
 	$('#ISSN').keyup(function(e) {
 	      if(e.keyCode == 13) {
 		submitISSN();
 	      }
-	}); 
-	
-	  	 
+	});
+
+
  });
- 
+
 
 
 
@@ -40,10 +40,10 @@
 
 function submitISSN(){
 
-  
+
   if (validateForm() === true) {
 	  $('#span_' + $("#titleID").val() + '_feedback').html('');
-	  
+
 	  $.ajax({
 		 type:       "POST",
 		 url:        "ajax_processing.php?action=addISSN",
@@ -52,12 +52,12 @@ function submitISSN(){
 		 success:    function(html) {
 			window.parent.tb_remove();
 			window.parent.updateTitleDetails($("#titleID").val());
-			return false;		
+			return false;
 		 }
 
 
 	 });
-	 
+
    }
 
 }
@@ -71,8 +71,8 @@ function validateForm (){
 		$('#span_error_ISSN').html('<br />ISSN must be valid format.');
 		myReturn=1;
 	}
-	
-	
+
+
 	if (myReturn == "1"){
 		return false;
 	}else{

@@ -72,10 +72,10 @@ switch ($_GET['action']) {
 		$document->licenseID=$_POST['licenseID'];
 		$document->documentURL=$_POST['uploadDocument'];
 
-		$license = new License(new NamedArguments(array('primaryKey' => $_POST['licenseID'])));		
+		$license = new License(new NamedArguments(array('primaryKey' => $_POST['licenseID'])));
 		$license->typeID		= $_POST['documentTypeID'];
 		$license->statusDate = date( 'Y-m-d H:i:s' );
-		
+
 		try {
 			$document->save();
 			$license->save();
@@ -503,7 +503,7 @@ switch ($_GET['action']) {
 				if ((isset($_POST['licenseID'])) && $_POST['licenseID'] != ''){
 					$licenseID = $_POST['licenseID'];
 				}else{
-				
+
 					// I am adding a new license so go ahead and create the document
 					$licenseID = $license->primaryKey;
 
@@ -533,7 +533,7 @@ switch ($_GET['action']) {
 						$document->save();
 					} catch (Exception $e) {
 						//echo $e->POSTMessage();
-						echo $e;						
+						echo $e;
 					}
 
 					if ($_POST['note']['body']) {
@@ -548,7 +548,7 @@ switch ($_GET['action']) {
 						try {
 							$note->save();
 						} catch (Exception $e) {
-							echo $e;						
+							echo $e;
 						}
 					}
 				}
@@ -660,8 +660,8 @@ switch ($_GET['action']) {
 
 		echo "</select>";
 
- 		break;		
-		
+ 		break;
+
      case 'addProvider':
 		if ((isset($_GET['shortName'])) && ($_GET['shortName'] != '')){
 			$provider = new Provider();
@@ -694,10 +694,10 @@ switch ($_GET['action']) {
 		echo "</select>";
 
  		break;
-	
+
 	//AJAX helper for checking New Doc Type,Category,and Note Type submissions for uniqueness
 	// echo 1 if the value of $_REQUEST['shortName'] is not in use OR we're unable to check due to input errors
-	// echo 0 if the value of $_REQUEST['shortName'] is already in use 
+	// echo 0 if the value of $_REQUEST['shortName'] is already in use
 	 case 'checkForDuplicates':
 		$validTypes = array('DocumentType','DocumentNoteType','Consortium');
 		if ($_REQUEST['shortName'] && ($_REQUEST['newType'] && in_array($_REQUEST['newType'],$validTypes))) {
@@ -731,9 +731,9 @@ switch ($_GET['action']) {
 			} catch (Exception $e) {
 				echo $e->getMessage();
 			}
-		} 
+		}
 
-		
+
 		echo "<select name='docTypeID' id='docTypeID'>";
 
 		$displayArray = array();
@@ -764,12 +764,12 @@ switch ($_GET['action']) {
 			} catch (Exception $e) {
 				echo $e->getMessage();
 			}
-		} 
+		}
 /*
 <select name="note[documentNoteTypeID]" id="noteDocumentNoteTypeID">
 			<option value="1">Test Type 1</option>
 			<option value="2">Test Type 2</option>			<option value="3">Test Type 3</option>			<option value="4">Test Type 4</option>			</select>
-*/		
+*/
 			echo '			<select id="noteDocumentNoteTypeID" name="note[documentNoteTypeID]">';
 			foreach($noteType->allAsArray() as $display) {
 				echo "			<option value='" . $display['documentNoteTypeID'] . "'>" . $display['shortName'] . "</option>";
@@ -1031,7 +1031,7 @@ switch ($_GET['action']) {
 		$attachmentFile = new AttachmentFile();
 
 		$exists = 0;
-		
+
     if (!is_writable("attachments")) {
       echo 3;
       break;

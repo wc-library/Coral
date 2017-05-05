@@ -3,7 +3,7 @@ $util = new utility();
 
 $resourceID = $_GET["resourceID"];
 
-$resource = new Resource(new NamedArguments(array('primaryKey' => $resourceID))); 
+$resource = new Resource(new NamedArguments(array('primaryKey' => $resourceID)));
 
 $organizationArray = $resource->getOrganizationArray();
 $organizationData = $organizationArray[0];
@@ -36,7 +36,7 @@ if ($organizationData['organizationID']) {
 			<td><label><?php echo _("Contact:");?>&nbsp;&nbsp;<span class='bigDarkRedText'>*</span></label></td>
 			<td>
 				<select multiple style="min-height: 60px;" type='text' id='contactIDs' name='contactIDs[]'>
-<?php 
+<?php
 
 	foreach ($contactsArray as $contact) {
 		echo "		<option value=\"{$contact['contactID']}\">{$contact['name']}</option>";
@@ -121,10 +121,10 @@ if ($config->settings->organizationsModule == 'Y') {
 		</tr>
 	</table>
 
-	<p> <?php echo _("Send me a reminder every");?> 
+	<p> <?php echo _("Send me a reminder every");?>
 		<select name="issue[reminderInterval]">
 			<?php for ($i = 1; $i <= 31; $i++) echo "<option".(($i==7) ? ' selected':'').">{$i}</option>"; ?>
-		</select> <?php echo _("day(s)");?> 
+		</select> <?php echo _("day(s)");?>
 	</p>
 
 	<table class='noBorderTable' style='width:125px;'>

@@ -17,9 +17,9 @@
 
  $(function(){
 
-	  	 
+
  });
- 
+
 
 
 
@@ -27,7 +27,7 @@
 
 function updateYTDOverride(titleStatsYTDIDValue, overrideColumn){
 
-  
+
   if (validateForm(overrideColumn + "_" + titleStatsYTDIDValue) === true) {
 
 	  $.ajax({
@@ -37,15 +37,15 @@ function updateYTDOverride(titleStatsYTDIDValue, overrideColumn){
 		 data:       { overrideCount: $("#" + overrideColumn + "_" + titleStatsYTDIDValue).val(), overrideColumn: overrideColumn, titleStatsYTDID: titleStatsYTDIDValue },
 		 success:    function(html) {
 		 	$('#span_' + titleStatsYTDIDValue + '_response').html(html);
-		 	
+
 
 			 // close the span in 3 secs
-			 setTimeout("emptyResponse('" + titleStatsYTDIDValue + "');",3000); 		 	
+			 setTimeout("emptyResponse('" + titleStatsYTDIDValue + "');",3000);
 		 }
 
 
 	 });
-	 
+
    }
 
 }
@@ -69,4 +69,4 @@ function validateForm (columnName){
  function emptyResponse(spanname){
  	$('#span_' + spanname + '_response').html("");
  }
- 
+

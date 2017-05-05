@@ -21,19 +21,19 @@ $(document).ready(function(){
       	//updates the qualifier and terms tool use fields from expression type
 	updateQualifier();
 
-        updateSearch();      
-      
+        updateSearch();
+
 	//perform search if enter is hit
 	$('#searchName').keyup(function(e) {
 	      if(e.keyCode == 13) {
 		updateSearch();
 	      }
 	});
-      
-                  
+
+
 });
- 
- 
+
+
 var orderBy = "TRIM(LEADING 'THE ' FROM UPPER(L.shortName)) asc";
 var pageStart = '1';
 var numberOfRecords = 25;
@@ -41,48 +41,48 @@ var startWith = '';
 
 function updateSearch(){
       $("#div_feedback").html("<img src='images/circle.gif'> <span style='font-size:80%'>" + _("Processing...") + "</span>");
-      
-	
+
+
       $.ajax({
          type:       "GET",
          url:        "ajax_htmldata.php",
          cache:      false,
          data:       "action=getSearchLicenses&organizationID=" + $("#organizationID").val() + "&consortiumID=" + $("#consortiumID").val() + "&shortName=" + $("#searchName").val() + "&statusID=" + $("#statusID").val() + "&documentTypeID=" + $("#documentTypeID").val() + "&expressionTypeID=" + $("#expressionTypeID").val() + "&qualifierID=" + $("#qualifierID").val() + "&termsToolIndOn=" + getCheckboxValue('termsToolIndOn') + "&termsToolIndOff=" + getCheckboxValue('termsToolIndOff') + "&orderBy=" + orderBy + "&pageStart=" + pageStart + "&numberOfRecords=" + numberOfRecords + "&startWith=" + startWith,
-         success:    function(html) { 
+         success:    function(html) {
          	$("#div_feedback").html("&nbsp;");
-         	$('#searchResults').html(html);  
+         	$('#searchResults').html(html);
          }
 
 
-     });	
-	
+     });
+
 }
- 
- 
+
+
 function setOrder(column, direction){
  	orderBy = column + " " + direction;
  	updateSearch();
 }
- 
- 
+
+
 function setPageStart(pageStartNumber){
  	pageStart=pageStartNumber;
  	updateSearch();
 }
- 
- 
+
+
 function setNumberOfRecords(numberOfRecordsNumber){
 	pageStart = '1';
  	numberOfRecords=$("#numberOfRecords").val();
  	updateSearch();
 }
- 
+
 function setStartWith(startWithLetter){
   	//first, set the previous selected letter (if any) to the regular class
   	if (startWith != ''){
   		$("#span_letter_" + startWith).removeClass('searchLetterSelected').addClass('searchLetter');
   	}
-  	
+
   	//next, set the new start with letter to show selected
   	$("#span_letter_" + startWithLetter).removeClass('searchLetter').addClass('searchLetterSelected');
 
@@ -93,11 +93,11 @@ function setStartWith(startWithLetter){
 
 $(".searchButton").click(function () {
 	pageStart = '1';
- 	updateSearch(); 
+ 	updateSearch();
 });
- 
- 
- 
+
+
+
 $(".newSearch").click(function () {
   	//reset fields
  	$("#searchName").val("");
@@ -109,7 +109,7 @@ $(".newSearch").click(function () {
  	$("#qualifierID").val("");
 
 	updateQualifier();
-  	
+
   	//reset startwith background color
   	$("#span_letter_" + startWith).removeClass('searchLetterSelected').addClass('searchLetter');
   	startWith='';
@@ -118,15 +118,15 @@ $(".newSearch").click(function () {
 
  	updateSearch();
 });
- 
-  
+
+
 $("#searchName").focus(function () {
- 	$("#div_searchName").css({'display':'block'}); 
+ 	$("#div_searchName").css({'display':'block'});
 });
 
 
 $("#showMoreOptions").click(function () {
-	$("#div_additionalSearch").css({'display':'block'}); 
+	$("#div_additionalSearch").css({'display':'block'});
 	$("#hideShowOptions").html("");
 });
 
@@ -147,7 +147,7 @@ function updateQualifier(){
          url:        "ajax_htmldata.php",
          cache:      false,
          data:       "action=getQualifierDropdownHTML&expressionTypeID=" + $("#expressionTypeID").val() + "&page=index" + "&reset=" + $("#reset").val(),
-         success:    function(html) { 
+         success:    function(html) {
          	if (html != ''){
          		$("#tr_Qualifiers").show();
          		$("#div_Qualifiers").html(html);

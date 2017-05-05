@@ -132,7 +132,7 @@ CREATE TABLE  `Workflow` (
 ALTER TABLE `Alias` ADD INDEX `Index_resourceID`(`resourceID`),
  ADD INDEX `Index_aliasTypeID`(`aliasTypeID`),
  ADD INDEX `Index_All`(`resourceID`, `aliasTypeID`);
- 
+
 ALTER TABLE `Resource` ADD INDEX `Index_createDate`(`createDate`),
  ADD INDEX `Index_createLoginID`(`createLoginID`),
  ADD INDEX `Index_titleText`(`titleText`),
@@ -142,15 +142,15 @@ ALTER TABLE `Resource` ADD INDEX `Index_createDate`(`createDate`),
  ADD INDEX `Index_resourceFormatID`(`resourceFormatID`),
  ADD INDEX `Index_acquisitionTypeID`(`authenticationTypeID`),
  ADD INDEX `Index_All`(`createDate`, `createLoginID`, `titleText`, `isbnOrISSN`, `statusID`, `resourceTypeID`, `resourceFormatID`, `acquisitionTypeID`);
- 
+
 ALTER TABLE `ResourcePayment` ADD INDEX `Index_resourceID`(`resourceID`),
  ADD INDEX `Index_fundID`(`fundID`),
- ADD INDEX `Index_All`(`resourceID`, `fundID:`); 
- 
+ ADD INDEX `Index_All`(`resourceID`, `fundID:`);
+
 ALTER TABLE `ResourceNote` ADD INDEX `Index_resourceID`(`resourceID`),
  ADD INDEX `Index_noteTypeID`(`noteTypeID`),
  ADD INDEX `Index_All`(`resourceID`, `noteTypeID`);
- 
+
 ALTER TABLE `ResourceOrganizationLink` ADD INDEX `Index_resourceID`(`resourceID`),
  ADD INDEX `Index_organizationID`(`organizationID`),
  ADD INDEX `Index_All`(`resourceID`, `organizationID`);
@@ -162,11 +162,11 @@ ALTER TABLE `ResourcePurchaseSiteLink` ADD INDEX `Index_resourceID`(`resourceID`
 ALTER TABLE `ResourceAdministeringSiteLink` ADD INDEX `Index_resourceID`(`resourceID`),
  ADD INDEX `Index_administeringSiteID`(`administeringSiteID`),
  ADD INDEX `Index_All`(`resourceID`, `administeringSiteID`);
- 
+
 ALTER TABLE `ResourceAuthorizedSiteLink` ADD INDEX `Index_resourceID`(`resourceID`),
  ADD INDEX `Index_authorizedSiteID`(`authorizedSiteID`),
- ADD INDEX `Index_All`(`resourceID`, `authorizedSiteID`); 
- 
+ ADD INDEX `Index_All`(`resourceID`, `authorizedSiteID`);
+
 ALTER TABLE `ResourceRelationship` ADD INDEX `Index_resourceID`(`resourceID`),
  ADD INDEX `Index_relatedResourceID`(`relatedResourceID`),
  ADD INDEX `Index_All`(`resourceID`, `relatedResourceID`);

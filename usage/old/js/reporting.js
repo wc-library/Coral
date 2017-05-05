@@ -14,18 +14,18 @@
 **
 **************************************************************************************************************************
 */
- 
- 
+
+
  $(document).ready(function(){
 
-      
+
  });
 
 
 
 function showPublisherList(platformID){
 	divID = 'div_' + platformID;
-	
+
 	if (typeof displayInds[divID] == "undefined") displayInds[divID] = 1;
 
 	toggleDivState(divID, displayInds[divID]);
@@ -33,14 +33,14 @@ function showPublisherList(platformID){
 	if (displayInds[divID] == 0) {
 		$('#image_' + platformID).attr('src', "images/arrowright.gif");
 		$('#link_' + platformID).text('show publisher list');
-		displayInds[divID]=1; 
+		displayInds[divID]=1;
 	} else {
 		$('#image_' + platformID).attr('src', "images/arrowdown.gif");
 		$('#link_' + platformID).text('hide publisher list');
 		displayInds[divID]=0;
 	}
-		
-	
+
+
 }
 
 
@@ -51,25 +51,25 @@ function updateReportDisplayName(){
 	}else{
 		updateDisplayPublisher($('#updateID').val());
 	}
-	
+
 	window.parent.tb_remove();
 
 }
 
 
-function updateDisplayPlatform(platformID){ 
+function updateDisplayPlatform(platformID){
 
 	$.ajax({
           type:       "GET",
           url:        "ajax_processing.php",
           cache:      false,
           data:       "action=updatePlatformDisplay&updateID=" + platformID + "&reportDisplayName=" + escape($('#reportDisplayName').val()),
-          success:    function(html) { 
+          success:    function(html) {
 
-		$('#span_platform_' + platformID + '_response').html(html + "<br />");  
+		$('#span_platform_' + platformID + '_response').html(html + "<br />");
 
 		// close the span in 3 secs
-		setTimeout("emptyResponse('platform_" + platformID + "');",3000); 
+		setTimeout("emptyResponse('platform_" + platformID + "');",3000);
 
 		updatePlatformDisplay(platformID);
           }
@@ -86,8 +86,8 @@ function updatePlatformDisplay(platformID){
           url:        "ajax_htmldata.php",
           cache:      false,
           data:       "action=getPlatformDisplay&platformID=" + platformID,
-          success:    function(html) { 
-		 $('#' + divID).html(html);  
+          success:    function(html) {
+		 $('#' + divID).html(html);
 		 tb_reinit();
           }
        });
@@ -97,14 +97,14 @@ function updatePlatformDisplay(platformID){
 
 
 
-function updateDisplayPublisher(publisherPlatformID){ 
+function updateDisplayPublisher(publisherPlatformID){
 
 	$.ajax({
           type:       "GET",
           url:        "ajax_processing.php",
           cache:      false,
           data:       "action=updatePublisherDisplay&updateID=" + publisherPlatformID + "&reportDisplayName=" + escape($('#reportDisplayName').val()),
-          success:    function(html) { 
+          success:    function(html) {
 
 		updatePublisherDisplay(publisherPlatformID);
           }
@@ -121,8 +121,8 @@ function updatePublisherDisplay(publisherPlatformID){
           url:        "ajax_htmldata.php",
           cache:      false,
           data:       "action=getPublisherDisplay&publisherPlatformID=" + publisherPlatformID,
-          success:    function(html) { 
-		 $('#' + divID).html(html);  
+          success:    function(html) {
+		 $('#' + divID).html(html);
 		 tb_reinit();
           }
        });
@@ -139,11 +139,11 @@ function updatePlatformDropDown(platformID){
           url:        "ajax_processing.php",
           cache:      false,
           data:       "action=updatePlatformDropDown&platformID=" + platformID + "&dropDownInd=" + getCheckboxValue('chk_platform_' + platformID),
-          success:    function(html) { 
-		 $('#span_platform_' + platformID + '_response').html(html + "<br />");  
-		 
+          success:    function(html) {
+		 $('#span_platform_' + platformID + '_response').html(html + "<br />");
+
 		  // close the span in 3 secs
-		  setTimeout("emptyResponse('platform_" + platformID + "');",3000); 
+		  setTimeout("emptyResponse('platform_" + platformID + "');",3000);
           }
        });
 
@@ -158,11 +158,11 @@ function updatePublisherDropDown(publisherPlatformID){
           url:        "ajax_processing.php",
           cache:      false,
           data:       "action=updatePublisherDropDown&publisherPlatformID=" + publisherPlatformID + "&dropDownInd=" + getCheckboxValue('chk_publisher_' + publisherPlatformID),
-          success:    function(html) { 
-		 $('#span_publisher_' + publisherPlatformID + '_response').html(html + "<br />");  
-		  
+          success:    function(html) {
+		 $('#span_publisher_' + publisherPlatformID + '_response').html(html + "<br />");
+
 		  // close the span in 3 secs
-		  setTimeout("emptyResponse('publisher_" + publisherPlatformID + "');",3000); 
+		  setTimeout("emptyResponse('publisher_" + publisherPlatformID + "');",3000);
           }
        });
 
@@ -172,9 +172,9 @@ function updatePublisherDropDown(publisherPlatformID){
 
 
 
- 
+
  function emptyResponse(tableName){
  	$('#span_' + tableName + "_response").html("");
  }
- 
- 
+
+

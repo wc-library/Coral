@@ -58,7 +58,7 @@ include 'templates/header.php';
         <input type="submit" name="submitFile" id="submitFile" value="<?php echo _('Upload');?>" />
         <input type="hidden" name="MAX_FILE_SIZE" value="5000000" />
 
-        
+
 
     </form>
 <br /><br />

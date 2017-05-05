@@ -25,22 +25,22 @@ $(document).ready(function(){
         //need to set the key for justadded
         newKey = parseInt(lastKey) + 1;
 
-        
+
         //set the just added key to the next one up
         $('.justAdded').attr('key',  function() {
             return newKey;
-        });		
-        
+        });
+
         //set just added to last class now that it's last and remove it from the previous last
         $('.lastClass').removeClass('lastClass');
         $('.justAdded').addClass('lastClass');
         $('.justAdded').removeClass('justAdded');
-        
+
         lastKey = newKey;
-                    
+
         setArrows();
         updatePriorSteps(sName);
-	
+
 
     });
 
@@ -60,50 +60,50 @@ $(document).ready(function(){
 
 	    //also fix key values for each existing subsequent step - set to current key - 1
 	    nextKey = removedKey+1;
-	    
+
 	    for(var i=nextKey; i<=lastKey; i++){
 
 		$(".seqOrder[key='" + i + "']").attr('key',  function() {
   			return i-1;
 		});
-			
+
 	    }
-	    
+
 
 	    if(removedKey == lastKey){
 	    	prevKey = lastKey-1;
-	    	
+
 	    	//also add last class key to this for easier reference
 	    	$(".seqOrder[key='" + prevKey + "']").addClass('lastClass');
-	    
+
 	    }
 
-	    
+
 	    lastKey--;
 
-	    
+
 	    setArrows();
 	    updatePriorSteps('removed');
-	
+
         return false;
     });
 
 	$(".moveArrow").live('click', function () {
-	
+
 	    var dir = $(this).attr('direction')
-	
+
 	    //first flip the rows
 	    var movingKey = parseInt($(this).parent('.seqOrder').attr('key'));
 	    var movingKeyHTML = $(this).parent().parent().html();
 
-	    
+
 	    //this is the key we're switching places with
 	    if (dir == 'up'){
 	    	var nextKey = movingKey - 1;
 	    }else{
 	    	var nextKey = movingKey + 1;
 	    }
-	    
+
 	    var nextKeyHTML = $(".seqOrder[key='" + nextKey + "']").parent().html();
 
 
@@ -124,7 +124,7 @@ $(document).ready(function(){
 	    //flip the html
 	    $(".seqOrder[key='" + nextKey + "']").parent().html(movingKeyHTML);
 	    $(this).parent().parent().html(nextKeyHTML);
-	    
+
 	    //now put those values back
 	    $(".seqOrder[key='" + movingKey + "']").parent().children().children('.stepName').val(movingKeyStepName);
 	    $(".seqOrder[key='" + nextKey + "']").parent().children().children('.stepName').val(nextKeyStepName);
@@ -138,10 +138,10 @@ $(document).ready(function(){
         movingKeyPriorStepID = movingKeyPriorStepText != '' ? movingKeyPriorStepID : 'option:first';
         nextKeyPriorStepID = nextKeyPriorStepText != '' ? nextKeyPriorStepID : 'option:first';
 	    $(".seqOrder[key='" + movingKey + "']").parent().children().children('.priorStepID').val(movingKeyPriorStepID);
-	    $(".seqOrder[key='" + nextKey + "']").parent().children().children('.priorStepID').val(nextKeyPriorStepID);	    
+	    $(".seqOrder[key='" + nextKey + "']").parent().children().children('.priorStepID').val(nextKeyPriorStepID);
 
-	    
-	    //flip the key values	    
+
+	    //flip the key values
   	    $(".seqOrder[key='" + nextKey + "']").attr('key',  function() {
   			return 'hold';
 		});
@@ -151,7 +151,7 @@ $(document).ready(function(){
   	    $(".seqOrder[key='hold']").attr('key',  function() {
   			return movingKey;
 		});
-	    	    
+
 
 	    setArrows();
 	    return false;
@@ -165,20 +165,20 @@ $(document).ready(function(){
     });
 
 
-   
+
     $("#submitCurrentWorkflowForm").click(function () {
        submitCurrentWorkflow();
     });
 
     setArrows();
 
-    
+
 });
 
 //kill all binds done by jquery live
 function kill() {
-    $('.addStep').die('click'); 
-    $('.removeStep').die('click'); 
+    $('.addStep').die('click');
+    $('.removeStep').die('click');
 	$('.moveArrow').die('click');
 }
 
@@ -189,14 +189,14 @@ function validateWorkflow() {
 
 
 function updatePriorSteps(fromFunction){
-	
+
 	var stepArray=new Array();
 
 	//loop through each step, we will use this for the previous step list in an array
-	$(".stepName").each(function(id) {	
+	$(".stepName").each(function(id) {
 	      stepArray[$(this).parent().parent().children('.seqOrder').attr('key')] = $.trim($(this).val());
 
-	}); 
+	});
 
 
 
@@ -206,8 +206,8 @@ function updatePriorSteps(fromFunction){
 
 	     var currentSelectedStep='';
 	     var currentSelectedKey='';
-	     	     
-	     
+
+
 	     //happens on page load, look at the hidden input for loaded
 	     if (fromFunction == 'onload'){
 	     	thisKey = $(this).parent().parent().children('.seqOrder').attr('key');
@@ -219,30 +219,30 @@ function updatePriorSteps(fromFunction){
 	     	//otherwise we can just take the text
 	     	currentSelectedStep = $.trim($("option:selected",this).text());
 	     }
-    
-	     
+
+
 	     thisStepName = $(this).parent().parent().children().children('.stepName').val();
 
 	     //clear out current priorStepID dropdown and repopulate
 	     var options = "<option value=''></option>";
-	     
+
 	     $.each(stepArray, function(key, currentStepName) {
 	     	if (typeof(currentStepName) !== 'undefined'){
-	     			
+
 			if ((currentSelectedKey == key) || (currentSelectedStep == currentStepName)){
 				options += "<option value='" + key + "' selected>" + currentStepName + "</option>";
 			}else if (currentStepName != thisStepName){
 				options += "<option value='" + key + "'>" + currentStepName + "</option>";
 			}
-			
+
 		}
-		
+
 
 	     });
 
 	     $(this).html(options);
-	      
-	}); 
+
+	});
 
 
 
@@ -279,7 +279,7 @@ function setArrows(){
 			}
 		}
 
-	}); 
+	});
 
 
 }
@@ -315,13 +315,13 @@ function submitCurrentWorkflow() {
 	seqOrderList ='';
 	$(".stepTR .seqOrder").each(function(id) {
 	      seqOrderList += $(this).attr('key') + ":::";
-	}); 
+	});
 
 	mailReminderDelayList ='';
 	$(".stepTR .mailReminderDelay").each(function(id) {
 	      mailReminderDelayList += $(this).val() + ":::";
-	}); 
-	
+	});
+
 
 
     if (validateWorkflow() === true) {
@@ -335,7 +335,7 @@ function submitCurrentWorkflow() {
                 if (html){
                     $("#span_errors").html(html);
                     $("#submitCurrentWorkflowForm").removeAttr("disabled");
-                }else{  
+                }else{
                     kill();
                     window.parent.tb_remove();
                     window.parent.updateRouting();

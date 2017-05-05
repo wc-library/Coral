@@ -43,7 +43,7 @@ ALTER TABLE `ResourcePayment`
  ADD INDEX `Index_fundID`(`fundID`),
  DROP INDEX `Index_All`,
  ADD INDEX `Index_All`(`resourceID`, `fundID`, `year`, `costDetailsID`, `invoiceNum`);
- 
+
 
 ALTER TABLE `ResourcePayment` DROP COLUMN `fundName`;
 

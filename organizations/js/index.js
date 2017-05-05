@@ -18,8 +18,8 @@
 
  $(document).ready(function(){
 
-        updateSearch();      
-      
+        updateSearch();
+
 	//perform search if enter is hit
 	$('#searchOrganizationName').keyup(function(e) {
 	      if(e.keyCode == 13) {
@@ -32,11 +32,11 @@
 	      if(e.keyCode == 13) {
 		updateSearch();
 	      }
-	});      
-                   
+	});
+
  });
- 
- 
+
+
 var orderBy = "TRIM(LEADING 'THE ' FROM UPPER(O.name)) asc";
 var pageStart = '1';
 var numberOfRecords = 25;
@@ -44,51 +44,51 @@ var startWith = '';
 
 function updateSearch(){
       $("#div_feedback").html("<img src='images/circle.gif'>  <span style='font-size:90%'>"+_("Processing...")+"</span>");
-      
-	
+
+
       $.ajax({
          type:       "GET",
          url:        "ajax_htmldata.php",
          cache:      false,
          data:       "action=getSearchOrganizations&organizationName=" + $("#searchOrganizationName").val() + "&organizationRoleID=" + $("#searchOrganizationRoleID").val() + "&contactName=" + $("#searchContactName").val() + "&orderBy=" + orderBy + "&pageStart=" + pageStart + "&numberOfRecords=" + numberOfRecords + "&startWith=" + startWith,
-         success:    function(html) { 
+         success:    function(html) {
          	$("#div_feedback").html("&nbsp;");
-         	$('#div_searchResults').html(html);  
+         	$('#div_searchResults').html(html);
          }
 
 
-     });	
-	
+     });
+
 }
- 
- 
+
+
  function setOrder(column, direction){
  	orderBy = column + " " + direction;
  	updateSearch();
  }
- 
- 
+
+
  function setPageStart(pageStartNumber){
  	pageStart=pageStartNumber;
  	updateSearch();
  }
- 
- 
+
+
  function setNumberOfRecords(numberOfRecordsNumber){
  	pageStart = '1';
  	numberOfRecords=$("#numberOfRecords").val();
  	updateSearch();
  }
- 
- 
- 
-  
+
+
+
+
   function setStartWith(startWithLetter){
   	//first, set the previous selected letter (if any) to the regular class
   	if (startWith != ''){
   		$("#span_letter_" + startWith).removeClass('searchLetterSelected').addClass('searchLetter');
   	}
-  	
+
   	//next, set the new start with letter to show selected
   	$("#span_letter_" + startWithLetter).removeClass('searchLetter').addClass('searchLetterSelected');
 
@@ -96,33 +96,33 @@ function updateSearch(){
   	startWith=startWithLetter;
   	updateSearch();
   }
- 
- 
+
+
  $(".searchButton").click(function () {
  	pageStart = '1';
- 	updateSearch(); 
+ 	updateSearch();
  });
- 
+
   $(".newSearch").click(function () {
   	//reset fields
   	$("#searchOrganizationName").val("");
   	$("#searchOrganizationRoleID").val("");
   	$("#searchContactName").val("");
-  	
+
   	//reset startwith background color
   	$("#span_letter_" + startWith).removeClass('searchLetterSelected').addClass('searchLetter');
   	startWith='';
-	
+
 	orderBy = "TRIM(LEADING 'THE ' FROM UPPER(O.name)) asc";
 	pageStart = '1';
   	updateSearch();
   });
-  
-   
+
+
   $("#searchOrganizationName").focus(function () {
-  	$("#div_searchName").css({'display':'block'}); 
+  	$("#div_searchName").css({'display':'block'});
   });
 
   $("#searchContactName").focus(function () {
-  	$("#div_searchContact").css({'display':'block'}); 
-  });  
+  	$("#div_searchContact").css({'display':'block'});
+  });

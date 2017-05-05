@@ -7,7 +7,7 @@ $organizationID = $_POST['organizationID'];
 $sourceResourceID = $_POST['sourceResourceID'];
 $sourceOrganizationID = $_POST['sourceOrganizationID'];
 
-$sourceResource = new Resource(new NamedArguments(array('primaryKey' => $sourceResourceID))); 
+$sourceResource = new Resource(new NamedArguments(array('primaryKey' => $sourceResourceID)));
 
 
 $issueEmails = array();

@@ -29,7 +29,7 @@
 	      if(e.keyCode == 13) {
 		submitLogin();
 	      }
-	}); 
+	});
 
 
 	//do submit if enter is hit
@@ -37,18 +37,18 @@
 	      if(e.keyCode == 13) {
 		submitLogin();
 	      }
-	}); 
+	});
 
 	//do submit if enter is hit
 	$('#url').keyup(function(e) {
 	      if(e.keyCode == 13) {
 		submitLogin();
 	      }
-	}); 
+	});
 
-	  	 
+
  });
- 
+
 
 
 
@@ -56,7 +56,7 @@
 
 function submitLogin(){
 
-	$('#submitLoginForm').attr("disabled", "disabled"); 
+	$('#submitLoginForm').attr("disabled", "disabled");
 	  $.ajax({
 		 type:       "POST",
 		 url:        "ajax_processing.php?action=submitLogin",

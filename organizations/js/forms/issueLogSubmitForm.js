@@ -16,7 +16,7 @@
 */
 
 $(document).ready(function(){
-	
+
 	$('.date-pick').datePicker({startDate:'01/01/1996'});
     $("#submitIssueLogForm").click(function () {
         if(validateIssueForm() === true){
@@ -32,13 +32,13 @@ $(document).ready(function(){
                         window.parent.tb_remove();
                         window.parent.updateIssues();
                         return false;
-                    }			
+                    }
                 }
             });
         }
      });
  });
- 
+
 function validateIssueForm(){
     if($("#issueLogTypeID").val() == ''){
         $("#span_errors").html('<br />Please select an issue type');

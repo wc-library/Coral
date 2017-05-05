@@ -5,7 +5,7 @@ ALTER TABLE `Qualification` RENAME TO `Qualifier`,
 
 
 DELETE FROM `Qualifier`;
-ALTER TABLE `Qualifier` 
+ALTER TABLE `Qualifier`
 ADD COLUMN `expressionTypeID` INTEGER UNSIGNED NOT NULL AFTER `qualifierID`;
 
 

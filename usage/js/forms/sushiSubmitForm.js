@@ -29,10 +29,10 @@
 	      if(e.keyCode == 13) {
 		submitSushiService();
 	      }
-	}); 
+	});
 
  });
- 
+
 
 
 
@@ -40,7 +40,7 @@
 
 function submitSushiService(){
 
-	$('#submitSushiForm').attr("disabled", "disabled"); 
+	$('#submitSushiForm').attr("disabled", "disabled");
 	  $.ajax({
 		 type:       "POST",
 		 url:        "ajax_processing.php?action=submitSushiService",

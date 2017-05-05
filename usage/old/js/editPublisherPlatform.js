@@ -19,7 +19,7 @@
 	updateNotesLoginDetails();
 	updateFullStatsDetails();
 	updateTitleDetails();
-	    
+
  });
 
  viewAll=0;
@@ -33,22 +33,22 @@
 	}
 	return false;
  });
- 
- 
- 
+
+
+
   $(".showStats").click(function () {
-  
+
   	if (viewAll == "0"){
  		$('#div_displayNotes').hide();
  		$('#div_displayStats').show();
  		$('#div_displayTitles').hide();
  	}
- 	
+
  	return false;
  });
- 
- 
- 
+
+
+
   $(".showTitles").click(function () {
   	if (viewAll == "0"){
  		$('#div_displayNotes').hide();
@@ -69,7 +69,7 @@
           url:        "ajax_htmldata.php",
           cache:      false,
           data:       "action=getNotesLoginDetails&publisherPlatformID=" + $('#publisherPlatformID').val() + "&platformID=" + $('#platformID').val(),
-          success:    function(html) { 
+          success:    function(html) {
           	$('#div_notesLoginDetails').html(html);
           	tb_reinit();
           }
@@ -87,7 +87,7 @@
           url:        "ajax_htmldata.php",
           cache:      false,
           data:       "action=getFullStatsDetails&publisherPlatformID=" + $('#publisherPlatformID').val() + "&platformID=" + $('#platformID').val(),
-          success:    function(html) { 
+          success:    function(html) {
           	$('#div_statsDetails').html(html);
           	tb_reinit();
           }
@@ -102,15 +102,15 @@
  	if (titleID != ''){
  		$('#span_' + titleID + '_feedback').html('&nbsp;&nbsp;<img src = "images/circle.gif">Loading...');
  	}
- 	
- 	
+
+
 
        $.ajax({
           type:       "GET",
           url:        "ajax_htmldata.php",
           cache:      false,
           data:       "action=getTitleDetails&publisherPlatformID=" + $('#publisherPlatformID').val() + "&platformID=" + $('#platformID').val(),
-          success:    function(html) { 
+          success:    function(html) {
           	$('#div_titleDetails').html(html);
           	tb_reinit();
           }
@@ -127,8 +127,8 @@
           url:        "ajax_processing.php",
           cache:      false,
           data:       "action=deleteInterfaceNotes&interfaceID=" + platformInterfaceID,
-          success:    function(html) { 
-		  updateNotesLoginDetails(); 
+          success:    function(html) {
+		  updateNotesLoginDetails();
           }
        });
      }
@@ -145,8 +145,8 @@
           url:        "ajax_processing.php",
           cache:      false,
           data:       "action=deletePublisherNotes&notesID=" + publisherNoteID,
-          success:    function(html) { 
-		  updateNotesLoginDetails(); 
+          success:    function(html) {
+		  updateNotesLoginDetails();
           }
        });
      }
@@ -163,8 +163,8 @@
           url:        "ajax_processing.php",
           cache:      false,
           data:       "action=deleteLogin&interfaceLoginID=" + interfaceLoginID,
-          success:    function(html) { 
-		  updateNotesLoginDetails(); 
+          success:    function(html) {
+		  updateNotesLoginDetails();
           }
        });
      }
@@ -179,7 +179,7 @@
 		  url:        "ajax_processing.php",
 		  cache:      false,
 		  data:       "action=deleteMonth&publisherPlatformID=" + publisherPlatformID + "&platformID=" + platformID + "&month=" + month + "&year=" + year + "&archiveInd=" + archiveInd,
-		  success:    function(html) { 
+		  success:    function(html) {
 			  $("#tr_" + platformID + "_" + publisherPlatformID + "_" + year + "_" + month + "_" + archiveInd).remove();
 		  }
 	         });
@@ -196,7 +196,7 @@
 		  url:        "ajax_processing.php",
 		  cache:      false,
 		  data:       "action=removeISSN&titleISSNID=" + titleISSNID,
-		  success:    function(html) { 
+		  success:    function(html) {
 			  $("#tr_" + titleISSNID).remove();
 		  }
 	         });

@@ -14,14 +14,14 @@
 **
 **************************************************************************************************************************
 */
- 
- 
+
+
  $(document).ready(function(){
 
       updateEmailAddressTable();
       updateOutlierTable();
-      
-      
+
+
 
 
 	//do submit if enter is hit
@@ -37,8 +37,8 @@
 	      if(e.keyCode == 13) {
 		updateOutlier();
 	      }
-	});	
-	
+	});
+
  });
 
 
@@ -51,7 +51,7 @@
           url:        "ajax_htmldata.php",
           cache:      false,
           data:       "action=getAddressTable",
-          success:    function(html) { 
+          success:    function(html) {
           	$('#div_emailAddresses').html(html);
           	tb_reinit();
           }
@@ -69,7 +69,7 @@
        	}
 
  }
- 
+
 
 
  function addEmailAddress(){
@@ -81,14 +81,14 @@
 	  url:        "ajax_processing.php",
 	  cache:      false,
 	  data:       "action=addEmailAddress&emailAddress=" + escape($('#emailAddress').val()),
-	  success:    function(html) { 
-		  $('#span_EmailAddress_response').html(html);  
+	  success:    function(html) {
+		  $('#span_EmailAddress_response').html(html);
 
 		  // close the span in 3 secs
-		  setTimeout("emptyResponse('EmailAddress');",3000); 
+		  setTimeout("emptyResponse('EmailAddress');",3000);
 
-		  updateEmailAddressTable(); 
-		  
+		  updateEmailAddressTable();
+
 		  window.parent.tb_remove();
 
 	  }
@@ -102,16 +102,16 @@
           url:        "ajax_processing.php",
           cache:      false,
           data:       "action=updateEmailAddress&logEmailAddressID=" + $('#updateLogEmailAddressID').val() + "&emailAddress=" + escape($('#emailAddress').val()),
-          success:    function(html) { 
-		  updateEmailAddressTable(); 
+          success:    function(html) {
+		  updateEmailAddressTable();
 		  window.parent.tb_remove();
           }
        });
 
  }
 
- 
- 
+
+
 
 
   function deleteEmailAddress(addressID){
@@ -122,8 +122,8 @@
           url:        "ajax_processing.php",
           cache:      false,
           data:       "action=deleteEmailAddress&emailAddressID=" + addressID,
-          success:    function(html) { 
-		  updateEmailAddressTable(); 
+          success:    function(html) {
+		  updateEmailAddressTable();
           }
        });
      }
@@ -140,7 +140,7 @@
           url:        "ajax_htmldata.php",
           cache:      false,
           data:       "action=getOutlierTable",
-          success:    function(html) { 
+          success:    function(html) {
           	$('#div_outliers').html(html);
           	tb_reinit();
           }
@@ -149,13 +149,13 @@
  }
 
 
- 
+
  function emptyResponse(tableName){
  	$('#span_' + tableName + "_response").html("");
  }
- 
- 
- 
+
+
+
 
   function updateOutlier(){
 
@@ -165,8 +165,8 @@
 		  url:        "ajax_processing.php",
 		  cache:      false,
 		  data:       "action=updateOutlier&outlierID=" + $('#updateOutlierID').val() + "&overageCount=" + $('#overageCount').val() + "&overagePercent=" + $('#overagePercent').val(),
-		  success:    function(html) { 
-			  updateOutlierTable(); 
+		  success:    function(html) {
+			  updateOutlierTable();
 			  window.parent.tb_remove();
 		  }
 	       });
@@ -174,15 +174,15 @@
 	  }
 
  }
- 
- 
- 
+
+
+
  //validates fields for outlier form
  function validateForm (){
  	myReturn=0;
  	if (!validateNumber('overageCount','Count over must be a number.')) myReturn="1";
  	if (!validateNumber('overagePercent','% over must be a number.')) myReturn="1";
- 
+
  	if (myReturn == "1"){
  		return false;
  	}else{

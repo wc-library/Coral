@@ -29,7 +29,7 @@
 	      if(e.keyCode == 13) {
 		submitExternalLogin();
 	      }
-	}); 
+	});
 
 
 	//do submit if enter is hit
@@ -37,18 +37,18 @@
 	      if(e.keyCode == 13) {
 		submitExternalLogin();
 	      }
-	}); 
+	});
 
 	//do submit if enter is hit
 	$('#loginURL').keyup(function(e) {
 	      if(e.keyCode == 13) {
 		submitExternalLogin();
 	      }
-	}); 
+	});
 
-	  	 
+
  });
- 
+
 function validateExternalLogin() {
     if($("#username").val() == ''){
         $("#span_errors").html('<br />' + _('Please enter a username to continue');

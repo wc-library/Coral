@@ -28,20 +28,20 @@ class ImportLog extends DatabaseObject {
 		//first, find if titles were processed
 		preg_match('/[0-9]+ titles processed/i', $details, $matches);
 		if (isset($matches[0])) {
-			$titles = str_replace(" processed", "", $matches[0]);	
+			$titles = str_replace(" processed", "", $matches[0]);
 		}
 
 		if (isset($titles)){
 			if (preg_match("/finished/i", $details)){
 				$status = $titles . _(" (via sushi)");
 			}else{
-				$status = $titles;	
+				$status = $titles;
 			}
 		}else{
 			if (preg_match("/fail/i", $details)){
 				$status = _("Failed");
 			}elseif (preg_match("/finished/i", $details)){
-				$status = "<i>"._("awaiting import")."</i>";				
+				$status = "<i>"._("awaiting import")."</i>";
 			} else {
 				$status = null;
 			}

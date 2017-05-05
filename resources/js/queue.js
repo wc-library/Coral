@@ -28,7 +28,7 @@
 	$("#SavedRequests").click(function () {
 		updatePage($(this).attr("id"),"getSavedQueue");
 	});
-      
+
 	$('.deleteRequest').live('click', function () {
 		deleteRequest($(this).attr("id"));
 	});
@@ -36,7 +36,7 @@
 	updateTaskNumbers();
 	//load the initial tab on page load
 	$("#OutstandingTasks").click();
- 
+
 });
 
 function updatePage(activeTab,requestAction) {
@@ -48,7 +48,7 @@ function updatePage(activeTab,requestAction) {
 	  url:        "ajax_htmldata.php",
 	  cache:      false,
 	  data:       "action="+requestAction,
-	  success:    function(html) { 
+	  success:    function(html) {
 		$('#div_QueueContent').html(html);
 		tb_reinit();
 		completeTabUpdate();
@@ -81,7 +81,7 @@ function updateTaskNumbers(classSuffix,requestAction) {
 function completeTabUpdate() {
    //make sure error is empty
    $('#div_error').html("");
-   
+
    //also reset feedback div
    $('#div_feedback').html("&nbsp;");
 	updateTaskNumbers();
@@ -96,17 +96,17 @@ function completeTabUpdate() {
 		  url:        "ajax_processing.php",
 		  cache:      false,
 		  data:       "action=deleteResource&resourceID=" + deleteID,
-		  success:    function(html) { 
-  			  	
-			showError(html);  
+		  success:    function(html) {
+
+			showError(html);
 
 			// close the div in 3 secs
-			setTimeout("emptyError();",3000); 
+			setTimeout("emptyError();",3000);
 
 			$("#SavedRequests").click();
 
-			return false;	
-			
+			return false;
+
 		  }
 		});
 
@@ -114,15 +114,15 @@ function completeTabUpdate() {
 		$('#div_feedback').html("&nbsp;");
 	}
 }
- 
+
 function showError(html){
-	$('#div_error').fadeTo(0, 5000, function () { 
+	$('#div_error').fadeTo(0, 5000, function () {
 		$('#div_error').html(html);
 	});
 }
 
 function emptyError(){
-	$('#div_error').fadeTo(500, 0, function () { 
+	$('#div_error').fadeTo(500, 0, function () {
 		$('#div_error').html("");
 	});
 }

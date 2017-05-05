@@ -32,17 +32,17 @@ function generateIssueHTML($issue,$associatedEntities=null) {
 	}
 	$html .= "
 	  	<dl>
-	  		<dt>Date reported:</dt> 
+	  		<dt>Date reported:</dt>
 	  		<dd>{$issue->dateCreated}</dd>";
 	if ($issue->dateClosed) {
-	  	
+
 		$html .= "<dt>Date closed:</dt>
 	  		<dd>{$issue->dateClosed}</dd>
 	  		<dt>Resolution</dt>
 	  		<dd>{$issue->resolutionText}</dd>";
 	  	}
-	  		
-	$html .= "<dt>Contact(s):</dt> 
+
+	$html .= "<dt>Contact(s):</dt>
 	  		<dd>";
 	$contacts = $issue->getContacts();
 	if ($contacts) {
@@ -54,8 +54,8 @@ function generateIssueHTML($issue,$associatedEntities=null) {
 	}
 
 
-	$html .= "	</dd> 
-	  		<dt>Applies to:</dt> 
+	$html .= "	</dd>
+	  		<dt>Applies to:</dt>
 	  		<dd>";
 	if ($associatedEntities) {
 		$temp ='';
@@ -64,11 +64,11 @@ function generateIssueHTML($issue,$associatedEntities=null) {
 		}
 		$html .= rtrim($temp,',');
 	}
-	$html .= "</dd> 
-	  		<dt>Subject:</dt> 
-	  		<dd>{$issue->subjectText}</dd> 
-	  		
-	  		<dt class=\"block\">Body:</dt> 
+	$html .= "</dd>
+	  		<dt>Subject:</dt>
+	  		<dd>{$issue->subjectText}</dd>
+
+	  		<dt class=\"block\">Body:</dt>
 	  		<dd>{$issue->bodyText}</dd>
 	  	</dl>
 	</div>";
@@ -80,16 +80,16 @@ function generateDowntimeHTML($downtime) {
 
 	$html = "
 	<div class=\"downtime\">";
-	
+
 	$html .= "
 	  	<dl>
-	  		<dt>Type:</dt> 
+	  		<dt>Type:</dt>
 	  		<dd>{$downtime->shortName}</dd>
 
-	  		<dt>Downtime Start:</dt> 
+	  		<dt>Downtime Start:</dt>
 	  		<dd>{$downtime->startDate}</dd>
 
-	  		<dt>Downtime Resolved:</dt> 
+	  		<dt>Downtime Resolved:</dt>
 	  		<dd>";
 	if ($downtime->endDate != null) {
 		$html .= $downtime->endDate;
@@ -100,18 +100,18 @@ function generateDowntimeHTML($downtime) {
 
 	if($downtime->subjectText) {
 		$html .= "
-	  		<dt>Linked issue:</dt> 
+	  		<dt>Linked issue:</dt>
 	  		<dd>{$downtime->subjectText}</dd>";
 	}
 	if ($downtime->note) {
 		$html .= "
-	  		<dt>Note:</dt> 
+	  		<dt>Note:</dt>
 	  		<dd>{$downtime->note}</dd>";
 	}
-	$html .= "		
+	$html .= "
 		</dl>
-	</div>";	
-	
+	</div>";
+
 	return $html;
 }
 
@@ -120,13 +120,13 @@ switch ($_GET['action']) {
 	case 'getOrganizationContacts':
     	$organizationID = $_GET['organizationID'];
     	$contactIDs = $_GET['contactIDs'];
-    	
+
     	$organization = new Organization(new NamedArguments(array('primaryKey' => $organizationID)));
 		$contactObjArray = $organization->getUnarchivedContacts();
 		if (count($contactObjArray) > 0) {
 			foreach ($contactObjArray as $contact) {
 				$isSelected = (!empty($contactIDs) && in_array($contact->contactID, $contactIDs)) ? "selected" : "";
-				echo "<option {$isSelected} value=\"{$contact->contactID}\">{$contact->name}</option>";	
+				echo "<option {$isSelected} value=\"{$contact->contactID}\">{$contact->name}</option>";
 			}
 		}
 	break;
@@ -569,7 +569,7 @@ switch ($_GET['action']) {
 				<?php if ($externalLogin['loginURL']) { ?>
 				<tr>
 				<td style='vertical-align:top;text-align:left;'><?php echo _("Login URL:");?></td>
-				<td><?php echo $externalLogin['loginURL']; 
+				<td><?php echo $externalLogin['loginURL'];
 					if (strpos($externalLogin['loginURL'], 'http') !== 0) {
 						$externalLogin['loginURL'] = "http://" . $externalLogin['loginURL'];
 					}
@@ -654,14 +654,14 @@ switch ($_GET['action']) {
 			</tr>
 			<tr>
 				<td>
-					<a href="<?php echo $getIssuesFormData; ?>" class="issuesBtn" id="openIssuesBtn"><?php echo _("view open issues");?></a> 
+					<a href="<?php echo $getIssuesFormData; ?>" class="issuesBtn" id="openIssuesBtn"><?php echo _("view open issues");?></a>
 					<a target="_blank" href="<?php echo $exportIssueUrl;?>"><img src="images/xls.gif" /></a>
 					<div class="issueList" id="openIssues" style="display:none;"></div>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<a href="<?php echo $getIssuesFormData."&archived=1"; ?>" class="issuesBtn" id="archivedIssuesBtn"><?php echo _("view archived issues");?></a> 
+					<a href="<?php echo $getIssuesFormData."&archived=1"; ?>" class="issuesBtn" id="archivedIssuesBtn"><?php echo _("view archived issues");?></a>
 					<a target="_blank" href="<?php echo $exportIssueUrl;?>&archived=1"><img src="images/xls.gif" /></a>
 					<div class="issueList" id="archivedIssues"></div>
 				</td>
@@ -677,14 +677,14 @@ switch ($_GET['action']) {
 			</tr>
 			<tr>
 				<td>
-					<a href="<?php echo $getDowntimeFormData; ?>" class="downtimeBtn" id="openDowntimeBtn"><?php echo _("view current/upcoming downtime");?></a> 
+					<a href="<?php echo $getDowntimeFormData; ?>" class="downtimeBtn" id="openDowntimeBtn"><?php echo _("view current/upcoming downtime");?></a>
 					<a target="_blank" href="<?php echo $exportDowntimeUrl;?>"><img src="images/xls.gif" /></a>
 					<div class="downtimeList" id="currentDowntime" style="display:none;"></div>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<a href="<?php echo $getDowntimeFormData."&archived=1"; ?>" class="downtimeBtn" id="archiveddowntimeBtn"><?php echo _("view archived downtime");?></a> 
+					<a href="<?php echo $getDowntimeFormData."&archived=1"; ?>" class="downtimeBtn" id="archiveddowntimeBtn"><?php echo _("view archived downtime");?></a>
 					<a target="_blank" href="<?php echo $exportDowntimeUrl;?>&archived=1"><img src="images/xls.gif" /></a>
 					<div class="downtimeList" id="archivedDowntime"></div>
 				</td>
@@ -777,7 +777,7 @@ switch ($_GET['action']) {
 			?>
 			<tr>
 			<td style='width:80px;'><?php echo format_date($issueLog['updateDate']); ?><br /><?php echo _("by ");?><i><?php echo $issueLog['updateUser']; ?></i></td>
-			<td><?php 
+			<td><?php
         if ($issueStartDate && $issueEndDate) {
           echo $issueStartDate._(" to ").$issueEndDate;
         } elseif ($issueStartDate) {
@@ -789,12 +789,12 @@ switch ($_GET['action']) {
       </td>
       <td><?php echo $issueLog['issueLogType'] ?></td>
 			<td style='width:360px;'><?php echo nl2br(str_replace($charsToRemove, "", $issueLog['noteText'])); ?>
-			<?php 
+			<?php
 			if ($user->canEdit()){
 				echo "<span style='float:right; vertical-align:top;'><a href='ajax_forms.php?action=getIssueLogForm&height=250&width=265&modal=true&organizationID=" . $organizationID . "&issueLogID=" . $issueLog['issueLogID'] . "' class='thickbox'><img src='images/edit.gif' alt='"._("edit")."' title='"._("edit issue")."'></a>";
 				echo "&nbsp;<a href='javascript:removeIssueLog(" . $issueLog['issueLogID'] . ")'><img src='images/cross.gif' alt='"._("remove issue")."' title='"._("remove issue")."'></a>";
 				echo "</span>";
-			} 
+			}
 			?>
 			</td></tr>
 		<?php } ?>
@@ -808,7 +808,7 @@ switch ($_GET['action']) {
 
 		if ($user->canEdit()){
 		?>
-			<a href='ajax_forms.php?action=getIssueLogForm&height=250&width=265&modal=true&organizationID=<?php echo $organizationID; ?>' class='thickbox' id='newIssue'><?php echo _("add new issue");?></a> - 
+			<a href='ajax_forms.php?action=getIssueLogForm&height=250&width=265&modal=true&organizationID=<?php echo $organizationID; ?>' class='thickbox' id='newIssue'><?php echo _("add new issue");?></a> -
 		<?php
 		}
     ?>

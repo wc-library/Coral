@@ -89,8 +89,8 @@ class User extends DatabaseObject {
 				    or die(_("Could not connect to LDAP server."));
 			}
 
-			
-			if ($ldapconn) {	
+
+			if ($ldapconn) {
 				if($bindAccount != ""){
 					if($bindPass == ''){
 						error_log("A bind password must be provided with a bind account");
@@ -101,15 +101,15 @@ class User extends DatabaseObject {
 
 				}else{
 				    // binding to ldap server
-				    //$ldapbind = ldap_bind($ldapconn, $ldaprdn, $ldappass); 
+				    //$ldapbind = ldap_bind($ldapconn, $ldaprdn, $ldappass);
 				    $ldapbind = ldap_bind($ldapconn);
 				    // verify binding
 				}
-			    
+
 			    if ($ldapbind) {
 					//echo "LDAP bind successful...";
 					$ldapSearch = ldap_search($ldapconn, $ldaprdn, $filter);
-					
+
 					if($ldapSearch){
 						$ldap_result = ldap_get_entries($ldapconn, $ldapSearch);
 
@@ -124,7 +124,7 @@ class User extends DatabaseObject {
 				return false;
 			    }
 			}
-		}else{ // built-in auth	
+		}else{ // built-in auth
 			//verify the password is correct
 			//get the hashed password
 			$pwh = $util->hashString('sha512', $this->passwordPrefix . $password);

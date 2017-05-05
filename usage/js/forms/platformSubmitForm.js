@@ -21,18 +21,18 @@
 	 $("#submitPlatformForm").click(function () {
 	 	submitPlatform();
 	 });
-	 
+
 
 	//do submit if enter is hit
 	$('#platformName').keyup(function(e) {
 	      if(e.keyCode == 13) {
 		submitPlatform();
 	      }
-	}); 
-	
-	  	 
+	});
+
+
  });
- 
+
 
 
 
@@ -40,10 +40,10 @@
 
 function submitPlatform(){
 
-  
+
   if (validateForm() === true) {
 	  $('#span_error_Platform').html('');
-	  
+
 	  $.ajax({
 		 type:       "POST",
 		 url:        "ajax_processing.php?action=addPlatform",
@@ -52,12 +52,12 @@ function submitPlatform(){
 		 success:    function(platformID) {
 			window.parent.tb_remove();
 			window.location  = 'publisherPlatform.php?platformID=' + platformID + '&showTab=sushi';
-			return false;		
+			return false;
 		 }
 
 
 	 });
-	 
+
    }
 
 }
@@ -71,8 +71,8 @@ function validateForm (){
 		$('#span_error_Platform').html("<br />" + _("Platform must be entered."));
 		myReturn=1;
 	}
-	
-	
+
+
 	if (myReturn == "1"){
 		return false;
 	}else{

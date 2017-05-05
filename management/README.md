@@ -24,7 +24,7 @@ help@coral-erm.org
 **************************
 Graphic Credits:
 
-Most icons by 
+Most icons by
 http://led24.de/iconset/ or http://led24.de/
 
 Follow us on twitter http://twitter.com/gasyoun or email leds24@gmail.com

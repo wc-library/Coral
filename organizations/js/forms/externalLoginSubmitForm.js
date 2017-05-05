@@ -27,31 +27,31 @@ $(document).ready(function(){
 	      if(e.keyCode == 13) {
 		submitExternalLogin();
 	      }
-	}); 
+	});
 
 	//do submit if enter is hit
 	$('#emailAddress').keyup(function(e) {
 	      if(e.keyCode == 13) {
 		submitExternalLogin();
 	      }
-	}); 
-	
+	});
+
 	//do submit if enter is hit
 	$('#username').keyup(function(e) {
 	      if(e.keyCode == 13) {
 		submitExternalLogin();
 	      }
-	}); 
+	});
 
 	//do submit if enter is hit
 	$('#password').keyup(function(e) {
 	      if(e.keyCode == 13) {
 		submitExternalLogin();
 	      }
-	}); 	
-	 
+	});
+
  });
- 
+
 // Validate External Login form
 
 function validateExternalLogin() {
@@ -82,7 +82,7 @@ function submitExternalLogin(){
                     window.parent.tb_remove();
                     window.parent.updateAccount();
                     return false;
-                }			
+                }
             }
         });
     }

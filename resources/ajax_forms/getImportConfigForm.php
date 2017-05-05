@@ -77,7 +77,7 @@
 					}
 				?>
 			</div><p><a id='add_alias' href='#'><?php echo _("+ Add another alias set");?></a></p></fieldset>
-			
+
 			<fieldset><legend><?php echo _("Resource Parents");?></legend><div id='resource_parent'>
 				<?php
 					if(count($configuration["parent"]) > 0) {
@@ -90,8 +90,8 @@
 					}
 				?>
 			</div><p><a id='add_parent' href='#'><?php echo _("+ Add another parent resource")?></a></p></fieldset>
-			
-			
+
+
 				<fieldset>
 					<legend>
 						<?php echo _("ISBN/ISSN Sets");?>
@@ -113,9 +113,9 @@
 					?>
 				</div><p><a id='add_isbnorissn' href='#'><?php echo _("+ Add another ISBN or ISSN set");?></a></p>
 			</fieldset>
-			
-			
-			
+
+
+
 				<fieldset>
 					<legend>
 						<?php echo _("Subject Sets");?>
@@ -135,9 +135,9 @@
 					?>
 				</div><p><a id='add_subject' href='#'><?php echo _("+ Add another subject set");?></a></p>
 			</fieldset>
-			
-			
-			
+
+
+
 				<fieldset>
 					<legend>
 						<?php echo _("Note Sets");?>
@@ -169,13 +169,13 @@
 						}
 					?>
 				</div><p><a id='add_note' href='#'><?php echo _("+ Add another note set");?></a></p></fieldset>
-			
-			
+
+
 		</div>
 	</div>
 	<div id='importConfigColumnsRight'>
 		<div id='ic-right-column'>
-			
+
 				<fieldset>
 					<legend><?php echo _("Organization Sets");?></legend><div id='resource_organization'>
 					<?php
@@ -201,8 +201,8 @@
 						}
 					?>
 				</div><p><a id='add_organization' href='#'><?php echo _("+ Add another organization set");?></a></p></fieldset>
-			
-			
+
+
 
 			<fieldset>
 			<legend><?php echo _("Organization Name Mapping");?></legend><div id='resource_organization'>
@@ -237,10 +237,10 @@
 </div>
 <script type='text/javascript'>
 	$(".remove").live('click', function () {
-	    $(this).parent().parent().fadeTo(400, 0, function () { 
+	    $(this).parent().parent().fadeTo(400, 0, function () {
 			$(this).remove();
 	    });
-	});   
+	});
    $('#add_alias').click(function (e) {
    		e.preventDefault();
    		$('#resource_alias').append(

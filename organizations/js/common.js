@@ -36,7 +36,7 @@ Date.format = 'mm/dd/yyyy';
 
 
 $(function(){
-	refreshContext();	
+	refreshContext();
 
 	$("#search_organization").autocomplete('ajax_processing.php?action=getOrganizationList', {
 		minChars: 2,
@@ -87,13 +87,13 @@ $(function(){
 
 
 	jQuery.preLoadImages("images/menu/menu-home-over.gif", "images/menu/menu-neworganization-over.gif", "images/menu/menu-admin-over.gif", "images/menu/menu-end-over.gif");
-	 
+
 	 //for swapping menu images
 	$('.rollover').hover(function() {
 		var currentImg = $(this).attr('src');
 		$(this).attr('src', $(this).attr('hover'));
 		$(this).attr('hover', currentImg);
-		
+
 		if ($(this).attr('id') == 'menu-last'){
 			var endImg = $("#menu-end").attr('src');
 			$('#menu-end').attr('src', $("#menu-end").attr('hover'));
@@ -103,13 +103,13 @@ $(function(){
 		var currentImg = $(this).attr('src');
 		$(this).attr('src', $(this).attr('hover'));
 		$(this).attr('hover', currentImg);
-		
+
 		if ($(this).attr('id') == 'menu-last'){
 			var endImg = $("#menu-end").attr('src');
 			$('#menu-end').attr('src', $("#menu-end").attr('hover'));
 			$('#menu-end').attr('hover', endImg);
 		}
-		
+
 	 });
 
 
@@ -120,10 +120,10 @@ $(function(){
 			}, function () {
 			$('.coraldropdown:eq(0)', this).slideUp(100);
 		});
-	 });	
+	 });
 
 
-	
+
 });
 
 function refreshContext() {
@@ -204,10 +204,10 @@ function validateRequired(field,alerttxt){
 
 function validateDate(field,alerttxt) {
      $("#span_error_" + field).html('');
-     sDate =$("#" + field).val(); 
-   
+     sDate =$("#" + field).val();
+
      if (sDate){
-   
+
 	   var re = /^\d{1,2}\/\d{1,2}\/\d{4}$/
 	   if (re.test(sDate)) {
 	      var dArr = sDate.split("/");
@@ -215,7 +215,7 @@ function validateDate(field,alerttxt) {
 
 	      if (!(d.getMonth() + 1 == dArr[0] && d.getDate() == dArr[1] && d.getFullYear() == dArr[2])) {
 		$("#span_error_" + field).html(alerttxt);
-	       $("#" + field).focus();   
+	       $("#" + field).focus();
 		return false;
 	      }else{
 		return true;
@@ -223,53 +223,53 @@ function validateDate(field,alerttxt) {
 
 	   } else {
 	      $("#span_error_" + field).html(alerttxt);
-	      $("#" + field).focus();   
+	      $("#" + field).focus();
 	      return false;
 	   }
      }
-     
+
      return true;
 }
 
 
-function thickboxResize() {  
-  
-    var boundHeight = 530; // minimum height  
-    var boundWidth = 400; // minimum width  
-  
-    var viewportWidth = (self.innerWidth || (document.documentElement.clientWidth || (document.body.clientWidth || 0)))  
-    var viewportHeight =(self.innerHeight || (document.documentElement.clientHeight || (document.body.clientHeight || 0)))  
- 
+function thickboxResize() {
+
+    var boundHeight = 530; // minimum height
+    var boundWidth = 400; // minimum width
+
+    var viewportWidth = (self.innerWidth || (document.documentElement.clientWidth || (document.body.clientWidth || 0)))
+    var viewportHeight =(self.innerHeight || (document.documentElement.clientHeight || (document.body.clientHeight || 0)))
+
     //only do this for extremely high resolutions
     if (viewportWidth > 1300){
-  
-	    $('a.thickbox').each(function(){  
-		var text = $(this).attr("href");  
 
-		if ( viewportHeight < boundHeight  || viewportHeight < boundWidth)  
-		{  
-		    // adjust the height  
-		    text = text.replace(/height=[0-9]*/,'height=' + Math.round(viewportHeight * .8));  
-		    // adjust the width  
-		    text = text.replace(/width=[0-9]*/,'width=' + Math.round(viewportWidth * .8));  
-		}  
-		else   
-		{  
-		    // constrain the height by defined bounds  
-		    text = text.replace(/height=[0-9]*/,'height=' + boundHeight);  
-		    // constrain the width by defined bounds  
-		    text = text.replace(/width=[0-9]*/,'width=' + boundWidth);  
-		}  
+	    $('a.thickbox').each(function(){
+		var text = $(this).attr("href");
 
-		$(this).attr("href", text);  
+		if ( viewportHeight < boundHeight  || viewportHeight < boundWidth)
+		{
+		    // adjust the height
+		    text = text.replace(/height=[0-9]*/,'height=' + Math.round(viewportHeight * .8));
+		    // adjust the width
+		    text = text.replace(/width=[0-9]*/,'width=' + Math.round(viewportWidth * .8));
+		}
+		else
+		{
+		    // constrain the height by defined bounds
+		    text = text.replace(/height=[0-9]*/,'height=' + boundHeight);
+		    // constrain the width by defined bounds
+		    text = text.replace(/width=[0-9]*/,'width=' + boundWidth);
+		}
+
+		$(this).attr("href", text);
 	    });
-	    
-     }
-}  
-  
 
-$(window).bind('load', thickboxResize );  
-$(window).bind('resize', thickboxResize );  
+     }
+}
+
+
+$(window).bind('load', thickboxResize );
+$(window).bind('resize', thickboxResize );
 
 
 function postwith (to,p) {

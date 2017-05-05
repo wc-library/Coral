@@ -31,13 +31,13 @@ class ResourceType extends DatabaseObject {
 		//if the Resource module is installed get the Resource database
 		if ($config->settings->resourcesModule == 'Y') {
 			$dbName = $config->settings->resourcesDatabaseName;
-	
+
 			$query = "SELECT * FROM " . $dbName . ".`ResourceType` order by `shortName`";
 
 			$result = $this->db->processQuery($query, 'assoc');
 		}
 		return $result;
-	}	
+	}
 
 
 }

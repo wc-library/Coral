@@ -49,7 +49,7 @@ include 'templates/header.php';
 			echo Html::hidden_search_field_tag($hidden, $search[$hidden]);
 		}
 		?>
-		
+
 	<table class='noBorder' id='title-search'>
 	<tr><td style='text-align:left;width:75px;' align='left'>
 	<span style='font-size:130%;font-weight:bold;'><?php echo _("Search");?></span><br />
@@ -95,7 +95,7 @@ include 'templates/header.php';
 					echo "<option value='none'>" . _("(none)") . "</option>";
 				}
 				$fundType = new Fund();
-			
+
 		foreach($fundType->allAsArray() as $fund) {
 				$fundCodeLength = strlen($fund['fundCode']) + 3;
 				$combinedLength = strlen($fund['shortName']) + $fundCodeLength;
@@ -314,7 +314,7 @@ include 'templates/header.php';
 	</select>
 	</td>
 	</tr>
-	
+
 	<tr>
 	<td class='searchRow'><label for='searchFirstLetter'><b><?php echo _("Starts with");?></b></label>
 	<br />
@@ -527,7 +527,7 @@ include 'templates/header.php';
 	</select>
 	</td>
 	</tr>
-	
+
 	<tr>
 	<td class='searchRow'><label for='searchCatalogingStatusID'><b><?php echo _("Cataloging Status");?></b></label>
 	<br />
@@ -541,7 +541,7 @@ include 'templates/header.php';
 		}
 
 		$catalogingStatus = new CatalogingStatus();
-		
+
 		foreach($catalogingStatus->allAsArray() as $status) {
 			if ($search['catalogingStatusID'] == $status['catalogingStatusID']) {
 				echo "<option value='" . $status['catalogingStatusID'] . "' selected>" . $status['shortName'] . "</option>";
@@ -554,7 +554,7 @@ include 'templates/header.php';
 	</select>
 	</td>
 	</tr>
-  
+
   <tr>
 	<td class='searchRow'><label for='searchStepName'><b><?php echo _("Routing Step");?></b></label>
 	<br />
@@ -563,7 +563,7 @@ include 'templates/header.php';
 	<?php
 	  $step = new Step();
 		$stepNames = $step->allStepNames();
-		
+
 		foreach($stepNames as $stepName) {
 		  if ($search['stepName'] == $stepName) {
 		    $stepSelected = " selected";

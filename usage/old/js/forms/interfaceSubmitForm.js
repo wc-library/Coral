@@ -29,7 +29,7 @@
 	      if(e.keyCode == 13) {
 		submitInterface();
 	      }
-	}); 
+	});
 
 
 	//do submit if enter is hit
@@ -37,12 +37,12 @@
 	      if(e.keyCode == 13) {
 		submitInterface();
 	      }
-	}); 
+	});
 
 
-	  	 
+
  });
- 
+
 
 
 
@@ -58,15 +58,15 @@ function submitInterface(){
 	if ((getCheckboxValue('counterCompliantInd') == '1') && (getCheckboxValue('notCounterCompliantInd') =='1')) { errorMessage += "<br />Counter Compliant and Not Counter Compliant cannot both be checked.\n"; }
 
 	$('#span_errors').html(errorMessage);
-	
-	if (errorMessage) { 
-		return; 
+
+	if (errorMessage) {
+		return;
 	}
 
 
 
 
-	$('#submitInterfaceForm').attr("disabled", "disabled"); 
+	$('#submitInterfaceForm').attr("disabled", "disabled");
 	  $.ajax({
 		 type:       "POST",
 		 url:        "ajax_processing.php?action=submitInterface",

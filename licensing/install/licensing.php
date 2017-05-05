@@ -103,9 +103,9 @@ function register_licensing_provider()
 							$return->yield = new stdClass();
 							$return->yield->title = _("Licensing Module");
 							$return->yield->messages = [];
-					
+
 							$conf_data = parse_ini_file($protected_module_data["config_file_path"], true);
-					
+
 							// Process sql files
 							$sql_files_to_process = ["licensing/install/protected/update_$version.sql"];
 							$db_name = $conf_data["database"]["name"];
@@ -117,7 +117,7 @@ function register_licensing_provider()
 								$return->yield->messages = array_merge($return->yield->messages, $ret["messages"]);
 								return $return;
 							}
-					
+
 							return $return;
 						}
 					];

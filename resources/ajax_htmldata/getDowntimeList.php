@@ -11,15 +11,15 @@ function generateDowntimeHTML($downtime,$associatedEntities=null) {
 
 	$html = "
 	<div class=\"downtime\">";
-	
+
 	$html .= "
 	  	<dl>
-	  		<dt>" . _("Type:") . "</dt> 
+	  		<dt>" . _("Type:") . "</dt>
 	  		<dd>{$downtime->shortName}</dd>
 
-	  		<dt>" . _("Downtime Start:") . "</dt> 
+	  		<dt>" . _("Downtime Start:") . "</dt>
 	  		<dd>{$downtime->startDate}</dd>
-	  		<dt>" . _("Downtime Resolved:") . "</dt> 
+	  		<dt>" . _("Downtime Resolved:") . "</dt>
 	  		<dd>";
 	if ($downtime->endDate != null) {
 		$html .= $downtime->endDate;
@@ -30,20 +30,20 @@ function generateDowntimeHTML($downtime,$associatedEntities=null) {
 
 	if($downtime->subjectText) {
 		$html .= "
-	  		<dt>" . _("Linked issue:") . "</dt> 
+	  		<dt>" . _("Linked issue:") . "</dt>
 	  		<dd>{$downtime->subjectText}</dd>";
 	}
 
 	if ($downtime->note) {
 		$html .= "
-	  		<dt>" . _("Note:") . "</dt> 
+	  		<dt>" . _("Note:") . "</dt>
 	  		<dd>{$downtime->note}</dd>";
 	}
 
-	$html .= "		
+	$html .= "
 		</dl>
-	</div>";	
-	
+	</div>";
+
 	return $html;
 }
 

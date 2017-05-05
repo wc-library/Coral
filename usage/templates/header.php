@@ -81,12 +81,12 @@ $coralURL = $util->getCORALURL();
 <div style="text-align:left;">
 
 <center>
-    
+
 <table class="titleTable" style="width:1024px;text-align:left;">
 
     <tr style='vertical-align:top;'>
         <td style='height:53px;' colspan='3'>
-                
+
             <div id="main-title">
                 <img src="images/title-icon-usage.png" />
                 <span id="main-title-text"><?php echo _("Usage Statistics"); ?></span>
@@ -119,18 +119,18 @@ $coralURL = $util->getCORALURL();
                                 while (($file = readdir($dh)) !== false) {
                                     if (is_dir("$route/$file") && $file!="." && $file!=".."){
                                         $lang[]=$file;
-                                    } 
-                                } 
-                                closedir($dh); 
-                            } 
+                                    }
+                                }
+                                closedir($dh);
+                            }
                         }else {
-                            echo "<br>"._("Invalid translation route!"); 
+                            echo "<br>"._("Invalid translation route!");
                         }
                         // Get language of navigator
                         $defLang = substr($_SERVER["HTTP_ACCEPT_LANGUAGE"],0,5);
-                        
+
                         // Show an ordered list
-                        sort($lang); 
+                        sort($lang);
                         for($i=0; $i<count($lang); $i++){
                             if(isset($_COOKIE["lang"])){
                                 if($_COOKIE["lang"]==$lang[$i]){
@@ -147,7 +147,7 @@ $coralURL = $util->getCORALURL();
                             }
                         }
                         ?>
-                        
+
                     </select>
                 </span>
             </div>
@@ -173,29 +173,29 @@ $coralURL = $util->getCORALURL();
             <img src="images/menu/icon-import.png" />
             <span><?php echo _("File Import");?></span>
         </div>
-    </a> 
+    </a>
 
     <a href='sushi.php'>
         <div class="main-menu-link <?php if ($currentPage == 'sushi.php') { echo "active"; } ?>">
             <img src="images/menu/icon-sushi.png" />
             <span><?php echo _("SUSHI");?></span>
         </div>
-    </a> 
+    </a>
 
     <a href='admin.php'>
         <div class="main-menu-link <?php if ($currentPage == 'admin.php') { echo "active"; } ?>">
             <img src="images/menu/icon-admin.png" />
             <span><?php echo _("Admin");?></span>
         </div>
-    </a>     
+    </a>
 
     <a href='reporting.php'>
         <div class="main-menu-link <?php if ($currentPage == 'reporting.php') { echo "active"; } ?>">
             <img src="images/menu/icon-report-options.png" />
             <span><?php echo _("Report Options");?></span>
         </div>
-    </a>     
-    
+    </a>
+
     <?php if ($config->settings->reportsModule == "Y") {
     ?>
     <a href='../reports/' target='_blank'>
@@ -203,7 +203,7 @@ $coralURL = $util->getCORALURL();
             <img src="images/menu/icon-usage.png" />
             <span><?php echo _("Usage Reports");?></span>
         </div>
-    </a>     
+    </a>
     <?php
     }
 }
@@ -222,21 +222,21 @@ else
             <img src="images/menu/icon-import.png" />
             <span><?php echo _("File Import");?></span>
         </div>
-    </a> 
+    </a>
 
     <a href='sushi.php'>
         <div class="main-menu-link <?php if ($currentPage == 'sushi.php') { echo "active"; } ?>">
             <img src="images/menu/icon-sushi.png" />
             <span><?php echo _("SUSHI");?></span>
         </div>
-    </a> 
+    </a>
 
     <a href='reporting.php'>
         <div class="main-menu-link <?php if ($currentPage == 'reporting.php') { echo "active"; } ?>">
             <img src="images/menu/icon-report-options.png" />
             <span><?php echo _("Report Options");?></span>
         </div>
-    </a>     
+    </a>
     <?php if ($config->settings->reportsModule == "Y") {
     ?>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -245,7 +245,7 @@ else
             <img src="images/menu/icon-usage.png" />
             <span><?php echo _("Usage Reports");?></span>
         </div>
-    </a>     
+    </a>
     <?php
     }
 }
@@ -307,7 +307,7 @@ if ((file_exists($util->getCORALPath() . "index.php")) || ($config->settings->or
             setLanguage($("#lang").val());
             location.reload();
         });
-        
+
         function setLanguage(lang) {
 			var wl = window.location, now = new Date(), time = now.getTime();
             var cookievalid=2592000000; // 30 days (1000*60*60*24*30)

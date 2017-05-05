@@ -21,18 +21,18 @@
 	 $("#submitIdentifierForm").click(function () {
 	 	submitIdentifier();
 	 });
-	 
+
 
 	//do submit if enter is hit
 	$('#Identifier').keyup(function(e) {
 	      if(e.keyCode == 13) {
 		submitIdentifier();
 	      }
-	}); 
-	
-	  	 
+	});
+
+
  });
- 
+
 
 
 
@@ -40,10 +40,10 @@
 
 function submitIdentifier(){
 
-  
+
   if (validateForm() === true) {
 	  $('#span_' + $("#titleID").val() + '_feedback').html('');
-	  
+
 	  $.ajax({
 		 type:       "POST",
 		 url:        "ajax_processing.php?action=addIdentifier",
@@ -52,12 +52,12 @@ function submitIdentifier(){
 		 success:    function(html) {
 			window.parent.tb_remove();
 			window.parent.updateTitleDetails($("#titleID").val());
-			return false;		
+			return false;
 		 }
 
 
 	 });
-	 
+
    }
 
 }
@@ -71,8 +71,8 @@ function validateForm (){
 		$('#span_error_Identifier').html("<br />"+_("Identifier must be valid format."));
 		myReturn=1;
 	}
-	
-	
+
+
 	if (myReturn == "1"){
 		return false;
 	}else{

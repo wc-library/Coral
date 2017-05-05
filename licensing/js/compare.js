@@ -17,21 +17,21 @@
 
 
 $(document).ready(function(){
-	
+
         updateQualifier();
-        updateSearch();   
-                              
+        updateSearch();
+
 });
- 
+
 
 function updateSearch(){
-	
+
       $.ajax({
          type:       "GET",
          url:        "ajax_htmldata.php",
          cache:      false,
          data:       "action=getComparisonList&expressionTypeID=" + $('#expressionTypeID').val() + "&qualifierID=" + $('#qualifierID').val(),
-         success:    function(html) { 
+         success:    function(html) {
          	$('#div_list').html(html);
          	tb_reinit();
          	}
@@ -65,7 +65,7 @@ function updateQualifier(){
          url:        "ajax_htmldata.php",
          cache:      false,
          data:       "action=getQualifierDropdownHTML&expressionTypeID=" + $("#expressionTypeID").val(),
-         success:    function(html) { 
+         success:    function(html) {
          	if (html != ''){
          		$("#div_Qualifiers").show();
          		$("#div_Qualifiers").html(html);
