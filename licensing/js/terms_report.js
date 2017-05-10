@@ -17,20 +17,20 @@
 
 
 $(document).ready(function(){
-	
-        updateTermsReport('');      
-                              
+
+        updateTermsReport('');
+
 });
- 
+
 
 function updateTermsReport(){
-	
+
       $.ajax({
          type:       "GET",
          url:        "ajax_htmldata.php",
          cache:      false,
          data:       "action=getTermsReport&expressionTypeID=" + $('#expressionTypeID').val(),
-         success:    function(html) { 
+         success:    function(html) {
          	$('#div_report').html(html);
          	//tb_reinit();
          	}

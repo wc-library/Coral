@@ -22,10 +22,10 @@ $(function(){
 	$('#fieldsetEmail *').tooltip({
 		extraClass: "pretty"
 	});
-	
-	
+
+
 	$('#fieldsetPrivilege *').tooltip();
-	
-	
+
+
 });
 

@@ -3,13 +3,13 @@
 <!-- DETAILS
 		Schema: counter.xsd
 		Major version: 3.0
-		Purpose: This schema is used to represent all COUNTER reports as defined in 
+		Purpose: This schema is used to represent all COUNTER reports as defined in
 			Release 3 of the COUNTER Code of Practice for Journals and Databases
  			and Release 1 of the COUNTER Code of Practice for Books and Reference
  			Works. See http:\\www.projectcounter.org for more details.
-			
+
 		Change History (revision date|by|description of change)
-			5/27/2009|Tae Kim & Oliver Pesch| Added include for counterElements3_0.xd. Changed data type for Count element to 
+			5/27/2009|Tae Kim & Oliver Pesch| Added include for counterElements3_0.xd. Changed data type for Count element to
 								nonNegativeInteger (it was float).
 			10/20/2008|Oliver Pesch|Added file-level documentation
 			10/20/2008|Oliver Pesch|Documented Reports elements

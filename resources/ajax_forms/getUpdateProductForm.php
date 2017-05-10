@@ -125,7 +125,7 @@
           </div>
            </span>
 
-          <span id="existingParent"> 
+          <span id="existingParent">
           <?php
            $i = 1;
            foreach ($parentResourceArray as $parentResource) {
@@ -140,7 +140,7 @@ $parentResourceObj = new Resource(new NamedArguments(array('primaryKey' => $pare
              $i++;
            }
           ?>
-          </span> 
+          </span>
 					</td>
 					</tr>
 

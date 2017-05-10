@@ -34,7 +34,7 @@
 $(function(){
 
 
-	
+
 });
 
 
@@ -110,10 +110,10 @@ function validateRequired(field,alerttxt){
 
 function validateDate(field,alerttxt) {
      $("#span_error_" + field).html('');
-     sDate =$("#" + field).val(); 
-   
+     sDate =$("#" + field).val();
+
      if (sDate){
-   
+
 	   var re = /^\d{1,2}\/\d{1,2}\/\d{4}$/
 	   if (re.test(sDate)) {
 	      var dArr = sDate.split("/");
@@ -121,7 +121,7 @@ function validateDate(field,alerttxt) {
 
 	      if (!(d.getMonth() + 1 == dArr[0] && d.getDate() == dArr[1] && d.getFullYear() == dArr[2])) {
 		$("#span_error_" + field).html(alerttxt);
-	       $("#" + field).focus();   
+	       $("#" + field).focus();
 		return false;
 	      }else{
 		return true;
@@ -129,11 +129,11 @@ function validateDate(field,alerttxt) {
 
 	   } else {
 	      $("#span_error_" + field).html(alerttxt);
-	      $("#" + field).focus();   
+	      $("#" + field).focus();
 	      return false;
 	   }
      }
-     
+
      return true;
 }
 

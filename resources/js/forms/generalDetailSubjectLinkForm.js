@@ -37,14 +37,14 @@ function updateResourceSubjectTable(resourceID, generalSubjectID, detailedSubjec
 			}else{
 				kill();
 				window.parent.tb_remove();
-				window.parent.updateProduct();					
+				window.parent.updateProduct();
 				return false;
-			}			
+			}
 		 }
 
 
-	 });	
-	
+	 });
+
 }
 
 
@@ -52,7 +52,7 @@ function updateResourceSubjectTable(resourceID, generalSubjectID, detailedSubjec
 //kill all binds done by jquery live
 function kill(){
 
-	$('.generalDetailSubjectLink').die('click'); 
+	$('.generalDetailSubjectLink').die('click');
 	$('.changeDefault').die('blur');
 	$('.changeDefault').die('focus');
 	$('.changeInput').die('blur');

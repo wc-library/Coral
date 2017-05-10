@@ -21,17 +21,17 @@ function generateIssueHTML($issue,$associatedEntities=null) {
 	}
 	$html .= "
 	  	<dl>
-	  		<dt>" . _("Date reported:") . "</dt> 
+	  		<dt>" . _("Date reported:") . "</dt>
 	  		<dd>{$issue->dateCreated}</dd>";
 	if ($issue->dateClosed) {
-	  	
+
 		$html .= "<dt>" . _("Date closed:") . "</dt>
 	  		<dd>{$issue->dateClosed}</dd>
 	  		<dt>Resolution</dt>
 	  		<dd>{$issue->resolutionText}</dd>";
 	  	}
-	  		
-	$html .= "<dt>" . _("Contact(s):") . "</dt> 
+
+	$html .= "<dt>" . _("Contact(s):") . "</dt>
 	  		<dd>";
 	$contacts = $issue->getContacts();
 	if ($contacts) {
@@ -43,8 +43,8 @@ function generateIssueHTML($issue,$associatedEntities=null) {
 	}
 
 
-	$html .= "	</dd> 
-	  		<dt>" . _("Applies to:") . "</dt> 
+	$html .= "	</dd>
+	  		<dt>" . _("Applies to:") . "</dt>
 	  		<dd>";
 	if ($associatedEntities) {
 		$temp ='';
@@ -55,10 +55,10 @@ function generateIssueHTML($issue,$associatedEntities=null) {
 	}
 
 	$html .= "</dd>
-	  		<dt>" . _("Subject:") . "</dt> 
-	  		<dd>{$issue->subjectText}</dd> 
-	  		
-	  		<dt class=\"block\">" . _("Body:") . "</dt> 
+	  		<dt>" . _("Subject:") . "</dt>
+	  		<dd>{$issue->subjectText}</dd>
+
+	  		<dt class=\"block\">" . _("Body:") . "</dt>
 	  		<dd>{$issue->bodyText}</dd>
 	  	</dl>
 	</div>";
@@ -102,7 +102,7 @@ if(count($resourceIssues) > 0) {
 			foreach ($associatedResources as $resource) {
 				$associatedEntities[] = array("name"=>$resource->titleText,"id"=>$resource->resourceID,"entityType"=>2);
 			}
-		} 
+		}
 		echo generateIssueHTML($issue,$associatedEntities);
 	}
 } else {

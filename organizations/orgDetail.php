@@ -120,8 +120,8 @@ if ($organization->name){
 						<div class='sidemenuunselected'><span class='link'><a href='javascript:void(0)' class='showAliases'><?php echo _("Aliases");?></a></span></div>
 						<div class='sidemenuunselected'><span class='link'><a href='javascript:void(0)' class='showContacts'><?php echo _("Contacts");?></a></span></div>
 						<div class='sidemenuunselected'><span class='link'><a href='javascript:void(0)' class='showAccount'><?php echo _("Accounts");?></a></span></div>
-<?php 
-if ($config->settings->resourcesIssues == "Y") { 
+<?php
+if ($config->settings->resourcesIssues == "Y") {
 	echo 	"			<div class='sidemenuunselected'><span class='link'><a href='javascript:void(0)' class='showResourceIssues'>"._("Issues")."</a></span></div>";
 } else {
 	echo 	"			<div class='sidemenuunselected'><span class='link'><a href='javascript:void(0)' class='showIssues'>"._("Issues")."</a></span></div>";
@@ -151,8 +151,8 @@ if ($config->settings->resourcesIssues == "Y") {
 						<div class="sidemenuselected" style='position: relative; width: 99px'><span class='link'><?php echo _("Aliases");?></span></div>
 						<div class='sidemenuunselected'><span class='link'><a href='javascript:void(0)' class='showContacts'><?php echo _("Contacts");?></a></span></div>
 						<div class='sidemenuunselected'><span class='link'><a href='javascript:void(0)' class='showAccount'><?php echo _("Accounts");?></a></span></div>
-<?php 
-if ($config->settings->resourcesIssues == "Y") { 
+<?php
+if ($config->settings->resourcesIssues == "Y") {
 	echo 	"			<div class='sidemenuunselected'><span class='link'><a href='javascript:void(0)' class='showResourceIssues'>"._("Issues")."</a></span></div>";
 } else {
 	echo 	"			<div class='sidemenuunselected'><span class='link'><a href='javascript:void(0)' class='showIssues'>"._("Issues")."</a></span></div>";
@@ -188,8 +188,8 @@ if ($config->settings->resourcesIssues == "Y") {
 						<div class='sidemenuunselected'><span class='link'><a href='javascript:void(0)' class='showAliases'><?php echo _("Aliases");?></a></span></div>
 						<div class="sidemenuselected" style='position: relative; width: 99px'><span class='link'><?php echo _("Contacts");?></span></div>
 						<div class='sidemenuunselected'><span class='link'><a href='javascript:void(0)' class='showAccount'><?php echo _("Accounts");?></a></span></div>
-<?php 
-if ($config->settings->resourcesIssues == "Y") { 
+<?php
+if ($config->settings->resourcesIssues == "Y") {
 	echo 	"			<div class='sidemenuunselected'><span class='link'><a href='javascript:void(0)' class='showResourceIssues'>"._("Issues")."</a></span></div>";
 } else {
 	echo 	"			<div class='sidemenuunselected'><span class='link'><a href='javascript:void(0)' class='showIssues'>"._("Issues")."</a></span></div>";
@@ -225,8 +225,8 @@ if ($config->settings->resourcesIssues == "Y") {
 						<div class='sidemenuunselected'><span class='link'><a href='javascript:void(0)' class='showAliases'><?php echo _("Aliases");?></a></span></div>
 						<div class='sidemenuunselected'><span class='link'><a href='javascript:void(0)' class='showContacts'><?php echo _("Contacts");?></a></span></div>
 						<div class="sidemenuselected" style='position: relative; width: 99px'><span class='link'><?php echo _("Accounts");?></span></div>
-<?php 
-if ($config->settings->resourcesIssues == "Y") { 
+<?php
+if ($config->settings->resourcesIssues == "Y") {
 	echo 	"			<div class='sidemenuunselected'><span class='link'><a href='javascript:void(0)' class='showResourceIssues'>"._("Issues")."</a></span></div>";
 } else {
 	echo 	"			<div class='sidemenuunselected'><span class='link'><a href='javascript:void(0)' class='showIssues'>"._("Issues")."</a></span></div>";
@@ -245,8 +245,8 @@ if ($config->settings->resourcesIssues == "Y") {
 		</div>
 
 
-<?php 
-if ($config->settings->resourcesIssues == "Y") { 
+<?php
+if ($config->settings->resourcesIssues == "Y") {
 ?>
 		<div style="display:none;width: 625px;" id ='div_resourceissues'>
 			<table cellpadding="0" cellspacing="0" style="width: 100%;">
@@ -304,8 +304,8 @@ if ($config->settings->resourcesIssues == "Y") {
 							<div class='sidemenuunselected'><span class='link'><a href='javascript:void(0)' class='showAliases'><?php echo _("Aliases");?></a></span></div>
 							<div class='sidemenuunselected'><span class='link'><a href='javascript:void(0)' class='showContacts'><?php echo _("Contacts");?></a></span></div>
 							<div class='sidemenuunselected'><span class='link'><a href='javascript:void(0)' class='showAccount'><?php echo _("Accounts");?></a></span></div>
-<?php 
-if ($config->settings->resourcesIssues == "Y") { 
+<?php
+if ($config->settings->resourcesIssues == "Y") {
 	echo 	"			<div class='sidemenuunselected'><span class='link'><a href='javascript:void(0)' class='showResourceIssues'>"._("Issues")."</a></span></div>";
 } else {
 	echo 	"			<div class='sidemenuunselected'><span class='link'><a href='javascript:void(0)' class='showIssues'>"._("Issues")."</a></span></div>";

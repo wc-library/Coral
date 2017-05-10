@@ -25,11 +25,11 @@ class GeneralDetailSubjectLink extends DatabaseObject {
 	protected function overridePrimaryKeyName() {}
 
 
-	//returns the General Detail Subject Link ID when a general subject / detail subject is known.  
+	//returns the General Detail Subject Link ID when a general subject / detail subject is known.
 	public function getGeneralDetailID($generalSubjectID, $detailedSubjectID) {
 
-		$query = "SELECT * FROM GeneralDetailSubjectLink 
-					WHERE generalSubjectID = " . $generalSubjectID . 
+		$query = "SELECT * FROM GeneralDetailSubjectLink
+					WHERE generalSubjectID = " . $generalSubjectID .
 					" AND detailedSubjectID = " . $detailedSubjectID;
 
 		try {
@@ -37,37 +37,37 @@ class GeneralDetailSubjectLink extends DatabaseObject {
 		} catch (Exception $e) {
 			echo $e->getMessage();
 		}
-		
+
 
 		if ($result) {
-			return $result['generalDetailSubjectLinkID']; 
+			return $result['generalDetailSubjectLinkID'];
 		} else {
 			return -1;  // None is found
 		}
 
 	}
-	
-	
+
+
 	public function duplicateCheck() {
-	
+
 		$query = "SELECT count(*) duplicateCount FROM GeneralDetailSubjectLink where generalSubjectID = " . $this->generalSubjectID . " AND detailedSubjectID = " . $this->detailedSubjectID;
 		$result = $this->db->processQuery($query, 'assoc');
-		
+
 		return $result['duplicateCount'];
-		
-	}	
+
+	}
 
 	public function deleteNotInuse($generalSubjectID, $detailSubjectIDs) {
-	
-		$query = "delete FROM GeneralDetailSubjectLink where generalSubjectID = ". $generalSubjectID . " AND 
+
+		$query = "delete FROM GeneralDetailSubjectLink where generalSubjectID = ". $generalSubjectID . " AND
 			detailedSubjectID NOT in ". $detailSubjectIDs;
-			
+
 			$result = $this->db->processQuery($query, 'assoc');
-			
+
 		return;
-		
-	}		
-	
+
+	}
+
 }
 
 ?>

@@ -32,7 +32,7 @@ $(function(){
 				if ((exists == 0) && ($("#organizationName").val() != '')){
 					$("#organizationID").val("");
 					$("#span_error_organizationNameResult").html("<br />" + _("This organization doesn't exist in the CORAL Organizations module."));
-					$('#submitOrganization').attr("disabled", "disabled"); 
+					$('#submitOrganization').attr("disabled", "disabled");
 
 				}else{
 					$("#organizationID").val(exists);
@@ -44,18 +44,18 @@ $(function(){
 		  });
 
 
-	});	
+	});
 
 
 
 	//used for autocomplete formatting
-         formatItem = function (row){ 
+         formatItem = function (row){
              return "<span style='font-size: 80%;'>" + row[1] + "</span>";
          }
-	 
-         formatResult = function (row){ 
+
+         formatResult = function (row){
              return row[1].replace(/(<.+?>)/gi, '');
-         }	
+         }
 
 	$("#organizationName").autocomplete('ajax_processing.php?action=getOrganizations', {
 		minChars: 2,
@@ -65,7 +65,7 @@ $(function(){
 		delay: 20,
 		cacheLength: 10,
 		matchSubset: true,
-		matchContains: true,	
+		matchContains: true,
 		formatItem: formatItem,
 		formatResult: formatResult,
 		parse: function(data){
@@ -95,22 +95,22 @@ $(function(){
 					if ((exists == 0) && ($("#organizationName").val() != '')){
 					        $("#organizationID").val("");
 					        $("#span_error_organizationNameResult").html("<br />" + _("This organization doesn't exist in the CORAL Organizations Module."));
-					        $('#submitOrganization').attr("disabled", "disabled"); 
+					        $('#submitOrganization').attr("disabled", "disabled");
 
 					}else{
 						$("#organizationID").val(exists);
 						$("#span_error_organizationNameResult").html("");
 						$('#submitOrganization').removeAttr("disabled");
-						
+
 					}
 				 }
 			  });
-		    
+
 		    }
-		}		
+		}
 	 });
- 
-	 
+
+
 	//once something has been selected, change the hidden input value
 	$("#organizationName").result(function(event, data, formatted) {
 		if (data[0]){

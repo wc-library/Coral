@@ -43,8 +43,8 @@ $(document).ready(function(){
 	      if(e.keyCode == 13) {
 		submitAccess();
 	      }
-	});	
-	
+	});
+
 	//the following are all to change the look of the inputs when they're clicked
 	$('.changeDefault').live('focus', function(e) {
 		if (this.value == this.defaultValue){
@@ -55,12 +55,12 @@ $(document).ready(function(){
 	 $('.changeDefault').live('blur', function() {
 		if(this.value == ''){
 			this.value = this.defaultValue;
-		}		
+		}
 	 });
 
-	
+
     	$('.changeInput').addClass("idleField");
-    	
+
 	$('.changeInput').live('focus', function() {
 
 
@@ -96,16 +96,16 @@ $(document).ready(function(){
 	$('textarea').focus(function() {
 		$(this).removeClass("idleField").addClass("focusField");
 	});
-	    
+
 	$('textarea').blur(function() {
 		$(this).removeClass("focusField").addClass("idleField");
 	});
 
 
 
-	 
+
  });
- 
+
 
 
 function submitAccess(){
@@ -113,16 +113,16 @@ function submitAccess(){
 	administeringSitesList ='';
 	$(".check_administeringSite:checked").each(function(id) {
 	      administeringSitesList += $(this).val() + ":::";
-	}); 
+	});
 
 
 	authorizedSitesList ='';
 	$(".check_authorizedSite:checked").each(function(id) {
 	      authorizedSitesList += $(this).val() + ":::";
-	}); 
-	
-	
-	$('#submitAccessChanges').attr("disabled", "disabled"); 
+	});
+
+
+	$('#submitAccessChanges').attr("disabled", "disabled");
 	  $.ajax({
 		 type:       "POST",
 		 url:        "ajax_processing.php?action=submitAccess",
@@ -138,12 +138,12 @@ function submitAccess(){
 				window.parent.updateAccess();
 				window.parent.updateRightPanel();
 				return false;
-			}			
+			}
 		 }
 
 
 	 });
-	
+
 }
 
 

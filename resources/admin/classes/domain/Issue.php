@@ -14,7 +14,7 @@ class Issue extends DatabaseObject {
 		}
 		$query = "SELECT ic.contactID,c.name,c.emailAddress
 				FROM IssueContact ic
-				LEFT JOIN `{$contactsDB}`.Contact c ON c.contactID=ic.contactID 
+				LEFT JOIN `{$contactsDB}`.Contact c ON c.contactID=ic.contactID
 				WHERE ic.issueID=".$this->issueID;
 		$result = $this->db->processQuery($query, 'assoc');
 		$objects = array();
@@ -28,7 +28,7 @@ class Issue extends DatabaseObject {
 
 	public function getAssociatedOrganization() {
 		$orgDB = $this->db->config->settings->organizationsDatabaseName;
-		$query = "SELECT o.organizationID 
+		$query = "SELECT o.organizationID
 				  FROM IssueRelationship ir
 				  LEFT JOIN `{$orgDB}`.Organization o ON (o.organizationID=ir.entityID AND ir.entityTypeID=1)
 				  WHERE ir.issueID='$this->issueID'";
@@ -44,7 +44,7 @@ class Issue extends DatabaseObject {
 
 
 	public function getAssociatedResources() {
-		$query = "SELECT r.resourceID 
+		$query = "SELECT r.resourceID
 				  FROM IssueRelationship ir
 				  LEFT JOIN Resource r ON (r.resourceID=ir.entityID AND ir.entityTypeID=2)
 				  WHERE ir.issueID='$this->issueID'";
@@ -68,20 +68,20 @@ class Issue extends DatabaseObject {
 		$orgDB = $this->db->config->settings->organizationsDatabaseName;
 
 		$query = "SELECT i.*,(SELECT GROUP_CONCAT(CONCAT(sc.name,' - ',sc.emailAddress) SEPARATOR ', ')
-								FROM IssueContact sic 
+								FROM IssueContact sic
 								LEFT JOIN `{$orgDB}`.Contact sc ON sc.contactID=sic.contactID
 								WHERE sic.issueID=i.issueID) AS `contacts`,
 							 (SELECT GROUP_CONCAT(se.titleText SEPARATOR ', ')
-								FROM IssueRelationship sir 
+								FROM IssueRelationship sir
 								LEFT JOIN Resource se ON (se.resourceID=sir.entityID AND sir.entityTypeID=2)
 								WHERE sir.issueID=i.issueID) AS `appliesto`,
 							 (SELECT GROUP_CONCAT(sie.email SEPARATOR ', ')
-								FROM IssueEmail sie 
+								FROM IssueEmail sie
 								WHERE sie.issueID=i.issueID) AS `CCs`
 				  FROM Issue i
 				  WHERE TIMESTAMPDIFF(DAY,i.dateCreated,CURDATE())%i.reminderInterval=0
 				  AND i.dateClosed IS NULL";
-		
+
 		$result = $this->db->processQuery($query, 'assoc');
 
 		$objects = array();

@@ -81,7 +81,7 @@ class Title extends DatabaseObject {
 		if($idType){
 			$addWhere = " AND identifierType='" . $idType . "'";
 		}
-		
+
 		$query = "SELECT *
 					FROM TitleIdentifier ti
 					WHERE ti.titleID = '" . $this->titleID . "' " . $addWhere . "

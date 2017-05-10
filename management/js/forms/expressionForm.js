@@ -34,11 +34,11 @@ $(function(){
 	})
 
 	.change(function(){
-	    if($.browser.msie){	
+	    if($.browser.msie){
 		    var cssObj = {
 		      'width' : '280px',
 		      'position' : ''
-		    }		    
+		    }
 		$(this).css(cssObj);
 	    }
 	})
@@ -56,7 +56,7 @@ $("#submitExpression").click(function () {
 	$(".check_Qualifiers:checked").each(function(id) {
 	      qualifierList += $(this).val() + ",";
 	});
-	
+
 	$.post("ajax_processing.php?action=submitExpression", { expressionTypeID: $("#expressionTypeID").val(), documentText: $("#documentText").val(), documentID: $("#documentID").val(), expressionID: $("#expressionID").val(), qualifiers: qualifierList  } ,
 		function(html){
 			if (html){
@@ -107,7 +107,7 @@ function updateQualifier(){
          url:        "ajax_htmldata.php",
          cache:      false,
          data:       "action=getQualifierCheckboxHTML&expressionTypeID=" + $("#expressionTypeID").val(),
-         success:    function(html) { 
+         success:    function(html) {
          	if (html != ''){
          		$("#tr_Qualifiers").show();
          		$("#div_Qualifiers").html(html);

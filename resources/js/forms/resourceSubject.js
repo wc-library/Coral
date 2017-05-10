@@ -22,12 +22,12 @@
 
 
 function updateResourceSubjectTable(resourceID, generalSubjectID, detailSubjectID){
-	if (typeof resourceID === "undefined") 
+	if (typeof resourceID === "undefined")
 		resourceID = -1;
-	if (typeof generalSubjectID === "undefined") 
+	if (typeof generalSubjectID === "undefined")
 		generalSubjectID = -1;
-	if (typeof detailSubjectID === "undefined") 
-		detailSubjectID = -1;		
+	if (typeof detailSubjectID === "undefined")
+		detailSubjectID = -1;
 
 	$.ajax({
 		 type:       "GET",
@@ -41,21 +41,21 @@ function updateResourceSubjectTable(resourceID, generalSubjectID, detailSubjectI
 			}else{
 				kill();
 				window.parent.tb_remove();
-				window.parent.updateProduct();					
+				window.parent.updateProduct();
 				return false;
-			}			
+			}
 		 }
 
 
-	 });	
-	
+	 });
+
 }
 
 
 //kill all binds done by jquery live
 function kill(){
 
-	$('.resourcesSubjectLink').die('click'); 
+	$('.resourcesSubjectLink').die('click');
 	$('.changeDefault').die('blur');
 	$('.changeDefault').die('focus');
 	$('.changeInput').die('blur');

@@ -108,7 +108,7 @@ class Email extends Object {
 		  } else {
 			return false;
 		  }
-		  
+
 		} else {
 		  return mail($this->to, $this->subject, $this->message, rtrim($this->getHeaders()));
 	  }

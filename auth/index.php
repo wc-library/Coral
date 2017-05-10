@@ -229,23 +229,23 @@ if(array_key_exists('admin', $_GET)){
             // Get all translations on the 'locale' folder
             $route='locale';
             $lang[]="en_US"; // add default language
-            if (is_dir($route)) { 
-                if ($dh = opendir($route)) { 
+            if (is_dir($route)) {
+                if ($dh = opendir($route)) {
                     while (($file = readdir($dh)) !== false) {
                         if (is_dir("$route/$file") && $file!="." && $file!=".."){
                             $lang[]=$file;
-                        } 
-                    } 
-                    closedir($dh); 
-                } 
+                        }
+                    }
+                    closedir($dh);
+                }
             }else {
-                echo "<br>"._("Invalid translation route!"); 
+                echo "<br>"._("Invalid translation route!");
             }
             // Get language of navigator
             $defLang = substr($_SERVER["HTTP_ACCEPT_LANGUAGE"],0,5);
-            
+
             // Show an ordered list
-            sort($lang); 
+            sort($lang);
             for($i=0; $i<count($lang); $i++){
                 if(isset($_COOKIE["lang"])){
                     if($_COOKIE["lang"]==$lang[$i]){

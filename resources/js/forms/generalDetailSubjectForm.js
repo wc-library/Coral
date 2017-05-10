@@ -30,7 +30,7 @@ $(document).ready(function(){
 	      if(e.keyCode == 13) {
 		submitDetailSubject();
 	      }
-	}); 
+	});
 
 
 	//the following are all to change the look of the inputs when they're clicked
@@ -43,12 +43,12 @@ $(document).ready(function(){
 	 $('.changeDefault').live('blur', function() {
 		if(this.value == ''){
 			this.value = this.defaultValue;
-		}		
+		}
 	 });
 
-	
+
     	$('.changeInput').addClass("idleField");
-    	
+
 	$('.changeInput').live('focus', function() {
 
 
@@ -82,14 +82,14 @@ $(document).ready(function(){
 	$(".adddetailedSubject").live('click', function () {
 
 		var detailedSubjectID = $('.newdetailedSubjectTable').children().children().children().children('.detailedSubjectID').val();
-		
+
 		if ((detailedSubjectID == '') || (detailedSubjectID == null)){
 			$('#div_errordetailedSubject').html(_("Error - Detailed Subject is required"));
 			return false;
-			
+
 		}else{
 			$('#div_errordetailedSubject').html('');
-			
+
 			//first copy the new subject being added
 			var originalTR = $('.newdetailedSubjectTR').clone();
 
@@ -101,20 +101,20 @@ $(document).ready(function(){
 
 			var detailID = $('.changeSelect option').val();
 			var firstFlag = true;
-			
+
 			$('.changeSelect option').each(function () {
 
 				if (($(this).val() == detailID) && (!firstFlag)) {
 					$('#div_errordetailedSubject').html(_("Error - Detail Subject Already Added"));
-					$('#div_errordetailedSubject').html(_("Error - Detail Subject Already Added"));	
+					$('#div_errordetailedSubject').html(_("Error - Detail Subject Already Added"));
 					$('.newdetailedSubjectTR').remove();
-		
+
 					//next put the original clone back, we just need to reset the values
 					originalTR.appendTo('.newdetailedSubjectTable');
 					$('.newdetailedSubjectTable').children().children().children().children('.detailedSubjectID').val('');
-					
+
 					detailID = -1;
-					return false;					
+					return false;
 				} else {
 					firstFlag = false;
 				}
@@ -123,9 +123,9 @@ $(document).ready(function(){
 
 			// If we have a duplicate then exit the add function
 			if (detailID == -1) {
-				return false;				
+				return false;
 			}
-			
+
 			//next append to to the existing table
 			//it's too confusing to chain all of the children.
 			$('.newdetailedSubjectTR').appendTo('.detailedSubjectTable');
@@ -135,14 +135,14 @@ $(document).ready(function(){
 			$('.detailedSubjectID').addClass('idleField');
 			$('.detailedSubjectID').css("background-color","");
 
-			
+
 			$('.adddetailedSubject').removeClass('adddetailedSubject');
 			$('.newdetailedSubjectTR').removeClass('newdetailedSubjectTR');
 
 			//next put the original clone back, we just need to reset the values
 			originalTR.appendTo('.newdetailedSubjectTable');
 			$('.newdetailedSubjectTable').children().children().children().children('.detailedSubjectID').val('');
-			
+
 
 			return false;
 		}
@@ -153,7 +153,7 @@ $(document).ready(function(){
 
 
 	$(".remove").live('click', function () {
-	    $(this).parent().parent().parent().fadeTo(400, 0, function () { 
+	    $(this).parent().parent().parent().fadeTo(400, 0, function () {
 		$(this).remove();
 	    });
 	    return false;
@@ -166,22 +166,22 @@ $(document).ready(function(){
 
 
 
-	 
+
  });
- 
+
 
  function validateDetailSubject(){
  	myReturn=0;
  	if (!validateRequired('shortName',"<br />"+_("Short Name must be entered to continue.")+"<br />")) myReturn="1";
-	
- 	 
+
+
  	if (myReturn == "1"){
-		return false; 	
+		return false;
  	}else{
  		return true;
  	}
 }
- 
+
 
 
 
@@ -191,10 +191,10 @@ function submitDetailSubject(){
 	detailSubjectList ='';
 	$(".detailedSubjectID").each(function(id) {
 	      detailSubjectList += $(this).val() + ":::";
-	}); 
+	});
 
 	if (validateDetailSubject() === true) {
-		$('#submitDetailSubjectForm').attr("disabled", "disabled"); 
+		$('#submitDetailSubjectForm').attr("disabled", "disabled");
 		  $.ajax({
 			 type:       "POST",
 			 url:        "ajax_processing.php?action=submitDetailSubject",
@@ -207,17 +207,17 @@ function submitDetailSubject(){
 				}else{
 					kill();
 					window.parent.tb_remove();
-					window.parent.updateSubjectsTable();					
+					window.parent.updateSubjectsTable();
 					return false;
-				}			
+				}
 			 }
 
 
 		 });
-	}	
-	
-	
-	
+	}
+
+
+
 }
 
 
@@ -225,7 +225,7 @@ function submitDetailSubject(){
 //kill all binds done by jquery live
 function kill(){
 
-	$('.adddetailedSubject').die('click'); 
+	$('.adddetailedSubject').die('click');
 	$('.changeDefault').die('blur');
 	$('.changeDefault').die('focus');
 	$('.changeInput').die('blur');

@@ -703,8 +703,8 @@ ALTER TABLE `Alias` ADD INDEX `Index_resourceID`(`resourceID`),
  ADD INDEX `Index_aliasTypeID`(`aliasTypeID`),
  ADD INDEX `shortName` ( `shortName` ),
  ADD INDEX `Index_All`(`resourceID`, `aliasTypeID`);
- 
- 
+
+
 ALTER TABLE `Resource` ADD INDEX `Index_createDate`(`createDate`),
  ADD INDEX `Index_createLoginID`(`createLoginID`),
  ADD INDEX `Index_titleText`(`titleText`),
@@ -715,7 +715,7 @@ ALTER TABLE `Resource` ADD INDEX `Index_createDate`(`createDate`),
  ADD INDEX `catalogingTypeID` ( `catalogingTypeID` ),
  ADD INDEX `catalogingStatusID` ( `catalogingStatusID` ),
  ADD INDEX `Index_All`(`createDate`, `createLoginID`, `titleText`, `statusID`, `resourceTypeID`, `resourceFormatID`, `acquisitionTypeID`);
- 
+
 ALTER TABLE `ResourceFormat` ADD INDEX `shortName` ( `shortName` );
 
 ALTER TABLE `ResourcePayment` ADD INDEX `Index_resourceID`(`resourceID`),
@@ -729,7 +729,7 @@ ALTER TABLE `ResourcePayment` ADD INDEX `Index_resourceID`(`resourceID`),
 ALTER TABLE `ResourceNote` ADD INDEX `Index_resourceID`(`resourceID`),
  ADD INDEX `Index_noteTypeID`(`noteTypeID`),
  ADD INDEX `Index_All`(`resourceID`, `noteTypeID`);
- 
+
 ALTER TABLE `ResourceStep` ADD INDEX `resourceID` ( `resourceID` );
 
 ALTER TABLE `ResourceType` ADD INDEX `shortName` ( `shortName` );
@@ -747,20 +747,20 @@ ALTER TABLE `ResourcePurchaseSiteLink` ADD INDEX `Index_resourceID`(`resourceID`
 ALTER TABLE `ResourceAdministeringSiteLink` ADD INDEX `Index_resourceID`(`resourceID`),
  ADD INDEX `Index_administeringSiteID`(`administeringSiteID`),
  ADD INDEX `Index_All`(`resourceID`, `administeringSiteID`);
- 
+
 
 ALTER TABLE `ResourceAuthorizedSiteLink` ADD INDEX `Index_resourceID`(`resourceID`),
  ADD INDEX `Index_authorizedSiteID`(`authorizedSiteID`),
- ADD INDEX `Index_All`(`resourceID`, `authorizedSiteID`); 
- 
+ ADD INDEX `Index_All`(`resourceID`, `authorizedSiteID`);
+
 ALTER TABLE `ResourceLicenseLink` ADD INDEX `resourceID` ( `resourceID` );
 
 ALTER TABLE `ResourceLicenseStatus` ADD INDEX `resourceID` ( `resourceID` );
- 
+
 ALTER TABLE `ResourceRelationship` ADD INDEX `Index_resourceID`(`resourceID`),
  ADD INDEX `Index_relatedResourceID`(`relatedResourceID`),
  ADD INDEX `Index_All`(`resourceID`, `relatedResourceID`);
- 
+
 ALTER TABLE `Status` ADD INDEX `shortName` ( `shortName` );
 
 ALTER TABLE `GeneralSubject` ADD INDEX `generalSubjectID` ( `generalSubjectID` );
@@ -768,19 +768,19 @@ ALTER TABLE `GeneralSubject` ADD INDEX `generalSubjectID` ( `generalSubjectID` )
 ALTER TABLE `DetailedSubject` ADD INDEX `detailedSubjectID` ( `detailedSubjectID` );
 
 ALTER TABLE `GeneralDetailSubjectLink` ADD INDEX `generalDetailSubjectLinkID` ( `generalDetailSubjectLinkID` ),
- ADD INDEX `Index_All` (`generalSubjectID` ASC, `detailedSubjectID` ASC), 
- ADD INDEX `Index_generalSubject` (`generalSubjectID` ASC), 
+ ADD INDEX `Index_All` (`generalSubjectID` ASC, `detailedSubjectID` ASC),
+ ADD INDEX `Index_generalSubject` (`generalSubjectID` ASC),
  ADD INDEX `Index_detailedSubject` (`detailedSubjectID` ASC) ;
 
-ALTER TABLE `ResourceSubject` ADD INDEX `resourceSubjectID` ( `resourceSubjectID` ), 
- ADD INDEX `Index_All` (`resourceID` ASC, `generalDetailSubjectLinkID` ASC), 
- ADD INDEX `Index_ResourceID` (`resourceID` ASC), 
+ALTER TABLE `ResourceSubject` ADD INDEX `resourceSubjectID` ( `resourceSubjectID` ),
+ ADD INDEX `Index_All` (`resourceID` ASC, `generalDetailSubjectLinkID` ASC),
+ ADD INDEX `Index_ResourceID` (`resourceID` ASC),
  ADD INDEX `Index_GeneralDetailLink` (`generalDetailSubjectLinkID` ASC) ;
- 
-ALTER TABLE `CostDetails` ADD INDEX `costDetailsID` ( `costDetailsID` ), 
+
+ALTER TABLE `CostDetails` ADD INDEX `costDetailsID` ( `costDetailsID` ),
  ADD INDEX `Index_shortName` (`shortName`),
  ADD INDEX `Index_All`(`costDetailsID`, `shortName`);
- 
+
 INSERT INTO `AccessMethod` (shortName) values ('Standalone CD');
 INSERT INTO `AccessMethod` (shortName) values ('External Host');
 INSERT INTO `AccessMethod` (shortName) values ('Local Host');

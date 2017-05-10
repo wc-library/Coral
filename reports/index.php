@@ -30,7 +30,7 @@ include 'templates/header.php';
 <center>
 	<form name="reportlist" method="post" onsubmit=" return daterange_onsubmit()" action="report.php">
 		<table class='noborder' cellpadding="0" cellspacing="0" style="width: 699px; text-align: left;">
-			<tr> 
+			<tr>
 				<td class="noborder" id="title-td" style="text-align: right;">
 					<div id="main-title">
 		                <img src="images/title-icon-reports.png" />
@@ -52,18 +52,18 @@ include 'templates/header.php';
 				                    while (($file = readdir($dh)) !== false) {
 				                        if (is_dir("$route/$file") && $file!="." && $file!=".."){
 				                            $lang[]=$file;
-				                        } 
-				                    } 
-				                    closedir($dh); 
-				                } 
+				                        }
+				                    }
+				                    closedir($dh);
+				                }
 				            }else {
-				                echo "<br>"._("Invalid translation route!"); 
+				                echo "<br>"._("Invalid translation route!");
 				            }
 				            // Get language of navigator
 				            $defLang = substr($_SERVER["HTTP_ACCEPT_LANGUAGE"],0,5);
-				            
+
 				            // Show an ordered list
-				            sort($lang); 
+				            sort($lang);
 				            for($i=0; $i<count($lang); $i++){
 				                if(isset($_COOKIE["lang"])){
 				                    if($_COOKIE["lang"]==$lang[$i]){
@@ -166,7 +166,7 @@ ob_end_flush();
         setLanguage($("#lang").val());
         location.reload();
     });
-    
+
     function setLanguage(lang) {
 		var wl = window.location, now = new Date(), time = now.getTime();
         var cookievalid=2592000000; // 30 days (1000*60*60*24*30)

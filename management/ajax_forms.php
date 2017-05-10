@@ -59,7 +59,7 @@ switch ($_GET['action']) {
 							<span id='headerText' class='headerText'><?php if ($licenseID) echo _("Edit "); else echo _("New ")?><?php echo _("Document");?></span><br />
 						</td>
 					</tr>
-			
+
 					<tr>
 						<td colspan='2'>
 							<label for="shortName" class="formText"><?php echo _("Name:");?></label>
@@ -129,7 +129,7 @@ switch ($_GET['action']) {
 <?php
 		}
 ?>
-		
+
 					<tr>
 						<td colspan='2'>
 							<label for="consortiumID" class="formText"><?php echo _("Categories:");?></label>
@@ -253,7 +253,7 @@ switch ($_GET['action']) {
 						<td><input type='button' value='<?php echo _("cancel");?>' onclick="tb_remove()" class='cancel-button'></td>
 					</tr>
 				</table>
-		
+
 				<script type="text/javascript" src="js/forms/licenseForm.js?random=<?php echo rand(); ?>"></script>
 			</form>
 		</div>
@@ -268,7 +268,7 @@ switch ($_GET['action']) {
 
 		$document = new Document(new NamedArguments(array('primaryKey' => $documentID)));
 		$license = new License(new NamedArguments(array('primaryKey' => $licenseID)));
-		
+
 		if (count($license->getDocumentsWithoutParents('documentID',$documentID)) > 0) {
 			$blockArchiveCheck = 'disabled';
 		} else {
@@ -373,7 +373,7 @@ switch ($_GET['action']) {
 		</tr>
 
 -->
-		
+
 		<tr>
 		<td style='text-align:right;vertical-align:top;'><label for="shortName" class="formText"><?php echo _("Name:");?></label><br /><span id='span_error_shortName' class='errorText'></span></td>
 		<td>
@@ -1096,7 +1096,7 @@ if ($_GET['isArchived'] == 1) {
 
 		</tr>
 		<tr>
-		
+
 				<td>
 		<?php
 		echo "<input type='text' id='updateVal' name='updateVal' value='" . $instance->shortName . "' style='width:190px;'/></td><td><a href='javascript:updateData(\"" . $className . "\", \"" . $updateID . "\");' id='updateButton' class='submit-button'>" . _("update") . "</a>";

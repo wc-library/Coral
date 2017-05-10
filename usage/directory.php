@@ -17,7 +17,7 @@
 **************************************************************************************************************************
 */
 
-ini_set('max_execution_time', 1000); 
+ini_set('max_execution_time', 1000);
 ini_set("default_socket_timeout", 120);
 ini_set('memory_limit', '256M');
 
@@ -62,9 +62,9 @@ if(function_exists("date_default_timezone_set") and function_exists("date_defaul
   if (@date_default_timezone_get()){
 	   date_default_timezone_set(@date_default_timezone_get());
   }else{
-      date_default_timezone_set('UTC');  
+      date_default_timezone_set('UTC');
   }
-  
+
 }
 
 
@@ -88,9 +88,9 @@ function format_date($mysqlDate) {
    if ((date("Hi", strtotime($mysqlDate)) > 0)){
     return date("m/d/Y h:i a", strtotime($mysqlDate));
    }else{
-    return date("m/d/Y", strtotime($mysqlDate)); 
+    return date("m/d/Y", strtotime($mysqlDate));
    }
-	 
+
   }else{
     return "";
   }
@@ -111,7 +111,7 @@ function usage_sidemenu($selected_link = '') {
     'logins' => 'key',
     'sushi' => 'arrow_sides',
   );
-  
+
   foreach ($links as $key => $icon) {
     $name = ucfirst($key);
     if ($selected_link == $key) {
@@ -150,7 +150,7 @@ $lang_name = new LangCodes();
 global $http_lang;
 if(isset($_COOKIE["lang"])){
     $http_lang = $_COOKIE["lang"];
-}else{        
+}else{
     $codeL = substr($_SERVER["HTTP_ACCEPT_LANGUAGE"],0,5);
     $http_lang = $lang_name->getLanguage($codeL);
     if($http_lang == "")

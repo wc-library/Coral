@@ -7,20 +7,20 @@
              targetNamespace="SushiService"
              xmlns="http://schemas.xmlsoap.org/wsdl/">
    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"/>
-   
+
    <types>
       <xsd:schema>
          <xsd:import schemaLocation="counter_sushi4_0.xsd"
                      namespace="http://www.niso.org/schemas/sushi/counter"/>
       </xsd:schema>
    </types>
-   
+
    <message name="GetReportIn">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"/>
       <part name="messagePart"
             element="sc:ReportRequest"/>
    </message>
-   
+
    <message name="GetReportOut">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"/>
       <part name="messagePart"

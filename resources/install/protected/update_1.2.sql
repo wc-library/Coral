@@ -35,14 +35,14 @@ ALTER TABLE `GeneralSubject` ADD INDEX `generalSubjectID` ( `generalSubjectID` )
 ALTER TABLE `DetailedSubject` ADD INDEX `detailedSubjectID` ( `detailedSubjectID` );
 
 ALTER TABLE `GeneralDetailSubjectLink` ADD INDEX `generalDetailSubjectLinkID` ( `generalDetailSubjectLinkID` ),
- ADD INDEX `Index_All` (`generalSubjectID` ASC, `detailedSubjectID` ASC), 
- ADD INDEX `Index_generalSubject` (`generalSubjectID` ASC), 
+ ADD INDEX `Index_All` (`generalSubjectID` ASC, `detailedSubjectID` ASC),
+ ADD INDEX `Index_generalSubject` (`generalSubjectID` ASC),
  ADD INDEX `Index_detailedSubject` (`detailedSubjectID` ASC) ;
- 
-ALTER TABLE `ResourceSubject` ADD INDEX `resourceSubjectID` ( `resourceSubjectID` ), 
- ADD INDEX `Index_All` (`resourceID` ASC, `generalDetailSubjectLinkID` ASC), 
- ADD INDEX `Index_ResourceID` (`resourceID` ASC), 
+
+ALTER TABLE `ResourceSubject` ADD INDEX `resourceSubjectID` ( `resourceSubjectID` ),
+ ADD INDEX `Index_All` (`resourceID` ASC, `generalDetailSubjectLinkID` ASC),
+ ADD INDEX `Index_ResourceID` (`resourceID` ASC),
  ADD INDEX `Index_GeneralDetailLink` (`generalDetailSubjectLinkID` ASC) ;
- 
+
 
 

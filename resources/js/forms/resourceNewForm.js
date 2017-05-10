@@ -29,8 +29,8 @@
 	      if(e.keyCode == 13) {
 		submitResource('save');
 	      }
-	});	
-	
+	});
+
 
 
 	//do submit if enter is hit
@@ -38,7 +38,7 @@
 	      if(e.keyCode == 13) {
 		submitResource('save');
 	      }
-	});	
+	});
 
 
 
@@ -47,21 +47,21 @@
 	      if(e.keyCode == 13) {
 		submitResource('save');
 	      }
-	});	
+	});
 
 	//do submit if enter is hit
 	$('#resourceAltURL').keyup(function(e) {
 	      if(e.keyCode == 13) {
 		submitResource('save');
 	      }
-	});	
-	
+	});
+
 	//do submit if enter is hit
 	$('#resourceFormatID').keyup(function(e) {
 	      if(e.keyCode == 13) {
 		submitResource('save');
 	      }
-	});	 
+	});
 
 
 
@@ -71,14 +71,14 @@
 		submitResource('save');
 	      }
 	});
-	
+
 
 	//do submit if enter is hit
 	$('#acquisitionTypeID').keyup(function(e) {
 	      if(e.keyCode == 13) {
 		submitResource('save');
 	      }
-	});	
+	});
 
 
 
@@ -102,7 +102,7 @@
 		  });
 
 
-	});	
+	});
 
 
 
@@ -141,12 +141,12 @@
 	 $('.changeDefaultWhite').live('blur', function() {
 		if(this.value == ''){
 			this.value = this.defaultValue;
-		}		
+		}
 	 });
 
-	
+
     	$('.changeInput').addClass("idleField");
-    	
+
 	$('.changeInput').live('focus', function() {
 
 
@@ -175,9 +175,9 @@
 	 $('.changeAutocomplete').live('blur', function() {
 		if(this.value == ''){
 			this.value = this.defaultValue;
-		}	
+		}
 	 });
-	 
+
 
 
 
@@ -197,24 +197,24 @@
 	$('textarea').focus(function() {
 		$(this).removeClass("idleField").addClass("focusField");
 	});
-	    
+
 	$('textarea').blur(function() {
 		$(this).removeClass("focusField").addClass("idleField");
 	});
 
 
 	$(".remove").live('click', function () {
-	    $(this).parent().parent().parent().fadeTo(400, 0, function () { 
+	    $(this).parent().parent().parent().fadeTo(400, 0, function () {
 		$(this).remove();
 	    });
 	    return false;
 	});
  });
- 
 
 
 
- 
+
+
  function validateNewResource (){
  	myReturn=0;
 
@@ -225,26 +225,26 @@
 	//also perform same checks on the current record in case add button wasn't clicked
 	if (title == '' || title == null){
 		$('#span_error_titleText').html(_("A title must be entered to continue."));
-		myReturn=1;		
+		myReturn=1;
 	}
-	
+
 	if (fmtID == '' || fmtID == null){
 		$('#span_error_resourceFormatID').html(_("The resource format is required."));
-		myReturn=1;		
+		myReturn=1;
 	}
-	
+
 	if (typeID == '' || typeID == null){
 		$('#span_error_resourceTypeID').html(_("The resource type is required."));
 		myReturn=1;
 	}
-	
+
  	if (myReturn == 1){
-		return false; 	
+		return false;
  	}else{
  		return true;
  	}
 }
- 
+
 
 
 
@@ -254,25 +254,25 @@ function submitResource(status){
 	orderTypeList ='';
 	$(".orderTypeID").each(function(id) {
 	      orderTypeList += $(this).val() + ":::";
-	}); 
+	});
 
 	fundNameList ='';
 	$(".fundName").each(function(id) {
 	      fundNameList += $(this).val() + ":::";
-	}); 
+	});
 
 
 	paymentAmountList ='';
 	$(".paymentAmount").each(function(id) {
 	      paymentAmountList += $(this).val() + ":::";
-	}); 
+	});
 
 
 	currencyCodeList ='';
 	$(".currencyCode").each(function(id) {
 	      currencyCodeList += $(this).val() + ":::";
-	}); 
-	
+	});
+
 
 
 	if (validateNewResource() === true) {

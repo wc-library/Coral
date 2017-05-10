@@ -152,7 +152,7 @@ function resource_sidemenu($selected_link = '') {
     'attachments',
     'workflow',
   );
-  
+
   foreach ($links as $key) {
     $name = ucfirst($key);
     if ($selected_link == $key) {
@@ -215,7 +215,7 @@ $lang_name = new LangCodes();
 global $http_lang;
 if(isset($_COOKIE["lang"])){
     $http_lang = $_COOKIE["lang"];
-}else{        
+}else{
     $codeL = str_replace("-","_",substr($_SERVER["HTTP_ACCEPT_LANGUAGE"],0,5));
     $http_lang = $lang_name->getLanguage($codeL);
     if($http_lang == "")
