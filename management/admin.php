@@ -118,7 +118,7 @@ if ($user->isAdmin()){
 <br />
 -->
 
-<!-- 
+<!--
 <table class="headerTable">
 <tr><td>
 <span class="headerText">License Statuses</span>&nbsp;&nbsp;<span id='span_Status_response'></span>

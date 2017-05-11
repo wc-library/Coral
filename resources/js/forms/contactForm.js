@@ -28,7 +28,7 @@ $(document).ready(function(){
 	      if(e.keyCode == 13) {
 		submitContact();
 	      }
-	}); 
+	});
 
 
 	//do submit if enter is hit
@@ -53,13 +53,13 @@ $(document).ready(function(){
 		submitContact();
 	      }
 	});
-	
+
 	//do submit if enter is hit
 	$('#faxNumber').keyup(function(e) {
 	      if(e.keyCode == 13) {
 		submitContact();
 	      }
-	});	
+	});
 
 
 	//do submit if enter is hit
@@ -67,9 +67,9 @@ $(document).ready(function(){
 	      if(e.keyCode == 13) {
 		submitContact();
 	      }
-	});	
-	 
-	 
+	});
+
+
 
 
 	//the following are all to change the look of the inputs when they're clicked
@@ -82,12 +82,12 @@ $(document).ready(function(){
 	 $('.changeDefault').live('blur', function() {
 		if(this.value == ''){
 			this.value = this.defaultValue;
-		}		
+		}
 	 });
 
-	
+
     	$('.changeInput').addClass("idleField");
-    	
+
 	$('.changeInput').live('focus', function() {
 
 
@@ -123,25 +123,25 @@ $(document).ready(function(){
 	$('textarea').focus(function() {
 		$(this).removeClass("idleField").addClass("focusField");
 	});
-	    
+
 	$('textarea').blur(function() {
 		$(this).removeClass("focusField").addClass("idleField");
 	});
 
-	 
-	 
+
+
  });
- 
+
 
 
 function submitContact(){
 	contactRolesList ='';
 	$(".check_roles:checked").each(function(id) {
 	      contactRolesList += $(this).val() + ",";
-	}); 
-	
+	});
+
 	if (validateForm() === true) {
-		$('#submitContactForm').attr("disabled", "disabled"); 
+		$('#submitContactForm').attr("disabled", "disabled");
 		  $.ajax({
 			 type:       "POST",
 			 url:        "ajax_processing.php?action=submitContact",
@@ -156,7 +156,7 @@ function submitContact(){
 					window.parent.updateContacts();
 					window.parent.updateArchivedContacts();
 					return false;
-				}			
+				}
 			 }
 
 
@@ -166,15 +166,15 @@ function submitContact(){
 
 
 
- 
+
  function validateForm (){
  	myReturn=0;
-	
+
 	contactRolesList ='';
 	$(".check_roles:checked").each(function(id) {
 	      contactRolesList += $(this).val() + ",";
-	}); 
-	
+	});
+
  	if (contactRolesList == ''){
  	    $("#span_error_contactRole").html(_("Please choose at least one role."));
  	    myReturn="1";
@@ -184,7 +184,7 @@ function submitContact(){
 
 
  	if (myReturn == "1"){
-		return false; 	
+		return false;
  	}else{
  		return true;
  	}

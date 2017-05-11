@@ -17,9 +17,9 @@
 
  $(function(){
 
-	  	 
+
  });
- 
+
 
 
 
@@ -36,15 +36,15 @@ function updateOverride(monthlyUsageSummaryIDValue){
 		 data:       { overrideUsageCount: $("#overrideUsageCount_" + monthlyUsageSummaryIDValue).val(), monthlyUsageSummaryID: monthlyUsageSummaryIDValue },
 		 success:    function(html) {
 		 	$('#span_error_overrideUsageCount_' + monthlyUsageSummaryIDValue).html("<br />" + html);
-		 	
+
 
 			 // close the span in 3 secs
-			 setTimeout("emptyResponse('error_overrideUsageCount_" + monthlyUsageSummaryIDValue + "');",3000); 		 	
+			 setTimeout("emptyResponse('error_overrideUsageCount_" + monthlyUsageSummaryIDValue + "');",3000);
 		 }
 
 
 	 });
-	 
+
    }
 
 }
@@ -67,7 +67,7 @@ function ignoreOutlier(monthlyUsageSummaryIDValue){
 
 
 	 });
-	 
+
 
 }
 
@@ -78,7 +78,7 @@ function ignoreOutlier(monthlyUsageSummaryIDValue){
           url:        "ajax_forms.php",
           cache:      false,
           data:       "action=getMonthlyOutlierForm&platformID=" + $("#platformID").val() + "&publisherPlatformID=" + $("#publisherPlatformID").val() + "&archiveInd=" + $("#archiveInd").val() + "&year=" + $("#year").val() + "&month=" + $("#month").val(),
-          success:    function(html) { 
+          success:    function(html) {
           	$('#div_outlierForm').html(html);
           }
        });
@@ -105,4 +105,4 @@ function validateForm (monthlyUsageSummaryIDValue){
  function emptyResponse(spanname){
  	$('#span_' + spanname).html("");
  }
- 
+

@@ -11,7 +11,7 @@ class CoralSession
        self::$opened = true;
      }
   }
-  
+
   public static function get($key) {
     self::open_for_read();
     if (isset($_SESSION[$key])) {
@@ -20,14 +20,14 @@ class CoralSession
       return null;
     }
   }
-  
+
   public static function set($key, $value) {
     session_start();
     $_SESSION[$key] = $value;
     session_write_close();
     self::$opened = true;
   }
-  
+
 }
 
 ?>

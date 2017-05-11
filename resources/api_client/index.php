@@ -40,7 +40,7 @@ if ($_POST['submitProposeResourceForm']) {
             <?php $formatResponse = Unirest\Request::post($server . "getResourceFormat/" . $_POST['resourceFormatID']); ?>
             <li>Format: <?php echo $formatResponse->body; ?></li>
 
-            <?php 
+            <?php
             if ($_POST['acquisitionTypeID']) {
                 $ATResponse = Unirest\Request::post($server . "getAcquisitionType/" . $_POST['acquisitionTypeID']); ?>
                 <li>Acquisition Type: <?php echo $ATResponse->body; ?></li>
@@ -49,12 +49,12 @@ if ($_POST['submitProposeResourceForm']) {
             <?php $RTResponse = Unirest\Request::post($server . "getResourceType/" . $_POST['resourceTypeID']); ?>
             <li>Resource Type: <?php echo $RTResponse->body; ?></li>
 
-            <?php 
+            <?php
                 if ($_POST['administeringSiteID']) {
                     echo "<li>Library: ";
                     foreach($_POST['administeringSiteID'] as $as) {
                         $ASResponse = Unirest\Request::post($server . "getAdministeringSite/" . $as);
-                        $libraries[] = $ASResponse->body; 
+                        $libraries[] = $ASResponse->body;
                     }
                     echo implode(' / ', $libraries) . "</li>";
                 }

@@ -41,7 +41,7 @@ class DBServiceTest extends PHPUnit_Framework_TestCase {
      */
     public function testSelectDB($dbservice) {
         try {
-            $dbservice->selectDB(Config::$database->usageDatabase);
+            $dbservice->selectDB(Config::$database->usageDatabaseName);
         } catch (RuntimeException $exception) {
             $this->fail($exception->getMessage());
         }

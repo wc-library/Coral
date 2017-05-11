@@ -28,7 +28,7 @@ $(document).ready(function(){
 	      if(e.keyCode == 13) {
 		submitContact();
 	      }
-	}); 
+	});
 
 
 	//do submit if enter is hit
@@ -53,13 +53,13 @@ $(document).ready(function(){
 		submitContact();
 	      }
 	});
-	
+
 	//do submit if enter is hit
 	$('#faxNumber').keyup(function(e) {
 	      if(e.keyCode == 13) {
 		submitContact();
 	      }
-	});	
+	});
 
 
 	//do submit if enter is hit
@@ -67,20 +67,20 @@ $(document).ready(function(){
 	      if(e.keyCode == 13) {
 		submitContact();
 	      }
-	});	
-	 
+	});
+
  });
- 
+
 
 
 function submitContact(){
 	contactRolesList ='';
 	$(".check_roles:checked").each(function(id) {
 	      contactRolesList += $(this).val() + ",";
-	}); 
-	
+	});
+
 	if (validateForm() === true) {
-		$('#submitContactForm').attr("disabled", "disabled"); 
+		$('#submitContactForm').attr("disabled", "disabled");
 		  $.ajax({
 			 type:       "POST",
 			 url:        "ajax_processing.php?action=submitContact",
@@ -95,7 +95,7 @@ function submitContact(){
 					window.parent.updateContacts();
 					window.parent.updateArchivedContacts();
 					return false;
-				}			
+				}
 			 }
 
 
@@ -105,14 +105,14 @@ function submitContact(){
 
 
 
- 
+
  function validateForm (){
-	
+
 	contactRolesList ='';
 	$(".check_roles:checked").each(function(id) {
 	      contactRolesList += $(this).val() + ",";
-	}); 
-	
+	});
+
  	if (contactRolesList == ''){
  	    $("#span_error_contactRole").html(_("Please choose at least one role."));
  	    myReturn=1;
@@ -122,11 +122,11 @@ function submitContact(){
 	}
 
 	if ($("#contactType").val() == "named"){
- 		if (!validateRequired('contactName',"<br />"+_("Name must be entered to continue."))) myReturn=1;	
+ 		if (!validateRequired('contactName',"<br />"+_("Name must be entered to continue."))) myReturn=1;
  	}
- 
+
  	if (myReturn == 1){
-		return false; 	
+		return false;
  	}else{
  		return true;
  	}

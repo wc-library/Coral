@@ -56,7 +56,7 @@ class ParameterFactory {
         } else {
             $parm = new Parameter($reportID,$db,$result);
         }
-        
+
         return $parm;
     }
 }

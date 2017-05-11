@@ -29,7 +29,7 @@
 	      if(e.keyCode == 13) {
 		submitPlatformNotes();
 	      }
-	}); 
+	});
 
 
 	//do submit if enter is hit
@@ -37,12 +37,12 @@
 	      if(e.keyCode == 13) {
 		submitPlatformNotes();
 	      }
-	}); 
+	});
 
 
-	  	 
+
  });
- 
+
 
 
 
@@ -56,15 +56,15 @@ function submitPlatformNotes(){
 	if (!($('#counterCompliantInd:checked').length > 0)) { errorMessage += "<br />" + _("Please choose Yes or No for Counter Compliant.") + "\n"; }
 
 	$('#span_errors').html(errorMessage);
-	
-	if (errorMessage) { 
-		return; 
+
+	if (errorMessage) {
+		return;
 	}
 
 
 
 
-	$('#submitPlatformNoteForm').attr("disabled", "disabled"); 
+	$('#submitPlatformNoteForm').attr("disabled", "disabled");
 	  $.ajax({
 		 type:       "POST",
 		 url:        "ajax_processing.php?action=submitPlatformNote",

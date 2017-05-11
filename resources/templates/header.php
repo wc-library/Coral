@@ -90,7 +90,7 @@ $coralURL = $util->getCORALURL();
 
     <tr style='vertical-align:top;'>
         <td style='height:53px;' colspan='3'>
-                
+
             <div id="main-title">
                 <img src="images/title-icon-resources.png" />
                 <span id="main-title-text"><?php echo _("Resources"); ?></span>
@@ -123,18 +123,18 @@ $coralURL = $util->getCORALURL();
                                 while (($file = readdir($dh)) !== false) {
                                     if (is_dir("$route/$file") && $file!="." && $file!=".."){
                                         $lang[]=$file;
-                                    } 
-                                } 
-                                closedir($dh); 
-                            } 
+                                    }
+                                }
+                                closedir($dh);
+                            }
                         }else {
-                            echo "<br>"._("Invalid translation route!"); 
+                            echo "<br>"._("Invalid translation route!");
                         }
                         // Get language of navigator
                         $defLang = substr($_SERVER["HTTP_ACCEPT_LANGUAGE"],0,5);
-                        
+
                         // Show an ordered list
-                        sort($lang); 
+                        sort($lang);
                         for($i=0; $i<count($lang); $i++){
                             if(isset($_COOKIE["lang"])){
                                 if($_COOKIE["lang"]==$lang[$i]){
@@ -151,7 +151,7 @@ $coralURL = $util->getCORALURL();
                             }
                         }
                         ?>
-                        
+
                     </select>
                 </span>
             </div>
@@ -189,7 +189,7 @@ $coralURL = $util->getCORALURL();
             <img src="images/menu/icon-import.png" />
             <span><?php echo _("File Import");?></span>
         </div>
-    </a> 
+    </a>
 
 	<?php if ($user->isAdmin()) { ?>
     <a href='admin.php' title="<?php echo _("Admin");?>">
@@ -259,7 +259,7 @@ if ((file_exists($util->getCORALPath() . "index.php")) || ($config->settings->li
             setLanguage($("#lang").val());
             location.reload();
         });
-        
+
         function setLanguage(lang) {
 			var wl = window.location, now = new Date(), time = now.getTime();
             var cookievalid=2592000000; // 30 days (1000*60*60*24*30)

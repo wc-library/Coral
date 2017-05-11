@@ -27,7 +27,7 @@ $catalogingType = new CatalogingType();
 <tr>
 <td>
   <?php //debug($resource); ?>
-  
+
 	<table class='noBorder' style='width:670px; margin:15px 20px 10px 20px;'>
 	<tr>
 	<td style="width:400px;">
@@ -43,27 +43,27 @@ $catalogingType = new CatalogingType();
 		<td><?php echo Html::text_field('bibSourceURL', $resource, array('width' => '240px')) ?>
 		</td>
 		</tr>
-		
+
 		<tr>
 		<td style='vertical-align:top;text-align:left;font-weight:bold;'><?php echo Html::label_tag('catalogingTypeID', _('Cataloging Type')); ?></td>
 		<td>
 		  <?php echo Html::select_field('catalogingTypeID', $resource, $catalogingType->all(), array('width' => '150px')); ?>
 		</td>
 		</tr>
-		
+
 		<tr>
 		<td style='vertical-align:top;text-align:left;font-weight:bold;'><?php echo Html::label_tag('catalogingStatusID', _('Cataloging Status')); ?></td>
 		<td>
 		  <?php echo Html::select_field('catalogingStatusID', $resource, $catalogingStatus->all(), array('width' => '150px')); ?>
 		</td>
 		</tr>
-		
+
 		</table>
 
 	</td>
 	<td>
 		<table>
-    
+
       <tr>
   		<td style='vertical-align:top;text-align:left;font-weight:bold;'><?php echo Html::label_tag('numberRecordsAvailable', _('# Records Available')); ?></td>
   		<td>
@@ -77,7 +77,7 @@ $catalogingType = new CatalogingType();
   		  <?php echo Html::text_field('numberRecordsLoaded', $resource, array('width' => '60px')) ?>
   		</td>
   		</tr>
-		
+
 		<tr>
 		<td style='vertical-align:top;text-align:left;font-weight:bold;'><?php echo Html::label_tag('hasOclcHoldings', _('OCLC Holdings')); ?></td>
 		<td><input type='checkbox' value="1" id='hasOclcHoldings' name='hasOclcHoldings' <?php if ($resource->hasOclcHoldings) { echo 'checked'; } ?> /></td>

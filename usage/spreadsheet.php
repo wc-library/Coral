@@ -112,7 +112,7 @@ header("Content-Disposition: attachment; filename=" . $excelfile);
 	<th><?php echo _("Oct-") . $year;?></th>
 	<th><?php echo _("Nov-") . $year;?></th>
 	<th><?php echo _("Dec-") . $year;?></th>
-<?php 
+<?php
 }
 
 echo "</tr>";

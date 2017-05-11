@@ -129,7 +129,7 @@ class Utility {
     	fwrite($handle, $fc);
     	fseek($handle, 0);
     	return $handle;
-	} 
+	}
 
 }
 

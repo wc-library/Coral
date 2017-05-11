@@ -31,7 +31,7 @@ include 'templates/header.php';
 //this a SUSHI Service ID has been passed in, it needs to be run
 if ((isset($_POST['sushiServiceID'])) and ($_POST['sushiServiceID'] > 0)) {
 	$sushiServiceID = $_POST['sushiServiceID'];
- 	$sushiService = new SushiService(new NamedArguments(array('primaryKey' => $sushiServiceID)));	
+ 	$sushiService = new SushiService(new NamedArguments(array('primaryKey' => $sushiServiceID)));
 
  	$sushiService->setImportDates($_POST['startDate'], $_POST['endDate']);
 

@@ -27,29 +27,29 @@ $(document).ready(function(){
 	      if(e.keyCode == 13) {
 		submitExternalLogin();
 	      }
-	}); 
+	});
 
 	//do submit if enter is hit
 	$('#emailAddress').keyup(function(e) {
 	      if(e.keyCode == 13) {
 		submitExternalLogin();
 	      }
-	}); 
-	
+	});
+
 	//do submit if enter is hit
 	$('#username').keyup(function(e) {
 	      if(e.keyCode == 13) {
 		submitExternalLogin();
 	      }
-	}); 
+	});
 
 	//do submit if enter is hit
 	$('#password').keyup(function(e) {
 	      if(e.keyCode == 13) {
 		submitExternalLogin();
 	      }
-	}); 	
-	 
+	});
+
 
 
 
@@ -64,12 +64,12 @@ $(document).ready(function(){
 	 $('.changeDefault').live('blur', function() {
 		if(this.value == ''){
 			this.value = this.defaultValue;
-		}		
+		}
 	 });
 
-	
+
     	$('.changeInput').addClass("idleField");
-    	
+
 	$('.changeInput').live('focus', function() {
 
 
@@ -105,21 +105,21 @@ $(document).ready(function(){
 	$('textarea').focus(function() {
 		$(this).removeClass("idleField").addClass("focusField");
 	});
-	    
+
 	$('textarea').blur(function() {
 		$(this).removeClass("focusField").addClass("idleField");
 	});
 
 
 
-	 
+
  });
- 
+
 
 
 
 function submitExternalLogin(){
-	$('#submitExternalLoginForm').attr("disabled", "disabled"); 
+	$('#submitExternalLoginForm').attr("disabled", "disabled");
 	  $.ajax({
 		 type:       "POST",
 		 url:        "ajax_processing.php?action=submitExternalLogin",
@@ -133,7 +133,7 @@ function submitExternalLogin(){
 				window.parent.tb_remove();
 				window.parent.updateAccounts();
 				return false;
-			}			
+			}
 		 }
 
 

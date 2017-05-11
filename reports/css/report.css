@@ -3,7 +3,7 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 */
-/* 
+/*
     Created on : Aug 13, 2014, 10:32:08 AM
     Author     : bgarcia
 */
@@ -45,7 +45,7 @@ td.report-head-info-box table tr{
 
 td.report-head-img-box {
     min-height: 98px;
-    width: 480px; 
+    width: 480px;
     background-image: url('../images/reportingtitlereport.gif');
     background-repeat: no-repeat;
 }

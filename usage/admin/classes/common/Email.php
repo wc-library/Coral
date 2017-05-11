@@ -98,7 +98,7 @@ class Email extends Object {
 	        $this->to = $config->settings->feedbackEmailAddress;
 	      }
 	    }
-	    
+
 	    if ($config->settings->testMode == 'Y') {
 	      if ($config->settings->testModeEmailAddress) {
 	        $testEmail = $config->settings->testModeEmailAddress;

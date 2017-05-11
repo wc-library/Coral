@@ -1967,9 +1967,9 @@ class Resource extends DatabaseObject {
 	}
 
     public function getCurrentWorkflowID() {
-        $query = "SELECT Step.workflowID FROM Step, ResourceStep 
+        $query = "SELECT Step.workflowID FROM Step, ResourceStep
                     WHERE ResourceStep.resourceID = '" . $this->resourceID . "'
-                    AND ResourceStep.archivingDate IS NULL 
+                    AND ResourceStep.archivingDate IS NULL
                     AND ResourceStep.stepID = Step.stepID LIMIT 1";
 
 		$result = $this->db->processQuery($query, 'assoc');
@@ -2001,6 +2001,12 @@ class Resource extends DatabaseObject {
 	}
 
     public function isCurrentWorkflowComplete() {
+		$status = new Status();
+		$statusID = $status->getIDFromName('complete');
+        if ($this->statusID == $statusID) {
+            return true;
+        }
+
         $steps = $this->getCurrentWorkflowResourceSteps(); 
         foreach ($steps as $step) {
             if (!$step->isComplete()) return false;

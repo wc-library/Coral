@@ -57,7 +57,7 @@
 
 
 		?>
-		<table class='linedFormTable' style='width:460px;'>
+		<table class='linedFormTable' style='word-wrap: break-word; width:460px;'>
 			<tr>
 				<th width="115"></th>
 				<th></th>
@@ -217,7 +217,7 @@
 			<tr>
 			<td style='vertical-align:top;width:115px;'><?php echo _("ISSN / ISBN:");?></td>
       <td style='width:345px;'>
-      <?php 
+      <?php
         foreach ($isbnOrIssns as $isbnOrIssn) {
           print $isbnOrIssn->isbnOrIssn . "<br />";
         }
@@ -268,7 +268,7 @@
 			if ($resource->resourceURL) { ?>
 				<tr>
 				<td style='vertical-align:top;width:115px;'><?php echo _("Resource URL:");?></td>
-				<td style='width:345px;'><?php echo $resource->resourceURL; ?>&nbsp;&nbsp;<a href='<?php echo $resource->resourceURL; ?>' target='_blank'><img src='images/arrow-up-right.gif' alt="<?php echo _("Visit Resource URL");?>" title="<?php echo _("Visit Resource URL");?>" style='vertical-align:top;'></a></td>
+				<td style='max-width:400px;'><?php echo $resource->resourceURL; ?>&nbsp;&nbsp;<a href='<?php echo $resource->resourceURL; ?>' target='_blank'><img src='images/arrow-up-right.gif' alt="<?php echo _("Visit Resource URL");?>" title="<?php echo _("Visit Resource URL");?>" style='vertical-align:top;'></a></td>
 				</tr>
 			<?php
 			}

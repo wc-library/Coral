@@ -73,7 +73,7 @@ if ($config->settings->authModule == 'Y'){
 		//use the split in case the remote login is supplied as an email address
 		list ($loginID,$restofAddr) = explode("@", $remoteAuth);
 
-    CoralSession::set('loginID', $loginID); 
+    CoralSession::set('loginID', $loginID);
 
 
 	}else{

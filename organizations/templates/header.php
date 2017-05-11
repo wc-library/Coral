@@ -86,12 +86,12 @@ $coralURL = $util->getCORALURL();
 <div style="text-align:left;">
 
 <center>
-    
+
 <table class="titleTable" style="width:1024px;text-align:left;">
 
     <tr style='vertical-align:top;'>
         <td style='height:53px;' colspan='3'>
-                
+
             <div id="main-title">
                 <img src="images/title-icon-organizations.png" />
                 <span id="main-title-text"><?php echo _("Organizations"); ?></span>
@@ -124,18 +124,18 @@ $coralURL = $util->getCORALURL();
                                 while (($file = readdir($dh)) !== false) {
                                     if (is_dir("$route/$file") && $file!="." && $file!=".."){
                                         $lang[]=$file;
-                                    } 
-                                } 
-                                closedir($dh); 
-                            } 
+                                    }
+                                }
+                                closedir($dh);
+                            }
                         }else {
-                            echo "<br>"._("Invalid translation route!"); 
+                            echo "<br>"._("Invalid translation route!");
                         }
                         // Get language of navigator
                         $defLang = substr($_SERVER["HTTP_ACCEPT_LANGUAGE"],0,5);
-                        
+
                         // Show an ordered list
-                        sort($lang); 
+                        sort($lang);
                         for($i=0; $i<count($lang); $i++){
                             if(isset($_COOKIE["lang"])){
                                 if($_COOKIE["lang"]==$lang[$i]){
@@ -152,7 +152,7 @@ $coralURL = $util->getCORALURL();
                             }
                         }
                         ?>
-                        
+
                     </select>
                 </span>
             </div>
@@ -185,7 +185,7 @@ $coralURL = $util->getCORALURL();
             <img src="images/menu/icon-admin.png" />
             <span><?php echo _("Admin"); ?></span>
         </div>
-    </a>   
+    </a>
 
 <?php }else if ($user->canEdit()){?>
 
@@ -225,7 +225,7 @@ $coralURL = $util->getCORALURL();
             <img src="images/menu/icon-admin.png" />
             <span><?php echo _("Admin"); ?></span>
         </div>
-    </a>  
+    </a>
 
 <?php } ?>
 </td>

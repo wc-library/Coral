@@ -10,7 +10,7 @@
 		}
 		return null;
 	}
-	
+
 	include_once 'directory.php';
 	$pageTitle=_('Resources import');
 	include 'templates/header.php';
@@ -34,7 +34,7 @@
 		$uploaddir = 'attachments/';
 		$uploadfile = $uploaddir . basename($_FILES['uploadFile']['name']);
 		if (move_uploaded_file($_FILES['uploadFile']['tmp_name'], $uploadfile))
-		{  
+		{
 			print '<p>'._("The file has been successfully uploaded.").'</p>';
 			// Let's analyze this file
 			if (($handle = fopen($uploadfile, "r")) !== FALSE)
@@ -45,7 +45,7 @@
 					foreach ($data as $key => $value)
 					{
 						$available_columns[$value] = $key;
-	        		} 
+	        		}
 				}
 				else
 				{
@@ -270,7 +270,7 @@
 		          		{
 		            		print $value . "<sup>[" . (intval($key)+1) . "]</sup> ";
 						}
-					} 
+					}
 					print ".</p>";
 				}
 				else
@@ -282,8 +282,8 @@
 		        	// Deduping
 					unset($deduping_values);
 					unset($isbnIssn_values);
-					$resource = new Resource(); 
-					$resourceObj = new Resource(); 
+					$resource = new Resource();
+					$resourceObj = new Resource();
 					foreach($dedupeCriteria as $dedupeCriterion)
 					{
 						if($dedupeCriterion['delimiter'] !== '')
@@ -331,7 +331,7 @@
 					{
 						// Convert to UTF-8
 						$data = array_map(function($row) { return mb_convert_encoding($row, 'UTF-8'); }, $data);
-		        
+
 						// If Resource Type is mapped, check to see if it exists
 						$resourceTypeID = null;
 						if($jsonData['resourceType'] != '')
@@ -511,7 +511,7 @@
 							}
 							$roleID=$importOrganization['organizationRole'];
 
-							
+
 							$organizationName = trim($data[intval($importOrganization['column'])-1]);
 
 							//transform organization if necessary
@@ -631,7 +631,7 @@
 								// Else, attach the resource to its parent.
 								$parentResource = $resourceObj->getResourceByTitle($data[intval($parent)-1]);
 								$parentID = $parentResource[0]->resourceID;
-								$parentAttached++; 
+								$parentAttached++;
 							}
 							if ($numberOfParents == 0 || $numberOfParents == 1)
 							{

@@ -36,12 +36,12 @@
 	 $('.changeDefault').live('blur', function() {
 		if(this.value == ''){
 			this.value = this.defaultValue;
-		}		
+		}
 	 });
 
-	
+
     	$('.changeInput').addClass("idleField");
-    	
+
 	$('.changeInput').live('focus', function() {
 
 
@@ -83,12 +83,12 @@
 	 $('.changeAutocomplete').live('blur', function() {
 		if(this.value == ''){
 			this.value = this.defaultValue;
-		}	
+		}
 	 });
-	 
 
 
-  	 
+
+
  });
 
 
@@ -97,7 +97,7 @@
 function submitLicenseForm(){
 
 
-	$('#submitLicense').attr("disabled", "disabled"); 
+	$('#submitLicense').attr("disabled", "disabled");
 	  $.ajax({
 		 type:       "POST",
 		 url:        "ajax_processing.php?action=submitLicenseUpdate",
@@ -112,7 +112,7 @@ function submitLicenseForm(){
 				window.parent.tb_remove();
 				window.parent.updateAcquisitions();
 				return false;
-			}					
+			}
 
 		 }
 

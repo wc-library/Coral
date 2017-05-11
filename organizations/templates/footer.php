@@ -26,6 +26,3 @@
 <br />
 </center>
 <?php include '../templates/footer.php'; ?>
-
-</body>
-</html>

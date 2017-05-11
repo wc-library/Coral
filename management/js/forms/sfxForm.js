@@ -51,7 +51,7 @@ function submitSFXForm(){
 			}
 		 }
 	 });
-	}   
+	}
 }
 
 function validateForm (){
@@ -61,7 +61,7 @@ function validateForm (){
 
 
 	if (myReturn == "1"){
-		return false; 	
+		return false;
 	}else{
 		return true;
 	}

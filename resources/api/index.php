@@ -190,14 +190,14 @@ Flight::route('/proposeResource/', function(){
         // add fund and cost
         if (Flight::request()->data['cost'] || Flight::request()->data['fund']) {
             $rp = new ResourcePayment();
-            $rp->resourcePaymentID = ''; 
-            $rp->selectorLoginID = $user; 
-            $rp->year = ''; 
-            $rp->subscriptionStartDate = ''; 
-            $rp->subscriptionEndDate = ''; 
-            $rp->costDetailsID = ''; 
-            $rp->costNote = ''; 
-            $rp->invoiceNum = ''; 
+            $rp->resourcePaymentID = '';
+            $rp->selectorLoginID = $user;
+            $rp->year = '';
+            $rp->subscriptionStartDate = '';
+            $rp->subscriptionEndDate = '';
+            $rp->costDetailsID = '';
+            $rp->costNote = '';
+            $rp->invoiceNum = '';
             $rp->resourceID = $resourceID;
             $rp->paymentAmount = cost_to_integer(Flight::request()->data['cost']);
             $rp->currencyCode = 'USD';
@@ -207,7 +207,7 @@ Flight::route('/proposeResource/', function(){
             $rp->taxRate = '';
             $fundCode = Flight::request()->data['fund'];
 			// Check if the fund already exists
-            
+
 			$fundObj = new Fund();
 			$fundID = $fundObj->getFundIDFromFundCode($fundCode);
 
@@ -223,7 +223,7 @@ Flight::route('/proposeResource/', function(){
 			$rp->fundID = $fundID;
             $rp->save();
         }
-        
+
 
       $resource->enterNewWorkflow();
 
@@ -297,7 +297,7 @@ function isAllowed() {
     if (!$authorizedIP) { return 0; }
 
     // If a matching IP has been found, allow
-    if (array_filter($authorizedIP, "IpFilter")) { return 1; } 
+    if (array_filter($authorizedIP, "IpFilter")) { return 1; }
 
     return 0;
 }

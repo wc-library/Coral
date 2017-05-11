@@ -310,9 +310,9 @@ function register_auth_provider()
 							$return->yield = new stdClass();
 							$return->yield->title = _("Auth Module");
 							$return->yield->messages = [];
-					
+
 							$conf_data = parse_ini_file($protected_module_data["config_file_path"], true);
-					
+
 							// Process sql files
 							$sql_files_to_process = ["auth/install/update_$version.sql"];
 							$db_name = $conf_data["database"]["name"];
@@ -324,7 +324,7 @@ function register_auth_provider()
 								$return->yield->messages = array_merge($return->yield->messages, $ret["messages"]);
 								return $return;
 							}
-					
+
 							return $return;
 						}
 					];
@@ -344,7 +344,7 @@ function register_auth_provider()
 				// 			return $return;
 				// 		}
 				// 	];
-				
+
 				/**
 				 * To process sql files or edit the config file,
 				 * see this function...

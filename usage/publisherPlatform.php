@@ -48,7 +48,7 @@ if ($publisherPlatformID) {
 
 
 	<div style='width:900px;'>
-	
+
 		<div style='float:left; width:797px;vertical-align:top;margin:0; padding:0;'>
 		<div style="width: 797px;" id ='div_imports' class="usage_tab_content">
 			<table cellpadding="0" cellspacing="0" style="width: 100%; table-layout: initial;">
@@ -116,8 +116,8 @@ if ($publisherPlatformID) {
 					</td>
 				</tr>
 			</table>
-		</div>	
-	</div>			
+		</div>
+	</div>
 	</div>
 </td></tr>
 </table>

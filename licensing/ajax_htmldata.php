@@ -324,7 +324,7 @@ switch ($_GET['action']) {
 		}else{
 		  //maximum number of pages to display on screen at one time
 			$maxDisplay = 25;
-			
+
 			$thisPageNum = count($licenseArray) + $pageStart - 1;
 			echo "<span style='font-weight:bold;'>"._("Displaying ") . $pageStart . _(" to ") . $thisPageNum . _(" of ") . $totalRecords . _(" License Records")."</span><br />";
 
@@ -343,7 +343,7 @@ switch ($_GET['action']) {
 				}else{
 					$startDisplayPage = 1;
 				}
-				
+
 				$maxPages = floor($totalRecords / $numberOfRecords) + 1;
 
 				//now determine last page we will go to - can't be more than maxDisplay
@@ -351,7 +351,7 @@ switch ($_GET['action']) {
 				if ($lastDisplayPage > $maxPages){
 					$lastDisplayPage = ceil($maxPages);
 				}
-        
+
 				for ($i=$startDisplayPage; $i<=$lastDisplayPage; $i++){
 
 					$nextPageStarts = ($i-1) * $numberOfRecords + 1;
@@ -1372,7 +1372,7 @@ switch ($_GET['action']) {
 					echo "<tr>";
 					echo "<td>" . $instance['shortName'] . "</td>";
 					echo "<td>";
-						if (strtolower($instance['shortName']) == strtolower('Authorized Site(s)')) { 
+						if (strtolower($instance['shortName']) == strtolower('Authorized Site(s)')) {
 							$display = array();
 							$authorizedSite = new AuthorizedSite();
 							$siteCount = 0;
@@ -1388,7 +1388,7 @@ switch ($_GET['action']) {
 										}
 										echo $display['shortName'];
 										$siteCount = $siteCount + 1;
-									}	
+									}
 								}
 						} elseif (strtolower($instance['shortName']) == strtolower('Resource Type(s)')) {
 							$display = array();
@@ -1401,14 +1401,14 @@ switch ($_GET['action']) {
 										}
 										echo $display['shortName'];
 										$siteCount = $siteCount + 1;
-									}	
-								}							
+									}
+								}
 						} else {
 							echo $instance['value'];
 						}
-					echo "</td>";						
-						
-					
+					echo "</td>";
+
+
 					echo "<td style='width:30px'><a href='ajax_forms.php?action=getCalendarSettingsForm&calendarSettingsID=" . $instance['calendarSettingsID'] . "&height=158&width=265&modal=true' class='thickbox'>"._("edit")."</a></td>";
 					echo "</tr>";
 				}

@@ -39,7 +39,7 @@ Date.format = 'mm/dd/yyyy';
 
 $(function(){
 	refreshContext();
-	
+
 	$("#search_organization").autocomplete('ajax_processing.php?action=getOrganizationList', {
 		minChars: 2,
 		max: 20,
@@ -87,13 +87,13 @@ $(function(){
 	 });
 
 
-	 
+
 	 //for swapping menu images
 	$('.rollover').hover(function() {
 		var currentImg = $(this).attr('src');
 		$(this).attr('src', $(this).attr('hover'));
 		$(this).attr('hover', currentImg);
-		
+
 		if ($(this).attr('id') == 'menu-last'){
 			var endImg = $("#menu-end").attr('src');
 			$('#menu-end').attr('src', $("#menu-end").attr('hover'));
@@ -103,13 +103,13 @@ $(function(){
 		var currentImg = $(this).attr('src');
 		$(this).attr('src', $(this).attr('hover'));
 		$(this).attr('hover', currentImg);
-		
+
 		if ($(this).attr('id') == 'menu-last'){
 			var endImg = $("#menu-end").attr('src');
 			$('#menu-end').attr('src', $("#menu-end").attr('hover'));
 			$('#menu-end').attr('hover', endImg);
 		}
-		
+
 	 });
 
 
@@ -120,10 +120,10 @@ $(function(){
 			}, function () {
 			$('.coraldropdown:eq(0)', this).slideUp(100);
 		});
-	 });	
+	 });
 
 
-	
+
 });
 
 
@@ -221,10 +221,10 @@ function validateRadioChecked(field,alerttxt,defaulttxt){
 
 function validateDate(field,alerttxt) {
      $("#span_error_" + field).html('');
-     sDate =$("#" + field).val(); 
-   
+     sDate =$("#" + field).val();
+
      if (sDate){
-   
+
 	   var re = /^\d{1,2}\/\d{1,2}\/\d{4}$/
 	   if (re.test(sDate)) {
 	      var dArr = sDate.split("/");
@@ -232,7 +232,7 @@ function validateDate(field,alerttxt) {
 
 	      if (!(d.getMonth() + 1 == dArr[0] && d.getDate() == dArr[1] && d.getFullYear() == dArr[2])) {
 		$("#span_error_" + field).html(alerttxt);
-	       $("#" + field).focus();   
+	       $("#" + field).focus();
 		return false;
 	      }else{
 		return true;
@@ -240,11 +240,11 @@ function validateDate(field,alerttxt) {
 
 	   } else {
 	      $("#span_error_" + field).html(alerttxt);
-	      $("#" + field).focus();   
+	      $("#" + field).focus();
 	      return false;
 	   }
      }
-     
+
      return true;
 }
 
@@ -253,7 +253,7 @@ function validateDate(field,alerttxt) {
 function isAmount(pAmount){
         pAmount = pAmount.replace('$','');
 	pAmount = pAmount.replace(',','');
-	
+
 	if (isNaN(pAmount)){
 		return false;
 	}else{
@@ -285,7 +285,7 @@ function isValidDate(dateString)
 {
     // First check for the pattern
     var regex_date = /^\d{1,2}\/\d{1,2}\/\d{4}$/;
-   
+
     if(!regex_date.test(dateString))
     {
         return false;
@@ -298,7 +298,7 @@ function isValidDate(dateString)
     var day     = parseInt(parts[1], 10);
     var month   = parseInt(parts[0], 10);
     var year    = parseInt(parts[2], 10);
-    
+
 
     // Check the ranges of month and year
     if(year < 1000 || year > 3000 || month == 0 || month > 12)

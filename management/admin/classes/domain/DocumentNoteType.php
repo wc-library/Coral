@@ -32,7 +32,7 @@ class DocumentNoteType extends DatabaseObject {
 			}
 			return $temp;
 		}
-		return false;	
+		return false;
 	}
 
 	public function getNumberOfChildren(){

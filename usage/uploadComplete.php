@@ -993,7 +993,7 @@ if ($importLogID != ""){
 	$importLog->details = $importLog->details . "\n" . $rownumber . _(" titles processed.") . $logSummary;
 
 }else{
-	$importLog = new ImportLog();	
+	$importLog = new ImportLog();
 	$importLog->importLogID = '';
 	$importLog->fileName = $orgFileName;
 	$importLog->archiveFileURL = 'archive/' . $uploadedFilename;

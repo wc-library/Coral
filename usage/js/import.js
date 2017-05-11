@@ -14,20 +14,20 @@
 **
 **************************************************************************************************************************
 */
- 
- 
+
+
  $(document).ready(function(){
 
       updateImportTable();
-      
-      
+
+
       	//do submit if enter is hit
       	$('#submitFile').keyup(function(e) {
       	      if(e.keyCode == 13) {
       		submitForm();
       	      }
 	});
-      
+
  });
 
 
@@ -41,7 +41,7 @@
           url:        "ajax_htmldata.php",
           cache:      false,
           data:       "action=getImportTable&pageStart=" + pageStart,
-          success:    function(html) { 
+          success:    function(html) {
           	$('#span_feedback').html('');
           	$('#div_recentImports').html(html);
           	tb_reinit();
@@ -69,5 +69,5 @@ function validateForm(){
 	  	return true;
 	  }
 
-}	  
+}
 

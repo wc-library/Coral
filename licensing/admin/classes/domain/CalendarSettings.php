@@ -25,16 +25,16 @@ class CalendarSettings extends DatabaseObject {
 
 	//returns recordset of AuthorizedSites
 	public function getAllCalendarSettings(){
-	
+
 		$config = new Configuration;
 
 		$query = "SELECT * FROM `CalendarSettings` order by `shortName`";
 
 		$result = $this->db->processQuery($query, 'assoc');
-		
+
 		return $result;
-	}	
-	
+	}
+
 }
 
 ?>

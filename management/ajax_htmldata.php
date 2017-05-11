@@ -84,7 +84,7 @@ switch ($_GET['action']) {
 //		echo "Category:  " . $license->getConsortiumName();
 		echo "<br />" . _("Creation Date: ") . format_date($license->createDate())." ({$license->createLoginID})";
 		echo "<br />" . _("Last Update: ") . format_date($license->statusDate())." ({$license->statusLoginID})";
-		
+
 		?>
 		</div>
 		</td>
@@ -168,7 +168,7 @@ switch ($_GET['action']) {
 		<?php
 		if ($rowCount == "0"){
 			echo _("(none found)");
-			
+
 		}
 
 		if ($user->canEdit()){
@@ -420,7 +420,7 @@ switch ($_GET['action']) {
 		}else{
 		  //maximum number of pages to display on screen at one time
 			$maxDisplay = 25;
-			
+
 			$thisPageNum = count($licenseArray) + $pageStart - 1;
 			echo "<span style='font-weight:bold;' class='display-title'>" . _("Displaying ") . $pageStart . _(" to ") . $thisPageNum . _(" of ") . $totalRecords . _(" Records") . "</span><br />";
 
@@ -438,7 +438,7 @@ switch ($_GET['action']) {
 				}else{
 					$startDisplayPage = 1;
 				}
-				
+
 				$maxPages = floor($totalRecords / $numberOfRecords) + 1;
 
 				//now determine last page we will go to - can't be more than maxDisplay
@@ -446,7 +446,7 @@ switch ($_GET['action']) {
 				if ($lastDisplayPage > $maxPages){
 					$lastDisplayPage = ceil($maxPages);
 				}
-        
+
 				for ($i=$startDisplayPage; $i<=$lastDisplayPage; $i++){
 
 					$nextPageStarts = ($i-1) * $numberOfRecords + 1;
@@ -853,7 +853,7 @@ switch ($_GET['action']) {
 
 		$numDocuments = count($documentArray);
 		$numRows = count($documentArray);
-		
+
 		if (($numRows > 0) && ($displayArchiveInd != '2')){
 
 		?>
@@ -1132,11 +1132,11 @@ switch ($_GET['action']) {
 				echo "<i>" . $numRows . _(" archive(s) available.") . "  <a href='javascript:updateArchivedDocuments(1)'>" . _("show archives") . "</a></i><br /><br />";
 			}
 		}
-		
+
 		if (($user->canEdit()) && ($displayArchiveInd != "")){
 			$duglicense = new License(new NamedArguments(array('primaryKey' => $licenseID)));
 			$dugArray = $duglicense->getDocuments();
-			$numDug = count($dugArray);				
+			$numDug = count($dugArray);
 			if ( $numDug == 0 ) {
 				echo "<a href='ajax_forms.php?action=getUploadDocument&licenseID=" . $licenseID . "&height=310&width=310&modal=true' class='thickbox' id='uploadDocument'>" . _("upload new document") . "</a>";
 			} else {
@@ -1393,7 +1393,7 @@ switch ($_GET['action']) {
 		}
 
 		break;
-    
+
 	//display expression type list for admin screen - needs its own display because of note type
 	case 'getExpressionTypeList':
 
@@ -1524,7 +1524,7 @@ switch ($_GET['action']) {
 		}
 
 		break;
-    
+
 	//display qualifier dropdown - for the expression form
 	case 'getQualifierCheckboxHTML':
 

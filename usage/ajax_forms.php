@@ -479,7 +479,7 @@ switch ($action) {
 	case 'getSushiForm':
 		$sushiServiceID = $_GET['sushiServiceID'];
 		$platformID = $_GET['platformID'];
-			
+
 
 		if ($sushiServiceID){
 			$addUpdate = _('Update');
@@ -552,7 +552,7 @@ switch ($action) {
 					<span id='span_error_password' style='color:red'></span>
 				</td>
 			</tr>
-			
+
 			<tr>
 				<td style='vertical-align:top;text-align:right;'><label for='serviceDayOfMonth'><b><?php echo _("Service Day:");?></b></label></td>
 				<td><input type='text' id='serviceDayOfMonth' name='serviceDayOfMonth' value="<?php if ($sushiServiceID) echo $sushiService->serviceDayOfMonth; ?>" style='width:50px;' />

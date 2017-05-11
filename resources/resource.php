@@ -203,7 +203,7 @@ if ($resource->titleText){
 			<table cellpadding="0" cellspacing="0" style="width: 100%;">
 				<tr>
 					<td class="sidemenu">
-						<?php echo resource_sidemenu(watchString('routing')); ?>
+						<?php echo resource_sidemenu(watchString('workflow')); ?>
 					</td>
 					<td class='mainContent'>
 
@@ -214,7 +214,7 @@ if ($resource->titleText){
 			</table>
 
 		</div>
-		
+
 		<?php if ((isset($_GET['showTab'])) && ($_GET['showTab'] == 'cataloging')){ ?>
 		<div style="width: 597px;" id='div_cataloging' class="resource_tab_content">
 		<?php } else { ?>

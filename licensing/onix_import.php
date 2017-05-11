@@ -24,7 +24,7 @@
 		$uploaddir = 'attachments/';
 		$uploadfile = $uploaddir . basename($_FILES['uploadFile']['name']);
 		if (move_uploaded_file($_FILES['uploadFile']['tmp_name'], $uploadfile))
-		{  
+		{
 			print '<p>'._("The file has been successfully uploaded.").'</p>';
 			// Let's analyze this file
 			if(($xml = simplexml_load_file($uploadfile)) !== FALSE)

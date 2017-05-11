@@ -17,14 +17,14 @@
 
 
 $(document).ready(function(){
-	
-	updateOutstandingSushiImports(); 
 
-  updateFailedSushiImports(); 
+	updateOutstandingSushiImports();
 
-  updateAllSushiServices();    
- 
-                   
+  updateFailedSushiImports();
+
+  updateAllSushiServices();
+
+
 });
 
 
@@ -40,7 +40,7 @@ $(document).ready(function(){
           	tb_reinit();
           }
       });
-      
+
  }
 
  function updateFailedSushiImports(){
@@ -54,7 +54,7 @@ $(document).ready(function(){
             tb_reinit();
           }
       });
-      
+
  }
 
  function updateAllSushiServices(){
@@ -68,13 +68,13 @@ $(document).ready(function(){
           	tb_reinit();
           }
       });
-      
+
  }
- 
+
 
 
  function deleteImportLog(importLogID){
- 
+
   if (confirm(_("Do you really want to delete this import?")) == true) {
 
          $('#span_outstanding_feedback').html("<img src = 'images/circle.gif'>&nbsp;&nbsp;"+_("Processing..."));
@@ -83,13 +83,13 @@ $(document).ready(function(){
       url:        "ajax_processing.php",
       cache:      false,
       data:       "action=deleteImportLog&importLogID=" + importLogID,
-      success:    function(html) { 
-      $('#span_outstanding_feedback').html(html);  
+      success:    function(html) {
+      $('#span_outstanding_feedback').html(html);
 
       // close the span in 5 secs
-      setTimeout("emptyResponse('span_outstanding_feedback');",5000); 
+      setTimeout("emptyResponse('span_outstanding_feedback');",5000);
 
-      updateOutstandingSushiImports();  
+      updateOutstandingSushiImports();
       tb_reinit();
       }
         });
@@ -99,8 +99,8 @@ $(document).ready(function(){
 
 
 function runService(sushiServiceID, el){
-  //$("html, body").scrollTop($('#div_run_feedback').offset().top); 
-	
+  //$("html, body").scrollTop($('#div_run_feedback').offset().top);
+
   $(el).parent().html("<img src = 'images/circle.gif'>&nbsp;&nbsp;"+_("Running...")+"<br />");
 
 	$.ajax({
@@ -108,19 +108,19 @@ function runService(sushiServiceID, el){
           url:        "ajax_processing.php",
           cache:      false,
           data:       "action=runSushiService&sushiServiceID=" + sushiServiceID,
-          success:    function(html) { 
+          success:    function(html) {
 
             if (html.indexOf("Queue") !=-1){
-              $("html, body").scrollTop($('#div_run_feedback').offset().top); 
+              $("html, body").scrollTop($('#div_run_feedback').offset().top);
               $('#div_run_feedback').html(html);
             }
 
-      			updateOutstandingSushiImports(); 
-      			updateAllSushiServices(); 
+      			updateOutstandingSushiImports();
+      			updateAllSushiServices();
           }
        });
-		
-	
+
+
 }
 
 

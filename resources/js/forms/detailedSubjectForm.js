@@ -28,7 +28,7 @@
 
 	function submitDetailedSubject(){
 		if (validateDetailedSubject() === true) {
-			$('#submitDetailedSubjectForm').attr("disabled", "disabled"); 
+			$('#submitDetailedSubjectForm').attr("disabled", "disabled");
 			  $.ajax({
 				 type:       "POST",
 				 url:        "ajax_processing.php?action=updateDetailedSubject",
@@ -41,19 +41,19 @@
 					}else{
 						kill();
 						window.parent.tb_remove();
-						window.parent.updateSubjectsTable();					
+						window.parent.updateSubjectsTable();
 						return false;
-					}			
+					}
 				 }
 
 
 			 });
-		}	
-	
-	
-	
-	} 
-	
+		}
+
+
+
+	}
+
 
  function validateDetailedSubject(){
 	if ($("#updateVal").val() == ''){
@@ -62,13 +62,13 @@
 	}else{
 		return true;
 	}
-	
-}	   
-   
+
+}
+
 //kill all binds done by jquery live
 function kill(){
 
-	$('.submitDetailedSubject').die('click'); 
+	$('.submitDetailedSubject').die('click');
 	$('.changeDefault').die('blur');
 	$('.changeDefault').die('focus');
 	$('.changeInput').die('blur');

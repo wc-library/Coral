@@ -42,13 +42,13 @@ class Downtime extends DatabaseObject {
 		//This is a custom load method that joins the downtime type name into the attributes
 
 		//if exists in the database
-		if (isset($this->primaryKey)) {	
+		if (isset($this->primaryKey)) {
 			$query = "SELECT d.*, dt.shortName, i.subjectText
 				  FROM `{$this->dbName}`.Downtime d
 				  LEFT JOIN `{$this->dbName}`.DowntimeType dt ON dt.downtimeTypeID=d.downtimeTypeID
 				  LEFT JOIN `{$this->dbName}`.Issue i ON i.issueID=d.issueID
 				  WHERE d.downtimeID='$this->primaryKey'";
-			
+
 			$result = $this->db->processQuery($query, 'assoc');
 
 			foreach (array_keys($result) as $attributeName) {
@@ -76,7 +76,7 @@ class Downtime extends DatabaseObject {
 	public function save() {
 		//remove any overloadedKeys before attempting to save
 		foreach ($this->overloadKeys as $attributeName) {
-			unset($this->attributes[$attributeName]); 
+			unset($this->attributes[$attributeName]);
 			unset($this->attributeNames[$attributeName]);
 		}
 		parent::save();

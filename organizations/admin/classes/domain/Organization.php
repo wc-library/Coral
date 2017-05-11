@@ -264,7 +264,7 @@ class Organization extends DatabaseObject {
 	}
 
 	public function getIssues($archivedOnly=false) {
-		$query = "SELECT i.* 
+		$query = "SELECT i.*
 				  FROM `{$this->db->config->settings->resourcesDatabaseName}`.Issue i
 				  LEFT JOIN `{$this->db->config->settings->resourcesDatabaseName}`.IssueRelationship ir ON ir.issueID=i.issueID
 				  WHERE ir.entityID='$this->organizationID' AND ir.entityTypeID=1";
@@ -293,15 +293,15 @@ class Organization extends DatabaseObject {
 		$orgDB = $this->db->config->database->name;
 		$resourceDB = $this->db->config->settings->resourcesDatabaseName;
 		$query = "SELECT i.*,(SELECT GROUP_CONCAT(CONCAT(sc.name,' - ',sc.emailAddress) SEPARATOR ', ')
-								FROM `{$resourceDB}`.IssueContact sic 
+								FROM `{$resourceDB}`.IssueContact sic
 								LEFT JOIN `{$orgDB}`.Contact sc ON sc.contactID=sic.contactID
 								WHERE sic.issueID=i.issueID) AS `contacts`,
 							 (SELECT GROUP_CONCAT(se.name SEPARATOR ', ')
-								FROM `{$resourceDB}`.IssueRelationship sir 
+								FROM `{$resourceDB}`.IssueRelationship sir
 								LEFT JOIN `{$orgDB}`.Organization se ON (se.organizationID=sir.entityID AND sir.entityTypeID=1)
 								WHERE sir.issueID=i.issueID) AS `appliesto`,
 							 (SELECT GROUP_CONCAT(sie.email SEPARATOR ', ')
-								FROM `{$resourceDB}`.IssueEmail sie 
+								FROM `{$resourceDB}`.IssueEmail sie
 								WHERE sie.issueID=i.issueID) AS `CCs`
 				  FROM `{$resourceDB}`.Issue i
 				  LEFT JOIN `{$resourceDB}`.IssueRelationship ir ON ir.issueID=i.issueID
@@ -326,7 +326,7 @@ class Organization extends DatabaseObject {
 	}
 
 	private function getDownTimeResults($archivedOnly=false) {
-		$query = "SELECT d.* 
+		$query = "SELECT d.*
 			  FROM `{$this->db->config->settings->resourcesDatabaseName}`.Downtime d
 			  WHERE d.entityID='{$this->organizationID}'
 			  AND d.entityTypeID=1";

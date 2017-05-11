@@ -1,5 +1,5 @@
 2012-05-02 CORAL Resources Module 1.1
-  
+
   The CORAL Resources Module 1.1 update includes support for cataloging processes, an improved export, and improved search functionality.  After updating your module from https://github.com/ndlibersa/resources you will need to visit the install page for your module ( http://your_server/coral/resources/install/ ) and follow the instructions there.  The update process has also been streamlined, so it should automatically detect the update that needs to be applied (1.1 in this case) and prompt you if you need to provide alternate database credentials for applying the update.
 
   Resource records have a new cataloging tab to facilitate any of your cataloging processes such as manual or batch loading of catalog records. The tab allows notes specific to the cataloging tab and adds the following new fields:

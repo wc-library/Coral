@@ -28,7 +28,7 @@
 
 	function submitGeneralSubject(){
 		if (validateGeneralSubject() === true) {
-			$('#submitGeneralSubjectForm').attr("disabled", "disabled"); 
+			$('#submitGeneralSubjectForm').attr("disabled", "disabled");
 			  $.ajax({
 				 type:       "POST",
 				 url:        "ajax_processing.php?action=updateGeneralSubject",
@@ -41,19 +41,19 @@
 					}else{
 						kill();
 						window.parent.tb_remove();
-						window.parent.updateSubjectsTable();					
+						window.parent.updateSubjectsTable();
 						return false;
-					}			
+					}
 				 }
 
 
 			 });
-		}	
-	
-	
-	
-	} 
-	
+		}
+
+
+
+	}
+
  function validateGeneralSubject(){
 	if ($("#updateVal").val() == ''){
 		$("#span_errors").html(_("Error - Please enter a value"));
@@ -61,13 +61,13 @@
 	}else{
 		return true;
 	}
-	
-}		
-   
+
+}
+
 //kill all binds done by jquery live
 function kill(){
 
-	$('.submitGeneralSubject').die('click'); 
+	$('.submitGeneralSubject').die('click');
 	$('.changeDefault').die('blur');
 	$('.changeDefault').die('focus');
 	$('.changeInput').die('blur');
