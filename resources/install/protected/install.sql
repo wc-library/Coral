@@ -481,6 +481,8 @@ CREATE TABLE  `ResourceStep` (
   `stepName` varchar(200) default NULL,
   `userGroupID` int(11) default NULL,
   `displayOrderSequence` int(10) unsigned default NULL,
+  `mailReminderDelay` INT UNSIGNED NULL,
+  `note` TEXT NULL,
   PRIMARY KEY  (`resourceStepID`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
