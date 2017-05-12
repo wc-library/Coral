@@ -14,7 +14,8 @@ class KohaClient implements ILSClient {
 
     function __construct() {
         $config = new Configuration();
-        $this->server = $config->ils->ilsApiUrl;
+        $this->server = $config->ils->ilsUrl;
+        $this->api = $config->ils->ilsUrl . "/api/v1/";
         $this->coralToKohaKeys = array("companyURL" => "url", "noteText" => "notes", "accountDetailText" => "accountnumber");
         $this->kohaToCoralKeys = array_flip($this->coralToKohaKeys);
     }
@@ -27,7 +28,7 @@ class KohaClient implements ILSClient {
     function addVendor($vendor) {
         $headers = array("Accept" => "application/json");
         $body = Unirest\Request\Body::json($this->_vendorToKoha($vendor));
-        $response = Unirest\Request::post($this->server . "/acquisitions/vendors", $headers, $body);
+        $response = Unirest\Request::post($this->api . "/acquisitions/vendors", $headers, $body);
         return ($response->body->id) ? $response->body->id : null;
         //return ($response->body->id) ? $response->body->id : $response->raw_body;
     }
@@ -38,7 +39,7 @@ class KohaClient implements ILSClient {
      * @return key-value array with vendor description
      */
     function getVendor($id) {
-        $response = Unirest\Request::get($this->server . "/acquisitions/vendors/$id");
+        $response = Unirest\Request::get($this->api . "/acquisitions/vendors/$id");
         return $this->_vendorToCoral((array) $response->body);
     }
 
@@ -48,7 +49,7 @@ class KohaClient implements ILSClient {
      * @return key-value array with vendor description
      */
     function getVendorByName($name) {
-        $response = Unirest\Request::get($this->server . "/acquisitions/vendors/?name=$name");
+        $response = Unirest\Request::get($this->api . "/acquisitions/vendors/?name=$name");
         return $this->_vendorToCoral((array) $response->body);
     }
 
@@ -58,7 +59,7 @@ class KohaClient implements ILSClient {
      * @return key-value array with vendor description
      */
     function getVendorByExactName($name) {
-        $response = Unirest\Request::get($this->server . "/acquisitions/vendors/?exactname=$name");
+        $response = Unirest\Request::get($this->api . "/acquisitions/vendors/?exactname=$name");
         return $this->_vendorToCoral((array) $response->body);
     }
 
@@ -68,7 +69,7 @@ class KohaClient implements ILSClient {
      * @return boolean
      */
     function vendorExists($name) {
-        $response = Unirest\Request::get($this->server . "/acquisitions/vendors/?exactname=$name");
+        $response = Unirest\Request::get($this->api . "/acquisitions/vendors/?exactname=$name");
         return (count((array) $response->body) > 0) ? true : false;;
     }
 
@@ -85,7 +86,15 @@ class KohaClient implements ILSClient {
      * @return the ILS API url
      */
     function getILSURL() {
-        return $this->server;
+        return $this->api;
+    }
+
+    /**
+     * Gets the ILS Vendor url
+     * @return the ILS Vendor url
+     */
+    function getVendorURL() {
+        return $this->server . "/cgi-bin/koha/acqui/supplier.pl?booksellerid=";;
     }
 
     /**

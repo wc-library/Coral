@@ -8,6 +8,7 @@ interface ILSClient {
     function vendorExists($name);
     function getILSName();
     function getILSURL();
+    function getVendorURL();
 }
 
 ?>
