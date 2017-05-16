@@ -15,6 +15,29 @@
 **************************************************************************************************************************
 */
 
+function retrieveVendor() {
+    $.ajax({
+			 type:       "GET",
+			 url:        "ajax_processing.php",
+			 cache:      false,
+			 async:	     true,
+			 data:       "action=getILSVendorInfos&name=" + $("#organizationName").val(),
+			 success:    function(vendorString) {
+                vendor = $.parseJSON(vendorString);
+                if (vendor == null) return false;
+                $("#accountDetailText").text(vendor['accountnumber']);
+                $('#accountDetailText').attr("disabled", "disabled"); 
+                $("#noteText").text(vendor['notes']);
+                $('#noteText').attr("disabled", "disabled"); 
+                $("#companyURL").val(vendor['url']);
+                $('#companyURL').attr("disabled", "disabled"); 
+                $('#organizationName').attr("disabled", "disabled"); 
+                $("#span_errors").html("");
+                $('.ils_role').attr('checked', true);
+			 }
+         });
+}
+
  $(function(){
 
 	//check this name to make sure it isn't already being used
@@ -30,13 +53,16 @@
 				if (exists == 0){
 					$("#span_errors").html("");
 					$("#submitOrganizationChanges").removeAttr("disabled");
+                    $("#retrieveVendor").unbind("click", retrieveVendor);
 				}else{
                   if (exists == 1) {
                       $("#span_errors").html("<br />"+_("This organization already exists!"));
                   } else if (exists == 2) {
                       $("#span_errors").html("<br />"+_("This organization already exists in the ILS!"));
+                    $("#retrieveVendor").bind("click", retrieveVendor);
                   } else if (exists == 3) {
                       $("#span_errors").html("<br />"+_("This organization already exists in Coral and in the ILS!"));
+                    $("#retrieveVendor").bind("click", retrieveVendor);
                   }
 				  $("#submitOrganizationChanges").attr("disabled","disabled");
 
@@ -50,7 +76,7 @@
 		minChars: 2,
 		max: 20,
 		width: 142,
-		delay: 20,
+		delay: 30,
 		matchContains: false,
 		formatItem: function(row) {
 			return "<span style='font-size: 80%;'>" + row[0] + "</span>";
@@ -60,7 +86,6 @@
 		}
 
 	 });
-
 
 	 $("#openOrganizationURL").click(function () {
 		window.open($("#companyURL").val());

@@ -70,7 +70,7 @@ class KohaClient implements ILSClient {
      */
     function vendorExists($name) {
         $response = Unirest\Request::get($this->api . "/acquisitions/vendors/?exactname=$name");
-        return (count((array) $response->body) > 0) ? true : false;;
+        return (count((array) $response->body) > 0) ? true : false;
     }
 
     /**

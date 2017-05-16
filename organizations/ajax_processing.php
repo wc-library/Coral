@@ -553,6 +553,14 @@ switch ($_GET['action']) {
 
         break;
 
+    case 'getILSVendorInfos':
+        if ($config->ils->ilsConnector) {
+            $ilsClient = (new ILSClientSelector())->select();
+            $vendor = $ilsClient->getVendorByName($_GET['name']);
+            print json_encode($vendor[0]);
+        }
+
+        break;
 
 	case 'getExistingOrganizationOrVendor':
 		$name = $_GET['name'];

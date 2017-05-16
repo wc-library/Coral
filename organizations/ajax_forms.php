@@ -70,7 +70,7 @@ switch ($_GET['action']) {
 
 		<tr>
 		<td style='vertical-align:top;text-align:right;padding-top:10px;'><label for='organizationName'><b><?php echo _("Name:");?></b></label></td>
-		<td style='vertical-align:top;padding-top:10px;'><input type='text' id='organizationName' name='organizationName' value = "<?php echo htmlentities($organization->name); ?>" style='width:220px;' <?php if ($organization->isLinkedToILS()) echo "disabled='disabled'" ?> /> [...] <span id='span_errors' style='color:red'></span></td>
+		<td style='vertical-align:top;padding-top:10px;'><input type='text' id='organizationName' name='organizationName' value = "<?php echo htmlentities($organization->name); ?>" style='width:220px;' <?php if ($organization->isLinkedToILS()) echo "disabled='disabled'" ?> /> <a href="#" id="retrieveVendor">[...]</a> <span id='span_errors' style='color:red'></span></td>
 		</tr>
 
 		<?php if (count($parentOrganizationArray) > 0){ ?>
@@ -116,10 +116,11 @@ switch ($_GET['action']) {
 					if(($i % 2)==1){
 						echo "<tr>\n";
 					}
+                    $ilsClass = ($organizationRoleIns['shortName'] == $config->ils->ilsVendorRole) ? ' ils_role' : '';
 					if (in_array($organizationRoleIns['organizationRoleID'],$organizationRoleProfileArray)){
-						echo "<td><input class='check_roles' type='checkbox' name='" . $organizationRoleIns['organizationRoleID'] . "' id='" . $organizationRoleIns['organizationRoleID'] . "' value='" . $organizationRoleIns['organizationRoleID'] . "' checked />   " . $organizationRoleIns['shortName'] . "</td>\n";
+						echo "<td><input class='check_roles$ilsClass' type='checkbox' name='" . $organizationRoleIns['organizationRoleID'] . "' id='" . $organizationRoleIns['organizationRoleID'] . "' value='" . $organizationRoleIns['organizationRoleID'] . "' checked />   " . $organizationRoleIns['shortName'] . "</td>\n";
 					}else{
-						echo "<td><input class='check_roles' type='checkbox' name='" . $organizationRoleIns['organizationRoleID'] . "' id='" . $organizationRoleIns['organizationRoleID'] . "' value='" . $organizationRoleIns['organizationRoleID'] . "' />   " . $organizationRoleIns['shortName'] . "</td>\n";
+						echo "<td><input class='check_roles$ilsClass' type='checkbox' name='" . $organizationRoleIns['organizationRoleID'] . "' id='" . $organizationRoleIns['organizationRoleID'] . "' value='" . $organizationRoleIns['organizationRoleID'] . "' />   " . $organizationRoleIns['shortName'] . "</td>\n";
 					}
 					if(($i % 2)==0){
 						echo "</tr>\n";
