@@ -34,6 +34,7 @@ function retrieveVendor() {
                 $('#organizationName').attr("disabled", "disabled"); 
                 $("#span_errors").html("");
                 $('.ils_role').attr('checked', true);
+                $("#submitOrganizationChanges").removeAttr("disabled");
 			 }
          });
 }
