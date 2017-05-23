@@ -9,13 +9,14 @@ require 'ILSClient.php';
 class KohaClient implements ILSClient {
 
     private $server;
+    private $api;
     private $coralToKohaKeys;
     private $kohaToCoralKeys;
 
     function __construct() {
         $config = new Configuration();
-        $this->server = $config->ils->ilsUrl;
-        $this->api = $config->ils->ilsUrl . "/api/v1/";
+        $this->server = $config->ils->ilsAdminUrl;
+        $this->api = $config->ils->ilsApiUrl;
         $this->coralToKohaKeys = array("companyURL" => "url", "noteText" => "notes", "accountDetailText" => "accountnumber");
         $this->kohaToCoralKeys = array_flip($this->coralToKohaKeys);
     }
@@ -94,7 +95,7 @@ class KohaClient implements ILSClient {
      * @return the ILS Vendor url
      */
     function getVendorURL() {
-        return $this->server . "/cgi-bin/koha/acqui/supplier.pl?booksellerid=";;
+        return $this->server . "/cgi-bin/koha/acqui/supplier.pl?booksellerid=";
     }
 
     /**
