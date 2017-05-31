@@ -111,7 +111,7 @@ function updateResourceStep(){
                     $("#span_errors").html(html);
                 }else{
                     tb_remove();
-                    window.parent.updateRouting();
+                    window.parent.updateWorkflow();
                     //eval("window.parent.update" + $("#tab").val() + "();");
                     return false;
                 }

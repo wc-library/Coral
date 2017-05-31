@@ -230,7 +230,7 @@ $(document).ready(function(){
 		$('#div_contacts').hide();
 		$('#div_accounts').show();
 		$('#div_attachments').hide();
-		$('#div_routing').hide();
+		$('#div_workflow').hide();
 		$('#div_fullRightPanel').show();
 		updateAccounts();
 		return false;
@@ -247,9 +247,9 @@ $(document).ready(function(){
 
 	$(".showWorkflow").click(function () {
 	  $('.resource_tab_content').hide();
-		$('#div_routing').show();
+		$('#div_workflow').show();
 		$('#div_fullRightPanel').hide();
-		updateRouting();
+		updateWorkflow();
         $('#restartWorkflowDiv').hide();
 		return false;
 	});
@@ -659,18 +659,18 @@ function updateAttachmentsNumber(){
 }
 
 
-function updateRouting(){
-  $("#icon_routing").html("<img src='images/littlecircle.gif' />");
+function updateWorkflow(){
+  $("#icon_workflow").html("<img src='images/littlecircle.gif' />");
   $.ajax({
 	 type:       "GET",
 	 url:        "ajax_htmldata.php",
 	 cache:      false,
-	 data:       "action=getRoutingDetails&resourceID=" + $("#resourceID").val(),
+	 data:       "action=getWorkflowDetails&resourceID=" + $("#resourceID").val(),
 	 success:    function(html) {
-		$("#div_routing .div_mainContent").html(html);
+		$("#div_workflow .div_mainContent").html(html);
 		tb_reinit();
-		bind_routing();
-		$("#icon_routing").html("<img src='images/routing.gif' />");
+		bind_workflow();
+		$("#icon_workflow").html("<img src='images/workflow.gif' />");
 	 }
 
 
@@ -872,7 +872,7 @@ function bind_removes(){
 
 
 
-function bind_routing(){
+function bind_workflow(){
 
 
 
@@ -883,7 +883,7 @@ function bind_routing(){
 		 cache:      false,
 		 data:       "action=markComplete&resourceStepID=" + $(this).attr("id"),
 		 success:    function(html) {
-			updateRouting();
+			updateWorkflow();
 		 }
 
 
@@ -908,7 +908,7 @@ $("select").change(function() {
 			 cache:      false,
 			 data:       "action=restartWorkflow&resourceID=" + $(this).attr("id") + "&deleteWorkflow=" + $("#deleteWorkflow").is(':checked') + "&workflow=" + $("#workflowArchivingDate").val(),
 			 success:    function(html) {
-				updateRouting();
+				updateWorkflow();
 			 }
 
 
@@ -935,7 +935,7 @@ $("select").change(function() {
 			 cache:      false,
 			 data:       "action=markResourceComplete&resourceID=" + $(this).attr("id"),
 			 success:    function(html) {
-				updateRouting();
+				updateWorkflow();
 			 }
 		 });
 	 }
@@ -949,7 +949,7 @@ $("select").change(function() {
                 cache:      false,
                 data:       "action=deleteResourceStep&resourceStepID=" + $(this).attr("id"),
                 success:    function(html) {
-                    updateRouting();
+                    updateWorkflow();
                 }
 
 
