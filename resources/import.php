@@ -442,7 +442,10 @@
 						//$resource->providerText     = $data[$_POST['providerText']];
 						$resource->statusID         = 1;
 						$resource->save();
-						isset($isbnIssn_values) ? $resource->setIsbnOrIssn($isbnIssn_values) : NULL;
+						if (isset($isbnIssn_values))
+						{
+							$resource->setIsbnOrIssn($isbnIssn_values)
+						}
 						$inserted++;
 
 						// If Alias is mapped, check to see if it exists
