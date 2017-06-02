@@ -871,7 +871,7 @@ class Resource extends DatabaseObject {
 			$status = new Status();
 			$completedStatusID = $status->getIDFromName('complete');
 			$whereAdd[] = "(R.statusID != $completedStatusID AND RS.stepName = '" . $resource->db->escapeString($search['stepName']) . "' AND RS.stepStartDate IS NOT NULL AND RS.stepEndDate IS NULL)";
-			$searchDisplay[] = _("Routing Step: ") . $search['stepName'];
+			$searchDisplay[] = _("Workflow Step: ") . $search['stepName'];
 		}
 
 

@@ -1663,20 +1663,20 @@ a.showAttachments:hover {
 	color: #ccc;
 }
 
-a.showRouting:before {
+a.showWorkflow:before {
 	font-family: FontAwesome;
 	content: "\f064";
 	font-size: 11px;
 	margin-right: 5px;
 }
 
-a.showRouting {
+a.showWorkflow {
 	text-decoration: none;
 	text-transform: capitalize;
 	font-size: 12px;
 }
 
-a.showRouting:hover {
+a.showWorkflow:hover {
 	color: #ccc;
 }
 

@@ -556,7 +556,7 @@ include 'templates/header.php';
 	</tr>
 
   <tr>
-	<td class='searchRow'><label for='searchStepName'><b><?php echo _("Routing Step");?></b></label>
+	<td class='searchRow'><label for='searchStepName'><b><?php echo _("Workflow Step");?></b></label>
 	<br />
 	<select name='search[stepName]' id='searchStepName' style='width:150px'>
 	<option value=''><?php echo _("All");?></option>
