@@ -113,7 +113,7 @@ class DatabaseObject extends DynamicObject {
 				$result = $this->db->processQuery($query);
 				if (isset($result[0])) $this->attributes[$key] = stripslashes($result[0]);
 			}
-			return $this->attributes[$key];
+			return isset($this->attributes[$key]) ? $this->attributes[$key] : NULL;
 		} else if (array_key_exists($key, $this->parentNames)) {
 			if (!array_key_exists($key, $this->parents)) {
 				$parentClassName = $this->parentNames[$key];
@@ -218,15 +218,18 @@ class DatabaseObject extends DynamicObject {
 	public function save() {
 		$pairs = array();
 		foreach (array_keys($this->attributeNames) as $attributeName) {
-			$value = $this->attributes[$attributeName];
-			if ($value == '' || !isset($value)) {
-				$value = "NULL";
-			} else {
-				$value = $this->db->escapeString($value);
-				$value = "'$value'";
+			if (isset($this->attributes[$attributeName]))
+			{
+				$value = $this->attributes[$attributeName];
+				if ($value == '' || !isset($value)) {
+					$value = "NULL";
+				} else {
+					$value = $this->db->escapeString($value);
+					$value = "'$value'";
+				}
+				$pair = "`$attributeName`=$value";
+				array_push($pairs, $pair);
 			}
-			$pair = "`$attributeName`=$value";
-			array_push($pairs, $pair);
 		}
 		$set = implode(', ', $pairs);
 		if (isset($this->primaryKey)) {
