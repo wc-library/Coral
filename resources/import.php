@@ -444,7 +444,7 @@
 						$resource->save();
 						if (isset($isbnIssn_values))
 						{
-							$resource->setIsbnOrIssn($isbnIssn_values)
+							$resource->setIsbnOrIssn($isbnIssn_values);
 						}
 						$inserted++;
 
