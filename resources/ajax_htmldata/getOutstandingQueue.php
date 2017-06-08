@@ -19,7 +19,7 @@
 				<th style='width:45px;'><?php echo _("ID");?></th>
 				<th style='width:300px;'><?php echo _("Name");?></th>
 				<th style='width:95px;'><?php echo _("Acquisition Type");?></th>
-				<th style='width:125px;'><?php echo _("Routing Step");?></th>
+				<th style='width:125px;'><?php echo _("Workflow Step");?></th>
 				<th style='width:75px;'><?php echo _("Start Date");?></th>
 			</tr>
 

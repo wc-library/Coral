@@ -338,7 +338,7 @@ function submitCurrentWorkflow() {
                 }else{
                     kill();
                     window.parent.tb_remove();
-                    window.parent.updateRouting();
+                    window.parent.updateWorkflow();
                     return false;
                 }
 

@@ -199,7 +199,7 @@ if ($resource->titleText){
 
 		</div>
 
-		<div style="display:none;width: 897px;" id='div_routing' class="resource_tab_content">
+		<div style="display:none;width: 897px;" id='div_workflow' class="resource_tab_content">
 			<table cellpadding="0" cellspacing="0" style="width: 100%;">
 				<tr>
 					<td class="sidemenu">

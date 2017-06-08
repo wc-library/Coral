@@ -1,6 +1,6 @@
 <?php
-	$configID = $_POST['configID'];
-	if($configID) {
+	if (isset($_POST['configID'])) {
+		$configID = $_POST['configID'];
 		$instance = new ImportConfig(new NamedArguments(array('primaryKey' => $configID)));
 		$orgMappingInstance = new OrgNameMapping();
 		$orgMappings=$orgMappingInstance->getOrgNameMappingByImportConfigID($configID);
