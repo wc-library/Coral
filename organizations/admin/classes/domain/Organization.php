@@ -543,7 +543,7 @@ class Organization extends DatabaseObject {
 									LEFT JOIN ContactRoleProfile CRP ON C.contactID = CRP.contactID
 									LEFT JOIN ContactRole CR ON CR.contactRoleID = CRP.contactRoleID
 								" . $whereStatement . "
-								GROUP By O.organizationID
+								GROUP BY O.organizationID, OHP.parentOrganizationID
 								ORDER BY " . $orderBy . $limitStatement;
 
 
