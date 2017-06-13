@@ -639,7 +639,7 @@ class Organization extends DatabaseObject {
 		$alphArray = array();
 		$result = mysqli_query($this->db->getDatabase(), "SELECT DISTINCT UPPER(SUBSTR(TRIM(LEADING 'The ' FROM name),1,1)) letter, COUNT(SUBSTR(TRIM(LEADING 'The ' FROM name),1,1)) letter_count
 								FROM Organization O
-								GROUP BY SUBSTR(TRIM(LEADING 'The ' FROM name),1,1)
+								GROUP BY SUBSTR(TRIM(LEADING 'The ' FROM name),1,1), O.name
 								ORDER BY 1;");
 
 		while ($row = mysqli_fetch_assoc($result)){
