@@ -35,8 +35,10 @@
                 $resourceAcquisition = new ResourceAcquisition(new NamedArguments(array('primaryKey' => $newRAID)));
                 $resourceAcquisition->save();
                 $resourceAcquisition->cloneFrom($_POST['resourceAcquisitionID']);
+                $resourceAcquisitionID = $newRAID;
             } else {
                 $resourceAcquisition->save();
+                $resourceAcquisitionID = $resourceAcquisition->resourceAcquisitionID;
             }
 
 			//first remove all administering sites, then we'll add them back

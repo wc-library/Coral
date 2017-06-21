@@ -99,7 +99,7 @@ if ($resourceAcquisitionID) {
 				<a href='ajax_forms.php?action=getOrderForm&height=400&width=440&modal=true&resourceAcquisitionID=<?php echo $resourceAcquisition->resourceAcquisitionID; ?>&resourceID=<?php echo $resourceAcquisition->resourceID; ?>' class='thickbox'><?php echo _("edit order information");?></a>
 			<?php } ?>
 <?php } else {
-echo _("This resource does not seem to have an order. It should have one. Please "); ?><a href='ajax_forms.php?action=getOrderForm&height=400&width=440&modal=true&resourceID=<?php echo $resourceAcquisition->resourceID; ?>' class='thickbox'><?php echo _("create an order");?></a>
+echo _("This resource does not seem to have an order. It should have one. Please "); ?><a href='ajax_forms.php?action=getOrderForm&height=400&width=440&modal=true&resourceID=<?php echo $resourceID; ?>' class='thickbox'><?php echo _("create an order");?></a>
 <?php
 }
 ?>
