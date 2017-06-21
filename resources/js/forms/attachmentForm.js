@@ -25,7 +25,7 @@
 	 });
 
     	$('.changeInput').addClass("idleField");
-
+    	
 	$('.changeInput').live('focus', function() {
 
 
@@ -62,14 +62,14 @@
 	$('textarea').focus(function() {
 		$(this).removeClass("idleField").addClass("focusField");
 	});
-
+	    
 	$('textarea').blur(function() {
 		$(this).removeClass("focusField").addClass("idleField");
 	});
 
 
 
-
+  	 
  });
 
 
@@ -96,13 +96,13 @@ function checkUploadAttachment (file, extension){
 			} else if (response == "2"){
 				exists = "2";
 				$("#div_file_message").html("  <font color='red'>"+_("File name may not contain special characters - ampersand, single quote, double quote or less than/greater than characters")+"</font>");
-				return false;
+				return false;				
 			} else if (response == "3"){
 				exists = "3";
 				$("#div_file_message").html("  <font color='red'>"+_("The attachments directory is not writable.")+"</font>");
 				return false;
 			}
-
+			
 		}
 
 	});
@@ -158,15 +158,15 @@ new AjaxUpload('upload_button',
  	myReturn=0;
  	if (!validateRequired('shortName',"<br />"+_("Name must be entered to continue."))) myReturn="1";
  	if (!validateRequired('attachmentTypeID',"<br />"+_("Attachment Type must be selected to continue."))) myReturn="1";
-
-
+ 	
+ 
  	if (myReturn == "1"){
-		return false;
+		return false; 	
  	}else{
  		return true;
  	}
 }
-
+ 
 
 
 
@@ -178,12 +178,12 @@ function submitAttachment(){
 		$("#div_file_message").html(_("A file must be uploaded"));
 	}else{
 		if (validateForm() === true) {
-			$('#submitAttachment').attr("disabled", "disabled");
+			$('#submitAttachment').attr("disabled", "disabled"); 
 			  $.ajax({
 				 type:       "POST",
 				 url:        "ajax_processing.php?action=submitAttachment",
 				 cache:      false,
-				 data:       { resourceID: $("#resourceID").val(), attachmentID: $("#editAttachmentID").val(), shortName: $("#shortName").val(), uploadDocument: fileName, descriptionText: $("#descriptionText").val(), attachmentTypeID: $("#attachmentTypeID").val()  },
+				 data:       { resourceAcquisitionID: $("#editResourceAcquisitionID").val(), attachmentID: $("#editAttachmentID").val(), shortName: $("#shortName").val(), uploadDocument: fileName, descriptionText: $("#descriptionText").val(), attachmentTypeID: $("#attachmentTypeID").val()  },
 				 success:    function(html) {
 					if (html){
 						$("#span_errors").html(html);
@@ -193,7 +193,7 @@ function submitAttachment(){
 						window.parent.updateAttachments();
 						window.parent.updateAttachmentsNumber();
 						return false;
-					}
+					}					
 
 				 }
 

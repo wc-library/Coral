@@ -30,14 +30,14 @@
 	      if(e.keyCode == 13) {
 		submitOrderForm();
 	      }
-	});
+	}); 
 
 	//do submit if enter is hit
 	$('#systemNumber').keyup(function(e) {
 	      if(e.keyCode == 13) {
 		submitOrderForm();
 	      }
-	});
+	}); 
 
 
 	//the following are all to change the look of the inputs when they're clicked
@@ -50,12 +50,12 @@
 	 $('.changeDefault').live('blur', function() {
 		if(this.value == ''){
 			this.value = this.defaultValue;
-		}
+		}		
 	 });
 
-
+	
     	$('.changeInput').addClass("idleField");
-
+    	
 	$('.changeInput').live('focus', function() {
 
 
@@ -91,16 +91,38 @@
 	$('textarea').focus(function() {
 		$(this).removeClass("idleField").addClass("focusField");
 	});
-
+	    
 	$('textarea').blur(function() {
 		$(this).removeClass("focusField").addClass("idleField");
 	});
+
+    $(".organizationName").autocomplete('ajax_processing.php?action=getOrganizationList', {
+        minChars: 2,
+        max: 20,
+        mustMatch: false,
+        width: 164,
+        delay: 10,
+        matchContains: true,
+        formatItem: function(row) {
+            return "<span style='font-size: 80%;'>" + row[0] + "</span>";
+        },
+        formatResult: function(row) {
+            return row[0].replace(/(<.+?>)/gi, '');
+        }
+
+    });
+
+
+    //once something has been selected, change the hidden input value
+    $(".organizationName").result(function(event, data, formatted) {
+        $(this).parent().children('.organizationID').val(data[1]);
+    });
 
 
 
 
 	$(".remove").live('click', function () {
-	    $(this).parent().parent().parent().fadeTo(400, 0, function () {
+	    $(this).parent().parent().parent().fadeTo(400, 0, function () { 
 		$(this).remove();
 	    });
 	    return false;
@@ -118,23 +140,23 @@
 		var detailsID = $('.newPaymentTable').children().children().children().children('.costDetailsID').val();
 		var pAmount   = $('.newPaymentTable').children().children().children().children('.paymentAmount').val();
 		var cNote     = $('.newPaymentTable').children().children().children().children('.costNote').val();
-
+						
 		if ((pAmount == '' || pAmount == null) && (fName == '' || fName == null)){
 			$('#div_errorPayment').html(_("Error - Either amount or fund is required"));
-			return false;
+			return false;		
 		}else if((typeID == '') || (typeID == null)){
 			$('#div_errorPayment').html(_("Error - order type is a required field"));
 			return false;
 		}else if ((pAmount != '') && (pAmount != null) && (isAmount(pAmount) === false)){
 			$('#div_errorPayment').html(_("Error - price is not numeric"));
-			return false;
+			return false;		
 		}else{
 
 			//we're going to strip out the $ of the payment amount
 			pAmount = pAmount.replace('$','');
-
+		
 			$('#div_errorPayment').html('');
-
+			
 			//first copy the new payment being added
 			var originalTR = $('.newPaymentTR').clone();
 
@@ -155,7 +177,7 @@
 			$('.paymentName').addClass('changeInput');
 			$('.paymentName').addClass('idleField');
 
-
+			
 			$('.addPayment').removeClass('addPayment');
 			$('.newPaymentTR').removeClass('newPaymentTR');
 
@@ -166,7 +188,7 @@
 			$('.newPaymentTable').children().children().children().children('.fundName').val('');
 			$('.newPaymentTable').children().children().children().children('.paymentAmount').val('');
 			$('.newPaymentTable').children().children().children().children('.costNote').val('');
-
+			
 
 			return false;
 		}
@@ -178,24 +200,27 @@
 
 
 function submitOrderForm(){
-
+	
 	purchaseSitesList ='';
 	$(".check_purchaseSite:checked").each(function(id) {
 	      purchaseSitesList += $(this).val() + ":::";
-	});
-
+	}); 
+	
 	if (validateForm() === true) {
-		$('#submitOrder').attr("disabled", "disabled");
+		$('#submitOrder').attr("disabled", "disabled"); 
 		  $.ajax({
 			 type:  "POST",
 			 url:   "ajax_processing.php?action=submitAcquisitions",
 			 cache: false,
-			 data:  { resourceID: $("#editResourceID").val(),
+			 data:  { resourceAcquisitionID: $("#editResourceAcquisitionID").val(),
+                      resourceID: $("#editResourceID").val(),
+                      op: $("#op").val(),
                       acquisitionTypeID: $("#acquisitionTypeID").val(),
                       orderNumber: $("#orderNumber").val(),
                       systemNumber: $("#systemNumber").val(),
                       currentStartDate: $("#currentStartDate").val(),
                       currentEndDate: $("#currentEndDate").val(),
+                      organizationID: $("#organizationID").val(),
                       subscriptionAlertEnabledInd: $("#subscriptionAlertEnabledInd:checked").val(),
                       purchaseSites: purchaseSitesList,
                     },
@@ -204,11 +229,24 @@ function submitOrderForm(){
 					$("#span_errors").html(html);
 					$("#submitOrder").removeAttr("disabled");
 				}else{
-					kill();
-					window.parent.tb_remove();
-					window.parent.updateAcquisitions();
-					return false;
-				}
+                    if ($("#editResourceAcquisitionID").val() == '' || $("#op").val() == 'clone') {
+                        //TODO: it would be better to go directly to the newly created order
+                        var newLoc = location.search;
+                       	if (newLoc.includes('showTab')) {
+            				newLoc = newLoc.replace(/showTab=[^&$]*/i, 'showTab=Orders');
+        				} else {
+            				newLoc += "&showTab=Orders";
+        				}
+						location.search = newLoc;
+ 
+                    } else {
+                        kill();
+                        window.parent.tb_remove();
+                        window.parent.updateOrders();
+                        window.parent.updateRightPanel();
+                        return false;
+                    }
+				}					
 
 			 }
 
@@ -222,7 +260,7 @@ function submitOrderForm(){
 
 
 
-
+ 
  function validateForm (){
  	myReturn=0;
 
@@ -234,12 +272,12 @@ function submitOrderForm(){
 	}
 
  	if (myReturn == "1"){
-		return false;
+		return false; 	
  	}else{
  		return true;
  	}
 }
-
+ 
 
 
 
@@ -248,7 +286,7 @@ function submitOrderForm(){
 //kill all binds done by jquery live
 function kill(){
 
-	$('.addPayment').die('click');
+	$('.addPayment').die('click'); 
 	$('.changeDefault').die('blur');
 	$('.changeDefault').die('focus');
 	$('.changeInput').die('blur');

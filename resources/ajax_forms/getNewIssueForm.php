@@ -2,15 +2,17 @@
 $util = new utility();
 
 $resourceID = $_GET["resourceID"];
+$resourceAcquisitionID = $_GET["resourceAcquisitionID"];
 
-$resource = new Resource(new NamedArguments(array('primaryKey' => $resourceID)));
+$resourceAcquisition = new ResourceAcquisition(new NamedArguments(array('primaryKey' => $resourceAcquisitionID))); 
+$resource = new Resource(new NamedArguments(array('primaryKey' => $resourceID))); 
 
 $organizationArray = $resource->getOrganizationArray();
 $organizationData = $organizationArray[0];
 
 //the issues feature currently support org or resource contacts, but not both
 $moduleFilter = ($config->settings->organizationsModule == 'Y') ? 'organizations':'resources';
-$contactsArray = $resource->getUnarchivedContacts($moduleFilter);
+$contactsArray = $resourceAcquisition->getUnarchivedContacts($moduleFilter);
 if ($organizationData['organizationID']) {
 	$organizationResourcesArray = $resource->getSiblingResourcesArray($organizationData['organizationID']);
 ?>
@@ -18,6 +20,7 @@ if ($organizationData['organizationID']) {
 <form id='newIssueForm'>
 	<input type="hidden" id="sourceOrganizationID" name="sourceOrganizationID" value="<?php echo $organizationData['organizationID'];?>" />
 	<input type="hidden" name="sourceResourceID" value="<?php echo $resourceID;?>" />
+	<input type="hidden" name="sourceResourceAcquisitionID" value="<?php echo $resourceAcquisitionID;?>" />
 	<table class="thickboxTable" style="width:98%;background-image:url('images/title.gif');background-repeat:no-repeat;">
 		<tr>
 			<td colspan="2">
@@ -36,7 +39,7 @@ if ($organizationData['organizationID']) {
 			<td><label><?php echo _("Contact:");?>&nbsp;&nbsp;<span class='bigDarkRedText'>*</span></label></td>
 			<td>
 				<select multiple style="min-height: 60px;" type='text' id='contactIDs' name='contactIDs[]'>
-<?php
+<?php 
 
 	foreach ($contactsArray as $contact) {
 		echo "		<option value=\"{$contact['contactID']}\">{$contact['name']}</option>";
@@ -121,10 +124,10 @@ if ($config->settings->organizationsModule == 'Y') {
 		</tr>
 	</table>
 
-	<p> <?php echo _("Send me a reminder every");?>
+	<p> <?php echo _("Send me a reminder every");?> 
 		<select name="issue[reminderInterval]">
 			<?php for ($i = 1; $i <= 31; $i++) echo "<option".(($i==7) ? ' selected':'').">{$i}</option>"; ?>
-		</select> <?php echo _("day(s)");?>
+		</select> <?php echo _("day(s)");?> 
 	</p>
 
 	<table class='noBorderTable' style='width:125px;'>
