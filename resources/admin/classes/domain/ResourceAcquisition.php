@@ -192,7 +192,6 @@ class ResourceAcquisition extends DatabaseObject {
         if ($workflowID == null) {
             $workflowID = $workflowObj->getWorkflowID($resource->resourceTypeID, $resource->resourceFormatID, $this->acquisitionTypeID);
         }
-        error_log("workflow id : $workflowID");
 		if ($workflowID){
 
 			$workflow = new Workflow(new NamedArguments(array('primaryKey' => $workflowID)));
@@ -495,7 +494,7 @@ class ResourceAcquisition extends DatabaseObject {
 
         // Copy licenses
         $this->cloneLicenses($source);
-        
+
         // Copy access
         $this->cloneAccess($source);
 
@@ -511,10 +510,9 @@ class ResourceAcquisition extends DatabaseObject {
 
     public function cloneAttachments($source) {
         foreach ($source->getAttachments() as $s) {
-    
+
             $s->attachmentID = null;
             $newID = $s->saveAsNew();
-            //error_log("Cloning Attachment from source to " . $this->resourceAcquisitionID . " newID : $newID");
             $query = "UPDATE Attachment SET ResourceAcquisitionID=" . $this->resourceAcquisitionID . " WHERE attachmentID=" . $newID;
             $result = $this->db->processQuery($query);
         }
@@ -532,13 +530,11 @@ class ResourceAcquisition extends DatabaseObject {
                 $query = "INSERT INTO ContactRoleProfile(contactID, contactRoleID) VALUES ($newID, " . $contactRole->contactRoleID . ")";
                 $result = $this->db->processQuery($query);
             }
-            
         }
     }
 
     public function cloneResourcePayments($source) {
         foreach ($source->getResourcePayments() as $srp) {
-           //error_log("Cloning RP from " . $srp->resourceAcquisitionID . " to " . $this->resourceAcquisitionID);
            $srp->resourcePaymentID = null;
            $newRPID = $srp->saveAsNew(); 
            $query = "UPDATE ResourcePayment SET resourceAcquisitionID=" . $this->resourceAcquisitionID . " WHERE resourcePaymentID=" . $newRPID;
@@ -550,32 +546,15 @@ class ResourceAcquisition extends DatabaseObject {
         foreach ($source->getAdministeringSitesLinks() as $s) {
             $s->resourceAdministeringSiteLinkID = null;
             $newID = $s->saveAsNew();
-            //error_log("Cloning AdminsteringSite from source to " . $this->resourceAcquisitionID . " newID : $newID");
             $query = "UPDATE ResourceAdministeringSiteLink SET resourceAcquisitionID=" . $this->resourceAcquisitionID . " WHERE resourceAdministeringSiteLinkID=" . $newID;
-            //error_log($query);
            $result = $this->db->processQuery($query);
         }
         foreach ($source->getAuthorizedSitesLinks() as $s) {
             $s->resourceAuthorizedSiteLinkID = null;
             $newID = $s->saveAsNew();
-            //error_log("Cloning AdminsteringSite from source to " . $this->resourceAcquisitionID . " newID : $newID");
             $query = "UPDATE ResourceAuthorizedSiteLink SET resourceAcquisitionID=" . $this->resourceAcquisitionID . " WHERE resourceAuthorizedSiteLinkID=" . $newID;
-            //error_log($query);
            $result = $this->db->processQuery($query);
         }
-
-        // Not needed, they are already cloned in the order edit screen
-/*
-        foreach ($source->getPurchaseSitesLinks() as $s) {
-            $s->resourcePurchaseSiteLinkID = null;
-            $newID = $s->saveAsNew();
-            //error_log("Cloning AdminsteringSite from source to " . $this->resourceAcquisitionID . " newID : $newID");
-            $query = "UPDATE ResourcePurchaseSiteLink SET resourceAcquisitionID=" . $this->resourceAcquisitionID . " WHERE resourcePurchaseSiteLinkID=" . $newID;
-            //error_log($query);
-           $result = $this->db->processQuery($query);
-        }
-*/
-    }    
 
     public function cloneLicenses($source) {
         foreach ($source->getLicenseArray() as $s) {

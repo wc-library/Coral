@@ -25,7 +25,7 @@ class Resource extends DatabaseObject {
 
 	protected function overridePrimaryKeyName() {}
 
-  
+
 	//returns resource objects by title
 	public function getResourceByTitle($title) {
 
@@ -61,7 +61,7 @@ class Resource extends DatabaseObject {
 			array_push($objects, $object);
 		}
 		return $objects;
-    
+
     }
 
     public function countResourceAcquisitions() {
@@ -1327,13 +1327,7 @@ class Resource extends DatabaseObject {
 	public function removeResource() {
 		//delete data from child linked tables
 		$this->removeResourceRelationships();
-		//$this->removePurchaseSites();
-		//$this->removeAuthorizedSites();
-		//$this->removeAdministeringSites();
-		//$this->removeResourceLicenses();
-		//$this->removeResourceLicenseStatuses();
 		$this->removeResourceOrganizations();
-		//$this->removeResourcePayments();
 		$this->removeAllSubjects();
 		$this->removeAllIsbnOrIssn();
 
