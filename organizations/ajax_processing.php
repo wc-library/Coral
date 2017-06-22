@@ -21,6 +21,7 @@
 include_once 'directory.php';
 include_once 'user.php';
 
+$config = new Configuration();
 
 switch ($_GET['action']) {
 
@@ -88,6 +89,32 @@ switch ($_GET['action']) {
 
 			}
 
+            if ($organization->hasILSVendorRole()) {
+                $ilsClient = (new ILSClientSelector())->select();
+                // Create vendor in ILS
+                if ($organization->ilsID == null) {
+                    $ilsID = $ilsClient->addVendor(array(
+                                                "name" => $organization->name, 
+                                                "companyURL" => $organization->companyURL,
+                                                "noteText" => $organization->noteText,
+                                                "accountDetailText" => $organization->accountDetailText,
+                                                "coralID" => (int) $organization->organizationID,
+                                                )
+                                            );
+                    if ($ilsID) {
+                        $organization->ilsID = $ilsID;
+                    }
+
+                } else {
+                    // Retrieve organization data from ILS
+                    $ilsVendor = $ilsClient->getVendor($organization->ilsID);
+                    $organization->name = $ilsVendor['name'];
+                    $organization->companyURL = $ilsVendor['companyURL'];
+                    $organization->noteText = $ilsVendor['noteText'];
+                    $organization->accountDetailText = $ilsVendor['accountDetailText'];
+                }
+                $organization->save();
+            } 
 
 		} catch (Exception $e) {
 			echo $e->getMessage();
@@ -229,7 +256,7 @@ switch ($_GET['action']) {
 
 		$sourceOrganizationID = $_POST['sourceOrganizationID'];
 
-		$sourceOrganization = new Organization(new NamedArguments(array('primaryKey' => $sourceOrganizationID)));
+		$sourceOrganization = new Organization(new NamedArguments(array('primaryKey' => $sourceOrganizationID))); 
 
 
 		$issueEmails = array();
@@ -274,7 +301,7 @@ switch ($_GET['action']) {
 			$orgResourcesArray = $sourceOrganization->getResources(5);
 			$orgResourcesIndexed = array();
 			foreach ($orgResources as $resource) {
-				$orgResourcesIndexed[$resource['resourceID']] = $resource;
+				$orgResourcesIndexed[$resource['resourceID']] = $resource;							
 			}
 
 			foreach($resourceIDArray as $resourceID) {
@@ -514,9 +541,28 @@ switch ($_GET['action']) {
 		break;
 
 
+    case 'getILSVendors':
+        if ($config->ils->ilsConnector) {
+            $ilsClient = (new ILSClientSelector())->select();
+            $vendors = $ilsClient->getVendorByName($_GET['q']);
+            foreach ($vendors as $vendor) {
+                $av = (array) $vendor;
+                print $av['name'] . "\n";
+            }
+        }
 
+        break;
 
-	case 'getExistingOrganizationName':
+    case 'getILSVendorInfos':
+        if ($config->ils->ilsConnector) {
+            $ilsClient = (new ILSClientSelector())->select();
+            $vendor = $ilsClient->getVendorByName($_GET['name']);
+            print json_encode($vendor[0]);
+        }
+
+        break;
+
+	case 'getExistingOrganizationOrVendor':
 		$name = $_GET['name'];
 		if (isset($_GET['organizationID'])) $organizationID = $_GET['organizationID']; else $organizationID = '';
 
@@ -524,18 +570,26 @@ switch ($_GET['action']) {
 		$organization = new Organization();
 		$orgArray = array();
 
-		$exists = 0;
+		$existsInCoral = 0;
+		$existsInILS = 0;
 
 		foreach ($organization->allAsArray() as $orgArray) {
 			if ((strtoupper($orgArray['name']) == strtoupper($name)) && ($orgArray['organizationID'] != $organizationID)) {
-				$exists = $orgArray['organizationID']; break;
+				$existsInCoral = 1; break;
 			}
 		}
+        
+        if ($config->ils->ilsConnector) {
+            $ilsClient = (new ILSClientSelector())->select(); 
+            if ($ilsClient->vendorExists($name)) {
+                $existsInILS = 2;
+            }
+        }
 
-		echo $exists;
+
+		echo $existsInCoral + $existsInILS;
 
 		break;
-
 
 
 	default:

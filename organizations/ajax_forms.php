@@ -70,7 +70,7 @@ switch ($_GET['action']) {
 
 		<tr>
 		<td style='vertical-align:top;text-align:right;padding-top:10px;'><label for='organizationName'><b><?php echo _("Name:");?></b></label></td>
-		<td style='vertical-align:top;padding-top:10px;'><input type='text' id='organizationName' name='organizationName' value = "<?php echo htmlentities($organization->name); ?>" style='width:220px;' /><span id='span_errors' style='color:red'></span></td>
+		<td style='vertical-align:top;padding-top:10px;'><input type='text' id='organizationName' name='organizationName' value = "<?php echo htmlentities($organization->name); ?>" style='width:220px;' <?php if ($organization->isLinkedToILS()) echo "disabled='disabled'" ?> /> <a href="#" id="retrieveVendor">[...]</a> <span id='span_errors' style='color:red'></span></td>
 		</tr>
 
 		<?php if (count($parentOrganizationArray) > 0){ ?>
@@ -99,7 +99,7 @@ switch ($_GET['action']) {
 
 		<tr>
 		<td style='vertical-align:top;text-align:right;'><label for='companyURL'><b><?php echo _("Company URL:");?></b></label></td>
-		<td><input type='text' id='companyURL' name='companyURL' value = '<?php if (!$organizationID) { echo "http://"; } else { echo $organization->companyURL; } ?>' style='width:220px' />
+		<td><input type='text' id='companyURL' name='companyURL' value = '<?php if (!$organizationID) { echo "http://"; } else { echo $organization->companyURL; } ?>' style='width:220px' <?php if ($organization->isLinkedToILS()) echo "disabled='disabled'" ?> />
 		</td>
 		</tr>
 
@@ -116,10 +116,11 @@ switch ($_GET['action']) {
 					if(($i % 2)==1){
 						echo "<tr>\n";
 					}
+                    $ilsClass = ($organizationRoleIns['shortName'] == $config->ils->ilsVendorRole) ? ' ils_role' : '';
 					if (in_array($organizationRoleIns['organizationRoleID'],$organizationRoleProfileArray)){
-						echo "<td><input class='check_roles' type='checkbox' name='" . $organizationRoleIns['organizationRoleID'] . "' id='" . $organizationRoleIns['organizationRoleID'] . "' value='" . $organizationRoleIns['organizationRoleID'] . "' checked />   " . $organizationRoleIns['shortName'] . "</td>\n";
+						echo "<td><input class='check_roles$ilsClass' type='checkbox' name='" . $organizationRoleIns['organizationRoleID'] . "' id='" . $organizationRoleIns['organizationRoleID'] . "' value='" . $organizationRoleIns['organizationRoleID'] . "' checked />   " . $organizationRoleIns['shortName'] . "</td>\n";
 					}else{
-						echo "<td><input class='check_roles' type='checkbox' name='" . $organizationRoleIns['organizationRoleID'] . "' id='" . $organizationRoleIns['organizationRoleID'] . "' value='" . $organizationRoleIns['organizationRoleID'] . "' />   " . $organizationRoleIns['shortName'] . "</td>\n";
+						echo "<td><input class='check_roles$ilsClass' type='checkbox' name='" . $organizationRoleIns['organizationRoleID'] . "' id='" . $organizationRoleIns['organizationRoleID'] . "' value='" . $organizationRoleIns['organizationRoleID'] . "' />   " . $organizationRoleIns['shortName'] . "</td>\n";
 					}
 					if(($i % 2)==0){
 						echo "</tr>\n";
@@ -137,12 +138,12 @@ switch ($_GET['action']) {
 
 		<tr>
 		<td style='vertical-align:top;text-align:right;'><label for='accountDetailText'><b><?php echo _("Account Details:");?></b></label></td>
-		<td><textarea rows='3' id='accountDetailText' name='accountDetailText' style='width:220px'><?php echo $organization->accountDetailText; ?></textarea></td>
+		<td><textarea rows='3' id='accountDetailText' name='accountDetailText' style='width:220px' <?php if ($organization->isLinkedToILS()) echo "disabled='disabled'" ?>><?php echo $organization->accountDetailText; ?></textarea></td>
 		</tr>
 
 		<tr>
 		<td style='vertical-align:top;text-align:right;'><label for='noteText'><b><?php echo _("Notes:");?></b></label></td>
-		<td><textarea rows='3' id='noteText' name='noteText' style='width:220px'><?php echo $organization->noteText; ?></textarea></td>
+		<td><textarea rows='3' id='noteText' name='noteText' style='width:220px' <?php if ($organization->isLinkedToILS()) echo "disabled='disabled'" ?>><?php echo $organization->noteText; ?></textarea></td>
 		</tr>
 
 
@@ -273,7 +274,7 @@ switch ($_GET['action']) {
 					<label style="display:block;" for="'.$contactRoleIns['contactRoleID'].'">Roles</label>';
 			foreach ($contactRoleArray as $contactRoleIns){
 				echo "<div class=\"form-element form-element-tight\">
-						<input class='check_roles' type='checkbox' name='" . $contactRoleIns['contactRoleID'] . "' id='" . $contactRoleIns['contactRoleID'] . "' value='" . $contactRoleIns['contactRoleID'] . "' />
+						<input class='check_roles' type='checkbox' name='" . $contactRoleIns['contactRoleID'] . "' id='" . $contactRoleIns['contactRoleID'] . "' value='" . $contactRoleIns['contactRoleID'] . "' />   
 						<span class='smallText'>" . $contactRoleIns['shortName'] . "</span>
 					 </div>";
 			}
@@ -578,7 +579,7 @@ switch ($_GET['action']) {
 	case 'getNewIssueForm':
 		$organizationID = $_GET["organizationID"];
 
-		$organization = new Organization(new NamedArguments(array('primaryKey' => $organizationID)));
+		$organization = new Organization(new NamedArguments(array('primaryKey' => $organizationID))); 
 		$organizationContactsArray = $organization->getUnarchivedContacts();
 		$organizationResourcesArray = $organization->getResources(5);
 ?>
@@ -603,7 +604,7 @@ switch ($_GET['action']) {
 			<td><label><?php echo _("Contact:");?>&nbsp;&nbsp;<span class='bigDarkRedText'>*</span></label></td>
 			<td>
 				<select multiple style="min-height: 60px;" type='text' id='contactIDs' name='contactIDs[]'>
-<?php
+<?php 
 
 		foreach ($organizationContactsArray as $contact) {
 			echo "		<option value=\"{$contact->contactID}\">{$contact->name}</option>";
@@ -677,10 +678,10 @@ switch ($_GET['action']) {
 		</tr>
 	</table>
 
-	<p> <?php echo _("Send me a reminder every");?>
+	<p> <?php echo _("Send me a reminder every");?> 
 		<select name="issue[reminderInterval]">
 			<?php for ($i = 1; $i <= 31; $i++) echo "<option".(($i==7) ? ' selected':'').">{$i}</option>"; ?>
-		</select> <?php echo _("day(s)");?>
+		</select> <?php echo _("day(s)");?> 
 	</p>
 
 	<table class='noBorderTable' style='width:125px;'>
@@ -759,7 +760,7 @@ echo buildTimeForm("endTime");
 		case 'getNewDowntimeForm':
 
 	$organizationID = $_GET["organizationID"];
-	$organization = new Organization(new NamedArguments(array('primaryKey' => $organizationID)));
+	$organization = new Organization(new NamedArguments(array('primaryKey' => $organizationID))); 
 
 	$issueID = $_GET['issueID'];
 
@@ -1015,7 +1016,7 @@ if ($issues) {
 
 		</tr>
 		<tr>
-
+		
 		<td>
 		<?php
 
