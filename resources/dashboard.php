@@ -81,36 +81,40 @@
 
 	<tr>
 	<td class='searchRow'>
-    <label for="resourceTypeID"><b>Resource type:</b></label><br />
+    <form action="dashboard_export.php" method="POST">
+    <label for="resourceTypeID"><b><?php echo _("Resource type"); ?>:</b></label><br />
     <?php getResourceTypesAsDropdown(); ?><br />
     </td>
 	</tr>
 	<tr>
 	<td class='searchRow'>
-    <label for="subjectID"><b>Subject:</b></label><br />
+    <label for="subjectID"><b><?php echo _("Subject"); ?>:</b></label><br />
     <?php getSubjectsAsDropdown(); ?><br />
     </td>
 	</tr>
 	<tr>
 	<td class='searchRow'>
-    <label for="acquisitionTypeID"><b>Acquisition type:</b></label><br />
+    <label for="acquisitionTypeID"><b><?php echo _("Acquisition type"); ?>:</b></label><br />
     <?php getAcquisitionTypesAsDropdown(); ?><br />
     </td>
 	</tr>
 	<tr>
 	<td class='searchRow'>
-    <label for="orderTypeID"><b>Order Type:</b></label><br />
+    <label for="orderTypeID"><b><?php echo _("Order Type"); ?>:</b></label><br />
     <?php getOrderTypesAsDropdown(); ?>
     </td>
 	</tr>
 	<tr>
 	<td class='searchRow'>
-    <label for="year"><b>Year:</b></label><br /><input type="text" id="year" size="4" value="<?php echo date('Y');?>" />
+    <label for="year"><b><?php echo _("Year"); ?>:</b></label><br /><input type="text" id="year" size="4" value="<?php echo date('Y');?>" />
     </td>
 	</tr>
 	<tr>
 	<td class='searchRow'>
-    <input type="submit" id="submitDashboard" />
+    <input type="button" id="submitDashboard" value="<?php echo _("Display"); ?>" />
+    <input type="hidden" name="csv" value="1" />
+    <input type="submit" id="getDashboardCSV" value="<?php echo _("Export"); ?>" />
+    </form>
     </td></tr>
     </table>
     </div>
