@@ -8,7 +8,7 @@ $(document).ready(function(){
 function submitDashboard() {
 	$.ajax({
 		type:       "POST",
-		url:        "ajax_processing.php?action=submitDashboard",
+		url:        "ajax_htmldata.php?action=getDashboard",
 		cache:      false,
 		data:       { 
                         "resourceTypeID": $("#resourceTypeID").val(), 

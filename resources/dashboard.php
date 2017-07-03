@@ -6,7 +6,7 @@
     function getResourceTypesAsDropdown($currentID = null) {
         $display = array();
         $resourceType = new ResourceType();
-        echo '<select name="resourceTypeID" id="resourceTypeID">';
+        echo '<select name="resourceTypeID" id="resourceTypeID" style="width:150px;">';
         echo "<option value=''>All</option>";
         foreach($resourceType->getAllResourceType() as $display) {
             if ($display['resourceTypeID'] == $current) {
@@ -21,7 +21,7 @@
     function getAcquisitionTypesAsDropdown($currentID = null) {
         $display = array();
         $acquisitionType = new AcquisitionType();
-        echo '<select name="acquisitionTypeID" id="acquisitionTypeID">';
+        echo '<select name="acquisitionTypeID" id="acquisitionTypeID" style="width:150px;">';
         echo "<option value=''>All</option>";
         foreach($acquisitionType->allAsArray() as $display) {
             if ($display['acquisitionTypeID'] == $current) {
@@ -36,7 +36,7 @@
     function getOrderTypesAsDropdown($currentID = null) {
         $display = array();
         $orderType = new OrderType();
-        echo '<select name="orderTypeID" id="orderTypeID">';
+        echo '<select name="orderTypeID" id="orderTypeID" style="width:150px;">';
         echo "<option value=''>All</option>";
         foreach($orderType->getAllOrderType() as $display) {
             if ($display['orderTypeID'] == $current) {
@@ -55,7 +55,7 @@
         $detailedSubject = new DetailedSubject();
         $detailedSubjectArray = $detailedSubject->allAsArray();
 
-        echo '<select name="subjectID" id="subjectID">';
+        echo '<select name="subjectID" id="subjectID" style="width:150px;">';
         echo "<option value=''>All</option>";
         foreach($generalSubjectArray as $ug) {
             $generalSubject = new GeneralSubject(new NamedArguments(array('primaryKey' => $ug['generalSubjectID'])));
@@ -70,15 +70,54 @@
 ?>
 <script type="text/javascript" src="js/dashboard.js"></script>
 <div id="dashboardPage"><h1><?php echo _("Dashboard");?></h1>
-<label for="resourceTypeID">Resource type:</label>
-<?php getResourceTypesAsDropdown(); ?><br />
-<label for="subjectID">Subject:</label>
-<?php getSubjectsAsDropdown(); ?><br />
-<label for="acquisitionTypeID">Acquisition type:</label>
-<?php getAcquisitionTypesAsDropdown(); ?><br />
-<label for="year">Year: </label><input type="text" id="year" size="4" value="<?php echo date('Y');?>" />
-<label for="orderTypeID">Order Type:</label>
-<?php getOrderTypesAsDropdown(); ?>
-<input type="submit" id="submitDashboard" />
-<br /><br />
+<div style='text-align:left;'>
+<table class="headerTable" style="background-image:url('images/header.gif');background-repeat:no-repeat;">
+<tr style='vertical-align:top;'>
+<td style="width:155px;padding-right:10px;">
+<table class='noBorder' id='title-search'>
+	<tr><td style='text-align:left;width:75px;' align='left'>
+
+	<table class='borderedFormTable' style="width:150px">
+
+	<tr>
+	<td class='searchRow'>
+    <label for="resourceTypeID"><b>Resource type:</b></label><br />
+    <?php getResourceTypesAsDropdown(); ?><br />
+    </td>
+	</tr>
+	<tr>
+	<td class='searchRow'>
+    <label for="subjectID"><b>Subject:</b></label><br />
+    <?php getSubjectsAsDropdown(); ?><br />
+    </td>
+	</tr>
+	<tr>
+	<td class='searchRow'>
+    <label for="acquisitionTypeID"><b>Acquisition type:</b></label><br />
+    <?php getAcquisitionTypesAsDropdown(); ?><br />
+    </td>
+	</tr>
+	<tr>
+	<td class='searchRow'>
+    <label for="orderTypeID"><b>Order Type:</b></label><br />
+    <?php getOrderTypesAsDropdown(); ?>
+    </td>
+	</tr>
+	<tr>
+	<td class='searchRow'>
+    <label for="year"><b>Year:</b></label><br /><input type="text" id="year" size="4" value="<?php echo date('Y');?>" />
+    </td>
+	</tr>
+	<tr>
+	<td class='searchRow'>
+    <input type="submit" id="submitDashboard" />
+    </td></tr>
+    </table>
+    </div>
+ </td>
+<td>
 <div id="dashboardTable" />
+</td></tr>
+</table>
+</div>
+
