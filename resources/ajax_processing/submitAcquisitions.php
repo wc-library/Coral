@@ -2,8 +2,8 @@
 		$resourceAcquisitionID = $_POST['resourceAcquisitionID'];
 		$resourceID = $_POST['resourceID'];
         $op = $_POST['op'];
-        
-		$resourceAcquisition = $resourceAcquisitionID ? 
+
+		$resourceAcquisition = $resourceAcquisitionID ?
                                 new ResourceAcquisition(new NamedArguments(array('primaryKey' => $resourceAcquisitionID))) :
                                 new ResourceAcquisition();
 
@@ -56,7 +56,7 @@
 					}
 				}
 			}
-        
+
 		} catch (Exception $e) {
 			echo $e->getMessage();
 		}

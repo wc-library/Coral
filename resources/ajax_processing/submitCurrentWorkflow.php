@@ -32,7 +32,7 @@
                             $oldStep->delete();
                         }
                         continue;
-                    } 
+                    }
 
 					$rstep = new ResourceStep();
 
@@ -64,7 +64,7 @@
                             echo $e->getMessage();
                         }
                     }
-  
+
 					$rstep->displayOrderSequence = $seqOrderArray[$key];
 					$rstep->resourceAcquisitionID = $resourceAcquisitionID;
 					$rstep->userGroupID = $userGroupArray[$key];
@@ -81,7 +81,7 @@
 						echo $e->getMessage();
 					}
 
-                  
+
                 }
 			}
 

@@ -31,7 +31,7 @@
 	      if(e.keyCode == 13) {
 		submitLicenseForm();
 	      }
-	}); 
+	});
 
 
 	 $(".licenseName").autocomplete('ajax_processing.php?action=getLicenseList', {
@@ -70,12 +70,12 @@
 	 $('.changeDefault').live('blur', function() {
 		if(this.value == ''){
 			this.value = this.defaultValue;
-		}		
+		}
 	 });
 
-	
+
     	$('.changeInput').addClass("idleField");
-    	
+
 	$('.changeInput').live('focus', function() {
 
 
@@ -117,14 +117,14 @@
 	 $('.changeAutocomplete').live('blur', function() {
 		if(this.value == ''){
 			this.value = this.defaultValue;
-		}	
+		}
 	 });
-	 
+
 
 
 
 	$(".remove").live('click', function () {
-	    $(this).parent().parent().parent().fadeTo(400, 0, function () { 
+	    $(this).parent().parent().parent().fadeTo(400, 0, function () {
 		$(this).remove();
 	    });
 	    return false;
@@ -135,14 +135,14 @@
 
 	$(".addLicense").live('click', function () {
 		var lID = $('.newLicenseTable').children().children().children().children('.licenseID').val();
-						
+
 		if ((lID == '') || (lID == null)){
 			$('#div_errorLicense').html(_("Error - Please choose a valid license"));
 			return false;
-			
+
 		}else{
 			$('#div_errorLicense').html('');
-			
+
 			//first copy the new license being added
 			var originalTR = $('.newLicenseTR').clone();
 
@@ -157,7 +157,7 @@
 			$('.licenseName').addClass('changeInput').removeClass('changeAutocomplete');
 			$('.licenseName').addClass('idleField');
 			$('.licenseName').css("background-color","");
-		
+
 			$('.addLicense').removeClass('addLicense');
 			$('.newLicenseTR').removeClass('newLicenseTR');
 
@@ -167,7 +167,7 @@
 			originalTR.appendTo('.newLicenseTable');
 			$('.newLicenseTable').children().children().children().children('.licenseName').val('');
 			$('.newLicenseTable').children().children().children().children('.licenseID').val('');
-			
+
 
 			//put autocomplete back
 			$('.newLicenseTable').children().children().children().children('.licenseName').autocomplete('ajax_processing.php?action=getLicenseList', {
@@ -191,7 +191,7 @@
 			$(".licenseName").result(function(event, data, formatted) {
 				$(this).parent().children('.licenseID').val(data[1]);
 				$('#div_errorLicense').html('');
-			});			
+			});
 
 			return false;
 		}
@@ -199,7 +199,7 @@
 
 
 
-  	 
+
  });
 
 
@@ -210,11 +210,11 @@ function submitLicenseForm(){
 	licenseList ='';
 	$(".licenseID").each(function(id) {
 	      licenseList += $(this).val() + ":::";
-	}); 
+	});
 
 
 	if (validateForm() === true) {
-		$('#submitLicense').attr("disabled", "disabled"); 
+		$('#submitLicense').attr("disabled", "disabled");
 		  $.ajax({
 			 type:       "POST",
 			 url:        "ajax_processing.php?action=submitLicenseUpdate",
@@ -230,7 +230,7 @@ function submitLicenseForm(){
 					window.parent.updateAcquisitions();
 					window.parent.updateRightPanel();
 					return false;
-				}					
+				}
 
 			 }
 
@@ -260,7 +260,7 @@ function validateForm(){
 //kill all binds done by jquery live
 function kill(){
 
-	$('.addLicense').die('click'); 
+	$('.addLicense').die('click');
 	$('.changeDefault').die('blur');
 	$('.changeDefault').die('focus');
 	$('.changeInput').die('blur');

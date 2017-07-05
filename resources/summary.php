@@ -111,7 +111,7 @@ if ($resource->titleText){
 	foreach ($resourceAcquisition->getAuthorizedSites() as $instance) {
 		$authorizedSiteArray[]=$instance->shortName;
 	}
-                
+
 	//get payments
 	$sanitizedInstance = array();
 	$instance = new ResourcePayment();
@@ -128,13 +128,13 @@ if ($resource->titleText){
 
 			$orderType = new OrderType(new NamedArguments(array('primaryKey' => $instance->orderTypeID)));
 			$sanitizedInstance['orderType'] = $orderType->shortName;
-                        
+
                         $costDetails = new CostDetails(new NamedArguments(array('primaryKey' => $instance->costDetailsID)));
                         $sanitizedInstance['costDetails'] = $costDetails->shortName;
-                        
+
                         $fund=new Fund(new NamedArguments(array('primaryKey' => $instance->fundID)));
                         $sanitizedInstance['fundName'] = $fund->shortName;
-			
+
                         array_push($paymentArray, $sanitizedInstance);
 
 	}
@@ -525,27 +525,27 @@ if ($resource->titleText){
                     <td style='vertical-align:top;width:150px;'><?php echo _("Tax Rate:");?></td>
                     <td><?php echo $payment['taxRate']/100 ."%"; ?></td>
                 </tr>
-              
+
                 <tr>
                     <td style='vertical-align:top;width:150px;'><?php echo _("Tax Incl.:");?></td>
                     <td><?php echo $payment['currencyCode'] . " " .integer_to_cost($payment['priceTaxIncluded']); ?></td>
                 </tr>
-            <?php } ?>  
-              
+            <?php } ?>
+
                 <tr>
                     <td style='vertical-align:top;width:150px;'><?php echo _("Payment:");?></td>
                     <td><?php echo $payment['currencyCode'] . " " . integer_to_cost($payment['paymentAmount']); ?></td>
-                </tr> 
+                </tr>
                 <tr>
                     <td style='vertical-align:top;width:150px;'><?php echo _("Order Type:");?></td>
                     <td><?php echo $payment['orderType']; ?></td>
-                </tr> 
-            <?php if ($enhancedCostFlag){ ?>   
+                </tr>
+            <?php if ($enhancedCostFlag){ ?>
                 <tr>
                     <td style='vertical-align:top;width:150px;'><?php echo _("Details:");?></td>
                     <td><?php echo $payment['costDetails']; ?></td>
 		</tr>
-             <?php } ?>   
+             <?php } ?>
                 <tr>
                     <td style='vertical-align:top;width:150px;'><?php echo _("Note:");?></td>
                     <td><?php echo $payment['costNote']; ?></td>
@@ -556,7 +556,7 @@ if ($resource->titleText){
                     <td><?php echo $payment['invoiceNum']; ?></td>
                 </tr>
             <?php } ?>
-               
+
 
 	<?php
 	 }
@@ -848,7 +848,7 @@ if ($resource->titleText){
       </tr>
     <?php } ?>
   </table>
-  
+
   <br />
 
 	<?php

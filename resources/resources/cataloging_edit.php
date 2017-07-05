@@ -30,7 +30,7 @@ $catalogingType = new CatalogingType();
 <tr>
 <td>
   <?php //debug($resource); ?>
-  
+
 	<table class='noBorder' style='width:670px; margin:15px 20px 10px 20px;'>
 	<tr>
 	<td style="width:400px;">
@@ -66,7 +66,7 @@ $catalogingType = new CatalogingType();
 	</td>
 	<td>
 		<table>
-    
+
       <tr>
   		<td style='vertical-align:top;text-align:left;font-weight:bold;'><?php echo Html::label_tag('numberRecordsAvailable', _('# Records Available')); ?></td>
   		<td>
