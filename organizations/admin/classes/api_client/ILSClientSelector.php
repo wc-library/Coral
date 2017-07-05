@@ -7,9 +7,9 @@ class ILSClientSelector {
         $config = new Configuration();
         if ($config->ils->ilsConnector == "koha")
             $ilsClient = new KohaClient();
-        
+
         return $ilsClient;
-        
+
     }
 
 }

@@ -26,16 +26,16 @@ function retrieveVendor() {
                 vendor = $.parseJSON(vendorString);
                 if (vendor == null) return false;
                 $("#accountDetailText").text(vendor['accountnumber']);
-                $('#accountDetailText').attr("disabled", "disabled"); 
+                $('#accountDetailText').attr("disabled", "disabled");
                 $("#noteText").text(vendor['notes']);
-                $('#noteText').attr("disabled", "disabled"); 
+                $('#noteText').attr("disabled", "disabled");
                 $("#companyURL").val(vendor['url']);
-                $('#companyURL').attr("disabled", "disabled"); 
-                $('#organizationName').attr("disabled", "disabled"); 
+                $('#companyURL').attr("disabled", "disabled");
+                $('#organizationName').attr("disabled", "disabled");
                 $("#span_errors").html("");
                 $('.ils_role').attr('checked', true);
                 $("#submitOrganizationChanges").removeAttr("disabled");
-			 }
+            }
          });
 }
 
@@ -70,7 +70,7 @@ function retrieveVendor() {
 				}
 			 }
 		  });
-    	});
+    });
 
 
 	$("#organizationName").autocomplete('ajax_processing.php?action=getOrganizationList', {
@@ -113,22 +113,22 @@ function retrieveVendor() {
 		formatResult: function(row) {
 			return row[0].replace(/(<.+?>)/gi, '');
 		}
-	
+
 	  });
 
-	
+
 	//once something has been selected, change the hidden input value
 	$("#parentOrganization").result(function(event, data, formatted) {
 		$("#parentOrganizationID").val(data[1]);
 	});
-	  
+
 
 	//do submit if enter is hit
 	$('#organizationName').keyup(function(e) {
 	      if(e.keyCode == 13) {
 		submitOrganization();
 	      }
-	}); 
+	});
 
 
 	//do submit if enter is hit
@@ -136,33 +136,33 @@ function retrieveVendor() {
 	      if(e.keyCode == 13) {
 		submitOrganization();
 	      }
-	}); 
+	});
 
 	//do submit if enter is hit
 	$('#companyURL').keyup(function(e) {
 	      if(e.keyCode == 13) {
 		submitOrganization();
 	      }
-	}); 	
+	});
 
-	  	 
+
  });
- 
 
 
- 
+
+
  function validateForm (){
  	myReturn=0;
  	if (!validateRequired('organizationName',"<br />"+_("Name must be entered to continue."))) myReturn=1;
- 	
- 
+
+
  	if (myReturn == 1){
-		return false; 	
+		return false;
  	}else{
  		return true;
  	}
 }
- 
+
 
 
 
@@ -170,10 +170,10 @@ function submitOrganization(){
 	organizationRolesList ='';
 	$(".check_roles:checked").each(function(id) {
 	      organizationRolesList += $(this).val() + ",";
-	}); 
+	});
 
 	if (validateForm() === true) {
-		$('#submitOrganizationChanges').attr("disabled", "disabled"); 
+		$('#submitOrganizationChanges').attr("disabled", "disabled");
 		  $.ajax({
 			 type:       "POST",
 			 url:        "ajax_processing.php?action=submitOrganization",
@@ -184,7 +184,7 @@ function submitOrganization(){
 				if ($("#editOrganizationID").val()==null || $("#editOrganizationID").val()=="") {
 					window.parent.location=("orgDetail.php?ref=new&organizationID=" + html);
 					tb_remove();
-					return false;	
+					return false;
 				//if this was an edit for an existing organization
 				}else{
 					if (html.length > 1){
@@ -194,7 +194,7 @@ function submitOrganization(){
 						window.parent.tb_remove();
 						window.parent.updateOrganization();
 						return false;
-					}			
+					}
 				}
 			 }
 

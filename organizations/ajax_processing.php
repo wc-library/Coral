@@ -256,7 +256,7 @@ switch ($_GET['action']) {
 
 		$sourceOrganizationID = $_POST['sourceOrganizationID'];
 
-		$sourceOrganization = new Organization(new NamedArguments(array('primaryKey' => $sourceOrganizationID))); 
+		$sourceOrganization = new Organization(new NamedArguments(array('primaryKey' => $sourceOrganizationID)));
 
 
 		$issueEmails = array();
@@ -301,7 +301,7 @@ switch ($_GET['action']) {
 			$orgResourcesArray = $sourceOrganization->getResources(5);
 			$orgResourcesIndexed = array();
 			foreach ($orgResources as $resource) {
-				$orgResourcesIndexed[$resource['resourceID']] = $resource;							
+				$orgResourcesIndexed[$resource['resourceID']] = $resource;
 			}
 
 			foreach($resourceIDArray as $resourceID) {
@@ -578,9 +578,9 @@ switch ($_GET['action']) {
 				$existsInCoral = 1; break;
 			}
 		}
-        
+
         if ($config->ils->ilsConnector) {
-            $ilsClient = (new ILSClientSelector())->select(); 
+            $ilsClient = (new ILSClientSelector())->select();
             if ($ilsClient->vendorExists($name)) {
                 $existsInILS = 2;
             }

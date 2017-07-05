@@ -25,7 +25,7 @@ class KohaClient implements ILSClient {
      * Adds a vendor in the ILS
      * @param $vendor key-value array with vendor description
      * @return id of the vendor in the ils
-     */ 
+     */
     function addVendor($vendor) {
         $headers = array("Accept" => "application/json");
         $body = Unirest\Request\Body::json($this->_vendorToKoha($vendor));
@@ -81,7 +81,7 @@ class KohaClient implements ILSClient {
     function getILSName() {
         return "Koha";
     }
-    
+
     /**
      * Gets the ILS API url
      * @return the ILS API url
