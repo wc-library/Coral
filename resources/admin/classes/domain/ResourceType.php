@@ -47,6 +47,7 @@ class ResourceType extends DatabaseObject {
     public function getAllResourceType(){
         $query = "SELECT * FROM ResourceType order by shortName";
         $result = $this->db->processQuery($query, 'assoc');
+        if (isset($result['resourceTypeID'])) { $result = [$result]; }
         return $result;
     }
 
