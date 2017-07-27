@@ -15,14 +15,16 @@
 **************************************************************************************************************************
 */
 
-function retrieveVendor() {
-    $.ajax({
-			 type:       "GET",
-			 url:        "ajax_processing.php",
-			 cache:      false,
-			 async:	     true,
-			 data:       "action=getILSVendorInfos&name=" + $("#organizationName").val(),
-			 success:    function(vendorString) {
+$(function(){
+
+    $("#retrieveVendor").click(function() {
+        $.ajax({
+             type:       "GET",
+             url:        "ajax_processing.php",
+             cache:      false,
+             async:      true,
+             data:       "action=getILSVendorInfos&name=" + $("#organizationName").val(),
+             success:    function(vendorString) {
                 vendor = $.parseJSON(vendorString);
                 if (vendor == null) return false;
                 $("#accountDetailText").text(vendor['accountnumber']);
@@ -32,61 +34,53 @@ function retrieveVendor() {
                 $("#companyURL").val(vendor['url']);
                 $('#companyURL').attr("disabled", "disabled");
                 $('#organizationName').attr("disabled", "disabled");
-                $("#span_errors").html("");
                 $('.ils_role').attr('checked', true);
-                $("#submitOrganizationChanges").removeAttr("disabled");
             }
          });
-}
-
- $(function(){
-
-	//check this name to make sure it isn't already being used
-
-	$("#organizationName").keyup(function() {
-		  $.ajax({
-			 type:       "GET",
-			 url:        "ajax_processing.php",
-			 cache:      false,
-			 async:	     true,
-			 data:       "action=getExistingOrganizationOrVendor&name=" + $("#organizationName").val() + "&organizationID=" + $("#editOrganizationID").val(),
-			 success:    function(exists) {
-				if (exists == 0){
-					$("#span_errors").html("");
-					$("#submitOrganizationChanges").removeAttr("disabled");
-                    $("#retrieveVendor").unbind("click", retrieveVendor);
-				}else{
-                  if (exists == 1) {
-                      $("#span_errors").html("<br />"+_("This organization already exists!"));
-                  } else if (exists == 2) {
-                      $("#span_errors").html("<br />"+_("This organization already exists in the ILS!"));
-                    $("#retrieveVendor").bind("click", retrieveVendor);
-                  } else if (exists == 3) {
-                      $("#span_errors").html("<br />"+_("This organization already exists in Coral and in the ILS!"));
-                    $("#retrieveVendor").bind("click", retrieveVendor);
-                  }
-				  $("#submitOrganizationChanges").attr("disabled","disabled");
-
-				}
-			 }
-		  });
     });
 
+    //check this name to make sure it isn't already being used
 
-	$("#organizationName").autocomplete('ajax_processing.php?action=getOrganizationList', {
-		minChars: 2,
-		max: 20,
-		width: 142,
-		delay: 30,
-		matchContains: false,
-		formatItem: function(row) {
-			return "<span style='font-size: 80%;'>" + row[0] + "</span>";
-		},
-		formatResult: function(row) {
-			return row[0].replace(/(<.+?>)/gi, '');
-		}
+    $("#organizationName").keyup(function() {
+          $.ajax({
+             type:       "GET",
+             url:        "ajax_processing.php",
+             cache:      false,
+             async:      true,
+             data:       "action=getExistingOrganization&name=" + $("#organizationName").val() + "&organizationID=" + $("#editOrganizationID").val(),
+             success:    function(exists) {
+                if (exists == 0){
+                    $("#span_errors").html("");
+                    $("#submitOrganizationChanges").removeAttr("disabled");
+                }else{
+                    $("#span_errors").html("<br />"+_("This organization already exists!"));
+                    $("#submitOrganizationChanges").attr("disabled","disabled");
+                }
+             }
+          });
+    });
 
-	 });
+    $("#checkVendorInILS").click(function() {
+           $.ajax({
+             type:       "GET",
+             url:        "ajax_processing.php",
+             cache:      false,
+             async:      true,
+             data:       "action=getExistingVendor&name=" + $("#organizationName").val() + "&organizationID=" + $("#editOrganizationID").val(),
+             success:    function(exists) {
+                if (exists == 0){
+                    $("#ils_span").html(_("This vendor does not exist in the ILS."));
+                    $("#retrieveVendor").hide();
+                    $("#submitOrganizationChanges").removeAttr("disabled");
+                }else{
+                    //$("#ils_span").html(_("This vendor exists in the ILS.") + '<a href="javascript:retrieveVendor();" id="retrieveVendor">' + _("Retrieve its informations.") + "</a>");
+                    $("#ils_span").html(_("This vendor exists in the ILS."));
+                    $("#retrieveVendor").show();
+                }
+             }
+          });
+    });
+
 
 	 $("#openOrganizationURL").click(function () {
 		window.open($("#companyURL").val());

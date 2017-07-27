@@ -562,37 +562,39 @@ switch ($_GET['action']) {
 
         break;
 
-	case 'getExistingOrganizationOrVendor':
-		$name = $_GET['name'];
-		if (isset($_GET['organizationID'])) $organizationID = $_GET['organizationID']; else $organizationID = '';
+    case 'getExistingOrganization':
+        $name = $_GET['name'];
+        if (isset($_GET['organizationID'])) $organizationID = $_GET['organizationID']; else $organizationID = '';
 
 
-		$organization = new Organization();
-		$orgArray = array();
+        $organization = new Organization();
+        $orgArray = array();
 
-		$existsInCoral = 0;
-		$existsInILS = 0;
+        $exists = 0;
 
-		foreach ($organization->allAsArray() as $orgArray) {
-			if ((strtoupper($orgArray['name']) == strtoupper($name)) && ($orgArray['organizationID'] != $organizationID)) {
-				$existsInCoral = 1; break;
-			}
-		}
-
-        if ($config->ils->ilsConnector) {
-            $ilsClient = (new ILSClientSelector())->select();
-            if ($ilsClient->vendorExists($name)) {
-                $existsInILS = 2;
+        foreach ($organization->allAsArray() as $orgArray) {
+            if ((strtoupper($orgArray['name']) == strtoupper($name)) && ($orgArray['organizationID'] != $organizationID)) {
+                $exists = $orgArray['organizationID']; break;
             }
         }
+        echo $exists;
+        break;
 
+    case 'getExistingVendor':
+        $name = $_GET['name'];
+        $exists = -1;
+        if ($config->ils->ilsConnector) {
+            $ilsClient = (new ILSClientSelector())->select();
+            if ($name && $ilsClient->vendorExists($name)) {
+                $exists = 1;
+            } else {
+                $exists = 0;
+            }
+        }
+        echo $exists;
+        break;
 
-		echo $existsInCoral + $existsInILS;
-
-		break;
-
-
-	default:
+    default:
        echo _("Action ") . $action . _(" not set up!");
        break;
 

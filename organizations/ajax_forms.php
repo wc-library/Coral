@@ -70,9 +70,15 @@ switch ($_GET['action']) {
 
 		<tr>
 		<td style='vertical-align:top;text-align:right;padding-top:10px;'><label for='organizationName'><b><?php echo _("Name:");?></b></label></td>
-		<td style='vertical-align:top;padding-top:10px;'><input type='text' id='organizationName' name='organizationName' value = "<?php echo htmlentities($organization->name); ?>" style='width:220px;' <?php if ($organization->isLinkedToILS()) echo "disabled='disabled'" ?> /> <a href="#" id="retrieveVendor">[...]</a> <span id='span_errors' style='color:red'></span></td>
+		<td style='vertical-align:top;padding-top:10px;'><input type='text' id='organizationName' name='organizationName' value = "<?php echo htmlentities($organization->name); ?>" style='width:220px;' <?php if ($organization->isLinkedToILS()) echo "disabled='disabled'" ?> /> <span id='span_errors' style='color:red'></span></td>
 		</tr>
-
+<?php
+        if ($config->ils->ilsConnector && !$organization->isLinkedToILS()) {
+            $ilsClient = (new ILSClientSelector())->select();
+            echo ('<tr><td></td><td><a href="#" id="checkVendorInILS">' . _("Check if this vendor already exists in") . ' ' . $ilsClient->getILSName() . '</a></td></tr>');
+            echo ('<tr><td></td><td><span id="ils_span"><br /></span> <a href="#" id="retrieveVendor" style="display:none;">Retrieve its informations.</a></td></tr>');
+        }
+?>
 		<?php if (count($parentOrganizationArray) > 0){ ?>
 			<tr>
 			<td style='vertical-align:top;text-align:right;'><label for='parentOrganization'><b><?php echo _("Parent:");?></b></label></td>
