@@ -10,7 +10,7 @@
     $orderTypeID = $_POST['orderTypeID'];
     $subjectID = $_POST['subjectID'];
     $csv = $_POST['csv'];
-    
+
     function escape_csv($value) {
       // replace \n with \r\n
       $value = preg_replace("/(?<!\r)\n/", "\r\n", $value);
@@ -61,7 +61,7 @@
             $result['acquisitionType'],
             $result['orderType'],
             $result['costDetails'],
-            integer_to_cost($result['paymentAmount'])	
+            integer_to_cost($result['paymentAmount'])
         );
         echo array_to_csv_row($dashboardValues);
     }
