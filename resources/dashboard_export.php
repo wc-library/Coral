@@ -34,6 +34,11 @@
     $columnHeaders = array(
       _("Record ID"),
       _("Name"),
+      _("Resource Type"),
+      _("Subject"),
+      _("Acquisition Type"),
+      _("Order Type"),
+      _("Cost Details"),
       _("Payment amount"),
     );
     echo array_to_csv_row($columnHeaders);
@@ -41,14 +46,24 @@
     $dashboard = new Dashboard();
     $query = $dashboard->getQuery($resourceTypeID, $year, $acquisitionTypeID, $orderTypeID, $subjectID, $costDetailsID);
     $results = $dashboard->getResults($query);
-
+    $total = 0;
     foreach ($results as $result) {
+        $total += $result['paymentAmount'];
+        $subject = $result['generalSubject'] && $result['detailedSubject'] ? 
+            $result['generalSubject'] . " / " . $result['detailedSubject'] : 
+            $result['generalSubject'] . $result['detailedSubject'];
+
         $dashboardValues = array(
             $result['resourceID'],
             $result['titleText'],
+            $result['resourceType'],
+            $subject,
+            $result['acquisitionType'],
+            $result['orderType'],
+            $result['costDetails'],
             integer_to_cost($result['paymentAmount'])	
         );
         echo array_to_csv_row($dashboardValues);
     }
-
+    echo array_to_csv_row(array(_("Total"), null, null, null, null, null, null, integer_to_cost($total)));
 ?>
