@@ -39,7 +39,7 @@
     echo array_to_csv_row($columnHeaders);
 
     $dashboard = new Dashboard();
-    $query = $dashboard->getQuery($resourceTypeID, $year, $acquisitionTypeID, $orderTypeID, $subjectID);
+    $query = $dashboard->getQuery($resourceTypeID, $year, $acquisitionTypeID, $orderTypeID, $subjectID, $costDetailsID);
     $results = $dashboard->getResults($query);
 
     foreach ($results as $result) {

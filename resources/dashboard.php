@@ -67,6 +67,22 @@
         echo '</select>';
     }
 
+    function getCostDetailsAsDropdown($currentID = null) {
+        $display = array();
+        $costDetails = new CostDetails();
+        echo '<select name="costDetailsID" id="costDetailsID" style="width:150px;">';
+        echo "<option value=''>All</option>";
+        foreach($costDetails->allAsArray() as $display) {
+            if ($display['costDetailsID'] == $current) {
+                echo "<option value='" . $display['costDetailsID'] . "' selected>" . $display['shortName'] . "</option>";
+            } else {
+                echo "<option value='" . $display['costDetailsID'] . "'>" . $display['shortName'] . "</option>";
+            }
+        }
+        echo '</select>';
+
+    }
+
 ?>
 <script type="text/javascript" src="js/dashboard.js"></script>
 <div id="dashboardPage"><h1><?php echo _("Dashboard");?></h1>
@@ -102,6 +118,12 @@
 	<td class='searchRow'>
     <label for="orderTypeID"><b><?php echo _("Order Type"); ?>:</b></label><br />
     <?php getOrderTypesAsDropdown(); ?>
+    </td>
+	</tr>
+	<tr>
+	<td class='searchRow'>
+    <label for="costDetailsID"><b><?php echo _("Cost Details"); ?>:</b></label><br />
+    <?php getCostDetailsAsDropdown(); ?>
     </td>
 	</tr>
 	<tr>

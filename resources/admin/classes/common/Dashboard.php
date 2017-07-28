@@ -1,7 +1,7 @@
 <?php
 class Dashboard {
 
-    public function getQuery($resourceTypeID, $year, $acquisitionTypeID, $orderTypeID, $subjectID) {
+    public function getQuery($resourceTypeID, $year, $acquisitionTypeID, $orderTypeID, $subjectID, $costDetailsID) {
         $query = "SELECT R.resourceID, R.titleText, SUM(RP.paymentAmount) as paymentAmount
                      FROM Resource R 
                     LEFT JOIN ResourcePayment RP ON RP.resourceID = R.resourceID";
@@ -15,6 +15,7 @@ class Dashboard {
         if ($resourceTypeID) $query .= " AND R.resourceTypeID = $resourceTypeID";
         if ($acquisitionTypeID) $query .= " AND R.acquisitionTypeID = $acquisitionTypeID";
         if ($orderTypeID) $query .= " AND RP.orderTypeID = $orderTypeID";
+        if ($costDetailsID) $query .= " AND RP.costDetailsID = $costDetailsID";
         if ($subjectID) {
             if (substr($subjectID, 0, 1) == "d") {
                 $query .= " AND GDSL.detailedSubjectID = " . substr($subjectID, 1);
@@ -25,7 +26,7 @@ class Dashboard {
         $query .= " GROUP BY resourceID";
         return $query;
     }
-    
+
     public function getResults($query) {
         $this->db = new DBService;
         $result = $this->db->processQuery($query, 'assoc');

@@ -16,6 +16,7 @@ function submitDashboard() {
                         "acquisitionTypeID": $("#acquisitionTypeID").val(), 
                         "orderTypeID": $("#orderTypeID").val(),  
                         "subjectID": $("#subjectID").val(),
+                        "costDetailsID": $("#costDetailsID").val(),
                     },
 		success:    function(html) {
             $("#dashboardTable").html(html);
