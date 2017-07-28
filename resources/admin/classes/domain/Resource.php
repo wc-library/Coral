@@ -1275,7 +1275,7 @@ class Resource extends DatabaseObject {
 						GROUP_CONCAT(DISTINCT RP.titleText ORDER BY RP.titleText DESC SEPARATOR '; ') parentResources,
 						GROUP_CONCAT(DISTINCT RC.titleText ORDER BY RC.titleText DESC SEPARATOR '; ') childResources
 								FROM Resource R
-									RIGHT JOIN ResourcePayment RPAY ON R.resourceID = RPAY.resourceID
+									LEFT JOIN ResourcePayment RPAY ON R.resourceID = RPAY.resourceID
 									LEFT JOIN Alias A ON R.resourceID = A.resourceID
 									LEFT JOIN ResourceOrganizationLink ROL ON R.resourceID = ROL.resourceID
 									" . $orgJoinAdd . "
