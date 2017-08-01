@@ -1,7 +1,8 @@
 <?php
 class Dashboard {
 
-    public function getQuery($resourceTypeID, $year, $acquisitionTypeID, $orderTypeID, $subjectID, $costDetailsID) {
+    public function getQuery($resourceTypeID, $startYear, $endYear, $acquisitionTypeID, $orderTypeID, $subjectID, $costDetailsID) {
+
         $query = "SELECT
                         R.resourceID,
                         R.titleText,
@@ -12,7 +13,14 @@ class Dashboard {
                         CD.shortName AS costDetails,
                         GS.shortName AS generalSubject,
                         DS.shortName AS detailedSubject,
-                        SUM(RP.paymentAmount) as paymentAmount
+                        ";
+
+        for ($i = $startYear; $i <= $endYear; $i++) {
+            $query .= " SUM(if(RP.year = $i, RP.paymentAmount, 0)) AS `$i`";
+            if ($i < $endYear) $query .= ",";
+        }
+
+        $query .= "
                  FROM Resource R
                     LEFT JOIN ResourcePayment RP ON RP.resourceID = R.resourceID
                     LEFT JOIN ResourceType RT ON RT.resourceTypeID = R.resourceTypeID
@@ -24,7 +32,6 @@ class Dashboard {
                     LEFT JOIN GeneralSubject GS ON GS.generalSubjectID = GDSL.generalSubjectID
                     LEFT JOIN DetailedSubject DS ON DS.detailedSubjectID = GDSL.detailedSubjectID
                 ";
-        $query .= " WHERE RP.year = $year";
 
         if ($resourceTypeID) $query .= " AND R.resourceTypeID = $resourceTypeID";
         if ($acquisitionTypeID) $query .= " AND R.acquisitionTypeID = $acquisitionTypeID";
@@ -37,7 +44,7 @@ class Dashboard {
                 $query .= " AND GDSL.generalSubjectID = $subjectID";
             }
         }
-        $query .= " GROUP BY resourceID";
+        $query .= " GROUP BY resourceID WITH ROLLUP";
         return $query;
     }
 

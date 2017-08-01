@@ -3,12 +3,17 @@
     include_once 'directory.php';
     include_once 'util.php';
 
-    $year = $_POST['year'];
-    if (!$year) $year = date('Y');
+    $startYear = $_POST['startYear'];
+    if (!$startYear) $startYear = date('Y');
+
+    $endYear = $_POST['endYear'];
+    if (!$endYear) $endYear = date('Y');
+
     $resourceTypeID = $_POST['resourceTypeID'];
     $acquisitionTypeID = $_POST['acquisitionTypeID'];
     $orderTypeID = $_POST['orderTypeID'];
     $subjectID = $_POST['subjectID'];
+    $costDetailsID = $_POST['costDetailsID'];
     $csv = $_POST['csv'];
 
     function escape_csv($value) {
@@ -39,31 +44,37 @@
       _("Acquisition Type"),
       _("Order Type"),
       _("Cost Details"),
-      _("Payment amount"),
     );
+    for ($i = $startYear; $i <= $endYear; $i++) {
+         $columnHeaders[] = $i;;
+    }
     echo array_to_csv_row($columnHeaders);
 
     $dashboard = new Dashboard();
-    $query = $dashboard->getQuery($resourceTypeID, $year, $acquisitionTypeID, $orderTypeID, $subjectID, $costDetailsID);
+    $query = $dashboard->getQuery($resourceTypeID, $startYear, $endYear, $acquisitionTypeID, $orderTypeID, $subjectID, $costDetailsID);
     $results = $dashboard->getResults($query);
-    $total = 0;
     foreach ($results as $result) {
-        $total += $result['paymentAmount'];
         $subject = $result['generalSubject'] && $result['detailedSubject'] ? 
             $result['generalSubject'] . " / " . $result['detailedSubject'] : 
             $result['generalSubject'] . $result['detailedSubject'];
 
-        $dashboardValues = array(
-            $result['resourceID'],
-            $result['titleText'],
-            $result['resourceType'],
-            $subject,
-            $result['acquisitionType'],
-            $result['orderType'],
-            $result['costDetails'],
-            integer_to_cost($result['paymentAmount'])
-        );
+        if ($result['resourceID'] != null) {
+            $dashboardValues = array(
+                $result['resourceID'],
+                $result['titleText'],
+                $result['resourceType'],
+                $subject,
+                $result['acquisitionType'],
+                $result['orderType'],
+                $result['costDetails'],
+            );
+        } else {
+            $dashboardValues = array('', '', '', '', '', '', '');
+        }
+        for ($i = $startYear; $i <= $endYear; $i++) {
+            $dashboardValues[] =  integer_to_cost($result[$i]);
+        }
+
         echo array_to_csv_row($dashboardValues);
     }
-    echo array_to_csv_row(array(_("Total"), null, null, null, null, null, null, integer_to_cost($total)));
 ?>

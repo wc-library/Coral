@@ -128,7 +128,8 @@
 	</tr>
 	<tr>
 	<td class='searchRow'>
-    <label for="year"><b><?php echo _("Year"); ?>:</b></label><br /><input type="text" id="year" size="4" value="<?php echo date('Y');?>" />
+    <label for="startYear"><b><?php echo _("Year (start)"); ?>:</b></label><br /><input type="text" name="startYear" id="startYear" size="4" value="<?php echo date('Y');?>" /><br />
+    <label for="endYear"><b><?php echo _("Year (end)"); ?>:</b></label><br /><input type="text" name="endYear" id="endYear" size="4" value="<?php echo date('Y');?>" />
     </td>
 	</tr>
 	<tr>
