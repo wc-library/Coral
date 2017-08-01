@@ -1602,6 +1602,11 @@ a#login-link:hover {
 	margin-bottom: 20px;
 }
 
+#dashboardPage legend {
+    color: white;
+    margin-bottom: 10px;
+}
+
 input#resourceTypeID {
 	margin-right: 5px;
 }

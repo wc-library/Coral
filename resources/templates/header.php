@@ -191,10 +191,10 @@ $coralURL = $util->getCORALURL();
         </div>
     </a>
 
-    <a href='dashboard.php' title="<?php echo _("Dashboard");?>">
-        <div class="main-menu-link <?php if ($currentPage == 'dashboard.php') { echo "active"; } ?>">
+    <a href='dashboard_menu.php' title="<?php echo _("Dashboards");?>">
+        <div class="main-menu-link <?php if (substr($currentPage, 0, 9) === 'dashboard') { echo "active"; } ?>">
             <img src="images/menu/icon-import.png" />
-            <span><?php echo _("Dashboard");?></span>
+            <span><?php echo _("Dashboards");?></span>
         </div>
     </a>
 
