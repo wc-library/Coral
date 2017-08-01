@@ -57,7 +57,7 @@
 	<td class='searchRow'>
     <input type="button" id="submitDashboard" value="<?php echo _("Display"); ?>" />
     <input type="hidden" name="csv" value="1" />
-    <input type="submit" id="getDashboardCSV" value="<?php echo _("Export"); ?>" />
+    <!--<input type="submit" id="getDashboardCSV" value="<?php echo _("Export"); ?>" /> -->
     </form>
     </td></tr>
     </table>

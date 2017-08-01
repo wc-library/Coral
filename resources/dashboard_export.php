@@ -42,8 +42,6 @@
       _("Resource Type"),
       _("Subject"),
       _("Acquisition Type"),
-      _("Order Type"),
-      _("Cost Details"),
     );
     for ($i = $startYear; $i <= $endYear; $i++) {
          $columnHeaders[] = $i;;
@@ -51,7 +49,7 @@
     echo array_to_csv_row($columnHeaders);
 
     $dashboard = new Dashboard();
-    $query = $dashboard->getQuery($resourceTypeID, $startYear, $endYear, $acquisitionTypeID, $orderTypeID, $subjectID, $costDetailsID);
+    $query = $dashboard->getQueryYearlyCosts($resourceTypeID, $startYear, $endYear, $acquisitionTypeID, $orderTypeID, $subjectID, $costDetailsID);
     $results = $dashboard->getResults($query);
     foreach ($results as $result) {
         $subject = $result['generalSubject'] && $result['detailedSubject'] ? 
@@ -65,11 +63,9 @@
                 $result['resourceType'],
                 $subject,
                 $result['acquisitionType'],
-                $result['orderType'],
-                $result['costDetails'],
             );
         } else {
-            $dashboardValues = array('', '', '', '', '', '', '');
+            $dashboardValues = array('', '', '', '', '');
         }
         for ($i = $startYear; $i <= $endYear; $i++) {
             $dashboardValues[] =  integer_to_cost($result[$i]);
