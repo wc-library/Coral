@@ -1,7 +1,6 @@
 <?php
 
     include_once 'directory.php';
-    include_once 'util.php';
 
     $startYear = $_POST['startYear'];
     if (!$startYear) $startYear = date('Y');
@@ -35,6 +34,24 @@
     header("Pragma: public");
     header("Content-type: text/csv");
     header("Content-Disposition: attachment; filename=\"" . $excelfile . "\"");
+
+    $filters = array();
+    if ($orderTypeID) {
+        $orderType = new OrderType(new NamedArguments(array('primaryKey' => $orderTypeID)));
+        $filters[] = _("Order Type") . ": " . $orderType->shortName;
+    }
+    if ($costDetailsID) {
+        $costDetails = new CostDetails(new NamedArguments(array('primaryKey' => $costDetailsID)));
+        $filters[] = _("Cost Details") . ": " . $costDetails->shortName;
+    }
+
+    echo "Dashboard Yearly Costs Export " . date('Y-m-d') . "\r\n";
+    echo "Filters on payments: ";
+    if (count($filters) > 0) {
+        echo join(" / ", $filters) . "\r\n";
+    } else {
+        echo "none\r\n";
+    }
 
     $columnHeaders = array(
       _("Record ID"),
