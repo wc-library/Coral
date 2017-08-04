@@ -2,7 +2,7 @@
 
 	include_once 'directory.php';
 
-if ($_GET['detail']) {
+if (isset($_GET['detail'])) {
 
     $importHistoryID = $_GET['detail'];
 
@@ -36,12 +36,12 @@ if ($_GET['detail']) {
 		$isbnOrIssn = $resource->getIsbnOrIssn();
         print "<tr>";
         print "<td><a href=\"" . $util->getResourceRecordURL() . $resource->resourceID . "\">$resource->titleText</a></td>";
-		print "<td>"  . join(' ', 
+		print "<td>"  . join(' ',
 							array_map(
-									function($object) { return $object->isbnOrIssn; }, 
+									function($object) { return $object->isbnOrIssn; },
 									$isbnOrIssn
 									 )
-							) . 
+							) .
 			  "</td>";
         print "</tr>";
     }
