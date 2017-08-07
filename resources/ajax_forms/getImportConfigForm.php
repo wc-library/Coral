@@ -221,7 +221,7 @@
 						<th></th>
 					</tr>
 					<?php
-						if ($orgMappingsNamed && $orgMappingsImported) {
+						if (isset($orgMappingsNamed) && $orgMappingsImported) {
 							for ($i = 0; $i < count($orgMappingsNamed); $i++) {
 								if ( $orgMappingsNamed[$i] && $orgMappingsImported[$i]) {
 									echo "<tr><td><input class='ic-org-imported' value='" . $orgMappingsImported[$i] . "' /></td>";
@@ -229,7 +229,7 @@
 									echo "<td><img class='remove' src='images/cross.gif' /></td></tr>";
 								}
 							}
-						} elseif (count($orgMappings)>0) {
+						} elseif (isset($orgMappings) ? count($orgMappings)>0 : '') {
 							foreach($orgMappings as $orgMapping) {
 								echo "<tr><td><input class='ic-org-imported' value='" . $orgMapping->orgNameImported . "' /></td>";
 								echo "<td><input class='ic-org-mapped' value='" . $orgMapping->orgNameMapped . "' /></td>";

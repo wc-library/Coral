@@ -75,8 +75,10 @@
         print "<tr><th>Coral field</th><th>File column</th></tr>";
         $data = fgetcsv($handle, 0, $delimiter);
         foreach ($config_array as $key => $value) {
-
-            if ((is_array($configuration[$key]) && $configuration[$key][0]['column'] != '') || !is_array($configuration[$key]) && $configuration[$key] != '') {
+			// Check for either multi-value fields or single-value fields.
+			// Multi-value field information is stored in an array, with
+			// 'column' containing the value we are looking for here.
+            if ((is_array($configuration[$key]) && !empty($configuration[$key][0]['column'])) || !is_array($configuration[$key]) && $configuration[$key] != '') {
                 print "<tr><td>";
                 print $value;
                 print "</td><td>";
@@ -132,7 +134,9 @@
 
 		$configuration=json_decode($instance->configuration,true);
 		$delimiter = $_POST['delimiter'];
-		$uploadfile = $_POST['uploadfile'];
+		if (isset($_POST['uploadfile'])) {
+			$uploadfile = $_POST['uploadfile'];
+		}
 		if ($_POST['submit']) {
 			$uploaddir = 'attachments/';
 			$uploadfile = $uploaddir . basename($_FILES['uploadFile']['name']);
@@ -165,8 +169,7 @@
 			{
 				$error = _("Unable to upload the file");
 			}
-			if ($error)
-			{
+			if (isset($error)) {
 				print "<p>"._("Error: ").$error.".</p>";
 			}
 		}
@@ -376,7 +379,9 @@
             showDedupingColumns($handle, $delimiter, $deduping_columns);
             showPreview($handle, $delimiter);
             showMappings($handle, $delimiter, $jsonData, $config_array);
-            $proceed = $_POST['proceed'];
+			if (isset($_POST['proceed'])) {
+				$proceed = $_POST['proceed'];
+			}
 
 			while (($data = fgetcsv($handle, 0, $delimiter)) !== FALSE)
 			{
@@ -808,7 +813,7 @@
             foreach ($_POST as $a => $b) {
                 echo "<input type='hidden' name='".htmlentities($a)."' value='".htmlentities($b)."' />";
             }
-            print '<input type="hidden" name="configID" value="' . $configID . '" />';
+			print '<input type="hidden" name="configID" value="' . (!empty($configID) ? $configID : NULL) . '" />';
             print '<input type="submit" name="submitback" value="back" class="submit-button" />';
             print '</form>';
 
@@ -818,7 +823,7 @@
                 echo "<input type='hidden' name='".htmlentities($a)."' value='".htmlentities($b)."' />";
             }
             print '<input type="hidden" name="proceed" value="true" />';
-            print '<input type="hidden" name="configID" value="' . $_POST['configID'] . '" />';
+			print '<input type="hidden" name="configID" value="' . (isset($_POST['configID']) ? $_POST['configID'] : '') . '" />';
             print '<input type="submit" name="submitproceed" value="proceed" class="submit-button" />';
             print '</form>';
         }
