@@ -457,7 +457,7 @@
 							}
 							else if($index === null && $data[$resourceTypeColumn] != '') //If Resource Type does not exist, add it to the database
 							{
-                                if ($proceed) {
+                                if (isset($proceed)) {
                                     $resourceTypeObj = new ResourceType();
                                     $resourceTypeObj->shortName = $data[$resourceTypeColumn];
                                     $resourceTypeObj->save();
@@ -479,7 +479,7 @@
 							}
 							else if($index === null && $data[$resourceFormatColumn] != '') //If Resource Format does not exist, add it to the database
 							{
-                                if ($proceed) {
+                                if (isset($proceed)) {
                                     $resourceFormatObj = new ResourceFormat();
                                     $resourceFormatObj->shortName = $data[$resourceFormatColumn];
                                     $resourceFormatObj->save();
@@ -578,7 +578,7 @@
 								{
 									continue;
 								}
-                                if ($proceed) {
+                                if (isset($proceed)) {
                                     $aliasObj = new Alias();
                                     $aliasObj->resourceID = $resource->primaryKey;
                                     $aliasObj->aliasTypeID = $alias['aliasType'];
@@ -606,7 +606,7 @@
 							}
 							foreach($noteArray as $currentNote)
 							{
-                                if ($proceed) {
+                                if (isset($proceed)) {
                                     $noteObj = new ResourceNote();
                                     $noteObj->resourceID = $resource->primaryKey;
                                     $noteObj->noteTypeID = $note['noteType'];
@@ -623,7 +623,7 @@
 						//Add subjects to the resource
 						foreach($generalDetailSubjectLinkIDArray as $generalDetailID)
 						{
-                            if ($proceed) {
+                            if (isset($proceed)) {
                                 $resourceSubject = new ResourceSubject();
                                 $resourceSubject->resourceID = $resource->primaryKey;
                                 $resourceSubject->generalDetailSubjectLinkID = $generalDetailID;
@@ -698,7 +698,7 @@
 								if (!$organizationExists)
 								{
 									// If not, create it
-                                    if ($proceed) {
+                                    if (isset($proceed)) {
                                         $organization->shortName = $organizationName;
                                         $organization->save();
                                         $organizationID = $organization->organizationID();
@@ -720,7 +720,7 @@
 							// (this has to be done whether the module Organization is in use or not)
 							if($organizationID)
 							{
-                                if ($proceed) {
+                                if (isset($proceed)) {
                                     $organizationLink = new ResourceOrganizationLink();
                                     $organizationLink->organizationRoleID = $roleID;
                                     $organizationLink->resourceID = $resource->resourceID;
@@ -769,7 +769,7 @@
 							}
 							if ($numberOfParents == 0 || $numberOfParents == 1)
 							{
-                                if ($proceed) {
+                                if (isset($proceed)) {
                                     $resourceRelationship = new ResourceRelationship();
                                     $resourceRelationship->resourceID = $resource->resourceID;
                                     $resourceRelationship->relatedResourceID = $parentID;
