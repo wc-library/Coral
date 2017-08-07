@@ -209,8 +209,8 @@
 		$resourceTypeColumn=intval($jsonData['resourceType'])-1;
 		$acquisitionTypeColumn=intval($jsonData['acquisitionType'])-1;
 		$resourceFormatColumn=intval($jsonData['resourceFormat'])-1;
-		$fundCodeColumn=intval($jsonData['fundCode'])-1;
-		$costColumn=intval($jsonData['cost'])-1;
+		$fundCodeColumn = !empty($jsonData['fundCode']) ? intval($jsonData['fundCode']) - 1 : '';
+		$costColumn = !empty($jsonData['cost']) ? intval($jsonData['cost']) - 1 : '';
 
 		//get all resource formats
 		$resourceFormatArray = array();
@@ -472,9 +472,13 @@
 						$inserted++;
 
                         // Create an acquisition line if fund code and cost are defined
-                        $fundCode = trim($data[$fundCodeColumn]);
-                        $cost = trim($data[$costColumn]);
-                        if ($fundCode && $cost) {
+						if (!empty($fundCodeColumn)) {
+							$fundCode = trim($data[$fundCodeColumn]);
+						}
+                        if (!empty($costColumn)) {
+							$cost = trim($data[$costColumn]);
+						}
+                        if (isset($fundCode) && isset($cost)) {
                             $resourcePayment = new ResourcePayment();
                             $resourcePayment->resourceID = $resource->resourceID;
                             $resourcePayment->paymentAmount = cost_to_integer($cost);
