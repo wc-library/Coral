@@ -173,8 +173,7 @@
 				print "<p>"._("Error: ").$error.".</p>";
 			}
 		}
-		if (!$error)
-		{
+		if (!isset($error)) {
 			print "<p id='importDesc'>" . _("If you have not previously created an Import Configuration, then for each of the resource fields please input the number of the column in your CSV file that corresponds to the resource field. For example, if your import file has a second column called Name that corresponds to the Resource Title, then you would input 2 for the value for the Resource Title field. For columns with multiple values that are character-delimited, indicate the delimiter using the If delimited, delimited by field. For fields with values across multiple columns, add additional sets using the +Add another links. Use the Dedupe on this column option for ISBN/ISSN sets to ignore any duplicate values that might occur across those columns. The Alias Types, Note Types, and Organization Roles that you can assign to your mapped columns can be configured on the Admin page.");
 			print "<p>" . _("Please select the import configuration to load: ") . "<select id='importConfiguration'>";
 			print "<option value='' disabled selected>" . _("Select Configuration") . "</option>";
@@ -787,7 +786,7 @@
 				$row++;
 			}
 			print "<h2>"._("Results")."</h2>";
-            $verb = ($proceed) ? "have been" : "will be";
+			$verb = isset($proceed) ? "have been" : "will be";
 			print "<p>" . ($row - 1) . _(" rows $verb processed. ").$inserted._(" rows $verb inserted.")."</p>";
 			print "<p>".$parentInserted._(" parents $verb created. ").$parentAttached._(" resources $verb attached to an existing parent.")."</p>";
 			print "<p>".$organizationsInserted._(" organizations $verb created");
@@ -807,7 +806,7 @@
 			print "<p>" . $aliasInserted . _(" aliases $verb created") . "</p>";
 			print "<p>" . $noteInserted . _(" notes $verb created") . "</p>";
 		}
-        if (!$proceed) {
+		if (!isset($proceed)) {
 	    // Back to configuration
 	    print '<form enctype="multipart/form-data" action="import.php" method="post" id="importForm">';
             foreach ($_POST as $a => $b) {
