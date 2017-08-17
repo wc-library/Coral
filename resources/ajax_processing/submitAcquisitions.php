@@ -11,14 +11,14 @@
 		if ((isset($_POST['currentStartDate'])) && ($_POST['currentStartDate'] != '')){
 			$resourceAcquisition->subscriptionStartDate = date("Y-m-d", strtotime($_POST['currentStartDate']));
 		}else{
-			$resourceAcquisition->subscriptionStartDate= NULL;
+			$resourceAcquisition->subscriptionStartDate= date("Y-m-d");
 		}
 
 		//first set current end Date for proper saving
 		if ((isset($_POST['currentEndDate'])) && ($_POST['currentEndDate'] != '')){
 			$resourceAcquisition->subscriptionEndDate = date("Y-m-d", strtotime($_POST['currentEndDate']));
 		}else{
-			$resourceAcquisition->subscriptionEndDate= NULL;
+			$resourceAcquisition->subscriptionEndDate= date("Y-m-d");
 		}
 
 		$resourceAcquisition->acquisitionTypeID 				= $_POST['acquisitionTypeID'];

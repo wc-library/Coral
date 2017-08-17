@@ -23,7 +23,7 @@ if ($resourceAcquisitionID) {
         //$organizationName = $organization->shortName;
 
 ?>
-		<table class='linedFormTable' style='width:<?php echo $tableWidth; ?>px;padding:0x;margin:0px;height:100%;'>
+		<table class='linedFormTable' style='padding:0x;margin:0px;height:100%;'>
 			<tr>
 			<th colspan='2' style='vertical-align:bottom;'>
 			<span style='float:left;vertical-align:bottom;'><?php echo _("Order");?></span>

@@ -9,6 +9,7 @@ CREATE TABLE `ResourceAcquisition` (
   `subscriptionEndDate` date NOT NULL,
   `subscriptionAlertEnabledInd` int(11) DEFAULT NULL,
   `organizationID` int(11) DEFAULT NULL,
+  `licenseID` int(11) DEFAULT NULL,
   `authenticationTypeID` int(10) DEFAULT NULL,
   `authenticationUserName` varchar(200) DEFAULT NULL,
   `authenticationPassword` varchar(200) DEFAULT NULL,
