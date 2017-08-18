@@ -867,6 +867,21 @@ function bind_removes(){
 	  }
    });
 
+    $(".removeOrder").unbind('click').click(function () {
+      if (confirm(_("Do you really want to delete this order?")) == true) {
+          $.ajax({
+             type:       "GET",
+             url:        "ajax_processing.php",
+             cache:      false,
+             data:       "action=deleteOrder&resourceAcquisitionID=" + $(this).attr("id"),
+             success:    function(html, ) {
+                 //post return message to index
+                postwith('resource.php?resourceID=' + $("#resourceID").val(), {message:html});
+             }
+         });
+      }
+   });
+
     $(".removeResourceAndChildren").unbind('click').click(function () {
 	  if (confirm(_("Do you really want to delete this resource and all its children?")) == true) {
 		  $.ajax({

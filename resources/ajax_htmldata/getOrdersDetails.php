@@ -27,10 +27,21 @@ if ($resourceAcquisitionID) {
 			<tr>
 			<th colspan='2' style='vertical-align:bottom;'>
 			<span style='float:left;vertical-align:bottom;'><?php echo _("Order");?></span>
+            <span style='float:right;vertical-align:bottom;'>
 			<?php if ($user->canEdit()){ ?>
-				<span style='float:right;vertical-align:bottom;'><a href='ajax_forms.php?action=getOrderForm&height=400&width=440&modal=true&resourceID=<?php echo $resourceID; ?>&resourceAcquisitionID=<?php echo $resourceAcquisitionID; ?>' class='thickbox' id='editOrder'><img src='images/edit.gif' alt='<?php echo _("edit");?>' title='<?php echo _("edit order information");?>'></a></span>
+				<a href='ajax_forms.php?action=getOrderForm&height=400&width=440&modal=true&resourceID=<?php echo $resourceID; ?>&resourceAcquisitionID=<?php echo $resourceAcquisitionID; ?>' class='thickbox' id='editOrder'><img src='images/edit.gif' alt='<?php echo _("edit");?>' title='<?php echo _("edit order information");?>'></a>
 			<?php } ?>
+            <?php if ($user->isAdmin && $resource->countResourceAcquisitions() > 1) { ?>
+                <a href='javascript:void(0);'
+                    class='removeOrder'
+                    id='<?php echo $resourceAcquisitionID; ?>'
+                    >
 
+                    <img src='images/cross.gif'
+                        alt='<?php echo _("remove order");?>'
+                        title='<?php echo _("remove order");?>' /></a>
+            <?php } ?>
+            </span>
 			</th>
 			</tr>
 

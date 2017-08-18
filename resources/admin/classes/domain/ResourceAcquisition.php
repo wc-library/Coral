@@ -459,8 +459,19 @@ class ResourceAcquisition extends DatabaseObject {
 		if (isset($result['licenseStatusID'])) {
 			return $result['licenseStatusID'];
 		}
-
 	}
+
+    //removes this order
+    public function removeResourceAcquisition() {
+        //delete data from child linked tables
+        $this->deleteResourcePayments();
+        $this->deleteLicenses();
+        $this->deleteAccess();
+        $this->deleteContacts();
+        $this->deleteAttachments();
+        $this->delete();
+    }
+
 	//removes resource licenses
 	public function removeResourceLicenses() {
 
@@ -571,6 +582,44 @@ class ResourceAcquisition extends DatabaseObject {
             $query = "UPDATE ResourceLicenseStatus SET resourceAcquisitionID=" . $this->resourceAcquisitionID . " WHERE resourceLicenseStatusID=" . $newID;
             $result = $this->db->processQuery($query);
         } 
+    }
+
+    public function deleteResourcePayments() {
+        foreach ($this->getResourcePayments() as $srp) {
+            $srp->delete();
+        }
+    }
+
+    public function deleteAccess() {
+        foreach ($this->getAdministeringSitesLinks() as $s) {
+            $s->delete();
+        }
+        foreach ($this->getAuthorizedSitesLinks() as $s) {
+            $s->delete();
+        }
+    }
+
+    public function deleteLicenses() {
+        foreach ($this->getLicenseArray() as $s) {
+            $rll = new ResourceLicenseLink(new NamedArguments(array('primaryKey' => $s['resourceLicenseLinkID'])));
+            $rll->delete();
+        }
+        foreach ($this->getResourceLicenseStatuses() as $s) {
+            $s->delete();
+        }
+    }
+
+    public function deleteContacts() {
+        foreach ($this->getUnarchivedContacts() as $s) {
+            $c = new Contact(new NamedArguments(array('primaryKey' => $s['contactID'])));
+            $c->delete();
+        }
+    }
+
+    public function deleteAttachments() {
+        foreach ($this->getAttachments() as $s) {
+            $s->delete();
+        }
     }
 
 	//returns array of contact objects
