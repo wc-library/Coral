@@ -1,4 +1,5 @@
 <?php
+ini_set("auto_detect_line_endings", "1");
 	function searchForShortName($shortName, $array)
 	{
 		foreach($array as $key=> $val)
@@ -104,6 +105,7 @@
 	include 'templates/header.php';
 ?>
 <div id="importPage"><h1><?php echo _("Delimited File Import");?></h1>
+<p><a href="importHistory.php">Imports history</a></p>
 <?php
 
 	// CSV configuration
@@ -242,6 +244,10 @@
 			        });
 			        jsonData.resourceFormat = $("#resource_format").val();
 			        jsonData.resourceType = $("#resource_type").val();
+			        jsonData.acquisitionType = $("#acquisition_type").val();
+			        jsonData.fundCode = $("#fundCode").val();
+			        jsonData.cost = $("#cost").val();
+
 			        jsonData.subject = [];
 			        $('div.subject-record').each(function() {
 			            var subjectObject={};
@@ -316,7 +322,10 @@
 		$resourceURLColumn=intval($jsonData['url'])-1;
 		$resourceAltURLColumn=intval($jsonData['altUrl'])-1;
 		$resourceTypeColumn=intval($jsonData['resourceType'])-1;
+		$acquisitionTypeColumn=intval($jsonData['acquisitionType'])-1;
 		$resourceFormatColumn=intval($jsonData['resourceFormat'])-1;
+		$fundCodeColumn = !empty($jsonData['fundCode']) ? intval($jsonData['fundCode']) - 1 : '';
+		$costColumn = !empty($jsonData['cost']) ? intval($jsonData['cost']) - 1 : '';
 
 		//get all resource formats
 		$resourceFormatArray = array();
@@ -328,10 +337,10 @@
 		$resourceTypeObj = new ResourceType();
 		$resourceTypeArray = $resourceTypeObj->allAsArray();
 
-		//get all resource formats
-		$resourceFormatArray = array();
-		$resourceFormatObj = new ResourceFormat();
-		$resourceFormatArray = $resourceFormatObj->allAsArray();
+        //get all acquisition types
+		$acquisitionTypeArray = array();
+		$acquisitionTypeObj = new AcquisitionType();
+		$acquisitionTypeArray = $acquisitionTypeObj->allAsArray();
 
 		//get all subjects
 		$generalSubjectArray = array();
@@ -374,6 +383,7 @@
 			$aliasInserted = 0;
 			$noteInserted = 0;
 			$arrayOrganizationsCreated = array();
+            $resourceIDs = array();
 
             showDedupingColumns($handle, $delimiter, $deduping_columns);
             showPreview($handle, $delimiter);
@@ -468,6 +478,26 @@
 							}
 						}
 
+                        // If Acquisition Type is mapped, check to see if it exists
+						$acquisitionTypeID = null;
+						if($jsonData['acquisitionType'] != '')
+						{
+							$index = searchForShortName($data[$acquisitionTypeColumn], $acquisitionTypeArray);
+							if($index !== null)
+							{
+								$acquisitionTypeID = $acquisitionTypeArray[$index]['acquisitionTypeID'];
+							}
+							else if($index === null && $data[$acquisitionTypeColumn] != '') //If Resource Type does not exist, add it to the database
+							{
+								$acquisitionTypeObj = new AcquisitionType();
+								$acquisitionTypeObj->shortName = $data[$acquisitionTypeColumn];
+								$acquisitionTypeObj->save();
+								$acquisitionTypeID = $acquisitionTypeObj->primaryKey;
+								$acquisitionTypeArray = $acquisitionTypeObj->allAsArray();
+								$acquisitionTypeInserted++;
+							}
+						}
+
 						// If Resource Format is mapped, check to see if it exists
 						$resourceFormatID = null;
 						if($jsonData['resourceFormat'] != '')
@@ -551,11 +581,57 @@
 							$resource->resourceFormatID		= isset($resourceFormatID) ? $resourceFormatID : '';
                             $resource->statusID         = 1;
                             $resource->save();
-							if (isset($isbnIssn_values)) {
+							if (isset($isbnIssn_values))
+							{
 								$resource->setIsbnOrIssn($isbnIssn_values);
 							}
+	                        array_push($resourceIDs, $resource->resourceID);
                         }
 						$inserted++;
+
+                        // Create an acquisition line if fund code and cost are defined
+						if (!empty($fundCodeColumn)) {
+							$fundCode = trim($data[$fundCodeColumn]);
+						}
+                        if (!empty($costColumn)) {
+							$cost = trim($data[$costColumn]);
+						}
+                        if (isset($fundCode) && isset($cost)) {
+                            $resourcePayment = new ResourcePayment();
+                            $resourcePayment->resourceID = $resource->resourceID;
+                            $resourcePayment->paymentAmount = cost_to_integer($cost);
+                            $resourcePayment->currencyCode = $_POST['currency'];
+                            $resourcePayment->orderTypeID = $_POST['orderType'];
+
+                            // Check if the fund already exists
+                            $fundObj = new Fund();
+                            $fundID = $fundObj->getFundIDFromFundCode($fundCode);
+
+                            // Add it if not
+                            if (!$fundID) {
+                               $fundObj->fundCode = $fundCode;
+                               $fundObj->shortName = $fundCode;
+                               $fundObj->save();
+                               $fundID = $fundObj->fundID;
+                            }
+
+                            // Create the resourcePayment
+                            $resourcePayment->fundID = $fundID;
+                            $resourcePayment->save();
+
+                        }
+
+						// Try to start a workflow if resource type, resource format and acquisition type are defined
+						$rtype = isset($data[$resourceTypeColumn]) ? trim($data[$resourceTypeColumn]) : '';
+						$rformat = isset($data[$resourceFormatColumn]) ? trim($data[$resourceFormatColumn]) : '';
+						$atype = isset($data[$acquisitionTypeColumn]) ? trim($data[$acquisitionTypeColumn]) : '';
+						if (isset($_POST['sendemails'])) {
+							$sendemails = $_POST['sendemails'] == "on" ? true : false;
+						}
+						if ($rtype && $rformat && $atype) {
+							$resource->enterNewWorkflow($sendemails);
+						}
+
 
 						// If Alias is mapped, check to see if it exists
 						foreach($jsonData['alias'] as $alias)
@@ -806,9 +882,10 @@
 			print "<p>" . $aliasInserted . _(" aliases $verb created") . "</p>";
 			print "<p>" . $noteInserted . _(" notes $verb created") . "</p>";
 		}
+
 		if (!isset($proceed)) {
 	    // Back to configuration
-	    print '<form enctype="multipart/form-data" action="import.php" method="post" id="importForm">';
+	    	print '<form enctype="multipart/form-data" action="import.php" method="post" id="importForm">';
             foreach ($_POST as $a => $b) {
                 echo "<input type='hidden' name='".htmlentities($a)."' value='".htmlentities($b)."' />";
             }
@@ -825,7 +902,14 @@
 			print '<input type="hidden" name="configID" value="' . (isset($_POST['configID']) ? $_POST['configID'] : '') . '" />';
             print '<input type="submit" name="submitproceed" value="proceed" class="submit-button" />';
             print '</form>';
-        }
+        } elseif ($proceed) {
+	        $importHistory = new ImportHistory();
+	        $importHistory->importDate = date("Y-m-d H:i:s");
+	        $importHistory->filename = basename($uploadfile);
+	        $importHistory->resourcesCount = count($resourceIDs);
+	        $importHistory->importedResources = json_encode($resourceIDs);
+	        $importHistory->save();
+		}
 	}
 	else
 	{
