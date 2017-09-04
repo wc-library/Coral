@@ -1,5 +1,4 @@
 <?php
-ini_set("auto_detect_line_endings", "1");
 	function searchForShortName($shortName, $array)
 	{
 		foreach($array as $key=> $val)
