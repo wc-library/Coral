@@ -131,6 +131,10 @@
 			        });
 			        jsonData.resourceFormat = $("#resource_format").val();
 			        jsonData.resourceType = $("#resource_type").val();
+			        jsonData.acquisitionType = $("#acquisition_type").val();
+			        jsonData.fundCode = $("#fundCode").val();
+			        jsonData.cost = $("#cost").val();
+
 			        jsonData.subject = [];
 			        $('div.subject-record').each(function() {
 			            var subjectObject={};
@@ -203,7 +207,10 @@
 		$resourceURLColumn=intval($jsonData['url'])-1;
 		$resourceAltURLColumn=intval($jsonData['altUrl'])-1;
 		$resourceTypeColumn=intval($jsonData['resourceType'])-1;
+		$acquisitionTypeColumn=intval($jsonData['acquisitionType'])-1;
 		$resourceFormatColumn=intval($jsonData['resourceFormat'])-1;
+		$fundCodeColumn = !empty($jsonData['fundCode']) ? intval($jsonData['fundCode']) - 1 : '';
+		$costColumn = !empty($jsonData['cost']) ? intval($jsonData['cost']) - 1 : '';
 
 		//get all resource formats
 		$resourceFormatArray = array();
@@ -215,10 +222,10 @@
 		$resourceTypeObj = new ResourceType();
 		$resourceTypeArray = $resourceTypeObj->allAsArray();
 
-		//get all resource formats
-		$resourceFormatArray = array();
-		$resourceFormatObj = new ResourceFormat();
-		$resourceFormatArray = $resourceFormatObj->allAsArray();
+        //get all acquisition types
+		$acquisitionTypeArray = array();
+		$acquisitionTypeObj = new AcquisitionType();
+		$acquisitionTypeArray = $acquisitionTypeObj->allAsArray();
 
 		//get all subjects
 		$generalSubjectArray = array();
@@ -359,6 +366,26 @@
 							}
 						}
 
+                        // If Acquisition Type is mapped, check to see if it exists
+						$acquisitionTypeID = null;
+						if($jsonData['acquisitionType'] != '')
+						{
+							$index = searchForShortName($data[$acquisitionTypeColumn], $acquisitionTypeArray);
+							if($index !== null)
+							{
+								$acquisitionTypeID = $acquisitionTypeArray[$index]['acquisitionTypeID'];
+							}
+							else if($index === null && $data[$acquisitionTypeColumn] != '') //If Resource Type does not exist, add it to the database
+							{
+								$acquisitionTypeObj = new AcquisitionType();
+								$acquisitionTypeObj->shortName = $data[$acquisitionTypeColumn];
+								$acquisitionTypeObj->save();
+								$acquisitionTypeID = $acquisitionTypeObj->primaryKey;
+								$acquisitionTypeArray = $acquisitionTypeObj->allAsArray();
+								$acquisitionTypeInserted++;
+							}
+						}
+
 						// If Resource Format is mapped, check to see if it exists
 						$resourceFormatID = null;
 						if($jsonData['resourceFormat'] != '')
@@ -436,10 +463,6 @@
 						$resource->resourceTypeID		= isset($resourceTypeID) ? $resourceTypeID : '';
 						$resource->resourceFormatID		= isset($resourceFormatID) ? $resourceFormatID : '';
 						$resource->acquisitionTypeID	= isset($acquisitionTypeID) ? $acquisitionTypeID : '';
-						$resource->authenticationTypeID	= isset($authenticationTypeID) ? $authenticationTypeID : '';
-						$resource->accessMethodID		= isset($accessMethodID) ? $accessMethodID : '';
-						$resource->coverageText			= isset($data[$resourceCoverageColumn]) ? trim($data[$resourceCoverageColumn]) : '';
-						//$resource->providerText     = $data[$_POST['providerText']];
 						$resource->statusID         = 1;
 						$resource->save();
 						if (isset($isbnIssn_values))
@@ -447,6 +470,50 @@
 							$resource->setIsbnOrIssn($isbnIssn_values);
 						}
 						$inserted++;
+
+                        // Create an acquisition line if fund code and cost are defined
+						if (!empty($fundCodeColumn)) {
+							$fundCode = trim($data[$fundCodeColumn]);
+						}
+                        if (!empty($costColumn)) {
+							$cost = trim($data[$costColumn]);
+						}
+                        if (isset($fundCode) && isset($cost)) {
+                            $resourcePayment = new ResourcePayment();
+                            $resourcePayment->resourceID = $resource->resourceID;
+                            $resourcePayment->paymentAmount = cost_to_integer($cost);
+                            $resourcePayment->currencyCode = $_POST['currency'];
+                            $resourcePayment->orderTypeID = $_POST['orderType'];
+
+                            // Check if the fund already exists
+                            $fundObj = new Fund();
+                            $fundID = $fundObj->getFundIDFromFundCode($fundCode);
+
+                            // Add it if not
+                            if (!$fundID) {
+                               $fundObj->fundCode = $fundCode;
+                               $fundObj->shortName = $fundCode;
+                               $fundObj->save();
+                               $fundID = $fundObj->fundID;
+                            }
+
+                            // Create the resourcePayment
+                            $resourcePayment->fundID = $fundID;
+                            $resourcePayment->save();
+
+                        }
+
+						// Try to start a workflow if resource type, resource format and acquisition type are defined
+						$rtype = isset($data[$resourceTypeColumn]) ? trim($data[$resourceTypeColumn]) : '';
+						$rformat = isset($data[$resourceFormatColumn]) ? trim($data[$resourceFormatColumn]) : '';
+						$atype = isset($data[$acquisitionTypeColumn]) ? trim($data[$acquisitionTypeColumn]) : '';
+						if (isset($_POST['sendemails'])) {
+							$sendemails = $_POST['sendemails'] == "on" ? true : false;
+						}
+						if ($rtype && $rformat && $atype) {
+							$resource->enterNewWorkflow($sendemails);
+						}
+
 
 						// If Alias is mapped, check to see if it exists
 						foreach($jsonData['alias'] as $alias)
