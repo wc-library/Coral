@@ -16,6 +16,7 @@
 	include 'templates/header.php';
 ?>
 <div id="importPage"><h1><?php echo _("Delimited File Import");?></h1>
+<p><a href="importHistory.php">Imports history</a></p>
 <?php
 	// CSV configuration
 	$required_columns = array('titleText' => 0, 'resourceURL' => 0, 'resourceAltURL' => 0, 'parentResource' => 0, 'organization' => 0, 'role' => 0);
@@ -268,6 +269,7 @@
 			$aliasInserted = 0;
 			$noteInserted = 0;
 			$arrayOrganizationsCreated = array();
+            $resourceIDs = array();
 			while (($data = fgetcsv($handle, 0, $delimiter)) !== FALSE)
 			{
 		    	// Getting column names again for deduping
@@ -469,6 +471,7 @@
 						{
 							$resource->setIsbnOrIssn($isbnIssn_values);
 						}
+                        array_push($resourceIDs, $resource->resourceID);
 						$inserted++;
 
                         // Create an acquisition line if fund code and cost are defined
@@ -749,6 +752,14 @@
 			print "<p>" . $aliasInserted . _(" aliases have been created") . "</p>";
 			print "<p>" . $noteInserted . _(" notes have been created") . "</p>";
 		}
+
+        $importHistory = new ImportHistory();
+        $importHistory->importDate = date("Y-m-d H:i:s");
+        $importHistory->filename = basename($uploadfile);
+        $importHistory->resourcesCount = count($resourceIDs);
+        $importHistory->importedResources = json_encode($resourceIDs);
+        $importHistory->save();
+
 	}
 	else
 	{
