@@ -78,6 +78,7 @@ class Resource extends DatabaseObject {
 		$i = 0;
 
 		if (!is_array($isbnOrISSN)) {
+			if ($isbnOrISSN === null) return;
 			$value = $isbnOrISSN;
 			$isbnOrISSN = array($value);
 		}
@@ -145,11 +146,12 @@ class Resource extends DatabaseObject {
   // return array of related resource objects
   private function getRelatedResources($key) {
 
-		$query = "SELECT *
-			FROM ResourceRelationship
-			WHERE $key = '" . $this->resourceID . "'
+		$query = "SELECT rr.resourceRelationshipID
+			FROM ResourceRelationship rr
+            JOIN Resource r on rr.resourceID = r.resourceID
+			WHERE rr.$key = '" . $this->resourceID . "'
 			AND relationshipTypeID = '1'
-			ORDER BY 1";
+			ORDER BY r.titleText";
 
 		$result = $this->db->processQuery($query, 'assoc');
 
@@ -446,7 +448,7 @@ class Resource extends DatabaseObject {
 		"recordsPerPage" => 25,
 		);
 		foreach ($defaultSearchParameters as $key => $value) {
-			if (!$search[$key]) {
+			if (!isset($search[$key])) {
 				$search[$key] = $value;
 			}
 		}
@@ -1168,7 +1170,7 @@ class Resource extends DatabaseObject {
 
 			$result = $this->db->processQuery($query, 'assoc');
 
-			if($result["resourceID"]) {
+			if (isset($result["resourceID"])) {
 				return array($result);
 			}
 

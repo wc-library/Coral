@@ -221,7 +221,7 @@ class DatabaseObject extends DynamicObject {
 			if (isset($this->attributes[$attributeName]))
 			{
 				$value = $this->attributes[$attributeName];
-				if ($value == '' || !isset($value)) {
+				if (($value == '' || !isset($value)) && $value !== 0) {
 					$value = "NULL";
 				} else {
 					$value = $this->db->escapeString($value);

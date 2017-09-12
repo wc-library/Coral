@@ -86,7 +86,7 @@ class ResourceAcquisition extends DatabaseObject {
                     AND ResourceStep.stepID = Step.stepID LIMIT 1";
 
 		$result = $this->db->processQuery($query, 'assoc');
-        return $result['workflowID'];
+        return isset($result['workflowID']) ? $result['workflowID'] : NULL;
     }
 
     public function getCurrentWorkflowResourceSteps(){
@@ -175,7 +175,7 @@ class ResourceAcquisition extends DatabaseObject {
     }
 
 	//enters resource into new workflow
-	public function enterNewWorkflow($workflowID = null){
+	public function enterNewWorkflow($workflowID = null, $sendEmail = true){
 		$config = new Configuration();
 
         $resource = new Resource(new NamedArguments(array('primaryKey' => $this->resourceID)));
@@ -230,7 +230,7 @@ class ResourceAcquisition extends DatabaseObject {
 			//Start the first step
 			//this handles updating the db and sending notifications for approval groups
 			foreach ($this->getFirstSteps() as $resourceStep) {
-				$resourceStep->startStep();
+				$resourceStep->startStep($sendEmail);
 
 			}
 		}
