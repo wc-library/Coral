@@ -10,49 +10,29 @@ $fields = array('resourceID', 'orderNumber', 'systemNumber', 'acquisitionTypeID'
 
 $tables = array('ResourcePurchaseSiteLink', 'ResourcePayment', 'ResourceAdministeringSiteLink', 'ResourceAuthorizedSiteLink', 'Attachment', 'Contact', 'ResourceLicenseLink', 'ResourceLicenseStatus', 'ResourceStep'); 
 
-$entityTables = array('Downtime', 'IssueRelationship');
-
-foreach ($results as $row) {
-    $rid = $row['resourceID'];
-    print ("Creating ResourceAcquisition for resource $rid\n");
-    $r = new Resource(new NamedArguments(array('primaryKey' => $rid)));
-    $ra = new ResourceAcquisition();
-    foreach ($fields as $field) {
-        $ra->$field = $r->$field;
-    }
-    $ra->parentResourceID = null;
-    $ra->subscriptionStartDate = date('Y-m-d');
-    $ra->subscriptionEndDate = date('Y-m-d');
-    $query = "SELECT organizationID from ResourceOrganizationLink WHERE resourceID = $rid LIMIT 1";
-    $results = $obj->db->processQuery($query, 'assoc');
-    $ra->organizationID = $results['organizationID'];
-    
-    $raid = $ra->saveAsNew();
-    print ("ResourceAcquisition $raid created\n");
-   
-    foreach ($tables as $table) { 
-        $query = "UPDATE $table SET resourceAcquisitionID = $raid WHERE resourceAcquisitionID = $rid";
-        print ("Updating table $table\n");
-        $obj->db->processQuery($query);
-    }
-
-    foreach ($entityTables as $table) {
-        $query = "UPDATE $table SET resourceAcquisitionID = $raid WHERE entityID = $rid";
-        print ("Updating table $table: $query\n");
-        $obj->db->processQuery($query);
-    }
- 
-    // Notes
-    $tabNames = array('Cataloging', 'Access', 'Acquisitions');
-    foreach ($tabNames as $tabName) {
-        print ("Updating $tabName notes\n");
-        $notes = $r->getNotes($tabName);
-        foreach ($notes as $note) {
-            $query = "UPDATE ResourceNote SET entityID = $raid WHERE resourceNoteID = " . $note->resourceNoteID;
-            $obj->db->processQuery($query);
-        } 
-    }
-    print ("\n");
+function prefix($n) {
+    return "Resource." . $n;
 }
 
+$entityTables = array('Downtime', 'IssueRelationship');
+
+    echo "INSERT INTO ResourceAcquisition (" . join($fields, ",\n") . ",subscriptionStartDate, subscriptionEndDate) SELECT " . join(array_map("prefix", $fields), ",\n") . ",NOW(),NOW() FROM Resource;\n";
+
+foreach ($tables as $table) {
+        $query = "UPDATE $table LEFT JOIN ResourceAcquisition ON $table.resourceAcquisitionID = ResourceAcquisition.resourceID SET $table.resourceAcquisitionID = ResourceAcquisition.resourceAcquisitionID;\n";
+        echo $query;
+}
+
+foreach ($entityTables as $table) {
+        $query = "UPDATE $table LEFT JOIN ResourceAcquisition ON $table.entityID = ResourceAcquisition.resourceID SET $table.resourceAcquisitionID = ResourceAcquisition.resourceAcquisitionID;\n";
+        echo $query;
+}
+
+$tabNames = array('CATALOGING', 'ACCESS', 'ACQUISITIONS');
+foreach ($tabNames as $tabName) {
+    $query = "UPDATE ResourceNote LEFT JOIN ResourceAcquisition ON ResourceNote.entityID = ResourceAcquisition.resourceID SET ResourceNote.entityID = ResourceAcquisition.resourceAcquisitionID WHERE UPPER(tabName) = '$tabName';\n";
+    echo $query;
+}
+
+die();
 ?>
