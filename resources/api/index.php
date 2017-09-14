@@ -34,7 +34,6 @@ include_once '../../licensing/admin/classes/domain/DocumentType.php';
 include_once '../../licensing/admin/classes/domain/Expression.php';
 include_once '../../licensing/admin/classes/domain/ExpressionNote.php';
 include_once '../../licensing/admin/classes/domain/ExpressionType.php';
-include_once '../../organizations/admin/classes/domain/Organization.php';
 include_once '../../organizations/admin/classes/domain/Alias.php';
 
 
@@ -344,11 +343,19 @@ Flight::route('GET /resources/@id/licenses', function($id) {
 
 
 Flight::route('GET /organizations/@id', function($id) {
+    $config = new Configuration();
     $db = DBService::getInstance();
-    $db->changeDb('organizationsDatabaseName');
-    $organization = new Organization(new NamedArguments(array('primaryKey' => $id))); 
-    Flight::json($organization->asArray());
-    $db->changeDb();
+    if ($config->settings->organizationsModule == 'Y') {
+        include_once '../../organizations/admin/classes/domain/Organization.php';
+        $db->changeDb('organizationsDatabaseName');
+        $organization = new Organization(new NamedArguments(array('primaryKey' => $id)));
+        Flight::json($organization->asArray());
+        $db->changeDb();
+    } else {
+        include_once '../admin/classes/domain/Organization.php';
+        $organization = new Organization(new NamedArguments(array('primaryKey' => $id)));
+        Flight::json($organization->asArray());
+    }
 });
 
 Flight::start();
