@@ -2,7 +2,7 @@
 
 /*
 **************************************************************************************************************************
-** CORAL Usage Statistics Reporting Module v. 1.0
+** CORAL Common Directory
 **
 ** Copyright (c) 2010 University of Notre Dame
 **
