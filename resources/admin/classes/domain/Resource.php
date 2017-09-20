@@ -1260,12 +1260,13 @@ class Resource extends DatabaseObject {
 						AM.shortName accessMethod, SL.shortName storageLocation, UL.shortName userLimit, R.authenticationUserName,
 						R.authenticationPassword, R.coverageText, CT.shortName catalogingType, CS.shortName catalogingStatus, R.recordSetIdentifier, R.bibSourceURL,
 						R.numberRecordsAvailable, R.numberRecordsLoaded, R.hasOclcHoldings, GROUP_CONCAT(DISTINCT I.isbnOrIssn ORDER BY isbnOrIssnID SEPARATOR '; ') AS isbnOrIssn,
+                        RPAY.year,
                         F.shortName as fundName, F.fundCode, 
                         ROUND(COALESCE(RPAY.priceTaxExcluded, 0) / 100, 2) as priceTaxExcluded, 
                         ROUND(COALESCE(RPAY.taxRate, 0) / 100, 2) as taxRate, 
                         ROUND(COALESCE(RPAY.priceTaxIncluded, 0) / 100, 2) as priceTaxIncluded, 
                         ROUND(COALESCE(RPAY.paymentAmount, 0) / 100, 2) as paymentAmount, 
-                        RPAY.currencyCode, OT.shortName as orderType,
+                        RPAY.currencyCode, CD.shortName as costDetails, OT.shortName as orderType, RPAY.costNote, RPAY.invoiceNum, 
 						" . $orgSelectAdd . ",
 						" . $licSelectAdd . "
 						GROUP_CONCAT(DISTINCT A.shortName ORDER BY A.shortName DESC SEPARATOR '; ') aliases,
@@ -1291,6 +1292,7 @@ class Resource extends DatabaseObject {
 									LEFT JOIN ResourceStep RS ON R.resourceID = RS.resourceID
 									LEFT JOIN Fund F ON RPAY.fundID = F.fundID
 									LEFT JOIN OrderType OT ON RPAY.orderTypeID = OT.orderTypeID
+									LEFT JOIN CostDetails CD ON RPAY.costDetailsID = CD.costDetailsID
 									LEFT JOIN Status S ON R.statusID = S.statusID
 									LEFT JOIN ResourceNote RN ON R.resourceID = RN.resourceID
 									LEFT JOIN NoteType NT ON RN.noteTypeID = NT.noteTypeID
