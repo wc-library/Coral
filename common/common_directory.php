@@ -24,28 +24,32 @@ ini_set('memory_limit', '256M');
 
 define('ADMIN_DIR', BASE_DIR . 'admin/');
 define('CLASSES_DIR', ADMIN_DIR . 'classes/');
+define('INTERFACES_DIR', ADMIN_DIR . 'interfaces/');
 
 // Automatically load undefined classes from subdirectories of |CLASSES_DIR|.
 spl_autoload_register( function ($className) {
-	if (file_exists(CLASSES_DIR) && is_readable(CLASSES_DIR) && is_dir(CLASSES_DIR)) {
-		$directory = dir(CLASSES_DIR);
-
-		// Iterate over the files and directories in |CLASSES_DIR|.
-		while (false !== ($entry = $directory->read())) {
-			$path = CLASSES_DIR . $entry;
-
-			// Look only at subdirectories
-			if (is_dir($path)) {
-				$filename = $path . '/' . $className . '.php';
-				if (file_exists($filename) && is_readable($filename) && is_file($filename)) {
-					// Could probably safely use |require()| here, since |__autoload()| is only called when a class isn't loaded.
-					require_once($filename);
+	$directories = array(CLASSES_DIR,INTERFACES_DIR);
+	foreach ($directories as $currentDirectory) {
+		if (file_exists($currentDirectory) && is_readable($currentDirectory) && is_dir($currentDirectory)) {
+			$directory = dir($currentDirectory);
+			// Iterate over the files and directories in |CLASSES_DIR|.
+			while (false !== ($entry = $directory->read())) {
+				$path = $currentDirectory . $entry;
+				// Look only at subdirectories
+				if (is_dir($path)) {
+					$filename = $path . '/' . $className . '.php';
+					if (file_exists($filename) && is_readable($filename) && is_file($filename)) {
+						// Could probably safely use |require()| here, since |__autoload()| is only called when a class isn't loaded.
+						require_once($filename);
+						break;
+					}
 				}
 			}
+			$directory->close();
 		}
-		$directory->close();
 	}
 });
+
 
 // Add lcfirst() for PHP < 5.3.0
 if (false === function_exists('lcfirst')) {
