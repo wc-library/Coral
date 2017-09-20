@@ -1,8 +1,7 @@
 <?php
-
 /*
 **************************************************************************************************************************
-** CORAL Usage Statistics Reporting Module v. 1.0
+** CORAL Management Module v. 1.0
 **
 ** Copyright (c) 2010 University of Notre Dame
 **
@@ -17,45 +16,10 @@
 **************************************************************************************************************************
 */
 
-// Increase memory due to large sized reports
-ini_set('max_execution_time', 1000);
-ini_set("default_socket_timeout", 1000);
-ini_set('memory_limit', '256M');
-
-// Useful directory constants, ending with |/|.
-define('ADMIN_DIR', dirname(__FILE__) . '/admin/');
+// Define the MODULE base directory, ending with |/|.
 define('BASE_DIR', dirname(__FILE__) . '/');
-define('CLASSES_DIR', ADMIN_DIR . 'classes/');
 
-// Automatically load undefined classes from subdirectories of |CLASSES_DIR|.
-spl_autoload_register( function ($className) {
-	if (file_exists(CLASSES_DIR) && is_readable(CLASSES_DIR) && is_dir(CLASSES_DIR)) {
-		$directory = dir(CLASSES_DIR);
-
-		// Iterate over the files and directories in |CLASSES_DIR|.
-		while (false !== ($entry = $directory->read())) {
-			$path = CLASSES_DIR . $entry;
-
-			// Look only at subdirectories
-			if (is_dir($path)) {
-				$filename = $path . '/' . $className . '.php';
-				if (file_exists($filename) && is_readable($filename) && is_file($filename)) {
-					// Could probably safely use |require()| here, since |__autoload()| is only called when a class isn't loaded.
-					require_once($filename);
-				}
-			}
-		}
-		$directory->close();
-	}
-});
-
-// Add lcfirst() for PHP < 5.3.0
-if (false === function_exists('lcfirst')) {
-	function lcfirst($string) {
-		return strtolower(substr($string, 0, 1)) . substr($string, 1);
-	}
-}
-
+require_once "../common/common_directory.php";
 
 // Include file of language codes
 include_once 'LangCodes.php';
