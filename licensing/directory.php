@@ -19,6 +19,8 @@
 // Define the MODULE base directory, ending with |/|.
 define('BASE_DIR', dirname(__FILE__) . '/');
 
+require_once "../common/common_directory.php";
+
 function format_date($mysqlDate) {
 
 	//see http://php.net/manual/en/function.date.php for options

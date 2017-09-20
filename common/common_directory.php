@@ -60,7 +60,7 @@ if(function_exists("date_default_timezone_set") and function_exists("date_defaul
 }
 
 // Include file of language codes
-include_once 'LangCodes.php';
+include_once '../LangCodes.php';
 $lang_name = new LangCodes();
 
 // Verify the language of the browser
