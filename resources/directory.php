@@ -145,8 +145,4 @@ function buildTimeForm($fieldNameBase,$defaultHour=8,$minuteIntervals=4) {
   return buildSelectableHours($fieldNameBase,$defaultHour).buildSelectableMinutes($fieldNameBase,$minuteIntervals).buildSelectableMeridian($fieldNameBase);
 }
 
-function debug($value) {
-  echo '<pre>'.print_r($value, true).'</pre>';
-}
-
 ?>

@@ -81,6 +81,10 @@ function format_date($mysqlDate) {
 
 }
 
+function debug($value) {
+  echo '<pre>'.print_r($value, true).'</pre>';
+}
+
 // Include file of language codes
 include_once '../LangCodes.php';
 $lang_name = new LangCodes();
