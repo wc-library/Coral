@@ -4,6 +4,7 @@
 
 
     $year = $_POST['year'];
+    if (!$year) $year = date('Y');
     $resourceTypeID = $_POST['resourceTypeID'];
     $acquisitionTypeID = $_POST['acquisitionTypeID'];
     $orderTypeID = $_POST['orderTypeID'];
@@ -14,6 +15,7 @@
     $dashboard = new Dashboard();
     $query = $dashboard->getQuery($resourceTypeID, $year, $acquisitionTypeID, $orderTypeID, $subjectID, $costDetailsID, $groupBy);
     $results = $dashboard->getResults($query);
+    $total = 0;
 
     echo "<table id='dashboard_table' class='dataTable' style='width:840px'>";
     echo "<thead><tr>";
@@ -28,25 +30,22 @@
     echo "</tr></thead>";
     echo "<tbody>";
     foreach ($results as $result) {
-        if ($result['resourceID'] != null) {
-            echo "<tr>";
-            echo "<td>" . $result['resourceID'] . "</td>";
-            echo "<td>" . $result['titleText'] . "</td>";
-            echo "<td>" . $result['resourceType'] . "</td>";
-            $subject = $result['generalSubject'] && $result['detailedSubject'] ? 
-                $result['generalSubject'] . " / " . $result['detailedSubject'] : 
-                $result['generalSubject'] . $result['detailedSubject'];
-            echo "<td>" . $subject . "</td>";
-            echo "<td>" . $result['acquisitionType'] . "</td>";
- //           echo "<td>" . $result['orderType'] . "</td>";
- //           echo "<td>" . $result['costDetails'] . "</td>";
-            echo "<td>" . integer_to_cost($result['paymentAmount']) . "</td>";
-            echo "</tr>";
-        } else {
-            echo "<tfoot><tr><td colspan='5'>" . _("Total") . "</td>";
-            echo "</tr></tfoot>";
-        }
+        $total += $result['paymentAmount'];
+        echo "<tr>";
+        echo "<td>" . $result['resourceID'] . "</td>";
+        echo "<td>" . $result['titleText'] . "</td>";
+        echo "<td>" . $result['resourceType'] . "</td>";
+        $subject = $result['generalSubject'] && $result['detailedSubject'] ? 
+            $result['generalSubject'] . " / " . $result['detailedSubject'] : 
+            $result['generalSubject'] . $result['detailedSubject'];
+        echo "<td>" . $subject . "</td>";
+        echo "<td>" . $result['acquisitionType'] . "</td>";
+//        echo "<td>" . $result['orderType'] . "</td>";
+//        echo "<td>" . $result['costDetails'] . "</td>";
+        echo "<td>" . integer_to_cost($result['paymentAmount']) . "</td>";
+        echo "</tr>";
     }
+    echo "<tfoot><tr><td colspan='5'>" . _("Total") . "</td><td>" . integer_to_cost($total) . "</td></tr></tfoot>";
     echo "</tbody>";
     echo "</table>";
 

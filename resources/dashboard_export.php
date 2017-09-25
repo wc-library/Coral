@@ -38,8 +38,8 @@
       _("Resource Type"),
       _("Subject"),
       _("Acquisition Type"),
-      _("Order Type"),
-      _("Cost Details"),
+//      _("Order Type"),
+//      _("Cost Details"),
       _("Payment amount"),
     );
     echo array_to_csv_row($columnHeaders);
@@ -60,11 +60,11 @@
             $result['resourceType'],
             $subject,
             $result['acquisitionType'],
-            $result['orderType'],
-            $result['costDetails'],
+//            $result['orderType'],
+//            $result['costDetails'],
             integer_to_cost($result['paymentAmount'])
         );
         echo array_to_csv_row($dashboardValues);
     }
-    echo array_to_csv_row(array(_("Total"), null, null, null, null, null, null, integer_to_cost($total)));
+    echo array_to_csv_row(array(_("Total"), null, null, null, null, integer_to_cost($total)));
 ?>
