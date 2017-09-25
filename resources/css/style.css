@@ -1146,6 +1146,10 @@ img[src*="arrowup.png"] {
 			vertical-align: middle !important;
 }
 
+div#div_acquisitions {
+		width: 597px !important;
+}
+
 /*--- Table Column Widths ---*/
 
 table.dataTable th:nth-of-type(1) {
@@ -1416,7 +1420,7 @@ td.searchRow textarea {
 }
 
 .resource_tab_content {
-			width: 630px !important;
+			width: 630px;
 }
 
 .sidemenu {
@@ -1425,7 +1429,7 @@ td.searchRow textarea {
 }
 
 .mainContent {
-			width: 430px;
+			width: 100%;
 			padding: 10px;
 }
 
@@ -3151,6 +3155,7 @@ table.titleTable {
 
 #main-table {
     margin: 0 30px;
+    width: 1024px;
 }
 
 /*--- Allow Browser to Scroll When Modal Appears ---*/
