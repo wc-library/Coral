@@ -1,8 +1,7 @@
 <?php
 class Dashboard {
 
-    public function getQuery($resourceTypeID, $year, $acquisitionTypeID, $orderTypeID, $subjectID, $costDetailsID) {
-
+    public function getQuery($resourceTypeID, $year, $acquisitionTypeID, $orderTypeID, $subjectID, $costDetailsID, $groupBy) {
         $query = "SELECT
                         R.resourceID,
                         R.titleText,
@@ -41,7 +40,8 @@ class Dashboard {
                 $query .= " AND GDSL.generalSubjectID = $subjectID";
             }
         }
-        $query .= " GROUP BY resourceID";
+        $query .= " GROUP BY $groupBy";
+        error_log(substr($query, -20));
         return $query;
     }
 

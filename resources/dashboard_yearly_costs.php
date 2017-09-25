@@ -18,7 +18,7 @@
 
     <tr>
     <td class='searchRow'>
-    <form action="dashboard_export.php" method="POST">
+    <form action="dashboard_yearly_costs_exports.php" method="POST">
     <fieldset>
     <legend>Filter on resources:</legend>
     <label for="resourceTypeID"><b><?php echo _("Resource type"); ?>:</b></label><br />

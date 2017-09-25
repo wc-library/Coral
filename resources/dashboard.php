@@ -55,9 +55,20 @@
 	</tr>
 	<tr>
 	<td class='searchRow'>
+    <label for="groupBy"><b><?php echo _("Group By"); ?>:</b></label><br />
+    <select name="groupBy" id="groupBy">
+        <option value="resourceID">Resource</option>
+        <option value="resourceType">Resource Type</option>
+        <option value="acquisitionType">Acquisition Type</option>
+        <option value="costDetails">Cost Details</option>
+    </select>
+    </td>
+	</tr>
+	<tr>
+	<td class='searchRow'>
     <input type="button" id="submitDashboard" value="<?php echo _("Display"); ?>" />
     <input type="hidden" name="csv" value="1" />
-    <!--<input type="submit" id="getDashboardCSV" value="<?php echo _("Export"); ?>" /> -->
+    <input type="submit" id="getDashboardCSV" value="<?php echo _("Export"); ?>" />
     </form>
     </td></tr>
     </table>
