@@ -10,10 +10,10 @@
     $orderTypeID = $_POST['orderTypeID'];
     $subjectID = $_POST['subjectID'];
     $costDetailsID = $_POST['costDetailsID'];
-    $csv = $_POST['csv'];
+    $groupBy = $_POST['groupBy'];
 
     $dashboard = new Dashboard();
-    $query = $dashboard->getQuery($resourceTypeID, $year, $acquisitionTypeID, $orderTypeID, $subjectID, $costDetailsID);
+    $query = $dashboard->getQuery($resourceTypeID, $year, $acquisitionTypeID, $orderTypeID, $subjectID, $costDetailsID, $groupBy);
     $results = $dashboard->getResults($query);
     $total = 0;
 
