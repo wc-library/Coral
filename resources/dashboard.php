@@ -20,6 +20,8 @@
 	<tr>
 	<td class='searchRow'>
     <form action="dashboard_export.php" method="POST">
+    <fieldset>
+    <legend>Filter on resources:</legend>
     <label for="resourceTypeID"><b><?php echo _("Resource type"); ?>:</b></label><br />
     <?php $dashboard->getResourceTypesAsDropdown(); ?><br />
     </td>
@@ -36,8 +38,11 @@
     <?php $dashboard->getAcquisitionTypesAsDropdown(); ?><br />
     </td>
 	</tr>
+    </fieldset>
 	<tr>
 	<td class='searchRow'>
+    <fieldset>
+    <legend>Filter on payments:</legend>
     <label for="orderTypeID"><b><?php echo _("Order Type"); ?>:</b></label><br />
     <?php $dashboard->getOrderTypesAsDropdown(); ?>
     </td>
@@ -46,6 +51,7 @@
 	<td class='searchRow'>
     <label for="costDetailsID"><b><?php echo _("Cost Details"); ?>:</b></label><br />
     <?php $dashboard->getCostDetailsAsDropdown(); ?>
+    </fieldset>
     </td>
 	</tr>
 	<tr>
@@ -57,10 +63,9 @@
 	<td class='searchRow'>
     <label for="groupBy"><b><?php echo _("Group By"); ?>:</b></label><br />
     <select name="groupBy" id="groupBy">
-        <option value="resourceID">Resource</option>
+        <option value="">Resource</option>
         <option value="resourceType">Resource Type</option>
         <option value="acquisitionType">Acquisition Type</option>
-        <option value="costDetails">Cost Details</option>
     </select>
     </td>
 	</tr>
