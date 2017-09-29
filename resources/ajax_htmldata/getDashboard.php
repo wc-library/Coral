@@ -18,7 +18,6 @@
 
     echo "<table id='dashboard_table' class='dataTable' style='width:840px'>";
     echo "<thead><tr>";
-    echo "<th>" . _("Resource ID") . "</th>";
     echo "<th>" . _("Name") . "</th>";
     echo "<th>" . _("Resource Type") . "</th>";
     echo "<th>" . _("Subject") . "</th>";
@@ -31,8 +30,7 @@
     foreach ($results as $result) {
         if ($result['resourceID'] != null) {
             echo "<tr>";
-            echo "<td>" . $result['resourceID'] . "</td>";
-            echo "<td>" . $result['titleText'] . "</td>";
+            echo '<td><a href="resource.php?resourceID=' . $result['resourceID'] . '">' . $result['titleText'] . "</a></td>";
             echo "<td>" . $result['resourceType'] . "</td>";
             $subject = $result['generalSubject'] && $result['detailedSubject'] ? 
                 $result['generalSubject'] . " / " . $result['detailedSubject'] : 
@@ -42,7 +40,7 @@
             echo "<td>" . integer_to_cost($result['paymentAmount']) . "</td>";
             echo "</tr>";
         } else {
-            echo "<tr><td colspan='5'><b>";
+            echo "<tr><td colspan='4'><b>";
             if ($i == $count) { echo  _("Total"); } else { echo _("Sub-Total"); }
             echo "</b></td>";
             echo "<td><b>" . integer_to_cost($result['paymentAmount'])  . "</b></td>";
