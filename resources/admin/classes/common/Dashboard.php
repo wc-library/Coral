@@ -43,8 +43,6 @@ class Dashboard {
         $query .= " GROUP BY ";
         if ($groupBy != '') $query .= "$groupBy, ";
         $query .= "resourceID WITH ROLLUP";
-        error_log(substr($query, -20));
-        echo $query;
         return $query;
     }
 

@@ -65,6 +65,7 @@
     <select name="groupBy" id="groupBy">
         <option value="">Resource</option>
         <option value="resourceType">Resource Type</option>
+        <option value="GS.shortName">Subject</option>
         <option value="acquisitionType">Acquisition Type</option>
     </select>
     </td>
