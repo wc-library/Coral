@@ -42,6 +42,7 @@ function submitDashboardYearlyCosts() {
                         "orderTypeID": $("#orderTypeID").val(),
                         "subjectID": $("#subjectID").val(),
                         "costDetailsID": $("#costDetailsID").val(),
+                        "groupBy": $("#groupBy").val(),
                     },
 		success:    function(html) {
             $("#dashboardTable").html(html);

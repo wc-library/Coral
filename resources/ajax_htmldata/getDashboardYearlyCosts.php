@@ -14,10 +14,10 @@
     $orderTypeID = $_POST['orderTypeID'];
     $subjectID = $_POST['subjectID'];
     $costDetailsID = $_POST['costDetailsID'];
-    $csv = $_POST['csv'];
+    $groupBy = $_POST['groupBy'];
 
     $dashboard = new Dashboard();
-    $query = $dashboard->getQueryYearlyCosts($resourceTypeID, $startYear, $endYear, $acquisitionTypeID, $orderTypeID, $subjectID, $costDetailsID);
+    $query = $dashboard->getQueryYearlyCosts($resourceTypeID, $startYear, $endYear, $acquisitionTypeID, $orderTypeID, $subjectID, $costDetailsID, $groupBy);
     $results = $dashboard->getResults($query);
     $costDetails = new CostDetails();
     $costDetailsArray = $costDetails->allAsArray();
@@ -35,6 +35,8 @@
     }
     echo "</tr></thead>";
     echo "<tbody>";
+    $count = sizeof($results);
+    $currentCount = 1;
     foreach ($results as $result) {
         if ($result['resourceID'] != null) {
             echo "<tr>";
@@ -52,14 +54,17 @@
             }
             echo "</tr>";
         } else {
-            echo "<tfoot><tr><td colspan='4'>" . _("Total") . "</td>";
+            echo "<tr><td colspan='4'><b>";
+            if ($currentCount == $count) { echo  _("Total"); } else { echo _("Sub-Total"); }
+            echo "</b></td>";
             for ($i = $startYear; $i <= $endYear; $i++) {
                 foreach ($costDetailsArray as $costDetail) {
-                    echo "<td>" . integer_to_cost($result[$costDetail['shortName'] . " / $i"]) . "</td>";
+                    echo "<td><b>" . integer_to_cost($result[$costDetail['shortName'] . " / $i"]) . "</b></td>";
                 }
             }
             echo "</tr></tfoot>";
         }
+        $currentCount++;
     }
     echo "</tbody>";
     echo "</table>";

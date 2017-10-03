@@ -46,7 +46,7 @@ class Dashboard {
         return $query;
     }
 
-    public function getQueryYearlyCosts($resourceTypeID, $startYear, $endYear, $acquisitionTypeID, $orderTypeID, $subjectID, $costDetailsID) {
+    public function getQueryYearlyCosts($resourceTypeID, $startYear, $endYear, $acquisitionTypeID, $orderTypeID, $subjectID, $costDetailsID, $groupBy) {
      $query = "SELECT
                         R.resourceID,
                         R.titleText,
@@ -100,7 +100,10 @@ class Dashboard {
         }
         $query_where .= join(" AND ", $query_parts);
         if ($query_where) $query .= " WHERE " . $query_where;
-        $query .= " GROUP BY resourceID WITH ROLLUP";
+
+        $query .= " GROUP BY ";
+        if ($groupBy != '') $query .= "$groupBy, ";
+        $query .= "resourceID WITH ROLLUP";
         return $query;
     }
 

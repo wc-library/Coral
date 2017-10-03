@@ -45,7 +45,6 @@
     $dashboard = new Dashboard();
     $query = $dashboard->getQuery($resourceTypeID, $year, $acquisitionTypeID, $orderTypeID, $subjectID, $costDetailsID, $groupBy);
     $results = $dashboard->getResults($query);
-    $total = 0;
     $count = sizeof($results);
     $i = 1;
     foreach ($results as $result) {

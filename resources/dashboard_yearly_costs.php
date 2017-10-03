@@ -52,13 +52,24 @@
     <?php $dashboard->getCostDetailsAsDropdown(); ?>
     </td>
     </tr>
+    </fieldset>
     <tr>
     <td class='searchRow'>
     <label for="startYear"><b><?php echo _("Year (start)"); ?>:</b></label><br /><input type="text" name="startYear" id="startYear" size="4" value="<?php echo (date('Y') - 1); ?>" /><br />
     <label for="endYear"><b><?php echo _("Year (end)"); ?>:</b></label><br /><input type="text" name="endYear" id="endYear" size="4" value="<?php echo date('Y');?>" />
     </td>
     </tr>
-    </fieldset>
+    <tr>
+	<td class='searchRow'>
+    <label for="groupBy"><b><?php echo _("Group By"); ?>:</b></label><br />
+    <select name="groupBy" id="groupBy">
+        <option value=""><?php echo _("Resource"); ?></option>
+        <option value="resourceType"><?php echo _("Resource Type"); ?></option>
+        <option value="GS.shortName"><?php echo _("Subject"); ?></option>
+        <option value="acquisitionType"><?php echo _("Acquisition Type"); ?></option>
+    </select>
+    </td>
+    </tr> 
     <tr>
     <td class='searchRow'>
     <input type="button" id="submitDashboardYearlyCosts" value="<?php echo _("Display"); ?>" />

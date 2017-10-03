@@ -13,6 +13,7 @@
     $orderTypeID = $_POST['orderTypeID'];
     $subjectID = $_POST['subjectID'];
     $costDetailsID = $_POST['costDetailsID'];
+    $groupBy = $_POST['groupBy'];
     $csv = $_POST['csv'];
 
     function escape_csv($value) {
@@ -71,8 +72,10 @@
     echo array_to_csv_row($columnHeaders);
 
     $dashboard = new Dashboard();
-    $query = $dashboard->getQueryYearlyCosts($resourceTypeID, $startYear, $endYear, $acquisitionTypeID, $orderTypeID, $subjectID, $costDetailsID);
+    $query = $dashboard->getQueryYearlyCosts($resourceTypeID, $startYear, $endYear, $acquisitionTypeID, $orderTypeID, $subjectID, $costDetailsID, $groupBy);
     $results = $dashboard->getResults($query);
+    $count = sizeof($results);
+    $currentCount = 1;
     foreach ($results as $result) {
         $subject = $result['generalSubject'] && $result['detailedSubject'] ? 
             $result['generalSubject'] . " / " . $result['detailedSubject'] : 
@@ -87,7 +90,7 @@
                 $result['acquisitionType'],
             );
         } else {
-            $dashboardValues = array(_("Total"), '', '', '', '');
+            $dashboardValues = array($currentCount == $count ? _('Total') : _("Sub-Total"), '', '', '', '');
         }
         for ($i = $startYear; $i <= $endYear; $i++) {
             foreach ($costDetailsArray as $costDetail) {
@@ -96,5 +99,6 @@
         }
 
         echo array_to_csv_row($dashboardValues);
+        $currentCount++;
     }
 ?>
