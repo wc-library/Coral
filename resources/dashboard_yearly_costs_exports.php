@@ -53,6 +53,9 @@
         echo "none\r\n";
     }
 
+    $costDetails = new CostDetails();
+    $costDetailsArray = $costDetails->allAsArray();
+
     $columnHeaders = array(
       _("Record ID"),
       _("Name"),
@@ -61,7 +64,9 @@
       _("Acquisition Type"),
     );
     for ($i = $startYear; $i <= $endYear; $i++) {
-         $columnHeaders[] = $i;;
+        foreach ($costDetailsArray as $costDetail) {
+            $columnHeaders[] = $costDetail['shortName'] . " / $i";
+        }
     }
     echo array_to_csv_row($columnHeaders);
 
@@ -82,10 +87,12 @@
                 $result['acquisitionType'],
             );
         } else {
-            $dashboardValues = array('', '', '', '', '');
+            $dashboardValues = array(_("Total"), '', '', '', '');
         }
         for ($i = $startYear; $i <= $endYear; $i++) {
-            $dashboardValues[] =  integer_to_cost($result[$i]);
+            foreach ($costDetailsArray as $costDetail) {
+                $dashboardValues[] =  integer_to_cost($result[$costDetail['shortName'] . " / $i"]);
+            }
         }
 
         echo array_to_csv_row($dashboardValues);
