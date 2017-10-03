@@ -63,10 +63,10 @@
 	<td class='searchRow'>
     <label for="groupBy"><b><?php echo _("Group By"); ?>:</b></label><br />
     <select name="groupBy" id="groupBy">
-        <option value="">Resource</option>
-        <option value="resourceType">Resource Type</option>
-        <option value="GS.shortName">Subject</option>
-        <option value="acquisitionType">Acquisition Type</option>
+        <option value=""><?php echo _("Resource"); ?></option>
+        <option value="resourceType"><?php echo _("Resource Type"); ?></option>
+        <option value="GS.shortName"><?php echo _("Subject"); ?></option>
+        <option value="acquisitionType"><?php echo _("Acquisition Type"); ?></option>
     </select>
     </td>
 	</tr>
