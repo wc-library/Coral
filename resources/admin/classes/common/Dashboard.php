@@ -57,15 +57,22 @@ class Dashboard {
                         DS.shortName AS detailedSubject,
                         ";
 
+        $costDetails = new CostDetails();
+        $costDetailsArray = $costDetails->allAsArray();
+        $sum_parts = array();
         for ($i = $startYear; $i <= $endYear; $i++) {
-            $query .= " SUM(if(RP.year = $i";
+            foreach ($costDetailsArray as $costDetail) {
+                $sum_query = " SUM(if(RP.year = $i";
+                $sum_query .= " AND RP.costDetailsID = " . $costDetail['costDetailsID'];
 
-            if ($costDetailsID) $query .= " AND RP.costDetailsID = $costDetailsID";
-            if ($orderTypeID) $query .= " AND RP.orderTypeID = $orderTypeID";
+                if ($orderTypeID) $sum_query .= " AND RP.orderTypeID = $orderTypeID";
 
-            $query .= ", RP.paymentAmount, 0)) AS `$i`";
-            if ($i < $endYear) $query .= ",";
+                $sum_query .= ", RP.paymentAmount, 0)) AS `" . $costDetail['shortName'] . " / $i`";
+                $sum_parts[] = $sum_query;
+            }
         }
+        $query_sum = join(",", $sum_parts);
+        $query .= $query_sum;
 
         $query .= "
                  FROM Resource R
