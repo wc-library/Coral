@@ -15,7 +15,7 @@
     $dashboard = new Dashboard();
     $query = $dashboard->getQuery($resourceTypeID, $year, $acquisitionTypeID, $orderTypeID, $subjectID, $costDetailsID, $groupBy);
     $results = $dashboard->getResults($query);
-
+    if ($groupBy == "GS.shortName") $groupBy = "generalSubject";
     echo "<table id='dashboard_table' class='dataTable' style='width:840px'>";
     echo "<thead><tr>";
     echo "<th>" . _("Name") . "</th>";
@@ -41,7 +41,7 @@
             echo "</tr>";
         } else {
             echo "<tr><td colspan='4'><b>";
-            if ($i == $count) { echo  _("Total"); } else { echo _("Sub-Total"); }
+            if ($i == $count) { echo  _("Total"); } else { echo _("Sub-Total:") . " " . $result[$groupBy]; }
             echo "</b></td>";
             echo "<td><b>" . integer_to_cost($result['paymentAmount'])  . "</b></td>";
             echo "</tr>";

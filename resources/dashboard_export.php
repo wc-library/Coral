@@ -45,6 +45,7 @@
     $dashboard = new Dashboard();
     $query = $dashboard->getQuery($resourceTypeID, $year, $acquisitionTypeID, $orderTypeID, $subjectID, $costDetailsID, $groupBy);
     $results = $dashboard->getResults($query);
+    if ($groupBy == "GS.shortName") $groupBy = "generalSubject";
     $count = sizeof($results);
     $i = 1;
     foreach ($results as $result) {
@@ -62,7 +63,7 @@
                 integer_to_cost($result['paymentAmount'])
             );
         } else {
-            $dashboardValues = array($i == $count ? _('Total') : _("Sub-Total"), '', '', '', '', integer_to_cost($result['paymentAmount']));
+            $dashboardValues = array($i == $count ? _('Total') : _("Sub-Total:") . " " . $result[$groupBy], '', '', '', '', integer_to_cost($result['paymentAmount']));
         }
         echo array_to_csv_row($dashboardValues);
         $i++;

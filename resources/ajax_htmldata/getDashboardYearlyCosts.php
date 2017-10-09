@@ -19,6 +19,7 @@
     $dashboard = new Dashboard();
     $query = $dashboard->getQueryYearlyCosts($resourceTypeID, $startYear, $endYear, $acquisitionTypeID, $orderTypeID, $subjectID, $costDetailsID, $groupBy);
     $results = $dashboard->getResults($query);
+    if ($groupBy == "GS.shortName") $groupBy = "generalSubject";
     $costDetails = new CostDetails();
     $costDetailsArray = $costDetails->allAsArray();
 
@@ -55,7 +56,7 @@
             echo "</tr>";
         } else {
             echo "<tr><td colspan='4'><b>";
-            if ($currentCount == $count) { echo  _("Total"); } else { echo _("Sub-Total"); }
+            if ($currentCount == $count) { echo  _("Total"); } else { echo _("Sub-Total:") . " " . $result[$groupBy]; }
             echo "</b></td>";
             for ($i = $startYear; $i <= $endYear; $i++) {
                 foreach ($costDetailsArray as $costDetail) {
