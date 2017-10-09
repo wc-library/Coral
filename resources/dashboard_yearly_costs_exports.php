@@ -16,6 +16,11 @@
     $groupBy = $_POST['groupBy'];
     $csv = $_POST['csv'];
 
+    $dashboard = new Dashboard();
+    $query = $dashboard->getQueryYearlyCosts($resourceTypeID, $startYear, $endYear, $acquisitionTypeID, $orderTypeID, $subjectID, $costDetailsID, $groupBy);
+    $results = $dashboard->getResults($query);
+    if ($groupBy == "GS.shortName") $groupBy = "generalSubject";
+
     function escape_csv($value) {
       // replace \n with \r\n
       $value = preg_replace("/(?<!\r)\n/", "\r\n", $value);
@@ -35,24 +40,9 @@
     header("Pragma: public");
     header("Content-type: text/csv");
     header("Content-Disposition: attachment; filename=\"" . $excelfile . "\"");
-
-    $filters = array();
-    if ($orderTypeID) {
-        $orderType = new OrderType(new NamedArguments(array('primaryKey' => $orderTypeID)));
-        $filters[] = _("Order Type") . ": " . $orderType->shortName;
-    }
-    if ($costDetailsID) {
-        $costDetails = new CostDetails(new NamedArguments(array('primaryKey' => $costDetailsID)));
-        $filters[] = _("Cost Details") . ": " . $costDetails->shortName;
-    }
-
-    echo "Dashboard Yearly Costs Export " . date('Y-m-d') . "\r\n";
-    echo "Filters on payments: ";
-    if (count($filters) > 0) {
-        echo join(" / ", $filters) . "\r\n";
-    } else {
-        echo "none\r\n";
-    }
+    echo _("Dashboard Yearly Costs Export") . " " . date('Y-m-d') . "\r\n";
+    $query = $dashboard->displayExportParameters($resourceTypeID, $startYear, $endYear, $acquisitionTypeID, $orderTypeID, $subjectID, $costDetailsID, $groupBy);
+    echo "\r\n";
 
     $costDetails = new CostDetails();
     $costDetailsArray = $costDetails->allAsArray();
@@ -71,10 +61,6 @@
     }
     echo array_to_csv_row($columnHeaders);
 
-    $dashboard = new Dashboard();
-    $query = $dashboard->getQueryYearlyCosts($resourceTypeID, $startYear, $endYear, $acquisitionTypeID, $orderTypeID, $subjectID, $costDetailsID, $groupBy);
-    $results = $dashboard->getResults($query);
-    if ($groupBy == "GS.shortName") $groupBy = "generalSubject";
     $count = sizeof($results);
     $currentCount = 1;
     foreach ($results as $result) {

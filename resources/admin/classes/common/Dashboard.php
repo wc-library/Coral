@@ -115,6 +115,61 @@ class Dashboard {
 
     }
 
+    public function displayExportParameters($resourceTypeID, $startYear, $endYear, $acquisitionTypeID, $orderTypeID, $subjectID, $costDetailsID, $groupBy) {
+        $resourcesFilters = array();
+        if ($resourceTypeID) {
+            $resourceType = new ResourceType(new NamedArguments(array('primaryKey' => $resourceTypeID)));
+            $resourceFilters[] = _("Resource Type") . ": " . $resourceType->shortName;
+        }
+        if ($subjectID) {
+            if (substr($subjectID, 0, 1) == "d") {
+                $subject = new DetailedSubject(new NamedArguments(array('primaryKey' => substr($subjectID, 1))));
+            } else {
+                $subject = new GeneralSubject(new NamedArguments(array('primaryKey' => $subjectID)));
+            }
+            $resourceFilters[] = _("Subject") . ": " . $subject->shortName;
+        }
+        if ($acquisitionTypeID) {
+            $acquisitionType = new AcquisitionType(new NamedArguments(array('primaryKey' => $acquisitionTypeID)));
+            $resourceFilters[] = _("Acquisition Type") . ": " . $acquisitionType->shortName;
+        }
+
+        $paymentFilters = array();
+        if ($orderTypeID) {
+            $orderType = new OrderType(new NamedArguments(array('primaryKey' => $orderTypeID)));
+            $paymentFilters[] = _("Order Type") . ": " . $orderType->shortName;
+        }
+        if ($costDetailsID) {
+            $costDetails = new CostDetails(new NamedArguments(array('primaryKey' => $costDetailsID)));
+            $paymentFilters[] = _("Cost Details") . ": " . $costDetails->shortName;
+        }
+
+        echo _("Filters on resources") . ":\r\n";
+        if (count($resourceFilters) > 0) {
+            echo join(" / ", $resourceFilters) . "\r\n";
+        } else {
+            echo _("none") . "\r\n";
+        }
+
+        echo _("Filters on payments") . ":\r\n";
+        if (count($paymentFilters) > 0) {
+            echo join(" / ", $paymentFilters) . "\r\n";
+        } else {
+            echo _("none") . "\r\n";
+        }
+
+        if ($startYear && $endYear) {
+            echo _("Start year") . ": $startYear\r\n";
+            echo _("End year") . ": $endYear\r\n";
+        } else {
+            echo _("Year") . ": $startYear\r\n";
+        }
+
+        if ($groupBy) {
+            echo _("Group by") . ": " . $groupBy . "\r\n";
+        }
+
+    }
 
     function getResourceTypesAsDropdown($currentID = null) {
         $display = array();
