@@ -56,6 +56,7 @@
     );
     for ($i = $startYear; $i <= $endYear; $i++) {
         foreach ($costDetailsArray as $costDetail) {
+            if ($costDetailsID && $costDetail['costDetailsID'] != $costDetailsID) continue;
             $columnHeaders[] = $costDetail['shortName'] . " / $i";
         }
     }
@@ -81,6 +82,7 @@
         }
         for ($i = $startYear; $i <= $endYear; $i++) {
             foreach ($costDetailsArray as $costDetail) {
+                if ($costDetailsID && $costDetail['costDetailsID'] != $costDetailsID) continue;
                 $dashboardValues[] =  integer_to_cost($result[$costDetail['shortName'] . " / $i"]);
             }
         }

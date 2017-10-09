@@ -31,6 +31,7 @@
     echo "<th>" . _("Acquisition Type") . "</th>";
     for ($i = $startYear; $i <= $endYear; $i++) {
         foreach ($costDetailsArray as $costDetail) {
+            if ($costDetailsID && $costDetail['costDetailsID'] != $costDetailsID) continue;
             echo "<th>" . $costDetail['shortName'] . " / $i</th>";
         }
     }
@@ -50,6 +51,7 @@
             echo "<td>" . $result['acquisitionType'] . "</td>";
             for ($i = $startYear; $i <= $endYear; $i++) {
                 foreach ($costDetailsArray as $costDetail) {
+                    if ($costDetailsID && $costDetail['costDetailsID'] != $costDetailsID) continue;
                     echo "<td>" . integer_to_cost($result[$costDetail['shortName'] . " / $i"]) . "</td>";
                 }
             }
@@ -60,6 +62,7 @@
             echo "</b></td>";
             for ($i = $startYear; $i <= $endYear; $i++) {
                 foreach ($costDetailsArray as $costDetail) {
+                    if ($costDetailsID && $costDetail['costDetailsID'] != $costDetailsID) continue;
                     echo "<td><b>" . integer_to_cost($result[$costDetail['shortName'] . " / $i"]) . "</b></td>";
                 }
             }
