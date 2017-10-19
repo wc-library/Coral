@@ -83,7 +83,7 @@
         for ($i = $startYear; $i <= $endYear; $i++) {
             foreach ($costDetailsArray as $costDetail) {
                 if ($costDetailsID && $costDetail['costDetailsID'] != $costDetailsID) continue;
-                $dashboardValues[] =  integer_to_cost($result[$costDetail['shortName'] . " / $i"]);
+                $dashboardValues[] =  $result[$costDetail['shortName'] . " / $i"];
             }
         }
 

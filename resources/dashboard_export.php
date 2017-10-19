@@ -65,10 +65,10 @@
                 $result['resourceType'],
                 $subject,
                 $result['acquisitionType'],
-                integer_to_cost($result['paymentAmount'])
+                $result['paymentAmount']
             );
         } else {
-            $dashboardValues = array($i == $count ? _('Total') : _("Sub-Total:") . " " . $result[$groupBy], '', '', '', '', integer_to_cost($result['paymentAmount']));
+            $dashboardValues = array($i == $count ? _('Total') : _("Sub-Total:") . " " . $result[$groupBy], '', '', '', '', $result['paymentAmount']);
         }
         echo array_to_csv_row($dashboardValues);
         $i++;

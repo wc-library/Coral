@@ -52,7 +52,7 @@
             for ($i = $startYear; $i <= $endYear; $i++) {
                 foreach ($costDetailsArray as $costDetail) {
                     if ($costDetailsID && $costDetail['costDetailsID'] != $costDetailsID) continue;
-                    echo "<td>" . integer_to_cost($result[$costDetail['shortName'] . " / $i"]) . "</td>";
+                    echo "<td>" . $result[$costDetail['shortName'] . " / $i"] . "</td>";
                 }
             }
             echo "</tr>";
@@ -63,7 +63,7 @@
             for ($i = $startYear; $i <= $endYear; $i++) {
                 foreach ($costDetailsArray as $costDetail) {
                     if ($costDetailsID && $costDetail['costDetailsID'] != $costDetailsID) continue;
-                    echo "<td><b>" . integer_to_cost($result[$costDetail['shortName'] . " / $i"]) . "</b></td>";
+                    echo "<td><b>" . $result[$costDetail['shortName'] . " / $i"] . "</b></td>";
                 }
             }
             echo "</tr></tfoot>";

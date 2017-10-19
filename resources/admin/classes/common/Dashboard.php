@@ -11,7 +11,7 @@ class Dashboard {
                         CD.shortName AS costDetails,
                         GS.shortName AS generalSubject,
                         DS.shortName AS detailedSubject,
-                        SUM(RP.paymentAmount) as paymentAmount
+                        SUM(ROUND(COALESCE(RP.paymentAmount, 0) / 100, 2)) as paymentAmount
                         ";
 
         $query .= "
@@ -70,7 +70,7 @@ class Dashboard {
 
                 if ($orderTypeID) $sum_query .= " AND RP.orderTypeID = $orderTypeID";
 
-                $sum_query .= ", RP.paymentAmount, 0)) AS `" . $costDetail['shortName'] . " / $i`";
+                $sum_query .= ", ROUND(COALESCE(RP.paymentAmount, 0) / 100, 2), 0)) AS `" . $costDetail['shortName'] . " / $i`";
                 $sum_parts[] = $sum_query;
             }
         }

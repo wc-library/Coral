@@ -37,13 +37,13 @@
                 $result['generalSubject'] . $result['detailedSubject'];
             echo "<td>" . $subject . "</td>";
             echo "<td>" . $result['acquisitionType'] . "</td>";
-            echo "<td>" . integer_to_cost($result['paymentAmount']) . "</td>";
+            echo "<td>" . $result['paymentAmount'] . "</td>";
             echo "</tr>";
         } else {
             echo "<tr><td colspan='4'><b>";
             if ($i == $count) { echo  _("Total"); } else { echo _("Sub-Total:") . " " . $result[$groupBy]; }
             echo "</b></td>";
-            echo "<td><b>" . integer_to_cost($result['paymentAmount'])  . "</b></td>";
+            echo "<td><b>" . $result['paymentAmount']  . "</b></td>";
             echo "</tr>";
         }
     $i++;
