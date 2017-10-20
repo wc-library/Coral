@@ -4,7 +4,6 @@
 	include 'templates/header.php';
 
 ?>
-<ul>
-<li><a href="dashboard.php">Statistics</a></li>
-<li><a href="dashboard_yearly_costs.php">Yearly costs</a></li>
-</ul>
+<h1><?php echo _("Dashboards"); ?></h1>
+<a href="dashboard.php"><img src="../images/icon-usage.png" /><br /><?php echo _("Statistics"); ?></a><br /><br />
+<a href="dashboard_yearly_costs.php"><img src="../images/icon-usage.png" /><br /><?php echo _("Yearly costs"); ?></a><br />
