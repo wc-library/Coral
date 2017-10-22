@@ -83,12 +83,12 @@ if (count($contactIDs)) {
 		unset($newIssueContact);
 	}
 
-	$organizationContactsArray = $sourceResource->organizationContactsArray($sourceOrganizationID);
+	$organizationContactsArray = $sourceResource->getUnarchivedContacts();
 
 	//send emails to contacts
 	foreach ($organizationContactsArray as $contactData) {
 		if (in_array($contactData['contactID'],$contactIDs)) {
-			mail($email, "{$newIssue->subjectText}",$emailMessage,"From: {$user->emailAddress}\r\nReply-To: {$user->emailAddress}");
+			mail($contactData['emailAddress'], "{$newIssue->subjectText}",$emailMessage,"From: {$user->emailAddress}\r\nReply-To: {$user->emailAddress}");
 		}
 	}
 }
