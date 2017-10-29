@@ -118,7 +118,7 @@ switch ($_GET['action']) {
 					<tr>
 						<td colspan="2">
 							<label for="revisionDate" class="formText"><?php echo _("Last Document Revision:");?></label>
-							<div><input class="date-pick" type='input' id='revisionDate' name='revisionDate' value="<?php echo date("m/d/Y");?>" /></div>
+							<div><input class="date-pick" type='input' id='revisionDate' name='revisionDate' value="<?php echo format_date(date('m/d/Y'));?>" /></div>
 						</td>
 					</tr>
 <?php
@@ -277,13 +277,13 @@ switch ($_GET['action']) {
 
 		//if effective date isn't set, set it to today's date
 		if (($document->effectiveDate == "0000-00-00") || ($document->effectiveDate == "")){
-			$effectiveDate = date("m/d/Y");
+			$effectiveDate = format_date(date("m/d/Y"));
 		}else{
 			$effectiveDate=format_date($document->effectiveDate);
 		}
 		//if revision date isn't set, set it to today's date
 		if (($document->revisionDate == "0000-00-00") || ($document->revisionDate == "")){
-			$revisionDate = date("m/d/Y");
+			$revisionDate = format_date(date("m/d/Y"));
 		} else {
 			$revisionDate = format_date($document->revisionDate);
 		}
