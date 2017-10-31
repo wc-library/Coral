@@ -73,7 +73,7 @@ include 'templates/header.php';
 
     <tr>
       <td class='searchRow'>
-        <label for='searchPublisher'><?php echo _("Publisher (contains)"); ?></label>
+		    <label for='searchPublisher'><b><?php echo _("Publisher (contains)"); ?></b></label>
         <?php echo Html::text_search_field_tag('publisher', isset($search['publisher']) ? $search['publisher'] : ''); ?>
         <div id='div_searchPublisher' style='<?php echo (empty($search['publisher']) ? "display: none;" : ""); ?>'>
           <input type='button' name='btn_searchPublisher' value='<?php echo _("go!");?>' class='searchButton' />
@@ -83,7 +83,7 @@ include 'templates/header.php';
 
     <tr>
       <td class='searchRow'>
-        <label for='searchPlatform'><?php echo _("Platform (contains)"); ?></label>
+        <label for='searchPlatform'><b><?php echo _("Platform (contains)"); ?></b></label>
         <?php echo Html::text_search_field_tag('platform', isset($search['platform']) ? $search['platform'] : ''); ?>
         <div id='div_searchPlatform' style='<?php echo (empty($search['platform']) ? "display: none;" : ""); ?>'>
           <input type='button' name='btn_searchPlatform' value='<?php echo _("go!");?>' class='searchButton' />
@@ -93,7 +93,7 @@ include 'templates/header.php';
 
     <tr>
       <td class='searchRow'>
-        <label for='searchProvider'><?php echo _("Provider (contains)"); ?></label>
+        <label for='searchProvider'><b><?php echo _("Provider (contains)"); ?></b></label>
         <?php echo Html::text_search_field_tag('provider', isset($search['provider']) ? $search['provider'] : ''); ?>
         <div id='div_searchProvider' style='<?php echo (empty($search['provider']) ? "display: none;" : ""); ?>'>
           <input type='button' name='btn_searchProvider' value='<?php echo _("go!");?>' class='searchButton' />
