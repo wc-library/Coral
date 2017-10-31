@@ -150,7 +150,7 @@ table.queueMenuTable tr {
 }
 
 
-td.queueRightPanel {	
+td.queueRightPanel {
 	border-width: 1px;
 	border-style: solid;
 	border-color: #e6e5e9;
@@ -259,7 +259,7 @@ table.adminMenuTable tr {
 }
 
 
-td.adminRightPanel {	
+td.adminRightPanel {
 	border-width: 1px;
 	border-style: solid;
 	border-color: #e6e5e9;
@@ -414,7 +414,7 @@ ul.tabs a{
 		text-align:left;
 		background-color: white;
 		vertical-align: top;
-		
+
 }
 
 table.formTable td {
@@ -589,7 +589,7 @@ table.noMargin td { border:0px;margin:0px; padding:0px; }
 div.thickboxDiv{display:none;}
 
 table.thickboxTable{
- padding:6px; 
+ padding:6px;
  text-decoration: none;
  color:  #2c3c42;
  font-family: "arial";
@@ -1663,20 +1663,20 @@ a.showAttachments:hover {
 	color: #ccc;
 }
 
-a.showRouting:before {
+a.showWorkflow:before {
 	font-family: FontAwesome;
 	content: "\f064";
 	font-size: 11px;
 	margin-right: 5px;
 }
 
-a.showRouting {
+a.showWorkflow {
 	text-decoration: none;
 	text-transform: capitalize;
 	font-size: 12px;
 }
 
-a.showRouting:hover {
+a.showWorkflow:hover {
 	color: #ccc;
 }
 

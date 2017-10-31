@@ -47,7 +47,7 @@ class Utility {
 
 		return $pagePath;
 	}
-	
+
 	//returns file path for this module, i.e. /coral/licensing/
 	public function getModulePath(){
 	  $replace_path = preg_quote(DIRECTORY_SEPARATOR."admin".DIRECTORY_SEPARATOR."classes".DIRECTORY_SEPARATOR."common");
@@ -58,7 +58,7 @@ class Utility {
 	//returns page URL up to /coral/
 	public function getCORALURL(){
 		$pageURL = 'http';
-		if ($_SERVER["HTTPS"] == "on") {$pageURL .= "s";}
+		if (isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == "on") {$pageURL .= "s";}
 		$pageURL .= "://";
 		if ($_SERVER["SERVER_PORT"] != "80") {
 		  $pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"];

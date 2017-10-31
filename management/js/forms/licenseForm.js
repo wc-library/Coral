@@ -44,7 +44,7 @@ $(function(){
 		  });
 
 
-	});	
+	});
 
 
 	//check this name to make sure it isn't already being used
@@ -70,18 +70,18 @@ $(function(){
 		  });
 
 
-	});	
+	});
 
 
 
 	//used for autocomplete formatting
-         formatItem = function (row){ 
+         formatItem = function (row){
              return "<span style='font-size: 80%;'>" + row[1] + "</span>";
          }
-	 
-         formatResult = function (row){ 
+
+         formatResult = function (row){
              return row[1].replace(/(<.+?>)/gi, '');
-         }	
+         }
 
 	$("#organizationName").autocomplete('ajax_processing.php?action=getOrganizations', {
 		minChars: 2,
@@ -92,7 +92,7 @@ $(function(){
 		delay: 20,
 		cacheLength: 10,
 		matchSubset: true,
-		matchContains: true,	
+		matchContains: true,
 		formatItem: formatItem,
 		formatResult: formatResult,
 		parse: function(data){
@@ -130,12 +130,12 @@ $(function(){
 					}
 				 }
 			  });
-		    
+
 		    }
-		}		
+		}
 	 });
- 
-	 
+
+
 	//once something has been selected, change the hidden input value
 	$("#organizationName").result(function(event, data, formatted) {
 		if (data[0]){
@@ -162,7 +162,7 @@ $(function(){
  });
 
 $("#submitLicense").click(function () {
-//	alert("DocumentType: " + $("#docTypeID").val());	
+//	alert("DocumentType: " + $("#docTypeID").val());
 //	alert("Category: " + $("#licenseConsortiumID").val());
   	doSubmitLicense();
 
@@ -172,9 +172,9 @@ $("#submitLicense").click(function () {
 function doSubmitLicense(){
   if (validateForm() === true) {
 	// ajax call to add/update
-	
+
 //	alert("DocumentType2:" + $("#docTypeID").val());
-	
+
 	if ($("#docTypeID").val()) {
 		if ($("#archiveInd").is(":checked")) {
 			archiveval = 1;
@@ -187,7 +187,7 @@ function doSubmitLicense(){
 		alert("No DocumentTypeID");
 	}
 	return false;
-  
+
   }
 }
 
@@ -318,9 +318,9 @@ function newNoteType(){
 //validates fields
 function validateForm (){
 	myReturn=0;
-	
+
 	if (!validateRequired('licenseShortName',_('Document Name is required.'))) myReturn="1";
-	if (!validateRequired('licenseConsortiumID',_('A Category is required.'))) myReturn="1";	
+	if (!validateRequired('licenseConsortiumID',_('A Category is required.'))) myReturn="1";
 //	if (!validateRequired('organizationName','Provider is required.')) myReturn="1";
 
 		if ($("#headerText").text().indexOf(_("Edit")) == -1) {
@@ -328,11 +328,11 @@ function validateForm (){
 				$("#span_error_licenseuploadDocument").html('');
 			} else {
 				$("#span_error_licenseuploadDocument").html(_('File is required'));
-				$("#licenseuploadDocument").focus();				
+				$("#licenseuploadDocument").focus();
 				myReturn="1";
 			}
 		}
-	
+
 	if (myReturn == "1"){
 		return false;
 	}else{
@@ -360,11 +360,11 @@ function checkUploadDocument (file, extension){
 			}else if (response == "2"){
 				exists = "2";
 				$("#div_file_message").html("  <font color='red'>"+_("File name may not contain special characters - ampersand, single quote, double quote or less than/greater than characters")+"</font>");
-				return false;	
+				return false;
 			} else if (response == "3"){
 				exists = "3";
 				$("#div_file_message").html("  <font color='red'>"+_("The documents directory is not writable.")+"</font>");
-				return false;	
+				return false;
 			}else{
 				exists = "";
 			}
@@ -387,7 +387,7 @@ new AjaxUpload('upload_button',
           if (errorMessage.size() > 0) {
             $("#div_file_message").html("<font color='red'>" + errorMessage.html() + "</font>");
           } else {
-  					$("#div_file_message").html("<img src='images/paperclip.gif'>" + fileName + _(" successfully uploaded.")); 
+  					$("#div_file_message").html("<img src='images/paperclip.gif'>" + fileName + _(" successfully uploaded."));
 					$("#span_error_licenseuploadDocument").html('');
   					$("#div_uploadFile").html("<br />");
           }

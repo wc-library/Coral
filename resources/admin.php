@@ -19,11 +19,12 @@
 
 include_once 'directory.php';
 
-$pageTitle=_('Administration');
-include 'templates/header.php';
 
 //set referring page
-CoralSession::set('ref_script', $currentPage);
+CoralSession::set('ref_script', $currentPage = '');
+
+$pageTitle=_('Administration');
+include 'templates/header.php';
 
 $config = new Configuration;
 
@@ -89,7 +90,7 @@ if ($user->isAdmin()){
 				<tr><td><div class='adminMenuLink'><a href='javascript:void(0);' id='ResourceFormat' class='AdminLink'><?php echo _("Resource Format");?></div></td></tr>
 				<tr><td><div class='adminMenuLink'><a href='javascript:void(0);' id='ResourceType' class='AdminLink'><?php echo _("Resource Type");?></div></td></tr>
 				<tr><td><div class='adminMenuLink'><a href='javascript:void(0);' id='StorageLocation' class='AdminLink'><?php echo _("Storage Location");?></div></td></tr>
-				<tr><td><div class='adminMenuLink'><a href='javascript:void(0);' class='SubjectsAdminLink'><?php echo _("Subjects");?></div></td></tr>				
+				<tr><td><div class='adminMenuLink'><a href='javascript:void(0);' class='SubjectsAdminLink'><?php echo _("Subjects");?></div></td></tr>
 				<tr><td><div class='adminMenuLink'><a href='javascript:void(0);' id='UserLimit' class='AdminLink'><?php echo _("User Limit");?></div></td></tr>
 			</table>
 		</td>

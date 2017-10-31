@@ -23,9 +23,9 @@
       updateForm('AliasType');
       updateForm('ExternalLoginType');
       updateForm('IssueLogType');
-      
+
  });
- 
+
 
  function updateUserForm(){
 
@@ -38,7 +38,7 @@
           	tb_reinit();
           }
       });
-            
+
  }
 
 
@@ -48,7 +48,7 @@
           url:        "ajax_processing.php",
           cache:      false,
           data:       "action=submitUserData&orgloginID=" + orgloginID + "&loginID=" + $('#loginID').val() + "&firstName=" + $('#firstName').val() + "&lastName=" + $('#lastName').val() + "&privilegeID=" + $('#privilegeID').val(),
-          success:    function(html) { 
+          success:    function(html) {
           updateUserForm();
           window.parent.tb_remove();
           }
@@ -69,8 +69,8 @@
           	tb_reinit();
           }
       });
-      
-      
+
+
 
 
  }
@@ -79,21 +79,21 @@
 
        if ($('#new' + className).val()) {
        	       $('#span_' + className + "_response").html("<img src = 'images/circle.gif'>&nbsp;&nbsp;"+_("Processing..."));
-       	       
+
 	       $.ajax({
 		  type:       "GET",
 		  url:        "ajax_processing.php",
 		  cache:      false,
 		  data:       "action=addData&className=" + className + "&shortName=" + encodeURIComponent($('#new' + className).val()),
-		  success:    function(html) { 
-		  $('#span_' + className + "_response").html(html);  
+		  success:    function(html) {
+		  $('#span_' + className + "_response").html(html);
 
 		  // close the span in 3 secs
-		  setTimeout("emptyResponse('" + className + "');",3000); 
-		  
+		  setTimeout("emptyResponse('" + className + "');",3000);
+
 		  showAdd(className);
-		  updateForm(className); 
-		  
+		  updateForm(className);
+
 		  }
 	      });
 	}
@@ -107,7 +107,7 @@ function updateData(className, updateId){
             url:        "ajax_processing.php",
             cache:      false,
             data:       "action=updateData&className=" + className + "&updateId=" + updateId + "&shortName=" + $('#updateVal').val(),
-            success:    function(html) { 
+            success:    function(html) {
                 updateForm(className);
                 window.parent.tb_remove();
             }
@@ -127,7 +127,7 @@ function validateUpdateData(){
 }
 
  function deleteData(className, deleteId){
- 
+
  	if (confirm(_("Do you really want to delete this data?")) == true) {
 
 	       $('#span_' + className + "_response").html("<img src = 'images/circle.gif'>&nbsp;&nbsp;"+_("Processing..."));
@@ -136,24 +136,24 @@ function validateUpdateData(){
 		  url:        "ajax_processing.php",
 		  cache:      false,
 		  data:       "action=deleteInstance&class=" + className + "&id=" + deleteId,
-		  success:    function(html) { 
-		  $('#span_' + className + "_response").html(html);  
+		  success:    function(html) {
+		  $('#span_' + className + "_response").html(html);
 
 		  // close the span in 3 secs
-		  setTimeout("emptyResponse('" + className + "');",3000); 
+		  setTimeout("emptyResponse('" + className + "');",3000);
 
-		  updateForm(className);  
+		  updateForm(className);
 		  tb_reinit();
 		  }
 	      });
 
 	}
  }
- 
+
 
 
  function deleteUser(deleteId){
- 
+
  	if (confirm(_("Do you really want to delete this user?")) == true) {
 
 	       $('#span_User_response').html("<img src = 'images/circle.gif'>&nbsp;&nbsp;"+_("Processing..."));
@@ -162,27 +162,27 @@ function validateUpdateData(){
 		  url:        "ajax_processing.php",
 		  cache:      false,
 		  data:       "action=deleteInstance&class=User&id=" + deleteId,
-		  success:    function(html) { 
-		  $('#span_User_response').html(html);  
+		  success:    function(html) {
+		  $('#span_User_response').html(html);
 
 		  // close the span in 3 secs
-		  setTimeout("emptyResponse('User');",3000); 
+		  setTimeout("emptyResponse('User');",3000);
 
-		  updateUserForm();  
+		  updateUserForm();
 		  tb_reinit();
 		  }
 	      });
 
 	}
- } 
- 
- 
+ }
+
+
 function showAdd(className){
        $('#span_new' + className).html("<input type='text' name='new" + className + "' id='new" + className + "' class='adminAddInput' />  <a href='javascript:addData(\"" + className + "\");'>"+_("add")+"</a>");
 
        //attach enter key event to new input and call add data when hit
        $('#new' + className).keyup(function(e) {
-      
+
                if(e.keyCode == 13) {
                	   addData(className);
                }
@@ -198,23 +198,23 @@ function emptyResponse(className){
 
 function updateOrderGroups(){
        $('#span_CancelReason_response').html("<img src = 'images/circle.gif'>&nbsp;&nbsp;"+_("Processing..."));
-       
-       
+
+
        $.ajax({
 	  type:       "GET",
 	  url:        "ajax_proxy.php",
 	  cache:      false,
 	  data:       "action=getOrderGroups",
-	  success:    function(html) { 
-	  $('#span_CancelReason_response').html('');  
+	  success:    function(html) {
+	  $('#span_CancelReason_response').html('');
 
 	  // close the span in 3 secs
-	  setTimeout("emptyResponse('CancelReason');",3000); 
+	  setTimeout("emptyResponse('CancelReason');",3000);
 
-	  updateForm('CancelReason'); 
+	  updateForm('CancelReason');
 
 	  }
-	  
+
 	});
 
 }

@@ -22,8 +22,8 @@ class DetailedSubject extends DatabaseObject {
 	protected function defineRelationships() {}
 
 	protected function overridePrimaryKeyName() {}
-	
-	//returns number of times this Detailed subject is in use. 
+
+	//returns number of times this Detailed subject is in use.
 	public function getNumberOfChildren(){
 
 		$query = "SELECT count(*) childCount FROM GeneralDetailSubjectLink WHERE detailedSubjectID = '" . $this->detailedSubjectID . "';";
@@ -31,20 +31,20 @@ class DetailedSubject extends DatabaseObject {
 
 		return $result['childCount'];
 
-	}	
+	}
 
-	//returns number of detail subjects that match what is passed. 	
+	//returns number of detail subjects that match what is passed.
 	public function duplicateCheck($shortName){
 		$query = "SELECT count(*) duplicateCount FROM DetailedSubject WHERE `shortName` = '" . str_replace( "'", "''", $shortName ) . "'";
 		$result = $this->db->processQuery($query, 'assoc');
 
 		return $result['duplicateCount'];
-	}	
+	}
 
-	//returns number of detail subjects that are in use.  These are associated with a resource. 	
+	//returns number of detail subjects that are in use.  These are associated with a resource.
 	public function inUse($detailedSubjectID, $generalSubjectID){
 
-		if ($generalSubjectID != -1) {	
+		if ($generalSubjectID != -1) {
 			$query = "SELECT count(*) inUse FROM `ResourceSubject`
 					  INNER JOIN `GeneralDetailSubjectLink` ON (`ResourceSubject`.`generalDetailSubjectLinkID` = `GeneralDetailSubjectLink`.`generalDetailSubjectLinkID`)
 					WHERE
@@ -53,12 +53,12 @@ class DetailedSubject extends DatabaseObject {
 		} else {
 			$query = "SELECT count(*) inUse FROM `GeneralDetailSubjectLink` WHERE `GeneralDetailSubjectLink`.`detailedSubjectID` = " . $detailedSubjectID;
 		}
-		
+
 		$result = $this->db->processQuery($query, 'assoc');
 
 		return $result['inUse'];
-	}	
-	
+	}
+
 }
 
 ?>

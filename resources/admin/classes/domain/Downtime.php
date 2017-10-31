@@ -18,13 +18,13 @@ class Downtime extends DatabaseObject {
 		//This is a custom load method that joins the downtime type name into the attributes
 
 		//if exists in the database
-		if (isset($this->primaryKey)) {	
+		if (isset($this->primaryKey)) {
 			$query = "SELECT d.*, dt.shortName, i.subjectText
 				  FROM Downtime d
 				  LEFT JOIN DowntimeType dt ON dt.downtimeTypeID=d.downtimeTypeID
 				  LEFT JOIN Issue i ON i.issueID=d.issueID
 				  WHERE d.downtimeID='$this->primaryKey'";
-			
+
 			$result = $this->db->processQuery($query, 'assoc');
 
 			foreach (array_keys($result) as $attributeName) {
@@ -34,8 +34,8 @@ class Downtime extends DatabaseObject {
 
 		} else {
 			// Figure out attributes from existing database
-			$query = "SELECT COLUMN_NAME 
-					FROM information_schema.`COLUMNS` 
+			$query = "SELECT COLUMN_NAME
+					FROM information_schema.`COLUMNS`
 					WHERE table_schema = '{$this->db->config->database->name}' AND table_name = '{$this->tableName}'";// MySQL-specific
 			foreach ($this->db->processQuery($query) as $result) {
 				$this->addAttribute($result[0]);
@@ -51,7 +51,7 @@ class Downtime extends DatabaseObject {
 	public function save() {
 		//remove any overloadedKeys before attempting to save
 		foreach ($this->overloadKeys as $attributeName) {
-			unset($this->attributes[$attributeName]); 
+			unset($this->attributes[$attributeName]);
 			unset($this->attributeNames[$attributeName]);
 		}
 		parent::save();
@@ -64,7 +64,7 @@ class Downtime extends DatabaseObject {
 		$result = $this->db->processQuery($query, "assoc");
 		$names = array();
 
-		if (is_array($result[0])) {
+		if (isset($result[0]) && is_array($result[0])) {
 			foreach ($result as $name) {
 				array_push($names, $name);
 			}

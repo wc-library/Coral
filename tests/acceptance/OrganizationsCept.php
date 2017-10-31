@@ -1,4 +1,4 @@
-<?php 
+<?php
 $I = new AcceptanceTester($scenario);
 $I->wantTo('Ensure that I can create/delete an organization and see it in the list');
 

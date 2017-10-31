@@ -59,6 +59,7 @@ class Resource extends DatabaseObject {
 		$i = 0;
 
 		if (!is_array($isbnOrISSN)) {
+			if ($isbnOrISSN === null) return;
 			$value = $isbnOrISSN;
 			$isbnOrISSN = array($value);
 		}
@@ -126,11 +127,12 @@ class Resource extends DatabaseObject {
   // return array of related resource objects
   private function getRelatedResources($key) {
 
-		$query = "SELECT *
-			FROM ResourceRelationship
-			WHERE $key = '" . $this->resourceID . "'
+		$query = "SELECT rr.resourceRelationshipID
+			FROM ResourceRelationship rr
+            JOIN Resource r on rr.resourceID = r.resourceID
+			WHERE rr.$key = '" . $this->resourceID . "'
 			AND relationshipTypeID = '1'
-			ORDER BY 1";
+			ORDER BY r.titleText";
 
 		$result = $this->db->processQuery($query, 'assoc');
 
@@ -802,7 +804,7 @@ class Resource extends DatabaseObject {
 		"recordsPerPage" => 25,
 		);
 		foreach ($defaultSearchParameters as $key => $value) {
-			if (!$search[$key]) {
+			if (!isset($search[$key])) {
 				$search[$key] = $value;
 			}
 		}
@@ -871,7 +873,7 @@ class Resource extends DatabaseObject {
 			$status = new Status();
 			$completedStatusID = $status->getIDFromName('complete');
 			$whereAdd[] = "(R.statusID != $completedStatusID AND RS.stepName = '" . $resource->db->escapeString($search['stepName']) . "' AND RS.stepStartDate IS NOT NULL AND RS.stepEndDate IS NULL)";
-			$searchDisplay[] = _("Routing Step: ") . $search['stepName'];
+			$searchDisplay[] = _("Workflow Step: ") . $search['stepName'];
 		}
 
 
@@ -1560,7 +1562,7 @@ class Resource extends DatabaseObject {
 
 			$result = $this->db->processQuery($query, 'assoc');
 
-			if($result["resourceID"]) {
+			if (isset($result["resourceID"])) {
 				return array($result);
 			}
 
@@ -2004,13 +2006,13 @@ class Resource extends DatabaseObject {
 	}
 
     public function getCurrentWorkflowID() {
-        $query = "SELECT Step.workflowID FROM Step, ResourceStep 
+        $query = "SELECT Step.workflowID FROM Step, ResourceStep
                     WHERE ResourceStep.resourceID = '" . $this->resourceID . "'
-                    AND ResourceStep.archivingDate IS NULL 
+                    AND ResourceStep.archivingDate IS NULL
                     AND ResourceStep.stepID = Step.stepID LIMIT 1";
 
 		$result = $this->db->processQuery($query, 'assoc');
-        return $result['workflowID'];
+        return isset($result['workflowID']) ? $result['workflowID'] : NULL;
     }
 
     public function getCurrentWorkflowResourceSteps(){
@@ -2038,7 +2040,13 @@ class Resource extends DatabaseObject {
 	}
 
     public function isCurrentWorkflowComplete() {
-        $steps = $this->getCurrentWorkflowResourceSteps(); 
+		$status = new Status();
+		$statusID = $status->getIDFromName('complete');
+        if ($this->statusID == $statusID) {
+            return true;
+        }
+
+        $steps = $this->getCurrentWorkflowResourceSteps();
         foreach ($steps as $step) {
             if (!$step->isComplete()) return false;
         }
@@ -2100,7 +2108,7 @@ class Resource extends DatabaseObject {
     }
 
 	//enters resource into new workflow
-	public function enterNewWorkflow($workflowID = null){
+	public function enterNewWorkflow($workflowID = null, $sendEmail = true){
 		$config = new Configuration();
 
 		//make sure this resource is marked in progress in case it was archived
@@ -2152,7 +2160,7 @@ class Resource extends DatabaseObject {
 			//Start the first step
 			//this handles updating the db and sending notifications for approval groups
 			foreach ($this->getFirstSteps() as $resourceStep) {
-				$resourceStep->startStep();
+				$resourceStep->startStep($sendEmail);
 
 			}
 		}
@@ -2170,8 +2178,7 @@ class Resource extends DatabaseObject {
 			$creator = "(unknown user)";
 		}
 
-
-		if (($config->settings->feedbackEmailAddress) || ($cUser->emailAddress)) {
+		if ($sendEmail && ($config->settings->feedbackEmailAddress || $cUser->emailAddress)) {
 			$email = new Email();
 			$util = new Utility();
 

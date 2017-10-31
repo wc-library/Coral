@@ -18,7 +18,7 @@
 
 
 class Html {
-  
+
   public function nameToID($str) {
     $str = preg_replace('/[^a-zA-Z0-9]/', ' ', $str);
     $str = explode(' ', $str);
@@ -26,7 +26,7 @@ class Html {
     $str = lcfirst(implode('', $str));
     return $str;
   }
-  
+
   public function humanize($str) {
     $str = trim($str);
     $str = preg_replace('/ID$/i', '', $str);
@@ -37,21 +37,21 @@ class Html {
     $str = array_map('ucwords', $str);
     return implode(' ', $str);
   }
-  
+
   public function label_tag($for, $name = null, $required = false) {
     if ($name === null) {
       $name = Html::humanize($for);
     }
-    
+
     if ($required) {
       $required_text = '&nbsp;&nbsp;<span class="bigDarkRedText">*</span>';
     } else {
       $required_text = '';
     }
-    
+
     return '<label for="'. htmlspecialchars($for).'">'.htmlspecialchars($name).':'.$required_text.'</label>';
   }
-  
+
   public function hidden_field_tag($name, $value, $options = array()) {
     $default_id = Html::nameToID($name);
     $default_options = array('id' => $default_id);
@@ -59,11 +59,11 @@ class Html {
 
     return '<input type="hidden" id="'.htmlspecialchars($options['id']).'" name="'.htmlspecialchars($name).'" value="'.htmlspecialchars($value). '" />';
   }
-  
+
   public function hidden_search_field_tag($name, $value, $options = array()) {
     return Html::hidden_field_tag("search[".$name."]", $value, $options);
   }
-  
+
   public function text_field_tag($name, $value, $options = array()) {
     $default_id = Html::nameToID($name);
     $default_options = array('width' => '180px', 'id' => $default_id, 'class' => 'changeInput');
@@ -71,18 +71,18 @@ class Html {
 
     return '<input type="text" id="'.htmlspecialchars($options['id']).'" name="'.htmlspecialchars($name).'" style="width:'.$options['width'].'" class="'.htmlspecialchars($options['class']).'" value="'.htmlspecialchars($value). '" /><span id="span_error_'.htmlspecialchars($options['id']).'" class="smallDarkRedText"></span>';
   }
-  
+
   public function text_field($field, $object, $options = array()) {
     return Html::text_field_tag($field, $object->$field, $options);
   }
-  
+
   public function text_search_field_tag($name, $value, $options = array()) {
     $default_options = array('width' => '145px', 'class' => '');
     $options = array_merge($default_options, $options);
     return Html::text_field_tag("search[".$name."]", $value, $options);
   }
-  
-  
+
+
 
   public function select_field($field, $object, $collection, $options = array()) {
     $default_options = array('width' => '180px');

@@ -114,9 +114,11 @@ function register_have_default_db_user_provider()
 									$db = $shared_module_info["provided"]["get_db_connection"]( $db_details["dbname"] );
 									$slash_pass = addslashes($db_details["password"]);
 									try {
+										$db_user_result = $db->processQuery("SELECT SUBSTRING_INDEX(USER(),'@',-1)");
+										$db_client_host = $db_user_result->fetchRow()[0];
 										$db->processQuery("REVOKE ALL ON {$db_details["dbname"]}.* FROM {$db_details["username"]}@{$db_details["host"]}");
 									} catch(Exception $e){ }
-									$db->processQuery("GRANT SELECT, INSERT, UPDATE, DELETE ON {$db_details["dbname"]}.* TO {$db_details["username"]}@{$db_details["host"]} IDENTIFIED BY '$slash_pass'");
+									$db->processQuery("GRANT SELECT, INSERT, UPDATE, DELETE ON {$db_details["dbname"]}.* TO {$db_details["username"]}@{$db_client_host} IDENTIFIED BY '$slash_pass'");
 								}
 								catch (Exception $e)
 								{

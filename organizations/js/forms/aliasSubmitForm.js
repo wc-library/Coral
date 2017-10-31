@@ -21,8 +21,8 @@
 	 $("#submitAliasForm").click(function () {
 		submitAliases();
 	 });
-	 
-	 
+
+
 
 
 	//do submit if enter is hit
@@ -30,31 +30,31 @@
 	      if(e.keyCode == 13) {
 		submitAliases();
 	      }
-	});	 
+	});
 
-	 
+
  });
- 
 
 
- 
+
+
  function validateForm (){
  	myReturn=0;
  	if (!validateRequired('aliasName',"<br />"+_("Name must be entered to continue."))) myReturn=1;
- 	
- 
+
+
  	if (myReturn == 1){
-		return false; 	
+		return false;
  	}else{
  		return true;
  	}
 }
- 
+
 
 
 function submitAliases(){
 		if (validateForm() === true) {
-			$('#submitAliasForm').attr("disabled", "disabled"); 
+			$('#submitAliasForm').attr("disabled", "disabled");
 			  $.ajax({
 				 type:       "POST",
 				 url:        "ajax_processing.php?action=submitAlias",
@@ -68,7 +68,7 @@ function submitAliases(){
 						window.parent.tb_remove();
 						window.parent.updateAliases();
 						return false;
-					}			
+					}
 				 }
 
 

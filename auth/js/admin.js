@@ -25,7 +25,7 @@ $(document).ready(function(){
 	updateUsers();
 
 });
- 
+
 
 
 function updateUsers() {
@@ -42,24 +42,24 @@ function updateUsers() {
 	 }
 
 
-  }); 
+  });
 }
 
-  
+
 function submitUserForm(){
   if (validateForm() === true) {
 	// ajax call to add/update
 	$.post("ajax_processing.php?action=submitUser", { loginID: $("#textLoginID").val(), editLoginID: $("#editLoginID").val(), password: $("#password").val(), adminInd: getCheckboxValue('adminInd')  } ,
 		function(data){
-			tb_remove();		
+			tb_remove();
 			updateUsers();
 			return false;
 		}
 	);
 	return false;
-  
+
   }
-}  
+}
 
 function validateForm (){
     var control=true;
@@ -92,13 +92,13 @@ function validateForm (){
 			 url:        "ajax_processing.php",
 			 cache:      false,
 			 data:       "action=deleteUser&loginID=" + $(this).attr("id"),
-			 success:    function(html) { 
+			 success:    function(html) {
 				 updateUsers();
 			 }
 
 
 
 		 });
-	  }			
+	  }
   	 });
   }

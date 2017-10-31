@@ -1,5 +1,5 @@
-html { 
- height: 100%; 
+html {
+ height: 100%;
  margin: 0;
  padding: 0;
 }
@@ -141,15 +141,15 @@ div.formTitle {
 
 
 span.surroundBoxTitle {
-	background-color:white; 
-	position:relative; 
-	top:8px; 
+	background-color:white;
+	position:relative;
+	top:8px;
 	left:5px;
 	font-size:110%;
 }
 
 
-table.surroundBox {	
+table.surroundBox {
 	border-width: 1px;
 	border-style: solid;
 	border-color: #e6e5e9;
@@ -166,13 +166,13 @@ table.surroundBox td {
 	-moz-border-radius: 0px;
 }
 
-table.surroundBox tr {	
+table.surroundBox tr {
 	vertical-align:top;
 }
 
 
 
-table.surroundForm {	
+table.surroundForm {
 	border-width: 1px 1px 0px 1px;
 	border-style: solid;
 	border-color: #e6e5e9;
@@ -193,7 +193,7 @@ table.surroundForm td {
 	-moz-border-radius: 0px;
 }
 
-table.surroundForm tr {	
+table.surroundForm tr {
 	vertical-align:top;
 }
 

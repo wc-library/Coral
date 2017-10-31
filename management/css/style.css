@@ -18,7 +18,7 @@ body {
 	text-align: center; /* this centers the container in IE 5* browsers. The text is then set to the left aligned default in the #container selector */
 	background: #E7E8E8 url(../images/bg-gray-texture.jpg) repeat top left;
 	-webkit-font-smoothing: antialiased;
-	
+
 }
 
 
@@ -130,9 +130,9 @@ ul {
 .container {position: relative; width:800px; height: 30px; }
 .left-element { position: absolute; left: 0; width: 400px; margin-top:10px; }
 .right-element {position: absolute; width: 400px; margin-left:400px; margin-top:10px; text-align: left; }
-		
-		
-		
+
+
+
 
 /* Coral Change Module Menu  -  tabs
 *************************/
@@ -447,7 +447,7 @@ table.thickboxTable td{
 table.thickboxTable tr{
 	vertical-align:top;
 }
-	
+
 .smallText{font-size:small;}
 
 .arrowContainer{text-align:right;}
@@ -1162,7 +1162,7 @@ a.helpfulLink {
 .titleTable img {
 	float: left;
 }
-	
+
 .titleTable ul.tabs ul.coraldropdown img {
 	float: none;
 }

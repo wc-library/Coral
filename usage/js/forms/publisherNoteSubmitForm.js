@@ -29,7 +29,7 @@
 	      if(e.keyCode == 13) {
 		submitPublisherNote();
 	      }
-	}); 
+	});
 
 
 	//do submit if enter is hit
@@ -37,12 +37,12 @@
 	      if(e.keyCode == 13) {
 		submitPublisherNote();
 	      }
-	}); 
+	});
 
 
-	  	 
+
  });
- 
+
 
 
 
@@ -56,15 +56,15 @@ function submitPublisherNote(){
 	if ((isYear($("#endYear").val()) == false) && ($("#endYear").val() != '')) { errorMessage += "<br />" + _("End Year must be 4 numbers and start with 19 or 20.") + "\n"; }
 
 	$('#span_errors').html(errorMessage);
-	
-	if (errorMessage) { 
-		return; 
+
+	if (errorMessage) {
+		return;
 	}
 
 
 
 
-	$('#submitPublisherNoteForm').attr("disabled", "disabled"); 
+	$('#submitPublisherNoteForm').attr("disabled", "disabled");
 	  $.ajax({
 		 type:       "POST",
 		 url:        "ajax_processing.php?action=submitPublisherNote",

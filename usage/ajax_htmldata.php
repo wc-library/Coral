@@ -1259,7 +1259,7 @@ switch ($action) {
 		}else{
 			echo _("(no outstanding imports found)");
 
-		}	
+		}
 
 		break;
 

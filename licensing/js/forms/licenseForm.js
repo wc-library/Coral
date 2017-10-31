@@ -39,7 +39,7 @@ $(function(){
 		  });
 
 
-	});	
+	});
 
 
 	//check this name to make sure it isn't already being used
@@ -65,18 +65,18 @@ $(function(){
 		  });
 
 
-	});	
+	});
 
 
 
 	//used for autocomplete formatting
-         formatItem = function (row){ 
+         formatItem = function (row){
              return "<span style='font-size: 80%;'>" + row[1] + "</span>";
          }
-	 
-         formatResult = function (row){ 
+
+         formatResult = function (row){
              return row[1].replace(/(<.+?>)/gi, '');
-         }	
+         }
 
 	$("#organizationName").autocomplete('ajax_processing.php?action=getOrganizations', {
 		minChars: 2,
@@ -86,7 +86,7 @@ $(function(){
 		delay: 20,
 		cacheLength: 10,
 		matchSubset: true,
-		matchContains: true,	
+		matchContains: true,
 		formatItem: formatItem,
 		formatResult: formatResult,
 		parse: function(data){
@@ -124,12 +124,12 @@ $(function(){
 					}
 				 }
 			  });
-		    
+
 		    }
-		}		
+		}
 	 });
- 
-	 
+
+
 	//once something has been selected, change the hidden input value
 	$("#organizationName").result(function(event, data, formatted) {
 		if (data[0]){
@@ -163,7 +163,7 @@ function doSubmitLicense(){
 
 
 	return false;
-  
+
   }
 }
 

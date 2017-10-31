@@ -74,7 +74,7 @@ if (count($sushiServicesArray) > 0) {
 	}
 
 }else{
-	echo _("Nothing to see here!  (no sushi scheduled today)");	
+	echo _("Nothing to see here!  (no sushi scheduled today)");
 }
 
 

@@ -273,7 +273,7 @@ switch ($_GET['action']) {
 					<label style="display:block;" for="'.$contactRoleIns['contactRoleID'].'">Roles</label>';
 			foreach ($contactRoleArray as $contactRoleIns){
 				echo "<div class=\"form-element form-element-tight\">
-						<input class='check_roles' type='checkbox' name='" . $contactRoleIns['contactRoleID'] . "' id='" . $contactRoleIns['contactRoleID'] . "' value='" . $contactRoleIns['contactRoleID'] . "' />   
+						<input class='check_roles' type='checkbox' name='" . $contactRoleIns['contactRoleID'] . "' id='" . $contactRoleIns['contactRoleID'] . "' value='" . $contactRoleIns['contactRoleID'] . "' />
 						<span class='smallText'>" . $contactRoleIns['shortName'] . "</span>
 					 </div>";
 			}
@@ -578,7 +578,7 @@ switch ($_GET['action']) {
 	case 'getNewIssueForm':
 		$organizationID = $_GET["organizationID"];
 
-		$organization = new Organization(new NamedArguments(array('primaryKey' => $organizationID))); 
+		$organization = new Organization(new NamedArguments(array('primaryKey' => $organizationID)));
 		$organizationContactsArray = $organization->getUnarchivedContacts();
 		$organizationResourcesArray = $organization->getResources(5);
 ?>
@@ -603,7 +603,7 @@ switch ($_GET['action']) {
 			<td><label><?php echo _("Contact:");?>&nbsp;&nbsp;<span class='bigDarkRedText'>*</span></label></td>
 			<td>
 				<select multiple style="min-height: 60px;" type='text' id='contactIDs' name='contactIDs[]'>
-<?php 
+<?php
 
 		foreach ($organizationContactsArray as $contact) {
 			echo "		<option value=\"{$contact->contactID}\">{$contact->name}</option>";
@@ -677,10 +677,10 @@ switch ($_GET['action']) {
 		</tr>
 	</table>
 
-	<p> <?php echo _("Send me a reminder every");?> 
+	<p> <?php echo _("Send me a reminder every");?>
 		<select name="issue[reminderInterval]">
 			<?php for ($i = 1; $i <= 31; $i++) echo "<option".(($i==7) ? ' selected':'').">{$i}</option>"; ?>
-		</select> <?php echo _("day(s)");?> 
+		</select> <?php echo _("day(s)");?>
 	</p>
 
 	<table class='noBorderTable' style='width:125px;'>
@@ -759,7 +759,7 @@ echo buildTimeForm("endTime");
 		case 'getNewDowntimeForm':
 
 	$organizationID = $_GET["organizationID"];
-	$organization = new Organization(new NamedArguments(array('primaryKey' => $organizationID))); 
+	$organization = new Organization(new NamedArguments(array('primaryKey' => $organizationID)));
 
 	$issueID = $_GET['issueID'];
 
@@ -1015,7 +1015,7 @@ if ($issues) {
 
 		</tr>
 		<tr>
-		
+
 		<td>
 		<?php
 

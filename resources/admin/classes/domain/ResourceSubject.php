@@ -23,21 +23,21 @@ class ResourceSubject extends DatabaseObject {
 
 	protected function overridePrimaryKeyName() {}
 
-	//Delete subject links. 
+	//Delete subject links.
 	public function removeResourceSubject($resourceID, $generalDetailSubjectLinkID){
 		$query = "DELETE FROM ResourceSubject WHERE resourceID = '" . $resourceID . "' AND generalDetailSubjectLinkID = '" . $generalDetailSubjectLinkID . "'";
-		
-		return $this->db->processQuery($query);
-	}	
 
-	//returns number of subject links that match what is passed. 
+		return $this->db->processQuery($query);
+	}
+
+	//returns number of subject links that match what is passed.
 	public function duplicateCheck($resourceID, $generalDetailSubjectLinkID){
 		$query = "SELECT count(*) duplicateCount FROM ResourceSubject WHERE resourceID = '" . $resourceID . "' AND generalDetailSubjectLinkID = '" . $generalDetailSubjectLinkID . "'";
 		$result = $this->db->processQuery($query, 'assoc');
 
 		return $result['duplicateCount'];
-	}	
-	
+	}
+
 }
 
 ?>

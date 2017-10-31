@@ -21,31 +21,31 @@
 	 $("#submitResourceNoteForm").click(function () {
 		submitResourceNote();
 	 });
-	 
-	 
-	 
+
+
+
  });
- 
 
 
- 
+
+
  function validateForm (){
  	myReturn=0;
  	if (!validateRequired('noteText',"<br />"+_("Note must be entered to continue."))) myReturn="1";
- 	
- 
+
+
  	if (myReturn == "1"){
-		return false; 	
+		return false;
  	}else{
  		return true;
  	}
 }
- 
+
 
 
 function submitResourceNote(){
 		if (validateForm() === true) {
-			$('#submitResourceNoteForm').attr("disabled", "disabled"); 
+			$('#submitResourceNoteForm').attr("disabled", "disabled");
 			  $.ajax({
 				 type:       "POST",
 				 url:        "ajax_processing.php?action=submitResourceNote",
@@ -59,7 +59,7 @@ function submitResourceNote(){
 						window.parent.tb_remove();
 						eval("window.parent.update" + $("#tab").val() + "();");
 						return false;
-					}			
+					}
 				 }
 
 

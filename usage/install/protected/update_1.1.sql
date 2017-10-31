@@ -24,15 +24,15 @@ ALTER TABLE `ImportLog` CHANGE COLUMN `archiveFileURL` `archiveFileURL` VARCHAR(
 ALTER TABLE `ImportLog` CHANGE COLUMN `logFileURL` `logFileURL` VARCHAR(145) NULL  ;
 ALTER TABLE `ImportLog` CHANGE COLUMN `details` `details` VARCHAR(245) NULL  ;
 
-ALTER TABLE `Title` 
+ALTER TABLE `Title`
 ADD COLUMN `resourceType` VARCHAR(45) NULL AFTER `title` ;
 
 UPDATE Title SET resourceType="Journal";
 
-ALTER TABLE `TitleISSN` 
-CHANGE COLUMN `titleISSNID` `titleIdentifierID` INT(11) NOT NULL AUTO_INCREMENT  , 
-CHANGE COLUMN `issn` `identifier` VARCHAR(20) NULL DEFAULT NULL  , 
-CHANGE COLUMN `issnType` `identifierType` VARCHAR(30) NULL DEFAULT NULL  , 
+ALTER TABLE `TitleISSN`
+CHANGE COLUMN `titleISSNID` `titleIdentifierID` INT(11) NOT NULL AUTO_INCREMENT  ,
+CHANGE COLUMN `issn` `identifier` VARCHAR(20) NULL DEFAULT NULL  ,
+CHANGE COLUMN `issnType` `identifierType` VARCHAR(30) NULL DEFAULT NULL  ,
 RENAME TO  `TitleIdentifier` ;
 
 UPDATE TitleIdentifier SET identifierType="ISSN" where identifierType="print";

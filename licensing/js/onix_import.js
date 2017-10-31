@@ -17,16 +17,16 @@ $("#organizationName").keyup(function() {
 			}
 		 }
 	  });
-});	
+});
 
 //used for autocomplete formatting
-formatItem = function (row){ 
+formatItem = function (row){
     return "<span style='font-size: 80%;'>" + row[1] + "</span>";
 }
 
-formatResult = function (row){ 
+formatResult = function (row){
     return row[1].replace(/(<.+?>)/gi, '');
-}	
+}
 
 $("#organizationName").autocomplete('ajax_processing.php?action=getOrganizations', {
 	minChars: 2,
@@ -36,7 +36,7 @@ $("#organizationName").autocomplete('ajax_processing.php?action=getOrganizations
 	delay: 20,
 	cacheLength: 10,
 	matchSubset: true,
-	matchContains: true,	
+	matchContains: true,
 	formatItem: formatItem,
 	formatResult: formatResult,
 	parse: function(data){
@@ -74,12 +74,12 @@ $("#organizationName").autocomplete('ajax_processing.php?action=getOrganizations
 				}
 			 }
 		  });
-	    
+
 	    }
-	}		
+	}
  });
 
- 
+
 //once something has been selected, change the hidden input value
 $("#organizationName").result(function(event, data, formatted) {
 	if (data[0]){

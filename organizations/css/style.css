@@ -620,7 +620,7 @@ table.linedFormTable td.outstanding {
 		text-align:left;
 		background-color: white;
 		vertical-align: top;
-		
+
 }
 
 table.noBorder td { border:0; }
@@ -1233,7 +1233,7 @@ a.helpfulLink {
 .titleTable img {
 	float: left;
 }
-	
+
 .titleTable ul.tabs ul.coraldropdown img {
 	float: none;
 }
@@ -1760,7 +1760,7 @@ a#getCreateContactForm {
 
 #newDowntimeForm label {
 	font-weight: bold;
-	color: #3D545D; 
+	color: #3D545D;
 }
 
 /*#newDowntimeForm input#submitNewDowntime {

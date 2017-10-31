@@ -364,7 +364,7 @@ switch ($_GET['action']) {
 		<input id='shortName' name='shortName' style='width:190px' value='<?php echo $sfxProvider->shortName; ?>' />
 		</td>
 		</tr>
-		
+
 		<tr>
 		<td style="width:60px;"><input type='button' value='<?php echo _("submit");?>' name='submitSFX' id='submitSFX' class='submit-button'></td>
 		<td><input type='button' value='<?php echo _("cancel");?>' onclick="window.parent.tb_remove()" class='cancel-button'></td>
@@ -1032,42 +1032,42 @@ switch ($_GET['action']) {
 		<table class="thickboxTable" style="width:260px;padding:2px;">
 		<tr><td colspan='2'><span class='headerText'><?php echo $update.' '._("Calendar Settings"); ?></span><br /><br /></td></tr>
 
-		<?php 
-		
+		<?php
+
 		if (strtolower($calendarSettings->shortName) == strtolower('Resource Type(s)')) { ?>
             <tr><td><label for='shortName'><b><?php echo _("Variable Name");?></b></label></td><td><?php if (isset($calendarSettings)) echo $calendarSettings->shortName; ?></td></tr>
 			<tr>
-			
+
                 <td><label for='value'><b><?php echo _("Value");?></b></label></td>
 			<td>
-			
-			
+
+
 			<select multiple name='value' id='value' style='width:155px'>
 			<?php
 
 			$display = array();
 			$resourceType = new ResourceType();
-			
+
 				foreach($resourceType->getAllResourceType() as $display) {
 					if (in_array($display['resourceTypeID'], explode(",", $calendarSettings->value))) {
 						echo "<option value='" . $display['resourceTypeID'] . "' selected>" . $display['shortName'] . "</option>";
 					}else{
 						echo "<option value='" . $display['resourceTypeID'] . "'>" . $display['shortName'] . "</option>";
-					}	
+					}
 				}
 
 			?>
 			</select>
-			</td>			
-			
+			</td>
+
 			</tr>
 
-		<?php 
-		
+		<?php
+
 		} elseif (strtolower($calendarSettings->shortName) == strtolower('Authorized Site(s)')) { ?>
             <tr><td><label for='shortName'><b><?php echo _("Variable Name");?></b></label></td><td><?php if (isset($calendarSettings)) echo $calendarSettings->shortName; ?></td></tr>
 			<tr>
-			
+
                 <td><label for='value'><b><?php echo _("Value");?></b></label></td>
 			<td>
 			<select multiple name='value' id='value' style='width:155px'>
@@ -1078,40 +1078,40 @@ switch ($_GET['action']) {
             if ($authorizedSitesArray['authorizedSiteID']) {
                 $authorizedSitesArray = array($authorizedSitesArray);
             }
-			
+
 				foreach($authorizedSitesArray as $display) {
 					if (in_array($display['authorizedSiteID'], explode(",", $calendarSettings->value))) {
 						echo "<option value='" . $display['authorizedSiteID'] . "' selected>" . $display['shortName'] . "</option>";
 					}else{
 						echo "<option value='" . $display['authorizedSiteID'] . "'>" . $display['shortName'] . "</option>";
-					}	
+					}
 				}
-			
+
 			?>
 			</select>
-			</td>			
-			
+			</td>
+
 			</tr>
 
-		<?php 
-		
-		} else { 
-		
+		<?php
+
+		} else {
+
 		?>
             <tr><td><label for='shortName'><b><?php echo _("Variable Name");?></b></label></td><td><?php if (isset($calendarSettings)) echo $calendarSettings->shortName; ?></td></tr>
             <tr><td><label for='value'><b><?php echo _("Value");?></b></label></td>
 			<td><input type='text' id='value' name='value' value='<?php if (isset($calendarSettings)) echo $calendarSettings->value; ?>' style='width:130px;'/></td>
 			</tr>
-		
-		<?php 
-		
-		} 
-		
-		?>
-		
 
-		
-		
+		<?php
+
+		}
+
+		?>
+
+
+
+
 		<tr>
 		<td style="width:60px;"><input type='button' value='<?php echo $update; ?>' onclick='javascript:window.parent.submitCalendarSettings();' class='submit-button'></td>
 		<td><input type='button' value='<?php echo _("cancel");?>' onclick="window.parent.tb_remove(); return false" class='cancel-button'></td>

@@ -260,7 +260,7 @@ if ($outputType != 'xls') {
                                                     <?php echo sprintf(_("Programmatically flagged as outlier based on previous 12 month average. The number has %s"), $outlier_txt[$i]);?>
                                                 </td>
                                             </tr>
-<?php                                            
+<?php
         }
     } else {
         for ($i=1;$i<=3;++$i) {
@@ -314,7 +314,7 @@ if ($outputType != 'xls') {
                                                     </table>
                                                 </td>
                                             </tr>
-<?php                                        
+<?php
         }
     } else {
         $html = array();
@@ -343,7 +343,7 @@ if ($outputType != 'xls') {
                                                     </table>
                                                 </td>
                                             </tr>
-<?php                                            
+<?php
         }
 ?>
                                             <tr>

@@ -21,17 +21,11 @@
 
 ?>
 
-</div>
-</td>
-</tr>
-</table>
-<br />
-</center>
 <div class="push">&nbsp;</div>
 </div>
 
-<div class="footer"><?php echo _("Copyright");?> &copy; 2017. <?php echo _("CORAL version");?> 2.0 beta<br/>
-<a href="http://coral-erm.org/"><?php echo _("CORAL Project Website");?></a> | 
+<div class="footer"><?php echo _("Copyright");?> &copy; 2017. <?php echo _("CORAL version");?> 2.0.1<br/>
+<a href="http://coral-erm.org/"><?php echo _("CORAL Project Website");?></a> |
 <a href="https://github.com/Coral-erm/Coral/issues"><?php echo _("Report an issue");?></a></div>
 </body>
 </html>

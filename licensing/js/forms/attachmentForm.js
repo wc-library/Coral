@@ -77,7 +77,7 @@ new AjaxUpload('upload_attachment_button',
           if (errorMessage.size() > 0) {
             $("#div_file_message").html("<font color='red'>" + errorMessage.html() + "</font>");
           } else {
-				  
+
   					arrayLocation = URLArray.length;
   					URLArray.push(fileName);
 

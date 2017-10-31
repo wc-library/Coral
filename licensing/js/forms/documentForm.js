@@ -20,7 +20,7 @@ $(function(){
 	$('.date-pick').datePicker({startDate:'01/01/1996'});
 
 	canSubmit=1;
-	
+
 	//check this name to make sure it isn't already being used
 	$("#shortName").keyup(function(e) {
 		  $.ajax({
@@ -38,19 +38,19 @@ $(function(){
 				  	$("#span_error_shortName").html(_("This name is already being used!"));
 				  	$("#submitDocument").attr("disabled","disabled");
 				  	canSubmit=0;
-					
+
 				}
 			 }
 		  });
-		  
-		  
+
+
                  if(e.keyCode == 13) {
                  	if(canSubmit == 1){
                  		doSubmitDocument();
                  	}
                  }
 
-	});	
+	});
 
 
     $("#parentDocumentID")
@@ -67,11 +67,11 @@ $(function(){
 	})
 
 	.change(function(){
-	    if($.browser.msie){	
+	    if($.browser.msie){
 		    var cssObj = {
 		      'width' : '185px',
 		      'position' : ''
-		    }		    
+		    }
 		$(this).css(cssObj);
 	    }
 	})
@@ -104,11 +104,11 @@ function checkUploadDocument (file, extension){
 			}else if (response == "2"){
 				exists = "2";
 				$("#div_file_message").html("  <font color='red'>"+_("File name may not contain special characters - ampersand, single quote, double quote or less than/greater than characters")+"</font>");
-				return false;	
+				return false;
 			} else if (response == "3"){
 				exists = "3";
 				$("#div_file_message").html("  <font color='red'>"+_("The documents directory is not writable.")+"</font>");
-				return false;	
+				return false;
 			}else{
 				exists = "";
 			}
@@ -186,10 +186,10 @@ function validateForm (){
 
 function newDocumentType(){
   $('#span_newDocumentType').html("<input type='text' name='newDocumentType' id='newDocumentType' style='width:80px;padding-top:1px;' />  <a href='javascript:addDocumentType();'>"+_("add")+"</a>");
-         
+
          //attach enter key event to new input and call add data when hit
          $('#newDocumentType').keyup(function(e) {
-        
+
                  if(e.keyCode == 13) {
                  	   addDocumentType();
                  }

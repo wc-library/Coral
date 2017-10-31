@@ -39,21 +39,21 @@
 	}
 	return false;
  });
- 
- 
+
+
   $(".showStatistics").click(function () {
-  
+
   	if (viewAll == 0){
     		$('.usage_tab_content').hide();
     		$('#div_statistics').show();
     		updateFullStatsDetails();
  	}
- 	
+
  	return false;
  });
- 
- 
- 
+
+
+
   $(".showTitles").click(function () {
     if (viewAll == 0){
     $('.usage_tab_content').hide();
@@ -63,7 +63,7 @@
   return false;
  });
 
- 
+
   $(".showSushi").click(function () {
   	if (viewAll == 0){
     $('.usage_tab_content').hide();
@@ -85,7 +85,7 @@
           url:        "ajax_htmldata.php",
           cache:      false,
           data:       "action=getImportDetails&publisherPlatformID=" + $('#publisherPlatformID').val() + "&platformID=" + $('#platformID').val(),
-          success:    function(html) { 
+          success:    function(html) {
           	$(".div_mainContent").html(html);
           	tb_reinit();
           }
@@ -103,7 +103,7 @@
           url:        "ajax_htmldata.php",
           cache:      false,
           data:       "action=getLoginDetails&publisherPlatformID=" + $('#publisherPlatformID').val() + "&platformID=" + $('#platformID').val(),
-          success:    function(html) { 
+          success:    function(html) {
           	$(".div_mainContent").html(html);
           	tb_reinit();
           }
@@ -121,7 +121,7 @@
           url:        "ajax_htmldata.php",
           cache:      false,
           data:       "action=getFullStatsDetails&publisherPlatformID=" + $('#publisherPlatformID').val() + "&platformID=" + $('#platformID').val(),
-          success:    function(html) { 
+          success:    function(html) {
           	$(".div_mainContent").html(html);
           	tb_reinit();
           }
@@ -143,7 +143,7 @@
           url:        "ajax_htmldata.php",
           cache:      false,
           data:       "action=getTitleSpreadsheets&publisherPlatformID=" + $('#publisherPlatformID').val() + "&platformID=" + $('#platformID').val(),
-          success:    function(html) { 
+          success:    function(html) {
           	$(".div_mainContent").html(html);
           	tb_reinit();
           }
@@ -159,7 +159,7 @@
           url:        "ajax_htmldata.php",
           cache:      false,
           data:       "action=getSushiDetails&publisherPlatformID=" + $('#publisherPlatformID').val() + "&platformID=" + $('#platformID').val(),
-          success:    function(html) { 
+          success:    function(html) {
             $(".div_mainContent").html(html);
             tb_reinit();
           }
@@ -178,8 +178,8 @@
           url:        "ajax_processing.php",
           cache:      false,
           data:       "action=deletePlatformNote&platformNoteID=" + platformNoteID,
-          success:    function(html) { 
-		      updateNotesDetails(); 
+          success:    function(html) {
+		      updateNotesDetails();
           }
        });
      }
@@ -196,8 +196,8 @@
           url:        "ajax_processing.php",
           cache:      false,
           data:       "action=deletePublisherNote&publisherPlatformNoteID=" + publisherPlatformNoteID,
-          success:    function(html) { 
-		  updateNotesDetails(); 
+          success:    function(html) {
+		  updateNotesDetails();
           }
        });
      }
@@ -214,8 +214,8 @@
           url:        "ajax_processing.php",
           cache:      false,
           data:       "action=deleteExternalLogin&externalLoginID=" + externalLoginID,
-          success:    function(html) { 
-		  updateLoginDetails(); 
+          success:    function(html) {
+		  updateLoginDetails();
           }
        });
      }
@@ -231,7 +231,7 @@
 		  url:        "ajax_processing.php",
 		  cache:      false,
 		  data:       "action=deleteMonth&publisherPlatformID=" + publisherPlatformID + "&platformID=" + platformID + "&resourceType=" + resourceType + "&month=" + month + "&year=" + year + "&archiveInd=" + archiveInd,
-		  success:    function(html) { 
+		  success:    function(html) {
 			  updateFullStatsDetails();
 		  }
 	         });
@@ -248,7 +248,7 @@
 		  url:        "ajax_processing.php",
 		  cache:      false,
 		  data:       "action=removeIdentifier&titleIdentifierID=" + titleIdentifierID,
-		  success:    function(html) { 
+		  success:    function(html) {
 			  $("#tr_" + titleIdentifierID).remove();
 		  }
 	         });
@@ -268,10 +268,10 @@ function testService(sushiServiceID){
           cache:      false,
           data:       "action=testSushiService&sushiServiceID=" + sushiServiceID,
           success:    function(html) {
-            $('.div_mainContent').find('#div_test_service').html(html + "<br />");      
+            $('.div_mainContent').find('#div_test_service').html(html + "<br />");
           }
        });
-    
+
 }
 
 

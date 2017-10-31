@@ -56,24 +56,24 @@ $(document).ready(function(){
 	}
 	return false;
  });
- 
- 
- 
+
+
+
   $(".showExpressions").click(function () {
  	updateExpressions('');
- 	
+
   	if (viewAll == "0"){
  		$('#div_displayDocuments').hide();
  		$('#div_displayExpressions').show();
  		$('#div_displaySFXProviders').hide();
  		$('#div_displayAttachments').hide();
  	}
- 	
+
  	return false;
  });
- 
- 
- 
+
+
+
   $(".showSFXProviders").click(function () {
   	if (viewAll == "0"){
  		$('#div_displayDocuments').hide();
@@ -104,7 +104,7 @@ $(document).ready(function(){
           url:        "ajax_processing.php",
           cache:      false,
           data:       "action=deleteLicense&licenseID=" + licenseID,
-          success:    function(html) { 
+          success:    function(html) {
           	 //post return message to index
  		postwith('index.php',{message:html});
           }
@@ -137,13 +137,13 @@ $(document).ready(function(){
        if (typeof(showChildrenDocumentID) != 'undefined'){
        	  showParentDocumentID=showChildrenDocumentID;
        }
-       
+
        $.ajax({
           type:       "GET",
           url:        "ajax_htmldata.php",
           cache:      false,
           data:       "action=getAllDocuments&licenseID=" + $("#licenseID").val() + "&showChildrenDocumentID=" + showParentDocumentID + "&parentOrderBy=" + parentOrderBy + "&childOrderBy=" + childOrderBy,
-          success:    function(html) { 
+          success:    function(html) {
           	$('#div_documents').html(html);
           	tb_reinit();
           }
@@ -162,8 +162,8 @@ $(document).ready(function(){
 
        if (typeof(showChildrenDocumentID) != 'undefined'){
        	  showParentDocumentID=showChildrenDocumentID;
-       }      
-       
+       }
+
        $.ajax({
           type:       "GET",
           url:        "ajax_htmldata.php",
@@ -184,7 +184,7 @@ $(document).ready(function(){
  		$('#div_displaySFXProviders').hide();
  		$('#div_displayAttachments').hide();
  	}
- 	
+
  	updateExpressions(expressionDocumentID);
  }
 
@@ -194,8 +194,8 @@ $(document).ready(function(){
  function updateExpressions(expressionDocumentID){
        if (typeof(expressionDocumentID) != 'undefined'){
        	  showExpressionDocumentID=expressionDocumentID;
-       } 	
- 	
+       }
+
 
        $.ajax({
           type:       "GET",
@@ -289,11 +289,11 @@ function updateAttachmentsNumber(){
           url:        "ajax_processing.php",
           cache:      false,
           data:       "action=updateStatus&licenseID=" + $("#licenseID").val() + "&statusID=" + $("#statusID").val(),
-          success:    function(html) { 
+          success:    function(html) {
           	$('#span_updateStatusResponse').html(html);
-          	
+
           	  // close the span in 3 secs
-		  setTimeout("emptyDiv('span_updateStatusResponse');",3000); 
+		  setTimeout("emptyDiv('span_updateStatusResponse');",3000);
           }
 
 
@@ -332,10 +332,10 @@ function updateAttachmentsNumber(){
           url:        "ajax_processing.php",
           cache:      false,
           data:       "action=deleteDocument&documentID=" + documentID,
-          success:    function(html) { 
-          	if (html) alert(_("There was a problem with deleting the document.  You may not delete a document if there are associated expressions.  Remove all expressions and try again.")); 
-          	updateDocuments(); 
-          	updateArchivedDocuments(); 
+          success:    function(html) {
+          	if (html) alert(_("There was a problem with deleting the document.  You may not delete a document if there are associated expressions.  Remove all expressions and try again."));
+          	updateDocuments();
+          	updateArchivedDocuments();
           }
 
 
@@ -489,7 +489,7 @@ function hideFullNoteText(noteID){
  }
 
 
- 
+
 
 
  function changeProdUse(expressionID){
@@ -497,40 +497,40 @@ function hideFullNoteText(noteID){
           type:       "GET",
           url:        "ajax_processing.php",
           cache:      false,
-          data:       "action=setProdUse&expressionID=" + expressionID + "&licenseID=" + $("#licenseID").val() + "&productionUseInd=" + getCheckboxValue("productionUseInd_" + expressionID), 
-          success:    function(html) { 
+          data:       "action=setProdUse&expressionID=" + expressionID + "&licenseID=" + $("#licenseID").val() + "&productionUseInd=" + getCheckboxValue("productionUseInd_" + expressionID),
+          success:    function(html) {
           	$("#span_prod_use_" + expressionID).html(html);
-          	
+
           	  // close the span in 3 secs
-		  setTimeout("emptyDiv('span_prod_use_" + expressionID + "');",3000); 
+		  setTimeout("emptyDiv('span_prod_use_" + expressionID + "');",3000);
           }
 
 
       });
- } 
- 
- 
- 
-  
+ }
+
+
+
+
  function setParentOrder(column, direction){
   	parentOrderBy = column + " " + direction;
-  	updateDocuments(); 
+  	updateDocuments();
  }
- 
- 
+
+
   function setChildOrder(column, direction){
    	childOrderBy = column + " " + direction;
-   	updateDocuments(); 
+   	updateDocuments();
   }
 
- 
+
   function setParentArchivedOrder(column, direction){
    	parentArchivedOrderBy = column + " " + direction;
-   	updateArchivedDocuments(); 
-  }  
-  
+   	updateArchivedDocuments();
+  }
+
 
   function setChildArchivedOrder(column, direction){
    	childArchivedOrderBy = column + " " + direction;
-   	updateArchivedDocuments(); 
-  }    
+   	updateArchivedDocuments();
+  }

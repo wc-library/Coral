@@ -709,7 +709,7 @@ CREATE TABLE `Document` (
 
 LOCK TABLES `Document` WRITE;
 /*!40000 ALTER TABLE `Document` DISABLE KEYS */;
-INSERT INTO `document` VALUES (1, 'Filler Doc', 1, 1, '2016-10-03', NULL, 'filler_doc.txt', NULL, NULL, '2016-10-03');
+INSERT INTO `Document` VALUES (1, 'Filler Doc', 1, 1, '2016-10-03', NULL, 'filler_doc.txt', NULL, NULL, '2016-10-03');
 /*!40000 ALTER TABLE `Document` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -926,7 +926,7 @@ CREATE TABLE `License` (
 
 LOCK TABLES `License` WRITE;
 /*!40000 ALTER TABLE `License` DISABLE KEYS */;
-INSERT INTO `license` VALUES (1, NULL, 1, 'Filler Doc', NULL, '2016-10-03 22:14:57', '2016-10-03 22:14:57', 1, NULL, 'coral_test', 'coral_test');
+INSERT INTO `License` VALUES (1, NULL, 1, 'Filler Doc', NULL, '2016-10-03 22:14:57', '2016-10-03 22:14:57', 1, NULL, 'coral_test', 'coral_test');
 /*!40000 ALTER TABLE `License` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1619,7 +1619,7 @@ CREATE TABLE `Report` (
 
 LOCK TABLES `Report` WRITE;
 /*!40000 ALTER TABLE `Report` DISABLE KEYS */;
-INSERT INTO `Report` VALUES (1,'Usage Statistics by Titles',100,0,'usageDatabase'),(2,'Usage Statistics by Provider / Publisher',100,0,'usageDatabase'),(3,'Usage Statistics - Provider Rollup',100,0,'usageDatabase'),(4,'Usage Statistics - Publisher Rollup',100,0,'usageDatabase'),(5,'Usage Statistics - Top Resource Requests',100,0,'usageDatabase'),(6,'Usage Statistics - Yearly Usage Statistics',100,0,'usageDatabase');
+INSERT INTO `Report` VALUES (1,'Usage Statistics by Titles',100,0,'usageDatabaseName'),(2,'Usage Statistics by Provider / Publisher',100,0,'usageDatabaseName'),(3,'Usage Statistics - Provider Rollup',100,0,'usageDatabaseName'),(4,'Usage Statistics - Publisher Rollup',100,0,'usageDatabaseName'),(5,'Usage Statistics - Top Resource Requests',100,0,'usageDatabaseName'),(6,'Usage Statistics - Yearly Usage Statistics',100,0,'usageDatabaseName');
 /*!40000 ALTER TABLE `Report` ENABLE KEYS */;
 UNLOCK TABLES;
 

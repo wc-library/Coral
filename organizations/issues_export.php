@@ -72,7 +72,7 @@ foreach($issues as $issue) {
     $issue['issueEndDate'],
     preg_replace('/\s+/', ' ', trim($issue['noteText'])),
   );
-	
+
 	echo array_to_csv_row($issueValues);
 }
 ?>

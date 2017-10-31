@@ -65,7 +65,7 @@ $columnHeaders = array(
   "Status",
   "ISSN/ISBN",
   "Resource URL",
-  "Alt URL",  
+  "Alt URL",
   "Organizations",
   "Aliases",
   "Parent Record",
@@ -120,7 +120,7 @@ foreach($resourceArray as $resource) {
     $resource['status'],
     $resource['isbnOrISSN'],
     $resource['resourceURL'],
-    $resource['resourceAltURL'],	
+    $resource['resourceAltURL'],
     $resource['organizationNames'],
     $resource['aliases'],
     $resource['parentResources'],
@@ -152,7 +152,7 @@ foreach($resourceArray as $resource) {
     $resource['numberRecordsLoaded'],
     ($resource['hasOclcHoldings'] ? 'Y' : 'N')
   );
-	
+
 	echo array_to_csv_row($resourceValues);
 }
 ?>

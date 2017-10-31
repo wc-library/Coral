@@ -12,23 +12,23 @@ try {
                                    "exceptions" => 1
                                  )
                           );
-    }catch (Exception $e){                           
+    }catch (Exception $e){
         echo $e->__toString();
          exit();
     }
 
-// Prepare SoapHeader parameters 
-$sh_param->TransId = 'transid'; 
-$sh_param->ReqId = '1'; 
-$sh_param->Ver = '1'; 
-$sh_param->Consumer = 'SCIDIR'; 
-$sh_param->ConsumerClient = "SUSHI:CORAL"; 
-$sh_param->LogLevel = 'All'; 
+// Prepare SoapHeader parameters
+$sh_param->TransId = 'transid';
+$sh_param->ReqId = '1';
+$sh_param->Ver = '1';
+$sh_param->Consumer = 'SCIDIR';
+$sh_param->ConsumerClient = "SUSHI:CORAL";
+$sh_param->LogLevel = 'All';
 $headers = new SoapHeader('http://webservices.elsevier.com/schemas/easi/headers/types/v1', 'EASIReq', $sh_param, false);
- 
-// Prepare Soap Client 
+
+// Prepare Soap Client
 try {
-  $client->__setSoapHeaders($headers); 
+  $client->__setSoapHeaders($headers);
 }catch (Exception $e){
          echo $e->__toString();
          exit();
@@ -77,7 +77,7 @@ try {
                             ),
                             'integratorId' => $this->requestorID,
                             'platformCode' => $platformCode
-                        ) 
+                        )
                     )
   );
 }
@@ -88,5 +88,5 @@ catch (Exception $e)
          exit();
 }
 
- 
+
 ?>

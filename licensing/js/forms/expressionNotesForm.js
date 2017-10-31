@@ -14,7 +14,7 @@
 **
 **************************************************************************************************************************
 */
- 
+
 // Validate expression note
 function validateExpressionNote(){
     if($("#expressionNote").val() == '') {

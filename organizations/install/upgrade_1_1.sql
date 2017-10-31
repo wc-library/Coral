@@ -1,4 +1,4 @@
-ALTER TABLE `Contact` 
+ALTER TABLE `Contact`
 ADD COLUMN `addressText` varchar(300) default NULL AFTER `title`;
 
 UPDATE `Contact` SET addressText = CONCAT(state, ", ", country)
@@ -11,5 +11,5 @@ ALTER TABLE `Contact`
 DROP COLUMN state,
 DROP COLUMN country;
 
-ALTER TABLE `User` 
+ALTER TABLE `User`
 ADD COLUMN `accountTabIndicator` int(1) unsigned default '0' AFTER `lastName`;

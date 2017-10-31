@@ -17,15 +17,15 @@
 
 $(document).ready(function(){
 
-  updateSearch($('#searchPage').val());      
-      
+  updateSearch($('#searchPage').val());
+
 	//perform search if enter is hit
 	$('#searchName').keyup(function(e) {
 	      if(e.keyCode == 13) {
 		updateSearch();
 	      }
-	});      
-	
+	});
+
 	//perform search if enter is hit
 	$('#searchPublisher').keyup(function(e) {
 	      if(e.keyCode == 13) {
@@ -52,35 +52,35 @@ $(document).ready(function(){
 	      if(e.keyCode == 13) {
 		updateSearch();
 	      }
-	});     
-	
+	});
+
 	//perform search if enter is hit
 	$('#searchFund').keyup(function(e) {
 	      if(e.keyCode == 13) {
 		updateSearch();
 	      }
-	});   
-	
+	});
+
 	//perform search if enter is hit
 	$('#searchResourceNote').keyup(function(e) {
 	      if(e.keyCode == 13) {
 		updateSearch();
 	      }
-	});     
-	
+	});
+
 	//perform search if enter is hit
 	$('#searchCreateDateEnd').keyup(function(e) {
 	      if(e.keyCode == 13) {
 		updateSearch();
 	      }
-	});     
-	
+	});
+
 	//perform search if enter is hit
 	$('#searchCreateDateEnd').keyup(function(e) {
 	      if(e.keyCode == 13) {
 		updateSearch();
 	      }
-	});   
+	});
 
 
 
@@ -95,22 +95,22 @@ $(document).ready(function(){
 	$("#numberRecordsPerPage").live('change', function () {
 	  setNumberOfRecords($(this).val())
 	});
-                   
+
 
 	//bind change event to each of the page start
 	$(".setPage").live('click', function () {
 		setPageStart($(this).attr('id'));
 	});
-	
+
 	$('#resourceSearchForm select').change(function() {
 	  updateSearch();
 	});
-	
+
 	$('#resourceSearchForm').submit(function() {
 	  updateSearch();
 	  return false;
 	});
-	
+
 	$(".searchButton").click(function() {
 	  $('#resourceSearchForm').submit();
 	  return false;
@@ -146,8 +146,8 @@ function setOrder(column, direction){
   }
   updateSearch();
 }
- 
- 
+
+
 function setPageStart(pageStartNumber){
   updateSearch(pageStartNumber);
 }
@@ -157,27 +157,27 @@ function setNumberOfRecords(recordsPerPageNumber){
   $("#searchRecordsPerPage").val(recordsPerPageNumber);
   updateSearch();
 }
- 
- 
- 
-  
+
+
+
+
   function setStartWith(startWithLetter){
     //first, set the previous selected letter (if any) to the regular class
   	$("span.searchLetterSelected").removeClass('searchLetterSelected').addClass('searchLetter');
-  	
+
     if ($('#searchStartWith').val() == startWithLetter) {
       $('#searchStartWith').val('');
     } else {
     	//next, set the new start with letter to show selected
     	$("#span_letter_" + startWithLetter).removeClass('searchLetter').addClass('searchLetterSelected');
-  	
+
     	$('#searchStartWith').val(startWithLetter);
   	}
   	updateSearch();
   }
- 
- 
- 
+
+
+
   $(".newSearch").click(function () {
   	//reset fields
   	$('#resourceSearchForm input[type=hidden]').not('#searchRecordsPerPage').val("");
@@ -189,8 +189,8 @@ function setNumberOfRecords(recordsPerPageNumber){
   	$("span.searchLetterSelected").removeClass('searchLetterSelected').addClass('searchLetter');
   	updateSearch();
   });
-  
-   
+
+
   $("#searchName").focus(function () {
   	$("#div_searchName").css({'display':'block'}); 
   });    
@@ -204,30 +204,30 @@ function setNumberOfRecords(recordsPerPageNumber){
   	$("#div_searchProvider").css({'display':'block'});
   });
   $("#searchResourceISBNOrISSN").focus(function () {
-  	$("#div_searchISBNOrISSN").css({'display':'block'}); 
-  });  
+  	$("#div_searchISBNOrISSN").css({'display':'block'});
+  });
   $("#searchFund").focus(function () {
-  	$("#div_searchFund").css({'display':'block'}); 
-  });  
+  	$("#div_searchFund").css({'display':'block'});
+  });
   $("#searchResourceNote").focus(function () {
-  	$("#div_searchResourceNote").css({'display':'block'}); 
+  	$("#div_searchResourceNote").css({'display':'block'});
   });
   $("#searchCreateDateStart").change(function () {
-  	$("#div_searchCreateDate").css({'display':'block'}); 
+  	$("#div_searchCreateDate").css({'display':'block'});
   });
   $("#searchCreateDateEnd").change(function () {
-  	                                            $("#div_searchCreateDate").css({'display':'block'}); 
-  });  
-  
-  
+  	                                            $("#div_searchCreateDate").css({'display':'block'});
+  });
+
+
   $("#showMoreOptions").click(function () {
-  	$("#div_additionalSearch").css({'display':'block'}); 
+  	$("#div_additionalSearch").css({'display':'block'});
   	$("#hideShowOptions").html("");
   	//$("#hideShowOptions").html("<a href='javascript:void(0);' name='hideOptions' id='hideOptions'>hide options...</a>");
   });
-  
-  
+
+
   $("#hideOptions").click(function () {
-  	$("#div_additionalSearch").css({'display':'none'}); 
+  	$("#div_additionalSearch").css({'display':'none'});
   	$("#hideShowOptions").html("<a href='javascript:void(0);' name='showMoreOptions' id='showMoreOptions'>"+_("more options...")+"</a>");
   });

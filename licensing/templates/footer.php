@@ -18,7 +18,6 @@
 ?>
 
 <br />
-<?php include '../templates/footer.php'; ?>
 </div>
 
 </td>
@@ -28,6 +27,6 @@
 </center>
 
 </div>
+<?php include '../templates/footer.php'; ?>
 
-</body>
-</html>
+

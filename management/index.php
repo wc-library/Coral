@@ -65,7 +65,7 @@ $_SESSION['ref_script']=$currentPage;
 
 	<input type='hidden' name='organizationID' id='organizationID' value='' />
 
-<!--	
+<!--
 	<tr>
 	<td class='searchRow'><label for='organizationID'><b>Publisher/Provider</b></label>
 	<br />
@@ -99,7 +99,7 @@ $_SESSION['ref_script']=$currentPage;
 	</td>
 	</tr>
 
--->	
+-->
 
 	<tr>
 	<td class='searchRow'><label for='consortium'><b><?php echo _("Category");?></b></label>
@@ -124,8 +124,8 @@ $_SESSION['ref_script']=$currentPage;
 	</td>
 	</tr>
 
-	
-	<input type='hidden' name='statusID' id='statusID' value='' />	
+
+	<input type='hidden' name='statusID' id='statusID' value='' />
 <!--
 
 	<tr>
@@ -180,7 +180,7 @@ $_SESSION['ref_script']=$currentPage;
 	</tr>
 
 
-	<input type='hidden' name='expressionTypeID' id='expressionTypeID' value='' />	
+	<input type='hidden' name='expressionTypeID' id='expressionTypeID' value='' />
 
 <!--
 

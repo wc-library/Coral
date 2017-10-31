@@ -9,7 +9,7 @@
                 ?>
 		<!-- Hide the helpful links, etc. -->
         	<script>
-			$('#div_fullRightPanel').hide(); 
+			$('#div_fullRightPanel').hide();
 		</script>
                 <?php
 	}else{
@@ -219,7 +219,7 @@
 				$subEnd = $payment['subscriptionEndDate'] ? normalize_date($payment['subscriptionEndDate']) : "&nbsp;";
 				$fundCode = $payment['fundCode'] ? $payment['fundCode'] : "&nbsp;";
                 $taxRate = $payment['taxRate'] ? integer_to_cost($payment['taxRate']) . '&nbsp;%' : "&nbsp;";
-                foreach (Array('priceTaxExcluded', 'priceTaxIncluded', 'paymentAmount') as $amount) { 
+                foreach (Array('priceTaxExcluded', 'priceTaxIncluded', 'paymentAmount') as $amount) {
                   if (integer_to_cost($payment[$amount])){
                     $cost[$amount] = $payment['currencyCode'] . " " . integer_to_cost($payment[$amount]);
                   }else{

@@ -134,7 +134,7 @@ class SushiService extends DatabaseObject {
 		if(serviceDayOfMonth > day(now()), str_to_date(concat(EXTRACT(YEAR_MONTH FROM NOW()), lpad(serviceDayOfMonth,2,'0')), '%Y%m%d'), str_to_date(concat(EXTRACT(YEAR_MONTH FROM NOW()) + 1, lpad(serviceDayOfMonth,2,'0')), '%Y%m%d') ) next_import
 		FROM SushiService ss
 			LEFT JOIN Platform p on (p.platformID = ss.platformID)
-			LEFT JOIN PublisherPlatform pp 
+			LEFT JOIN PublisherPlatform pp
 				INNER JOIN Publisher pub USING(publisherID)
 			ON (pp.publisherPlatformID = ss.publisherPlatformID)
 		ORDER BY p.name, pub.name";
