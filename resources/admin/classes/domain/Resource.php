@@ -1037,7 +1037,44 @@ class Resource extends DatabaseObject {
 			$searchDisplay[] = _("Cataloging Status: ") . $catalogingStatus->shortName;
 		}
 
+		if ($search['publisher']) {
+			$nameQueryString = $resource->db->escapeString(strtoupper($search['publisher']));
+			$nameQueryString = preg_replace("/ +/", "%", $nameQueryString);
+		  	$nameQueryString = "'%" . $nameQueryString . "%'";
+			if ($config->settings->organizationsModule == 'Y'){
+				$dbName = $config->settings->organizationsDatabaseName;
+				$whereAdd[] = "ROL.organizationRoleID=5 AND ((UPPER(O.name) LIKE " . $nameQueryString . ") OR (UPPER(OA.name) LIKE " . $nameQueryString . "))";
+			}else{
+				$whereAdd[] = "ROL.organizationRoleID=5 AND (UPPER(O.shortName) LIKE " . $nameQueryString . ")";
+			}
+			$searchDisplay[] = _("Publisher name contains: ") . $search['publisher'];
+		}
 
+		if ($search['platform']) {
+			$nameQueryString = $resource->db->escapeString(strtoupper($search['platform']));
+			$nameQueryString = preg_replace("/ +/", "%", $nameQueryString);
+			$nameQueryString = "'%" . $nameQueryString . "%'";
+			if ($config->settings->organizationsModule == 'Y'){
+				$dbName = $config->settings->organizationsDatabaseName;
+				$whereAdd[] = "ROL.organizationRoleID=3 AND ((UPPER(O.name) LIKE " . $nameQueryString . ") OR (UPPER(OA.name) LIKE " . $nameQueryString . "))";
+ 			}else{
+ 				$whereAdd[] = "ROL.organizationRoleID=3 AND (UPPER(O.shortName) LIKE " . $nameQueryString . ")";
+ 			}
+ 			$searchDisplay[] = _("Platform name contains: ") . $search['publisher'];
+ 		}
+
+ 		if ($search['provider']) {
+ 			$nameQueryString = $resource->db->escapeString(strtoupper($search['provider']));
+ 			$nameQueryString = preg_replace("/ +/", "%", $nameQueryString);
+ 			$nameQueryString = "'%" . $nameQueryString . "%'";
+ 			if ($config->settings->organizationsModule == 'Y'){
+ 				$dbName = $config->settings->organizationsDatabaseName;
+ 				$whereAdd[] = "ROL.organizationRoleID=4 AND ((UPPER(O.name) LIKE " . $nameQueryString . ") OR (UPPER(OA.name) LIKE " . $nameQueryString . "))";
+ 			}else{
+ 				$whereAdd[] = "ROL.organizationRoleID=4 AND (UPPER(O.shortName) LIKE " . $nameQueryString . ")";
+ 			}
+			$searchDisplay[] = _("Provider name contains: ") . $search['publisher'];
+		}
 
 		$orderBy = $search['orderBy'];
 
