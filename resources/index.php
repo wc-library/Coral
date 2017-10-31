@@ -71,32 +71,35 @@ include 'templates/header.php';
 	</tr>
 
 
-	<tr>
-	<td class='searchRow'><label for='searchPublisher'><b>Publisher (contains)</b></label>
-	<br />
-	<?php echo Html::text_search_field_tag('publisher', $search['publisher']); ?>
-	<br />
-	<div id='div_searchPublisher' style='<?php if (!$search['publisher']) echo "display:none;"; ?>margin-left:123px;'><input type='button' name='btn_searchPublisher' value='<?php echo _("go!");?>' class='searchButton' /></div>
-	</td>
-	</tr>
+    <tr>
+      <td class='searchRow'>
+        <label for='searchPublisher'><?php echo _("Publisher (contains)"); ?></label>
+        <?php echo Html::text_search_field_tag('publisher', isset($search['publisher']) ? $search['publisher'] : ''); ?>
+        <div id='div_searchPublisher' style='<?php echo (empty($search['publisher']) ? "display: none;" : ""); ?>'>
+          <input type='button' name='btn_searchPublisher' value='<?php echo _("go!");?>' class='searchButton' />
+        </div>
+      </td>
+    </tr>
 
-	<tr>
-	<td class='searchRow'><label for='searchPlatform'><b>Platform (contains)</b></label>
-	<br />
-	<?php echo Html::text_search_field_tag('platform', $search['platform']); ?>
-	<br />
-	<div id='div_searchPlatform' style='<?php if (!$search['platform']) echo "display:none;"; ?>margin-left:123px;'><input type='button' name='btn_searchPlatform' value='<?php echo _("go!");?>' class='searchButton' /></div>
-	</td>
-	</tr>
+    <tr>
+      <td class='searchRow'>
+        <label for='searchPlatform'><?php echo _("Platform (contains)"); ?></label>
+        <?php echo Html::text_search_field_tag('platform', isset($search['platform']) ? $search['platform'] : ''); ?>
+        <div id='div_searchPlatform' style='<?php echo (empty($search['platform']) ? "display: none;" : ""); ?>'>
+          <input type='button' name='btn_searchPlatform' value='<?php echo _("go!");?>' class='searchButton' />
+        </div>
+      </td>
+    </tr>
 
-	<tr>
-	<td class='searchRow'><label for='searchProvider'><b>Provider (contains)</b></label>
-	<br />
-	<?php echo Html::text_search_field_tag('provider', $search['provider']); ?>
-	<br />
-	<div id='div_searchProvider' style='<?php if (!$search['provider']) echo "display:none;"; ?>margin-left:123px;'><input type='button' name='btn_searchProvider' value='<?php echo _("go!");?>' class='searchButton' /></div>
-	</td>
-	</tr>
+    <tr>
+      <td class='searchRow'>
+        <label for='searchProvider'><?php echo _("Provider (contains)"); ?></label>
+        <?php echo Html::text_search_field_tag('provider', isset($search['provider']) ? $search['provider'] : ''); ?>
+        <div id='div_searchProvider' style='<?php echo (empty($search['provider']) ? "display: none;" : ""); ?>'>
+          <input type='button' name='btn_searchProvider' value='<?php echo _("go!");?>' class='searchButton' />
+        </div>
+      </td>
+    </tr>
 
 
 
