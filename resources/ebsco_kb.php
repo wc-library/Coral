@@ -40,11 +40,14 @@ include 'templates/header.php';
         <tr style='vertical-align:top;'>
             <td style="width:155px;padding-right:10px;">
                 <form method="get" action="ajax_htmldata.php?action=getSearchEbscoKb" id="ebscoKbSearchForm">
-                    <?php
-                    foreach(array('orderby','offset','count') as $hidden) {
-                        echo Html::hidden_search_field_tag($hidden, $search[$hidden]);
-                    }
-                    ?>
+                    <?php foreach(array('orderby','offset','count') as $hidden): ?>
+                        <input
+                            type="hidden"
+                            name="search[<?php echo _($hidden); ?>]"
+                            value="<?php echo $search[$hidden]; ?>"
+                            data-default="<?php echo EbscoKbService::$defaultSearchParameters[$hidden]; ?>"
+                        >
+                    <?php endforeach; ?>
 
                     <table class='noBorder' id='title-option'>
                         <tr><td style='text-align:left;width:75px;' align='left'>
@@ -54,17 +57,12 @@ include 'templates/header.php';
                             <td><div id='div_feedback'>&nbsp;</div>
                             </td></tr>
                     </table>
-
                     <table class='borderedFormTable' style="width:150px; color: white;">
                         <tr>
                             <td class='searchRow'>
                                 <label for='searchType'><b><?php echo _("Search For");?></b></label>
                                 <br />
-                                <select
-                                    name='search[type]'
-                                    id='searchType'
-                                    style='width:150px'
-                                    data-default="<?php echo EbscoKbService::$defaultSearchParameters['type']; ?>">>
+                                <select name='search[type]' id='searchType' style='width:150px'>
                                     <?php
                                         foreach(EbscoKbService::$queryTypes as $key => $type){
                                           $selected = $search['type'] == $key ? 'selected' : '';
@@ -82,7 +80,7 @@ include 'templates/header.php';
                                         name='search[searchfield]'
                                         id='searchField'
                                         style='width:150px'
-                                        data-default="<?php echo EbscoKbService::$defaultSearchParameters['searchField']; ?>">>
+                                        data-default="<?php echo EbscoKbService::$defaultSearchParameters['searchfield']; ?>">
                                         <?php
                                         foreach(EbscoKbService::$titleSearchFieldOptions as $key => $type){
                                             $selected = $search['searchfield'] == $key ? 'selected' : '';
@@ -92,7 +90,16 @@ include 'templates/header.php';
                                     </select>
                                 </div>
                                 <div>
-                                    <label for='searchName'><b><?php echo _("contains");?></b></label>
+                                    <label
+                                        for='searchName'
+                                        class="ebsco-toggle-option titles-option">
+                                        <strong><?php echo _("contains");?></strong>
+                                    </label>
+                                    <label
+                                            for='searchName'
+                                            class="ebsco-toggle-option packages-option vendors-option">
+                                        <strong><?php echo _("Name (contains)");?></strong>
+                                    </label>
                                     <br />
                                     <?php echo Html::text_search_field_tag('search', isset($search['name']) ? $search['name'] : '' ); ?>
                                     <br />
@@ -100,9 +107,9 @@ include 'templates/header.php';
                             </td>
                         </tr>
 
-                        <tr class="ebsco-toggle-option titles-option packages-option">>
+                        <tr class="ebsco-toggle-option titles-option packages-option">
                             <td class='searchRow'>
-                                <label for='searchSelection'><b><?php echo _("Selection");?></b></label>
+                                <label for='searchSelection'><strong><?php echo _("Selection");?></strong></label>
                                 <br />
                                 <select
                                     name='search[selection]'
@@ -119,9 +126,9 @@ include 'templates/header.php';
                             </td>
                         </tr>
 
-                        <tr class="ebsco-toggle-option titles-option">>
+                        <tr class="ebsco-toggle-option titles-option">
                             <td class='searchRow'>
-                                <label for='searchResourceType'><b><?php echo _("Resource Type");?></b></label>
+                                <label for='searchResourceType'><strong><?php echo _("Resource Type");?></strong></label>
                                 <br />
                                 <select
                                         name='search[resourcetype]'
@@ -138,7 +145,7 @@ include 'templates/header.php';
                             </td>
                         </tr>
 
-                        <tr class="ebsco-toggle-option packages-option">>
+                        <tr class="ebsco-toggle-option packages-option">
                             <td class='searchRow'>
                                 <label for='searchContentType'><b><?php echo _("Content Type");?></b></label>
                                 <br />
@@ -159,7 +166,12 @@ include 'templates/header.php';
 
                         <tr>
                             <td class='searchRow'>
-                                <input type='button' name='submit' value='<?php echo _("go!");?>' class='searchButton' />
+                                <button
+                                    type="submit"
+                                    class="searchButton"
+                                    style="border-color: rgb(216, 216, 216) rgb(209, 209, 209) rgb(186, 186, 186); border-radius: 4px; border-style: solid; border-width: 1px; padding: 1px 7px 2px;">
+                                    <?php echo _("go!");?>
+                                </button>
                             </td>
                         </tr>
                     </table>

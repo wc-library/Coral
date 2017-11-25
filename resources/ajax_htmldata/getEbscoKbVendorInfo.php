@@ -1,24 +1,32 @@
 <?php
 
-EbscoKbService::setSearch($_POST['search']);
-$params = EbscoKbService::getSearch();
-$page = $params['offset'];
-$recordsPerPage = $params['count'];
-
-// Don't run a empty title query
-if(empty($params['search']) && $params['type'] == 'titles'){
-    echo '<div style="margin: 2em;"><i>Please enter a search term.</i></div>';
+if(empty($_POST['vendorId'])){
+    echo '<div style="margin-bottom: 2em;"><i>No vendor ID provided</i></div>';
     exit;
-} else {
-    $ebscoKb = new EbscoKbService();
-    $ebscoKb->createQuery($params);
-    $data = $ebscoKb->execute();
 }
 
-if(!empty($data->Errors)){
-    echo '<div style="margin-bottom: 2em;"><i>Sorry, there was an error with your query.</i></div>';
+
+$vendorId = $_POST['vendorId'];
+
+$ebscoKb = new EbscoKbService();
+$ebscoKb->getVendor($vendorId);
+$vendor = $ebscoKb->execute();
+$ebscoKb->getVendor($vendorId, true);
+$packages = $ebscoKb->execute();
+
+if(!empty($vendor->Errors)){
+    echo '<div style="margin-bottom: 2em;"><i>Sorry, there was an error with retrieving the vendor.</i></div>';
     echo '<ul>';
-    foreach($data->Errors as $error){
+    foreach($vendor->Errors as $error){
+        echo "<li>$error->Message</li>";
+    }
+    exit;
+}
+
+if(!empty($packages->Errors)){
+    echo '<div style="margin-bottom: 2em;"><i>Sorry, there was an error with retrieving the vendor packages.</i></div>';
+    echo '<ul>';
+    foreach($packages->Errors as $error){
         echo "<li>$error->Message</li>";
     }
     exit;

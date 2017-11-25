@@ -525,6 +525,11 @@ table.dataTable td.alt {
 	vertical-align: middle;
 }
 
+table.table-striped tbody tr:nth-child(odd) td{
+	background-color: #fff;
+}
+
+
 table.dataTable th {
 	margin: 0;
 	padding: 6px;
@@ -2224,6 +2229,10 @@ a.smallLink {
 	font-size: 12px;
 	text-decoration: none;
 	color: #1B76A9;
+}
+
+.pagination > span, .pagination > a {
+	padding: 0 1px;
 }
 
 /*--- Add Scrollbar to Subject Modal Window ---*/
