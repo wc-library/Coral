@@ -884,7 +884,7 @@ table.borderedFormTable td.searchRow {
 	-moz-border-radius: 0px;
 }
 
-table.borderedFormTable td.searchRow label b {
+table.borderedFormTable td.searchRow label b, table.borderedFormTable td.searchRow label strong {
 			color: #fff;
 			font-weight: 100;
 			font-size: 11px;

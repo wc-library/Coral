@@ -1,0 +1,197 @@
+<?php
+
+/*
+**************************************************************************************************************************
+** CORAL Resources Module v. 1.2
+**
+** Copyright (c) 2010 University of Notre Dame
+**
+** This file is part of CORAL.
+**
+** CORAL is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+**
+** CORAL is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+**
+** You should have received a copy of the GNU General Public License along with CORAL.  If not, see <http://www.gnu.org/licenses/>.
+**
+**************************************************************************************************************************
+*/
+
+
+
+include_once 'directory.php';
+
+
+//used for creating a "sticky form" for back buttons
+//except we don't want it to retain if they press the 'index' button
+//check what referring script is
+
+CoralSession::set('ref_script', $currentPage);
+$search = EbscoKbService::getSearch();
+
+//print header
+$pageTitle=_('EBSCO Knowledge Base');
+include 'templates/header.php';
+
+?>
+
+<div style='text-align:left;'>
+    <table class="headerTable" style="background-image:url('images/header.gif');background-repeat:no-repeat;">
+        <tr style='vertical-align:top;'>
+            <td style="width:155px;padding-right:10px;">
+                <form method="get" action="ajax_htmldata.php?action=getSearchEbscoKb" id="ebscoKbSearchForm">
+                    <?php
+                    foreach(array('orderby','offset','count') as $hidden) {
+                        echo Html::hidden_search_field_tag($hidden, $search[$hidden]);
+                    }
+                    ?>
+
+                    <table class='noBorder' id='title-option'>
+                        <tr><td style='text-align:left;width:75px;' align='left'>
+                                <span style='font-size:130%;font-weight:bold;'><?php echo _("EBSCO Knowledge Base Search");?></span><br />
+                                <a href='javascript:void(0)' class='newSearch' title="<?php echo _("new search");?>"><?php echo _("new search");?></a>
+                            </td>
+                            <td><div id='div_feedback'>&nbsp;</div>
+                            </td></tr>
+                    </table>
+
+                    <table class='borderedFormTable' style="width:150px; color: white;">
+                        <tr>
+                            <td class='searchRow'>
+                                <label for='searchType'><b><?php echo _("Search For");?></b></label>
+                                <br />
+                                <select
+                                    name='search[type]'
+                                    id='searchType'
+                                    style='width:150px'
+                                    data-default="<?php echo EbscoKbService::$defaultSearchParameters['type']; ?>">>
+                                    <?php
+                                        foreach(EbscoKbService::$queryTypes as $key => $type){
+                                          $selected = $search['type'] == $key ? 'selected' : '';
+                                          echo "<option value='$key' $selected>$type</option>";
+                                        }
+                                    ?>
+                                </select>
+                            </td>
+                        </tr>
+
+                        <tr class="ebsco-toggle-option titles-option packages-option vendors-option">
+                            <td class='searchRow'>
+                                <div class="ebsco-toggle-option titles-option">
+                                    <select
+                                        name='search[searchfield]'
+                                        id='searchField'
+                                        style='width:150px'
+                                        data-default="<?php echo EbscoKbService::$defaultSearchParameters['searchField']; ?>">>
+                                        <?php
+                                        foreach(EbscoKbService::$titleSearchFieldOptions as $key => $type){
+                                            $selected = $search['searchfield'] == $key ? 'selected' : '';
+                                            echo "<option value='$key' $selected>$type</option>";
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for='searchName'><b><?php echo _("contains");?></b></label>
+                                    <br />
+                                    <?php echo Html::text_search_field_tag('search', isset($search['name']) ? $search['name'] : '' ); ?>
+                                    <br />
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr class="ebsco-toggle-option titles-option packages-option">>
+                            <td class='searchRow'>
+                                <label for='searchSelection'><b><?php echo _("Selection");?></b></label>
+                                <br />
+                                <select
+                                    name='search[selection]'
+                                    id='searchSelection'
+                                    style='width:150px'
+                                    data-default="<?php echo EbscoKbService::$defaultSearchParameters['selection']; ?>">
+                                    <?php
+                                    foreach(EbscoKbService::$selectionOptions as $key => $type){
+                                        $selected = $search['selection'] == $key ? 'selected' : '';
+                                        echo "<option value='$key' $selected>$type</option>";
+                                    }
+                                    ?>
+                                </select>
+                            </td>
+                        </tr>
+
+                        <tr class="ebsco-toggle-option titles-option">>
+                            <td class='searchRow'>
+                                <label for='searchResourceType'><b><?php echo _("Resource Type");?></b></label>
+                                <br />
+                                <select
+                                        name='search[resourcetype]'
+                                        id='searchResourceType'
+                                        style='width:150px'
+                                        data-default="<?php echo EbscoKbService::$defaultSearchParameters['resourcetype']; ?>">
+                                    <?php
+                                    foreach(EbscoKbService::$titleResourceTypeOptions as $key => $type){
+                                        $selected = $search['resourcetype'] == $key ? 'selected' : '';
+                                        echo "<option value='$key' $selected>$type</option>";
+                                    }
+                                    ?>
+                                </select>
+                            </td>
+                        </tr>
+
+                        <tr class="ebsco-toggle-option packages-option">>
+                            <td class='searchRow'>
+                                <label for='searchContentType'><b><?php echo _("Content Type");?></b></label>
+                                <br />
+                                <select
+                                        name='search[contenttype]'
+                                        id='searchContentType'
+                                        style='width:150px'
+                                        data-default="<?php echo EbscoKbService::$defaultSearchParameters['contenttype']; ?>">
+                                    <?php
+                                    foreach(EbscoKbService::$packageContentTypeOptions as $key => $type){
+                                        $selected = $search['contenttype'] == $key ? 'selected' : '';
+                                        echo "<option value='$key' $selected>$type</option>";
+                                    }
+                                    ?>
+                                </select>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class='searchRow'>
+                                <input type='button' name='submit' value='<?php echo _("go!");?>' class='searchButton' />
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </td>
+            <td>
+                <div id='div_searchResults'></div>
+            </td>
+        </tr>
+    </table>
+</div>
+<br />
+<script type="text/javascript" src="js/ebsco_kb.js"></script>
+<script type='text/javascript'>
+<?php
+  //used to default to previously selected values when back button is pressed
+  //if the startWith is defined set it so that it will default to the first letter picked
+
+  /*if ((CoralSession::get('res_pageStart')) && ($reset != 'Y')){
+	  echo "pageStart = '" . CoralSession::get('res_pageStart') . "';";
+  }
+
+  if ((CoralSession::get('res_recordsPerPage')) && ($reset != 'Y')){
+	  echo "recordsPerPage = '" . CoralSession::get('res_recordsPerPage') . "';";
+  }
+
+  if ((CoralSession::get('res_orderBy')) && ($reset != 'Y')){
+	  echo "orderBy = \"" . CoralSession::get('res_orderBy') . "\";";
+  }
+
+  */
+	echo "</script>";
+
+	//print footer
+	include 'templates/footer.php';
