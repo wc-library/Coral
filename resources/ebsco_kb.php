@@ -28,6 +28,22 @@ include_once 'directory.php';
 
 CoralSession::set('ref_script', $currentPage);
 $search = EbscoKbService::getSearch();
+$limitLabel = '';
+$limitName = '';
+
+if(!empty($search['vendorId'])){
+    $ebscoKb = new EbscoKbService();
+    $vendor = $ebscoKb->getVendor($search['vendorId']);
+    $limitLabel = 'from vendor';
+    $limitName = $vendor->vendorName;
+
+    if(!empty($search['packageId'])){
+        $package = $ebscoKb->getPackage($search['vendorId'], $search['packageId']);
+        $limitLabel = 'from package';
+        $limitName = $package->packageName;
+
+    }
+}
 
 //print header
 $pageTitle=_('EBSCO Knowledge Base');
@@ -40,10 +56,11 @@ include 'templates/header.php';
         <tr style='vertical-align:top;'>
             <td style="width:155px;padding-right:10px;">
                 <form method="get" action="ajax_htmldata.php?action=getSearchEbscoKb" id="ebscoKbSearchForm">
-                    <?php foreach(array('orderby','offset','count') as $hidden): ?>
+                    <?php foreach(array('orderby','offset','count', 'vendorId', 'packageId', 'type') as $hidden): ?>
                         <input
                             type="hidden"
                             name="search[<?php echo _($hidden); ?>]"
+                            id="search<?php echo ucfirst($hidden); ?>"
                             value="<?php echo $search[$hidden]; ?>"
                             data-default="<?php echo EbscoKbService::$defaultSearchParameters[$hidden]; ?>"
                         >
@@ -60,16 +77,24 @@ include 'templates/header.php';
                     <table class='borderedFormTable' style="width:150px; color: white;">
                         <tr>
                             <td class='searchRow'>
-                                <label for='searchType'><b><?php echo _("Search For");?></b></label>
+                                <label for='selectType'><strong><?php echo _("Search For");?></strong></label>
                                 <br />
-                                <select name='search[type]' id='searchType' style='width:150px'>
+                                <select name='selectType' id='selectType' style='width:150px'>
                                     <?php
                                         foreach(EbscoKbService::$queryTypes as $key => $type){
                                           $selected = $search['type'] == $key ? 'selected' : '';
-                                          echo "<option value='$key' $selected>$type</option>";
+                                          echo "<option value='$key' $selected>".$type['selectDisplay']."</option>";
                                         }
                                     ?>
                                 </select>
+                                <div id="limitBy" style="margin-top: 1em; font-size: .75em;">
+                                    <label><strong><?php echo _($limitLabel);?></strong></label>
+                                    <br />
+                                    <button type="button" id="removeLimit" class="btn">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                    <span id="limitName"><?php echo $limitName; ?></span>
+                                </div>
                             </td>
                         </tr>
 
@@ -78,7 +103,7 @@ include 'templates/header.php';
                                 <div class="ebsco-toggle-option titles-option">
                                     <select
                                         name='search[searchfield]'
-                                        id='searchField'
+                                        id='searchfield'
                                         style='width:150px'
                                         data-default="<?php echo EbscoKbService::$defaultSearchParameters['searchfield']; ?>">
                                         <?php
@@ -168,8 +193,7 @@ include 'templates/header.php';
                             <td class='searchRow'>
                                 <button
                                     type="submit"
-                                    class="searchButton"
-                                    style="border-color: rgb(216, 216, 216) rgb(209, 209, 209) rgb(186, 186, 186); border-radius: 4px; border-style: solid; border-width: 1px; padding: 1px 7px 2px;">
+                                    class="searchButton btn">
                                     <?php echo _("go!");?>
                                 </button>
                             </td>

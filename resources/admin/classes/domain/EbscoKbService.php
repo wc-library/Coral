@@ -1,34 +1,58 @@
 <?php
 
-class EbscoKbService extends Object {
+class EbscoKbService {
 
 /*
  * Vars
  */
     protected $config;
     protected $error;
-    protected $queryParams;
-    private $queryPath;
-    private $queryHeader;
+    protected $response;
+    private $queryPath = [];
+    public $queryParams = [];
+    public $type;
 
     static $apiUrl = 'https://api.ebsco.io/rm/rmaccounts/';
 
     static $defaultSearchParameters = [
+        'search' => '',
         'orderby' => 'relevance',
         'offset' => 1,
-        'count' => 10,
+        'count' => 20,
         'type' => 'titles',
-        'searchField' => 'titlename',
+        'searchfield' => 0,
         'selection' => 1,
         'resourcetype' => 0,
         'contenttype' => 0,
+        'vendorId' => null,
+        'packageId' => null,
     ];
 
     static $queryTypes = [
-        'holdings' => 'Holdings',
-        'packages' => 'Packages',
-        'titles' => 'Titles',
-        'vendors' => 'Vendors',
+        'holdings' =>[
+            'selectDisplay' => 'Holdings',
+            'class' => 'EbscoKbHoldings',
+            'listKey' => 'holdingsList',
+            'params' => ['format'],
+        ],
+        'packages' => [
+            'selectDisplay' => 'Packages',
+            'class' => 'EbscoKbPackage',
+            'listKey' => 'packagesList',
+            'params' => ['search','orderby','offset','count','searchfield','selection','contenttype'],
+        ],
+        'titles' => [
+            'selectDisplay' => 'Titles',
+            'class' => 'EbscoKbTitle',
+            'listKey' => 'titles',
+            'params' => ['search','orderby','offset','count','searchfield','selection','resourcetype'],
+        ],
+        'vendors' => [
+            'selectDisplay' => 'Vendors',
+            'class' => 'EbscoKbVendor',
+            'listKey' => 'vendors',
+            'params' => ['search','orderby','offset','count'],
+        ],
     ];
 
     static $titleSearchFieldOptions = [
@@ -66,29 +90,26 @@ class EbscoKbService extends Object {
     static $packageContentTypeOptions = [
         0 => 'All',
         1 => 'Aggregated Fulltext',
-        3 => 'Abstract & Index',
-        4 => 'ebook',
-        5 => 'ejournal',
-        6 => 'Print',
-        7 => 'Unknown',
-        8 => 'Online Reference',
+        2 => 'Abstract & Index',
+        3 => 'ebook',
+        4 => 'ejournal',
+        5 => 'Print',
+        6 => 'Unknown',
+        7 => 'Online Reference',
     ];
 
 /*
  * General purpose
  */
-    protected function init(NamedArguments $arguments) {
-        parent::init($arguments);
+    public function __construct($params = []) {
         $this->config = new Configuration;
         $this->checkForError();
-        $this->queryHeader = [
-            'Accept: application/json',
-            'x-api-key: '.$this->config->settings->ebscoKbApiKey,
-        ];
         $this->queryPath = [
             $this->config->settings->ebscoKbCustomerId,
         ];
-        $this->queryParams = [];
+        if(!empty($params)){
+            $this->createQuery($params);
+        }
     }
 
 /*
@@ -123,20 +144,26 @@ class EbscoKbService extends Object {
         }
     }
 
+    protected function checkResponseErrors() {
+        if(!empty($this->response['Errors'])){
+            $errors = array_map(function($e){
+                return $e['Message'];
+            }, $this->response['Errors']);
+            throw new Exception(_("There was a problem with the EBSCO Kb Service Query: ".implode(', ',$errors)));
+        }
+
+        if(!empty($this->response['message'])){
+            throw new Exception(_("There was a problem with the EBSCO Kb Service Query: ".$this->response['message']));
+        }
+
+    }
+
 /*
  * Session helpers
  */
 
     public static function setSearch($search) {
-        foreach (self::$defaultSearchParameters as $key => $value) {
-            if (!isset($search[$key])) {
-                $search[$key] = $value;
-            }
-        }
-        foreach ($search as $key => $value) {
-            $search[$key] = trim($value);
-        }
-
+        $search = self::generateSearch($search);
         CoralSession::set('ebscoKbSearch', $search);
     }
 
@@ -154,49 +181,85 @@ class EbscoKbService extends Object {
 /*
  * Query Functions
  */
-    public function createQuery($params)
+    public function createQuery($search)
     {
-        $this->checkParams($params);
-        $type = $params['type'];
-        unset($params['type']);
-        $this->queryPath[] = $type;
-        if(empty($params['search'])){
-            $params['orderby'] = substr($type,0,-1).'name';
+        // validate necessary params
+        $this->checkParams($search);
+        $this->queryPath = [];
+        $search = self::generateSearch($search);
+
+        // set the query type
+        $this->type = $search['type'];
+
+        // if vendor id is set, this is a LEAST a packages query
+        if(!empty($search['vendorId'])) {
+            $this->type = 'packages';
+            $this->queryPath[] = 'vendors';
+            $this->queryPath[] = $search['vendorId'];
         }
-        $this->queryParams = $params;
+
+        // if package id is set, this MUST be a titles query
+        if(!empty($search['packageId'])) {
+            $this->type = 'titles';
+            $this->queryPath[] = 'packages';
+            $this->queryPath[] = $search['packageId'];
+        }
+
+        // add the path parameter last
+        $this->queryPath[] = $this->type;
+
+        $this->queryParams = self::cleanParams($search);
+        if(empty($this->queryParams['search'])){
+            $this->queryParams['orderby'] = substr($this->type,0,-1).'name';
+        }
+    }
+
+    public static function generateSearch($search = []){
+        $providedParamKeys = array_keys($search);
+        foreach(self::$defaultSearchParameters as $key => $value){
+            if(in_array($key, $providedParamKeys)){
+                $search[$key] = trim($search[$key]);
+            } else {
+                $search[$key] = $value;
+            }
+        }
+        return $search;
+    }
+
+    private function cleanParams($search = [])
+    {
+        foreach(array_keys($search) as $key){
+            if(!in_array($key, self::$queryTypes[$this->type]['params'])){
+                unset($search[$key]);
+            }
+        }
+        return $search;
     }
 
     public function getTitle($titleId)
     {
-        $this->queryPath[] = 'titles';
-        $this->queryPath[] = $titleId;
-        return $this->execute();
+        $this->queryPath = ['titles', $titleId];
+        $this->execute();
+        return new EbscoKbTitle($this->response);
     }
 
-    public function getVendor($vendorId, $packages = false)
+    public function getVendor($vendorId)
     {
-        $this->queryPath[] = 'vendors';
-        $this->queryPath[] = $vendorId;
-        if($packages){
-            $this->queryPath[] = 'packages';
-        }
-        return $this->execute();
+        $this->queryPath = ['vendors', $vendorId];
+        $this->execute();
+        return new EbscoKbVendor($this->response);
     }
 
-    public function getPackage($vendorId, $packageId, $titles = false)
+    public function getPackage($vendorId, $packageId)
     {
-        $this->queryPath[] = 'vendors';
-        $this->queryPath[] = $vendorId;
-        $this->queryPath[] = 'packages';
-        $this->queryPath[] = $packageId;
-        if($titles){
-            $this->queryPath[] = 'titles';
-        }
-        return $this->execute();
+        $this->queryPath = ['vendors', $vendorId, 'packages', $packageId];
+        $this->execute();
+        return new EbscoKbPackage($this->response);
     }
 
     public function execute()
     {
+        array_unshift($this->queryPath,$this->config->settings->ebscoKbCustomerId);
         $url = self::$apiUrl.implode('/',$this->queryPath);
         if(!empty($this->queryParams)){
             $url .= '?'.http_build_query($this->queryParams);
@@ -205,16 +268,30 @@ class EbscoKbService extends Object {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $this->queryHeader);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Accept: application/json',
+            'x-api-key: '.$this->config->settings->ebscoKbApiKey,
+        ]);
 
         $response = curl_exec($ch);
         curl_close ($ch);
 
-        $response = json_decode($response);
-
-        return $response;
+        $this->response = json_decode($response, true);
+        $this->checkResponseErrors();
     }
 
+    public function numResults()
+    {
+        return empty($this->response) ? 0 : $this->response['totalResults'];
+    }
 
+    public function results()
+    {
+        $class = self::$queryTypes[$this->type]['class'];
+        $listKey = self::$queryTypes[$this->type]['listKey'];
 
+        return array_map(function($e) use ($class){
+            return new $class($e);
+        }, $this->response[$listKey]);
+    }
 }

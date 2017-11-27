@@ -2,8 +2,8 @@
     <thead>
         <tr>
             <th><?php echo _("Title"); ?></th>
-            <th><?php echo _("KBID"); ?></th>
             <th><?php echo _("Resource Type"); ?></th>
+            <th><?php echo _("ISNs"); ?></th>
             <th><?php echo _("Import"); ?></th>
         </tr>
     </thead>
@@ -11,20 +11,42 @@
     <?php foreach($items as $item): ?>
         <tr>
             <td>
-                <?php echo $item->titleName; ?>
-            </td>
-            <td>
-                <?php echo $item->titleId; ?>
+                <a
+                    href="ajax_htmldata.php?action=getEbscoKbTitleDetails&height=700&width=730&modal=true&titleId=<?php echo $item->titleId; ?>"
+                    class="thickbox">
+                    <?php echo $item->titleName; ?>
+                </a>
             </td>
             <td>
                 <?php echo $item->pubType; ?>
             </td>
+            <td>
+                <ul style="list-style: none; ">
+                    <?php
+                    foreach($item->identifiersList as $identifier){
+                        if(in_array($identifier['type'], [0,1])) {
+                            switch($identifier['subtype']){
+                                case 1:
+                                    $subtype = ' (Print)';
+                                    break;
+                                case 2:
+                                    $subtype = ' (Electronic)';
+                                    break;
+                                default:
+                                    $subtype = '';
+                            }
+                            echo sprintf('<li>%s%s</li>', $identifier['id'], $subtype);
+                        }
+                    }
+                    ?>
+                </ul>
+            </td>
             <td style="text-align: center;">
                 <button
                     type="button"
+                    class="add-button"
                     data-kbid="<?php echo $item->titleId; ?>"
-                    data-type="title"
-                    style="border-color: rgb(216, 216, 216) rgb(209, 209, 209) rgb(186, 186, 186); border-radius: 4px; border-style: solid; border-width: 1px; padding: 1px 7px 2px;">
+                    data-type="title">
                         <?php echo _("Import"); ?>
                 </button>
             </td>

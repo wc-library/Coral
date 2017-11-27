@@ -2,51 +2,28 @@
 
 EbscoKbService::setSearch($_POST['search']);
 $params = EbscoKbService::getSearch();
-$page = $params['offset'];
-$recordsPerPage = $params['count'];
 
-// Don't run a empty title query
-if(empty($params['search']) && $params['type'] == 'titles'){
+// Don't run a empty title query if no package limit is set
+if(empty($params['search']) && $params['type'] == 'titles' && empty($params['packageId'])){
     echo '<div style="margin: 2em;"><i>Please enter a search term.</i></div>';
     exit;
 } else {
-    $ebscoKb = new EbscoKbService();
-    $ebscoKb->createQuery($params);
-    $data = $ebscoKb->execute();
+    $ebscoKb = new EbscoKbService($params);
+    $ebscoKb->execute();
 }
 
-if(!empty($data->Errors)){
-    echo '<div style="margin-bottom: 2em;"><i>Sorry, there was an error with your query.</i></div>';
-    echo '<ul>';
-    foreach($data->Errors as $error){
-        echo "<li>$error->Message</li>";
-    }
-    exit;
-}
-
-$totalRecords = $data->totalResults;
-switch($params['type']){
-    case 'titles':
-        $items = $data->titles;
-        break;
-    case 'vendors':
-        $items = $data->vendors;
-        break;
-    case 'packages':
-        $items = $data->packagesList;
-        break;
-    default:
-        $items = [];
-}
-
-if(empty($data->totalResults) || empty($items)){
+if($ebscoKb)
+// check for results
+$totalRecords = $ebscoKb->numResults();
+$items = $ebscoKb->results();
+if(empty($totalRecords) || empty($items)){
     echo '<div style="margin-bottom: 2em;"><i>No results found.</i></div>';
     exit;
 }
 
-
-
 // Pagination vars
+$page = $ebscoKb->queryParams['offset'];
+$recordsPerPage = $ebscoKb->queryParams['count'];
 $numPages = ceil($totalRecords / $recordsPerPage);
 $maxDisplay = 25;
 $pagination = [];
@@ -61,12 +38,41 @@ while(count($pagination) <= $maxDisplay){
     }
     $i++;
 }
-
 $fromCalc = $recordsPerPage * ($page - 1) + 1;
 $toCalc = ($fromCalc - 1) + $recordsPerPage;
 $toCalc = $toCalc > $totalRecords ? $totalRecords : $toCalc;
 
+// Limited by vendor?
+if(!empty($params['vendorId'])){
+    $ebscoKb = new EbscoKbService();
+    $vendor = $ebscoKb->getVendor($params['vendorId']);
+
+    if(!empty($params['packageId'])){
+        $package = $ebscoKb->getPackage($params['vendorId'], $params['packageId']);
+    }
+}
+
+
+
 ?>
+
+<?php if(!empty($vendor) && empty($package)): ?>
+    <div>
+        <h2>
+            Packages from <?php echo $vendor->vendorName; ?>
+            <small style="padding-left: 1px">(<?php echo $vendor->packagesSelected; ?> of <?php echo $vendor->packagesTotal; ?> selected)</small>
+        </h2>
+    </div>
+<?php endif; ?>
+
+<?php if(!empty($vendor) && !empty($package)): ?>
+    <div>
+        <h2>
+            Title list from <?php echo $package->packageName; ?><br />
+            <small style="padding-left: 5px;">Vendor: <?php echo $vendor->vendorName; ?></small>
+        </h2>
+    </div>
+<?php endif; ?>
 
 <span style="float:left; font-weight:bold; width:650px;">
     Displaying <?php echo $fromCalc; ?> to <?php echo $toCalc; ?> of <?php echo $totalRecords; ?> results
@@ -91,7 +97,7 @@ $toCalc = $toCalc > $totalRecords ? $totalRecords : $toCalc;
             <?php endif; ?>
         <?php endforeach; ?>
 
-        <?php if ($page + 1 >= $numPages): ?>
+        <?php if ($page + 1 > $numPages): ?>
             <span class="smallerText"><i class="fa fa-forward"></i></span>
         <?php else: ?>
             <a href="javascript:void(0);" data-page="<?php echo $page+1; ?>" class="setPage smallLink" alt="next page" title="next page">
@@ -121,4 +127,3 @@ switch($params['type']){
         echo '</pre>';
         break;
 }
-?>
