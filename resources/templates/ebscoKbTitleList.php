@@ -21,7 +21,7 @@
                 <?php echo $item->pubType; ?>
             </td>
             <td>
-                <ul style="list-style: none; ">
+                <ul style="list-style: none; font-size: .8em">
                     <?php
                     foreach($item->identifiersList as $identifier){
                         if(in_array($identifier['type'], [0,1])) {
@@ -35,20 +35,18 @@
                                 default:
                                     $subtype = '';
                             }
-                            echo sprintf('<li>%s%s</li>', $identifier['id'], $subtype);
+                            echo sprintf('<li style="white-space: nowrap">%s%s</li>', $identifier['id'], $subtype);
                         }
                     }
                     ?>
                 </ul>
             </td>
             <td style="text-align: center;">
-                <button
-                    type="button"
-                    class="add-button"
-                    data-kbid="<?php echo $item->titleId; ?>"
-                    data-type="title">
-                        <?php echo _("Import"); ?>
-                </button>
+                <a
+                    href="ajax_forms.php?action=getEbscoKbTitleImportForm&height=700&width=730&modal=true&titleId=<?php echo $item->titleId; ?>"
+                    class="thickbox btn btn-primary">
+                    <?php echo _('import'); ?>
+                </a>
             </td>
         </tr>
     <?php endforeach; ?>

@@ -101,15 +101,28 @@ class EbscoKbService {
 /*
  * General purpose
  */
-    public function __construct($params = []) {
+
+    /**
+     * @var EbscoKbService (Pattern Singleton)
+     */
+    private static $instance = null;
+// -------------------------------------------------------------------------
+    /**
+     * Return the unique instance of class (design pattern singleton)
+     */
+    public static function getInstance(){
+        if (is_null(self::$instance)){
+            self::$instance = new EbscoKbService();
+        }
+        return self::$instance;
+    }
+
+    public function __construct() {
         $this->config = new Configuration;
         $this->checkForError();
         $this->queryPath = [
             $this->config->settings->ebscoKbCustomerId,
         ];
-        if(!empty($params)){
-            $this->createQuery($params);
-        }
     }
 
 /*

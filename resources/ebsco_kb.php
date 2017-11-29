@@ -27,12 +27,12 @@ include_once 'directory.php';
 //check what referring script is
 
 CoralSession::set('ref_script', $currentPage);
-$search = EbscoKbService::getSearch();
+$ebscoKb = EbscoKbService::getInstance();
+$search = $ebscoKb::getSearch();
 $limitLabel = '';
 $limitName = '';
 
 if(!empty($search['vendorId'])){
-    $ebscoKb = new EbscoKbService();
     $vendor = $ebscoKb->getVendor($search['vendorId']);
     $limitLabel = 'from vendor';
     $limitName = $vendor->vendorName;

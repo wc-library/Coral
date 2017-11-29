@@ -8,11 +8,11 @@ if(empty($params['search']) && $params['type'] == 'titles' && empty($params['pac
     echo '<div style="margin: 2em;"><i>Please enter a search term.</i></div>';
     exit;
 } else {
-    $ebscoKb = new EbscoKbService($params);
+    $ebscoKb = EbscoKbService::getInstance();
+    $ebscoKb->createQuery($params);
     $ebscoKb->execute();
 }
 
-if($ebscoKb)
 // check for results
 $totalRecords = $ebscoKb->numResults();
 $items = $ebscoKb->results();

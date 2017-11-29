@@ -1,0 +1,1 @@
+ALTER TABLE `Resource` ADD `ebscoKbID` INT(11);

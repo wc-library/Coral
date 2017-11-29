@@ -6,7 +6,7 @@ if(empty($titleId)){
     exit;
 }
 
-$ebscoKb = new EbscoKbService();
+$ebscoKb = EbscoKbService::getInstance();
 $title = $ebscoKb->getTitle($titleId);
 
 ?>
@@ -164,26 +164,25 @@ $title = $ebscoKb->getTitle($titleId);
                                     <div class="col-8">
                                         <h3 style="padding-left: 5px;">
                                             <?php if($resource->isSelected): ?>
-                                                <i class="fa fa-check-square-o fa-lg" title="Selected in EBSCO Kb" style="color: #4B7717; margin-left: -15px;"></i>
+                                                <i class="fa fa-check-square-o fa-lg text-success" title="Selected in EBSCO Kb" style="margin-left: -15px;"></i>
                                             <?php else: ?>
-                                                <i class="fa fa-ban fa-lg" title="Not selected in EBSCO Kb" style="color: #99351E; margin-left: -15px;"></i>
+                                                <i class="fa fa-ban fa-lg text-danger" title="Not selected in EBSCO Kb" style="margin-left: -15px;"></i>
                                             <?php endif; ?>
                                             <?php echo $resource->packageName; ?>
                                         </h3>
                                     </div>
                                     <div class="col-4" style="text-align: right">
                                         <button
-                                                class="setPackage add-button"
+                                                class="setPackage btn btn-primary"
                                                 onclick="tb_remove();"
                                                 data-vendor-id="<?php echo $resource->vendorId; ?>"
                                                 data-package-id="<?php echo $resource->packageId; ?>"
-                                                data-package-name="<?php echo $resource->packageName; ?>"
-                                        >
+                                                data-package-name="<?php echo $resource->packageName; ?>">
                                             <?php echo _("View Titles"); ?>
                                         </button>
                                         <button
-                                                class="add-button"
-                                        >
+                                                class="btn btn-primary"
+                                                style="margin-left: 8px;">
                                             <?php echo _("Import Package"); ?>
                                         </button>
                                     </div>
@@ -207,13 +206,17 @@ $title = $ebscoKb->getTitle($titleId);
                 </div>
             </div>
         </div>
-    </div>
 
-    <table class="noBorderTable" style="width:125px;">
-        <tr>
-            <td style="text-align:left"><input type="button" value="<?php echo _("import");?>" name="submitProductChanges" id ="submitProductChanges" class="submit-button"></td>
-            <td style="text-align:right"><input type="button" value="<?php echo _("cancel");?>" onclick="tb_remove();" class="cancel-button"></td>
-        </tr>
-    </table>
+        <div class="row" style="margin-top: 1em;">
+            <div class="col-12">
+                <a
+                    href="ajax_forms.php?action=getEbscoKbTitleImportForm&height=700&width=730&modal=true&titleId=<?php echo $title->titleId; ?>"
+                    class="thickbox btn btn-primary">
+                    <?php echo _('import'); ?>
+                </a>
+                <button onclick="tb_remove();" class="btn btn-primary" style="margin-left: 8px;"><?php echo _("cancel");?></button>
+            </div>
+        </div>
+    </div>
 </div>
 
