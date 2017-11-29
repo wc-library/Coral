@@ -2,8 +2,8 @@
 
 class EbscoKbTitle extends EbscoKbResult {
 
-    public $hasDbResource = null;
-    public $resource = null;
+    public $resource;
+    public $inCoral;
 
     public function getIsPeerReviewed($value)
     {
@@ -42,6 +42,16 @@ class EbscoKbTitle extends EbscoKbResult {
             }
         }
         return $accessibleUrls;
+    }
+
+    public function loadResource($resourceId = null)
+    {
+        if($resourceId){
+            $this->resource = new Resource(new NamedArguments(array('primaryKey' => $resourceId)));
+        } else {
+            $resource = new Resource();
+            $this->resource =  $resource->getResourceByEbscoKbId($this->titleId);
+        }
     }
 
     public function getCoverageTextArray()
@@ -116,23 +126,6 @@ class EbscoKbTitle extends EbscoKbResult {
             return ($a['age'] < $b['age']) ? -1 : 1;
         });
         return $urls;
-    }
-
-    public function generateCoralResource($data = [])
-    {
-        $resource = new Resource();
-        $existingResource = $resource->getResourceByEbscoKbId($this->titleId);
-        // Search for a matching resource
-        if ($existingResource){
-            //get this resource
-            $resource = $existingResource;
-        }else{
-            //set up new resource
-            $resource->createLoginID = $loginID;
-            $resource->createDate = date( 'Y-m-d' );
-            $resource->updateLoginID = '';
-            $resource->updateDate = '';
-        }
     }
 
 }

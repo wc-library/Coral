@@ -2,6 +2,7 @@
     <thead>
         <tr>
             <th><?php echo _("Title"); ?></th>
+            <th><?php echo _("Imported?"); ?></th>
             <th><?php echo _("Resource Type"); ?></th>
             <th><?php echo _("ISNs"); ?></th>
             <th><?php echo _("Import"); ?></th>
@@ -9,6 +10,7 @@
     </thead>
     <tbody>
     <?php foreach($items as $item): ?>
+        <?php $item->loadResource(); ?>
         <tr>
             <td>
                 <a
@@ -16,6 +18,13 @@
                     class="thickbox">
                     <?php echo $item->titleName; ?>
                 </a>
+            </td>
+            <td style="text-align: center;">
+                <?php if($item->resource): ?>
+                    <a href="resource.php?resourceID=<?php echo $item->resource->primaryKey; ?>">
+                        <i class="fa fa-check text-success" title="imported in Coral"></i>
+                    </a>
+                <?php endif; ?>
             </td>
             <td>
                 <?php echo $item->pubType; ?>
