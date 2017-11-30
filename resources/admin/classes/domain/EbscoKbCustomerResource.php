@@ -24,10 +24,21 @@ class EbscoKbCustomerResource extends EbscoKbResult {
 
     public function getEmbargoStatement()
     {
+
+        $embargoValue = $this->getEmbargoValue();
+        return empty($embargoValue) ? 'None' : $embargoValue;
+
+    }
+
+    public function getEmbargoValue()
+    {
         if(empty($this->managedEmbargoPeriod['embargoUnit'])){
-            return '';
+            return null;
         }
 
-        return $this->managedEmbargoPeriod['embargoValue'].' '.$this->managedEmbargoPeriod['embargoUnit'];
+        $value = $this->managedEmbargoPeriod['embargoValue'];
+        $unit = $value == 1 ? substr($this->managedEmbargoPeriod['embargoUnit'],0,-1) : $this->managedEmbargoPeriod['embargoUnit'];
+
+        return _("$value $unit");
     }
 }

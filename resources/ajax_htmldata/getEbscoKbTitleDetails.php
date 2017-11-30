@@ -194,7 +194,7 @@ $title = $ebscoKb->getTitle($titleId);
                                     <dt>Coverage Statement</dt>
                                     <dd><?php echo $resource->coverageStatement; ?></dd>
                                     <dt>Embargo</dt>
-                                    <dd><?php echo empty($resource->embargoStatement) ? 'None' : $resource->embargoStatement; ?></dd>
+                                    <dd><?php echo $resource->embargoStatement; ?></dd>
                                     <dt>Resource Url</dt>
                                     <dd><a href="<?php echo $resource->url; ?>"><?php echo $resource->url; ?></a></dd>
                                 </dl>
