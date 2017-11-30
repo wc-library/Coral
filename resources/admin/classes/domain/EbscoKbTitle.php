@@ -63,7 +63,7 @@ class EbscoKbTitle extends EbscoKbResult {
                 continue;
             }
             $coverage = $resource->coverageStatement;
-            $embargo = $resource->embargoStatement;
+            $embargo = $resource->embargoValue;
             if(!empty($coverage) || !empty($embargo)){
                 $statement = $resource->packageName.': ';
                 if(!empty($coverage)){
