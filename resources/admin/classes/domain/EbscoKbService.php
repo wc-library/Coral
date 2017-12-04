@@ -29,12 +29,6 @@ class EbscoKbService {
     ];
 
     static $queryTypes = [
-        'holdings' =>[
-            'selectDisplay' => 'Holdings',
-            'class' => 'EbscoKbHoldings',
-            'listKey' => 'holdingsList',
-            'params' => ['format'],
-        ],
         'packages' => [
             'selectDisplay' => 'Packages',
             'class' => 'EbscoKbPackage',
