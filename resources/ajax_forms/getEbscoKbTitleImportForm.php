@@ -20,135 +20,119 @@ $resourceFormatArray = array();
 $resourceFormatObj = new ResourceFormat();
 $resourceFormatArray = $resourceFormatObj->sortedArray();
 
-// organizations
-$resource = new Resource();
-$orgArray = $resource->getOrganizationArray();
-if (count($orgArray)>0){
-    foreach ($orgArray as $org){
-        $providerText = $org['organization'];
-        $orgId = $org['organizationID'];
-    }
-}else{
-    $providerText = $resource->providerText;
-    $orgId = '';
-}
 ?>
-<div id="div_ebscoKbTitleImportForm">
-    <h1><?php echo $title->titleName; ?></h1>
-    <form id="ebscoKbTitleImportForm">
-        <input type="hidden" id="organizationId" name="organizationId" value="<?php echo $orgId; ?>" />
-        <input type="hidden" id="importType" name="importType" value="title" />
-        <input type="hidden" id="titleId" name="titleId" value="<?php echo $title->titleId; ?>"/>
-		<div class="formTitle" style="width:745px;">
-            <span class="headerText"><?php  echo _('Import from EBSCO Kb'); ?></span>
+<?php include_once __DIR__.'/../css/ebscoKbCss.php'; ?>
+<div id="div_ebscoKbTitleImportForm" class="ebsco-layout">
+    <div class="formTitle" style="width:745px;">
+        <span class="headerText"><?php echo _('Import').' '.$title->titleName.' '._(' from EBSCO Kb'); ?></span>
+    </div>
+    <div class="container">
+        <div class="col-12">
+            <div class="smallDarkRedText">&nbsp;* <?php echo _("required fields");?></div>
         </div>
-        <div class="smallDarkRedText" style="height:14px;margin:3px 0px 0px 0px;">&nbsp;* <?php echo _("required fields");?></div>
+        <div class="col-12 text-danger" id="importError">
+            <p><i class="fa fa-exclamation-triangle fa-lg"></i> <?php echo _('There was a problem importing this resource'); ?></p>
+            <div id="importErrorText"></div>
+        </div>
+        <form id="ebscoKbTitleImportForm">
+            <input type="hidden" id="organizationId" name="organizationId" value="" />
+            <input type="hidden" id="importType" name="importType" value="title" />
+            <input type="hidden" id="titleId" name="titleId" value="<?php echo $title->titleId; ?>"/>
+            <div class="row">
+                <div class="col-6">
 
-		<table class="noBorder">
-		    <tr style="vertical-align:top;">
-		        <td style="vertical-align:top; padding-right:35px;">
-			        <span class="surroundBoxTitle">&nbsp;&nbsp;<b><?php echo _("Provider");?></b>&nbsp;&nbsp;</span>
-                    <table class="surroundBox" style="width:350px;">
-                        <tr>
-                            <td>
-				                <table class="noBorder" style="width:310px; margin:5px 15px;">
-                                    <tr>
-                                        <td>
-                                            <?php if(empty($orgId)): ?>
-                                                <label for="providerText"><?php echo _('Provider'); ?></label>
-                                                <input type="text" id="providerText" style="width:220px;" class="changeInput" value="" />
-                                                <span id="span_error_providerText" class="smallDarkRedText"></span>
-                                            <?php else: ?>
-                                            <?php endif; ?>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </td>
-                        </tr>
-                    </table>
+                    <!-- Provider -->
+                    <div class="card mr-1 mt-1">
+                        <div class="card-header">
+                            <strong><?php echo _("Provider");?></strong>
+                        </div>
+                        <div class="card-body">
+                            <label for="providerText"><?php echo _('Provider'); ?></label>
+                            <input type="text" id="providerText" style="width:220px;" class="changeInput" value="" />
+                            <span id="span_error_providerText" class="smallDarkRedText"></span>
+                        </div>
+                    </div>
 
-			        <span class="surroundBoxTitle">&nbsp;&nbsp;<label for="resourceFormatID"><b><?php echo _("Format");?></b></label>&nbsp;<span class="bigDarkRedText">*</span>&nbsp;&nbsp;</span>
-                    <table class="surroundBox" style="width:350px;">
-                        <tr>
-                            <td style="padding: 10px;">
-                                <span id="span_error_resourceFormatId" class="smallDarkRedText"></span>
-                                <br />
+
+                    <!-- Format -->
+                    <div class="card mr-1 mt-1">
+                        <div class="card-header">
+                            <strong><?php echo _("Format");?><span class="bigDarkRedText">*</span></strong>
+                        </div>
+                        <div class="card-body">
+                            <p id="span_error_resourceFormatId" class="smallDarkRedText"></p>
+                            <div class="row">
                                 <?php foreach ($resourceFormatArray as $resourceFormat): ?>
-                                    <label for="resourceFormat<?php echo $resourceFormat["resourceFormatID"]; ?>" style="margin-right: 10px;">
-                                        <input
-                                            type="radio"
-                                            name="resourceFormatId"
-                                            id="resourceFormat<?php echo $resourceFormat["resourceFormatID"]; ?>"
-                                            value="<?php echo $resourceFormat["resourceFormatID"]; ?>"
-                                            <?php if (strtoupper($resourceFormat["shortName"]) == "ELECTRONIC"){ echo 'checked'; }?>/>
-                                        <?php echo $resourceFormat['shortName']; ?>
-                                    </label>
+                                    <div class="col-6 pb-1">
+                                        <label for="resourceFormat<?php echo $resourceFormat["resourceFormatID"]; ?>">
+                                            <input
+                                                    type="radio"
+                                                    name="resourceFormatId"
+                                                    id="resourceFormat<?php echo $resourceFormat["resourceFormatID"]; ?>"
+                                                    value="<?php echo $resourceFormat["resourceFormatID"]; ?>"
+                                                <?php if (strtoupper($resourceFormat["shortName"]) == "ELECTRONIC"){ echo 'checked'; }?>/>
+                                            <?php echo $resourceFormat['shortName']; ?>
+                                        </label>
+                                    </div>
                                 <?php endforeach; ?>
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-		        <td>
-                    <span class="surroundBoxTitle">&nbsp;&nbsp;<b><?php echo _("Acquisition Type");?></b>&nbsp;<span class="bigDarkRedText">*</span>&nbsp;&nbsp;</span>
-                    <table class="surroundBox" style="width:350px;">
-                        <tr>
-                            <td style="padding: 10px;">
-                                <span id="span_error_acquisitionTypeId" class="smallDarkRedText"></span>
-                                <br />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6">
+
+                    <!-- Acquisition Type -->
+                    <div class="card ml-1 mt-1">
+                        <div class="card-header">
+                            <strong><?php echo _("Acquisition Type");?><span class="bigDarkRedText">*</span></strong>
+                        </div>
+                        <div class="card-body">
+                            <p id="span_error_acquisitionTypeId" class="smallDarkRedText"></p>
+                            <div class="row">
                                 <?php foreach ($acquisitionTypeArray as $acquisitionType): ?>
-                                    <label for="acquisitionType<?php echo $acquisitionType["acquisitionTypeID"]; ?>" style="margin-right: 10px;">
-                                        <input type="radio"
-                                               name="acquisitionTypeId"
-                                               id="acquisitionType<?php echo $acquisitionType["acquisitionTypeID"]; ?>"
-                                               value="<?php echo $acquisitionType["acquisitionTypeID"]; ?>"
-                                            <?php if (strtoupper($acquisitionType["shortName"]) == "PAID"){ echo 'checked'; }?>/>
-                                        <?php echo $acquisitionType["shortName"]; ?>
-                                    </label>
+                                    <div class="col-6 pb-1">
+                                        <label for="acquisitionType<?php echo $acquisitionType["acquisitionTypeID"]; ?>">
+                                            <input type="radio"
+                                                   name="acquisitionTypeId"
+                                                   id="acquisitionType<?php echo $acquisitionType["acquisitionTypeID"]; ?>"
+                                                   value="<?php echo $acquisitionType["acquisitionTypeID"]; ?>"
+                                                <?php if (strtoupper($acquisitionType["shortName"]) == "PAID"){ echo 'checked'; }?>/>
+                                            <?php echo $acquisitionType["shortName"]; ?>
+                                        </label>
+                                    </div>
                                 <?php endforeach; ?>
-                            </td>
-                        </tr>
-                    </table>
+                            </div>
+                        </div>
+                    </div>
 
-			        <span class="surroundBoxTitle">&nbsp;&nbsp;<label for="resourceFormatID"><b><?php echo _("Notes");?></b></label>&nbsp;&nbsp;</span>
-                    <table class="surroundBox" style="width:350px;">
-                        <tr>
-                            <td>
-                                <table class="noBorder smallPadding" style="width:320px; margin:7px 15px;">
-                                    <tr>
-                                        <td style="vertical-align:top;text-align:left;">
-                                            <span class="smallGreyText"><?php echo _("Include any additional information");?></span>
-                                            <br />
-                                            <textarea rows="5" id="noteText" name="noteText" style="width:310px"></textarea>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </td>
-                        </tr>
-                    </table>
-		        </td>
-		    </tr>
-		</table>
-    </form>
+                    <!-- Notes -->
+                    <div class="card ml-1 mt-1">
+                        <div class="card-header">
+                            <strong><?php echo _("Notes");?></strong>
+                        </div>
+                        <div class="card-body">
+                            <p class="smallGreyText"><?php echo _("Include any additional information");?></p>
+                            <textarea rows="5" id="noteText" name="noteText" style="width: 100%;"></textarea>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+
+        <div class="row mt-1">
+            <div class="col-12">
+                <button class="btn btn-primary" onclick="processEbscoKbImport('save','#ebscoKbTitleImportForm')">
+                    <?php echo _("save");?>
+                </button>
+                <button class="btn btn-primary ml-1" onclick="processEbscoKbImport('progress','#ebscoKbTitleImportForm')">
+                    <?php echo _("submit");?>
+                </button>
+                <button class="btn btn-primary ml-1" onclick="tb_remove()"><?php echo _("cancel");?></button>
+            </div>
+        </div>
+    </div>
 </div>
-
-<hr style="width:745px;margin:15px 0px 10px 0px;" />
-
-<table class="noBorderTable" style="width:175px;">
-    <tr>
-        <td style="text-align:left">
-            <button class="btn btn-primary" onclick="processEbscoKbImport('save','#ebscoKbTitleImportForm')">
-                <?php echo _("save");?>
-            </button>
-        </td>
-        <td style="text-align:left">
-            <button class="btn btn-primary" style="margin-left: 8px;" onclick="processEbscoKbImport('progress','#ebscoKbTitleImportForm')">
-                <?php echo _("submit");?>
-            </button>
-        </td>
-        <td style="text-align:left">
-            <button class="btn btn-primary" style="margin-left: 8px;" onclick="tb_remove()"><?php echo _("cancel");?></button>
-        </td>
-    </tr>
-</table>
 <script type="text/javascript" src="js/forms/importEbscoKbForm.js?random=<?php echo rand(); ?>"></script>
 

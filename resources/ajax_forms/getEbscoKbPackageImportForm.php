@@ -69,7 +69,7 @@ if ($orgModule) {
 <?php include_once __DIR__.'/../css/ebscoKbCss.php'; ?>
 <div id="div_ebscoKbPackageImportForm" class="ebsco-layout">
     <div class="formTitle" style="width:745px;">
-        <span class="headerText"><?php  echo _('Import').' '.$package->packageName.' '._(' from EBSCO Kb'); ?></span>
+        <span class="headerText"><?php echo _('Import').' '.$package->packageName.' '._(' from EBSCO Kb'); ?></span>
     </div>
     <div class="container">
         <div class="row">

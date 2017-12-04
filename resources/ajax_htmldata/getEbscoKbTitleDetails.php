@@ -57,7 +57,7 @@ $title = $ebscoKb->getTitle($titleId);
                                 </ul>
                             </dd>
 
-                            <dt>ISNs</dt>
+                            <dt>ISXNs</dt>
                             <dd>
                                 <ul style="list-style: none; ">
                                     <?php
