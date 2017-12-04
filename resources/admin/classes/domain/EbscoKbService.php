@@ -181,12 +181,12 @@ class EbscoKbService {
     }
 
     public static function resetSearch() {
-        EbscoKbSearch::setSearch(array());
+        EbscoKbService::setSearch(array());
     }
 
     public static function getSearch() {
         if (!CoralSession::get('ebscoKbSearch')) {
-            EbscoKbSearch::resetSearch();
+            EbscoKbService::resetSearch();
         }
         return CoralSession::get('ebscoKbSearch');
     }

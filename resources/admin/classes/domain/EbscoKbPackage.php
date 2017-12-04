@@ -14,4 +14,14 @@ class EbscoKbPackage extends EbscoKbResult {
         $ebscoKb->execute();
         return $ebscoKb->results();
     }
+
+    public function loadResource($resourceId = null)
+    {
+        if($resourceId){
+            $this->resource = new Resource(new NamedArguments(array('primaryKey' => $resourceId)));
+        } else {
+            $resource = new Resource();
+            $this->resource =  $resource->getResourceByEbscoKbId($this->packageId);
+        }
+    }
 }

@@ -1,5 +1,28 @@
 <?php
 
+/* ------ Class Imports --------- */
+/*
+ * TODO: Use namespaces
+ * This importer need the Organization classes to create new Orgs from EBSCO Kb.
+ * But the current classes aren't namespaced and trying to include the classes manually creats conflicts with __autoload()
+ * function in directory.php
+ *
+ * Right now it's using sql inserts instead of the class methods.
+ *
+ * When the classes are namespaced, the following code can be cleaned up:
+ * Either call the namespaced classes directly:
+ *
+ *      $organization = new \Organization\Admin\Classes\Domain\Organization
+ *
+ * OR utilize php's "use" function and then call the class directly, new Organization.
+ *
+ *      use \Organization\Admin\Classes\Domain\Organization
+ *      $organization = new Organization;
+ *
+ * Then use the class methods to deal with organizations
+ */
+
+
 /* ------ Filter inputs --------- */
 $titleId = filter_input(INPUT_POST,'titleId', FILTER_SANITIZE_NUMBER_INT);
 $packageId = filter_input(INPUT_POST,'packageId', FILTER_SANITIZE_NUMBER_INT);
@@ -8,7 +31,7 @@ $importType = filter_input(INPUT_POST,'importType', FILTER_SANITIZE_STRING);
 $resourceStatus = filter_input(INPUT_POST,'status', FILTER_SANITIZE_STRING);
 $organizationId = filter_input(INPUT_POST,'organizationId', FILTER_SANITIZE_NUMBER_INT);
 $providerOption = filter_input(INPUT_POST,'providerOption', FILTER_SANITIZE_STRING);
-$parentOrChild = filter_input(INPUT_POST,'parentOrChild', FILTER_SANITIZE_STRING);
+$parentOrChild = filter_input(INPUT_POST,'providerParentOrChild', FILTER_SANITIZE_STRING);
 $resourceFormatId = filter_input(INPUT_POST,'resourceFormatId', FILTER_SANITIZE_NUMBER_INT);
 $acquisitionTypeId = filter_input(INPUT_POST,'acquisitionTypeId', FILTER_SANITIZE_NUMBER_INT);
 $resourceTypeId = filter_input(INPUT_POST,'resourceTypeId', FILTER_SANITIZE_NUMBER_INT);
@@ -18,9 +41,10 @@ $titleFilter = filter_input(INPUT_POST,'titleFilter', FILTER_SANITIZE_STRING);
 $aliasTypeId = filter_input(INPUT_POST,'aliasTypeId', FILTER_SANITIZE_NUMBER_INT);
 $workflowOption = filter_input(INPUT_POST, 'workflowOption', FILTER_SANITIZE_STRING);
 
-// Is the org module in use
+// Is the org module used
 $config = new Configuration;
-$orgModule = $config->settings->organizationsModule == 'Y' ? true : false;
+$orgModule = $config->settings->organizationsModule == 'Y';
+
 
 //determine status id for all the imports
 $status = new Status();
@@ -41,9 +65,8 @@ $ebscoKb = EbscoKbService::getInstance();
 
 /* ------ Check user input errors --------- */
 $errors = [];
-function create_error($target, $text){
-    return ['target' => $target, 'text' => $text];
-    //return ['target' => $target, 'text' => _($text)];
+function create_error($target, $text, $context = ''){
+    return ['target' => $target, 'text' => _($text), 'context' => $context];
 }
 function send_errors($errors){
     header('Content-type: application/json');
@@ -74,11 +97,11 @@ if($importType == 'package'){
     try {
         $package = $ebscoKb->getPackage($vendorId, $packageId);
     } catch (Exception $e) {
-        $errors[] = create_error('general', $e->getMessage());
+        $errors[] = create_error('general', 'Could not get package from ebsco', $e->getMessage());
     }
 
     // Is the providerOption set
-    if(empty($providerOption)){
+    if(empty($organizationId) && empty($providerOption)){
         $errors[] = create_error('providerOption', 'Please select a provider import option');
     }
     // Is the organization ID set if adding an alias or parent/child relationship
@@ -112,7 +135,7 @@ if($importType == 'title'){
     try {
         $title = $ebscoKb->getTitle($titleId);
     } catch (Exception $e) {
-        $errors[] = create_error('general', $e->getMessage());
+        $errors[] = create_error('general', 'Could not get title from EBSCO Kb', $e->getMessage());
     }
 }
 
@@ -124,55 +147,21 @@ if(!empty($errors)){
 /* ------ Setup organization --------- */
 switch($providerOption){
     case 'alias':
-        //if the org module is installed get the org model from org namespace
-        require_once __DIR__.'/../../organizations/admin/classes/domain/Alias.php';
-        $organization = new \Organizations\Domain\Alias();
-        $alias = new Alias();
-        $alias->aliasTypeID = $aliasTypeId;
-        $alias->organizationID = $organizationId;
-        $alias->name = $package->vendorName;
-        try {
-            $alias->save();
-        } catch (Exception $e) {
-            send_errors(create_error('general', $e->getMessage()));
-        }
+        addOrganizationAlias($organizationId, $aliasTypeId, $package->vendorId, $package->vendorName);
         break;
-    case 'parentOrChild':
-        require_once __DIR__.'/../../organizations/admin/classes/domain/OrganizationHierarchy.php';
-        if($parentOrChild == 'child'){
-            // create the child record to attached it to the provided organization ID
-            $organization = createOrUpdateOrganization($package->vendorName, $package->vendorId);
-            $organization->removeParentOrganizations();
-            $organizationHierarchy = new \Organizations\Domain\OrganizationHierarchy;
-            $organizationHierarchy->organizationID = $organization->primaryKey;
-            $organizationHierarchy->parentOrganizationID = $organizationId;
-            try {
-                $organizationHierarchy->save();
-            } catch (Exception $e) {
-                send_errors(create_error('general', $e->getMessage()));
-            }
-            // set the organizationId for import purposes as the created/updated organization
-            $organizationId = $organization->primaryKey;
-        }
-        if($parentOrChild == 'parent'){
-            // create the parent record to attached it to the provided organization ID
-            $organization = createOrUpdateOrganization($package->vendorName, $package->vendorId);
-            $organizationHierarchy = new \Organizations\Domain\OrganizationHierarchy;
-            $organizationHierarchy->organizationID = $organizationId;
-            $organizationHierarchy->parentOrganizationID = $organization->primaryKey;
-            try {
-                $organizationHierarchy->save();
-            } catch (Exception $e) {
-                send_errors(create_error('general', $e->getMessage()));
-            }
-            // set the organizationId for import purposes as the created/updated organization
-            $organizationId = $organization->primaryKey;
-        }
+    case 'parentChild':
+        // create a record to attached it to the provided organization ID
+        $providedOrganizationId = $organizationId;
+        $ebscoOrganizationId = createOrUpdateOrganization($package->vendorId, $package->vendorName);
+        // Set which is parent/child
+        $parentOrganizationId = $parentOrChild == 'parent' ? $ebscoOrganizationId : $providedOrganizationId;
+        $childOrganizationId = $parentOrChild == 'parent' ? $providedOrganizationId : $ebscoOrganizationId;
+        addOrganizationRelationship($parentOrganizationId, $childOrganizationId);
+        // Set the import id to the ebsco kb vendor
+        $organizationId = $ebscoOrganizationId;
         break;
     case 'import':
-        $organization = createOrUpdateOrganization($package->vendorName, $package->vendorId);
-        // set the organizationId for import purposes as the created/updated organization
-        $organizationId = $organization->primaryKey;
+        $organizationId = createOrUpdateOrganization($package->vendorId, $package->vendorName);
         break;
     default:
         break;
@@ -217,12 +206,13 @@ if($importType == 'package' && isset($package)) {
         ]);
         $ebscoKb->execute();
         $packageTitles = $ebscoKb->results();
-        send_errors([create_error('general',$packageTitles)]);
         foreach($packageTitles as $title){
             $title = $ebscoKb->getTitle($title->titleId);
             importTitle($title, $resource->primaryKey);
         }
     }
+    echo $resource->primaryKey;
+    exit;
 }
 
 
@@ -259,7 +249,6 @@ function importPackage($package){
         $resource->updateLoginID = '';
         $resource->updateDate = '';
     }
-
     if($resourceTypeId == '-1'){
         $resource->resourceTypeID = getResourceTypeId($package->contentType);
     } else {
@@ -281,13 +270,15 @@ function importPackage($package){
     try {
         $resource->save();
     } catch (Exception $e) {
-        send_errors(create_error('general', $e->getMessage()));
+        send_errors([create_error('general', 'Could not import package', $e->getMessage())]);
     }
 
     addProvider($resource);
     addNotes($resource);
 
-    $resource->enterNewWorkflow();
+    if(empty($resource->getCurrentWorkflowID())){
+        $resource->enterNewWorkflow();
+    }
     return $resource;
 
 }
@@ -338,7 +329,7 @@ function importTitle($title, $parentId = null){
     try {
         $resource->save();
     } catch (Exception $e) {
-        send_errors(create_error('general', $e->getMessage()));
+        send_errors([create_error('general', 'Could not import title', $e->getMessage())]);
     }
     $resource->setIsbnOrIssn($title->isxns);
 
@@ -346,18 +337,23 @@ function importTitle($title, $parentId = null){
     addNotes($resource);
 
     if(!empty($parentId)){
-        $resourceRelationship = new ResourceRelationship();
-        $resourceRelationship->resourceID = $resource->primaryKey;
-        $resourceRelationship->relatedResourceID = $parentId;
-        $resourceRelationship->relationshipTypeID = '1';  //hardcoded because we're only allowing parent relationships
-        try {
-            $resourceRelationship->save();
-        } catch (Exception $e) {
-            send_errors(create_error('general', $e->getMessage()));
+        $parents = $resource->getParentResources();
+        $parentIds = array_map(function($parent){
+            return $parent->relatedResourceID;
+        }, $parents);
+        if(!in_array($parentId, $parentIds)){
+            $resourceRelationship = new ResourceRelationship();
+            $resourceRelationship->resourceID = $resource->primaryKey;
+            $resourceRelationship->relatedResourceID = $parentId;
+            $resourceRelationship->relationshipTypeID = '1';  //hardcoded because we're only allowing parent relationships
+            try {
+                $resourceRelationship->save();
+            } catch (Exception $e) {
+                send_errors([create_error('general', 'Could not import resource relationship', $e->getMessage())]);
+            }
         }
     }
-
-    if ($newWorkflow){
+    if ($newWorkflow && empty($resource->getCurrentWorkflowID())){
         $resource->enterNewWorkflow();
     }
     return $resource;
@@ -385,7 +381,7 @@ function addProvider(Resource $resource){
             try {
                 $resourceOrganizationLink->save();
             } catch (Exception $e) {
-                send_errors(create_error('general', $e->getMessage()));
+                send_errors([create_error('general', 'Could not add resource provider', $e->getMessage())]);
             }
         }
     }
@@ -420,7 +416,7 @@ function addNotes(Resource $resource){
             try {
                 $resourceNote->save();
             } catch (Exception $e) {
-                send_errors(create_error('general', $e->getMessage()));
+                send_errors([create_error('general', 'Could not add resource note', $e->getMessage())]);
             }
         }
 
@@ -477,7 +473,7 @@ function getResourceTypeId($typeName){
         try {
             $resourceType->save();
         } catch (Exception $e) {
-            send_errors(create_error('general', $e->getMessage()));
+            send_errors([create_error('general', 'Could not save new resource type', $e->getMessage())]);
         }
         $resourceTypeId = $resourceType->primaryKey;
     }
@@ -486,41 +482,141 @@ function getResourceTypeId($typeName){
     return $resourceTypeId;
 }
 
-function createOrUpdateOrganization($organizationName, $ebscoKbId){
-    global $loginID, $orgModule;
-    //if the org module is installed get the org model from org namespace
-    if ($orgModule) {
-        require_once __DIR__.'/../../organizations/admin/classes/domain/Organization.php';
-        $organization = new \Organizations\Domain\Organization;
+
+// TODO: Update to use Organization domain classes instead of sql calls, see note above
+function createOrUpdateOrganization($ebscoKbId, $organizationName){
+    global $loginID, $config, $orgModule;
+
+
+    if($orgModule){
+        $orgDbName = $config->settings->organizationsDatabaseName;
+        $dbService = new DBService;
+
+        // search for existing matches
+        $selectSql = "SELECT organizationID
+			FROM $orgDbName.Organization
+			WHERE ebscoKbID = $ebscoKbId
+			OR `name` = '$organizationName'
+			LIMIT 0,1";
+        try {
+            $result = $dbService->query($selectSql);
+        } catch (Exception $e) {
+            send_errors([create_error('general', 'DB Error when searching for Organization matches via EBSCO Kb ID', $e->getMessage())]);
+        }
+        $result = $result->fetch_assoc();
+
+
+        if(empty($result)){
+            $now = date( 'Y-m-d H:i:s' );
+            $insert = "INSERT INTO $orgDbName.Organization
+              (createDate, createLoginID, updateDate, updateLoginID, `name`, ebscoKbID)
+              VALUES('$now','$loginID','','','$organizationName',$ebscoKbId)";
+            try {
+                $dbService->query($insert);
+            } catch (Exception $e) {
+                send_errors([create_error('general', 'Could not create new organization', $e->getMessage())]);
+            }
+            return $dbService->db->insert_id;
+        } else {
+            return $result['organizationID'];
+        }
     } else {
         $organization = new Organization;
-    }
-    $existingOrg = $organization->getOrganizationByEbscoKbId($ebscoKbId);
+        $existingOrg = $organization->getOrganizationByEbscoKbId($ebscoKbId);
 
-    // Search for a matching resource
-    if ($existingOrg){
-        //get this resource
-        $organization = $existingOrg;
-    } else {
-        $existingOrg = $organization->getOrganizationIDByName($organizationName);
-        if($existingOrg){
-            $organization = new Organization(new NamedArguments(array('primaryKey' => $existingOrg)));
+        // Search for a matching resource
+        if ($existingOrg){
+            //get this resource
+            $organization = $existingOrg;
         } else {
-            //set up new resource
-            $organization->createLoginID 		= $loginID;
-            $organization->createDate			= date( 'Y-m-d H:i:s' );
-            $organization->updateLoginID 		= '';
-            $organization->updateDate			= '';
+            $existingOrg = $organization->getOrganizationIDByName($organizationName);
+            if($existingOrg){
+                $organization = new Organization(new NamedArguments(array('primaryKey' => $existingOrg)));
+            } else {
+                //set up new resource
+                $organization->createLoginID 		= $loginID;
+                $organization->createDate			= date( 'Y-m-d H:i:s' );
+                $organization->updateLoginID 		= '';
+                $organization->updateDate			= '';
+            }
         }
-    }
-    $organization->ebscoKbID = $ebscoKbId;
-    $organization->name = $organizationName;
-    try {
-        $organization->save();
-    } catch (Exception $e) {
-        send_errors(create_error('general', $e->getMessage()));
+        $organization->ebscoKbID = $ebscoKbId;
+        $organization->name = $organizationName;
+        try {
+            $organization->save();
+        } catch (Exception $e) {
+            send_errors([create_error('general', 'Could not create or update organization', $e->getMessage())]);
+        }
+        return $organization->primaryKey;
     }
 
-    return $organization;
 }
+
+// TODO: Update to use Organization domain classes instead of sql calls, see note above
+function addOrganizationAlias($organizationId, $aliasTypeId, $ebscoKbId, $alias){
+    global $config;
+    $orgDbName = $config->settings->organizationsDatabaseName;
+    $dbService = new DBService;
+
+    // Check for matching aliases first
+    $selectSql = "SELECT * 
+      FROM $orgDbName.Alias 
+      WHERE organizationID = $organizationId 
+      AND aliasTypeID = $aliasTypeId
+      AND `name` = '$alias'";
+    try {
+        $result = $dbService->query($selectSql);
+    } catch (Exception $e) {
+        send_errors([create_error('general', 'DB Error when searching for Organization alias matches', $e->getMessage())]);
+    }
+
+    $result = $result->fetch_assoc();
+    if(!empty($matches)){
+        return;
+    }
+
+    // Insert the alias
+    $insert = "INSERT INTO $orgDbName.Alias
+      (organizationID, aliasTypeID, `name`)
+      VALUES ($organizationId, $aliasTypeId, '$alias')";
+    try {
+        $dbService->query($insert);
+    } catch (Exception $e) {
+        send_errors([create_error('general', 'Could not save organization alias', $e->getMessage())]);
+    }
+
+    // update with the ebscoKbId
+    $update = "UPDATE $orgDbName.Organization SET ebscoKbID = $ebscoKbId WHERE organizationID = $organizationId";
+    try {
+        $dbService->query($update);
+    } catch (Exception $e) {
+        send_errors([create_error('general', 'Could not update the organization with the EBSCO Kb ID', $e->getMessage())]);
+    }
+}
+
+// TODO: Update to use Organization domain classes instead of sql calls, see note above
+function addOrganizationRelationship($parentOrganizationId, $childOrganizationId){
+    global $config;
+    $orgDbName = $config->settings->organizationsDatabaseName;
+    $dbService = new DBService;
+
+    // Delete any existing parents from the child
+    $deleteParentSql = "DELETE FROM $orgDbName.OrganizationHierarchy WHERE organizationID = $childOrganizationId";
+    try {
+        $dbService->query($deleteParentSql);
+    } catch (Exception $e) {
+        send_errors([create_error('general', 'Could not delete existing parents', $e->getMessage())]);
+    }
+
+    // Insert the new relationship
+    $insert = $insert = "INSERT INTO $orgDbName.OrganizationHierarchy
+          (organizationID, parentOrganizationID)
+          VALUES ($childOrganizationId, $parentOrganizationId)";
+    try {
+        $dbService->query($insert);
+    } catch (Exception $e) {
+        send_errors([create_error('general', 'Could not set new organization relationship', $e->getMessage())]);
+    }
+}
+
 

@@ -48,23 +48,21 @@ $resourceTypeArray = $resourceTypeObj->allAsArray();
 $config = new Configuration;
 $orgModule = $config->settings->organizationsModule == 'Y' ? true : false;
 if ($orgModule) {
-    // need to run initialization inside a function so as not to override the __autoload of resource domain classes
-    $init = init_org_options();
-    $organization = $init[0];
-    $aliasTypeArray = $init[1];
+    // TODO: Once namespaces are implemented, these sql calls can be removed. Call the Orgzanization versions of these classes via their namespaces instead.
+    $dbService = new DBService;
+    $orgQuery = "SELECT organizationID, `name`
+			FROM coral_organizations.Organization
+			WHERE ebscoKbID = $package->vendorId
+			LIMIT 0,1";
+    $result = $dbService->processQuery($orgQuery, 'assoc');
+    $organization = isset($result['organizationID']) ? (object)['primaryKey' => $result['organizationID'], 'name' => $result['name']] : false;
+
+    $aliasTypeQuery = "SELECT aliasTypeID, shortName
+			FROM coral_organizations.AliasType";
+    $aliasTypeArray = $dbService->processQuery($aliasTypeQuery, 'assoc');
 } else {
     $organization = new Organization;
-}
-$organization = $organization->getOrganizationByEbscoKbId($package->vendorId);
-
-// FIXME: Once namespaces are implemented, these
-function init_org_options(){
-    //require __DIR__.'/../../organizations/admin/classes/domain/';
-    $organization = new Organization;
-    // get all alias types
-    $aliasTypeObj = new AliasType;
-    $aliasTypeArray = $aliasTypeObj->allAsArray();
-    return [$organization, $aliasTypeArray];
+    $organization = $organization->getOrganizationByEbscoKbId($package->vendorId);
 }
 
 ?>
@@ -286,7 +284,7 @@ function init_org_options(){
                                 <?php if(!in_array(strtoupper($package->contentType), array_map(function($type){ return strtoupper($type['shortName']); }, $resourceTypeArray))): ?>
                                 <div class="col-6 pb-1">
                                     <label for="resourceTypeNew">
-                                        <input type="radio" name="resourceTypeID" id="resourceTypeNew" value="-1" checked>
+                                        <input type="radio" name="resourceTypeId" id="resourceTypeNew" value="-1" checked>
                                         <?php echo $package->contentType; ?>
                                     </label>
                                 </div>

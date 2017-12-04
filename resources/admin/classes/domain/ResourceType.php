@@ -40,7 +40,7 @@ class ResourceType extends DatabaseObject {
 
 		$result = $this->db->processQuery($query, 'assoc');
 
-		return $result['resourceTypeID'];
+		return isset($result['resourceTypeID']) ? $result['resourceTypeID'] : false;
 
 	}
 

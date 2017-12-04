@@ -122,11 +122,11 @@ $title = $ebscoKb->getTitle($titleId);
                                                 data-package-name="<?php echo $resource->packageName; ?>">
                                             <?php echo _("View Titles"); ?>
                                         </button>
-                                        <button
-                                                class="btn btn-primary"
-                                                style="margin-left: 8px;">
-                                            <?php echo _("Import Package"); ?>
-                                        </button>
+                                        <a
+                                            href="ajax_forms.php?action=getEbscoKbPackageImportForm&height=700&width=730&modal=true&vendorId=<?php echo $resource->vendorId; ?>&packageId=<?php echo $resource->packageId; ?>"
+                                            class="thickbox btn btn-primary">
+                                            <?php echo _('import package'); ?>
+                                        </a>
                                     </div>
                                 </div>
                             </div>

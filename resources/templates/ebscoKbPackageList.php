@@ -2,7 +2,7 @@
     <thead>
         <tr>
             <th><?php echo _("Name"); ?></th>
-            <th><?php echo _("Vendor"); ?></th>
+            <th><?php echo _("Imported?"); ?></th>
             <th><?php echo _("Title Count"); ?></th>
             <th><?php echo _("Content Type"); ?></th>
             <th></th>
@@ -11,12 +11,19 @@
     </thead>
     <tbody>
     <?php foreach($items as $item): ?>
+        <?php $item->loadResource(); ?>
         <tr>
             <td>
                 <?php echo $item->packageName; ?>
+                <br>
+                <small>(<?php echo $item->vendorName; ?>)</small>
             </td>
-            <td>
-                <?php echo $item->vendorName; ?>
+            <td style="text-align: center;">
+                <?php if($item->resource): ?>
+                    <a href="resource.php?resourceID=<?php echo $item->resource->primaryKey; ?>">
+                        <i class="fa fa-check text-success" title="imported in Coral"></i>
+                    </a>
+                <?php endif; ?>
             </td>
             <td>
                 <?php echo $item->titleCount; ?>

@@ -60,7 +60,7 @@ class Resource extends DatabaseObject {
         $result = $this->db->processQuery($query, 'assoc');
 
         if (isset($result['resourceID'])) {
-        	return new Resource(new NamedArguments(array('primaryKey' => $result['resourceID'])));
+        	return new Resource(new NamedArguments(['primaryKey' => $result['resourceID']]));
 		} else {
         	return false;
 		}
@@ -158,10 +158,15 @@ class Resource extends DatabaseObject {
 			$object = new ResourceRelationship(new NamedArguments(array('primaryKey' => $result['resourceRelationshipID'])));
 			array_push($objects, $object);
 		}else{
-			$db = new DBService;
-			foreach ($result as $row) {
-				$object = new ResourceRelationship(new NamedArguments(array('primaryKey' => $row['resourceRelationshipID'],'db'=>$db)));
-				array_push($objects, $object);
+			if(isset($result['resourceRelationshipID'])){
+                $object = new ResourceRelationship(new NamedArguments(array('primaryKey' => $result['resourceRelationshipID'])));
+                array_push($objects, $object);
+			} else {
+				$db = new DBService;
+				foreach ($result as $row) {
+					$object = new ResourceRelationship(new NamedArguments(array('primaryKey' => $row['resourceRelationshipID'],'db'=>$db)));
+					array_push($objects, $object);
+				}
 			}
 		}
 
