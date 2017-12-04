@@ -22,6 +22,31 @@ $(document).ready(function(){
 		processEbscoKbImport('save', $(this));
 	});
 
+  $('#ebscoKbPackageImportForm').submit(function(e){
+    e.preventDefault();
+    processEbscoKbImport('progress', $(this));
+  });
+
+  $('.change-provider-option').change(function(e){
+    var val = $('input[name="providerOption"]:checked').val();
+    $('[id^="providerOption-help"]').hide();
+    $('#providerOption-help-' + val).show();
+    if(val === 'import' && $(this)){
+      $('#selectProvider').hide();
+    } else {
+      $('#selectProvider').show();
+    }
+  }).trigger('change');
+
+  $('input[name="titleFilter"]').change(function(e){
+    var val = $(this).val();
+    if(val === 'none'){
+      $('#workflowOptionCard').hide();
+    } else {
+      $('#workflowOptionCard').show();
+    }
+  }).trigger('change');
+
   $("#providerText").autocomplete('ajax_processing.php?action=getOrganizationList', {
     minChars: 2,
     max: 20,
@@ -40,7 +65,7 @@ $(document).ready(function(){
 
   //once something has been selected, change the hidden input value
   $("#providerText").result(function(event, data, formatted) {
-    $('#organizationID').val(data[1]);
+    $('#organizationId').val(data[1]);
   });
 
 
@@ -48,6 +73,8 @@ $(document).ready(function(){
 
 function processEbscoKbImport(status,form){
 
+  $('#importErrors').hide();
+  console.log('submitting');
   var data = $(form).serializeArray();
   data.push({name: 'resourceStatus', value: status});
   $.ajax({
@@ -55,18 +82,37 @@ function processEbscoKbImport(status,form){
     url:        "ajax_processing.php?action=importFromEbscoKb",
     cache:      false,
     data:       $.param(data),
-    success:    function(resourceID) {
-      //go to the new resource page if this was submitted
-      if (status == 'progress') {
-        //$('#div_ebscoKbTitleImportForm').html('<pre>'+resourceID+'</pre>');
-        window.parent.location=("resource.php?ref=new&resourceID=" + resourceID);
-        tb_remove();
-        return false;
+    success:    function(response) {
+      console.log(response);
+      if(response.error){
+        var generalErrors = [];
+        response.error.forEach(function(err){
+          if(err.target === 'general'){
+            generalErrors.push('<li>'+err.text+'</li>');
+          } else {
+            $('#span_error_'+err.target).html(err.text);
+          }
+
+          if(generalErrors.length){
+            $('#importErrorText').html('<ul>' + generalErrors.join('') + '</ul>').show();
+            $('#importError').show();
+          }
+        });
       } else {
-        window.parent.location=("queue.php?ref=new");
-        tb_remove();
-        return false;
+        //go to the new resource page if this was submitted
+        if (status == 'progress') {
+          window.parent.location=("resource.php?ref=new&resourceID=" + response);
+          tb_remove();
+          return false;
+        } else {
+          window.parent.location=("queue.php?ref=new");
+          tb_remove();
+          return false;
+        }
       }
+    },
+    error: function(error){
+      console.log(error);
     }
   });
 

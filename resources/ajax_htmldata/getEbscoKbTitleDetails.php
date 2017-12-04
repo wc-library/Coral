@@ -1,5 +1,5 @@
 <?php
-$titleId = $_GET['titleId'];
+$titleId = filter_input(INPUT_GET, 'titleId', FILTER_SANITIZE_STRING);
 
 if(empty($titleId)){
     echo '<p>No title ID provided</p>';
@@ -10,66 +10,8 @@ $ebscoKb = EbscoKbService::getInstance();
 $title = $ebscoKb->getTitle($titleId);
 
 ?>
-<style>
-    #div_ebscoKbTitleDetails .container {
-        width: 675px;
-        margin: 1em 15px;
-    }
-    #div_ebscoKbTitleDetails .row {
-        display: -ms-flexbox;
-        display: flex;
-        -ms-flex-direction: column;
-        flex-direction: column;
-        flex-flow: wrap;
-    }
-    <?php for($i=1; $i<=12; $i++): ?>
-    #div_ebscoKbTitleDetails .col-<?php echo $i; ?> {
-        width: <?php echo $i / 12 * 100; ?>%;
-    }
-    <?php endfor; ?>
-
-    #div_ebscoKbTitleDetails dt {
-        font-weight: 700;
-        margin-top: 5px;
-    }
-
-    #div_ebscoKbTitleDetails .card-body {
-        -ms-flex: 1 1 auto;
-        flex: 1 1 auto;
-        padding: 5px;
-    }
-
-    #div_ebscoKbTitleDetails .card {
-        position: relative;
-        display: -ms-flexbox;
-        display: flex;
-        -ms-flex-direction: column;
-        flex-direction: column;
-        min-width: 0;
-        word-wrap: break-word;
-        background-color: #fff;
-        background-clip: border-box;
-        border: 1px solid rgba(0,0,0,.125);
-        border-radius: .25rem;
-    }
-
-    #div_ebscoKbTitleDetails .card-header {
-        padding: .75rem 1.25rem;
-        margin-bottom: 0;
-        background-color: rgba(0,0,0,.03);
-        border-bottom: 1px solid rgba(0,0,0,.125);
-    }
-
-    .packageOption {
-        display: none;
-    }
-
-    .selectedPackage {
-        display: block;
-    }
-
-</style>
-<div id="div_ebscoKbTitleDetails">
+<?php include_once __DIR__.'/../css/ebscoKbCss.php'; ?>
+<div id="div_ebscoKbTitleDetails" class="ebsco-layout">
 
     <div class="formTitle" style="width:715px; margin-bottom:5px;position:relative;"><span class="headerText"><?php echo _("EBSCO Kb Title Details");?></span></div>
 
@@ -214,7 +156,7 @@ $title = $ebscoKb->getTitle($titleId);
                     class="thickbox btn btn-primary">
                     <?php echo _('import'); ?>
                 </a>
-                <button onclick="tb_remove();" class="btn btn-primary" style="margin-left: 8px;"><?php echo _("cancel");?></button>
+                <button onclick="tb_remove();" class="btn btn-primary ml-1"><?php echo _("cancel");?></button>
             </div>
         </div>
     </div>

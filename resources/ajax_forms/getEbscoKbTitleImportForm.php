@@ -1,6 +1,6 @@
 <?php
 
-$titleId = $_GET['titleId'];
+$titleId = filter_input(INPUT_GET, 'titleId', FILTER_SANITIZE_STRING);
 
 if(empty($titleId)){
     echo '<p>No title ID provided</p>';
@@ -26,19 +26,19 @@ $orgArray = $resource->getOrganizationArray();
 if (count($orgArray)>0){
     foreach ($orgArray as $org){
         $providerText = $org['organization'];
-        $orgID = $org['organizationID'];
+        $orgId = $org['organizationID'];
     }
 }else{
     $providerText = $resource->providerText;
-    $orgID = '';
+    $orgId = '';
 }
 ?>
 <div id="div_ebscoKbTitleImportForm">
     <h1><?php echo $title->titleName; ?></h1>
     <form id="ebscoKbTitleImportForm">
-        <input type="hidden" name="organizationID" value="<?php echo $orgID; ?>" />
-        <input type="hidden" name="importType" value="title" />
-        <input type="hidden" name="titleId" value="<?php echo $title->titleId; ?>"/>
+        <input type="hidden" id="organizationId" name="organizationId" value="<?php echo $orgId; ?>" />
+        <input type="hidden" id="importType" name="importType" value="title" />
+        <input type="hidden" id="titleId" name="titleId" value="<?php echo $title->titleId; ?>"/>
 		<div class="formTitle" style="width:745px;">
             <span class="headerText"><?php  echo _('Import from EBSCO Kb'); ?></span>
         </div>
@@ -54,10 +54,12 @@ if (count($orgArray)>0){
 				                <table class="noBorder" style="width:310px; margin:5px 15px;">
                                     <tr>
                                         <td>
-                                            <p class="text-danger"><small>Note: Matching EbscoKb provider not found.</small></p>
-                                            <label for="providerText"><?php echo _('Provider'); ?></label>
-                                            <input type="text" id="providerText" style="width:220px;" class="changeInput" value="" />
-                                            <span id="span_error_providerText" class="smallDarkRedText"></span>
+                                            <?php if(empty($orgId)): ?>
+                                                <label for="providerText"><?php echo _('Provider'); ?></label>
+                                                <input type="text" id="providerText" style="width:220px;" class="changeInput" value="" />
+                                                <span id="span_error_providerText" class="smallDarkRedText"></span>
+                                            <?php else: ?>
+                                            <?php endif; ?>
                                         </td>
                                     </tr>
                                 </table>
@@ -69,13 +71,13 @@ if (count($orgArray)>0){
                     <table class="surroundBox" style="width:350px;">
                         <tr>
                             <td style="padding: 10px;">
-                                <span id="span_error_resourceFormatID" class="smallDarkRedText"></span>
+                                <span id="span_error_resourceFormatId" class="smallDarkRedText"></span>
                                 <br />
                                 <?php foreach ($resourceFormatArray as $resourceFormat): ?>
                                     <label for="resourceFormat<?php echo $resourceFormat["resourceFormatID"]; ?>" style="margin-right: 10px;">
                                         <input
                                             type="radio"
-                                            name="resourceFormatID"
+                                            name="resourceFormatId"
                                             id="resourceFormat<?php echo $resourceFormat["resourceFormatID"]; ?>"
                                             value="<?php echo $resourceFormat["resourceFormatID"]; ?>"
                                             <?php if (strtoupper($resourceFormat["shortName"]) == "ELECTRONIC"){ echo 'checked'; }?>/>
@@ -91,12 +93,12 @@ if (count($orgArray)>0){
                     <table class="surroundBox" style="width:350px;">
                         <tr>
                             <td style="padding: 10px;">
-                                <span id="span_error_acquisitionTypeID" class="smallDarkRedText"></span>
+                                <span id="span_error_acquisitionTypeId" class="smallDarkRedText"></span>
                                 <br />
                                 <?php foreach ($acquisitionTypeArray as $acquisitionType): ?>
                                     <label for="acquisitionType<?php echo $acquisitionType["acquisitionTypeID"]; ?>" style="margin-right: 10px;">
                                         <input type="radio"
-                                               name="acquisitionTypeID"
+                                               name="acquisitionTypeId"
                                                id="acquisitionType<?php echo $acquisitionType["acquisitionTypeID"]; ?>"
                                                value="<?php echo $acquisitionType["acquisitionTypeID"]; ?>"
                                             <?php if (strtoupper($acquisitionType["shortName"]) == "PAID"){ echo 'checked'; }?>/>

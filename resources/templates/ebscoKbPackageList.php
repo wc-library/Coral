@@ -39,6 +39,11 @@
                 </button>
             </td>
             <td style="text-align: center;">
+                <a
+                    href="ajax_forms.php?action=getEbscoKbPackageImportForm&height=700&width=730&modal=true&vendorId=<?php echo $item->vendorId; ?>&packageId=<?php echo $item->packageId; ?>"
+                    class="thickbox btn btn-primary">
+                    <?php echo _('import'); ?>
+                </a>
             </td>
         </tr>
     <?php endforeach; ?>

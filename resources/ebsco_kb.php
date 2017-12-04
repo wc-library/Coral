@@ -214,7 +214,7 @@ include 'templates/header.php';
   //used to default to previously selected values when back button is pressed
   //if the startWith is defined set it so that it will default to the first letter picked
 
-  /*if ((CoralSession::get('res_pageStart')) && ($reset != 'Y')){
+  if ((CoralSession::get('res_pageStart')) && ($reset != 'Y')){
 	  echo "pageStart = '" . CoralSession::get('res_pageStart') . "';";
   }
 
@@ -226,8 +226,7 @@ include 'templates/header.php';
 	  echo "orderBy = \"" . CoralSession::get('res_orderBy') . "\";";
   }
 
-  */
-	echo "</script>";
+echo "</script>";
 
-	//print footer
-	include 'templates/footer.php';
+//print footer
+include 'templates/footer.php';

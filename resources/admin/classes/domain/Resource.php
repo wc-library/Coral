@@ -49,7 +49,7 @@ class Resource extends DatabaseObject {
         return $objects;
     }
 
-    //returns resource objects by ebscoKbId
+    //returns resource object by ebscoKbId
     public function getResourceByEbscoKbId($ebscoKbId) {
 
         $query = "SELECT *

@@ -17,7 +17,6 @@
 **************************************************************************************************************************
 */
 
-
 class Organization extends DatabaseObject {
 
 	protected function defineRelationships() {}
@@ -25,6 +24,21 @@ class Organization extends DatabaseObject {
 	protected function overridePrimaryKeyName() {}
 
 
+	// retrieves an organization by it's ebscoKbID
+    public function getOrganizationByEbscoKbId($ebscoKbId) {
+
+        $query = "SELECT organizationID
+			FROM Organization
+			WHERE ebscoKbID = $ebscoKbId
+			LIMIT 0,1";
+        $result = $this->db->processQuery($query, 'assoc');
+
+        if (isset($result['organizationID'])) {
+            return new Organization(new NamedArguments(array('primaryKey' => $result['organizationID'])));
+        } else {
+            return false;
+        }
+    }
 
 	//returns array of parent organization objects
 	public function getParentOrganizations(){
