@@ -100,7 +100,7 @@ function processResponse(response){
       showErrors(response.error);
       break;
     case 'batchers':
-      startBatchers(response.redirectId, response.batchers);
+      startBatchers(response.resourceId, response.batchers);
       break;
     case 'redirect':
       resourceRedirect(response.status, response.resourceId);
@@ -110,7 +110,7 @@ function processResponse(response){
   }
 }
 
-function startBatchers(redirectId, batchers){
+function startBatchers(resourceId, batchers){
   $('#packageSuccessfullyImported').show();
   var totalBatches = batchers.length;
   batchers.forEach(function(batch){
@@ -164,7 +164,7 @@ function startBatchers(redirectId, batchers){
   $(document).ajaxStop(function () {
     var importCompleteHtml = '<h1>Import Complete</h1>' +
         '<p class="mt-1"><i class="fa fa-check-circle-o text-success fa-5x"></i></p>' +
-        '<a href="resource.php?ref=new&resourceID=' + redirectId + '">Continue</a>';
+        '<a href="resource.php?ref=new&resourceID=' + resourceId + '">Continue</a>';
     $('#importingMessage').html(importCompleteHtml);
   });
 }

@@ -84,7 +84,7 @@
         position: absolute;
         background: #1b76a9;
         width: 100%;
-        height: 643px;
+        height: 670px;
         top: 0;
         left: 0;
         color: #fff;

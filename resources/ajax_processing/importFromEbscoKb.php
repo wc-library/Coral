@@ -51,6 +51,7 @@ $titleId = filter_input(INPUT_POST,'titleId', FILTER_SANITIZE_NUMBER_INT);
 $selection = filter_input(INPUT_POST,'selection', FILTER_SANITIZE_NUMBER_INT);
 $newWorkflow = filter_input(INPUT_POST,'newWorkflow', FILTER_VALIDATE_BOOLEAN);
 $offset = filter_input(INPUT_POST, 'offset', FILTER_SANITIZE_NUMBER_INT);
+$parentId = filter_input(INPUT_POST, 'parentId', FILTER_SANITIZE_NUMBER_INT);
 
 
 /* ------ Additional setup --------- */
@@ -115,8 +116,17 @@ if($importType == 'batch'){
     if(empty($selection)) {
         $errors[] = create_error('general', 'Selection not identified');
     }
+    // Is the offset set
     if(empty($offset)){
         $errors[] = create_error('general', 'No offset array provided');
+    }
+    // Make sure the parent exists
+    if(!empty($parentId)){
+        try {
+            new Resource(new NamedArguments(['primaryKey' => $parentId]));
+        } catch (Exception $e){
+            $errors[] = create_error('general', 'Parent package does not exist');
+        }
     }
 }
 
@@ -191,7 +201,7 @@ if($importType == 'batch'){
     foreach($packageTitles as $title){
         try{
             $title = $ebscoKb->getTitle($title->titleId);
-            importTitle($title, $packageId);
+            importTitle($title, $parentId);
         } catch (Exception $e) {
             $titleErrors[] = create_error('general', 'Error importing title '.$title->titleName.' (KbID #'.$title->titleId.') for batch import', $e->getMessage());
         }
@@ -286,16 +296,16 @@ if($importType == 'package') {
     while(ceil($totalTitles/$batchAmount) > 10){
         $batchAmount += $count;
     }
-    $batchers = generateBatchers($totalTitles,$batchAmount,$count);
+    $batchers = generateBatchers($resource->primaryKey, $totalTitles,$batchAmount,$count);
 
     header('Content-type: application/json');
-    echo json_encode(['type' => 'batchers', 'batchers' => $batchers, 'redirectId' => $resource->primaryKey]);
+    echo json_encode(['type' => 'batchers', 'batchers' => $batchers, 'resourceId' => $resource->primaryKey]);
     exit;
 }
 
 /* ------ Functions --------- */
 
-function generateBatchers($totalTitles, $batchAmount, $maxReturn){
+function generateBatchers($parentId, $totalTitles, $batchAmount, $maxReturn){
     global $newWorkflow, $organizationId, $resourceFormatId, $acquisitionTypeId, $selection,
            $package, $resourceStatus;
 
@@ -316,6 +326,7 @@ function generateBatchers($totalTitles, $batchAmount, $maxReturn){
             'importType' => 'batch',
             'batchAmount' => $batchAmount,
             'offsets' => range($x,$y),
+            'parentId' => $parentId,
             'newWorkflow' => $newWorkflow,
             'organizationId' => $organizationId,
             'resourceFormatId' => $resourceFormatId,
