@@ -1,17 +1,14 @@
 $(document).ready(function(){
 
-  updateSearch(updateSearchForm);
+  updateSearch(1, updateSearchForm);
 
   //bind change event to each of the page start
   $(".setPage").live('click', function (e) {
-    console.log('page set');
     e.preventDefault();
-    $('#searchOffset').val($(this).data('page'));
-    updateSearch();
+    updateSearch($(this).data('page'));
   });
 
   $(".setVendor").live('click', function (e) {
-    console.log('vendor set');
     e.preventDefault();
     resetSearch(
         setVendorLimit.bind(
@@ -20,6 +17,7 @@ $(document).ready(function(){
             $(this).data('vendor-name'),
             updateSearch.bind(
                 null,
+                1,
                 updateSearchForm
             )
         )
@@ -27,7 +25,6 @@ $(document).ready(function(){
   });
 
   $(".setPackage").live('click', function (e) {
-    console.log('package set');
     e.preventDefault();
     resetSearch(
         setPackageLimit.bind(
@@ -37,6 +34,7 @@ $(document).ready(function(){
             $(this).data('package-name'),
             updateSearch.bind(
                 null,
+                1,
                 updateSearchForm
             )
         )
@@ -44,31 +42,26 @@ $(document).ready(function(){
   });
 
   $('#selectType').change(function(){
-    console.log('select changed');
     $('#searchType').val($(this).val());
-    resetSearch(updateSearchForm);
+    resetSearch(updateSearchForm.bind(null, 1));
   });
 
   $(".searchButton").click(function(e) {
-    console.log('search button hit');
     e.preventDefault();
     $('#ebscoKbSearchForm').submit();
   });
 
   $('#ebscoKbSearchForm').submit(function(e){
-    console.log('submitting');
     e.preventDefault();
-    updateSearch();
+    updateSearch(1);
   });
 
   $(".newSearch").click(function () {
-    console.log('new search hit');
-    resetSearch(updateSearchForm);
+    resetSearch(updateSearchForm.bind(null, 1));
   });
 
   $("#removeLimit").click(function() {
-    console.log('remove vendor hit');
-    resetSearch(updateSearch.bind(null, updateSearchForm));
+    resetSearch(updateSearch.bind(null, 1, updateSearchForm));
   });
 
   $('#showAllPackages').live('change', function() {
@@ -84,22 +77,19 @@ $(document).ready(function(){
 
 function resetSearch(callback) {
   //reset fields
-  console.log('resetting search');
   $('#ebscoKbSearchForm :input').not('#selectType, #searchType').each(function(){
     $(this).val($(this).data('default'));
   });
 
-  console.log(typeof(callback));
   if (typeof(callback) == 'function') {
-    console.log('resetting search complete');
     callback();
   }
 }
 
-function updateSearch(callback) {
-  console.log('running search');
+function updateSearch(page, callback) {
   $("#div_feedback").html("<img src='images/circle.gif'>  <span style='font-size:90%'>"+_("Processing...")+"</span>");
   $("#div_searchResults").html("");
+  $('#searchOffset').val(page)
   var form = $('#ebscoKbSearchForm');
   $.post(
       form.attr('action'),
@@ -110,16 +100,13 @@ function updateSearch(callback) {
         tb_reinit();
       }
   );
-  console.log(typeof(callback));
   if (typeof(callback) == 'function') {
-    console.log('running search complete');
     callback();
   }
   window.scrollTo(0, 0);
 }
 
 function updateSearchForm() {
-  console.log('updating search form');
   $('.ebsco-toggle-option').hide();
   var selected = $('#searchType').val();
   $('.'+selected+'-option').show();
@@ -132,7 +119,6 @@ function updateSearchForm() {
 }
 
 function setVendorLimit(vendorId, vendorName, callback) {
-  console.log('setting vendor option');
 
   $('#selectType').val('packages');
   $('#searchType').val('packages');
@@ -141,13 +127,11 @@ function setVendorLimit(vendorId, vendorName, callback) {
   $('#limitBy label').html('from vendor');
 
   if (typeof(callback) == 'function') {
-    console.log('setting vendor option complete');
     callback();
   }
 }
 
 function setPackageLimit(vendorId, packageId, packageName, callback) {
-  console.log('setting vendor option');
 
   $('#selectType').val('titles')
   $('#searchType').val('titles');
@@ -157,7 +141,6 @@ function setPackageLimit(vendorId, packageId, packageName, callback) {
   $('#limitBy label').html('from package');
 
   if (typeof(callback) == 'function') {
-    console.log('setting vendor option complete');
     callback();
   }
 }

@@ -74,7 +74,7 @@ $(document).ready(function(){
 function processEbscoKbImport(status,form){
 
   $('#importErrors').hide();
-  console.log('submitting');
+  showLoader();
   var data = $(form).serializeArray();
   data.push({name: 'resourceStatus', value: status});
   $.ajax({
@@ -83,37 +83,125 @@ function processEbscoKbImport(status,form){
     cache:      false,
     data:       $.param(data),
     success:    function(response) {
+      processResponse(response);
       console.log(response);
-      if(response.error){
-        var generalErrors = [];
-        response.error.forEach(function(err){
-          if(err.target === 'general'){
-            generalErrors.push('<li>'+err.text+'</li>');
-          } else {
-            $('#span_error_'+err.target).html(err.text);
-          }
-
-          if(generalErrors.length){
-            $('#importErrorText').html('<ul>' + generalErrors.join('') + '</ul>').show();
-            $('#importError').show();
-          }
-        });
-      } else {
-        //go to the new resource page if this was submitted
-        if (status == 'progress') {
-          window.parent.location=("resource.php?ref=new&resourceID=" + response);
-          tb_remove();
-          return false;
-        } else {
-          window.parent.location=("queue.php?ref=new");
-          tb_remove();
-          return false;
-        }
-      }
     },
     error: function(error){
+      hideLoader();
       console.log(error);
     }
   });
+}
 
+function processResponse(response){
+  switch(response.type){
+    case 'errors':
+      hideLoader();
+      showErrors(response.error);
+      break;
+    case 'batchers':
+      startBatchers(response.redirectId, response.batchers);
+      break;
+    case 'redirect':
+      resourceRedirect(response.status, response.resourceId);
+      break;
+    default:
+      break;
+  }
+}
+
+function startBatchers(redirectId, batchers){
+  $('#packageSuccessfullyImported').show();
+  var totalBatches = batchers.length;
+  batchers.forEach(function(batch){
+    var barId = 'batch' + batch.batchNumber;
+    var html ='<p class="mt-1">Batch '+batch.batchNumber+' of ' + totalBatches + '. (Titles ' +batch.batchStart+ ' to ' + batch.batchEnd + ')</p>' +
+        '<div class="progress">' +
+          '<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="' + barId + '">0%</div>' +
+        '</div>' +
+        '<ul id="' + barId +'-errors" class="text-danger"></ul>';
+    $('#importLog').append(html);
+
+
+    var completedOffsetCount = 0;
+    var totalOffests = batch.offsets.length;
+    batch.offsets.forEach(function(offset){
+      batch.offset = offset;
+      $.ajax({
+        type:       "POST",
+        url:        "ajax_processing.php?action=importFromEbscoKb",
+        cache:      false,
+        data:       batch,
+        success: function(response) {
+
+          if(response.error){
+            response.error.forEach(function(err){
+              $('#'+barId+'-errors').append('<li>' + err.text + '</li>')
+              console.log(err);
+            });
+          }
+
+          if (response.complete === true) {
+            completedOffsetCount++;
+            var newPercent = Math.ceil(completedOffsetCount / totalOffests * 100);
+            $('#'+barId).attr('aria-valuenow', newPercent).css('width',newPercent+'%').html(newPercent+'%');
+            if(response.titleErrors){
+              response.titleErrors.forEach(function(err){
+                $('#'+barId+'-errors').append('<li>' + err + '</li>')
+              });
+            }
+          }
+        },
+
+        error: function(error){
+          console.log(error);
+        }
+      });
+    });
+
+  });
+
+  $(document).ajaxStop(function () {
+    var importCompleteHtml = '<h1>Import Complete</h1>' +
+        '<p class="mt-1"><i class="fa fa-check-circle-o text-success fa-5x"></i></p>' +
+        '<a href="resource.php?ref=new&resourceID=' + redirectId + '">Continue</a>';
+    $('#importingMessage').html(importCompleteHtml);
+  });
+}
+
+function resourceRedirect(status, resourceId){
+  if (status === 'progress') {
+    window.parent.location=("resource.php?ref=new&resourceID=" + resourceId);
+    tb_remove();
+    return false;
+  } else {
+    window.parent.location=("queue.php?ref=new");
+    tb_remove();
+    return false;
+  }
+}
+
+function showErrors(errors){
+  var generalErrors = [];
+  errors.forEach(function(err){
+    if(err.target === 'general'){
+      generalErrors.push('<li>'+err.text+'</li>');
+    } else {
+      $('#span_error_'+err.target).html(err.text);
+    }
+    if(generalErrors.length){
+      $('#importErrorText').html('<ul>' + generalErrors.join('') + '</ul>').show();
+      $('#importError').show();
+    }
+  });
+}
+
+function showLoader(){
+  $('#importOverlay').show();
+  $('#div_ebscoKbPackageImportForm').hide();
+}
+
+function hideLoader() {
+  $('#importOverlay').hide();
+  $('#div_ebscoKbPackageImportForm').show();
 }

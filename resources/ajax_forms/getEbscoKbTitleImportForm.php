@@ -22,8 +22,8 @@ $resourceFormatArray = $resourceFormatObj->sortedArray();
 
 ?>
 <?php include_once __DIR__.'/../css/ebscoKbCss.php'; ?>
-<div id="div_ebscoKbTitleImportForm" class="ebsco-layout">
-    <div class="formTitle" style="width:745px;">
+<div id="div_ebscoKbTitleImportForm" class="ebsco-layout" style="width:745px;">
+    <div class="formTitle">
         <span class="headerText"><?php echo _('Import').' '.$title->titleName.' '._(' from EBSCO Kb'); ?></span>
     </div>
     <div class="container">

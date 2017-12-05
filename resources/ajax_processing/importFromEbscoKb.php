@@ -24,23 +24,36 @@
 
 
 /* ------ Filter inputs --------- */
-$titleId = filter_input(INPUT_POST,'titleId', FILTER_SANITIZE_NUMBER_INT);
-$packageId = filter_input(INPUT_POST,'packageId', FILTER_SANITIZE_NUMBER_INT);
-$vendorId = filter_input(INPUT_POST,'vendorId', FILTER_SANITIZE_NUMBER_INT);
+// TODO:: switch this to filter_input_array instead
+// All
 $importType = filter_input(INPUT_POST,'importType', FILTER_SANITIZE_STRING);
 $resourceStatus = filter_input(INPUT_POST,'status', FILTER_SANITIZE_STRING);
 $organizationId = filter_input(INPUT_POST,'organizationId', FILTER_SANITIZE_NUMBER_INT);
-$providerOption = filter_input(INPUT_POST,'providerOption', FILTER_SANITIZE_STRING);
-$parentOrChild = filter_input(INPUT_POST,'providerParentOrChild', FILTER_SANITIZE_STRING);
 $resourceFormatId = filter_input(INPUT_POST,'resourceFormatId', FILTER_SANITIZE_NUMBER_INT);
 $acquisitionTypeId = filter_input(INPUT_POST,'acquisitionTypeId', FILTER_SANITIZE_NUMBER_INT);
-$resourceTypeId = filter_input(INPUT_POST,'resourceTypeId', FILTER_SANITIZE_NUMBER_INT);
 $noteText = filter_input(INPUT_POST,'noteText', FILTER_SANITIZE_STRING);
 $providerText = trim(filter_input(INPUT_POST,'providerText', FILTER_SANITIZE_STRING));
+
+// Package
+$packageId = filter_input(INPUT_POST,'packageId', FILTER_SANITIZE_NUMBER_INT);
+$vendorId = filter_input(INPUT_POST,'vendorId', FILTER_SANITIZE_NUMBER_INT);
+$providerOption = filter_input(INPUT_POST,'providerOption', FILTER_SANITIZE_STRING);
+$parentOrChild = filter_input(INPUT_POST,'providerParentOrChild', FILTER_SANITIZE_STRING);
+$resourceTypeId = filter_input(INPUT_POST,'resourceTypeId', FILTER_SANITIZE_NUMBER_INT);
 $titleFilter = filter_input(INPUT_POST,'titleFilter', FILTER_SANITIZE_STRING);
 $aliasTypeId = filter_input(INPUT_POST,'aliasTypeId', FILTER_SANITIZE_NUMBER_INT);
 $workflowOption = filter_input(INPUT_POST, 'workflowOption', FILTER_SANITIZE_STRING);
 
+// Title
+$titleId = filter_input(INPUT_POST,'titleId', FILTER_SANITIZE_NUMBER_INT);
+
+// Batch
+$selection = filter_input(INPUT_POST,'selection', FILTER_SANITIZE_NUMBER_INT);
+$newWorkflow = filter_input(INPUT_POST,'newWorkflow', FILTER_VALIDATE_BOOLEAN);
+$offset = filter_input(INPUT_POST, 'offset', FILTER_SANITIZE_NUMBER_INT);
+
+
+/* ------ Additional setup --------- */
 // Is the org module used
 $config = new Configuration;
 $orgModule = $config->settings->organizationsModule == 'Y';
@@ -70,7 +83,7 @@ function create_error($target, $text, $context = ''){
 }
 function send_errors($errors){
     header('Content-type: application/json');
-    echo json_encode(['error' => $errors]);
+    echo json_encode(['type' => 'error', 'error' => $errors]);
     exit;
 }
 
@@ -83,6 +96,29 @@ if(empty($acquisitionTypeId)) {
 if(empty($importType)){
     $errors[] = create_error('general', 'No import type set');
 }
+if(empty($statusId)) {
+    $errors[] = create_error('general', 'Status not found');
+}
+
+if($importType == 'batch'){
+
+    // Is the package id set
+    if(empty($packageId)) {
+        $errors[] = create_error('general', 'No package ID found');
+    }
+    // Is the vendor id set
+    if(empty($vendorId)) {
+        $errors[] = create_error('general', 'No vendor ID found');
+    }
+    // Is the selection set
+    $selection = filter_input(INPUT_POST,'selection', FILTER_SANITIZE_NUMBER_INT);
+    if(empty($selection)) {
+        $errors[] = create_error('general', 'Selection not identified');
+    }
+    if(empty($offset)){
+        $errors[] = create_error('general', 'No offset array provided');
+    }
+}
 
 if($importType == 'package'){
     // Is the package id set
@@ -93,13 +129,6 @@ if($importType == 'package'){
     if(empty($vendorId)) {
         $errors[] = create_error('general', 'No vendor ID found');
     }
-    // can we access the package via Ebsco KB
-    try {
-        $package = $ebscoKb->getPackage($vendorId, $packageId);
-    } catch (Exception $e) {
-        $errors[] = create_error('general', 'Could not get package from ebsco', $e->getMessage());
-    }
-
     // Is the providerOption set
     if(empty($organizationId) && empty($providerOption)){
         $errors[] = create_error('providerOption', 'Please select a provider import option');
@@ -131,12 +160,6 @@ if($importType == 'title'){
     if(empty($titleId)) {
         $errors[] = create_error('general', 'No title ID found');
     }
-    // can we access the package via Ebsco KB
-    try {
-        $title = $ebscoKb->getTitle($titleId);
-    } catch (Exception $e) {
-        $errors[] = create_error('general', 'Could not get title from EBSCO Kb', $e->getMessage());
-    }
 }
 
 // Send errors to be rendered
@@ -144,88 +167,166 @@ if(!empty($errors)){
     send_errors($errors);
 }
 
-/* ------ Setup organization --------- */
-switch($providerOption){
-    case 'alias':
-        addOrganizationAlias($organizationId, $aliasTypeId, $package->vendorId, $package->vendorName);
-        break;
-    case 'parentChild':
-        // create a record to attached it to the provided organization ID
-        $providedOrganizationId = $organizationId;
-        $ebscoOrganizationId = createOrUpdateOrganization($package->vendorId, $package->vendorName);
-        // Set which is parent/child
-        $parentOrganizationId = $parentOrChild == 'parent' ? $ebscoOrganizationId : $providedOrganizationId;
-        $childOrganizationId = $parentOrChild == 'parent' ? $providedOrganizationId : $ebscoOrganizationId;
-        addOrganizationRelationship($parentOrganizationId, $childOrganizationId);
-        // Set the import id to the ebsco kb vendor
-        $organizationId = $ebscoOrganizationId;
-        break;
-    case 'import':
-        $organizationId = createOrUpdateOrganization($package->vendorId, $package->vendorName);
-        break;
-    default:
-        break;
+/* ------ Batch Import --------- */
+if($importType == 'batch'){
+    // can we access the packageTitles via Ebsco KB
+    try {
+        $count = EbscoKbService::$defaultSearchParameters['count'];
+        $ebscoKb->createQuery([
+            'selection' => $selection,
+            'count' => $count,
+            'offset' => $offset,
+            'type' => 'titles',
+            'vendorId' => $vendorId,
+            'packageId' => $packageId,
+        ]);
+        $ebscoKb->execute();
+        $packageTitles = $ebscoKb->results();
+    } catch (Exception $e) {
+        send_errors([create_error('general', 'Could not load package titles', $e->getMessage())]);
+    }
+
+    // load the full title info from ebsco
+    $titleErrors = [];
+    foreach($packageTitles as $title){
+        try{
+            $title = $ebscoKb->getTitle($title->titleId);
+            importTitle($title, $packageId);
+        } catch (Exception $e) {
+            $titleErrors[] = create_error('general', 'Error importing title '.$title->titleName.' (KbID #'.$title->titleId.') for batch import', $e->getMessage());
+        }
+    }
+
+    header('Content-type: application/json');
+    echo json_encode([
+        'complete' => true,
+        'titleErrors' => $titleErrors,
+    ]);
+    exit;
+
 }
 
 /* ------ Title import --------- */
 if($importType == 'title'){
-    $title = $ebscoKb->getTitle($titleId);
+    // can we access the package via Ebsco KB
+    try {
+        $title = $ebscoKb->getTitle($titleId);
+    } catch (Exception $e) {
+        send_errors([create_error('general', 'Could not get title from EBSCO Kb', $e->getMessage())]);
+    }
     $newWorkflow = true;
     $resource = importTitle($title);
-    echo $resource->primaryKey;
+    header('Content-type: application/json');
+    echo json_encode([
+        'type' => 'redirect',
+        'status' => $newWorkflow ? 'progress' : 'save',
+        'resourceId' => $resource->primaryKey
+    ]);
     exit;
 }
 
 /* ------ Package import --------- */
-if($importType == 'package' && isset($package)) {
+if($importType == 'package') {
+
+    // can we access the package via Ebsco KB
+    try {
+        $package = $ebscoKb->getPackage($vendorId, $packageId);
+    } catch (Exception $e) {
+        send_errors([create_error('general', 'Could not get package from ebsco', $e->getMessage())]);
+    }
+
+    // setup organization
+    switch($providerOption){
+        case 'alias':
+            addOrganizationAlias($organizationId, $aliasTypeId, $package->vendorId, $package->vendorName);
+            break;
+        case 'parentChild':
+            // create a record to attached it to the provided organization ID
+            $providedOrganizationId = $organizationId;
+            $ebscoOrganizationId = createOrUpdateOrganization($package->vendorId, $package->vendorName);
+            // Set which is parent/child
+            $parentOrganizationId = $parentOrChild == 'parent' ? $ebscoOrganizationId : $providedOrganizationId;
+            $childOrganizationId = $parentOrChild == 'parent' ? $providedOrganizationId : $ebscoOrganizationId;
+            addOrganizationRelationship($parentOrganizationId, $childOrganizationId);
+            // Set the import id to the ebsco kb vendor
+            $organizationId = $ebscoOrganizationId;
+            break;
+        case 'import':
+            $organizationId = createOrUpdateOrganization($package->vendorId, $package->vendorName);
+            break;
+        default:
+            break;
+    }
 
     $resource = importPackage($package);
     $count = EbscoKbService::$defaultSearchParameters['count'];
     switch($titleFilter){
         case 'all':
-            $totalTitles = $package->selectedCount;
+            $totalTitles = $package->titleCount;
             $selection = 0;
             break;
         case 'selected':
-            $totalTitles = $package->titleCount;
+            $totalTitles = $package->selectedCount;
             $selection = 1;
             break;
         default:
-            echo $resource->primaryKey;
+            header('Content-type: application/json');
+            echo json_encode([
+                'type' => 'redirect',
+                'status' => 'progress',
+                'resourceId' => $resource->primaryKey
+            ]);
             exit;
     }
 
     $newWorkflow = $workflowOption == 'all' ? true : false;
-    for($i = 1; $i <= ceil($totalTitles / $count); $i++){
-        $ebscoKb->createQuery([
-            'vendorId' => $package->vendorId,
-            'packageId' => $package->packageId,
-            'count' => $count,
-            'selection' => $selection,
-            'type' => 'titles'
-        ]);
-        $ebscoKb->execute();
-        $packageTitles = $ebscoKb->results();
-        foreach($packageTitles as $title){
-            $title = $ebscoKb->getTitle($title->titleId);
-            importTitle($title, $resource->primaryKey);
-        }
+
+    // generate section batchers
+    $batchAmount = $count;
+    while(ceil($totalTitles/$batchAmount) > 10){
+        $batchAmount += $count;
     }
-    echo $resource->primaryKey;
+    $batchers = generateBatchers($totalTitles,$batchAmount,$count);
+
+    header('Content-type: application/json');
+    echo json_encode(['type' => 'batchers', 'batchers' => $batchers, 'redirectId' => $resource->primaryKey]);
     exit;
 }
 
+/* ------ Functions --------- */
 
+function generateBatchers($totalTitles, $batchAmount, $maxReturn){
+    global $newWorkflow, $organizationId, $resourceFormatId, $acquisitionTypeId, $selection,
+           $package, $resourceStatus;
 
-/* --------------------
-    Functions
-*/
+    $batchers = [];
+    $totalBatchersNeeded = ceil($totalTitles/$batchAmount);
+    $inc = ceil($batchAmount / $maxReturn);
 
-function dd($item, $title){
-    echo "<h1>$title</h1>";
-    echo '<pre>';
-    echo print_r($item);
-    echo '</pre>';
+    for($i=1; $i<=$totalBatchersNeeded; $i++){
+        $x = ($i*$inc)-($inc-1);
+        $y = $x+($inc-1);
+        while($y*$maxReturn >= $totalTitles + $maxReturn){
+            $y--;
+        }
+        $batchers[] = [
+            'batchNumber' => $i,
+            'batchStart' => ($x * $maxReturn) - $maxReturn + 1,
+            'batchEnd' => $y * $maxReturn > $totalTitles ? $totalTitles : $y * $maxReturn,
+            'importType' => 'batch',
+            'batchAmount' => $batchAmount,
+            'offsets' => range($x,$y),
+            'newWorkflow' => $newWorkflow,
+            'organizationId' => $organizationId,
+            'resourceFormatId' => $resourceFormatId,
+            'acquisitionTypeId' => $acquisitionTypeId,
+            'selection' => $selection,
+            'packageId' => $package->packageId,
+            'vendorId' => $package->vendorId,
+            'resourceStatus' => $resourceStatus,
+        ];
+    }
+    return $batchers;
 }
 
 function importPackage($package){
@@ -618,5 +719,3 @@ function addOrganizationRelationship($parentOrganizationId, $childOrganizationId
         send_errors([create_error('general', 'Could not set new organization relationship', $e->getMessage())]);
     }
 }
-
-

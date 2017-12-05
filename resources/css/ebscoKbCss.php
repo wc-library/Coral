@@ -1,6 +1,5 @@
 <style>
     .ebsco-layout .container {
-        width: 675px;
         margin: 1em 15px;
     }
     .ebsco-layout .row {
@@ -80,5 +79,52 @@
         border-radius: .25rem;
         display: none;
     }
+
+    .ebsco-layout #importOverlay {
+        position: absolute;
+        background: #1b76a9;
+        width: 100%;
+        height: 643px;
+        top: 0;
+        left: 0;
+        color: #fff;
+        display: none;
+    }
+
+    .ebsco-layout #importingMessage a{
+        color: #fff;
+    }
+
+    .ebsco-layout #importingMessage .text-success {
+        color: #62bc22;
+    }
+
+    .ebsco-layout .progress {
+        display: -ms-flexbox;
+        display: flex;
+        height: 1rem;
+        overflow: hidden;
+        font-size: .75rem;
+        background-color: #e9ecef;
+        border-radius: .25rem;
+    }
+
+    .ebsco-layout .progress-bar {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-align: center;
+        align-items: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        color: #fff;
+        background-color: #4B7717;
+    }
+
+    .ebsco-layout #importLog {
+        color: #666;
+        max-height: 430px;
+        overflow-y: scroll;
+    }
+
 
 </style>
