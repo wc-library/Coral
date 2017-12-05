@@ -11,9 +11,9 @@ $title = $ebscoKb->getTitle($titleId);
 
 ?>
 <?php include_once __DIR__.'/../css/ebscoKbCss.php'; ?>
-<div id="div_ebscoKbTitleDetails" class="ebsco-layout">
+<div id="div_ebscoKbTitleDetails" class="ebsco-layout" style="width:745px;">
 
-    <div class="formTitle" style="width:715px; margin-bottom:5px;position:relative;"><span class="headerText"><?php echo _("EBSCO Kb Title Details");?></span></div>
+    <div class="formTitle" style="margin-bottom:5px;position:relative;"><span class="headerText"><?php echo _("EBSCO Kb Title Details");?></span></div>
 
     <div class="container">
         <div class="row">

@@ -399,10 +399,13 @@ function importTitle($title, $parentId = null){
 
     global $loginID,
            $statusId,
+           $organizationId,
+           $resourceStatus,
            $newWorkflow,
            $acquisitionTypeId,
            $resourceFormatId,
-           $providerText;
+           $providerText,
+           $noteText;
 
     $resource = new Resource();
     $existingResource = $resource->getResourceByEbscoKbId($title->titleId);
@@ -437,6 +440,13 @@ function importTitle($title, $parentId = null){
     $urlsByCoverage = $title->sortUrlsByCoverage();
     $resource->resourceURL = empty($urlsByCoverage[0]) ? '' : $urlsByCoverage[0]['url'];
     $resource->resourceAltURL = empty($urlsByCoverage[1]) ? '' : $urlsByCoverage[1]['url'];
+    // If any additional urls, add to the notes field
+    $additionalUrls = null;
+    if(!empty($urlsByCoverage[2])){
+        $additionalUrls = "Additional Urls\n\n".implode("\n\n", array_map(function($u){
+            return $u['url'];
+        }, array_slice($urlsByCoverage,2)));
+    }
 
     try {
         $resource->save();
@@ -446,7 +456,21 @@ function importTitle($title, $parentId = null){
     $resource->setIsbnOrIssn($title->isxns);
 
     addProvider($resource);
-    addNotes($resource);
+
+    // Notes
+
+    //add notes
+    $noteTextArray = [];
+    if ($providerText && !$organizationId && $resourceStatus == 'progress') {
+        $noteTextArray[] = ['tab' => 'Product', 'text' => "Provider:  $providerText"];
+    }
+    if(isset($additionalUrls)){
+        $noteTextArray[] = ['tab' => 'Access', 'text' => $additionalUrls];
+    }
+    if(!empty($noteText)){
+        $noteTextArray[] = ['tab' => 'Product', 'text' => $noteText];
+    }
+    addNotes($resource, $noteTextArray);
 
     if(!empty($parentId)){
         $parents = $resource->getParentResources();
@@ -499,39 +523,36 @@ function addProvider(Resource $resource){
     }
 }
 
-function addNotes(Resource $resource){
+function addNotes(Resource $resource, $notes = []){
 
-    global $loginID, $resourceStatus, $noteText, $providerText, $organizationId;
-    //add notes
-    if (($noteText) || (($providerText) && (!$organizationId))){
+    global $loginID;
 
-        $noteText = $resourceStatus == 'progress' ? "Provider:  $providerText\n\n$noteText" : $noteText;
-        //first, remove existing notes in case this was saved before
+    if(!empty($notes)){
+
         $existingNotes = $resource->getNotes();
+        $existingNoteText =  array_map(function($note){ return $note->noteText; }, $existingNotes);
+        //this is just to figure out what the creator entered note type ID is
+        $noteType = new NoteType();
 
-        // If the note text doesn't already exist, add it
-        if(!in_array($noteText, array_map(function($note){
-            return $note['noteText'];
-        }, $existingNotes))) {
+        foreach($notes as $note){
+            // If the note text doesn't already exist, add it
+            if(!in_array($note['text'], $existingNoteText)) {
 
-            //this is just to figure out what the creator entered note type ID is
-            $noteType = new NoteType();
-
-            $resourceNote = new ResourceNote();
-            $resourceNote->resourceNoteID = '';
-            $resourceNote->updateLoginID = $loginID;
-            $resourceNote->updateDate = date( 'Y-m-d' );
-            $resourceNote->noteTypeID = $noteType->getInitialNoteTypeID();
-            $resourceNote->tabName = 'Product';
-            $resourceNote->resourceID = $resource->primaryKey;
-            $resourceNote->noteText = $noteText;
-            try {
-                $resourceNote->save();
-            } catch (Exception $e) {
-                send_errors([create_error('general', 'Could not add resource note', $e->getMessage())]);
+                $resourceNote = new ResourceNote();
+                $resourceNote->resourceNoteID = '';
+                $resourceNote->updateLoginID = $loginID;
+                $resourceNote->updateDate = date( 'Y-m-d' );
+                $resourceNote->noteTypeID = $noteType->getInitialNoteTypeID();
+                $resourceNote->tabName = $note['tab'];
+                $resourceNote->resourceID = $resource->primaryKey;
+                $resourceNote->noteText = $note['text'];
+                try {
+                    $resourceNote->save();
+                } catch (Exception $e) {
+                    send_errors([create_error('general', 'Could not add resource note', $e->getMessage())]);
+                }
             }
         }
-
     }
 }
 
