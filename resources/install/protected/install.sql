@@ -250,6 +250,7 @@ DROP TABLE IF EXISTS `Organization`;
 CREATE TABLE  `Organization` (
   `organizationID` int(10) unsigned NOT NULL auto_increment,
   `shortName` tinytext NOT NULL,
+  `ebscoKbID` INT(11) DEFAULT NULL,
   PRIMARY KEY  USING BTREE (`organizationID`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
@@ -330,6 +331,7 @@ CREATE TABLE  `Resource` (
   `catalogingStatusID` int(11) DEFAULT NULL,
   `coverageText` VARCHAR(1000) NULL DEFAULT NULL,
   `resourceAltURL` VARCHAR(2000) NULL DEFAULT NULL,
+  `ebscoKbID` INT(11) DEFAULT NULL,
   PRIMARY KEY  (`resourceID`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
