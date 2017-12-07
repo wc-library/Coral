@@ -130,6 +130,15 @@ class GeneralSubject extends DatabaseObject {
 		return $result['inUse'];
 	}
 
+    public function getGeneralSubjectIDByName($name) {
+        $query = "SELECT generalSubjectID from GeneralSubject WHERE UPPER(shortName) = '" . str_replace( "'", "''", $name ) . "'";
+
+        $result = $this->db->processQuery($query, 'assoc');
+
+        return isset($result['generalSubjectID']) ? $result['generalSubjectID'] : false;
+
+    }
+
 }
 
 

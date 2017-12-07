@@ -69,7 +69,8 @@ $organizationRole = new OrganizationRole();
 $organizationRoleId = $organizationRole->getProviderID();
 
 // cache for subjects so we don't have to keep pinging the DB to check if an org exists
-$subjectCache = [];
+$generalSubjectCache = [];
+$generalDetailIdCache = [];
 
 // cache for resource types so we don't have to keep pinging the DB to check if an org exists
 $resourceTypeCache = [];
@@ -468,11 +469,10 @@ function importTitle($title, $parentId = null){
     } catch (Exception $e) {
         send_errors([create_error('general', 'Could not import title', $e->getMessage())]);
     }
+
     $resource->setIsbnOrIssn($title->isxns);
-
     addProvider($resource);
-
-    // Notes
+    addSubjects($resource, $title->subjects);
 
     //add notes
     $noteTextArray = [];
@@ -572,34 +572,81 @@ function addNotes(Resource $resource, $notes = []){
 }
 
 function addSubjects($resource, $subjects){
-    // TODO
+    foreach($subjects as $subject){
+        $generalSubjectId = getGeneralSubjectId($subject);
+        if(empty($generalSubjectId)){
+            continue;
+        }
+
+        $generalDetailId = getGeneralDetailId($generalSubjectId);
+        if(empty($generalDetailId)){
+            continue;
+        }
+        $resourceSubject = new ResourceSubject();
+        $resourceSubject->resourceID = $resource->primaryKey;
+        $resourceSubject->generalDetailSubjectLinkID = $generalDetailId;
+
+        // Check to see if the subject has already been associated with the resouce.  If not then save.
+        if ($resourceSubject->duplicateCheck($resource->primaryKey, $generalDetailId) == 0) {
+            $resourceSubject->save();
+        }
+    }
 }
 
-function getSubjectId($subject){
-
-    // TODO, would be used by add subjects
-
-    global $subjectCache;
+function getGeneralDetailId($generalSubjectId){
+    global $generalDetailIdCache;
 
     // Search for the cached key
-    $cachedKey = array_search($subject, $subjectCache);
+    $cachedKey = array_search($generalSubjectId, $generalDetailIdCache);
+    if($cachedKey) {
+        return $cachedKey;
+    }
+
+    // If it doesn't exist, create or get the generalDetailId
+    $generalDetail = new GeneralDetailSubjectLink();
+    $generalDetailId = $generalDetail->getGeneralDetailID($generalSubjectId, -1);
+    if(empty($generalDetailId)){
+        // create a new resource type
+        $generalDetail->generalSubjectID = $generalSubjectId;
+        $generalDetail->detailedSubjectID = -1;
+        $generalDetail->save();
+        $generalDetailId = $generalDetail->primaryKey;
+    }
+    // add the key and name to the cache
+    $generalDetailIdCache[$generalDetailId] = $generalSubjectId;
+    return $generalDetailId;
+}
+
+function getGeneralSubjectId($subject){
+    global $generalSubjectCache;
+
+    // Search for the cached key
+    $cachedKey = array_search($subject, $generalSubjectCache);
     if($cachedKey) {
         return $cachedKey;
     }
 
     // If it doesn't exist, create or get the subject id
-    // TODO: should it be detailed or general?
-    $detailedSubject = new DetailedSubject();
-    $detailedSubjectId = $detailedSubject->getResourceTypeIDByName($subject);
-    if(empty($detailedSubjectId)){
+    $generalSubject = new GeneralSubject();
+    try{
+        $generalSubjectId = $generalSubject->getGeneralSubjectIDByName($subject);
+    } catch(Exception $e){
+        send_errors([create_error('general', 'Error checking subject'.$subject, $e->getMessage())]);
+    }
+    if(empty($generalSubjectId)){
         // create a new resource type
-        $detailedSubject->shortName = $subject;
-        $detailedSubject->save();
-        $detailedSubjectId = $detailedSubject->primaryKey;
+        $generalSubject->shortName = $subject;
+        try{
+            $generalSubjectId = $generalSubject->getGeneralSubjectIDByName($subject);
+        } catch(Exception $e){
+            send_errors([create_error('general', 'Error saving subject', $e->getMessage())]);
+        }
+        $generalSubject->save();
+        $generalSubjectId = $generalSubject->primaryKey;
     }
     // add the key and name to the cache
-    $resourceTypeCache[$detailedSubjectId] = $subject;
-    return $detailedSubjectId;
+    $generalSubjectCache[$generalSubjectId] = $subject;
+    return $generalSubjectId;
 }
 
 function getResourceTypeId($typeName){
@@ -633,7 +680,7 @@ function getResourceTypeId($typeName){
 
 // TODO: Update to use Organization domain classes instead of sql calls, see note above
 function createOrUpdateOrganization($ebscoKbId, $organizationName){
-    global $loginID, $config, $orgModule;
+    global $loginID, $config, $orgModule, $dbService;
 
 
     if($orgModule){

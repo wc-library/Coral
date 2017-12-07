@@ -147,7 +147,7 @@ function startBatchers(resourceId, batchers){
             $('#'+barId).attr('aria-valuenow', newPercent).css('width',newPercent+'%').html(newPercent+'%');
             if(response.titleErrors){
               response.titleErrors.forEach(function(err){
-                $('#'+barId+'-errors').append('<li>' + err + '</li>')
+                $('#'+barId+'-errors').append('<li>' + err.text + '</li>')
               });
             }
           }
