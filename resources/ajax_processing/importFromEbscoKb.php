@@ -179,21 +179,36 @@ if(!empty($errors)){
 
 /* ------ Batch Import --------- */
 if($importType == 'batch'){
+    $count = EbscoKbService::$defaultSearchParameters['count'];
+    $ebscoKb->createQuery([
+        'selection' => $selection,
+        'count' => $count,
+        'offset' => $offset,
+        'type' => 'titles',
+        'vendorId' => $vendorId,
+        'packageId' => $packageId,
+    ]);
+
     // can we access the packageTitles via Ebsco KB
-    try {
-        $count = EbscoKbService::$defaultSearchParameters['count'];
-        $ebscoKb->createQuery([
-            'selection' => $selection,
-            'count' => $count,
-            'offset' => $offset,
-            'type' => 'titles',
-            'vendorId' => $vendorId,
-            'packageId' => $packageId,
-        ]);
-        $ebscoKb->execute();
-        $packageTitles = $ebscoKb->results();
-    } catch (Exception $e) {
-        send_errors([create_error('general', 'Could not load package titles', $e->getMessage())]);
+    // using attempts because sometimes kb times out
+    $total_attempts = 5;
+    $attempts = 0;
+    $attempt_error = '';
+    $packageTitles = [];
+    do {
+        try {
+            $ebscoKb->execute();
+            $packageTitles = $ebscoKb->results();
+        } catch (Exception $e) {
+            $attempts++;
+            $attempt_error = $e->getMessage();
+            sleep(1);
+            continue;
+        }
+        break;
+    } while($attempts < $total_attempts);
+    if(empty($packageTitles)){
+        send_errors([create_error('general', 'Could not load package titles', $attempt_error)]);
     }
 
     // load the full title info from ebsco
