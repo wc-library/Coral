@@ -197,12 +197,10 @@ if($importType == 'batch'){
     $attempt_error = '';
     $packageTitles = [];
     do {
-        try {
-            $ebscoKb->execute();
-            $packageTitles = $ebscoKb->results();
-        } catch (Exception $e) {
+        $ebscoKb->execute();
+        if(!empty($ebscoKb->error)){
             $attempts++;
-            $attempt_error = $e->getMessage();
+            $attempt_error = $ebscoKb->error;
             sleep(1);
             continue;
         }
@@ -235,10 +233,9 @@ if($importType == 'batch'){
 /* ------ Title import --------- */
 if($importType == 'title'){
     // can we access the package via Ebsco KB
-    try {
-        $title = $ebscoKb->getTitle($titleId);
-    } catch (Exception $e) {
-        send_errors([create_error('general', 'Could not get title from EBSCO Kb', $e->getMessage())]);
+    $title = $ebscoKb->getTitle($titleId);
+    if(!empty($ebscoKb->error)){
+        send_errors([create_error('general', 'Could not get package from ebsco', $ebscoKb->error)]);
     }
     $newWorkflow = true;
     $resource = importTitle($title);
@@ -255,10 +252,9 @@ if($importType == 'title'){
 if($importType == 'package') {
 
     // can we access the package via Ebsco KB
-    try {
-        $package = $ebscoKb->getPackage($vendorId, $packageId);
-    } catch (Exception $e) {
-        send_errors([create_error('general', 'Could not get package from ebsco', $e->getMessage())]);
+    $package = $ebscoKb->getPackage($vendorId, $packageId);
+    if(!empty($ebscoKb->error)){
+        send_errors([create_error('general', 'Could not get package from ebsco', $ebscoKb->error)]);
     }
 
     // setup organization
