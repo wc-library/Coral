@@ -95,7 +95,7 @@ function processEbscoKbImport(status,form){
 
 function processResponse(response){
   switch(response.type){
-    case 'errors':
+    case 'error':
       hideLoader();
       showErrors(response.error);
       break;

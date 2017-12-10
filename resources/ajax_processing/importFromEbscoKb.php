@@ -144,6 +144,10 @@ if($importType == 'package'){
     if(empty($organizationId) && empty($providerOption)){
         $errors[] = create_error('providerOption', 'Please select a provider import option');
     }
+    // Is the alias type option set
+    if($providerOption == 'alias' && empty($aliasTypeId)){
+        $errors[] = create_error('aliasType', 'Please select an alias type');
+    }
     // Is the organization ID set if adding an alias or parent/child relationship
     if(($providerOption == 'parentChild' || $providerOption == 'alias') && empty($organizationId)){
         $errors[] = create_error('organization', 'You must select an organization');
@@ -204,6 +208,7 @@ if($importType == 'batch'){
             sleep(1);
             continue;
         }
+        $packageTitles = $ebscoKb->results();
         break;
     } while($attempts < $total_attempts);
     if(empty($packageTitles)){

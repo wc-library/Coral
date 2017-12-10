@@ -133,10 +133,11 @@ if ($orgModule) {
                                     <?php if($orgModule): ?>
                                     <div id="providerOption-help-alias">
                                         <p>Import <strong><?php echo $package->vendorName; ?></strong> as an alias to the selected provider:</p>
+                                        <p id="span_error_aliasType" class="smallDarkRedText"></p>
                                         <label for="aliasTypeId"><?php echo _('Alias Type'); ?></label>
                                         <select name="aliasTypeId" id="aliasTypeId">
                                             <?php foreach($aliasTypeArray as $alias): ?>
-                                                <option value="<?php echo $alias['aliasTypeId']; ?>"><?php echo $alias['shortName']; ?></option>
+                                                <option value="<?php echo $alias['aliasTypeID']; ?>"><?php echo $alias['shortName']; ?></option>
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
