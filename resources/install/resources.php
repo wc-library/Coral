@@ -187,16 +187,14 @@ function register_resources_provider()
                  			],
                  			"database_name" => $conf_data["database"]["name"]
                  		],
-                 		"function" => function($shared_module_info) use ($MODULE_VARS, $protected_module_data) {
-                 			// Standard setup of a return variable:
+                 		"function" => function($shared_module_info) use ($MODULE_VARS, $protected_module_data, $version) {
                  			$return = new stdClass();
+                 			$return->success = true;
                  			$return->yield = new stdClass();
-                 			$return->success = false;
                  			$return->yield->title = _("Resources Module");
                  			$return->yield->messages = [];
 
-                 			// We can read in the current conf file like this:
-                 			$conf_data = parse_ini_file($protected_module_data["config_file_path"], true);
+                            $conf_data = parse_ini_file($protected_module_data["config_file_path"], true);
 
                  			// PROCESS SQL FILES
                             $sql_files_to_process = ["resources/install/protected/update_$version.sql"];
