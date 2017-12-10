@@ -4,7 +4,7 @@
             <th><?php echo _("Title"); ?></th>
             <th><?php echo _("Imported?"); ?></th>
             <th><?php echo _("Resource Type"); ?></th>
-            <th><?php echo _("ISNs"); ?></th>
+            <th><?php echo _("ISXNs"); ?></th>
             <th><?php echo _("Import"); ?></th>
         </tr>
     </thead>

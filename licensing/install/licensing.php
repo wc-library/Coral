@@ -122,6 +122,17 @@ function register_licensing_provider()
 						}
 					];
 
+                case "2.1.0":
+                    return [
+                        "function" => function($shared_module_info) {
+                            $return = new stdClass();
+                            $return->yield = new stdClass();
+                            $return->success = true;
+                            $return->yield->title = _("Licensing Module");
+                            return $return;
+                        }
+                    ];
+
 				/**
 				 * This code is for when the upgrade requires no changes to the
 				 * database or conf files etc.

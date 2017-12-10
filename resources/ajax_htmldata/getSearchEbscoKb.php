@@ -11,6 +11,10 @@ if(empty($params['search']) && $params['type'] == 'titles' && empty($params['pac
     $ebscoKb = EbscoKbService::getInstance();
     $ebscoKb->createQuery($params);
     $ebscoKb->execute();
+    if(!empty($ebscoKb->error)){
+        echo '<div style="margin-bottom: 2em;"><i>'.$ebscoKb->error.'</i></div>';
+        exit;
+    }
 }
 
 // check for results

@@ -68,6 +68,7 @@ if ($user->isAdmin()){
 				<?php } ?>
 				<tr><td><div class='adminMenuLink'><a href='javascript:void(0);' class='CurrencyLink'><?php echo _("Currency");?></div></td></tr>
 				<tr><td><div class='adminMenuLink'><a href='javascript:void(0);' class='AdminLink' id="DowntimeType"><?php echo _("Downtime Type");?></div></td></tr>
+                <tr><td><div class='adminMenuLink'><a href='javascript:void(0);' class='EbscoKbConfigLink'><?php echo _("EBSCO Kb Config");?></div></td></tr>
 				<tr><td><div class='adminMenuLink'><a href='javascript:void(0);' id='ExternalLoginType' class='AdminLink'><?php echo _("External Login Type");?></div></td></tr>
 				<tr><td><div class='adminMenuLink'><a href='javascript:void(0);' class='FundLink'><?php echo _("Funds");?></div></td></tr>
 				<tr><td><div class='adminMenuLink'><a href='javascript:void(0);' class='ImportConfigLink'><?php echo _("Import Configuration");?></div></td></tr>

@@ -6,7 +6,7 @@ class EbscoKbService {
  * Vars
  */
     protected $config;
-    protected $error;
+    public $error;
     protected $response;
     private $queryPath = [];
     public $queryParams = [];
@@ -283,8 +283,13 @@ class EbscoKbService {
         $response = curl_exec($ch);
         curl_close ($ch);
 
-        $this->response = json_decode($response, true);
-        $this->checkResponseErrors();
+        try {
+            $this->response = json_decode($response, true);
+            $this->checkResponseErrors();
+        } catch(Exception $e) {
+            $this->response = [];
+            $this->error = $e->getMessage();
+        }
     }
 
     public function numResults()
