@@ -191,6 +191,13 @@ $coralURL = $util->getCORALURL();
         </div>
     </a> 
 
+    <a href='dashboard_menu.php' title="<?php echo _("Dashboards");?>">
+        <div class="main-menu-link <?php if (substr($currentPage, 0, 9) === 'dashboard') { echo "active"; } ?>">
+            <img src="images/menu/icon-dashboards.png" />
+            <span><?php echo _("Dashboards");?></span>
+        </div>
+    </a>
+
 	<?php if ($user->isAdmin()) { ?>
     <a href='admin.php' title="<?php echo _("Admin");?>">
         <div class="main-menu-link <?php if ($currentPage == 'admin.php') { echo "active"; } ?>">
