@@ -86,7 +86,7 @@ function debug($value) {
 }
 
 // Include file of language codes
-include_once '../LangCodes.php';
+include_once BASE_DIR . '/../LangCodes.php';
 $lang_name = new LangCodes();
 
 // Verify the language of the browser
