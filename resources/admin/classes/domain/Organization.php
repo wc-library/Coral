@@ -24,7 +24,15 @@ class Organization extends DatabaseObject {
 	protected function overridePrimaryKeyName() {}
 
 
-
+    public function asArray() {
+		$rarray = array();
+		foreach (array_keys($this->attributeNames) as $attributeName) {
+		if ($this->$attributeName != null) {
+			$rarray[$attributeName] = $this->$attributeName;
+			}
+		}
+		return $rarray;
+	}
 
 	//returns number of children for this particular contact role
 	public function getNumberOfChildren(){

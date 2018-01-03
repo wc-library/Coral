@@ -2,30 +2,6 @@
 require 'Flight/flight/Flight.php';
 
 include_once '../directory.php';
-include_once '../admin/classes/common/NamedArguments.php';
-include_once '../admin/classes/common/Object.php';
-include_once '../admin/classes/common/DynamicObject.php';
-include_once '../admin/classes/common/Utility.php';
-include_once '../admin/classes/common/Configuration.php';
-include_once '../admin/classes/common/DBService.php';
-include_once '../admin/classes/common/DatabaseObject.php';
-include_once '../admin/classes/common/Email.php';
-include_once '../admin/classes/domain/Resource.php';
-include_once '../admin/classes/domain/ResourceType.php';
-include_once '../admin/classes/domain/AcquisitionType.php';
-include_once '../admin/classes/domain/ResourceFormat.php';
-include_once '../admin/classes/domain/NoteType.php';
-include_once '../admin/classes/domain/ResourceNote.php';
-include_once '../admin/classes/domain/ResourcePayment.php';
-include_once '../admin/classes/domain/AdministeringSite.php';
-include_once '../admin/classes/domain/ResourceAdministeringSiteLink.php';
-include_once '../admin/classes/domain/Status.php';
-include_once '../admin/classes/domain/User.php';
-include_once '../admin/classes/domain/Workflow.php';
-include_once '../admin/classes/domain/Step.php';
-include_once '../admin/classes/domain/ResourceStep.php';
-include_once '../admin/classes/domain/UserGroup.php';
-include_once '../admin/classes/domain/Fund.php';
 
 if (!isAllowed()) {
     header('HTTP/1.0 403 Forbidden');
@@ -283,6 +259,69 @@ Flight::route('/getAdministeringSite/@id', function($id) {
     Flight::json($as->shortName);
 });
 
+Flight::route('GET /resources/@id', function($id) {
+    $r = new Resource(new NamedArguments(array('primaryKey' => $id)));
+	Flight::json($r->asArray());
+    
+});
+
+Flight::route('GET /resources/', function() {
+    $identifier = Flight::request()->query->identifier;
+    if ($identifier) {
+        $r = new Resource();
+        Flight::json(array_map(function($value) { return $value->asArray(); }, $r->getResourceByIsbnOrISSN($identifier)));
+    }
+});
+
+Flight::route('GET /resources/@id/titles', function($id) {
+    $r = new Resource(new NamedArguments(array('primaryKey' => $id)));
+	$childResourceArray = array();
+	$childResourceIDArray = array();
+	foreach ($r->getChildResources() as $instance) {
+	   foreach (array_keys($instance->attributeNames) as $attributeName) {
+			$sanitizedInstance[$attributeName] = $instance->$attributeName;
+		}
+		$sanitizedInstance[$instance->primaryKeyName] = $instance->primaryKey;
+		array_push($childResourceIDArray, $sanitizedInstance);
+	}
+
+	foreach ($childResourceIDArray as $childResource){
+		$childResourceObj = new Resource(new NamedArguments(array('primaryKey' => $childResource['resourceID'])));
+		array_push($childResourceArray, $childResourceObj->asArray());
+	}
+    Flight::json($childResourceArray);
+});
+
+Flight::route('GET /resources/@id/licenses', function($id) {
+    $db = DBService::getInstance();
+    $r = new Resource(new NamedArguments(array('primaryKey' => $id)));
+	$licensesArray = array();
+    $rla = $r->getLicenseArray();
+    $db->changeDb('licensingDatabaseName');
+	foreach($rla as $license) {
+		$l = new License(new NamedArguments(array('primaryKey' => $license['licenseID'])));
+		array_push($licensesArray, $l->asArray());
+	}
+    $db->changeDb();
+	Flight::json($licensesArray);
+});
+
+
+Flight::route('GET /organizations/@id', function($id) {
+    $config = new Configuration();
+    $db = DBService::getInstance();
+    if ($config->settings->organizationsModule == 'Y') {
+        include_once '../../organizations/admin/classes/domain/Organization.php';
+        $db->changeDb('organizationsDatabaseName');
+        $organization = new Organization(new NamedArguments(array('primaryKey' => $id)));
+        Flight::json($organization->asArray());
+        $db->changeDb();
+    } else {
+        include_once '../admin/classes/domain/Organization.php';
+        $organization = new Organization(new NamedArguments(array('primaryKey' => $id)));
+        Flight::json($organization->asArray());
+    }
+});
 
 Flight::start();
 
