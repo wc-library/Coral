@@ -81,7 +81,7 @@ class GeneralSubject extends DatabaseObject {
 	}
 
 	// Save the General subject.  Use this function since a record needs to be added to the linking table also.
-	public function save(){
+	public function save($new = 0){
 
 		if (isset($this->primaryKey)) {
 			// Update object
