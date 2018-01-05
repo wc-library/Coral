@@ -1,7 +1,7 @@
 <?php
-	$resourceAcquisitionID = $_GET['resourceAcquisitionID'];
+    $resourceAcquisitionID = isset($_GET['resourceAcquisitionID']) ? $_GET['resourceAcquisitionID'] : null;
 	$resourceID = $_GET['resourceID'];
-    $op = $_GET['op'];
+    $op = isset($_GET['op']) ? $_GET['op'] : null;
 	$resourceAcquisition = new ResourceAcquisition(new NamedArguments(array('primaryKey' => $resourceAcquisitionID)));
 	$resource = new Resource(new NamedArguments(array('primaryKey' => $resourceID)));
     if ($resourceAcquisition->organizationID) {
@@ -93,7 +93,7 @@
                 <tr>
 				<td style='vertical-align:top;text-align:left;font-weight:bold'><label for='organizationName'><?php echo _("Organization");?></label></td>
 				<td>
-                <input type='text' value='<?php echo $organizationName; ?>' id="organizationName" class='changeAutocomplete organizationName' />
+                <input type='text' value='<?php if (isset($organizationName)) echo $organizationName; ?>' id="organizationName" class='changeAutocomplete organizationName' />
                 <input type='hidden' id="organizationID" class='organizationID' value = '<?php echo $resourceAcquisition->organizationID; ?>' />
 				</td>
 				</tr>

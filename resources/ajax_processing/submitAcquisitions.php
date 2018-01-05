@@ -24,7 +24,7 @@
 		$resourceAcquisition->acquisitionTypeID 				= $_POST['acquisitionTypeID'];
 		$resourceAcquisition->orderNumber 						= $_POST['orderNumber'];
 		$resourceAcquisition->systemNumber 					= $_POST['systemNumber'];
-		$resourceAcquisition->subscriptionAlertEnabledInd 		= $_POST['subscriptionAlertEnabledInd'];
+		$resourceAcquisition->subscriptionAlertEnabledInd 		= isset($_POST['subscriptionAlertEnabledInd']) ? $_POST['subscriptionAlertEnabledInd'] : null;
 		$resourceAcquisition->resourceID 		= $_POST['resourceID'];
 		$resourceAcquisition->organizationID    = $_POST['organizationID'];
 

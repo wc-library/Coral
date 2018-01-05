@@ -20,7 +20,7 @@
 include_once 'directory.php';
 
 $resourceID = $_GET['resourceID'];
-$resourceAcquisitionID = $_GET['resourceAcquisitionID'];
+$resourceAcquisitionID = isset($_GET['resourceAcquisitionID']) ? $_GET['resourceAcquisitionID'] : null;
 $resource = new Resource(new NamedArguments(array('primaryKey' => $resourceID)));
 $status = new Status(new NamedArguments(array('primaryKey' => $resource->statusID)));
 $resourceAcquisitions = $resource->getResourceAcquisitions();
