@@ -54,7 +54,7 @@ class Dashboard {
                         AT.shortName AS acquisitionType,
                         CD.shortName AS costDetails,
                         GS.shortName AS generalSubject,
-                        DS.shortName AS detailedSubject,
+                        DS.shortName AS detailedSubject
                         ";
 
         $costDetails = new CostDetails();
@@ -75,7 +75,7 @@ class Dashboard {
             }
         }
         $query_sum = join(",", $sum_parts);
-        $query .= $query_sum;
+        if ($query_sum) $query .= "," . $query_sum;
 
         $query .= "
                  FROM Resource R
