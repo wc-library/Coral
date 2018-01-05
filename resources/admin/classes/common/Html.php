@@ -40,7 +40,7 @@ class Html {
 
   public function label_tag($for, $name = null, $required = false) {
     if ($name === null) {
-      $name = Html::humanize($for);
+      $name = (new Html())->humanize($for);
     }
 
     if ($required) {
@@ -53,7 +53,7 @@ class Html {
   }
 
   public function hidden_field_tag($name, $value, $options = array()) {
-    $default_id = Html::nameToID($name);
+    $default_id = (new Html())->nameToID($name);
     $default_options = array('id' => $default_id);
     $options = array_merge($default_options, $options);
 
@@ -61,11 +61,11 @@ class Html {
   }
 
   public function hidden_search_field_tag($name, $value, $options = array()) {
-    return Html::hidden_field_tag("search[".$name."]", $value, $options);
+    return (new Html())->hidden_field_tag("search[".$name."]", $value, $options);
   }
 
   public function text_field_tag($name, $value, $options = array()) {
-    $default_id = Html::nameToID($name);
+    $default_id = (new Html())->nameToID($name);
     $default_options = array('width' => '180px', 'id' => $default_id, 'class' => 'changeInput');
     $options = array_merge($default_options, $options);
 
@@ -73,13 +73,13 @@ class Html {
   }
 
   public function text_field($field, $object, $options = array()) {
-    return Html::text_field_tag($field, $object->$field, $options);
+    return (new Html())->text_field_tag($field, $object->$field, $options);
   }
 
   public function text_search_field_tag($name, $value, $options = array()) {
     $default_options = array('width' => '145px', 'class' => '');
     $options = array_merge($default_options, $options);
-    return Html::text_field_tag("search[".$name."]", $value, $options);
+    return (new Html())->text_field_tag("search[".$name."]", $value, $options);
   }
 
 

@@ -46,7 +46,7 @@ include 'templates/header.php';
 	<form method="get" action="ajax_htmldata.php?action=getSearchResources" id="resourceSearchForm">
 		<?php
 		foreach(array('orderBy','page','recordsPerPage','startWith') as $hidden) {
-			echo Html::hidden_search_field_tag($hidden, isset($search[$hidden]) ? $search[$hidden] : '' );
+			echo (new Html())->hidden_search_field_tag($hidden, isset($search[$hidden]) ? $search[$hidden] : '' );
 		}
 		?>
 
@@ -64,7 +64,7 @@ include 'templates/header.php';
 	<tr>
 	<td class='searchRow'><label for='searchName'><b><?php echo _("Name (contains)");?></b></label>
 	<br />
-	<?php echo Html::text_search_field_tag('name', isset($search['name']) ? $search['name'] : '' ); ?>
+	<?php echo (new Html())->text_search_field_tag('name', isset($search['name']) ? $search['name'] : '' ); ?>
 	<br />
 	<div id='div_searchName' style='<?php if (!isset($search['name'])) echo "display:none;"; ?>margin-left:123px;'><input type='button' name='btn_searchName' value='<?php echo _("go!");?>' class='searchButton' /></div>
 	</td>
@@ -74,7 +74,7 @@ include 'templates/header.php';
     <tr>
       <td class='searchRow'>
 		    <label for='searchPublisher'><b><?php echo _("Publisher (contains)"); ?></b></label>
-        <?php echo Html::text_search_field_tag('publisher', isset($search['publisher']) ? $search['publisher'] : ''); ?>
+        <?php echo (new Html())->text_search_field_tag('publisher', isset($search['publisher']) ? $search['publisher'] : ''); ?>
         <div id='div_searchPublisher' style='<?php echo (empty($search['publisher']) ? "display: none;" : ""); ?>'>
           <input type='button' name='btn_searchPublisher' value='<?php echo _("go!");?>' class='searchButton' />
         </div>
@@ -84,7 +84,7 @@ include 'templates/header.php';
     <tr>
       <td class='searchRow'>
         <label for='searchPlatform'><b><?php echo _("Platform (contains)"); ?></b></label>
-        <?php echo Html::text_search_field_tag('platform', isset($search['platform']) ? $search['platform'] : ''); ?>
+        <?php echo (new Html())->text_search_field_tag('platform', isset($search['platform']) ? $search['platform'] : ''); ?>
         <div id='div_searchPlatform' style='<?php echo (empty($search['platform']) ? "display: none;" : ""); ?>'>
           <input type='button' name='btn_searchPlatform' value='<?php echo _("go!");?>' class='searchButton' />
         </div>
@@ -94,7 +94,7 @@ include 'templates/header.php';
     <tr>
       <td class='searchRow'>
         <label for='searchProvider'><b><?php echo _("Provider (contains)"); ?></b></label>
-        <?php echo Html::text_search_field_tag('provider', isset($search['provider']) ? $search['provider'] : ''); ?>
+        <?php echo (new Html())->text_search_field_tag('provider', isset($search['provider']) ? $search['provider'] : ''); ?>
         <div id='div_searchProvider' style='<?php echo (empty($search['provider']) ? "display: none;" : ""); ?>'>
           <input type='button' name='btn_searchProvider' value='<?php echo _("go!");?>' class='searchButton' />
         </div>
@@ -106,7 +106,7 @@ include 'templates/header.php';
 	<tr>
 	<td class='searchRow'><label for='searchResourceISBNOrISSN'><b><?php echo _("ISBN/ISSN");?></b></label>
 	<br />
-	<?php echo Html::text_search_field_tag('resourceISBNOrISSN', isset($search['resourceISBNOrISSN']) ? $search['resourceISBNOrISSN'] : ''); ?>
+	<?php echo (new Html())->text_search_field_tag('resourceISBNOrISSN', isset($search['resourceISBNOrISSN']) ? $search['resourceISBNOrISSN'] : ''); ?>
 	<br />
 	<div id='div_searchISBNOrISSN' style='<?php if (!isset($search['resourceISBNOrISSN'])) echo "display:none;"; ?>margin-left:123px;'><input type='button' name='btn_searchResourceISBNOrISSN' value='<?php echo _("go!");?>' class='searchButton' /></div>
 	</td>
@@ -410,7 +410,7 @@ include 'templates/header.php';
 	<tr>
 	<td class='searchRow'><label for='searchResourceNote'><b><?php echo _("Note (contains)");?></b></label>
 	<br />
-	<?php echo Html::text_search_field_tag('resourceNote', isset($search['resourceNote']) ? $search['resourceNote'] : ''); ?>
+	<?php echo (new Html())->text_search_field_tag('resourceNote', isset($search['resourceNote']) ? $search['resourceNote'] : ''); ?>
 	<br />
 	<div id='div_searchResourceNote' style='<?php if (!isset($search['resourceNote'])) echo "display:none;"; ?>margin-left:123px;'><input type='button' name='btn_searchResourceNote' value='<?php echo _("go!");?>' class='searchButton' /></div>
 	</td>
@@ -421,13 +421,13 @@ include 'templates/header.php';
 
 	<tr>
 	<td class='searchRow'><label for='createDate'><b><?php echo _("Date Created Between");?></b></label><br />
-	  <?php echo Html::text_search_field_tag('createDateStart', isset($search['createDateStart']) ? $search['createDateStart'] : '', array('class' => 'date-pick', 'width' => '65px')); ?>
+	  <?php echo (new Html())->text_search_field_tag('createDateStart', isset($search['createDateStart']) ? $search['createDateStart'] : '', array('class' => 'date-pick', 'width' => '65px')); ?>
 	&nbsp;&nbsp;<b><?php echo _("and");?></b>
 	</td>
 	</tr>
 	<tr>
 	<td style="border-top:0px;padding-top:0px;">
-	  <?php echo Html::text_search_field_tag('createDateEnd', isset($search['createDateEnd']) ? $search['createDateEnd'] : '', array('class' => 'date-pick', 'width' => '65px')); ?>
+	  <?php echo (new Html())->text_search_field_tag('createDateEnd', isset($search['createDateEnd']) ? $search['createDateEnd'] : '', array('class' => 'date-pick', 'width' => '65px')); ?>
 	<br />
 	<div id='div_searchCreateDate' style='display:none;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type='button' class='searchButton' value='<?php echo _("go!");?>' /></div>
 	</td>
