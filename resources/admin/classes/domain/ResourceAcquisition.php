@@ -531,15 +531,19 @@ class ResourceAcquisition extends DatabaseObject {
 
     public function cloneContacts($source) {
         foreach ($source->getUnarchivedContacts() as $s) {
-            $c = new Contact(new NamedArguments(array('primaryKey' => $s['contactID'])));
-            $contactRoles = $c->getContactRoles();
-            $c->contactID = null;
-            $newID = $c->saveAsNew();
-            $query = "UPDATE Contact SET ResourceAcquisitionID=" . $this->resourceAcquisitionID . " WHERE contactID=" . $newID;
-            $result = $this->db->processQuery($query);
-            foreach ($contactRoles as $contactRole) {
-                $query = "INSERT INTO ContactRoleProfile(contactID, contactRoleID) VALUES ($newID, " . $contactRole->contactRoleID . ")";
-                $result = $this->db->processQuery($query);
+            if ($s['contactID'] != null && $s['contactID'] != '') {
+                $c = new Contact(new NamedArguments(array('primaryKey' => $s['contactID'])));
+                $contactRoles = $c->getContactRoles();
+                $c->contactID = null;
+                $newID = $c->saveAsNew();
+                if ($newID) {
+                    $query = "UPDATE Contact SET ResourceAcquisitionID=" . $this->resourceAcquisitionID . " WHERE contactID=" . $newID;
+                    $result = $this->db->processQuery($query);
+                    foreach ($contactRoles as $contactRole) {
+                        $query = "INSERT INTO ContactRoleProfile(contactID, contactRoleID) VALUES ($newID, " . $contactRole->contactRoleID . ")";
+                        $result = $this->db->processQuery($query);
+                    }
+                }
             }
         }
     }

@@ -37,7 +37,7 @@ $acquisitionType = new AcquisitionType(new NamedArguments(array('primaryKey' => 
 $sanitizedInstance = array();
 $instance = new PurchaseSite();
 $purchaseSiteArray = array();
-foreach ($resourceAcquisition->getResourcePurchaseSites() as $instance) {
+foreach ($resourceAcquisition->getPurchaseSites() as $instance) {
 $purchaseSiteArray[]=$instance->shortName;
 }
 
@@ -69,7 +69,7 @@ foreach ($resourceAcquisition->getResourcePayments() as $instance) {
 $sanitizedInstance = array();
 $instance = new ResourceLicenseStatus();
 $licenseStatusArray = array();
-foreach ($resourceAcquisition->getLicenseStatuses() as $instance) {
+foreach ($resourceAcquisition->getResourceLicenseStatuses() as $instance) {
 	foreach (array_keys($instance->attributeNames) as $attributeName) {
 		$sanitizedInstance[$attributeName] = $instance->$attributeName;
 	}
@@ -121,7 +121,7 @@ $licenseArray = $resource->getLicenseArray();
     	<td style='width:350px;'><?php echo $resourceAcquisition->bibSourceURL ?><?php if ($resourceAcquisition->bibSourceURL) { ?> &nbsp;&nbsp;<a href='<?php echo $resourceAcquisition->bibSourceURL; ?>' target='_blank'><img src='images/arrow-up-right.gif' alt='Visit Source URL' title='<?php echo _("Visit Source URL");?>' style='vertical-align:top;'></a><?php } ?></td>
   	</tr>
   	<?php } ?>
-  	<?php if ($resourceAcquisitionAcquisition->catalogingTypeID) { 
+  	<?php if ($resourceAcquisition->catalogingTypeID) { 
       $catalogingType = new CatalogingType(new NamedArguments(array('primaryKey' => $resourceAcquisition->catalogingTypeID)));
       ?>
   	<tr>
@@ -129,7 +129,7 @@ $licenseArray = $resource->getLicenseArray();
     	<td style='width:350px;'><?php echo $catalogingType->shortName ?></td>
   	</tr>
   	<?php } ?>
-  	<?php if ($resourceAcquisitionAcquisition->catalogingStatusID) { 
+  	<?php if ($resourceAcquisition->catalogingStatusID) { 
       $catalogingStatus = new CatalogingStatus(new NamedArguments(array('primaryKey' => $resourceAcquisition->catalogingStatusID)));
       ?>
   	<tr>

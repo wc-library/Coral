@@ -1,6 +1,5 @@
 <?php
-	$entityID = $_GET['entityID'];
-
+	$entityID = isset($_GET['entityID']) ? $_GET['entityID'] : null;
 	if (isset($_GET['resourceNoteID'])) $resourceNoteID = $_GET['resourceNoteID']; else $resourceNoteID = '';
 		if (isset($_GET['tab'])) $tabName = $_GET['tab']; else $tabName = '';
 	$resourceNote = new ResourceNote(new NamedArguments(array('primaryKey' => $resourceNoteID)));

@@ -1,6 +1,6 @@
 <?php
 	$resourceID = $_GET['resourceID'];
-	$resourceAcquisitionID = $_GET['resourceAcquisitionID'];
+    $resourceAcquisitionID = isset($_GET['resourceAcquisitionID']) ? $_GET['resourceAcquisitionID'] : null;
 	if (isset($_GET['contactID'])) $contactID = $_GET['contactID']; else $contactID = '';
 	$contact = new Contact(new NamedArguments(array('primaryKey' => $contactID)));
 

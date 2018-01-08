@@ -193,7 +193,7 @@ class Resource extends DatabaseObject {
 		$objects = array();
 
 		//need to do this since it could be that there's only one request and this is how the dbservice returns result
-		if (isset($result[$key])) {
+		if (isset($result['resourceRelationshipID'])) {
 			$object = new ResourceRelationship(new NamedArguments(array('primaryKey' => $result['resourceRelationshipID'])));
 			array_push($objects, $object);
 		}else{
