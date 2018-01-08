@@ -90,7 +90,7 @@ include_once BASE_DIR . '/../LangCodes.php';
 $lang_name = new LangCodes();
 
 // Verify the language of the browser
-$GLOBALS['http_lang'];
+$GLOBALS['http_lang'] = NULL;
 
 if(isset($_COOKIE["lang"])) {
 	$GLOBALS['http_lang'] = $_COOKIE["lang"];
