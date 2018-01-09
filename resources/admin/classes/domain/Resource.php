@@ -795,7 +795,7 @@ class Resource extends DatabaseObject {
 		} else {
 			$select = "SELECT R.resourceID, R.titleText, AT.shortName acquisitionType, R.createLoginID, CU.firstName, CU.lastName, R.createDate, S.shortName status,
 						GROUP_CONCAT(DISTINCT A.shortName, I.isbnOrIssn ORDER BY A.shortName DESC SEPARATOR '<br />') aliases";
-			$groupBy = "GROUP BY R.resourceID, acquisitionType";
+			$groupBy = "GROUP BY R.resourceID";
 		}
 
 		$referenced_tables = array();
