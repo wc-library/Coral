@@ -62,7 +62,7 @@ $title = $ebscoKb->getTitle($titleId);
                                 <ul style="list-style: none; ">
                                     <?php
                                     foreach($title->identifiersList as $identifier){
-                                        if(in_array($identifier['type'], [0,1,2])) {
+                                        if(in_array($identifier['type'], [0,1])) {
                                             switch($identifier['subtype']){
                                                 case 1:
                                                     $subtype = ' (Print)';

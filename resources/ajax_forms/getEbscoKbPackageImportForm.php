@@ -50,8 +50,9 @@ $orgModule = $config->settings->organizationsModule == 'Y' ? true : false;
 if ($orgModule) {
     // TODO: Once namespaces are implemented, these sql calls can be removed. Call the Orgzanization versions of these classes via their namespaces instead.
     $dbService = new DBService;
+    $orgDbName = $config->settings->organizationsDatabaseName;
     $orgQuery = "SELECT organizationID, `name`
-			FROM coral_organizations.Organization
+			FROM ".$orgDbName.".Organization
 			WHERE ebscoKbID = $package->vendorId
 			LIMIT 0,1";
     $result = $dbService->processQuery($orgQuery, 'assoc');
