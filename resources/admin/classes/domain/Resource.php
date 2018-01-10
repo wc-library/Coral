@@ -59,6 +59,7 @@ class Resource extends DatabaseObject {
 		$i = 0;
 
 		if (!is_array($isbnOrISSN)) {
+			if ($isbnOrISSN === null) return;
 			$value = $isbnOrISSN;
 			$isbnOrISSN = array($value);
 		}
@@ -126,11 +127,12 @@ class Resource extends DatabaseObject {
   // return array of related resource objects
   private function getRelatedResources($key) {
 
-		$query = "SELECT *
-			FROM ResourceRelationship
-			WHERE $key = '" . $this->resourceID . "'
+		$query = "SELECT rr.resourceRelationshipID
+			FROM ResourceRelationship rr
+            JOIN Resource r on rr.resourceID = r.resourceID
+			WHERE rr.$key = '" . $this->resourceID . "'
 			AND relationshipTypeID = '1'
-			ORDER BY 1";
+			ORDER BY r.titleText";
 
 		$result = $this->db->processQuery($query, 'assoc');
 
@@ -802,7 +804,7 @@ class Resource extends DatabaseObject {
 		"recordsPerPage" => 25,
 		);
 		foreach ($defaultSearchParameters as $key => $value) {
-			if (!$search[$key]) {
+			if (!isset($search[$key])) {
 				$search[$key] = $value;
 			}
 		}
@@ -1035,7 +1037,44 @@ class Resource extends DatabaseObject {
 			$searchDisplay[] = _("Cataloging Status: ") . $catalogingStatus->shortName;
 		}
 
+		if ($search['publisher']) {
+			$nameQueryString = $resource->db->escapeString(strtoupper($search['publisher']));
+			$nameQueryString = preg_replace("/ +/", "%", $nameQueryString);
+		  	$nameQueryString = "'%" . $nameQueryString . "%'";
+			if ($config->settings->organizationsModule == 'Y'){
+				$dbName = $config->settings->organizationsDatabaseName;
+				$whereAdd[] = "ROL.organizationRoleID=5 AND ((UPPER(O.name) LIKE " . $nameQueryString . ") OR (UPPER(OA.name) LIKE " . $nameQueryString . "))";
+			}else{
+				$whereAdd[] = "ROL.organizationRoleID=5 AND (UPPER(O.shortName) LIKE " . $nameQueryString . ")";
+			}
+			$searchDisplay[] = _("Publisher name contains: ") . $search['publisher'];
+		}
 
+		if ($search['platform']) {
+			$nameQueryString = $resource->db->escapeString(strtoupper($search['platform']));
+			$nameQueryString = preg_replace("/ +/", "%", $nameQueryString);
+			$nameQueryString = "'%" . $nameQueryString . "%'";
+			if ($config->settings->organizationsModule == 'Y'){
+				$dbName = $config->settings->organizationsDatabaseName;
+				$whereAdd[] = "ROL.organizationRoleID=3 AND ((UPPER(O.name) LIKE " . $nameQueryString . ") OR (UPPER(OA.name) LIKE " . $nameQueryString . "))";
+ 			}else{
+ 				$whereAdd[] = "ROL.organizationRoleID=3 AND (UPPER(O.shortName) LIKE " . $nameQueryString . ")";
+ 			}
+ 			$searchDisplay[] = _("Platform name contains: ") . $search['publisher'];
+ 		}
+
+ 		if ($search['provider']) {
+ 			$nameQueryString = $resource->db->escapeString(strtoupper($search['provider']));
+ 			$nameQueryString = preg_replace("/ +/", "%", $nameQueryString);
+ 			$nameQueryString = "'%" . $nameQueryString . "%'";
+ 			if ($config->settings->organizationsModule == 'Y'){
+ 				$dbName = $config->settings->organizationsDatabaseName;
+ 				$whereAdd[] = "ROL.organizationRoleID=4 AND ((UPPER(O.name) LIKE " . $nameQueryString . ") OR (UPPER(OA.name) LIKE " . $nameQueryString . "))";
+ 			}else{
+ 				$whereAdd[] = "ROL.organizationRoleID=4 AND (UPPER(O.shortName) LIKE " . $nameQueryString . ")";
+ 			}
+			$searchDisplay[] = _("Provider name contains: ") . $search['publisher'];
+		}
 
 		$orderBy = $search['orderBy'];
 
@@ -1523,7 +1562,7 @@ class Resource extends DatabaseObject {
 
 			$result = $this->db->processQuery($query, 'assoc');
 
-			if($result["resourceID"]) {
+			if (isset($result["resourceID"])) {
 				return array($result);
 			}
 
@@ -1973,7 +2012,7 @@ class Resource extends DatabaseObject {
                     AND ResourceStep.stepID = Step.stepID LIMIT 1";
 
 		$result = $this->db->processQuery($query, 'assoc');
-        return $result['workflowID'];
+        return isset($result['workflowID']) ? $result['workflowID'] : NULL;
     }
 
     public function getCurrentWorkflowResourceSteps(){
@@ -2007,7 +2046,7 @@ class Resource extends DatabaseObject {
             return true;
         }
 
-        $steps = $this->getCurrentWorkflowResourceSteps(); 
+        $steps = $this->getCurrentWorkflowResourceSteps();
         foreach ($steps as $step) {
             if (!$step->isComplete()) return false;
         }
@@ -2069,7 +2108,7 @@ class Resource extends DatabaseObject {
     }
 
 	//enters resource into new workflow
-	public function enterNewWorkflow($workflowID = null){
+	public function enterNewWorkflow($workflowID = null, $sendEmail = true){
 		$config = new Configuration();
 
 		//make sure this resource is marked in progress in case it was archived
@@ -2121,7 +2160,7 @@ class Resource extends DatabaseObject {
 			//Start the first step
 			//this handles updating the db and sending notifications for approval groups
 			foreach ($this->getFirstSteps() as $resourceStep) {
-				$resourceStep->startStep();
+				$resourceStep->startStep($sendEmail);
 
 			}
 		}
@@ -2139,8 +2178,7 @@ class Resource extends DatabaseObject {
 			$creator = "(unknown user)";
 		}
 
-
-		if (($config->settings->feedbackEmailAddress) || ($cUser->emailAddress)) {
+		if ($sendEmail && ($config->settings->feedbackEmailAddress || $cUser->emailAddress)) {
 			$email = new Email();
 			$util = new Utility();
 

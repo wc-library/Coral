@@ -18,7 +18,6 @@
 */
 
 
-session_start();
 
 include_once 'directory.php';
 
@@ -78,7 +77,6 @@ $_SESSION['ref_script']=$currentPage;
 			}else{
 				echo "<option value='" . $display['organizationRoleID'] . "'>" . $display['shortName'] . "</option>";
 			}
-			if ($letter == "N") echo "<br />";
 		}
 
 	?>
@@ -111,6 +109,7 @@ $_SESSION['ref_script']=$currentPage;
 			if ($letter == "N") echo "<br />";
 		}else{
 			echo "<span class='searchLetter'>" . $letter . "</span>";
+			if ($letter == "N") echo "<br />";
 		}
 	}
 

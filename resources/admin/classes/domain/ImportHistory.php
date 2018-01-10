@@ -1,7 +1,8 @@
 <?php
+
 /*
 **************************************************************************************************************************
-** CORAL Usage Statistics Reporting Module v. 1.0
+** CORAL Resources Module v. 1.0
 **
 ** Copyright (c) 2010 University of Notre Dame
 **
@@ -16,9 +17,13 @@
 **************************************************************************************************************************
 */
 
-// Define the MODULE base directory, ending with |/|.
-define('BASE_DIR', dirname(__FILE__) . '/');
+class ImportHistory extends DatabaseObject {
 
-require_once "../common/common_directory.php";
+	protected function defineRelationships() {}
+
+	protected function overridePrimaryKeyName() {}
+
+
+}
 
 ?>

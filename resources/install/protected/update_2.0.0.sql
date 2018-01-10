@@ -1,4 +1,4 @@
-ALTER TABLE `ResourcePayment`
+ALTER TABLE `ResourceType`
 	ADD COLUMN `includeStats` boolean default NULL;
 
 DROP TABLE IF EXISTS `Fund`;
