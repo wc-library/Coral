@@ -1,7 +1,6 @@
 <?php
 
 require '../resources/api_client/vendor/autoload.php';
-require 'ILSClient.php';
 
 /**
  * KohaClient
