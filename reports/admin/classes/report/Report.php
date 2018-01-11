@@ -36,7 +36,7 @@ abstract class Report implements ReportInterface {
     }
 
     public function __construct($id){
-        $this->db = new DBService();
+        $this->db = DBService::getInstance();
         $result = $this->db
             ->query("SELECT reportName, reportDatabaseName FROM Report WHERE reportID = '$id' LIMIT 1")
             ->fetchRow(MYSQLI_ASSOC);
