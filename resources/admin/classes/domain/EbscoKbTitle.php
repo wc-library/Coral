@@ -19,18 +19,31 @@ class EbscoKbTitle extends EbscoKbResult {
 
     public function getIsxns()
     {
-        return array_unique(array_filter(array_map(function($identifier){
-            if(in_array($identifier['type'], [0,1,2])){
-                return $identifier['id'];
-            }
-        }, $this->identifiersList)));
+        return array_unique(array_map(function($identifier){
+            return $identifier['id'];
+        }, $this->isxnsList));
+    }
+
+    public function getIsxnList()
+    {
+        if($this->identifiersList){
+            return array_filter(array_map(function($identifier){
+                if(in_array($identifier['type'], [0,1])){
+                    return $identifier;
+                }
+            }, $this->identifiersList));
+        }
+        return [];
     }
 
     public function getSubjects()
     {
-        return array_map(function($subject){
-            return $subject['subject'];
-        }, $this->subjectsList);
+        if($this->subjectsList) {
+            return array_map(function($subject){
+                return $subject['subject'];
+            }, $this->subjectsList);
+        }
+        return [];
     }
 
     public function getAccessibleUrls()

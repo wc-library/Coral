@@ -32,7 +32,7 @@
             <td>
                 <ul style="list-style: none; font-size: .8em">
                     <?php
-                    foreach($item->identifiersList as $identifier){
+                    foreach($item->isxnList as $identifier){
                         if(in_array($identifier['type'], [0,1])) {
                             switch($identifier['subtype']){
                                 case 1:

@@ -61,7 +61,7 @@ $title = $ebscoKb->getTitle($titleId);
                             <dd>
                                 <ul style="list-style: none; ">
                                     <?php
-                                    foreach($title->identifiersList as $identifier){
+                                    foreach($title->isxnList as $identifier){
                                         if(in_array($identifier['type'], [0,1])) {
                                             switch($identifier['subtype']){
                                                 case 1:
