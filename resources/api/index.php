@@ -1,5 +1,5 @@
 <?php
-require 'Flight/flight/Flight.php';
+require 'vendor/autoload.php';
 
 include_once '../directory.php';
 
