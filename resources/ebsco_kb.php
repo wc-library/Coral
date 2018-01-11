@@ -26,7 +26,7 @@ include_once 'directory.php';
 //except we don't want it to retain if they press the 'index' button
 //check what referring script is
 
-CoralSession::set('ref_script', $currentPage);
+CoralSession::set('ref_script', empty($currentPage) ? null : $currentPage);
 $ebscoKb = EbscoKbService::getInstance();
 $search = $ebscoKb::getSearch();
 $limitLabel = '';
