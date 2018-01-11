@@ -126,7 +126,7 @@ include 'templates/header.php';
                                         <strong><?php echo _("Name (contains)");?></strong>
                                     </label>
                                     <br />
-                                    <?php echo Html::text_search_field_tag('search', isset($search['name']) ? $search['name'] : '' ); ?>
+                                    <input type="text" id="searchSearch" name="search[search]" style="width:145px" value="<?php echo isset($search['search']) ? $search['search'] : ''; ?>">
                                     <br />
                                 </div>
                             </td>
