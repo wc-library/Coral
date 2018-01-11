@@ -3,7 +3,7 @@
     <div style="width: 450px; margin: 10px 0;">
         <label for="ebscoKbEnabled">
             <input type="checkbox" name="enabled" id="ebscoKbEnabled" value="true" <?php echo $config->settings->ebscoKbEnabled == 'Y' ? 'checked' : ''; ?>>
-            <?php echo _("Enable EBSCO Knowkledge Base"); ?>
+            <?php echo _("Enable EBSCO Knowledge Base"); ?>
         </label>
     </div>
     <div style="width: 160px; margin-right: 20px; display: inline-block;">
