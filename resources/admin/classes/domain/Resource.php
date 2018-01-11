@@ -793,7 +793,7 @@ class Resource extends DatabaseObject {
 			$select = "SELECT COUNT(DISTINCT R.resourceID) count";
 			$groupBy = "";
 		} else {
-			$select = "SELECT R.resourceID, R.titleText, AT.shortName acquisitionType, R.createLoginID, CU.firstName, CU.lastName, R.createDate, S.shortName status,
+			$select = "SELECT R.resourceID, R.titleText, GROUP_CONCAT(DISTINCT AT.shortName SEPARATOR ' / ') as acquisitionType, R.createLoginID, CU.firstName, CU.lastName, R.createDate, S.shortName status,
 						GROUP_CONCAT(DISTINCT A.shortName, I.isbnOrIssn ORDER BY A.shortName DESC SEPARATOR '<br />') aliases";
 			$groupBy = "GROUP BY R.resourceID";
 		}
