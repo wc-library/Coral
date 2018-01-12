@@ -73,7 +73,7 @@ switch ($_GET['action']) {
 		<td style='vertical-align:top;padding-top:10px;'><input type='text' id='organizationName' name='organizationName' value = "<?php echo htmlentities($organization->name); ?>" style='width:220px;' <?php if ($organization->isLinkedToILS()) echo "disabled='disabled'" ?> /> <span id='span_errors' style='color:red'></span></td>
 		</tr>
 <?php
-        if ($config->ils->ilsConnector && !$organization->isLinkedToILS()) {
+        if ($config->ils && $config->ils->ilsConnector && !$organization->isLinkedToILS()) {
             $ilsClient = (new ILSClientSelector())->select();
             echo ('<tr><td></td><td><a href="#" id="checkVendorInILS">' . _("Check if this vendor already exists in") . ' ' . $ilsClient->getILSName() . '</a></td></tr>');
             echo ('<tr><td></td><td><span id="ils_span"><br /></span> <a href="#" id="retrieveVendor" style="display:none;">Retrieve its informations.</a></td></tr>');
@@ -122,7 +122,7 @@ switch ($_GET['action']) {
 					if(($i % 2)==1){
 						echo "<tr>\n";
 					}
-                    $ilsClass = ($organizationRoleIns['shortName'] == $config->ils->ilsVendorRole) ? ' ils_role' : '';
+                    $ilsClass = ($config->ils && $organizationRoleIns['shortName'] == $config->ils->ilsVendorRole) ? ' ils_role' : '';
 					if (in_array($organizationRoleIns['organizationRoleID'],$organizationRoleProfileArray)){
 						echo "<td><input class='check_roles$ilsClass' type='checkbox' name='" . $organizationRoleIns['organizationRoleID'] . "' id='" . $organizationRoleIns['organizationRoleID'] . "' value='" . $organizationRoleIns['organizationRoleID'] . "' checked />   " . $organizationRoleIns['shortName'] . "</td>\n";
 					}else{
