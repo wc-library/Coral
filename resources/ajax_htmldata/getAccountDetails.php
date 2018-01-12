@@ -10,10 +10,10 @@
 		if (count($externalLoginArray) > 0){
 			foreach ($externalLoginArray as $externalLogin){
 
-				if (($resELFlag == 0) && ($externalLogin['organizationName'] == '')){
+				if ($resELFlag == 0 && array_key_exists('organizationName', $externalLogin) && $externalLogin['organizationName'] == ''){
 					echo "<div class='formTitle' style='padding:4px; font-weight:bold; margin-bottom:8px;'>"._("Resource Specific:")."</div>";
 					$resELFlag = 1;
-				}else if (($orgELFlag == 0) && ($externalLogin['organizationName'] != '')){
+				}else if ($orgELFlag == 0 && array_key_exists('organizationName', $externalLogin) && $externalLogin['organizationName'] != ''){
 					if ($resELFlag == 0){
 						echo "<i>"._("No Resource Specific Accounts")."</i><br /><br />";
 					}
@@ -40,7 +40,7 @@
 
 				<span style='float:right;'>
 				<?php
-					if (($user->canEdit()) && ($externalLogin['organizationName'] == '')){ ?>
+					if ($user->canEdit() && array_key_exists('organizationName', $externalLogin) && $externalLogin['organizationName'] == ''){ ?>
 						<a href='ajax_forms.php?action=getAccountForm&height=314&width=403&modal=true&resourceID=<?php echo $resourceID; ?>&externalLoginID=<?php echo $externalLogin['externalLoginID']; ?>' class='thickbox'><img src='images/edit.gif' alt='<?php echo _("edit");?>' title='<?php echo _("edit account");?>'></a>  <a href='javascript:void(0);' class='removeAccount' id='<?php echo $externalLogin['externalLoginID']; ?>'><img src='images/cross.gif' alt='<?php echo _("remove account");?>' title='<?php echo _("remove account");?>'></a>
 						<?php
 					}else{

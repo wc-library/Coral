@@ -588,6 +588,12 @@
                         }
 						$inserted++;
 
+                        $resourceAcquisition = new ResourceAcquisition(); 
+                        $resourceAcquisition->resourceID = $resource->resourceID;
+                        $resourceAcquisition->subscriptionStartDate = date('Y-m-d');
+                        $resourceAcquisition->subscriptionEndDate = date('Y-m-d');
+                        $resourceAcquisition->save();
+
                         // Create an acquisition line if fund code and cost are defined
 						if (!empty($fundCodeColumn)) {
 							$fundCode = trim($data[$fundCodeColumn]);
@@ -597,7 +603,7 @@
 						}
                         if (isset($fundCode) && isset($cost)) {
                             $resourcePayment = new ResourcePayment();
-                            $resourcePayment->resourceID = $resource->resourceID;
+                            $resourcePayment->resourceAcquisitionID = $resourceAcquisition->resourceAcquisitionID;
                             $resourcePayment->paymentAmount = cost_to_integer($cost);
                             $resourcePayment->currencyCode = $_POST['currency'];
                             $resourcePayment->orderTypeID = $_POST['orderType'];
@@ -630,7 +636,6 @@
 						if ($rtype && $rformat && $atype) {
 							$resource->enterNewWorkflow($sendemails);
 						}
-
 
 						// If Alias is mapped, check to see if it exists
 						foreach($jsonData['alias'] as $alias)
