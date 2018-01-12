@@ -46,7 +46,7 @@ Flight::route('/proposeResource/', function(){
     $resource->mandatoryResource            = '';
     $resource->resourceID                   = null;
 
-    $fieldNames = array("titleText", "descriptionText", "providerText", "resourceURL", "resourceAltURL", "noteText", "resourceTypeID", "resourceFormatID", "acquisitionTypeID");
+    $fieldNames = array("titleText", "descriptionText", "providerText", "resourceURL", "resourceAltURL", "noteText", "resourceTypeID", "resourceFormatID");
     foreach ($fieldNames as $fieldName) {
         $resource->$fieldName = Flight::request()->data->$fieldName;
     }
@@ -54,6 +54,14 @@ Flight::route('/proposeResource/', function(){
         $resource->save();
         $resourceID = $resource->primaryKey;
         $resource = new Resource(new NamedArguments(array('primaryKey' => $resourceID)));
+
+		// Create the default order
+		$resourceAcquisition = new ResourceAcquisition();
+		$resourceAcquisition->resourceID = $resourceID;
+		$resourceAcquisition->subscriptionStartDate = date("Y-m-d");
+		$resourceAcquisition->subscriptionEndDate = date("Y-m-d");
+		$resourceAcquisition->acquisitionTypeID = Flight::request()->data->acquisitionTypeID;
+		$resourceAcquisition->save();
 
         //add administering site
         if (Flight::request()->data['administeringSiteID']) {
