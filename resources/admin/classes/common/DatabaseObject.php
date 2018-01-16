@@ -232,18 +232,20 @@ class DatabaseObject extends DynamicObject {
 			}
 		}
 		$set = implode(', ', $pairs);
-		if (($new == 0) && isset($this->primaryKey)) {
-			// Update object
-			$query = "UPDATE `$this->tableName` SET $set WHERE `$this->primaryKeyName` = '$this->primaryKey'";
-			//echo $query;
-			$this->db->processQuery($query);
-		} else {
-			// Insert object
-			$query = "INSERT INTO `$this->tableName` SET $set";
-			//echo $query;
-			$this->primaryKey = $this->db->processQuery($query);
-			if ($new) return $this->primaryKey;
-		}
+        if ($set && trim($set) != '') {
+            if (($new == 0) && isset($this->primaryKey)) {
+                // Update object
+                $query = "UPDATE `$this->tableName` SET $set WHERE `$this->primaryKeyName` = '$this->primaryKey'";
+                //echo $query;
+                $this->db->processQuery($query);
+            } else {
+                // Insert object
+                $query = "INSERT INTO `$this->tableName` SET $set";
+                //echo $query;
+                $this->primaryKey = $this->db->processQuery($query);
+                if ($new) return $this->primaryKey;
+            }
+        }
 	}
 
     public function saveAsNew() {
