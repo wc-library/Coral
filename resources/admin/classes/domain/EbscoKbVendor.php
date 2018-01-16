@@ -2,8 +2,6 @@
 
 class EbscoKbVendor extends EbscoKbResult {
 
-    static $packageTemplateFile = __DIR__.'/../../../templates/ebscoKbPackageList.php';
-
     public function getPackages($value)
     {
         $ebscoKb = new EbscoKbService();
@@ -14,7 +12,7 @@ class EbscoKbVendor extends EbscoKbResult {
     {
         ob_start();
         $items = $this->packages;
-        include_once self::$packageTemplateFile;
+        include_once __DIR__.'/../../../templates/ebscoKbPackageList.php';
         return ob_get_clean();
     }
 
