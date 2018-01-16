@@ -27,9 +27,9 @@ function write_php_ini($file, $array)
 		if(is_array($val))
 		{
 			$res[] = "[$key]";
-			foreach($val as $skey => $sval) $res[] = "$skey = ".(is_numeric($sval) ? $sval : '"'.$sval.'"');
+			foreach($val as $skey => $sval) $res[] = "$skey = ".(is_numeric($sval) ? $sval : '"'.addcslashes($sval, '"').'"');
 		}
-		else $res[] = "$key = ".(is_numeric($val) ? $val : '"'.$val.'"');
+		else $res[] = "$key = ".(is_numeric($val) ? $val : '"'.addcslashes($val, '"').'"');
 	}
 	safefilerewrite($file, implode("\r\n", $res));
 }
