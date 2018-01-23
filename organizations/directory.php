@@ -17,48 +17,10 @@
 **************************************************************************************************************************
 */
 
-
-// Useful directory constants, ending with |/|.
-define('ADMIN_DIR', dirname(__FILE__) . '/admin/');
+// Define the MODULE base directory, ending with |/|.
 define('BASE_DIR', dirname(__FILE__) . '/');
-define('CLASSES_DIR', ADMIN_DIR . 'classes/');
 
-// Automatically load undefined classes from subdirectories of |CLASSES_DIR|.
-function __autoload( $className ) {
-	if (file_exists(CLASSES_DIR) && is_readable(CLASSES_DIR) && is_dir(CLASSES_DIR)) {
-		$directory = dir(CLASSES_DIR);
-
-		// Iterate over the files and directories in |CLASSES_DIR|.
-		while (false !== ($entry = $directory->read())) {
-			$path = CLASSES_DIR . $entry;
-
-			// Look only at subdirectories
-			if (is_dir($path)) {
-				$filename = $path . '/' . $className . '.php';
-				if (file_exists($filename) && is_readable($filename) && is_file($filename)) {
-					// Could probably safely use |require()| here, since |__autoload()| is only called when a class isn't loaded.
-					require_once($filename);
-				}
-			}
-		}
-		$directory->close();
-	}
-}
-
-// Add lcfirst() for PHP < 5.3.0
-if (false === function_exists('lcfirst')) {
-	function lcfirst($string) {
-		return strtolower(substr($string, 0, 1)) . substr($string, 1);
-	}
-}
-
-
-
-//fix default timezone for PHP > 5.3
-if(function_exists("date_default_timezone_set") and function_exists("date_default_timezone_get")){
-	@date_default_timezone_set(@date_default_timezone_get());
-}
-
+require_once "../common/common_directory.php";
 
 /**
  * Multibyte capable wordwrap
@@ -132,23 +94,6 @@ function mb_wordwrap($str, $width=74, $break="\r\n")
     return $return;
 }
 
-function format_date($mysqlDate) {
-
-	//see http://php.net/manual/en/function.date.php for options
-
-	//there is a dependence on strtotime recognizing date format for date inputs
-	//thus, european format (d-m-Y) must use dashes rather than slashes
-
-	//upper case Y = four digit year
-	//lower case y = two digit year
-	//make sure digit years matches for both directory.php and common.js
-
-	//SUGGESTED: "m/d/Y" or "d-m-Y"
-
-	return date("m/d/Y", strtotime($mysqlDate));
-
-}
-
 function buildSelectableHours($fieldNameBase,$defaultHour=8) {
     $html = "<select name=\"{$fieldNameBase}[hour]\">";
     for ($hour=1;$hour<13;$hour++) {
@@ -178,22 +123,4 @@ function buildTimeForm($fieldNameBase,$defaultHour=8,$minuteIntervals=4) {
     return buildSelectableHours($fieldNameBase,$defaultHour).buildSelectableMinutes($fieldNameBase,$minuteIntervals).buildSelectableMeridian($fieldNameBase);
 }
 
-// Include file of language codes
-include_once 'LangCodes.php';
-$lang_name = new LangCodes();
-
-// Verify the language of the browser
-global $http_lang;
-if(isset($_COOKIE["lang"])){
-    $http_lang = $_COOKIE["lang"];
-}else{
-    $codeL = str_replace("-","_",substr($_SERVER["HTTP_ACCEPT_LANGUAGE"],0,5));
-    $http_lang = $lang_name->getLanguage($codeL);
-    if($http_lang == "")
-      $http_lang = "en_US";
-}
-putenv("LC_ALL=$http_lang");
-setlocale(LC_ALL, $http_lang.".utf8");
-bindtextdomain("messages", dirname(__FILE__) . "/locale");
-textdomain("messages");
 ?>

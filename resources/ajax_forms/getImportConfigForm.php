@@ -1,5 +1,10 @@
 <?php
-	if (isset($_POST['configID'])) {
+	if (isset($_POST['jsonData'])) {
+		$jsonData = $_POST['jsonData'];
+		$configuration = json_decode($jsonData, true);
+		$orgMappingsNamed = explode(":::", $_POST['orgNamesMapped']);
+		$orgMappingsImported = explode(":::", $_POST['orgNamesImported']);
+	} elseif (isset($_POST['configID'])) {
 		$configID = $_POST['configID'];
 		$instance = new ImportConfig(new NamedArguments(array('primaryKey' => $configID)));
 		$orgMappingInstance = new OrgNameMapping();
@@ -48,6 +53,7 @@
 				<p><span class="ic-label"><?php echo _("Alternate URL");?></span><span><input id='resource_altUrlCol' class="ic-column" value="<?php echo $configuration["altUrl"]?>" /></span></p>
 				<p><span class="ic-label"><?php echo _("Resource Format");?></span><span><input id="resource_format" class="ic-column" value="<?php echo $configuration["resourceFormat"]?>" /></span></p>
 				<p><span class="ic-label"><?php echo _("Resource Type");?></span><span><input id="resource_type" class="ic-column" value="<?php echo $configuration["resourceType"]?>" /></span></p>
+				<p><span class="ic-label"><?php echo _("Acquisition Type");?></span><span><input id="acquisition_type" class="ic-column" value="<?php echo $configuration["acquisitionType"]?>" /></span></p>
 			</fieldset>
 			<fieldset><legend><?php echo _("Alias Sets");?></legend><div id='resource_alias'>
 				<?php
@@ -216,7 +222,15 @@
 						<th></th>
 					</tr>
 					<?php
-						if(count($orgMappings)>0) {
+						if (isset($orgMappingsNamed) && $orgMappingsImported) {
+							for ($i = 0; $i < count($orgMappingsNamed); $i++) {
+								if ( $orgMappingsNamed[$i] && $orgMappingsImported[$i]) {
+									echo "<tr><td><input class='ic-org-imported' value='" . $orgMappingsImported[$i] . "' /></td>";
+									echo "<td><input class='ic-org-mapped' value='" . $orgMappingsNamed[$i] . "' /></td>";
+									echo "<td><img class='remove' src='images/cross.gif' /></td></tr>";
+								}
+							}
+						} elseif (isset($orgMappings) ? count($orgMappings)>0 : '') {
 							foreach($orgMappings as $orgMapping) {
 								echo "<tr><td><input class='ic-org-imported' value='" . $orgMapping->orgNameImported . "' /></td>";
 								echo "<td><input class='ic-org-mapped' value='" . $orgMapping->orgNameMapped . "' /></td>";
@@ -231,6 +245,44 @@
 				<a id='add_mapping' href='#'><?php echo _("+ Add another mapping")?></a>
 			</div>
 		</fieldset>
+        <fieldset>
+        <legend><?php echo _("Acquisitions"); ?></legend><div id="resource_acquisitions">
+        <p><span class="ic-label"><?php echo _("Fund Code");?></span><span><input id="fundCode" class="ic-column" value="<?php echo $configuration["fundCode"]?>" /></span></p>
+        <p><span class="ic-label"><?php echo _("Cost");?></span><span><input id="cost" class="ic-column" value="<?php echo $configuration["cost"]?>" /></span></p>
+        <p><span class="ic-label"><?php echo _("Order Type");?></span><span><select id="orderType" name="orderType">
+        <?php
+        $orderTypeObj = new OrderType();
+        foreach ($orderTypeObj->allAsArray() as $orderType) {
+            echo ('<option value="' . $orderType['orderTypeID'] . '"');
+	    if ($configuration['orderTypeID'] == $orderType['orderTypeID']) {
+		echo (' selected="selected"');
+	    }
+	    echo ('>' . $orderType['shortName'] . '</option>');
+        }
+        ?>
+        </select>
+        <p><span class="ic-label"><?php echo _("Currency");?></span><span><select id="currency" name="currency">
+        <?php
+        $currencyObj = new Currency();
+        foreach ($currencyObj->allAsArray() as $currency) {
+            echo ('<option value="' . $currency['currencyCode'] . '"');
+	    if ($configuration['currencyCode'] == $currency['currencyCode']) {
+		echo (' selected="selected"');
+	    }
+	    echo ('>' . $currency['shortName'] . ' (' . $currency['currencyCode'] . ')</option>');
+        }
+        ?>
+        </select>
+
+        </fieldset>
+
+	<fieldset>
+        <legend><?php echo _("Workflows"); ?></legend>
+	<div id="resource_workflows">
+	<p><input type="checkbox" name="sendemails" id="sendemails"<?php if ($configuration['sendemails']) echo ' checked="checked"'; ?>> <label for="sendemails"><?php echo _("Send emails when starting workflows?"); ?></label></p>
+	</div>
+	</fieldset>
+
 		</div>
 	</div>
 	<div style='clear: both;'></div>
