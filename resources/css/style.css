@@ -1146,6 +1146,10 @@ img[src*="arrowup.png"] {
 			vertical-align: middle !important;
 }
 
+div#div_acquisitions {
+		width: 597px !important;
+}
+
 /*--- Table Column Widths ---*/
 
 table.dataTable th:nth-of-type(1) {
@@ -1381,6 +1385,24 @@ a.showWorkflow:hover {
 			color: #ccc;
 }
 
+a.showOrders:before {
+	font-family: FontAwesome;
+	content: "\f080";
+	font-size: 11px;
+	margin-right: 5px;
+}
+
+a.showOrders {
+			text-decoration: none;
+			text-transform: capitalize;
+			font-size: 12px;
+}
+
+a.showOrders:hover {
+			color: #ccc;
+}
+
+
 /*---------------*/
 
 td.searchRow > b {
@@ -1416,7 +1438,7 @@ td.searchRow textarea {
 }
 
 .resource_tab_content {
-			width: 630px !important;
+			width: 630px;
 }
 
 .sidemenu {
@@ -1425,7 +1447,7 @@ td.searchRow textarea {
 }
 
 .mainContent {
-			width: 430px;
+			width: 100%;
 			padding: 10px;
 }
 
@@ -1600,6 +1622,11 @@ a#login-link:hover {
 
 #importPage fieldset {
 	margin-bottom: 20px;
+}
+
+#dashboardPage legend {
+    color: white;
+    margin-bottom: 10px;
 }
 
 input#resourceTypeID {
@@ -3151,6 +3178,7 @@ table.titleTable {
 
 #main-table {
     margin: 0 30px;
+    width: 1024px;
 }
 
 /*--- Allow Browser to Scroll When Modal Appears ---*/

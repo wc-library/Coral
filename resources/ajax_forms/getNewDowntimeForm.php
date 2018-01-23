@@ -1,12 +1,14 @@
 <?php
 $util = new utility();
 
-$organizationID = $_GET["organizationID"];
+$organizationID = isset($_GET["organizationID"]) ? $_GET["organizationID"] : NULL;
 
-$resourceID = $_GET["resourceID"];
-$issueID = $_GET['issueID'];
+$resourceID = isset($_GET["resourceID"]) ? $_GET["resourceID"] : NULL;
+$issueID = isset($_GET['issueID']) ? $_GET['issueID'] : NULL;
+$resourceAcquisitionID = isset($_GET['resourceAcquisitionID']) ? $_GET['resourceAcquisitionID'] : NULL;
 
 $resource = new Resource(new NamedArguments(array('primaryKey' => $resourceID)));
+$resourceAcquisition = new ResourceAcquisition(new NamedArguments(array('primaryKey' => $resourceAcquisitionID)));
 
 $isOrgDowntime = false;
 if ($organizationID) {
@@ -14,7 +16,7 @@ if ($organizationID) {
 	$issues = $organization->getIssues();
 	$isOrgDowntime = true;
 } else {
-	$issues = $resource->getIssues();
+	$issues = $resourceAcquisition->getIssues();
 
 	$organizationArray = $resource->getOrganizationArray();
 	$organizationData = $organizationArray[0];
@@ -46,6 +48,7 @@ if ($isOrgDowntime) {
 	echo '<input type="hidden" name="sourceOrganizationID" value="'.$organizationID.'" />';
 } else {
 	echo '<input type="hidden" name="sourceResourceID" value="'.$resourceID.'" />';
+	echo '<input type="hidden" name="sourceResourceAcquisitionID" value="'.$resourceAcquisitionID.'" />';
 }
 ?>
 	<table class="thickboxTable" style="width:98%;background-image:url('images/title.gif');background-repeat:no-repeat;">
@@ -94,7 +97,7 @@ echo buildTimeForm("endTime");
 				<select class="downtimeType" name="downtimeType">
 <?php
 			foreach ($downtimeTypeNames as $downtimeType) {
-				echo "<option value=".$downtimeType["downtimeTypeID"].">".$downtimeType["shortName"]."</option>";
+				echo "<option value=" . (isset($downtimeType['downtimeTypeID']) ? $downtimeType['downtimeTypeID'] : '') . ">" . (isset($downtimeType['shortName']) ? $downtimeType['shortName'] : '') . "</option>";
 			}
 ?>
 				</select>

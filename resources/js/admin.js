@@ -414,6 +414,12 @@ function submitImportConfigData() {
         });
         jsonData.resourceFormat = $("#resource_format").val();
         jsonData.resourceType = $("#resource_type").val();
+        jsonData.acquisitionType = $("#acquisition_type").val();
+        jsonData.fundCode = $("#fundCode").val();
+        jsonData.cost = $("#cost").val();
+	jsonData.currencyCode = $("#currency").val();
+        jsonData.orderTypeID = $("#orderType").val();
+        jsonData.sendemails = $("#sendemails").attr('checked');
         jsonData.subject = [];
         $('div.subject-record').each(function() {
             var subjectObject = {};
@@ -676,6 +682,29 @@ function deleteAlert(className, deleteID){
     }
 }
 
+function duplicateWorkflow(sourceID){
+
+    $.ajax({
+        type:       "get",
+        url:        "ajax_processing.php",
+        cache:      false,
+        data:       "action=duplicateWorkflow&id=" + sourceID,
+        success:    function(html) {
+
+            if (html){
+                showError(html);
+
+                // close the div in 3 secs
+                setTimeout("emptyError();",3000);
+            }else{
+                updateWorkflowTable();
+                tb_reinit();
+            }
+
+        }
+    });
+
+}
 
 function deleteWorkflow(className, deleteID){
 

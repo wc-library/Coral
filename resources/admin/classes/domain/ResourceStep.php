@@ -55,21 +55,23 @@ class ResourceStep extends DatabaseObject {
         if ($this->getNumberOfOpenSteps() == 0){
 
             //if there are no more steps then we can mark the resource complete
-            $resource = new Resource(new NamedArguments(array('primaryKey' => $this->resourceID)));
+            $resource = new Resource(new NamedArguments(array('primaryKey' => $this->resourceAcquisitionID)));
             $resource->completeWorkflow();
 
         }
 
     }
 
-	public function startStep(){
+	public function startStep($sendEmail = true){
 
 		//start this step
 		$this->stepStartDate = date( 'Y-m-d' );
 		$this->save();
 
 		//send notifications
+		if ($sendEmail == true) {
 		$this->sendApprovalNotification();
+		}
 
 	}
 
@@ -88,7 +90,7 @@ class ResourceStep extends DatabaseObject {
 
 		$query = "SELECT * FROM ResourceStep
 					WHERE priorStepID = '" . $this->stepID . "'
-					AND resourceID = '" . $this->resourceID . "'
+					AND resourceAcquisitionID = '" . $this->resourceAcquisitionID . "'
 					ORDER BY resourceStepID";
 
 		$result = $this->db->processQuery($query, 'assoc');
@@ -114,7 +116,7 @@ class ResourceStep extends DatabaseObject {
 
 		$query = "SELECT * FROM ResourceStep
 					WHERE stepID = '" . $this->priorStepID . "'
-					AND resourceID = '" . $this->resourceID . "'";
+					AND resourceAcquisitionID = '" . $this->resourceAcquisitionID . "'";
 
 		$result = $this->db->processQuery($query, 'assoc');
 
@@ -137,7 +139,7 @@ class ResourceStep extends DatabaseObject {
 	public function getNumberOfOpenSteps(){
 
 		$query = "SELECT count(*) countSteps FROM ResourceStep
-					WHERE resourceID = '" . $this->resourceID . "'
+					WHERE resourceAcquisitionID = '" . $this->resourceAcquisitionID . "'
 					AND (stepEndDate IS NULL OR stepEndDate = '0000-00-00')";
 
 		$result = $this->db->processQuery($query, 'assoc');
@@ -154,7 +156,7 @@ class ResourceStep extends DatabaseObject {
 	//returns an array of later open step objects
 	public function getLaterOpenSteps(){
 		$query = "SELECT * FROM ResourceStep
-					WHERE resourceID = '" . $this->resourceID . "'
+					WHERE resourceAcquisitionID = '" . $this->resourceAcquisitionID . "'
 					AND displayOrderSequence > " . $this->displayOrderSequence . "
 					AND (stepEndDate IS NULL OR stepEndDate = '0000-00-00')
 					ORDER BY resourceStepID";
@@ -185,7 +187,8 @@ class ResourceStep extends DatabaseObject {
 		$util = new Utility();
 
 		$userGroup = new UserGroup(new NamedArguments(array('primaryKey' => $this->userGroupID)));
-		$resource = new Resource(new NamedArguments(array('primaryKey' => $this->resourceID)));
+        $resourceAcquisition = new ResourceAcquisition(new NamedArguments(array('primaryKey' => $this->resourceAcquisitionID)));
+		$resource = new Resource(new NamedArguments(array('primaryKey' => $resourceAcquisition->resourceID)));
 
 		//only send if there is an email address set up for this group
 		if ($userGroup->emailAddress){
@@ -208,7 +211,7 @@ class ResourceStep extends DatabaseObject {
 
 			//formulate emil to be sent
 			$email = new Email();
-			$email->message = $util->createMessageFromTemplate($messageType, $this->resourceID, $resource->titleText, $priorStepName, '','');
+			$email->message = $util->createMessageFromTemplate($messageType, $resource->resourceID, $resource->titleText, $priorStepName, '','');
 			$email->to 			= $userGroup->emailAddress;
 			$email->subject		= "CORAL Alert: " . $resource->titleText;
 
@@ -224,14 +227,15 @@ class ResourceStep extends DatabaseObject {
         $util = new Utility();
 
         $userGroup = new UserGroup(new NamedArguments(array('primaryKey' => $this->userGroupID)));
-        $resource = new Resource(new NamedArguments(array('primaryKey' => $this->resourceID)));
+        $resourceAcquisition = new ResourceAcquisition(new NamedArguments(array('primaryKey' => $this->resourceAcquisitionID)));
+        $resource = new Resource(new NamedArguments(array('primaryKey' => $resourceAcquisition->resourceID)));
 
         //only send if there is an email address set up for this group
         if ($userGroup->emailAddress){
 
             //formulate emil to be sent
             $email = new Email();
-            $email->message = $util->createMessageFromTemplate('ReassignedStep', $this->resourceID, $resource->titleText, $this->stepName, '','', $this->note);
+            $email->message = $util->createMessageFromTemplate('ReassignedStep', $resource->resourceID, $resource->titleText, $this->stepName, '','', $this->note);
             $email->to 			= $userGroup->emailAddress;
             $email->subject		= "CORAL Alert: " . $resource->titleText;
 
