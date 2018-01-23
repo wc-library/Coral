@@ -21,7 +21,7 @@ class EbscoKbTitle extends EbscoKbResult {
     {
         return array_unique(array_map(function($identifier){
             return $identifier['id'];
-        }, $this->isxnsList));
+        }, $this->isxnList));
     }
 
     public function getIsxnList()
