@@ -24,8 +24,6 @@
 
 		$resource->resourceTypeID 		= $_POST['resourceTypeID'];
 		$resource->resourceFormatID 	= $_POST['resourceFormatID'];
-		$resource->acquisitionTypeID 	= $_POST['acquisitionTypeID'];
-
 		$resource->titleText 			= $_POST['titleText'];
 		$resource->descriptionText 		= $_POST['descriptionText'];
 		$resource->isbnOrISSN	 		= [];
@@ -60,7 +58,8 @@
             // Create the default order
             $resourceAcquisition = new ResourceAcquisition();
             $resourceAcquisition->resourceID = $resourceID;
-            $resourceAcquisition->subscriptionStartDate = date("Y-m-d");
+			$resourceAcquisition->acquisitionTypeID = $_POST['acquisitionTypeID'];
+			$resourceAcquisition->subscriptionStartDate = date("Y-m-d");
             $resourceAcquisition->subscriptionEndDate = date("Y-m-d");
             $resourceAcquisition->save();
 
@@ -149,7 +148,7 @@
 
 			//next if the resource was submitted, enter into workflow
 			if ($statusID == $status->getIDFromName('progress')){
-				$resource->enterNewWorkflow();
+				$resourceAcquisition->enterNewWorkflow();
 			}
 
 
