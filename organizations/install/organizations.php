@@ -122,7 +122,7 @@ function register_organizations_provider()
                             $conf_data = parse_ini_file($protected_module_data["config_file_path"], true);
 
                             // Process sql files
-                            $sql_files_to_process = ["organizations/install/protected/update_$version.sql"];
+                            $sql_files_to_process = glob("organizations/install/protected/$version/*.sql");
                             $db_name = $conf_data["database"]["name"];
                             $dbconnection = $shared_module_info["provided"]["get_db_connection"]( $db_name );
                             $ret = $shared_module_info["provided"]["process_sql_files"]( $dbconnection, $sql_files_to_process, $MODULE_VARS["uid"] );

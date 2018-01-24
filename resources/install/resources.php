@@ -197,7 +197,7 @@ function register_resources_provider()
                             $conf_data = parse_ini_file($protected_module_data["config_file_path"], true);
 
                  			// PROCESS SQL FILES
-                            $sql_files_to_process = ["resources/install/protected/update_$version.sql"];
+                            $sql_files_to_process = glob("resources/install/protected/$version/*.sql");
                  			$db_name = $conf_data["database"]["name"];
                  			$dbconnection = $shared_module_info["provided"]["get_db_connection"]( $db_name );
                  			$ret = $shared_module_info["provided"]["process_sql_files"]($dbconnection, $sql_files_to_process, $MODULE_VARS["uid"]);
