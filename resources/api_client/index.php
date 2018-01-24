@@ -21,7 +21,6 @@ $user = $_SERVER['REMOTE_USER'] ? $_SERVER['REMOTE_USER'] : 'API';
 
     <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" />
     <link rel="stylesheet" href="../css/thickbox.css" type="text/css" media="screen" />
-    <link rel="stylesheet" href="../css/datePicker.css" type="text/css" media="screen" />
 
     <link rel="stylesheet" href="local.css">
 </head>
