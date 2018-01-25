@@ -209,7 +209,7 @@ Flight::route('/proposeResource/', function(){
         }
 
 
-      $resource->enterNewWorkflow();
+      $resourceAcquisition->enterNewWorkflow();
 
 
     } catch (Exception $e) {
