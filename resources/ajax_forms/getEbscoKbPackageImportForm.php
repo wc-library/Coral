@@ -59,7 +59,7 @@ if ($orgModule) {
     $organization = isset($result['organizationID']) ? (object)['primaryKey' => $result['organizationID'], 'name' => $result['name']] : false;
 
     $aliasTypeQuery = "SELECT aliasTypeID, shortName
-			FROM coral_organizations.AliasType";
+			FROM ".$orgDbName.".AliasType";
     $aliasTypeArray = $dbService->processQuery($aliasTypeQuery, 'assoc');
 } else {
     $organization = new Organization;
