@@ -46,7 +46,7 @@ Flight::route('/proposeResource/', function(){
     $resource->mandatoryResource            = '';
     $resource->resourceID                   = null;
 
-    $fieldNames = array("titleText", "descriptionText", "providerText", "resourceURL", "resourceAltURL", "noteText", "resourceTypeID", "resourceFormatID", "acquisitionTypeID");
+    $fieldNames = array("titleText", "descriptionText", "providerText", "resourceURL", "resourceAltURL", "noteText", "resourceTypeID", "resourceFormatID");
     foreach ($fieldNames as $fieldName) {
         $resource->$fieldName = Flight::request()->data->$fieldName;
     }
@@ -55,12 +55,20 @@ Flight::route('/proposeResource/', function(){
         $resourceID = $resource->primaryKey;
         $resource = new Resource(new NamedArguments(array('primaryKey' => $resourceID)));
 
+		// Create the default order
+		$resourceAcquisition = new ResourceAcquisition();
+		$resourceAcquisition->resourceID = $resourceID;
+		$resourceAcquisition->subscriptionStartDate = date("Y-m-d");
+		$resourceAcquisition->subscriptionEndDate = date("Y-m-d");
+		$resourceAcquisition->acquisitionTypeID = Flight::request()->data->acquisitionTypeID;
+		$resourceAcquisition->save();
+
         //add administering site
         if (Flight::request()->data['administeringSiteID']) {
             foreach (Flight::request()->data['administeringSiteID'] as $administeringSiteID) {
                 $resourceAdministeringSiteLink = new ResourceAdministeringSiteLink();
                 $resourceAdministeringSiteLink->resourceAdministeringSiteLinkID = '';
-                $resourceAdministeringSiteLink->resourceID = $resourceID;
+                $resourceAdministeringSiteLink->resourceAcquisitionID = $resourceAcquisition->resourceAcquisitionID;
                 $resourceAdministeringSiteLink->administeringSiteID = $administeringSiteID;
                 try {
                     $resourceAdministeringSiteLink->save();
@@ -81,7 +89,7 @@ Flight::route('/proposeResource/', function(){
                 $resourceNote->updateDate       = date( 'Y-m-d' );
                 $resourceNote->noteTypeID       = $noteTypeID;
                 $resourceNote->tabName          = 'Product';
-                $resourceNote->resourceID       = $resourceID;
+                $resourceNote->entityID         = $resourceID;
                 $resourceNote->noteText         = Flight::request()->data[$key];
                 $resourceNote->save();
             }
@@ -104,7 +112,7 @@ Flight::route('/proposeResource/', function(){
             $resourceNote->updateDate       = date( 'Y-m-d' );
             $resourceNote->noteTypeID       = $noteTypeID;
             $resourceNote->tabName          = 'Product';
-            $resourceNote->resourceID       = $resourceID;
+            $resourceNote->entityID         = $resourceID;
             $resourceNote->noteText         = $noteText;
             $resourceNote->save();
         }
@@ -122,7 +130,7 @@ Flight::route('/proposeResource/', function(){
             $resourceNote->updateDate       = date( 'Y-m-d' );
             $resourceNote->noteTypeID       = $noteTypeID;
             $resourceNote->tabName          = 'Acquisitions';
-            $resourceNote->resourceID       = $resourceID;
+            $resourceNote->entityID         = $resourceAcquisition->resourceAcquisitionID;
             $resourceNote->noteText         = $noteText;
             $resourceNote->save();
         }
@@ -137,7 +145,7 @@ Flight::route('/proposeResource/', function(){
                 $resourceNote->updateDate       = date( 'Y-m-d' );
                 $resourceNote->noteTypeID       = $noteTypeID;
                 $resourceNote->tabName          = 'Product';
-                $resourceNote->resourceID       = $resourceID;
+                $resourceNote->entityID         = $resourceID;
                 $resourceNote->noteText         = $value . ": " . Flight::request()->data[$key];
                 $resourceNote->save();
             }
@@ -158,7 +166,7 @@ Flight::route('/proposeResource/', function(){
             $resourceNote->updateDate       = date( 'Y-m-d' );
             $resourceNote->noteTypeID       = $noteTypeID;
             $resourceNote->tabName          = 'Product';
-            $resourceNote->resourceID       = $resourceID;
+            $resourceNote->entityID         = $resourceID;
             $resourceNote->noteText         = $noteText;
             $resourceNote->save();
         }
@@ -174,7 +182,7 @@ Flight::route('/proposeResource/', function(){
             $rp->costDetailsID = '';
             $rp->costNote = '';
             $rp->invoiceNum = '';
-            $rp->resourceID = $resourceID;
+            $rp->resourceAcquisitionID = $resourceAcquisition->resourceAcquisitionID;
             $rp->paymentAmount = cost_to_integer(Flight::request()->data['cost']);
             $rp->currencyCode = 'USD';
             $rp->orderTypeID = 2;
