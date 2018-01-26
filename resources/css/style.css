@@ -1561,6 +1561,11 @@ a.helpfulLink {
 			text-decoration: underline !important;
 }
 
+a.helpfulLink__hidden {
+	position: absolute;
+	left: -9999999px;
+}
+
 /*--- Custom CSS for Login Box ---*/
 
 label:nth-of-type(3) {
