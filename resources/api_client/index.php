@@ -31,7 +31,7 @@ $user = $_SERVER['REMOTE_USER'] ? $_SERVER['REMOTE_USER'] : 'API';
 $headers = array("Accept" => "application/json");
 $body = array();
 if (isset($_POST['submitProposeResourceForm'])) {
-    $fieldNames = array("user", "titleText", "descriptionText", "providerText", "resourceURL", "resourceAltURL", "noteText", "resourceTypeID", "resourceFormatID", "acquisitionTypeID", "administeringSiteID", "homeLocationNote", "licenseRequired", "existingLicense", "publicationYear", "edition", "holdLocation", "patronHold", "CMRanking", "subjectCoverage", "audience", "frequency", "access", "contributingFactors", "ripCode", "fund", "cost", "neededByDate");
+    $fieldNames = array("user", "titleText", "descriptionText", "isbn", "providerText", "resourceURL", "resourceAltURL", "noteText", "resourceTypeID", "resourceFormatID", "acquisitionTypeID", "administeringSiteID", "homeLocationNote", "licenseRequired", "existingLicense", "publicationYear", "edition", "holdLocation", "patronHold", "CMRanking", "subjectCoverage", "audience", "frequency", "access", "contributingFactors", "ripCode", "fund", "cost", "neededByDate");
 
     foreach ($fieldNames as $fieldName) {
         if (isset($_POST[$fieldName])) {
@@ -39,7 +39,12 @@ if (isset($_POST['submitProposeResourceForm'])) {
 		}
     }
 
-//    $descriptionFields = array("author","isbn");
+    /*
+     * If you would like to add any additional inputs to the form and have their
+     * values added as description text on the resource, uncomment the following lines
+     * and add each new input name to the $descriptionFields array.
+     */
+//    $descriptionFields = array("author");
 //
 //    foreach ($descriptionFields as $descField){
 //        addToDescriptionText($body,$descField);
@@ -47,10 +52,6 @@ if (isset($_POST['submitProposeResourceForm'])) {
 
     if(isset($body['neededByDate'])){
         $body['neededByDate'] = 'Needed by '.date("m/d/Y", strtotime($body['neededByDate']));
-    }
-
-    if(!empty($body['administeringSiteID'])){
-		$body['administeringSiteID'] = array($body['administeringSiteID']);
     }
 
     $response = Unirest\Request::post($server . "proposeResource/", $headers, $body);
@@ -61,7 +62,7 @@ if (isset($_POST['submitProposeResourceForm'])) {
             <li>Title: <?php echo $_POST['titleText']; ?></li>
             <li>Description: <?php echo $_POST['descriptionText']; ?></li>
 <!--            <li>Author: --><?php //echo $_POST['author']; ?><!--</li>-->
-<!--            <li>ISBN/ISSN: --><?php //echo $_POST['isbn']; ?><!--</li>-->
+            <li>ISBN/ISSN: <?php echo $_POST['isbn']; ?></li>
             <li>Provider: <?php echo $_POST['providerText']; ?></li>
             <li>URL: <?php echo $_POST['resourceURL']; ?></li>
             <li>URL Alt: <?php echo $_POST['resourceAltURL']; ?></li>
@@ -153,10 +154,10 @@ if (isset($_POST['submitProposeResourceForm'])) {
 <!--                    <label for="author">Author: </label>-->
 <!--                    <input name="author" type="text" class="pure-u-1 pure-u-md-1-3"/>-->
 <!--                </div>-->
-<!--                <div class="pure-u-1">-->
-<!--                    <label for="isbn">ISBN/ISSN: </label>-->
-<!--                    <input name="isbn" type="text" class="pure-u-1 pure-u-md-1-3"/>-->
-<!--                </div>-->
+                <div class="pure-u-1">
+                    <label for="isbn">ISBN/ISSN: </label>
+                    <input name="isbn" type="text" class="pure-u-1 pure-u-md-1-3"/>
+                </div>
                 <div class="pure-u-1">
                     <label for="providerText">Provider: </label>
                     <input name="providerText" type="text" class="pure-u-1 pure-u-md-1-3"/>
@@ -322,12 +323,12 @@ function getResourceTypesAsDropdown($server, $headers, $body) {
 
 function getAcquisitionTypesAsRadio($server, $headers, $body) {
     $response = Unirest\Request::post($server . "getAcquisitionTypes/", $headers, $body);
-    foreach ($response->body as $resourceType) {
-        $default = (isset($resourceType->shortName) && strtolower($resourceType->shortName) == "approved")? ' checked':'' ;  //Replace 'approved' with your default
-        if (strtolower($resourceType->shortName) == "approved" || strtolower($resourceType->shortName) == "needs approval") {
-            echo ' <label for="acquisitionType'.$resourceType->acquisitionTypeID.'" class="pure-radio"> ';
-            echo ' <input id="acquisitionType'.$resourceType->acquisitionTypeID.'" type="radio" name="acquisitionTypeID" value="' . $resourceType->acquisitionTypeID . '" '.$default.'> ';
-            echo $resourceType->shortName . '</label>';
+    foreach ($response->body as $AcquisitionType) {
+        $default = (isset($AcquisitionType->shortName) && strtolower($AcquisitionType->shortName) == "approved")? ' checked':'' ;  //Replace 'approved' with your default
+        if (strtolower($AcquisitionType->shortName) == "approved" || strtolower($AcquisitionType->shortName) == "needs approval") {
+            echo ' <label for="acquisitionType'.$AcquisitionType->acquisitionTypeID.'" class="pure-radio"> ';
+            echo ' <input id="acquisitionType'.$AcquisitionType->acquisitionTypeID.'" type="radio" name="acquisitionTypeID" value="' . $AcquisitionType->acquisitionTypeID . '" '.$default.'> ';
+            echo $AcquisitionType->shortName . '</label>';
         }
     }
 }
@@ -335,18 +336,17 @@ function getAcquisitionTypesAsRadio($server, $headers, $body) {
 function getResourceFormatsAsDropdown($server, $headers, $body) {
     $response = Unirest\Request::post($server . "getResourceFormats/", $headers, $body);
     echo '<select name="resourceFormatID">';
-    foreach ($response->body as $resourceType) {
-        echo ' <option value="' . $resourceType->resourceFormatID . '">' . $resourceType->shortName . "</option>\n";
+    foreach ($response->body as $resourceFormat) {
+        echo ' <option value="' . $resourceFormat->resourceFormatID . '">' . $resourceFormat->shortName . "</option>\n";
     }
     echo '</select>';
 }
 
 function getAdministeringSitesAsDropdown($server, $headers, $body) {
     $response = Unirest\Request::post($server . "getAdministeringSites/", $headers, $body);
-    echo '<select name="administeringSiteID">';
-    foreach ($response->body as $resourceType) {
-        $default = ($resourceType->administeringSiteID == "1")? " selected":""; //If you want to have a different default, just change this ID.
-        echo ' <option value="' . $resourceType->administeringSiteID . '"' . $default . '>' . $resourceType->shortName . "</option>\n";
+    echo '<select name="administeringSiteID[]" multiple="multiple">';
+    foreach ($response->body as $administeringSite) {
+        echo ' <option value="' . $administeringSite->administeringSiteID . '">' . $administeringSite->shortName . "</option>\n";
     }
     echo '</select>';
 }
@@ -372,11 +372,7 @@ function addToDescriptionText(&$body, $inputField){
         }else{
             $body['descriptionText']="";
         }
-        if($inputField=="isbn"){
-			$body['descriptionText'] .= "ISBN/ISSN: " . $_POST[$inputField];
-		}else {
-			$body['descriptionText'] .= ucfirst($inputField) . ": " . $_POST[$inputField];
-		}
+        $body['descriptionText'] .= ucfirst($inputField) . ": " . $_POST[$inputField];
     }
 }
 

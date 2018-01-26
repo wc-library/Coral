@@ -55,6 +55,11 @@ Flight::route('/proposeResource/', function(){
         $resourceID = $resource->primaryKey;
         $resource = new Resource(new NamedArguments(array('primaryKey' => $resourceID)));
 
+		if (isset(Flight::request()->data->isbn)){
+		    $isbnIssnArray = (is_array(Flight::request()->data->isbn))? Flight::request()->data->isbn : array(Flight::request()->data->isbn);
+			$resource->setIsbnOrIssn($isbnIssnArray);
+		}
+
 		// Create the default order
 		$resourceAcquisition = new ResourceAcquisition();
 		$resourceAcquisition->resourceID = $resourceID;
