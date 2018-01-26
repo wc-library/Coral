@@ -406,6 +406,12 @@ function importPackage($package){
     addNotes($resource);
 
     if(empty($resource->getCurrentWorkflowID())){
+        // Create the default order
+        $resourceAcquisition = new ResourceAcquisition();
+        $resourceAcquisition->resourceID = $resource->primaryKey;
+        $resourceAcquisition->subscriptionStartDate = date("Y-m-d");
+        $resourceAcquisition->subscriptionEndDate = date("Y-m-d");
+        $resourceAcquisition->save();
         $resource->enterNewWorkflow();
     }
     return $resource;
@@ -505,7 +511,15 @@ function importTitle($title, $parentId = null){
             }
         }
     }
+
+    // Workflow and default order
     if ($newWorkflow && empty($resource->getCurrentWorkflowID())){
+        // Create the default order
+        $resourceAcquisition = new ResourceAcquisition();
+        $resourceAcquisition->resourceID = $resource->primaryKey;
+        $resourceAcquisition->subscriptionStartDate = date("Y-m-d");
+        $resourceAcquisition->subscriptionEndDate = date("Y-m-d");
+        $resourceAcquisition->save();
         $resource->enterNewWorkflow();
     }
     return $resource;
