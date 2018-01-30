@@ -1454,19 +1454,6 @@ class Resource extends DatabaseObject {
 	}
 
 
-
-	//removes resource steps
-	public function removeResourceSteps() {
-
-		$query = "DELETE
-			FROM ResourceStep
-			WHERE resourceID = '" . $this->resourceID . "' AND archivingDate IS NOT NULL";
-
-		$result = $this->db->processQuery($query);
-	}
-
-
-
 	//search used for the resource autocomplete
 	public function resourceAutocomplete($q) {
 		$resourceArray = array();
