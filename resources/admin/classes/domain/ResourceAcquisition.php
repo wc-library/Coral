@@ -616,8 +616,8 @@ class ResourceAcquisition extends DatabaseObject {
     }
 
     public function deleteContacts() {
-        foreach ($this->getUnarchivedContacts() as $s) {
-            $c = new Contact(new NamedArguments(array('primaryKey' => $s['contactID'])));
+        foreach ($this->getContacts() as $c) {
+            $c->removeContactRoles();
             $c->delete();
         }
     }
@@ -748,6 +748,25 @@ class ResourceAcquisition extends DatabaseObject {
 		return $contactsArray;
 	}
 
+	//returns array of contact objects
+	public function getContacts() {
+
+		$query = "SELECT * FROM Contact
+					WHERE resourceAcquisitionID = '" . $this->resourceAcquisitionID . "'";
+
+		$result = $this->db->processQuery($query, 'assoc');
+
+		$objects = array();
+
+		//need to do this since it could be that there's only one request and this is how the dbservice returns result
+		if (isset($result['contactID'])) { $result = [$result]; }
+		foreach ($result as $row) {
+			$object = new Contact(new NamedArguments(array('primaryKey' => $row['contactID'])));
+			array_push($objects, $object);
+		}
+
+		return $objects;
+	}
 
 
 	//removes payment records
