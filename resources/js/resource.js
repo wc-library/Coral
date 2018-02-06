@@ -432,7 +432,7 @@ function updateArchivedContacts(showArchivedPassed){
 	 type:       "GET",
 	 url:        "ajax_htmldata.php",
 	 cache:      false,
-	 data:       "action=getContactDetails&resourceID=" + $("#resourceID").val() + "&archiveInd=1&showArchivesInd=" + showArchivedContacts,
+	 data:       "action=getContactDetails&resourceID=" + $("#resourceID").val() + "&resourceAcquisitionID=" + $("#resourceAcquisitionSelect").val() + "&archiveInd=1&showArchivesInd=" + showArchivedContacts,
 	 success:    function(html) {
 		$("#div_archivedContactDetails").html(html);
 		bind_removes();
