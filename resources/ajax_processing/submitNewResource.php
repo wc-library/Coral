@@ -82,7 +82,7 @@
 				$resourceNote->updateDate		= date( 'Y-m-d' );
 				$resourceNote->noteTypeID 		= $noteType->getInitialNoteTypeID();
 				$resourceNote->tabName 			= 'Product';
-				$resourceNote->resourceID 		= $resourceID;
+				$resourceNote->entityID 		= $resourceID;
 
 				//only insert provider as note if it's been submitted
 				if (($_POST['providerText']) && (!$_POST['organizationID']) && ($_POST['resourceStatus'] == 'progress')){

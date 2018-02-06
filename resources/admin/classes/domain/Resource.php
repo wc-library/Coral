@@ -1448,7 +1448,7 @@ class Resource extends DatabaseObject {
 
 		$query = "DELETE
 			FROM ResourceNote
-			WHERE resourceID = '" . $this->resourceID . "'";
+			WHERE entityID = '" . $this->resourceID . "'";
 
 		$result = $this->db->processQuery($query);
 	}

@@ -469,8 +469,10 @@ class ResourceAcquisition extends DatabaseObject {
         $this->deleteAccess();
         $this->deleteContacts();
         $this->deleteAttachments();
+        $this->deleteNotes();
         $this->delete();
     }
+
 
 	//removes resource licenses
 	public function removeResourceLicenses() {
@@ -623,6 +625,14 @@ class ResourceAcquisition extends DatabaseObject {
     public function deleteAttachments() {
         foreach ($this->getAttachments() as $s) {
             $s->delete();
+        }
+    }
+
+    public function deleteNotes() {
+        foreach (array("Acquisitions", "Access", "Cataloging") as $tabName) {
+            foreach ($this->getNotes($tabName) as $s) {
+                $s->delete();
+            }
         }
     }
 
