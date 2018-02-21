@@ -113,12 +113,11 @@ if($importType == 'batch'){
         $errors[] = create_error('general', 'No vendor ID found');
     }
     // Is the selection set
-    $selection = filter_input(INPUT_POST,'selection', FILTER_SANITIZE_NUMBER_INT);
-    if(empty($selection)) {
+    if(!isset($selection)) {
         $errors[] = create_error('general', 'Selection not identified');
     }
     // Is the offset set
-    if(empty($offset)){
+    if(!isset($offset)){
         $errors[] = create_error('general', 'No offset array provided');
     }
     // Make sure the parent exists
