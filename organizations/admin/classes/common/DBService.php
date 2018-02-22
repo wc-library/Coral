@@ -22,6 +22,21 @@ class DBService extends Object {
 	protected $db;
 	protected $config;
 	protected $error;
+	private static $_instance; //The single instance
+
+
+/*
+	Get an instance of the Database
+	@return Instance
+	*/
+	public static function getInstance() {
+		if(!self::$_instance) { // If no instance then make one
+			self::$_instance = new self();
+		}
+		return self::$_instance;
+	}
+
+
 
 	protected function init(NamedArguments $arguments) {
 		parent::init($arguments);

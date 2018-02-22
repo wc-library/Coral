@@ -45,7 +45,7 @@ class DatabaseObject extends DynamicObject {
 		$this->primaryKeyName = $arguments->primaryKeyName;
 
 		$this->primaryKey = $arguments->primaryKey;
-		$this->db = new DBService;
+		$this->db = DBService::getInstance();
 
 		$arguments->setDefaultValueForArgumentName('dbName',$this->db->config->database->name);
 		$this->dbName = $arguments->dbName;

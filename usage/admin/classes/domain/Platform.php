@@ -359,7 +359,7 @@ class Platform extends DatabaseObject {
 			$object = new PublisherPlatform(new NamedArguments(array('primaryKey' => $result['publisherPlatformID'])));
 			array_push($objects, $object);
 		}else{
-            $db = new DBService;
+            $db = DBService::getInstance();
 			foreach ($result as $row) {
 				$object = new PublisherPlatform(new NamedArguments(array('primaryKey' => $row['publisherPlatformID'],'db'=>$db)));
 				array_push($objects, $object);
