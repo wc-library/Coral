@@ -401,16 +401,12 @@ function importPackage($package){
         send_errors([create_error('general', 'Could not import package', $e->getMessage())]);
     }
 
+    addResourceAcquisition($resource);
     addProvider($resource);
     addNotes($resource);
 
     if(empty($resource->getCurrentWorkflowID())){
         // Create the default order
-        $resourceAcquisition = new ResourceAcquisition();
-        $resourceAcquisition->resourceID = $resource->primaryKey;
-        $resourceAcquisition->subscriptionStartDate = date("Y-m-d");
-        $resourceAcquisition->subscriptionEndDate = date("Y-m-d");
-        $resourceAcquisition->save();
         $resource->enterNewWorkflow();
     }
     return $resource;
@@ -456,7 +452,6 @@ function importTitle($title, $parentId = null){
     $resource->storageLocationID = '';
     $resource->registeredIPAddresses = '';
     $resource->providerText	= $providerText;
-    $resource->coverageText = implode('; ', $title->coverageTextArray);
     $resource->ebscoKbID = $title->titleId;
 
     $urlsByCoverage = $title->sortUrlsByCoverage();
@@ -476,6 +471,7 @@ function importTitle($title, $parentId = null){
         send_errors([create_error('general', 'Could not import title', $e->getMessage())]);
     }
 
+    addResourceAcquisition($resource, implode('; ', $title->coverageTextArray));
     $resource->setIsbnOrIssn($title->isxns);
     addProvider($resource);
     addSubjects($resource, $title->subjects);
@@ -511,14 +507,9 @@ function importTitle($title, $parentId = null){
         }
     }
 
-    // Workflow and default order
+    // Workflow
     if ($newWorkflow && empty($resource->getCurrentWorkflowID())){
         // Create the default order
-        $resourceAcquisition = new ResourceAcquisition();
-        $resourceAcquisition->resourceID = $resource->primaryKey;
-        $resourceAcquisition->subscriptionStartDate = date("Y-m-d");
-        $resourceAcquisition->subscriptionEndDate = date("Y-m-d");
-        $resourceAcquisition->save();
         $resource->enterNewWorkflow();
     }
     return $resource;
@@ -583,6 +574,15 @@ function addNotes(Resource $resource, $notes = []){
             }
         }
     }
+}
+
+function addResourceAcquisition($resource, $coverageText = ''){
+    $resourceAcquisition = new ResourceAcquisition();
+    $resourceAcquisition->resourceID = $resource->primaryKey;
+    $resourceAcquisition->subscriptionStartDate = date("Y-m-d");
+    $resourceAcquisition->subscriptionEndDate = date("Y-m-d");
+    $resourceAcquisition->coverageText = $coverageText;
+    $resourceAcquisition->save();
 }
 
 function addSubjects($resource, $subjects){

@@ -209,7 +209,7 @@ if ($orgModule) {
                                 <p id="span_error_workflowOption" class="smallDarkRedText"></p>
                                 <div class="row">
                                     <div class="col-12">
-                                        Do you want to start a new order for each title or only the package?
+                                        Do you want to start a new workflow for each title or only the package?
                                     </div>
                                     <div class="col-6 pb-1">
                                         <label for="packageOnly">
