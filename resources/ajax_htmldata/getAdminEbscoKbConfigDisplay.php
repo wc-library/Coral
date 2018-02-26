@@ -1,5 +1,6 @@
 <div class="adminRightHeader"><?php echo _("EBSCO Knowledge Base Configuration");?></div>
 <form id="ebscoKbConfig">
+    <div id="ebscoKbConfigError" class="darkRedText" style="background-color: #F5DDD8;"></div>
     <div style="width: 450px; margin: 10px 0;">
         <label for="ebscoKbEnabled">
             <input type="checkbox" name="enabled" id="ebscoKbEnabled" value="true" <?php echo $config->settings->ebscoKbEnabled == 'Y' ? 'checked' : ''; ?>>

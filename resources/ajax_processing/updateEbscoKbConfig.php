@@ -14,6 +14,7 @@ $ini_array['settings']['ebscoKbApiKey'] = $apiKey;
 try {
     write_php_ini($ini_file, $ini_array);
 } catch (Exception $e) {
+    http_response_code(500);
     echo $e->getMessage();
 }
 
@@ -36,6 +37,10 @@ function write_php_ini($file, $array)
 
 function safefilerewrite($fileName, $dataToSave)
 {
+    if (!is_writable($fileName)) {
+        throw new Exception("$fileName is not writeable.");
+    }
+
     if ($fp = fopen($fileName, 'w')) {
         $startTime = microtime(TRUE);
 

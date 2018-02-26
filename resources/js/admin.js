@@ -60,9 +60,6 @@ $(document).ready(function(){
     $("#ebscoKbConfig").live('submit', function(e){
         e.preventDefault();
         submitEbscoKbData();
-        setTimeout(function(){
-            window.location.reload();
-        },500);
     });
 
     $('.removeData').live('click', function () {
@@ -515,13 +512,20 @@ function submitAdminAlertDays(){
 // Validate fund form
 function submitEbscoKbData(){
     var form = $('#ebscoKbConfig');
+    $('#ebscoKbConfigError').html();
     $.ajax({
       type:       "POST",
       url:        "ajax_processing.php?action=updateEbscoKbConfig",
       cache:      false,
       data:       form.serialize(),
-      success:    function() {
+      success:    function(e) {
         updateEbscoKbConfigTable();
+        setTimeout(function(){
+          window.location.reload();
+        },500);
+      },
+      error:      function(xhr) {
+        $('#ebscoKbConfigError').html(xhr.responseText);
       }
     });
 }
