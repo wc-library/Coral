@@ -428,8 +428,8 @@ DROP TABLE IF EXISTS `ResourcePayment`;
 CREATE TABLE  `ResourcePayment` (
   `resourcePaymentID` int(11) NOT NULL auto_increment,
   `resourceID` int(10) unsigned NOT NULL,
-  `fundID` int(10) default NULL,
   `selectorLoginID` varchar(45) default NULL,
+  `fundName` varchar(45) default NULL,
   `priceTaxExcluded` int(10) unsigned default NULL,
   `taxRate` int(10) unsigned default NULL,
   `priceTaxIncluded` int(10) unsigned default NULL,
@@ -475,14 +475,11 @@ CREATE TABLE  `ResourceStep` (
   `stepID` int(11) default NULL,
   `stepStartDate` date default NULL,
   `stepEndDate` date default NULL,
-  `archivingDate` DATETIME NULL,
   `endLoginID` varchar(200) default NULL,
   `priorStepID` int(11) default NULL,
   `stepName` varchar(200) default NULL,
   `userGroupID` int(11) default NULL,
   `displayOrderSequence` int(10) unsigned default NULL,
-  `mailReminderDelay` INT UNSIGNED NULL,
-  `note` TEXT NULL,
   PRIMARY KEY  (`resourceStepID`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
@@ -491,7 +488,6 @@ DROP TABLE IF EXISTS `ResourceType`;
 CREATE TABLE  `ResourceType` (
   `resourceTypeID` int(11) NOT NULL auto_increment,
   `shortName` varchar(200) default NULL,
-  `includeStats` boolean default NULL,
   PRIMARY KEY  (`resourceTypeID`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
@@ -721,11 +717,10 @@ ALTER TABLE `Resource` ADD INDEX `Index_createDate`(`createDate`),
 ALTER TABLE `ResourceFormat` ADD INDEX `shortName` ( `shortName` );
 
 ALTER TABLE `ResourcePayment` ADD INDEX `Index_resourceID`(`resourceID`),
- ADD INDEX `Index_fundID`(`fundID`),
  ADD INDEX `Index_year`(`year`),
  ADD INDEX `Index_costDetailsID`(`costDetailsID`),
  ADD INDEX `Index_invoiceNum`(`invoiceNum`),
- ADD INDEX `Index_All`(`resourceID`, `fundID`, `year`, `costDetailsID`, `invoiceNum`);
+ ADD INDEX `Index_All`(`resourceID`, `year`, `costDetailsID`, `invoiceNum`);
 
 
 ALTER TABLE `ResourceNote` ADD INDEX `Index_resourceID`(`resourceID`),
@@ -791,7 +786,6 @@ INSERT INTO `AccessMethod` (shortName) values ('Local Host');
 INSERT INTO `AcquisitionType` (acquisitionTypeID, shortName) values (1, 'Paid');
 INSERT INTO `AcquisitionType` (acquisitionTypeID, shortName) values (2, 'Free');
 INSERT INTO `AcquisitionType` (acquisitionTypeID, shortName) values (3, 'Trial');
-INSERT INTO `AcquisitionType` (acquisitionTypeID, shortName) values (4, 'Any');
 
 
 INSERT INTO `AdministeringSite` (shortName) values ('Main Library');
@@ -1368,12 +1362,8 @@ INSERT INTO `RelationshipType` (shortName) values ('Parent');
 INSERT INTO `RelationshipType` (shortName) values ('General');
 
 
-
 INSERT INTO `ResourceFormat` (resourceFormatID, shortName) values (1, 'Print + Electronic');
 INSERT INTO `ResourceFormat` (resourceFormatID, shortName) values (2, 'Electronic');
-INSERT INTO `ResourceFormat` (resourceFormatID, shortName) values (3, 'Any');
-
-INSERT INTO `ResourceType` (resourceTypeID, shortName) values (1, 'Any');
 
 
 INSERT INTO `Status` (shortName) values ('In Progress');
