@@ -59,6 +59,15 @@ class DetailedSubject extends DatabaseObject {
 		return $result['inUse'];
 	}
 
+    public function getResourceTypeIDByName($name) {
+        $query = "SELECT detailedSubjectID from DetailedSubject WHERE UPPER(shortName) = '" . strtoupper($name) . "';";
+
+        $result = $this->db->processQuery($query, 'assoc');
+
+        return $result['detailedSubjectId'];
+
+    }
+
 }
 
 ?>

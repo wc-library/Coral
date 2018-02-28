@@ -189,7 +189,16 @@ $coralURL = $util->getCORALURL();
             <img src="images/menu/icon-import.png" />
             <span><?php echo _("File Import");?></span>
         </div>
-    </a> 
+    </a>
+    <?php if ($config->settings->ebscoKbEnabled == 'Y'): ?>
+        <a href='ebsco_kb.php' title="<?php echo _("EBSCO Kb");?>">
+            <div class="main-menu-link <?php if ($currentPage == 'ebsco_kb.php') { echo "active"; } ?>">
+                <img src="images/menu/icon-ebsco.png" />
+                <span><?php echo _("EBSCO Kb");?></span>
+            </div>
+        </a>
+    <?php endif; ?>
+
 
 <?php if ($config->settings->enhancedCostHistory == "Y") { ?>
     <a href='dashboard_menu.php' title="<?php echo _("Dashboards");?>">

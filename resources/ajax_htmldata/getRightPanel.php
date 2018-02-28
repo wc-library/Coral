@@ -59,9 +59,15 @@
 				if ((count($childResourceArray) > 0)){
 					echo "<div class='rightPanelHeader'>"._("Child Record(s)")."</div>";
 
+					$i = 0;
 					foreach ($childResourceArray as $childResource){
+						$i++;
 						$childResourceObj = new Resource(new NamedArguments(array('primaryKey' => $childResource['resourceID'])));
-						echo "<div class='rightPanelLink'><a href='resource.php?resourceID=" . $childResourceObj->resourceID . "' target='_BLANK' class='helpfulLink'>" . $childResourceObj->titleText . "</a></div>";
+						$initiallyHidden = $i > 20 ? 'helpfulLink__hidden' : '';
+						echo "<div class='rightPanelLink'><a href='resource.php?resourceID=" . $childResourceObj->resourceID . "' target='_BLANK' class='helpfulLink ".$initiallyHidden."'>" . $childResourceObj->titleText . "</a></div>";
+					    if($i === 20) {
+                            echo "<div class='rightPanelLink'><a href='#' class='helpfulLink' id='showAllChildResources' style='padding-left: 10px;'>+ show all resources (" .(count($childResourceArray) - 20)." more)</a></div>";
+                        }
 					}
 				}
 

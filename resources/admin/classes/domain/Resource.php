@@ -62,27 +62,43 @@ class Resource extends DatabaseObject {
     }
 
 	//returns resource objects by title
-	public function getResourceByTitle($title) {
+    public function getResourceByTitle($title) {
 
-		$query = "SELECT *
+        $query = "SELECT *
 			FROM Resource
 			WHERE UPPER(titleText) = '" . str_replace("'", "''", strtoupper($title)) . "'
 			ORDER BY 1";
 
-		$result = $this->db->processQuery($query, 'assoc');
+        $result = $this->db->processQuery($query, 'assoc');
 
-		$objects = array();
+        $objects = array();
 
-		//need to do this since it could be that there's only one request and this is how the dbservice returns result
-		if (isset($result['resourceID'])) { $result = [$result]; }
-		foreach ($result as $row) {
-			$object = new Resource(new NamedArguments(array('primaryKey' => $row['resourceID'])));
-			array_push($objects, $object);
+        //need to do this since it could be that there's only one request and this is how the dbservice returns result
+        if (isset($result['resourceID'])) { $result = [$result]; }
+        foreach ($result as $row) {
+            $object = new Resource(new NamedArguments(array('primaryKey' => $row['resourceID'])));
+            array_push($objects, $object);
+        }
+
+        return $objects;
+    }
+
+    //returns resource object by ebscoKbId
+    public function getResourceByEbscoKbId($ebscoKbId) {
+
+        $query = "SELECT *
+			FROM Resource
+			WHERE ebscoKbID = $ebscoKbId
+			LIMIT 0,1";
+
+        $result = $this->db->processQuery($query, 'assoc');
+
+        if (isset($result['resourceID'])) {
+        	return new Resource(new NamedArguments(['primaryKey' => $result['resourceID']]));
+		} else {
+        	return false;
 		}
-
-		return $objects;
-	}
-
+    }
 
     public function getResourceAcquisitions() {
         $query = "SELECT * from ResourceAcquisition WHERE resourceID = " . $this->resourceID;
@@ -178,19 +194,19 @@ class Resource extends DatabaseObject {
 
 
 
-  // return array of related resource objects
-  private function getRelatedResources($key) {
+    // return array of related resource objects
+    private function getRelatedResources($key) {
 
-		$query = "SELECT rr.resourceRelationshipID
+        $query = "SELECT rr.resourceRelationshipID
 			FROM ResourceRelationship rr
             JOIN Resource r on rr.resourceID = r.resourceID
 			WHERE rr.$key = '" . $this->resourceID . "'
 			AND relationshipTypeID = '1'
 			ORDER BY r.titleText";
 
-		$result = $this->db->processQuery($query, 'assoc');
+        $result = $this->db->processQuery($query, 'assoc');
 
-		$objects = array();
+        $objects = array();
 
 		//need to do this since it could be that there's only one request and this is how the dbservice returns result
 		if (isset($result['resourceRelationshipID'])) {
@@ -204,9 +220,9 @@ class Resource extends DatabaseObject {
 			}
 		}
 
-		return $objects;
+        return $objects;
 
-	}
+    }
 
 
 	//deletes all parent resources associated with this resource

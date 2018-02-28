@@ -294,6 +294,10 @@ $(document).ready(function(){
 		return false;
 	});
 
+	$("#showAllChildResources").live('click', function () {
+		$('.helpfulLink__hidden').removeClass('helpfulLink__hidden');
+		$(this).hide();
+	});
 
 	
 	$(function(){

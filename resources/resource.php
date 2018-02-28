@@ -68,8 +68,12 @@ if ($resource->titleText){
                     echo '<input type="hidden" id="resourceAcquisitionSelect" value="'.$resourceAcquisitions[0]->resourceAcquisitionID .'" />';
                 }
             ?>
-			<div id='div_new' style='float:left;vertical-align:bottom;font-weight:115%;margin-top:3px;' class='darkRedText'><?php if (isset($_GET['ref']) && $_GET['ref'] == 'new'){ ?>&nbsp;&nbsp;<img src='images/red_checkmark.gif' />
-				<span class='boldText'><?php echo _("Success!");?></span>&nbsp;&nbsp;<?php echo _("New resource added"); } ?>
+			<div id='div_new' style='float:left;vertical-align:bottom;font-weight:115%;margin-top:3px;color:#46841A;'>
+                <?php if (isset($_GET['ref']) && $_GET['ref'] == 'new'): ?>
+                    &nbsp;&nbsp;<i class="fa fa-check fa-2x"></i>
+				    <span class='boldText'><?php echo _("Success!");?></span>
+                    &nbsp;&nbsp;<?php echo _("New resource added"); ?>
+                <?php endif; ?>
 			</div>
 		</div>
 
