@@ -50,9 +50,11 @@ if (isset($_POST['submitProposeResourceForm'])) {
 //        addToDescriptionText($body,$descField);
 //    }
 
-    if(isset($body['neededByDate'])){
-        $body['neededByDate'] = 'Needed by '.date("m/d/Y", strtotime($body['neededByDate']));
-    }
+	if(!empty($body['neededByDate'])){
+		$body['neededByDate'] = 'Needed by '.date("m/d/Y", strtotime($body['neededByDate']));
+	} else if(isset($body['neededByDate'])){
+		unset($body['neededByDate']);
+	}
 
     $response = Unirest\Request::post($server . "proposeResource/", $headers, $body);
     if (isset($response->body->resourceID)) {
