@@ -16,9 +16,10 @@ class Dashboard {
 
         $query .= "
                  FROM Resource R
-                    LEFT JOIN ResourcePayment RP ON RP.resourceID = R.resourceID
+                    LEFT JOIN ResourceAcquisition RA ON RA.resourceID = R.resourceID
+                    LEFT JOIN ResourcePayment RP ON RP.resourceAcquisitionID = RA.resourceAcquisitionID
                     LEFT JOIN ResourceType RT ON RT.resourceTypeID = R.resourceTypeID
-                    LEFT JOIN AcquisitionType AT ON AT.acquisitionTypeID = R.acquisitionTypeID
+                    LEFT JOIN AcquisitionType AT ON AT.acquisitionTypeID = RA.acquisitionTypeID
                     LEFT JOIN OrderType OT ON OT.orderTypeID = RP.orderTypeID
                     LEFT JOIN CostDetails CD ON CD.costDetailsID = RP.costDetailsID
                     LEFT JOIN ResourceSubject RS ON RS.resourceID = R.resourceID
@@ -30,7 +31,7 @@ class Dashboard {
         $query .= " WHERE RP.year=$year";
 
         if ($resourceTypeID) $query .= " AND R.resourceTypeID = $resourceTypeID";
-        if ($acquisitionTypeID) $query .= " AND R.acquisitionTypeID = $acquisitionTypeID";
+        if ($acquisitionTypeID) $query .= " AND RA.acquisitionTypeID = $acquisitionTypeID";
         if ($orderTypeID) $query .= " AND RP.orderTypeID = $orderTypeID";
         if ($costDetailsID) $query .= " AND RP.costDetailsID = $costDetailsID";
         if ($subjectID) {
@@ -79,9 +80,10 @@ class Dashboard {
 
         $query .= "
                  FROM Resource R
-                    LEFT JOIN ResourcePayment RP ON RP.resourceID = R.resourceID
+                    LEFT JOIN ResourceAcquisition RA ON RA.resourceID = R.resourceID
+                    LEFT JOIN ResourcePayment RP ON RP.resourceAcquisitionID = RA.resourceAcquisitionID
                     LEFT JOIN ResourceType RT ON RT.resourceTypeID = R.resourceTypeID
-                    LEFT JOIN AcquisitionType AT ON AT.acquisitionTypeID = R.acquisitionTypeID
+                    LEFT JOIN AcquisitionType AT ON AT.acquisitionTypeID = RA.acquisitionTypeID
                     LEFT JOIN CostDetails CD ON CD.costDetailsID = RP.costDetailsID
                     LEFT JOIN ResourceSubject RS ON RS.resourceID = R.resourceID
                     LEFT JOIN GeneralDetailSubjectLink GDSL ON GDSL.generalDetailSubjectLinkID = RS.generalDetailSubjectLinkID
@@ -91,7 +93,7 @@ class Dashboard {
 
         $query_parts = array();
         if ($resourceTypeID) $query_parts[] = " R.resourceTypeID = $resourceTypeID";
-        if ($acquisitionTypeID) $query_parts[] = " R.acquisitionTypeID = $acquisitionTypeID";
+        if ($acquisitionTypeID) $query_parts[] = " RA.acquisitionTypeID = $acquisitionTypeID";
         if ($orderTypeID) $query_parts[] = " RP.orderTypeID = $orderTypeID";
         if ($costDetailsID) $query_parts[] = " RP.costDetailsID = $costDetailsID";
         if ($subjectID) {
