@@ -55,6 +55,11 @@ Flight::route('/proposeResource/', function(){
         $resourceID = $resource->primaryKey;
         $resource = new Resource(new NamedArguments(array('primaryKey' => $resourceID)));
 
+		if (isset(Flight::request()->data->isbn)){
+		    $isbnIssnArray = (is_array(Flight::request()->data->isbn))? Flight::request()->data->isbn : array(Flight::request()->data->isbn);
+			$resource->setIsbnOrIssn($isbnIssnArray);
+		}
+
 		// Create the default order
 		$resourceAcquisition = new ResourceAcquisition();
 		$resourceAcquisition->resourceID = $resourceID;
@@ -97,8 +102,8 @@ Flight::route('/proposeResource/', function(){
 
         // General notes
         $noteText = '';
-        foreach (array("noteText" => "Note", "providerText" => "Provider", "publicationYear" => "Publication Year or order start date", "edition" => "Edition", "holdLocation" => "Hold location", "patronHold" => "Patron hold") as $key => $value) {
-            if (Flight::request()->data[$key]) {
+        foreach (array("noteText" => "Note", "providerText" => "Provider", "publicationYear" => "Publication Year or order start date", "edition" => "Edition", "holdLocation" => "Hold location", "patronHold" => "Patron hold", "neededByDate" => "Urgent") as $key => $value) {
+            if (isset(Flight::request()->data[$key])) {
                 $noteText .= $value . ": " . Flight::request()->data[$key] . "\n";
             }
 
@@ -267,10 +272,23 @@ Flight::route('/getAdministeringSite/@id', function($id) {
     Flight::json($as->shortName);
 });
 
+Flight::route('/getFundCodes/', function() {
+	$funds = new Fund();
+	$fundsArray = $funds->allAsArray();
+	Flight::json($fundsArray);
+});
+
+Flight::route('/getFund/@fundCode', function($fundCode) {
+	$fundObj = new Fund();
+	$fundID = $fundObj->getFundIDFromFundCode($fundCode);
+	$fund = new Fund(new NamedArguments(array('primaryKey' => $fundID)));
+	Flight::json($fund->shortName);
+});
+
 Flight::route('GET /resources/@id', function($id) {
     $r = new Resource(new NamedArguments(array('primaryKey' => $id)));
 	Flight::json($r->asArray());
-    
+
 });
 
 Flight::route('GET /resources/', function() {

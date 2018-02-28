@@ -52,7 +52,7 @@ class DatabaseObject extends DynamicObject {
 		$this->primaryKeyName = $arguments->primaryKeyName;
 
 		$this->primaryKey = $arguments->primaryKey;
-		$this->db = new DBService;
+		$this->db = DBService::getInstance();
 		$this->defineRelationships();
 		//$this->defineAttributes();
 		$this->overridePrimaryKeyName();

@@ -18,6 +18,21 @@
 class DBService {
 	protected static $db = null;
 	protected $error;
+	private static $_instance; //The single instance
+
+
+/*
+	Get an instance of the Database
+	@return Instance
+	*/
+	public static function getInstance() {
+		if(!self::$_instance) { // If no instance then make one
+			self::$_instance = new self();
+		}
+		return self::$_instance;
+	}
+
+
 	public function __construct($dbname = null){
 		Config::init();
 		if (!self::$db && !(self::$db = new mysqli(Config::$database->host, Config::$database->username, Config::$database->password))){

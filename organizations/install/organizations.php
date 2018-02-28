@@ -29,11 +29,12 @@ function register_organizations_provider()
 								"path" => $protected_module_data["config_file_path"],
 							]
 						],
-						"function" => function($shared_module_info) use ($MODULE_VARS, $protected_module_data) {
+						"function" => function($shared_module_info) use ($MODULE_VARS, $protected_module_data, $version) {
 							$return = new stdClass();
 							$return->yield = new stdClass();
 							$return->success = false;
 							$return->yield->title = _("Organizations Module");
+                            $return->yield->messages = [];
 
 							$this_db_name = $shared_module_info[ $MODULE_VARS["uid"] ]["db_name"];
 							$dbconnection = $shared_module_info["provided"]["get_db_connection"]( $this_db_name );
@@ -43,8 +44,7 @@ function register_organizations_provider()
 								return $result;
 
 							// Process sql files
-							$sql_files_to_process = ["organizations/install/protected/test_create.sql", "organizations/install/protected/install.sql"];
-							$ret = $shared_module_info["provided"]["process_sql_files"]( $dbconnection, $sql_files_to_process, $MODULE_VARS["uid"] );
+							$ret = $shared_module_info["provided"]["process_sql_files"]( $dbconnection, $version, $MODULE_VARS["uid"] );
 							if (!$ret["success"])
 							{
 								$return->success = false;
@@ -122,10 +122,9 @@ function register_organizations_provider()
                             $conf_data = parse_ini_file($protected_module_data["config_file_path"], true);
 
                             // Process sql files
-                            $sql_files_to_process = glob("organizations/install/protected/$version/*.sql");
                             $db_name = $conf_data["database"]["name"];
                             $dbconnection = $shared_module_info["provided"]["get_db_connection"]( $db_name );
-                            $ret = $shared_module_info["provided"]["process_sql_files"]( $dbconnection, $sql_files_to_process, $MODULE_VARS["uid"] );
+                            $ret = $shared_module_info["provided"]["process_sql_files"]( $dbconnection, $version, $MODULE_VARS["uid"] );
                             if (!$ret["success"])
                             {
                                 $return->success = false;
