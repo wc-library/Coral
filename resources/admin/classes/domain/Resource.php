@@ -1404,11 +1404,6 @@ class Resource extends DatabaseObject {
 			$instance->delete();
 		}
 
-		$instance = new Attachment();
-		foreach ($this->getAttachments() as $instance) {
-			$instance->delete();
-		}
-
 		$instance = new Alias();
 		foreach ($this->getAliases() as $instance) {
 			$instance->delete();
