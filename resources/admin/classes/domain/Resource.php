@@ -440,28 +440,6 @@ class Resource extends DatabaseObject {
 	}
 
 
-	//returns array of contact objects
-	public function getContacts() {
-
-		$query = "SELECT * FROM Contact
-					WHERE resourceID = '" . $this->resourceID . "'";
-
-		$result = $this->db->processQuery($query, 'assoc');
-
-		$objects = array();
-
-		//need to do this since it could be that there's only one request and this is how the dbservice returns result
-		if (isset($result['contactID'])) { $result = [$result]; }
-		foreach ($result as $row) {
-			$object = new Contact(new NamedArguments(array('primaryKey' => $row['contactID'])));
-			array_push($objects, $object);
-		}
-
-		return $objects;
-	}
-
-
-
 	//returns array of externalLogin objects
 	public function getExternalLogins() {
 
@@ -1427,12 +1405,10 @@ class Resource extends DatabaseObject {
 		$this->removeAllSubjects();
 		$this->removeAllIsbnOrIssn();
 
-
-		$instance = new Contact();
-		foreach ($this->getContacts() as $instance) {
-			$instance->removeContactRoles();
-			$instance->delete();
-		}
+        $instance = new ResourceAcquisition();
+        foreach($this->getResourceAcquisitions() as $instance) {
+            $instance->removeResourceAcquisition();
+        }
 
 		$instance = new ExternalLogin();
 		foreach ($this->getExternalLogins() as $instance) {
@@ -1441,11 +1417,6 @@ class Resource extends DatabaseObject {
 
 		$instance = new ResourceNote();
 		foreach ($this->getNotes() as $instance) {
-			$instance->delete();
-		}
-
-		$instance = new Attachment();
-		foreach ($this->getAttachments() as $instance) {
 			$instance->delete();
 		}
 
@@ -1488,23 +1459,10 @@ class Resource extends DatabaseObject {
 
 		$query = "DELETE
 			FROM ResourceNote
-			WHERE resourceID = '" . $this->resourceID . "'";
+			WHERE entityID = '" . $this->resourceID . "'";
 
 		$result = $this->db->processQuery($query);
 	}
-
-
-
-	//removes resource steps
-	public function removeResourceSteps() {
-
-		$query = "DELETE
-			FROM ResourceStep
-			WHERE resourceID = '" . $this->resourceID . "' AND archivingDate IS NOT NULL";
-
-		$result = $this->db->processQuery($query);
-	}
-
 
 
 	//search used for the resource autocomplete

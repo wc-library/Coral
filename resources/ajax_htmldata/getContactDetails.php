@@ -21,7 +21,7 @@
 		if ((isset($archiveInd)) && ($archiveInd == "1")){
 			//if we want archives to be displayed
 			if ($showArchivesInd == "1"){
-				if (count($resource->getArchivedContacts()) > 0){
+				if (count($resourceAcquisition->getArchivedContacts()) > 0){
 					echo "<i><b>"._("The following are archived contacts:")."</b></i>";
 				}
 				$contactArray = $resourceAcquisition->getArchivedContacts();
@@ -186,7 +186,7 @@
 
 
 			if ($user->canEdit() && ($orgContactFlag == 0) && ($showArchivesInd != 1)){ ?>
-				<a href='ajax_forms.php?action=getContactForm&height=389&width=620&modal=true&type=named&resourceID=<?php echo $resourceID; ?>' class='thickbox' id='newNamedContact'><?php echo _("add contact");?></a>
+				<a href='ajax_forms.php?action=getContactForm&height=389&width=620&modal=true&type=named&resourceAcquisitionID=<?php echo $resourceAcquisitionID; ?>' class='thickbox' id='newNamedContact'><?php echo _("add contact");?></a>
 				<br /><br /><br />
 			<?php
 			}
@@ -196,18 +196,18 @@
 			if (($archiveInd != 1) && ($showArchivesInd != 1)){
 				echo "<i>"._("No contacts available")."</i><br /><br />";
 				if (($user->canEdit())){ ?>
-					<a href='ajax_forms.php?action=getContactForm&height=389&width=620&modal=true&type=named&resourceID=<?php echo $resourceID; ?>' class='thickbox' id='newNamedContact'><?php echo _("add contact");?></a>
+					<a href='ajax_forms.php?action=getContactForm&height=389&width=620&modal=true&type=named&resourceAcquisitionID=<?php echo $resourceAcquisitionID; ?>' class='thickbox' id='newNamedContact'><?php echo _("add contact");?></a>
 					<br /><br /><br />
 				<?php
 				}
 			}
 		}
 
-		if (($showArchivesInd == "0") && ($archiveInd == "1") && (count($resource->getArchivedContacts()) > 0)){
-			echo "<i>" . count($resource->getArchivedContacts()) . _(" archived contact(s) available.")."  <a href='javascript:updateArchivedContacts(1);'>"._("show archived contacts")."</a></i><br />";
+		if (($showArchivesInd == "0") && ($archiveInd == "1") && (count($resourceAcquisition->getArchivedContacts()) > 0)){
+			echo "<i>" . count($resourceAcquisition->getArchivedContacts()) . _(" archived contact(s) available.")."  <a href='javascript:updateArchivedContacts(1);'>"._("show archived contacts")."</a></i><br />";
 		}
 
-		if (($showArchivesInd == "1") && ($archiveInd == "1") && (count($resource->getArchivedContacts()) > 0)){
+		if (($showArchivesInd == "1") && ($archiveInd == "1") && (count($resourceAcquisition->getArchivedContacts()) > 0)){
 			echo "<i><a href='javascript:updateArchivedContacts(0);'>"._("hide archived contacts")."</a></i><br />";
 		}
 
