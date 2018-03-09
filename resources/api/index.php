@@ -349,8 +349,8 @@ Flight::route('GET /resources/@id/licenses', function($id) {
     $db = DBService::getInstance();
     $r = new Resource(new NamedArguments(array('primaryKey' => $id)));
     $ras = $r->getResourceAcquisitions();
+    $licensesArray = array();
     foreach ($ras as $ra) {
-        $licensesArray = array();
         $rla = $ra->getLicenseArray();
         $db->changeDb('licensingDatabaseName');
         foreach($rla as $license) {
