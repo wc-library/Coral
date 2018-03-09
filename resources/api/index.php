@@ -307,6 +307,25 @@ Flight::route('GET /resources/', function() {
     }
 });
 
+Flight::route('GET /resources/@id/packages', function($id) {
+    $r = new Resource(new NamedArguments(array('primaryKey' => $id)));
+	$parentResourceArray = array();
+	$parentResourceIDArray = array();
+	foreach ($r->getParentResources() as $instance) {
+	   foreach (array_keys($instance->attributeNames) as $attributeName) {
+			$sanitizedInstance[$attributeName] = $instance->$attributeName;
+		}
+		$sanitizedInstance[$instance->primaryKeyName] = $instance->primaryKey;
+		array_push($parentResourceIDArray, $sanitizedInstance);
+	}
+
+	foreach ($parentResourceIDArray as $parentResource){
+		$parentResourceObj = new Resource(new NamedArguments(array('primaryKey' => $parentResource['relatedResourceID'])));
+		array_push($parentResourceArray, $parentResourceObj->asArray());
+	}
+    Flight::json($parentResourceArray);
+});
+
 Flight::route('GET /resources/@id/titles', function($id) {
     $r = new Resource(new NamedArguments(array('primaryKey' => $id)));
 	$childResourceArray = array();
