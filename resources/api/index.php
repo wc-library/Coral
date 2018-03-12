@@ -10,6 +10,7 @@ include_once '../../licensing/admin/classes/domain/DocumentType.php';
 include_once '../../licensing/admin/classes/domain/Expression.php';
 include_once '../../licensing/admin/classes/domain/ExpressionNote.php';
 include_once '../../licensing/admin/classes/domain/ExpressionType.php';
+include_once '../../licensing/admin/classes/domain/Qualifier.php';
 
 if (!isAllowed()) {
     header('HTTP/1.0 403 Forbidden');
