@@ -572,7 +572,6 @@ table.borderedFormTable tr {vertical-align: top;}
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfdfe', endColorstr='#d7e3ee',GradientType=0 ); /* IE6-9 */
 	display: inline-block;
 	padding: 2px 12px 1px 12px;
-	text-transform: capitalize;
 	text-decoration: none;
 	font-size: .9em;
 }
@@ -614,7 +613,6 @@ a.newSearch:before {
 
 a.newSearch {
 	text-decoration: none;
-	text-transform: capitalize;
 	font-size: 12px;
 }
 
@@ -631,7 +629,6 @@ a#logout:before {
 
 a#logout {
 	text-decoration: none;
-	text-transform: capitalize;
 	font-size: 12px;
 	position: relative;
 	top: 4px;
@@ -780,7 +777,6 @@ a.newSearch:before {
 
 a.newSearch {
 	text-decoration: none;
-	text-transform: capitalize;
 	font-size: 12px;
 }
 
@@ -797,7 +793,6 @@ a#logout:before {
 
 a#logout {
 	text-decoration: none;
-	text-transform: capitalize;
 	font-size: 12px;
 	position: relative;
 	top: 4px;
@@ -817,7 +812,6 @@ a#showMoreOptions:before {
 
 a#showMoreOptions {
 	text-decoration: none;
-	text-transform: capitalize;
 	font-size: 12px;
 }
 
@@ -834,7 +828,6 @@ a#showMoreOptions:hover {
 
 #print-view a {
 	text-decoration: none;
-	text-transform: capitalize;
 	font-size: 12px;
 }
 
@@ -930,7 +923,6 @@ table.surroundBox table.noBorder {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 }
 
 #pagination-div {
@@ -960,7 +952,6 @@ td#org-title {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 }
 
 /*--- Organizations Side Menu Icons ---*/
@@ -974,7 +965,6 @@ a.showOrganization:before {
 
 a.showOrganization {
 	text-decoration: none;
-	text-transform: capitalize;
 	font-size: 12px;
 }
 
@@ -998,7 +988,6 @@ a.showAliases:before {
 
 a.showAliases {
 	text-decoration: none;
-	text-transform: capitalize;
 	font-size: 12px;
 }
 
@@ -1022,7 +1011,6 @@ a.showContacts:before {
 
 a.showContacts {
 	text-decoration: none;
-	text-transform: capitalize;
 	font-size: 12px;
 }
 
@@ -1046,7 +1034,6 @@ a.showAccount:before {
 
 a.showAccount {
 	text-decoration: none;
-	text-transform: capitalize;
 	font-size: 12px;
 }
 
@@ -1070,7 +1057,6 @@ a.showIssues:before {
 
 a.showIssues {
 	text-decoration: none;
-	text-transform: capitalize;
 	font-size: 12px;
 }
 
@@ -1094,7 +1080,6 @@ a.showLicenses:before {
 
 a.showLicenses {
 	text-decoration: none;
-	text-transform: capitalize;
 	font-size: 12px;
 }
 
@@ -1198,24 +1183,6 @@ a.helpfulLink {
 	margin-right: 3px;
 	}
 ---*/
-
-/*--- Capitalize Add New Links ---*/
-
-#span_newUser {
-	text-transform: capitalize;
-}
-
-#span_newDocumentNoteType {
-	text-transform: capitalize;
-}
-
-#span_newDocumentType {
-	text-transform: capitalize;
-}
-
-#span_newConsortium {
-	text-transform: capitalize;
-}
 
 /*--- Design Table on Admin Page ---*/
 
@@ -1354,7 +1321,6 @@ div#TB_window {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	margin-left: 15px;
 }
 
@@ -1370,7 +1336,6 @@ div#TB_window {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	margin-left: 5px;
 	float: left;
 }
@@ -1430,7 +1395,6 @@ div#TB_window {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	float: left;
 }
 
@@ -1447,7 +1411,6 @@ div#TB_window {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	float: left;
 	position: relative;
 	left: 8px;
@@ -1484,17 +1447,10 @@ a.showDocuments:before {
 	margin-right: 5px;
 }
 
-/*-----*/
-
-#note, #uploadDocument {
-	text-transform: capitalize;
-}
-
 /*--- New Note Modal ---*/
 
 #noteForm #span_newNoteType {
 	display: block;
-	text-transform: capitalize;
 }
 
 #noteForm .thickboxTable .headerText {
@@ -1519,7 +1475,6 @@ a.showDocuments:before {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 }
 
 #noteForm input#submitNote:hover {
@@ -1534,7 +1489,6 @@ a.showDocuments:before {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	margin-left: 5px;
 	float: left;
 }
@@ -1560,7 +1514,6 @@ a.showDocuments:before {
 }
 
 #uploadDoc #span_newDocumentType {
-	text-transform: capitalize;
 	margin-bottom: -10px;
 	display: block;
 }
@@ -1582,7 +1535,6 @@ a.showDocuments:before {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	float: left;
 	position: relative;
 	left: -8px;
@@ -1600,7 +1552,6 @@ a.showDocuments:before {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	position: relative;
 	left: -15px;
 	float: left;
@@ -1610,9 +1561,6 @@ a.showDocuments:before {
 	cursor: pointer;
 }*/
 
-#uploadDoc #div_uploadFile a {
-	text-transform: capitalize;
-}
 
 /*--- Add New Document Modal ---*/
 
@@ -1631,7 +1579,6 @@ a.showDocuments:before {
 }
 
 #attachmentForm #span_newDocumentType {
-	text-transform: capitalize;
 	margin-bottom: -10px;
 	display: block;
 }
@@ -1648,7 +1595,6 @@ a.showDocuments:before {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	float: left;
 	margin-left: 5px;
 }
@@ -1665,7 +1611,6 @@ a.showDocuments:before {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 }
 
 #attachmentForm input#submitAttachment:hover {
@@ -1701,7 +1646,6 @@ a.showDocuments:before {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	float: left;
 }
 
@@ -1719,7 +1663,6 @@ a.showDocuments:before {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	text-decoration: none;
 }
 
@@ -1735,7 +1678,6 @@ a.showDocuments:before {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	text-decoration: none;
 	position: relative;
 	top: -5px;
@@ -1745,36 +1687,6 @@ a.showDocuments:before {
 #div_updateForm a#closeButton:hover {
 	cursor: pointer;
 }*/
-
-/*--- Capitalize Links ---*/
-
-div#div_licenseHead a {
-	text-transform: capitalize;
-}
-
-div#div_displayDocuments a {
-	text-transform: capitalize;
-}
-
-div#div_displayAttachments a {
-	text-transform: capitalize;
-}
-
-#div_User a {
-	text-transform: capitalize;
-}
-
-#div_DocumentType a {
-	text-transform: capitalize;
-}
-
-#div_DocumentNoteType a {
-	text-transform: capitalize;
-}
-
-#div_Consortium a {
-	text-transform: capitalize;
-}
 
 #sidebar-link-bottom {
 	padding: 10px;
@@ -1842,7 +1754,6 @@ select#lang {
     background: #1b76a9;
     border: none;
     padding: 5px 10px;
-    text-transform: capitalize;
     margin-left: 8px;
     min-width: 60px;
     margin-top: 10px;

@@ -50,7 +50,6 @@ input, select, multiple, textarea {
      background: #1b76a9;
      border: none;
      padding: 5px 10px;
-     text-transform: capitalize;
 }
 
 
@@ -336,7 +335,6 @@ label:nth-of-type(3) {
     background: #1b76a9;
     border: none;
     padding: 5px 10px;
-    text-transform: capitalize;
     min-width: 60px;
     margin-top: 10px;
 }
@@ -358,7 +356,6 @@ a#admin-link:before {
 
 a#admin-link {
      text-decoration: none;
-     text-transform: capitalize;
      font-size: 14px;
 }
 
@@ -375,7 +372,6 @@ a#login-link:before {
 
 a#login-link {
      text-decoration: none;
-     text-transform: capitalize;
      font-size: 14px;
 }
 
@@ -398,7 +394,6 @@ a#addUser:before {
 
 a#addUser {
      text-decoration: none;
-     text-transform: capitalize;
      font-size: 12px;
 }
 
