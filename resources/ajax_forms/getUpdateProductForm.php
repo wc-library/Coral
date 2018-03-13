@@ -232,7 +232,7 @@ $parentResourceObj = new Resource(new NamedArguments(array('primaryKey' => $pare
 			<tr style='vertical-align:top;'>
 			<td>
 
-			<span class='surroundBoxTitle'>&nbsp;&nbsp;<label for='resourceFormatID'><b>Organizations</b></label>&nbsp;&nbsp;</span>
+			<span class='surroundBoxTitle'>&nbsp;&nbsp;<label for='resourceFormatID'><b><?php echo _("Organizations"); ?></b></label>&nbsp;&nbsp;</span>
 
 			<table class='surroundBox' style='width:380px;'>
 			<tr>
