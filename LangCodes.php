@@ -18,8 +18,8 @@ class LangCodes{
     public function getNameLang($code_lang){
         $name_lang=array(
             'fr_FR'=>'Français',
-            'en_GB'=>'English',
-            'en_US'=>'English',
+            'en_GB'=>'English (GB)',
+            'en_US'=>'English (US)',
             'zh_CN'=>'中文 (简体)',
             'zh_TW'=>'中文 (正體)'//,
             //'de_DE'=>'Deutsch'
