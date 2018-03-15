@@ -31,24 +31,24 @@ $title = $ebscoKb->getTitle($titleId);
                 <div class="row">
                     <div class="col-6">
                         <dl>
-                            <dt>Publication Type</dt>
+                            <dt><?php echo _("Publication Type"); ?></dt>
                             <dd><?php echo $title->pubType; ?></dd>
 
                             <?php if(!empty($title->edition)): ?>
-                                <dt>Edition</dt>
+                                <dt><?php echo _("Edition"); ?></dt>
                                 <dd><?php echo $title->edition; ?></dd>
                             <?php endif; ?>
 
-                            <dt>Peer Reviewed</dt>
+                            <dt><?php echo _("Peer Reviewed"); ?></dt>
                             <dd><?php echo $title->isPeerReviewed; ?></dd>
 
-                            <dt>Publisher</dt>
+                            <dt><?php echo _("Publisher"); ?></dt>
                             <dd><?php echo $title->publisherName; ?></dd>
                         </dl>
                     </div>
                     <div class="col-6">
                         <dl>
-                            <dt>Subjects</dt>
+                            <dt><?php echo _("Subjects"); ?></dt>
                             <dd>
                                 <ul>
                                     <?php foreach($title->subjects as $subject): ?>
@@ -57,7 +57,7 @@ $title = $ebscoKb->getTitle($titleId);
                                 </ul>
                             </dd>
 
-                            <dt>ISXNs</dt>
+                            <dt><?php echo _("ISXNs"); ?></dt>
                             <dd>
                                 <ul style="list-style: none; ">
                                     <?php
@@ -65,10 +65,10 @@ $title = $ebscoKb->getTitle($titleId);
                                         if(in_array($identifier['type'], [0,1])) {
                                             switch($identifier['subtype']){
                                                 case 1:
-                                                    $subtype = ' (Print)';
+                                                    $subtype = _(' (Print)');
                                                     break;
                                                 case 2:
-                                                    $subtype = ' (Electronic)';
+                                                    $subtype = _(' (Electronic)');
                                                     break;
                                                 default:
                                                     $subtype = '';
@@ -81,7 +81,7 @@ $title = $ebscoKb->getTitle($titleId);
                             </dd>
 
                             <?php if(!empty($title->contributorList)): ?>
-                                <dt>Contributors</dt>
+                                <dt><?php echo _("Contributors"); ?></dt>
                                 <dd><?php echo implode(', ', $title->contributorList); ?></dd>
                             <?php endif; ?>
                         </dl>
@@ -93,7 +93,7 @@ $title = $ebscoKb->getTitle($titleId);
                 <div class="row">
                     <div class="col-4">
                         <label for="showAllPackages">
-                            <input type="checkbox" id="showAllPackages"> Show all packages
+                            <input type="checkbox" id="showAllPackages"> <?php echo_("Show all packages"); ?>
                         </label>
                     </div>
                 </div>
@@ -106,9 +106,9 @@ $title = $ebscoKb->getTitle($titleId);
                                     <div class="col-8">
                                         <h3 style="padding-left: 5px;">
                                             <?php if($resource->isSelected): ?>
-                                                <i class="fa fa-check-square-o fa-lg text-success" title="Selected in EBSCO Kb" style="margin-left: -15px;"></i>
+                                                <i class="fa fa-check-square-o fa-lg text-success" title="<?php echo _("Selected in EBSCO Kb"); ?>" style="margin-left: -15px;"></i>
                                             <?php else: ?>
-                                                <i class="fa fa-ban fa-lg text-danger" title="Not selected in EBSCO Kb" style="margin-left: -15px;"></i>
+                                                <i class="fa fa-ban fa-lg text-danger" title="<?php echo _("Not selected in EBSCO Kb"); ?>" style="margin-left: -15px;"></i>
                                             <?php endif; ?>
                                             <?php echo $resource->packageName; ?>
                                         </h3>
@@ -131,13 +131,13 @@ $title = $ebscoKb->getTitle($titleId);
                                 </div>
                             </div>
                             <div class="card-body">
-                                <p>Vendor: <?php echo $resource->vendorName; ?></p>
+                                <p><?php echo _("Vendor"); ?>: <?php echo $resource->vendorName; ?></p>
                                 <dl>
-                                    <dt>Coverage Statement</dt>
+                                    <dt><?php echo _("Coverage Statement"); ?></dt>
                                     <dd><?php echo $resource->coverageStatement; ?></dd>
-                                    <dt>Embargo</dt>
+                                    <dt><?php echo _("Embargo"); ?></dt>
                                     <dd><?php echo $resource->embargoStatement; ?></dd>
-                                    <dt>Resource Url</dt>
+                                    <dt><?php echo _("Resource Url"); ?></dt>
                                     <dd><a href="<?php echo $resource->url; ?>"><?php echo $resource->url; ?></a></dd>
                                 </dl>
                             </div>

@@ -22,7 +22,7 @@
             <td style="text-align: center;">
                 <?php if($item->resource): ?>
                     <a href="resource.php?resourceID=<?php echo $item->resource->primaryKey; ?>">
-                        <i class="fa fa-check text-success" title="imported in Coral"></i>
+                        <i class="fa fa-check text-success" title="<?php echo _('imported in Coral'); ?>"></i>
                     </a>
                 <?php endif; ?>
             </td>
