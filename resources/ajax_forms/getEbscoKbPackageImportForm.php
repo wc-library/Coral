@@ -185,8 +185,7 @@ if ($orgModule) {
                                     <div class="row">
                                         <div class="col-12 pb-1">
                                             <p>
-                                                You have <?php echo $package->selectedCount; ?> of <?php echo $package->titleCount; ?>
-                                                titles selected in EBSCO Kb.
+                                                <?php echo _('You have '.$package->selectedCount.' of '.$package->titleCount.' titles selected in EBSCO Kb.'); ?>
                                             </p>
                                         </div>
                                         <?php foreach($titleOptions as $option): ?>
