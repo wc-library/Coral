@@ -185,7 +185,7 @@ if ($orgModule) {
                                     <div class="row">
                                         <div class="col-12 pb-1">
                                             <p>
-                                                <?php echo _('You have '.$package->selectedCount.' of '.$package->titleCount.' titles selected in EBSCO Kb.'); ?>
+                                                <?php echo sprintf(ngettext('You have %d of %d title selected in EBSCO Kb', 'You have %d of %d titles selected in EBSCO Kb', $package->titleCount), $package->selectedCount, $package->titleCount); ?>
                                             </p>
                                         </div>
                                         <?php foreach($titleOptions as $option): ?>
