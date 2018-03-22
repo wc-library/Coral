@@ -3,7 +3,7 @@
 $packageId = filter_input(INPUT_GET, 'packageId', FILTER_SANITIZE_STRING);
 $vendorId = filter_input(INPUT_GET, 'vendorId', FILTER_SANITIZE_STRING);
 
-if(empty($packageId) || empty($vendorId)){
+if(!isset($packageId) || !isset($vendorId)){
     echo '<p>Missing Package or Vendor ID</p>';
     exit;
 }
@@ -25,6 +25,11 @@ $titleOptions = [
         'description' => 'Import all the titles in the package. The package will be added as a parent resource.'
     ]
 ];
+
+$ebsco10kLimitText = '<p class="smallDarkRedText">'.
+                    _('The EBSCO Kb API only allows importing a maximum of 10,000 records. Only package information will be imported.').
+                    '</p><p class="smallDarkRedText">'.
+                    _('Alternatively, you may import titles individually or via a manual import.').'</p>';
 
 $ebscoKb = EbscoKbService::getInstance();
 $package = $ebscoKb->getPackage($vendorId, $packageId);
@@ -172,31 +177,40 @@ if ($orgModule) {
                                 <strong><?php echo _("Package Titles");?><span class="bigDarkRedText">*</span></strong>
                             </div>
                             <div class="card-body">
-                                <p id="span_error_titleFilter" class="smallDarkRedText"></p>
-                                <div class="row">
-                                    <div class="col-12 pb-1">
-                                        <p>
-                                            You have <?php echo $package->selectedCount; ?> of <?php echo $package->titleCount; ?>
-                                            titles selected in EBSCO Kb.
-                                        </p>
+                                <?php if ($package->selectedCount > 10000): ?>
+                                    <?php echo $ebsco10kLimitText; ?>
+                                    <input type="hidden" name="titleFilter" value="none">
+                                <?php else: ?>
+                                    <p id="span_error_titleFilter" class="smallDarkRedText"></p>
+                                    <div class="row">
+                                        <div class="col-12 pb-1">
+                                            <p>
+                                                <?php echo sprintf(ngettext('You have %d of %d title selected in EBSCO Kb', 'You have %d of %d titles selected in EBSCO Kb', $package->titleCount), $package->selectedCount, $package->titleCount); ?>
+                                            </p>
+                                        </div>
+                                        <?php foreach($titleOptions as $option): ?>
+                                            <div class="col-12 pb-1">
+                                                <?php if($package->titleCount > 10000 && $option['value'] == 'all'): ?>
+                                                    <p class="darkRedText"><?php echo _('All titles not available'); ?></p>
+                                                    <?php echo $ebsco10kLimitText; ?>
+                                                <?php else: ?>
+                                                    <label for="titleFilter-<?php echo $option['value']; ?>">
+                                                        <input
+                                                            type="radio"
+                                                            name="titleFilter"
+                                                            value="<?php echo $option['value']; ?>"
+                                                            id="titleFilter-<?php echo $option['value']; ?>"
+                                                            <?php if($option == $titleOptions[0]){ echo 'checked'; } ?>
+                                                        >
+                                                        <?php echo _($option['text']); ?>
+                                                        <br />
+                                                        <small><?php echo _($option['description']); ?></small>
+                                                    </label>
+                                                <?php endif; ?>
+                                            </div>
+                                        <?php endforeach; ?>
                                     </div>
-                                    <?php foreach($titleOptions as $option): ?>
-                                    <div class="col-12 pb-1">
-                                        <label for="titleFilter-<?php echo $option['value']; ?>">
-                                            <input
-                                                type="radio"
-                                                name="titleFilter"
-                                                value="<?php echo $option['value']; ?>"
-                                                id="titleFilter-<?php echo $option['value']; ?>"
-                                                <?php if($option == $titleOptions[0]){ echo 'checked'; } ?>
-                                            >
-                                            <?php echo _($option['text']); ?>
-                                            <br />
-                                            <small><?php echo _($option['description']); ?></small>
-                                        </label>
-                                    </div>
-                                    <?php endforeach; ?>
-                                </div>
+                                <?php endif; ?>
                             </div>
                         </div>
 

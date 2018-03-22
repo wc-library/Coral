@@ -105,11 +105,11 @@ if(empty($statusId)) {
 if($importType == 'batch'){
 
     // Is the package id set
-    if(empty($packageId)) {
+    if(!isset($packageId)) {
         $errors[] = create_error('general', 'No package ID found');
     }
     // Is the vendor id set
-    if(empty($vendorId)) {
+    if(!isset($vendorId)) {
         $errors[] = create_error('general', 'No vendor ID found');
     }
     // Is the selection set
@@ -132,11 +132,11 @@ if($importType == 'batch'){
 
 if($importType == 'package'){
     // Is the package id set
-    if(empty($packageId)) {
+    if(!isset($packageId)) {
         $errors[] = create_error('general', 'No package ID found');
     }
     // Is the vendor id set
-    if(empty($vendorId)) {
+    if(!isset($vendorId)) {
         $errors[] = create_error('general', 'No vendor ID found');
     }
     // Is the providerOption set
@@ -171,7 +171,7 @@ if($importType == 'package'){
 
 if($importType == 'title'){
     // Is the title id set
-    if(empty($titleId)) {
+    if(!isset($titleId)) {
         $errors[] = create_error('general', 'No title ID found');
     }
 }
