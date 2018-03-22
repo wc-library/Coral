@@ -84,7 +84,9 @@ function register_have_database_access_provider()
 					require "install/templates/database_details_template.php";
 					switch ($version) {
 						case Installer::VERSION_STRING_INSTALL:
-							$instruction = _("To begin with, we need a username and password to create the databases CORAL and its modules will be using.")
+							$instruction = _("CREATE DATABASES")
+                    . "<br/>"
+                    .  _("To create the databases CORAL will use, we need a mysql username and password with permission to create databases. This username and password will not be stored.")
 										. "<br />"
 										.  _("If you would like to use pre-existing databases or custom database names. Use the advanced section to configure these settings.");
 							$db_access_vars = array_intersect_key($db_access_vars, ["username" => 1, "password" => 1, "host" => 1]);
