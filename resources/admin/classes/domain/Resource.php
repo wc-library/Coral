@@ -1395,6 +1395,14 @@ class Resource extends DatabaseObject {
 		$this->removeResource();
 	}
 
+    // Removes all resource acquisitions from this resource
+    public function removeResourceAcquisitions() {
+        $instance = new ResourceAcquisition();
+        foreach($this->getResourceAcquisitions() as $instance) {
+            $instance->removeResourceAcquisition();
+        }
+
+    }
 
 
 	//removes this resource
@@ -1404,12 +1412,7 @@ class Resource extends DatabaseObject {
 		$this->removeResourceOrganizations();
 		$this->removeAllSubjects();
 		$this->removeAllIsbnOrIssn();
-
-        $instance = new ResourceAcquisition();
-        foreach($this->getResourceAcquisitions() as $instance) {
-            $instance->removeResourceAcquisition();
-        }
-
+        $this->removeResourceAcquisitions();
 		$instance = new ExternalLogin();
 		foreach ($this->getExternalLogins() as $instance) {
 			$instance->delete();
