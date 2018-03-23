@@ -70,6 +70,28 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 	   var urlString = /\.jpg$|\.jpeg$|\.png$|\.gif$|\.bmp$/;
 	   var urlType = baseURL.toLowerCase().match(urlString);
 
+        document.onkeydown = function(e){
+            if (e == null) { // ie
+                keycode = event.keyCode;
+            } else { // mozilla
+                keycode = e.which;
+            }
+            if(keycode == 27){ // close
+                tb_remove();
+            } else if(keycode == 190){ // display previous image
+                if(!(TB_NextHTML == "")){
+                    document.onkeydown = "";
+                    goNext();
+                }
+            } else if(keycode == 188){ // display next image
+                if(!(TB_PrevHTML == "")){
+                    document.onkeydown = "";
+                    goPrev();
+                }
+            }
+        };
+
+
 		if(urlType == '.jpg' || urlType == '.jpeg' || urlType == '.png' || urlType == '.gif' || urlType == '.bmp'){//code to show images
 
 			TB_PrevCaption = "";
@@ -157,27 +179,6 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 				$("#TB_next").click(goNext);
 
 			}
-
-			document.onkeydown = function(e){
-				if (e == null) { // ie
-					keycode = event.keyCode;
-				} else { // mozilla
-					keycode = e.which;
-				}
-				if(keycode == 27){ // close
-					tb_remove();
-				} else if(keycode == 190){ // display previous image
-					if(!(TB_NextHTML == "")){
-						document.onkeydown = "";
-						goNext();
-					}
-				} else if(keycode == 188){ // display next image
-					if(!(TB_PrevHTML == "")){
-						document.onkeydown = "";
-						goPrev();
-					}
-				}
-			};
 
 			tb_position();
 			$("#TB_load").remove();
