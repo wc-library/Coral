@@ -19,7 +19,6 @@
 
 
 include_once 'directory.php';
-include_once 'util.php';
 
 function escape_csv($value) {
   // replace \n with \r\n
