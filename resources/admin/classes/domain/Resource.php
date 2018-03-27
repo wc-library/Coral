@@ -1399,9 +1399,6 @@ class Resource extends DatabaseObject {
 
 	//removes this resource
 	public function removeResource() {
-		if (empty($this->resourceID)) {
-			throw new Exception('Resource not found');
-		}
 		//delete data from child linked tables
 		$this->removeResourceRelationships();
 		$this->removeResourceOrganizations();
