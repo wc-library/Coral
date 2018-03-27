@@ -137,9 +137,9 @@ switch ($_GET['action']) {
 		$createUser = new User(new NamedArguments(array('primaryKey' => $organization->createLoginID)));
 		$updateUser = new User(new NamedArguments(array('primaryKey' => $organization->updateLoginID)));
 
-		//fix company url in case http is missing
+		//add http if protocol is missing
 		if ($organization->companyURL){
-			if (strpos(strtolower($organization->companyURL), 'http') === false){
+			if (strpos($organization->companyURL, '://') === false){
 				$companyURL = "http://" . $organization->companyURL;
 			}else{
 				$companyURL = $organization->companyURL;
