@@ -230,7 +230,9 @@ switch ($_GET['action']) {
 		if ($organization->companyURL){ ?>
 			<tr>
 			<td style='vertical-align:top;text-align:left;width:140px;'><?php echo _("Company URL:");?></td>
-			<td style='width:320px;'><a href='<?php echo $companyURL; ?>' target='_blank'><?php echo $organization->companyURL; ?></a></td>
+			<td style='width:320px; word-break: break-word;'>
+                <a href='<?php echo $companyURL; ?>' target='_blank' style="text-transform: none;"><?php echo $organization->companyURL; ?></a>
+            </td>
 			</tr>
 		<?php
 		}
