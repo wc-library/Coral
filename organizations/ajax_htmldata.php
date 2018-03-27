@@ -230,7 +230,7 @@ switch ($_GET['action']) {
 		if ($organization->companyURL){ ?>
 			<tr>
 			<td style='vertical-align:top;text-align:left;width:140px;'><?php echo _("Company URL:");?></td>
-			<td style='width:320px; word-break: break-word;'>
+			<td style='width:320px; word-break: break-all;'>
                 <a href='<?php echo $companyURL; ?>' target='_blank' style="text-transform: none;"><?php echo $organization->companyURL; ?></a>
             </td>
 			</tr>
@@ -581,8 +581,8 @@ switch ($_GET['action']) {
 				<?php if ($externalLogin['loginURL']) { ?>
 				<tr>
 				<td style='vertical-align:top;text-align:left;'><?php echo _("Login URL:");?></td>
-				<td><?php echo $externalLogin['loginURL'];
-					if (strpos($externalLogin['loginURL'], 'http') !== 0) {
+				<td style="word-break: break-all;"><?php echo $externalLogin['loginURL'];
+					if (strpos($externalLogin['loginURL'], '://') !== 0) {
 						$externalLogin['loginURL'] = "http://" . $externalLogin['loginURL'];
 					}
 				?>&nbsp;&nbsp;<a href='<?php echo $externalLogin['loginURL']; ?>' target='_blank'><img src='images/arrow-up-right.gif' alt='<?php echo _("Visit Login URL");?>' title='<?php echo _("Visit Login URL");?>' style='vertical-align:top;'></a></td>

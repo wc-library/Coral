@@ -68,7 +68,7 @@ if ($organization->name){
 
 		//fix company url in case http is missing
 		if ($organization->companyURL){
-			if (strpos(strtolower($organization->companyURL), 'http:') === false){
+			if (strpos($organization->companyURL, '://') === false){
 				$companyURL = "http://" . $organization->companyURL;
 			}else{
 				$companyURL = $organization->companyURL;
@@ -159,7 +159,7 @@ if ($organization->name){
 		if ($organization->companyURL){ ?>
 			<tr>
 			<td style='vertical-align:top;text-align:left;width:140px;'><?php echo _("Company URL:");?></td>
-			<td style='width:320px;'><a href='<?php echo $companyURL; ?>' target='_blank'><?php echo $organization->companyURL; ?></a></td>
+			<td style='width:320px; word-break: break-all;'><a href='<?php echo $companyURL; ?>' target='_blank'><?php echo $organization->companyURL; ?></a></td>
 			</tr>
 		<?php
 		}
@@ -451,8 +451,8 @@ if ($organization->name){
 			<?php if ($externalLogin['loginURL']) { ?>
 			<tr>
 			<td style='vertical-align:top;text-align:left;'><?php echo _("Login URL:");?></td>
-			<td><?php echo $externalLogin['loginURL']; 
-				if (strpos($externalLogin['loginURL'], 'http') !== 0) {
+			<td style="word-break: break-all;"><?php echo $externalLogin['loginURL'];
+				if (strpos($externalLogin['loginURL'], '://') !== 0) {
 					$externalLogin['loginURL'] = "http://" . $externalLogin['loginURL'];
 				}
 			?>&nbsp;&nbsp;<a href='<?php echo $externalLogin['loginURL']; ?>' target='_blank'><img src='images/arrow-up-right.gif' alt='<?php echo _("Visit Login URL");?>' title='<?php echo _("Visit Login URL");?>' style='vertical-align:top;'></a></td>
