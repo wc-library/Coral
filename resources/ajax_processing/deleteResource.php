@@ -7,6 +7,6 @@
 			echo _("Resource successfully deleted.");
 		} catch (Exception $e) {
             http_response_code(404);
-            echo _("Resource not found. Error: ".$e->getMessage());
+            echo _($e->getMessage());
 		}
 ?>
