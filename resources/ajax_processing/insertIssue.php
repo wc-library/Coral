@@ -87,7 +87,7 @@ if (count($contactIDs)) {
 		unset($newIssueContact);
 	}
 
-	$organizationContactsArray = $sourceResource->getUnarchivedContacts();
+	$organizationContactsArray = $sourceResourceAcquisition->getUnarchivedContacts();
 
 	//send emails to contacts
 	foreach ($organizationContactsArray as $contactData) {
