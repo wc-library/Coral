@@ -1,0 +1,767 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Coral\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-03-27 15:04+0200\n"
+"PO-Revision-Date: \n"
+"Last-Translator: BSZ - Abteilung Bibliothekssysteme\n"
+"Language-Abteilung: BSZ - Abteilung Bibliothekssysteme\n"
+"Language: de_DE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 2.0.4\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+
+#: install/auth.php:9
+msgid "Authentication Module"
+msgstr "Authentifizierungsmodul"
+
+#: install/auth.php:20
+msgid "Auth Database"
+msgstr "Auth-Datenbank"
+
+#: install/auth.php:31
+msgid "Auth Module Installation"
+msgstr "Auth-Modulinstallation"
+
+#: install/auth.php:87
+msgid "Host"
+msgstr "Host"
+
+#: install/auth.php:92
+msgid "Port"
+msgstr "Port"
+
+#: install/auth.php:99
+msgid "Base DN"
+msgstr "Basis-DN"
+
+#: install/auth.php:104
+msgid "Bind Account"
+msgstr "Bind-Konto"
+
+#: install/auth.php:111
+msgid "Bind Password"
+msgstr "Bind-Passwort"
+
+#: install/auth.php:116
+msgid "Confirm Bind Password"
+msgstr "Bind-Passwort bestätigen"
+
+#: install/auth.php:125
+msgid "First Name"
+msgstr "Vorname"
+
+#: install/auth.php:130
+msgid "Last Name"
+msgstr "Nachname"
+
+#: install/auth.php:137
+msgid "Search Key"
+msgstr "Suchschlüssel"
+
+#: install/auth.php:158
+msgid "Your Bind Password is empty."
+msgstr "Ihr Bind-Passwort ist leer."
+
+#: install/auth.php:163
+msgid "Your Bind Passwords do not match."
+msgstr "Ihre Bind-Passwörter stimmen nicht überein."
+
+#: install/auth.php:168
+msgid "LDAP Host is required for LDAP"
+msgstr "LDAP-Host ist für LDAP erforderlich"
+
+#: install/auth.php:173
+msgid "LDAP Search Key is required for LDAP"
+msgstr "LDAP-Suchschlüssel ist für LDAP erforderlich"
+
+#: install/auth.php:178
+msgid "LDAP Base DN is required for LDAP"
+msgstr "LDAP-Basis-DN ist für LDAP erforderlich"
+
+#: install/auth.php:207
+msgid "Sorry but your password needs to be at least 8 characters long"
+msgstr "Ihr Passwort muss mindestens 8 Zeichen lang sein"
+
+#: install/auth.php:214
+msgid "Default Admin Password"
+msgstr "Standard-Admin-Passwort"
+
+#: install/auth.php:218
+#, php-format
+msgid ""
+"You have chosen not to use LDAP. In order for the auth module to "
+"authenticate your admin user (you chose: '<b>%s</b>') you will need to "
+"provide a default password."
+msgstr ""
+"Sie haben sich entschieden, kein LDAP zu verwenden. Damit das "
+"Authentifizierungsmodul Ihren Admin-Nutzer ('<b>%s</b>') authentifizieren "
+"kann, müssen Sie ein Standard-Passwort angeben."
+
+#: install/auth.php:289
+msgid "Set up your <span class='highlight'>.htaccess</span> file"
+msgstr "Konfigurieren Sie Ihre <span class='highlight'>.htaccess</span>-Datei"
+
+#: install/auth.php:290
+msgid ""
+"Remove the <span class='highlight'>/auth/install/</span> directory for "
+"security purposes"
+msgstr ""
+"Entfernen Sie das Verzeichnis <span class='highlight'>/auth/install/</span> "
+"aus Sicherheitsgründen"
+
+#: install/auth.php:291
+msgid ""
+"Set up your users on the <a href='auth/admin.php'>admin screen</a>.  You may "
+"log in initially with coral/admin."
+msgstr ""
+"Konfigurieren Sie Ihre Logins auf der <a href='auth/admin."
+"php'>Administrationsseite</a>. Beim ersten Mal können Sie sich mit coral/"
+"admin anmelden."
+
+#: install/auth.php:310 install/auth.php:336
+msgid "Auth Module"
+msgstr "Authentifizierungsmodul"
+
+#: admin.php:66 index.php:195
+msgid ""
+"JavaScript must be enabled in order for you to use CORAL. However, it seems "
+"JavaScript is either disabled or not supported by your browser. To use "
+"CORAL, enable JavaScript by changing your browser options, then"
+msgstr ""
+"JavaScript muss aktiviert sein, um Coral verwenden zu können. Es scheint, "
+"dass JavaScript entweder deaktiviert ist oder von Ihrem Browser nicht "
+"unterstützt wird. Um Coral zu verwenden, aktivieren Sie JavaScript in den "
+"Einstellungen Ihres Browsers und"
+
+#: admin.php:66 index.php:195
+msgid "try again"
+msgstr "versuchen Sie es dann erneut"
+
+#: admin.php:75 index.php:205
+msgid "eRM Authentication"
+msgstr "eRM-Authentifizierung"
+
+#: admin.php:82
+msgid "Users"
+msgstr "Nutzer"
+
+#: admin.php:83
+msgid "Login ID must match the login ID set up in the modules"
+msgstr "Die Login-ID muss mit der Login-ID in den Modulen übereinstimmen"
+
+#: admin.php:89
+msgid "Processing..."
+msgstr "Lade..."
+
+#: admin.php:93 index.php:226
+msgid "Change language:"
+msgstr "Sprache wechseln:"
+
+#: admin.php:109 index.php:242
+msgid "Invalid translation route!"
+msgstr "Ungültige Übersetzung!"
+
+#: admin.php:134
+msgid "Login page"
+msgstr "Loginseite"
+
+#: js/admin.js:67
+msgid "Passwords do not match"
+msgstr "Passwörter stimmen nicht überein"
+
+#: js/admin.js:73
+msgid "Password is required"
+msgstr "Passwort ist erforderlich"
+
+#: js/admin.js:78
+msgid "UserID is required"
+msgstr "UserID ist erforderlich"
+
+#: js/admin.js:89
+msgid "Do you really want to delete this user?"
+msgstr "Möchten Sie diesen Nutzer wirklich löschen?"
+
+#: js/index.js:40
+msgid "Refreshing Contents..."
+msgstr "Inhalte aktualisieren..."
+
+#: ajax_htmldata.php:53
+msgid "edit password or admin status"
+msgstr "Passwort oder Adminstatus bearbeiten"
+
+#: ajax_htmldata.php:54
+msgid "remove"
+msgstr "Löschen"
+
+#: ajax_htmldata.php:60 ajax_htmldata.php:64
+msgid "add new user"
+msgstr "Neuer Benutzer"
+
+#: ajax_htmldata.php:75 ajax_processing.php:87 ajax_forms.php:114
+msgid "Action "
+msgstr "Aktion "
+
+#: ajax_htmldata.php:75 ajax_processing.php:87 ajax_forms.php:114
+msgid " not set up!"
+msgstr " nicht konfiguriert!"
+
+#: index.php:55
+msgid "You are successfully logged out of the system."
+msgstr "Sie wurden erfolgreichreich abgemeldet."
+
+#: index.php:86
+msgid "Invalid login ID.  Please try again."
+msgstr "Ungültige Login-ID. Bitte versuchen Sie es erneut."
+
+#: index.php:91
+msgid "Invalid password.  Please try again."
+msgstr "Ungültiges Passwort. Bitte versuchen Sie es erneut."
+
+#: index.php:108
+msgid "You are already logged in as "
+msgstr "Sie sind bereits angemeldet als "
+
+#: index.php:108
+msgid "You may log in as another user below,"
+msgstr "Sie können sich unten unter einem anderen Login anmelden,"
+
+#: index.php:108
+msgid "return"
+msgstr "gehen Sie zurück"
+
+#: index.php:108
+msgid "or"
+msgstr "oder"
+
+#: index.php:108
+msgid "logout"
+msgstr "abmelden"
+
+#: index.php:129
+msgid "Please enter login credentials to sign in."
+msgstr "Bitte geben Sie Ihre Anmeldedaten ein, um sich anzumelden."
+
+#: index.php:137
+msgid "Your session has timed out."
+msgstr "Ihre Session ist abgelaufen."
+
+#: index.php:146
+msgid "You do not have permission to enter."
+msgstr "Sie haben keine Zugriffsberechtigung."
+
+#: index.php:146
+msgid "Please contact an administrator."
+msgstr "Bitte kontaktieren Sie den Administrator."
+
+#: index.php:156
+msgid "You must log in before accessing the admin page."
+msgstr ""
+"Sie müssen sich anmelden, bevor Sie auf die Administrationsseite zugreifen "
+"können."
+
+#: index.php:211
+msgid "Login ID:"
+msgstr "Login-ID:"
+
+#: index.php:214
+msgid "Password:"
+msgstr "Passwort:"
+
+#: index.php:218
+msgid "Remember my login ID"
+msgstr "Login-ID speichern"
+
+#: index.php:221
+msgid "Login"
+msgstr "Login"
+
+#: index.php:267
+msgid "Admin page"
+msgstr "Administrationsseite"
+
+#: ajax_processing.php:75
+msgid "User successfully deleted."
+msgstr "Nutzer erolgreich gelöscht."
+
+#: ajax_forms.php:43
+msgid "Edit User"
+msgstr "Nutzer bearbeiten"
+
+#: ajax_forms.php:43
+msgid "Add New User"
+msgstr "Neuer Nutzer"
+
+#: ajax_forms.php:56
+msgid "Login ID"
+msgstr "Login-ID"
+
+#: ajax_forms.php:58
+msgid "Enter password for changes only"
+msgstr "Geben Sie das Passwort nur bei Änderung ein"
+
+#: ajax_forms.php:59
+msgid "New "
+msgstr "Neu "
+
+#: ajax_forms.php:59
+msgid "Password"
+msgstr "Passwort"
+
+#: ajax_forms.php:62
+msgid "Reenter Password"
+msgstr "Passwort wiederholen"
+
+#: ajax_forms.php:65
+msgid "Admin?"
+msgstr "Admin?"
+
+#: ajax_forms.php:77
+msgid "submit"
+msgstr "Senden"
+
+#: ajax_forms.php:78
+msgid "cancel"
+msgstr "Abbrechen"
+
+#: admin/classes/domain/User.php:82 admin/classes/domain/User.php:89
+msgid "Could not connect to LDAP server."
+msgstr "Es konnte keine Verbindung zum LDAP-Server hergestellt werden."
+
+#: admin/classes/domain/User.php:97
+msgid ""
+"There is a problem with the LDAP configuration, contact your server "
+"administrator."
+msgstr ""
+"Es existiert ein Problem mit Ihrer LDAP-Konfiguration, kontaktieren Sie den "
+"Administrator."
+
+#: admin/classes/common/LdapPerson.php:34
+msgid "Could not connect to "
+msgstr "Keine Verbindung mit "
+
+#: admin/classes/common/Object.php:63
+msgid "Cannot set value for undefined key ("
+msgstr "Wert für nicht definierten Schlüssel kann nicht gesetzt werden ("
+
+#: admin/classes/common/Object.php:72
+msgid "Cannot get value for undefined key ("
+msgstr "Wert für nicht definierten Schlüssel kann nicht gelesen werden ("
+
+#: admin/classes/common/DBService.php:53
+msgid "There was a problem with the database: "
+msgstr "Es gab ein Problem mit der Datenbank: "
+
+#~ msgid "Resources import"
+#~ msgstr "Resourcen importieren"
+
+#~ msgid "Delimited File Import"
+#~ msgstr "CSV-Dateien importieren"
+
+#~ msgid "The file has been successfully uploaded."
+#~ msgstr "Die Datei wurde erfolgreich hochgeladen."
+
+#~ msgid "Unable to get columns headers from the file"
+#~ msgstr "Keine Spaltenüberschriften in der Datei gefunden"
+
+#~ msgid "Unable to open the uploaded file"
+#~ msgstr "Nicht möglich die hochgeladene Datei zu öffnen"
+
+#~ msgid "Unable to upload the file"
+#~ msgstr "Upload der Datei ist nicht möglich"
+
+#~ msgid "Error: "
+#~ msgstr "Fehler: "
+
+#~ msgid "Please select the import configuration to load: "
+#~ msgstr "Bitte wählen Sie Importkonfiguration für das Laden: "
+
+#~ msgid "Select Configuration"
+#~ msgstr "Konfiguration auswählen"
+
+#~ msgid "Please choose columns from your CSV file:"
+#~ msgstr "Spalten in der CSV-Datei auswählen:"
+
+#~ msgid "Settings"
+#~ msgstr "Einstellungen"
+
+#~ msgid "Importing and deduping isbnOrISSN on the following columns: "
+#~ msgstr "Import oder Deduplizierung"
+
+#~ msgid "Organization "
+#~ msgstr "Organisation"
+
+#~ msgid " could not be added."
+#~ msgstr "konnte nicht hinzugefügt werden."
+
+#~ msgid "Error: more than one organization is called "
+#~ msgstr "Fehler: Mehr als eine Organisation wird aufgerufen "
+
+#~ msgid ". Please consider deduping."
+#~ msgstr ". Bitte erwägen Sie zu deduplizieren."
+
+#~ msgid "Results"
+#~ msgstr "Treffer"
+
+#~ msgid " rows have been processed. "
+#~ msgstr "Zeilen wurden verarbeitet. "
+
+#~ msgid " rows have been inserted."
+#~ msgstr "Zeilen wurden eingefügt."
+
+#~ msgid " organizations have been created"
+#~ msgstr "Organisationen wurden hinzugefügt"
+
+#~ msgid " resources have been attached to an existing organization."
+#~ msgstr " Ressourcen wurden an eine existierende Organisation angehängt."
+
+#~ msgid " resource types have been created"
+#~ msgstr " Resourcetypen wurden angelegt"
+
+#~ msgid " resource formats have been created"
+#~ msgstr " Formate für Ressourcen wurden angelegt"
+
+# Subjects? Schlagwörter? Themen?
+#~ msgid " general subjects have been created"
+#~ msgstr " allgemeine Schlagwörter wurden angelegt"
+
+#~ msgid " aliases have been created"
+#~ msgstr " Aliase wurden angelegt"
+
+#~ msgid " notes have been created"
+#~ msgstr " Notizen wurden angelegt"
+
+#~ msgid "File selection"
+#~ msgstr "Dateiauswahl"
+
+#~ msgid "CSV File"
+#~ msgstr "CSV-Datei"
+
+#~ msgid "Import options"
+#~ msgstr "Importoptionen"
+
+#~ msgid "CSV delimiter"
+#~ msgstr "CSV-Trennzeichen"
+
+#~ msgid "(comma)"
+#~ msgstr "(Komma)"
+
+#~ msgid "(semicolon)"
+#~ msgstr "(Semikolon)"
+
+# ?
+#~ msgid "(pipe)"
+#~ msgstr "(Pipe)"
+
+#~ msgid "Upload"
+#~ msgstr "Upload"
+
+#~ msgid "Resources Module"
+#~ msgstr "Resourcenmodul"
+
+#~ msgid "Resources Database"
+#~ msgstr "Resourcedatenbank"
+
+#~ msgid "Default Currency"
+#~ msgstr "Standard-Währung"
+
+#~ msgid "Enable Alerts"
+#~ msgstr "Warnungen aktivieren"
+
+#~ msgid "Catalog URL"
+#~ msgstr "Katalog-URL"
+
+#~ msgid "Feedback Email Address"
+#~ msgstr "E-Mail-Adresse für Feedback"
+
+#~ msgid "Please set up the following options for the resources module."
+#~ msgstr ""
+#~ "Bitte konfigurieren Sie die folgenden Optionen für das Resourcenmodul."
+
+#~ msgid "rows have been processed."
+#~ msgstr "Zeilen wurden verarbeitet."
+
+#~ msgid "Import Funds"
+#~ msgstr "Konten importieren"
+
+#~ msgid "Select File"
+#~ msgstr "Datei auswählen"
+
+#~ msgid "import"
+#~ msgstr "Importieren"
+
+#~ msgid "Administration"
+#~ msgstr "Administration"
+
+#~ msgid "Workflow / User Group"
+#~ msgstr "Workflow / Nutzergruppe"
+
+#~ msgid "Access Method"
+#~ msgstr "Zugriffsmethode"
+
+#~ msgid "Acquisition Type"
+#~ msgstr "Erwerbungsart"
+
+#~ msgid "Administering Site"
+#~ msgstr "Verwaltender Standort"
+
+#~ msgid "Alert Settings"
+#~ msgstr "Einstellungen für Warnungen"
+
+#~ msgid "Alias Type"
+#~ msgstr "Art des Alias"
+
+#~ msgid "Attachment Type"
+#~ msgstr "Art des Anhangs"
+
+#~ msgid "Authentication Type"
+#~ msgstr "Art der Authentifizierung"
+
+#~ msgid "Authorized Site"
+#~ msgstr "Zugriffsberechtigte Standorte"
+
+#~ msgid "Cataloging Status"
+#~ msgstr "Katalogisierungsstatus"
+
+#~ msgid "Cataloging Type"
+#~ msgstr "Art der Katalogisierung"
+
+#~ msgid "Contact Role"
+#~ msgstr "Rolle des Kontakts"
+
+#~ msgid "Cost Details"
+#~ msgstr "Kostendetails"
+
+#~ msgid "Currency"
+#~ msgstr "Währung"
+
+#~ msgid "Downtime Type"
+#~ msgstr "Art des Ausfalls"
+
+#~ msgid "External Login Type"
+#~ msgstr "Art des externen Logins"
+
+#~ msgid "Funds"
+#~ msgstr "Konten"
+
+#~ msgid "Import Configuration"
+#~ msgstr "Importkonfiguration"
+
+#~ msgid "License Status"
+#~ msgstr "Status der Lizenzierung"
+
+#~ msgid "Note Type"
+#~ msgstr "Art der Notiz"
+
+#~ msgid "Order Type"
+#~ msgstr "Bestelltyp"
+
+#~ msgid "Organization Role"
+#~ msgstr "Rolle der Organisation"
+
+#~ msgid "Organizations"
+#~ msgstr "Organisationen"
+
+#~ msgid "Purchasing Site"
+#~ msgstr "Erwerbender Standort"
+
+#~ msgid "Resource Format"
+#~ msgstr "Format der Resource"
+
+#~ msgid "Resource Type"
+#~ msgstr "Art der Resource"
+
+#~ msgid "Storage Location"
+#~ msgstr "Aufbewahrungsort"
+
+#~ msgid "Subjects"
+#~ msgstr "Schlagwörter"
+
+#~ msgid "User Limit"
+#~ msgstr "Nutzerbegrenzung"
+
+#~ msgid "Loading..."
+#~ msgstr "Läd..."
+
+#~ msgid "You do not have permissions to access this screen."
+#~ msgstr "Sie haben keine Berechtigung auf diese Seite zuzugreifen."
+
+#~ msgid "Refreshing..."
+#~ msgstr "Aktualisiert..."
+
+#~ msgid " record)"
+#~ msgstr " Datensatz)"
+
+#~ msgid " records)"
+#~ msgstr " Datensätze)"
+
+# request?
+#~ msgid "Do you really want to delete this request?"
+#~ msgstr "Möchten Sie diese Anfrage wirklich löschen?"
+
+#~ msgid "Number of days must be a number"
+#~ msgstr "Anzahl Tage muss eine Zahl sein"
+
+#~ msgid "Number of days should be between 1 and 365"
+#~ msgstr "Anzahl der Tage sollte zwischen 1 und 365 liegen"
+
+#~ msgid "Do you really want to delete this data?"
+#~ msgstr "Möchten Sie diese Daten wirklich löschen?"
+
+#~ msgid "Do you really want to remove this data?"
+#~ msgstr "Möchten Sie diese Daten wirklich löschen?"
+
+#~ msgid "Do you really want to remove this alert setting?"
+#~ msgstr "Möchten Sie diese Einstellung für Warnungen wirklich löschen?"
+
+#~ msgid "Do you really want to delete this currency?"
+#~ msgstr "Möchten Sie diese Währung wirklich löschen?"
+
+#~ msgid "more options..."
+#~ msgstr "weitere Optionen..."
+
+#~ msgid "Must set a date."
+#~ msgstr "Es muss ein Datum ausgewählt werden."
+
+#~ msgid "Must set an end date."
+#~ msgstr "Es muss ein Enddatum ausgewählt werden."
+
+#~ msgid "New contact must have a name."
+#~ msgstr "Der neue Kontakt muss einen Namen haben."
+
+#~ msgid "CC must be a valid email."
+#~ msgstr "CC muss eine gültige E-Mail-Adresse sein."
+
+#~ msgid "Management"
+#~ msgstr " Verwaltung"
+
+#~ msgid "Data action "
+#~ msgstr " Datenaktion"
+
+#~ msgid "Search"
+#~ msgstr "Suche"
+
+#~ msgid "new search"
+#~ msgstr "Neue Suche"
+
+#~ msgid "Name (contains)"
+#~ msgstr "Name (enthält)"
+
+#~ msgid "go!"
+#~ msgstr "Los!"
+
+#~ msgid "ISBN/ISSN"
+#~ msgstr "ISBN/ISSN"
+
+#~ msgid "Fund"
+#~ msgstr "Konto"
+
+#~ msgid "All"
+#~ msgstr "Alle"
+
+#~ msgid "(none)"
+#~ msgstr "(keine)"
+
+#~ msgid "Status"
+#~ msgstr "Status"
+
+#~ msgid "Creator"
+#~ msgstr "Erzeuger"
+
+#~ msgid "General Subject"
+#~ msgstr "Allgemeines Schlagwort"
+
+#~ msgid "Detailed Subject"
+#~ msgstr "Detailliertes Schlagwort"
+
+#~ msgid "Starts with"
+#~ msgstr "Beginnt mit"
+
+#~ msgid "Note (contains)"
+#~ msgstr "Notiz (enthält)"
+
+#~ msgid "Date Created Between"
+#~ msgstr " "
+
+#~ msgid "and"
+#~ msgstr "und"
+
+#~ msgid "Purchase Site"
+#~ msgstr "Erwerbender Standort"
+
+#~ msgid "Workflow Step"
+#~ msgstr "Workflow-Schritt"
+
+#~ msgid "Code"
+#~ msgstr "Code"
+
+#~ msgid "Name"
+#~ msgstr "Name"
+
+#~ msgid "edit"
+#~ msgstr "Bearbeiten"
+
+#~ msgid "add new currency"
+#~ msgstr "Neue Währung hinzufügen"
+
+#~ msgid "Print View"
+#~ msgstr "Printansicht"
+
+#~ msgid "Catalog View"
+#~ msgstr "Katalogansicht"
+
+#~ msgid "Organization Name"
+#~ msgstr "Name der Organisation"
+
+#~ msgid "Edit Currency"
+#~ msgstr "Währung bearbeiten"
+
+#~ msgid "Add Currency"
+#~ msgstr "Neue Währung"
+
+#~ msgid "Edit Contact"
+#~ msgstr "Kontakt bearbeiten"
+
+#~ msgid "Add Contact"
+#~ msgstr "Neuer Kontakt"
+
+#~ msgid "Role(s):"
+#~ msgstr "Rolle(n):"
+
+#~ msgid "Edit Account"
+#~ msgstr "Konto bearbeiten"
+
+#~ msgid "Add Account"
+#~ msgstr " Konto hinzufügen"
+
+#~ msgid "Login Type:"
+#~ msgstr " Art des Logins:"
+
+#~ msgid " is due"
+#~ msgstr " ist fällig"
+
+#~ msgid "Alerts not enabled in configuration.ini file"
+#~ msgstr " Warnungen wurden in der configuration.ini nicht aktiviert"
+
+#~ msgid "A duplicate "
+#~ msgstr " Eine Dublette "
+
+#~ msgid " exists."
+#~ msgstr " existiert."
+
+#~ msgid "Import configuration successfully deleted."
+#~ msgstr "Importkonfiguration erfolgreich gelöscht."
+
+#~ msgid "There was a problem saving your file to "
+#~ msgstr ""
+#~ "Es ist ein Problem aufgetreten beim Versuch Ihre Datei hier zu speichern:"
+
+#~ msgid ".  Please ensure your attachments directory is writable."
+#~ msgstr ""
+#~ ". Bitte prüfen Sie, ob Ihr Verzeichnis für Anhänge beschreibbar ist."
+
+#~ msgid "User successfully saved."
+#~ msgstr "Nutzer erfolgreich gespeichert."
