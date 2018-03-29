@@ -87,17 +87,14 @@ if (count($contactIDs)) {
 		unset($newIssueContact);
 	}
 
-/* FIXME: This is buggy. organizationContactsArray function exists nowhere in the code */
-/*
-	$organizationContactsArray = $sourceResource->organizationContactsArray($sourceOrganizationID);
+	$organizationContactsArray = $sourceResourceAcquisition->getUnarchivedContacts();
 
 	//send emails to contacts
 	foreach ($organizationContactsArray as $contactData) {
 		if (in_array($contactData['contactID'],$contactIDs)) {
-			mail($email, "{$newIssue->subjectText}",$emailMessage,"From: {$user->emailAddress}\r\nReply-To: {$user->emailAddress}");
+			mail($contactData['emailAddress'], "{$newIssue->subjectText}",$emailMessage,"From: {$user->emailAddress}\r\nReply-To: {$user->emailAddress}");
 		}
 	}
-*/
 }
 
 if (count($issueEmails) > 0) {
