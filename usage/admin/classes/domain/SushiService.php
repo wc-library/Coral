@@ -643,11 +643,45 @@ class SushiService extends DatabaseObject {
 		//At this point, determine the format of the report to port to csv from the layouts.ini file
         $layoutKey = $layoutsArray['ReportTypes'][$layoutCode];
         $layoutColumns = $layoutsArray[$layoutKey]['columns'];
+        //if this way of determining layout was unsuccessful, just use the layout sent in
+        if (count($layoutColumns) == "0") {
+            $layoutCode = $reportLayout . "_R" . $this->releaseNumber;
+
+            $layoutKey = $layoutsArray['ReportTypes'][$layoutCode];
+            $layoutColumns = $layoutsArray[$layoutKey]['columns'];
+        }
 
         if (count($layoutColumns) == 0 || $layoutCode == ''){
             $this->logStatus("Failed determining layout:  Reached report items before establishing layout.  Please make sure this layout is set up in layouts.ini");
             $this->saveLogAndExit($reportLayout);
         }
+        ///////////////////////////////////////////////////////
+        // Create header for SUSHI file
+        ///////////////////////////////////////////////////////
+        $header = $layoutColumns;
+        $startMonthArray = array('jan' => 1, 'feb' => 2, 'mar' => 3, 'apr' => 4, 'may' => 5, 'jun' => 6, 'jul' => 7, 'aug' => 8, 'sep' => 9, 'oct' => 10, 'nov' => 11, 'dec' => 12);
+        for ($i = 0; $i < sizeof($header); $i++) {
+            foreach ($startMonthArray as $monthName => $monthNumber) {
+                if($header[$i] == $monthName && $monthNumber >= $startMonth) {
+                    $header[$i] .= "-$startYear";
+                    break;
+                }
+                else if ($header[$i] == $monthName && $monthNumber < $startMonth){
+                    $header[$i] .= "-$endYear";
+                    break;
+                }
+            }
+        }
+        for ($i = 12; $i > 0; $i--) {
+            if ($startMonth > $endMonth && $i < $startMonth && $i > $endMonth)
+                $header[(count($header) - 13)+$i] .= "-x";
+            else if ($endMonth > $startMonth && ($i < $startMonth || $i > $endMonth))
+                $header[(count($header) - 13)+$i] .= "-x";
+            else if ($endMonth == $startMonth && $i < $startMonth && $i > $endMonth)
+                $header[(count($header) - 13)+$i] .= "-x";
+        }
+        $txtOut .= implode($header, "\t") . "\n";
+        $this->log("Layout validated successfully against layouts.ini : " . $layoutCode);
 
         foreach($report->Customer->ReportItems as $resource) {
             //reset variables
