@@ -679,6 +679,7 @@ class SushiService extends DatabaseObject {
                 $date = new DateTime($monthlyStat->Period->Begin);
                 $m = strtolower($date->format('M'));
                 if ($reportTypeName == 'DB1') {
+                    // If this is a DB1 report, we need 1 row of stats for each possible metric type
                     foreach($monthlyStat->Instance as $metricStat) {
                         $type = $metricStat->MetricType->__toString();
                         if(empty($statRows[$type])){
@@ -690,6 +691,7 @@ class SushiService extends DatabaseObject {
                         $statRows[$type]['ytd'] += $count;
                     }
                 } else {
+                    // Else, there will only be 1 row of stats with YTD values
                     if (empty($statRows)) {
                         $statRows[0] = $baseStats;
                     }
@@ -732,10 +734,11 @@ class SushiService extends DatabaseObject {
                 }
             }
 
-            //Now look at the report's layoutcode's columns to order them properly
+            // For each stat row, add in the resource metadata
             foreach($statRows as $row) {
                 $reportRow = array_merge($reportArray, $row);
                 $finalArray=array();
+                //Now look at the report's layoutcode's columns to order them properly
                 foreach($layoutColumns as $colName){
                     if (isset($reportRow[$colName]))
                         $finalArray[] = $reportRow[$colName];
