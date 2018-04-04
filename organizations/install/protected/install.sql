@@ -112,7 +112,6 @@ CREATE TABLE IF NOT EXISTS `Organization` (
   `companyURL` varchar(150) default NULL,
   `noteText` text,
   `accountDetailText` text,
-  `ebscoKbID` INT(11) DEFAULT NULL,
   PRIMARY KEY  (`organizationID`),
   UNIQUE KEY `organizationID` (`organizationID`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
