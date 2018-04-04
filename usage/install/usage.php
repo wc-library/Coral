@@ -115,16 +115,16 @@ function register_usage_provider()
 						}
 					];
 
-                case "2.1.0":
-                    return [
-                        "function" => function($shared_module_info) {
-                            $return = new stdClass();
-                            $return->yield = new stdClass();
-                            $return->success = true;
-                            $return->yield->title = _("Usage Module");
-                            return $return;
-                        }
-                    ];
+        case "3.0.0":
+            return [
+                "function" => function($shared_module_info) {
+                    $return = new stdClass();
+                    $return->yield = new stdClass();
+                    $return->success = true;
+                    $return->yield->title = _("Usage Module");
+                    return $return;
+                }
+            ];
 
 				default:
 					return null;
