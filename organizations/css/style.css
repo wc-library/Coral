@@ -845,7 +845,6 @@ a.newSearch:before {
 
 a.newSearch {
 			text-decoration: none;
-			text-transform: capitalize;
 			font-size: 12px;
 }
 
@@ -862,7 +861,6 @@ a#logout:before {
 
 a#logout {
 			text-decoration: none;
-			text-transform: capitalize;
 			font-size: 12px;
 			position: relative;
 			top: 4px;
@@ -882,7 +880,6 @@ a#showMoreOptions:before {
 
 a#showMoreOptions {
 			text-decoration: none;
-			text-transform: capitalize;
 			font-size: 12px;
 }
 
@@ -899,7 +896,6 @@ a#showMoreOptions:hover {
 
 #print-view a {
 			text-decoration: none;
-			text-transform: capitalize;
 			font-size: 12px;
 }
 
@@ -1000,7 +996,6 @@ table.surroundBox table.noBorder {
 			background: #1b76a9;
 			border: none;
 			padding: 5px 10px;
-			text-transform: capitalize;
 }
 
 #pagination-div {
@@ -1032,7 +1027,6 @@ td#org-title {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 }*/
 
 /*--- Organizations Side Menu Icons ---*/
@@ -1046,7 +1040,6 @@ a.showOrganization:before {
 
 a.showOrganization {
 			text-decoration: none;
-			text-transform: capitalize;
 			font-size: 12px;
 }
 
@@ -1070,7 +1063,6 @@ a.showAliases:before {
 
 a.showAliases {
 			text-decoration: none;
-			text-transform: capitalize;
 			font-size: 12px;
 }
 
@@ -1094,7 +1086,6 @@ a.showContacts:before {
 
 a.showContacts {
 			text-decoration: none;
-			text-transform: capitalize;
 			font-size: 12px;
 }
 
@@ -1118,7 +1109,6 @@ a.showAccount:before {
 
 a.showAccount {
 			text-decoration: none;
-			text-transform: capitalize;
 			font-size: 12px;
 }
 
@@ -1142,7 +1132,6 @@ a.showIssues:before {
 
 a.showIssues {
 			text-decoration: none;
-			text-transform: capitalize;
 			font-size: 12px;
 }
 
@@ -1166,7 +1155,6 @@ a.showLicenses:before {
 
 a.showLicenses {
 			text-decoration: none;
-			text-transform: capitalize;
 			font-size: 12px;
 }
 
@@ -1247,12 +1235,6 @@ div#div_searchResults > i {
 		left: 20px;
 }
 
-/*--- Capitalize Links ---*/
-
-table.headerTable a {
-		text-transform: capitalize;
-}
-
 /*--- Form Title Bar ---*/
 
 table.thickboxTable .headerText {
@@ -1279,7 +1261,6 @@ table.thickboxTable .headerText {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 }
 
 #div_aliasForm input#submitAliasForm:hover {
@@ -1294,7 +1275,6 @@ table.thickboxTable .headerText {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	margin-left: 5px;
 	float: left;
 }
@@ -1313,7 +1293,6 @@ table.thickboxTable .headerText {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 }
 
 #div_contactForm input#submitContactForm:hover {
@@ -1328,7 +1307,6 @@ table.thickboxTable .headerText {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	margin-left: 5px;
 	float: left;
 }
@@ -1347,7 +1325,6 @@ table.thickboxTable .headerText {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 }
 
 #div_organizationForm input#submitExternalLoginForm:hover {
@@ -1362,7 +1339,6 @@ table.thickboxTable .headerText {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	margin-left: 5px;
 	float: left;
 }
@@ -1381,7 +1357,6 @@ table.thickboxTable .headerText {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	margin-left: 5px;
 }
 
@@ -1397,7 +1372,6 @@ table.thickboxTable .headerText {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	margin-left: 5px;
 	float: left;
 }
@@ -1416,7 +1390,6 @@ table.thickboxTable .headerText {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 }
 
 #div_organizationForm input#submitOrganizationChanges:hover {
@@ -1431,7 +1404,6 @@ table.thickboxTable .headerText {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	float: left;
 }
 
@@ -1449,7 +1421,6 @@ table.thickboxTable .headerText {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	margin-left: 5px;
 }
 
@@ -1465,7 +1436,6 @@ table.thickboxTable .headerText {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	float: left;
 }
 
@@ -1483,7 +1453,6 @@ table.thickboxTable .headerText {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	margin-left: 5px;
 	float: left;
 }
@@ -1518,7 +1487,6 @@ table.thickboxTable .headerText {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	text-decoration: none;
 }
 
@@ -1534,7 +1502,6 @@ table.thickboxTable .headerText {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	text-decoration: none;
 }
 
@@ -1674,7 +1641,6 @@ div#archivedDowntime {
     background: #1b76a9;
     border: none;
     padding: 5px 10px;
-    text-transform: capitalize;
     margin-left: 5px;
 }
 
@@ -1690,16 +1656,11 @@ div#archivedDowntime {
     background: #1b76a9;
     border: none;
     padding: 5px 10px;
-    text-transform: capitalize;
 }
 
 #newIssueForm input[value=cancel]:hover {
     cursor: pointer;
 }*/
-
-a#getCreateContactForm {
-	text-transform: capitalize;
-}
 
 .issueResources {
 	margin-top: 8px;
@@ -1771,7 +1732,6 @@ a#getCreateContactForm {
     background: #1b76a9;
     border: none;
     padding: 5px 10px;
-    text-transform: capitalize;
     margin-left: 5px;
 }
 
@@ -1787,7 +1747,6 @@ a#getCreateContactForm {
     background: #1b76a9;
     border: none;
     padding: 5px 10px;
-    text-transform: capitalize;
 }
 
 #newDowntimeForm input[value=cancel]:hover {
@@ -1807,7 +1766,6 @@ a#getCreateContactForm {
     background: #1b76a9;
     border: none;
     padding: 5px 10px;
-    text-transform: capitalize;
     margin-bottom: 15px;
 }
 
@@ -1831,7 +1789,6 @@ a#getCreateContactForm {
     background: #1b76a9;
     border: none;
     padding: 2px 10px;
-    text-transform: capitalize;
     margin-bottom: 15px;
 }
 
@@ -1904,7 +1861,6 @@ a#archiveddowntimeBtn {
     background: #1b76a9;
     border: none;
     padding: 5px 10px;
-    text-transform: capitalize;
     margin-left: 8px;
     min-width: 60px;
     margin-top: 10px;

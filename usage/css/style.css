@@ -1497,7 +1497,6 @@ a.newSearch:before {
 
 a.newSearch {
 	text-decoration: none;
-	text-transform: capitalize;
 	font-size: 12px;
 }
 
@@ -1514,7 +1513,6 @@ a#logout:before {
 
 a#logout {
 	text-decoration: none;
-	text-transform: capitalize;
 	font-size: 12px;
 	position: relative;
 	top: 4px;
@@ -1534,7 +1532,6 @@ a#showMoreOptions:before {
 
 a#showMoreOptions {
 	text-decoration: none;
-	text-transform: capitalize;
 	font-size: 12px;
 }
 
@@ -1551,7 +1548,6 @@ a#showMoreOptions:hover {
 
 #print-view a {
 	text-decoration: none;
-	text-transform: capitalize;
 	font-size: 12px;
 }
 
@@ -1570,7 +1566,6 @@ a.showProduct:before {
 
 a.showProduct {
 	text-decoration: none;
-	text-transform: capitalize;
 	font-size: 12px;
 }
 
@@ -1587,7 +1582,6 @@ a.showAcquisitions:before {
 
 a.showAcquisitions {
 	text-decoration: none;
-	text-transform: capitalize;
 	font-size: 12px;
 }
 
@@ -1604,7 +1598,6 @@ a.showAccess:before {
 
 a.showAccess {
 	text-decoration: none;
-	text-transform: capitalize;
 	font-size: 12px;
 }
 
@@ -1621,7 +1614,6 @@ a.showCataloging:before {
 
 a.showCataloging {
 	text-decoration: none;
-	text-transform: capitalize;
 	font-size: 12px;
 }
 
@@ -1638,7 +1630,6 @@ a.showContacts:before {
 
 a.showContacts {
 	text-decoration: none;
-	text-transform: capitalize;
 	font-size: 12px;
 }
 
@@ -1655,7 +1646,6 @@ a.showAttachments:before {
 
 a.showAttachments {
 	text-decoration: none;
-	text-transform: capitalize;
 	font-size: 12px;
 }
 
@@ -1672,7 +1662,6 @@ a.showWorkflow:before {
 
 a.showWorkflow {
 	text-decoration: none;
-	text-transform: capitalize;
 	font-size: 12px;
 }
 
@@ -1692,7 +1681,6 @@ a#uploadDocument:before {
 
 a#uploadDocument {
 	text-decoration: none;
-	text-transform: capitalize;
 	font-size: 13px;
 	color: #1b77aa;
 }
@@ -1789,7 +1777,6 @@ table.surroundBox table.noBorder {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 }
 
 /*--- My Queue Page Side Menu ---*/
@@ -1803,7 +1790,6 @@ a#OutstandingTasks:before {
 
 a#OutstandingTasks {
 	text-decoration: none;
-	text-transform: capitalize;
 	font-size: 12px;
 }
 
@@ -1820,7 +1806,6 @@ a#SavedRequests:before {
 
 a#SavedRequests {
 	text-decoration: none;
-	text-transform: capitalize;
 	font-size: 12px;
 }
 
@@ -1837,7 +1822,6 @@ a#SubmittedRequests:before {
 
 a#SubmittedRequests {
 	text-decoration: none;
-	text-transform: capitalize;
 	font-size: 12px;
 }
 
@@ -1908,7 +1892,6 @@ a.helpfulLink {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	cursor: pointer;
 }
 
@@ -1929,7 +1912,6 @@ input#submitPlatformForm {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	cursor: pointer;
 }
 
@@ -1946,7 +1928,6 @@ input#submitPlatformForm:hover {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	cursor: pointer;
 	float: left;
 	position: relative;
@@ -1980,16 +1961,6 @@ div#div_searchResults > i {
 		left: 0;
 }
 
-/*--- Capitalize Add/Edit Links ---*/
-
-.mainContent a {
-	text-transform: capitalize;
-}
-
-.headerTable a {
-	text-transform: capitalize;
-}
-
 /*--- Form Modal Windows ---*/
 
 table.thickboxTable .headerText {
@@ -2021,7 +1992,6 @@ table.thickboxTable .headerText {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	margin-left: 5px;
 }
 
@@ -2037,7 +2007,6 @@ table.thickboxTable .headerText {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	margin-left: 5px;
 	position: relative;
 	left: -31px;
@@ -2057,7 +2026,6 @@ table.thickboxTable .headerText {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	margin-left: 5px;
 }
 
@@ -2073,7 +2041,6 @@ table.thickboxTable .headerText {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	margin-left: 5px;
 	position: relative;
 	left: -176px;
@@ -2093,7 +2060,6 @@ table.thickboxTable .headerText {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	margin-left: 5px;
 }
 
@@ -2109,7 +2075,6 @@ table.thickboxTable .headerText {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	margin-left: 5px;
 	position: relative;
 	left: -130px;
@@ -2129,7 +2094,6 @@ table.thickboxTable .headerText {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	margin-left: 5px;
 }
 
@@ -2145,7 +2109,6 @@ table.thickboxTable .headerText {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	margin-left: 5px;
 	position: relative;
 	left: -132px;
@@ -2165,7 +2128,6 @@ table.thickboxTable .headerText {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	margin-left: 5px;
 	float: left;
 }
@@ -2182,7 +2144,6 @@ table.thickboxTable .headerText {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	margin-left: 5px;
 	position: relative;
 	left: 2px;
@@ -2203,7 +2164,6 @@ table.thickboxTable .headerText {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	margin-left: 5px;
 	float: left;
 }
@@ -2232,7 +2192,6 @@ table.thickboxTable .headerText {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	margin-left: 5px;
 	position: relative;
 	left: -30px;
@@ -2253,7 +2212,6 @@ a.showImports:before {
 
 a.showImports {
 	text-decoration: none;
-	text-transform: capitalize;
 	font-size: 12px;
 }
 
@@ -2266,7 +2224,6 @@ a.showTitles:before {
 
 a.showTitles {
 			text-decoration: none;
-			text-transform: capitalize;
 			font-size: 12px;
 }
 
@@ -2279,7 +2236,6 @@ a.showStatistics:before {
 
 a.showStatistics {
 	text-decoration: none;
-	text-transform: capitalize;
 	font-size: 12px;
 }
 
@@ -2292,7 +2248,6 @@ a.showLogins:before {
 
 a.showLogins {
 	text-decoration: none;
-	text-transform: capitalize;
 	font-size: 12px;
 }
 
@@ -2306,7 +2261,6 @@ a.showSushi:before {
 
 a.showSushi {
 	text-decoration: none;
-	text-transform: capitalize;
 	font-size: 12px;
 }
 
@@ -2357,7 +2311,6 @@ div#div_recentImports {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	text-decoration: none;
 }
 
@@ -2373,7 +2326,6 @@ div#div_recentImports {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	text-decoration: none;
 }
 
@@ -2450,7 +2402,6 @@ select#lang {
     background: #1b76a9;
     border: none;
     padding: 5px 10px;
-    text-transform: capitalize;
     margin-left: 8px;
     min-width: 60px;
     margin-top: 5px;
