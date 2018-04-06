@@ -366,7 +366,7 @@ class Resource extends DatabaseObject {
 
 		$query = "SELECT * FROM ResourceNote RN
 					WHERE entityID = '" . $this->resourceID . "'
-					AND noteTypeID = " . $noteType->getInitialNoteTypeID() . "
+					AND noteTypeID = '" . $noteType->getInitialNoteTypeID() . "'
 					ORDER BY noteTypeID desc LIMIT 0,1";
 
 
