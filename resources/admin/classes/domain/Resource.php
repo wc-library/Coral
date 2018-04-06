@@ -941,9 +941,9 @@ class Resource extends DatabaseObject {
 		if ($config->settings->licensingModule == 'Y') {
 			$dbName = $config->settings->licensingDatabaseName;
 
-			$licJoinAdd = " LEFT JOIN ResourceLicenseLink RLL ON RLL.resourceID = R.resourceID
+			$licJoinAdd = " LEFT JOIN ResourceLicenseLink RLL ON RLL.resourceAcquisitionID = RA.resourceAcquisitionID
 							LEFT JOIN " . $dbName . ".License L ON RLL.licenseID = L.licenseID
-							LEFT JOIN ResourceLicenseStatus RLS ON RLS.resourceID = R.resourceID
+							LEFT JOIN ResourceLicenseStatus RLS ON RLS.resourceAcquisitionID = RA.resourceAcquisitionID
 							LEFT JOIN LicenseStatus LS ON LS.licenseStatusID = RLS.licenseStatusID";
 
 			$licSelectAdd = "GROUP_CONCAT(DISTINCT L.shortName ORDER BY L.shortName DESC SEPARATOR '; ') licenseNames,
@@ -968,11 +968,11 @@ class Resource extends DatabaseObject {
 		$query = "SELECT R.resourceID, R.titleText, AT.shortName acquisitionType, CONCAT_WS(' ', CU.firstName, CU.lastName) createName,
 						R.createDate createDate, CONCAT_WS(' ', UU.firstName, UU.lastName) updateName,
 						R.updateDate updateDate, S.shortName status,
-						RT.shortName resourceType, RF.shortName resourceFormat, R.orderNumber, R.systemNumber, R.resourceURL, R.resourceAltURL,
-						R.currentStartDate, R.currentEndDate, R.subscriptionAlertEnabledInd, AUT.shortName authenticationType,
-						AM.shortName accessMethod, SL.shortName storageLocation, UL.shortName userLimit, R.authenticationUserName,
-						R.authenticationPassword, R.coverageText, CT.shortName catalogingType, CS.shortName catalogingStatus, RA.recordSetIdentifier, R.bibSourceURL,
-						R.numberRecordsAvailable, R.numberRecordsLoaded, R.hasOclcHoldings, GROUP_CONCAT(DISTINCT I.isbnOrIssn ORDER BY isbnOrIssnID SEPARATOR '; ') AS isbnOrIssn,
+						RT.shortName resourceType, RF.shortName resourceFormat, RA.orderNumber, RA.systemNumber, R.resourceURL, R.resourceAltURL,
+						R.currentStartDate, R.currentEndDate, RA.subscriptionAlertEnabledInd, AUT.shortName authenticationType,
+						AM.shortName accessMethod, SL.shortName storageLocation, UL.shortName userLimit, RA.authenticationUserName,
+						RA.authenticationPassword, RA.coverageText, CT.shortName catalogingType, CS.shortName catalogingStatus, RA.recordSetIdentifier, RA.bibSourceURL,
+						RA.numberRecordsAvailable, RA.numberRecordsLoaded, RA.hasOclcHoldings, GROUP_CONCAT(DISTINCT I.isbnOrIssn ORDER BY isbnOrIssnID SEPARATOR '; ') AS isbnOrIssn,
                         RPAY.year,
                         F.shortName as fundName, F.fundCode, 
                         ROUND(COALESCE(RPAY.priceTaxExcluded, 0) / 100, 2) as priceTaxExcluded, 
@@ -989,7 +989,8 @@ class Resource extends DatabaseObject {
 						GROUP_CONCAT(DISTINCT RP.titleText ORDER BY RP.titleText DESC SEPARATOR '; ') parentResources,
 						GROUP_CONCAT(DISTINCT RC.titleText ORDER BY RC.titleText DESC SEPARATOR '; ') childResources
 								FROM Resource R
-									LEFT JOIN ResourcePayment RPAY ON R.resourceID = RPAY.resourceID
+                                    LEFT JOIN ResourceAcquisition RA ON RA.resourceID = R.resourceID
+									LEFT JOIN ResourcePayment RPAY ON RA.resourceAcquisitionID = RPAY.resourceAcquisitionID
 									LEFT JOIN Alias A ON R.resourceID = A.resourceID
 									LEFT JOIN ResourceOrganizationLink ROL ON R.resourceID = ROL.resourceID
 									" . $orgJoinAdd . "
@@ -1002,31 +1003,51 @@ class Resource extends DatabaseObject {
 									LEFT JOIN ResourceFormat RF ON R.resourceFormatID = RF.resourceFormatID
 									LEFT JOIN ResourceType RT ON R.resourceTypeID = RT.resourceTypeID
 									LEFT JOIN AcquisitionType AT ON RA.acquisitionTypeID = AT.acquisitionTypeID
-									LEFT JOIN ResourceStep RS ON R.resourceID = RS.resourceID
+									LEFT JOIN ResourceStep RS ON RA.resourceAcquisitionID = RS.resourceAcquisitionID
 									LEFT JOIN Fund F ON RPAY.fundID = F.fundID
 									LEFT JOIN OrderType OT ON RPAY.orderTypeID = OT.orderTypeID
 									LEFT JOIN CostDetails CD ON RPAY.costDetailsID = CD.costDetailsID
 									LEFT JOIN Status S ON R.statusID = S.statusID
-									LEFT JOIN ResourceNote RN ON R.resourceID = RN.resourceID
+									LEFT JOIN ResourceNote RN ON R.resourceID = RN.entityID
 									LEFT JOIN NoteType NT ON RN.noteTypeID = NT.noteTypeID
 									LEFT JOIN User CU ON R.createLoginID = CU.loginID
 									LEFT JOIN User UU ON R.updateLoginID = UU.loginID
-									LEFT JOIN CatalogingStatus CS ON R.catalogingStatusID = CS.catalogingStatusID
-									LEFT JOIN CatalogingType CT ON R.catalogingTypeID = CT.catalogingTypeID
-									LEFT JOIN ResourcePurchaseSiteLink RPSL ON R.resourceID = RPSL.resourceID
+									LEFT JOIN CatalogingStatus CS ON RA.CatalogingStatusID = CS.catalogingStatusID
+									LEFT JOIN CatalogingType CT ON RA.catalogingTypeID = CT.catalogingTypeID
+									LEFT JOIN ResourcePurchaseSiteLink RPSL ON RA.resourceAcquisitionID = RPSL.resourceAcquisitionID
 									LEFT JOIN PurchaseSite PS ON RPSL.purchaseSiteID = PS.purchaseSiteID
-									LEFT JOIN ResourceAuthorizedSiteLink RAUSL ON R.resourceID = RAUSL.resourceID
+									LEFT JOIN ResourceAuthorizedSiteLink RAUSL ON RA.resourceAcquisitionID = RAUSL.resourceAcquisitionID
 									LEFT JOIN AuthorizedSite AUS ON RAUSL.authorizedSiteID = AUS.authorizedSiteID
-									LEFT JOIN ResourceAdministeringSiteLink RADSL ON R.resourceID = RADSL.resourceID
+									LEFT JOIN ResourceAdministeringSiteLink RADSL ON RA.resourceAcquisitionID = RADSL.resourceAcquisitionID
 									LEFT JOIN AdministeringSite ADS ON RADSL.administeringSiteID = ADS.administeringSiteID
-									LEFT JOIN AuthenticationType AUT ON AUT.authenticationTypeID = R.authenticationTypeID
-									LEFT JOIN AccessMethod AM ON AM.accessMethodID = R.accessMethodID
-									LEFT JOIN StorageLocation SL ON SL.storageLocationID = R.storageLocationID
-									LEFT JOIN UserLimit UL ON UL.userLimitID = R.userLimitID
+									LEFT JOIN AuthenticationType AUT ON AUT.authenticationTypeID = RA.authenticationTypeID
+									LEFT JOIN AccessMethod AM ON AM.accessMethodID = RA.accessMethodID
+									LEFT JOIN StorageLocation SL ON SL.storageLocationID = RA.storageLocationID
+									LEFT JOIN UserLimit UL ON UL.userLimitID = RA.userLimitID
 									LEFT JOIN IsbnOrIssn I ON I.resourceID = R.resourceID
 									" . $licJoinAdd . "
 								" . $whereStatement . "
-								GROUP BY RPAY.resourcePaymentID
+                GROUP BY
+                  RPAY.resourcePaymentID,
+                  R.resourceID,
+                  AT.shortName,
+                  RA.orderNumber,
+                  RA.systemNumber,
+                  RA.subscriptionAlertEnabledInd,
+                  AUT.shortName,
+                  AM.shortName,
+                  SL.shortName,
+                  UL.shortName,
+                  RA.authenticationUserName,
+                  RA.authenticationPassword,
+                  RA.coverageText,
+                  CT.shortName,
+                  CS.shortName,
+                  RA.recordSetIdentifier,
+                  RA.bibSourceURL,
+                  RA.numberRecordsAvailable,
+                  RA.numberRecordsLoaded,
+                  RA.hasOclcHoldings
 								ORDER BY " . $orderBy;
 		$result = $this->db->processQuery(stripslashes($query), 'assoc');
 
