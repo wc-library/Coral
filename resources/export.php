@@ -162,7 +162,7 @@ foreach($resourceArray as $resource) {
     $resource['accessMethod'],
     $resource['storageLocation'],
     $resource['userLimit'],
-    $resource['coverage'],
+    $resource['coverageText'],
     $resource['authenticationUserName'],
     $resource['authenticationPassword'],
     $resource['catalogingType'],
