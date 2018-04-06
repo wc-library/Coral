@@ -99,16 +99,16 @@ function register_management_provider()
 						}
 					];
 
-                case "2.1.0":
-                    return [
-                        "function" => function($shared_module_info) {
-                            $return = new stdClass();
-                            $return->yield = new stdClass();
-                            $return->success = true;
-                            $return->yield->title = _("Management Module");
-                            return $return;
-                        }
-                    ];
+        case "3.0.0":
+            return [
+                "function" => function($shared_module_info) {
+                    $return = new stdClass();
+                    $return->yield = new stdClass();
+                    $return->success = true;
+                    $return->yield->title = _("Management Module");
+                    return $return;
+                }
+            ];
 
 
 				default:
