@@ -60,7 +60,7 @@ include 'templates/header.php';
 				                echo "<br>"._("Invalid translation route!");
 				            }
 				            // Get language of navigator
-				            $defLang = substr($_SERVER["HTTP_ACCEPT_LANGUAGE"],0,5);
+				            $defLang = $lang_name->getBrowserLanguage();
 
 				            // Show an ordered list
 				            sort($lang);
