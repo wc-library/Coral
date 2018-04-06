@@ -917,6 +917,7 @@
 	}
 	else
 	{
+        if (extension_loaded('mbstring')) {
 ?>
 		<p><?php echo _("The first line of the CSV file must contain column names, and not data. These names will be used during the import process.");?></p>
 		<form enctype="multipart/form-data" action="import.php" method="post" id="importForm">
@@ -937,5 +938,8 @@
 			<input type="submit" name="submit" value="<?php echo _("Upload");?>" class="submit-button" />
 		</form>
 <?php
-	}
+        } else {
+            echo "<p>" . _("PHP's extension mbstring doesn't seem to be installed or activated on your installation. Please install and activate mbstring to use the import tool.") . "</p>";
+        }
+    }
 ?>
