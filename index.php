@@ -12,7 +12,7 @@
 	if(isset($_COOKIE["lang"])){
 		$http_lang = $_COOKIE["lang"];
 	}else{
-		$codeL = str_replace("-","_",substr($_SERVER["HTTP_ACCEPT_LANGUAGE"],0,5));
+		$codeL = $lang_name->getBrowserLanguage();
 		$http_lang = $lang_name->getLanguage($codeL);
 		if($http_lang == "")
 		  $http_lang = "en_US";
@@ -71,7 +71,7 @@
 					echo "<br>"._("Invalid translation route!");
 				}
 				// Get language of navigator
-				$defLang = substr($_SERVER["HTTP_ACCEPT_LANGUAGE"],0,5);
+				$defLang = $lang_name->getBrowserLanguage();
 
 				// Show an ordered list
 				sort($lang);

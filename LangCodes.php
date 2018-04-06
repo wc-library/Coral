@@ -26,5 +26,9 @@ class LangCodes{
         );
         return array_key_exists($code_lang, $name_lang) ? $name_lang[$code_lang] : "English";
     }
+
+    public function getBrowserLanguage() {
+        return str_replace('-', '_', substr($_SERVER["HTTP_ACCEPT_LANGUAGE"],0,5));
+    }
 }
 ?>
