@@ -1027,7 +1027,27 @@ class Resource extends DatabaseObject {
 									LEFT JOIN IsbnOrIssn I ON I.resourceID = R.resourceID
 									" . $licJoinAdd . "
 								" . $whereStatement . "
-								GROUP BY RPAY.resourcePaymentID
+                GROUP BY
+                  RPAY.resourcePaymentID,
+                  R.resourceID,
+                  AT.shortName,
+                  RA.orderNumber,
+                  RA.systemNumber,
+                  RA.subscriptionAlertEnabledInd,
+                  AUT.shortName,
+                  AM.shortName,
+                  SL.shortName,
+                  UL.shortName,
+                  RA.authenticationUserName,
+                  RA.authenticationPassword,
+                  RA.coverageText,
+                  CT.shortName,
+                  CS.shortName,
+                  RA.recordSetIdentifier,
+                  RA.bibSourceURL,
+                  RA.numberRecordsAvailable,
+                  RA.numberRecordsLoaded,
+                  RA.hasOclcHoldings
 								ORDER BY " . $orderBy;
 		$result = $this->db->processQuery(stripslashes($query), 'assoc');
 
