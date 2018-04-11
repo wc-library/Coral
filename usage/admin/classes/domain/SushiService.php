@@ -596,265 +596,199 @@ class SushiService extends DatabaseObject {
 		$serviceProvider = $this->getServiceProvider();
 		$xmlFileName = BASE_DIR . $fName;
 
-		//read layouts ini file to get the available layouts
-		$layoutsArray = parse_ini_file(BASE_DIR . "layouts.ini", true);
-		$layoutColumns = array();
+        //read layouts ini file to get the available layouts
+        $layoutsArray = parse_ini_file(BASE_DIR . "layouts.ini", true);
+        $metrics = parse_ini_file(BASE_DIR . "metrics.ini");
 
-		$reader = new XMLReader();
-		if (!$reader->open($xmlFileName, 'UTF-8')) {
-			$this->logStatus("Failed trying to open XML File: " . $xmlFileName . ".  This could be due to not having write access to the /sushistore/ directory.");
-			$this->saveLogAndExit($reportLayout);
-		}
+		// Create the xml object
+        if (!file_exists($xmlFileName)) {
+            $this->logStatus("Failed trying to open XML File: " . $xmlFileName . ".  This could be due to not having write access to the /sushistore/ directory.");
+            $this->saveLogAndExit($reportLayout);
+        }
 
+        $string = file_get_contents($fName);
+        $clean_xml = str_ireplace(['s:','SOAP-ENV:','SOAP:'],'',$string);
+        $xml = simplexml_load_string($clean_xml);
 
-		$layoutCode = "";
-		$countArray = array('ytd'=>null,'pdf'=>null,'html'=>null);
-		$txtOut = "";
-		$startDateArr = explode("-", $this -> startDate);
-		$endDateArr = explode("-", $this -> endDate);
-		$startYear = $startDateArr[0];
-		$startMonth = $startDateArr[1];
-		$endYear = $endDateArr[0];
-		$endMonth = $endDateArr[1];
-		$numMonths = 0;
-		if ($startMonth > $endMonth)
-			$numMonths = (13 - ($startMonth - $endMonth));
-		else if ($endMonth > $startMonth)
-			$numMonths = ($endMonth - $startMonth);
-		else
-			$numMonths = 1;
-		$m = null; //month
+        $txtOut = "";
+        $startDateArr = explode("-", '2018-01-01');
+        $endDateArr = explode("-", '2018-02-28');
+        $startYear = $startDateArr[0];
+        $startMonth = $startDateArr[1];
+        $endYear = $endDateArr[0];
+        $endMonth = $endDateArr[1];
+        $numMonths = 0;
+        if ($startMonth > $endMonth)
+            $numMonths = (13 - ($startMonth - $endMonth));
+        else if ($endMonth > $startMonth)
+            $numMonths = ($endMonth - $startMonth);
+        else
+            $numMonths = 1;
 
-		while ($reader->read()) {
-			//First - get report information
-			if (($reader->nodeType == XMLReader::ELEMENT) && ($reader->localName == 'Report') && (count($layoutColumns) == '0')) {
-				$name = $reader->getAttribute("Name");
-				$version = $reader->getAttribute("Version");
+		//First - get report information
+        $report = $xml->Body->ReportResponse->Report->Report;
+        $reportTypeName = $report->attributes()->Name;
+        $version = $report->attributes()->Version;
+        $layoutCode = $reportTypeName;
+        if (($version == "3") || ($version =="4")){
+            $version = "R" . $version;
+        }
 
-				$layoutCode = $name;
+        if ($version != ''){
+            $layoutCode .= "_" . $version;
+        } else {
+            $layoutCode .= "_R" . $this->releaseNumber;
+        }
 
-				if (($version == "3") || ($version =="4")){
-					$version = "R" . $version;
-				}
-				if ($version != ''){
-					$layoutCode .= "_" . $version;
-				}else{
-					$layoutCode .= "_R" . $this->releaseNumber;
-				}
+		//At this point, determine the format of the report to port to csv from the layouts.ini file
+        $layoutKey = $layoutsArray['ReportTypes'][$layoutCode];
+        $layoutColumns = $layoutsArray[$layoutKey]['columns'];
+        //if this way of determining layout was unsuccessful, just use the layout sent in
+        if (count($layoutColumns) == "0") {
+            $layoutCode = $reportLayout . "_R" . $this->releaseNumber;
 
-				//At this point, determine the format of the report to port to csv from the layouts.ini file
-				$layoutKey = $layoutsArray['ReportTypes'][$layoutCode];
-				$layoutColumns = $layoutsArray[$layoutKey]['columns'];
+            $layoutKey = $layoutsArray['ReportTypes'][$layoutCode];
+            $layoutColumns = $layoutsArray[$layoutKey]['columns'];
+        }
 
+        if (count($layoutColumns) == 0 || $layoutCode == ''){
+            $this->logStatus("Failed determining layout:  Reached report items before establishing layout.  Please make sure this layout is set up in layouts.ini");
+            $this->saveLogAndExit($reportLayout);
+        }
+        ///////////////////////////////////////////////////////
+        // Create header for SUSHI file
+        ///////////////////////////////////////////////////////
+        $header = $layoutColumns;
+        $startMonthArray = array('jan' => 1, 'feb' => 2, 'mar' => 3, 'apr' => 4, 'may' => 5, 'jun' => 6, 'jul' => 7, 'aug' => 8, 'sep' => 9, 'oct' => 10, 'nov' => 11, 'dec' => 12);
+        for ($i = 0; $i < sizeof($header); $i++) {
+            foreach ($startMonthArray as $monthName => $monthNumber) {
+                if($header[$i] == $monthName && $monthNumber >= $startMonth) {
+                    $header[$i] .= "-$startYear";
+                    break;
+                }
+                else if ($header[$i] == $monthName && $monthNumber < $startMonth){
+                    $header[$i] .= "-$endYear";
+                    break;
+                }
+            }
+        }
+        for ($i = 12; $i > 0; $i--) {
+            if ($startMonth > $endMonth && $i < $startMonth && $i > $endMonth)
+                $header[(count($header) - 13)+$i] .= "-x";
+            else if ($endMonth > $startMonth && ($i < $startMonth || $i > $endMonth))
+                $header[(count($header) - 13)+$i] .= "-x";
+            else if ($endMonth == $startMonth && $i < $startMonth && $i > $endMonth)
+                $header[(count($header) - 13)+$i] .= "-x";
+        }
+        $txtOut .= implode($header, "\t") . "\n";
+        $this->log("Layout validated successfully against layouts.ini : " . $layoutCode);
 
-				//if this way of determining layout was unsuccessful, just use the layout sent in
-				if (count($layoutColumns) == "0"){
-					$layoutCode = $reportLayout . "_R" . $this->releaseNumber;
+        foreach($report->Customer->ReportItems as $resource) {
+            //reset variables
+            /**
+             * Each $reportArray is slightly different
+             * JR1: Need aggregated count columns of ytd, ytdPDF, ytdHTML
+             * BR1: Need aggregated count columns of ytd
+             * DB1: Need separate rows based on activity type, but aggregated counts for those activity types
+             */
+            $identifierArray=array();
+            $reportArray = array();
+            $baseStats = array('ytd' => 0, 'ytdPDF' => 0, 'ytdHTML' => 0);
+            $statRows = array();
 
-					$layoutKey = $layoutsArray['ReportTypes'][$layoutCode];
-					$layoutColumns = $layoutsArray[$layoutKey]['columns'];
+            if ($overwritePlatform){
+                $reportArray['platform'] = $serviceProvider;
+            }else{
+                $reportArray['platform'] = $resource->ItemPlatform[0];
+            }
 
-					///////////////////////////////////////////////////////
-					// Create header for SUSHI file
-					///////////////////////////////////////////////////////
-					$header = $layoutColumns;
-					$startMonthArray = array('jan' => 1, 'feb' => 2, 'mar' => 3, 'apr' => 4, 'may' => 5, 'jun' => 6, 'jul' => 7, 'aug' => 8, 'sep' => 9, 'oct' => 10, 'nov' => 11, 'dec' => 12);
-					for ($i = 0; $i < sizeof($header); $i++) {
-						foreach ($startMonthArray as $monthName => $monthNumber) {
-							if($header[$i] == $monthName && $monthNumber >= $startMonth) {
-								$header[$i] .= "-$startYear";
-								break;
-							}
-							else if ($header[$i] == $monthName && $monthNumber < $startMonth){
-								$header[$i] .= "-$endYear";
-								break;
-							}
-						}
-					}
-					for ($i = 12; $i > 0; $i--) {
-						if ($startMonth > $endMonth && $i < $startMonth && $i > $endMonth)
-							$header[(count($header) - 13)+$i] .= "-x";
-						else if ($endMonth > $startMonth && ($i < $startMonth || $i > $endMonth))
-							$header[(count($header) - 13)+$i] .= "-x";
-						else if ($endMonth == $startMonth && $i < $startMonth && $i > $endMonth)
-							$header[(count($header) - 13)+$i] .= "-x";
-					}
-					$txtOut .= implode($header, "\t") . "\n";
-				}
+            $reportArray['publisher'] = $resource->ItemPublisher;
+            $reportArray['title'] = $resource->ItemName;
+            foreach($resource->ItemIdentifier as $identifier) {
+                $idType = strtoupper($identifier->Type);
+                $identifierArray[$idType] = $identifier->Value;
+            }
 
-				$this->log("Layout validated successfully against layouts.ini : " . $layoutCode);
+            foreach($resource->ItemPerformance as $monthlyStat) {
+                $date = new DateTime($monthlyStat->Period->Begin);
+                $m = strtolower($date->format('M'));
+                if ($reportTypeName == 'DB1') {
+                    // If this is a DB1 report, we need 1 row of stats for each possible metric type
+                    foreach($monthlyStat->Instance as $metricStat) {
+                        $type = $metricStat->MetricType->__toString();
+                        if(empty($statRows[$type])){
+                            $statRows[$type] = $baseStats;
+                        }
+                        $count = intval($metricStat->Count);
+                        $statRows[$type][$m] = $count;
+                        $statRows[$type]['activityType'] = empty($metrics[$type]) ? $type : $metrics[$type];
+                        $statRows[$type]['ytd'] += $count;
+                    }
+                } else {
+                    // Else, there will only be 1 row of stats with YTD values
+                    if (empty($statRows)) {
+                        $statRows[0] = $baseStats;
+                    }
+                    $monthlyTotal = 0;
+                    $pdfTotal = 0;
+                    $htmlTotal = 0;
+                    foreach ($monthlyStat->Instance as $metricStat) {
+                        $count = intval($metricStat->Count);
+                        if ($metricStat->MetricType == 'ft_total') {
+                            $monthlyTotal = $count;
+                        }
+                        if (stripos($metricStat->MetricType, 'pdf')) {
+                            $pdfTotal = $count;
+                        }
+                        if (stripos($metricStat->MetricType, 'html')) {
+                            $htmlTotal = $count;
+                        }
+                    }
+                    $monthlyTotal = $monthlyTotal == 0 ? $pdfTotal + $htmlTotal : $monthlyTotal;
+                    $statRows[0][$m] = $monthlyTotal;
+                    $statRows[0]['ytd'] += $monthlyTotal;
+                    $statRows[0]['ytdPDF'] += $pdfTotal;
+                    $statRows[0]['ytdHTML'] += $htmlTotal;
+                }
+            }
 
+            foreach($identifierArray as $key => $value){
+                if (!(strrpos($key,'PRINT') === false) && !(strrpos($key,'ISSN') === false)){
+                    $reportArray['issn'] = $value;
+                }else if (!(strrpos($key,'ONLINE') === false) && !(strrpos($key,'ISSN') === false)){
+                    $reportArray['eissn'] = $value;
+                }else if (!(strpos($key,'PRINT') === false) && !(strpos($key,'ISBN') === false)){
+                    $reportArray['isbn'] = $value;
+                }else if (!(strpos($key,'ONLINE') === false) && !(strpos($key,'ISBN') === false)){
+                    $reportArray['eisbn'] = $value;
+                }else if (!(strpos($key,'DOI') === false)){
+                    $reportArray['doi'] = $value;
+                }else if (!(strpos($key,'PROPRIETARY') === false)){
+                    $reportArray['pi']=$value;
+                }
+            }
 
-			}
-
-			if (($reader->nodeType == XMLReader::ELEMENT) && ($reader->localName == 'ReportItems')) {
-				if ((count($layoutColumns) == '0') || ($layoutCode == '')){
-					$this->logStatus("Failed determining layout:  Reached report items before establishing layout.  Please make sure this layout is set up in layouts.ini");
-					$this->saveLogAndExit($reportLayout);
-				}
-
-				//reset variables
-				$identifierArray=array();
-				$reportArray = array('ytd'=>null,'ytdHTML'=>null,'ytdPDF'=>null);
-
-				//loop through each element under "Item"
-				while ($reader->read()) {
-
-					//get the element name
-					if ($reader->nodeType == XMLReader::ELEMENT){
-						$elementName = trim($reader->localName);
-
-						//move to next to get the text
-						if (($elementName != "Instance") && ($elementName != "ItemIdentifier") && ($elementName != "Period")){
-							$reader->read();
-						}
-
-
-
-						if ($reader->nodeType == XMLReader::TEXT
-							|| $reader->nodeType == XMLReader::CDATA
-							|| $reader->nodeType == XMLReader::WHITESPACE
-							|| $reader->nodeType == XMLReader::SIGNIFICANT_WHITESPACE) {
-							$elementValue = trim($reader->value);
-
-							switch ($elementName) {
-								case 'ItemPlatform':
-									if ($overwritePlatform){
-										$reportArray['platform'] = $serviceProvider;
-									}else{
-										$reportArray['platform'] = $elementValue;
-									}
-
-									break;
-								case 'ItemPublisher':
-									$reportArray['publisher'] = $elementValue;
-									break;
-								case 'ItemName':
-									$reportArray['title'] = $elementValue;
-									break;
-								case 'ActivityType':
-									$reportArray['activityType'] = strtoupper($reader->value);
-									break;
-								case 'Type':
-									$idType = strtoupper($reader->value);
-									break;
-								case 'Value':
-									$identifierArray[$idType] = $reader->value;
-									break;
-								case 'Begin':
-									$date = new DateTime($reader->value);
-									if ($m === null) {
-										$m = strtolower($date->format('M'));
-										$countArray = array('ytd'=>null,'pdf'=>null,'html'=>null);
-									} else if (strtolower($date->format('M')) !== $m){
-										$totalCountsArray[$m] = $countArray;
-
-										$m = strtolower($date->format('M'));
-										//$y = strtolower($date->format('Y'));
-
-										$countArray = array('ytd'=>null,'pdf'=>null,'html'=>null);
-									}
-
-									break;
-								case 'MetricType':
-									$metricType = strtoupper($reader->value);
-
-									//make sure metric types have conformity
-									if (!(strpos($metricType,'HTML') === false)){
-										$metricType ='html';
-									}else if (!(strpos($metricType,'PDF') === false)){
-										$metricType ='pdf';
-									}else{
-										$metricType ='ytd';
-									}
-
-									break;
-								case 'Count':
-									$countArray[$metricType] = $reader->value;
-									break;
-							}
-
-
-						}
-
-						//Finished parsing the Title!!!
-					}else if ($reader->nodeType == XMLReader::END_ELEMENT
-						&& $reader->localName == "ReportItems") {
-
-						foreach($identifierArray as $key => $value){
-							if (!(strrpos($key,'PRINT') === false) && !(strrpos($key,'ISSN') === false)){
-								$reportArray['issn'] = $value;
-							}else if (!(strrpos($key,'ONLINE') === false) && !(strrpos($key,'ISSN') === false)){
-								$reportArray['eissn'] = $value;
-							}else if (!(strpos($key,'PRINT') === false) && !(strpos($key,'ISBN') === false)){
-								$reportArray['isbn'] = $value;
-							}else if (!(strpos($key,'ONLINE') === false) && !(strpos($key,'ISBN') === false)){
-								$reportArray['eisbn'] = $value;
-							}else if (!(strpos($key,'DOI') === false)){
-								$reportArray['doi'] = $value;
-							}else if (!(strpos($key,'PROPRIETARY') === false)){
-								$reportArray['pi']=$value;
-							}
-
-						}
-
-						//get the last array into the totals array
-						$totalCountsArray[$m] = $countArray;
-
-						//now figure out the months and the ytd, etc totals
-						foreach ($totalCountsArray as $key => $countArray){
-
-							if ($key != ''){
-
-								if (intval($countArray['ytd']) == "0"){
-									$reportArray[$key] = intval($countArray['pdf']) + intval($countArray['html']);
-								}else{
-									$reportArray[$key] = intval($countArray['ytd']);
-								}
-
-								if ($reportArray['ytd']===null)
-									$reportArray['ytd'] = intval($countArray['ytd']);
-								else
-									$reportArray['ytd'] += intval($countArray['ytd']);
-
-								if ($reportArray['ytdPDF']===null)
-									$reportArray['ytdPDF'] = intval($countArray['pdf']);
-								else
-									$reportArray['ytdPDF'] += intval($countArray['pdf']);
-
-								if ($reportArray['ytdHTML']===null)
-									$reportArray['ytdHTML'] = intval($countArray['html']);
-								else
-									$reportArray['ytdHTML'] += intval($countArray['html']);
-							}
-
-						}
-
-
-						//Now look at the report's layoutcode's columns to order them properly
-						$finalArray=array();
-						foreach($layoutColumns as $colName){
-							if (isset($reportArray[$colName]))
-								$finalArray[] = $reportArray[$colName];
-							else
-								$finalArray[] = null;
-						}
-
-						$txtOut .= implode($finalArray,"\t") . "\n";
-
-						$totalCountsArray=array();
-						break;
-					}
-				}
-			}
-
-		}
-
-		$reader->close();
+            // For each stat row, add in the resource metadata
+            foreach($statRows as $row) {
+                $reportRow = array_merge($reportArray, $row);
+                $finalArray=array();
+                //Now look at the report's layoutcode's columns to order them properly
+                foreach($layoutColumns as $colName){
+                    if (isset($reportRow[$colName]))
+                        $finalArray[] = $reportRow[$colName];
+                    else
+                        $finalArray[] = null;
+                }
+                $txtOut .= implode($finalArray,"\t") . "\n";
+            }
+        }
 
 		if (($layoutKey == "") || (count($layoutColumns) == '0') || ($txtOut == "")){
 			if (file_exists($xmlFileName)) {
 				$this->logStatus("Failed XML parsing or no data was found.");
+
+				$this->log("LayoutKey: $layoutKey\n");
+                $this->log("LayoutColumns Count: ".count($layoutColumns)."\n");
 
 				$xml = simplexml_load_file($xmlFileName);
 				$this->log("The following is the XML response:");

@@ -32,7 +32,7 @@ class Configuration extends DynamicObject {
 
 		// Save config array content as Configuration properties
 		foreach ($config as $section => $entries) {
-			$this->$section = Utility::objectFromArray($entries);
+      $this->$section = (new Utility())->objectFromArray($entries);
 		}
 	}
 

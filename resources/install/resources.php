@@ -23,29 +23,30 @@ function register_resources_provider()
 								"path" => $protected_module_data["config_file_path"],
 							]
 						],
-						"function" => function($shared_module_info) use ($MODULE_VARS, $protected_module_data) {
+						"function" => function($shared_module_info) use ($MODULE_VARS, $protected_module_data, $version) {
 							$return = new stdClass();
 							$return->yield = new stdClass();
 							$return->success = false;
 							$return->yield->title = _("Resources Module");
+                            $return->yield->messages = [];
 
 							$this_db_name = $shared_module_info[ $MODULE_VARS["uid"] ]["db_name"];
 							$dbconnection = $shared_module_info["provided"]["get_db_connection"]( $this_db_name );
 
 							$result = $shared_module_info["provided"]["check_db"]($MODULE_VARS["uid"], $dbconnection, $shared_module_info[$MODULE_VARS["uid"]], "Resource", $MODULE_VARS["translatable_title"]);
-							if ($result)
-								return $result;
+							if ($result) {
+                                return $result;
+                            }
 
-							$sql_files_to_process = ["resources/install/protected/test_create.sql", "resources/install/protected/install.sql"];
-							$ret = $shared_module_info["provided"]["process_sql_files"]( $dbconnection, $sql_files_to_process, $MODULE_VARS["uid"] );
-							if (!$ret["success"])
-							{
-								$return->success = false;
-								$return->yield->messages = array_merge($return->yield->messages, $ret["messages"]);
-								return $return;
-							}
+                            $ret = $shared_module_info["provided"]["process_sql_files"]( $dbconnection, $version, $MODULE_VARS["uid"] );
+                            if (!$ret["success"])
+                            {
+                                $return->success = false;
+                                $return->yield->messages = array_merge($return->yield->messages, $ret["messages"]);
+                                return $return;
+                            }
 
-							$shared_module_info["provided"]["set_up_admin_in_db"]($dbconnection, $shared_module_info["have_default_coral_admin_user"]["default_user"]);
+                            $shared_module_info["provided"]["set_up_admin_in_db"]($dbconnection, $shared_module_info["have_default_coral_admin_user"]["default_user"]);
 
 							$defaultDefaultCurrency = isset($_SESSION[$MODULE_VARS["uid"]]["defaultCurrency"]) ? $_SESSION[$MODULE_VARS["uid"]]["defaultCurrency"] : "USD";
 							$defaultEnableAlerts = isset($_SESSION[$MODULE_VARS["uid"]]["enableAlerts"]) ? $_SESSION[$MODULE_VARS["uid"]]["enableAlerts"] : true;
@@ -162,10 +163,9 @@ function register_resources_provider()
 							$conf_data = parse_ini_file($protected_module_data["config_file_path"], true);
 
 							// Process sql files
-							$sql_files_to_process = ["resources/install/protected/update_$version.sql"];
 							$db_name = $conf_data["database"]["name"];
 							$dbconnection = $shared_module_info["provided"]["get_db_connection"]( $db_name );
-							$ret = $shared_module_info["provided"]["process_sql_files"]( $dbconnection, $sql_files_to_process, $MODULE_VARS["uid"] );
+                            $ret = $shared_module_info["provided"]["process_sql_files"]( $dbconnection, $version, $MODULE_VARS["uid"] );
 							if (!$ret["success"])
 							{
 								$return->success = false;
@@ -176,6 +176,53 @@ function register_resources_provider()
 							return $return;
 						}
 					];
+
+        case "3.0.0":
+         	$conf_data = parse_ini_file($protected_module_data["config_file_path"], true);
+         	return [
+         		"dependencies_array" => [ "db_tools", "have_read_write_access_to_config" ],
+         		"sharedInfo" => [
+         			"config_file" => [
+         				"path" => $protected_module_data["config_file_path"],
+         			],
+         			"database_name" => $conf_data["database"]["name"]
+         		],
+         		"function" => function($shared_module_info) use ($MODULE_VARS, $protected_module_data, $version) {
+         			$return = new stdClass();
+         			$return->success = true;
+         			$return->yield = new stdClass();
+         			$return->yield->title = _("Resources Module");
+         			$return->yield->messages = [];
+
+                    $conf_data = parse_ini_file($protected_module_data["config_file_path"], true);
+
+         			// PROCESS SQL FILES
+         			$db_name = $conf_data["database"]["name"];
+         			$dbconnection = $shared_module_info["provided"]["get_db_connection"]( $db_name );
+                    $ret = $shared_module_info["provided"]["process_sql_files"]( $dbconnection, $version, $MODULE_VARS["uid"] );
+         			if (!$ret["success"])
+         			{
+         				$return->success = false;
+         				$return->yield->messages = array_merge($return->yield->messages, $ret["messages"]);
+         				return $return;
+         			}
+
+         			// EDIT CONF FILE
+         			// Note the "have_read_write_access_to_config" dependency above - it ensure we have the "provided" method below...
+         			$configFile = $protected_module_data["config_file_path"];
+         			// Make sure the parent category exists
+         			if (empty($conf_data["settings"]))
+         				$conf_data["settings"] = [];
+         			// Populate the variable with a value
+         			// Warning: do not set $conf_data["general"] = ["random" => "something"] or you will lose other variables. Rather:
+         			$conf_data["settings"]["ebscoKbEnabled"] = "N";
+                    $conf_data["settings"]["ebscoKbCustomerId"] = "";
+                    $conf_data["settings"]["ebscoKbApiKey"] = "";
+         			$shared_module_info["provided"]["write_config_file"]($configFile, $conf_data);
+
+         			return $return;
+         		}
+         	];
 
 
 				default:

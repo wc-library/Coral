@@ -1,6 +1,8 @@
 <?php
 	$resourceID = $_GET['resourceID'];
+	$resourceAcquisitionID = $_GET['resourceAcquisitionID'];
 	$resource = new Resource(new NamedArguments(array('primaryKey' => $resourceID)));
+	$resourceAcquisition = new ResourceAcquisition(new NamedArguments(array('primaryKey' => $resourceAcquisitionID)));
 
 		$config=new Configuration();
 
@@ -37,7 +39,7 @@
 		$licenseArray = $resource->getLicenseArray();
 
 		echo "<div style='background-color:white; width:219px; padding:7px;'>";
-		echo "<div class='rightPanelLink'><a href='summary.php?resourceID=" . $resource->resourceID . "' target='_blank' class='helpfulLink'>"._("Print View")."</a></div>";
+		echo "<div class='rightPanelLink'><a href='summary.php?resourceID=" . $resource->resourceID . "&resourceAcquisitionID=" . $resourceAcquisitionID . "' target='_blank' class='helpfulLink'>"._("Print View")."</a></div>";
 		if (($resource->systemNumber) && ($config->settings->catalogURL != '')) {
 			echo "<div class='rightPanelLink'><a href='" . $config->settings->catalogURL . $resource->systemNumber . "' target='_blank'>"._("Catalog View")."</a></div>";
 		}
@@ -57,9 +59,15 @@
 				if ((count($childResourceArray) > 0)){
 					echo "<div class='rightPanelHeader'>"._("Child Record(s)")."</div>";
 
+					$i = 0;
 					foreach ($childResourceArray as $childResource){
+						$i++;
 						$childResourceObj = new Resource(new NamedArguments(array('primaryKey' => $childResource['resourceID'])));
-						echo "<div class='rightPanelLink'><a href='resource.php?resourceID=" . $childResourceObj->resourceID . "' target='_BLANK' class='helpfulLink'>" . $childResourceObj->titleText . "</a></div>";
+						$initiallyHidden = $i > 20 ? 'helpfulLink__hidden' : '';
+						echo "<div class='rightPanelLink'><a href='resource.php?resourceID=" . $childResourceObj->resourceID . "' target='_BLANK' class='helpfulLink ".$initiallyHidden."'>" . $childResourceObj->titleText . "</a></div>";
+					    if($i === 20) {
+                            echo "<div class='rightPanelLink'><a href='#' class='helpfulLink' id='showAllChildResources' style='padding-left: 10px;'>+ show all resources (" .(count($childResourceArray) - 20)." more)</a></div>";
+                        }
 					}
 				}
 

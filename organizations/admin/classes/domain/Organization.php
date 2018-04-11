@@ -17,14 +17,45 @@
 **************************************************************************************************************************
 */
 
-
 class Organization extends DatabaseObject {
 
 	protected function defineRelationships() {}
 
 	protected function overridePrimaryKeyName() {}
 
+    public function asArray() {
+		$rarray = array();
+		foreach (array_keys($this->attributeNames) as $attributeName) {
+			if ($this->$attributeName != null) {
+				$rarray[$attributeName] = $this->$attributeName;
+			}
+		}
 
+		$aliases = $this->getAliases();
+		$rarray['aliases'] = array();
+		foreach ($aliases as $alias) {
+            array_push($rarray['aliases'], $alias->name);
+		}
+
+		return $rarray;
+    }
+
+
+	// retrieves an organization by it's ebscoKbID
+    public function getOrganizationByEbscoKbId($ebscoKbId) {
+
+        $query = "SELECT organizationID
+			FROM Organization
+			WHERE ebscoKbID = $ebscoKbId
+			LIMIT 0,1";
+        $result = $this->db->processQuery($query, 'assoc');
+
+        if (isset($result['organizationID'])) {
+            return new Organization(new NamedArguments(array('primaryKey' => $result['organizationID'])));
+        } else {
+            return false;
+        }
+    }
 
 	//returns array of parent organization objects
 	public function getParentOrganizations(){
@@ -80,8 +111,22 @@ class Organization extends DatabaseObject {
 		return $objects;
 	}
 
+    public function hasILSVendorRole() {
+        $config = new Configuration();
+        $organizationRoles = $this->getOrganizationRoles();
+        $roleMatch = false;
+        foreach ($organizationRoles as $organizationRole) {
+           if ($organizationRole->shortName == $config->ils->ilsVendorRole) {
+                $roleMatch = true;
+            }
 
+        }
+        return $roleMatch;;
+    }
 
+    public function isLinkedToILS() {
+        return $this->ilsID != null && $this->hasILSVendorRole();
+    }
 
 	//removes organization hierarchy records
 	public function removeOrganizationHierarchy(){
@@ -470,7 +515,7 @@ class Organization extends DatabaseObject {
 		$result = $this->db->processQuery($query, 'assoc');
 		//this is because processQuery has a bad habit of mixed return values
 		//TODO: change this, maybe, someday
-		if ($result['resourceID']) {
+		if (isset($result['resourceID'])) {
 			$result = array($result);
 		}
 
@@ -543,7 +588,7 @@ class Organization extends DatabaseObject {
 									LEFT JOIN ContactRoleProfile CRP ON C.contactID = CRP.contactID
 									LEFT JOIN ContactRole CR ON CR.contactRoleID = CRP.contactRoleID
 								" . $whereStatement . "
-								GROUP By O.organizationID
+								GROUP BY O.organizationID, OHP.parentOrganizationID
 								ORDER BY " . $orderBy . $limitStatement;
 
 

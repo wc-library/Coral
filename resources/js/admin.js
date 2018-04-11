@@ -53,23 +53,37 @@ $(document).ready(function(){
         updateImportConfigTable();
     });
 
+    $(".EbscoKbConfigLink").click(function () {
+        updateEbscoKbConfigTable();
+    });
+
+    $("#ebscoKbConfig").live('submit', function(e){
+        e.preventDefault();
+        submitEbscoKbData();
+    });
+
     $('.removeData').live('click', function () {
         deleteData($(this).attr("cn"), $(this).attr("id"));
     });
 
 });
 
+function removeSelectedClassFromNav(){
+  $(".AlertAdminLink").parent().parent().removeClass('selected');
+  $(".AdminLink").parent().parent().removeClass('selected');
+  $(".WorkflowAdminLink").parent().parent().removeClass('selected');
+  $(".UserAdminLink").parent().parent().removeClass('selected');
+  $(".CurrencyLink").parent().parent().removeClass('selected');
+  $(".FundLink").parent().parent().removeClass('selected');
+  $(".ImportConfigLink").parent().parent().removeClass('selected');
+  $(".SubjectsAdminLink").parent().parent().removeClass('selected');
+  $(".EbscoKbConfigLink").parent().parent().removeClass('selected');
+}
+
 
 function updateTable(className){
 
-    $(".UserAdminLink").parent().parent().removeClass('selected');
-    $(".AlertAdminLink").parent().parent().removeClass('selected');
-    $(".WorkflowAdminLink").parent().parent().removeClass('selected');
-    $(".AdminLink").parent().parent().removeClass('selected');
-    $(".CurrencyLink").parent().parent().removeClass('selected');
-    $(".FundLink").parent().parent().removeClass('selected');
-    $(".ImportConfigLink").parent().parent().removeClass('selected');
-    $(".SubjectsAdminLink").parent().parent().removeClass('selected');
+    removeSelectedClassFromNav();
     $("#" + className).parent().parent().addClass('selected');
 
     $.ajax({
@@ -92,14 +106,8 @@ function updateTable(className){
 
 function updateCurrencyTable(){
 
-    $(".AlertAdminLink").parent().parent().removeClass('selected');
-    $(".AdminLink").parent().parent().removeClass('selected');
-    $(".WorkflowAdminLink").parent().parent().removeClass('selected');
-    $(".UserAdminLink").parent().parent().removeClass('selected');
+    removeSelectedClassFromNav();
     $(".CurrencyLink").parent().parent().addClass('selected');
-    $(".FundLink").parent().parent().removeClass('selected');
-    $(".ImportConfigLink").parent().parent().removeClass('selected');
-    $(".SubjectsAdminLink").parent().parent().removeClass('selected');
 
     $.ajax({
         type:       "GET",
@@ -118,14 +126,9 @@ function updateCurrencyTable(){
 }
 
 function updateFundTable(){
-    $(".AlertAdminLink").parent().parent().removeClass('selected');
-    $(".AdminLink").parent().parent().removeClass('selected');
-    $(".WorkflowAdminLink").parent().parent().removeClass('selected');
-    $(".UserAdminLink").parent().parent().removeClass('selected');
-    $(".CurrencyLink").parent().parent().removeClass('selected');
+
+    removeSelectedClassFromNav();
     $(".FundLink").parent().parent().addClass('selected');
-    $(".ImportConfigLink").parent().parent().removeClass('selected');
-    $(".SubjectsAdminLink").parent().parent().removeClass('selected');
 
     $.ajax({
         type:       "GET",
@@ -144,14 +147,8 @@ function updateFundTable(){
 }
 
 function updateImportConfigTable(){
-    $(".AlertAdminLink").parent().parent().removeClass('selected');
-    $(".AdminLink").parent().parent().removeClass('selected');
-    $(".WorkflowAdminLink").parent().parent().removeClass('selected');
-    $(".UserAdminLink").parent().parent().removeClass('selected');
-    $(".CurrencyLink").parent().parent().removeClass('selected');
-    $(".FundLink").parent().parent().removeClass('selected');
+    removeSelectedClassFromNav();
     $(".ImportConfigLink").parent().parent().addClass('selected');
-    $(".SubjectsAdminLink").parent().parent().removeClass('selected');
 
     $.ajax({
         type:       "GET",
@@ -172,14 +169,8 @@ function updateImportConfigTable(){
 
 function updateUserTable(){
 
-    $(".AlertAdminLink").parent().parent().removeClass('selected');
-    $(".AdminLink").parent().parent().removeClass('selected');
-    $(".WorkflowAdminLink").parent().parent().removeClass('selected');
-    $(".CurrencyLink").parent().parent().removeClass('selected');
-    $(".FundLink").parent().parent().removeClass('selected');
-    $(".ImportConfigLink").parent().parent().removeClass('selected');
+    removeSelectedClassFromNav();
     $(".UserAdminLink").parent().parent().addClass('selected');
-    $(".SubjectsAdminLink").parent().parent().removeClass('selected');
 
     $.ajax({
         type:       "GET",
@@ -200,14 +191,8 @@ function updateUserTable(){
 
 function updateAlertTable(){
 
-    $(".UserAdminLink").parent().parent().removeClass('selected');
-    $(".AdminLink").parent().parent().removeClass('selected');
-    $(".WorkflowAdminLink").parent().parent().removeClass('selected');
-    $(".CurrencyLink").parent().parent().removeClass('selected');
-    $(".FundLink").parent().parent().removeClass('selected');
-    $(".ImportConfigLink").parent().parent().removeClass('selected');
+    removeSelectedClassFromNav();
     $(".AlertAdminLink").parent().parent().addClass('selected');
-    $(".SubjectsAdminLink").parent().parent().removeClass('selected');
 
     $.ajax({
         type:       "GET",
@@ -228,14 +213,8 @@ function updateAlertTable(){
 
 function updateWorkflowTable(){
 
-    $(".UserAdminLink").parent().parent().removeClass('selected');
-    $(".AdminLink").parent().parent().removeClass('selected');
-    $(".AlertAdminLink").parent().parent().removeClass('selected');
-    $(".CurrencyLink").parent().parent().removeClass('selected');
-    $(".FundLink").parent().parent().removeClass('selected');
-    $(".ImportConfigLink").parent().parent().removeClass('selected');
+    removeSelectedClassFromNav();
     $(".WorkflowAdminLink").parent().parent().addClass('selected');
-    $(".SubjectsAdminLink").parent().parent().removeClass('selected');
 
     $.ajax({
         type:       "GET",
@@ -255,13 +234,7 @@ function updateWorkflowTable(){
 
 function updateSubjectsTable(){
 
-    $(".UserAdminLink").parent().parent().removeClass('selected');
-    $(".AdminLink").parent().parent().removeClass('selected');
-    $(".AlertAdminLink").parent().parent().removeClass('selected');
-    $(".CurrencyLink").parent().parent().removeClass('selected');
-    $(".FundLink").parent().parent().removeClass('selected');
-    $(".ImportConfigLink").parent().parent().removeClass('selected');
-    $(".WorkflowAdminLink").parent().parent().removeClass('selected');
+    removeSelectedClassFromNav();
     $(".SubjectsAdminLink").parent().parent().addClass('selected');
 
     $.ajax({
@@ -280,6 +253,26 @@ function updateSubjectsTable(){
 
 }
 
+function updateEbscoKbConfigTable(){
+
+  removeSelectedClassFromNav();
+  $(".EbscoKbConfigLink").parent().parent().addClass('selected');
+
+  $.ajax({
+    type:       "GET",
+    url:        "ajax_htmldata.php",
+    cache:      false,
+    data:       "action=getAdminEbscoKbConfigDisplay",
+    success:    function(html) {
+      $('#div_AdminContent').html(html);
+      tb_reinit();
+    }
+  });
+
+  //make sure error is empty
+  $('#div_error').html("");
+
+}
 
 function submitData(){
     if (validateAdminForms() === true) {
@@ -414,6 +407,12 @@ function submitImportConfigData() {
         });
         jsonData.resourceFormat = $("#resource_format").val();
         jsonData.resourceType = $("#resource_type").val();
+        jsonData.acquisitionType = $("#acquisition_type").val();
+        jsonData.fundCode = $("#fundCode").val();
+        jsonData.cost = $("#cost").val();
+	jsonData.currencyCode = $("#currency").val();
+        jsonData.orderTypeID = $("#orderType").val();
+        jsonData.sendemails = $("#sendemails").attr('checked');
         jsonData.subject = [];
         $('div.subject-record').each(function() {
             var subjectObject = {};
@@ -508,6 +507,27 @@ function submitAdminAlertDays(){
             }
         });
     }
+}
+
+// Validate fund form
+function submitEbscoKbData(){
+    var form = $('#ebscoKbConfig');
+    $('#ebscoKbConfigError').html();
+    $.ajax({
+      type:       "POST",
+      url:        "ajax_processing.php?action=updateEbscoKbConfig",
+      cache:      false,
+      data:       form.serialize(),
+      success:    function(e) {
+        updateEbscoKbConfigTable();
+        setTimeout(function(){
+          window.location.reload();
+        },500);
+      },
+      error:      function(xhr) {
+        $('#ebscoKbConfigError').html(xhr.responseText);
+      }
+    });
 }
 
 
@@ -676,6 +696,29 @@ function deleteAlert(className, deleteID){
     }
 }
 
+function duplicateWorkflow(sourceID){
+
+    $.ajax({
+        type:       "get",
+        url:        "ajax_processing.php",
+        cache:      false,
+        data:       "action=duplicateWorkflow&id=" + sourceID,
+        success:    function(html) {
+
+            if (html){
+                showError(html);
+
+                // close the div in 3 secs
+                setTimeout("emptyError();",3000);
+            }else{
+                updateWorkflowTable();
+                tb_reinit();
+            }
+
+        }
+    });
+
+}
 
 function deleteWorkflow(className, deleteID){
 

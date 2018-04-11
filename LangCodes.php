@@ -10,21 +10,25 @@ class LangCodes{
             'en_GB'=>'en_US',
             'en_US'=>'en_US',
             'zh_CN'=>'zh_CN',
-            'zh_TW'=>'zh_TW'//,
-            //'de_DE'=>'de_DE'
+            'zh_TW'=>'zh_TW',
+            'de_DE'=>'de_DE'
         );
         return array_key_exists($code, $all_lang) ? $all_lang[$code] : "en_US";
     }
     public function getNameLang($code_lang){
         $name_lang=array(
             'fr_FR'=>'Français',
-            'en_GB'=>'English',
-            'en_US'=>'English',
+            'en_GB'=>'English (GB)',
+            'en_US'=>'English (US)',
             'zh_CN'=>'中文 (简体)',
-            'zh_TW'=>'中文 (正體)'//,
-            //'de_DE'=>'Deutsch'
+            'zh_TW'=>'中文 (正體)',
+            'de_DE'=>'Deutsch'
         );
         return array_key_exists($code_lang, $name_lang) ? $name_lang[$code_lang] : "English";
+    }
+
+    public function getBrowserLanguage() {
+        return str_replace('-', '_', substr($_SERVER["HTTP_ACCEPT_LANGUAGE"],0,5));
     }
 }
 ?>

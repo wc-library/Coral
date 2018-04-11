@@ -683,7 +683,6 @@ a.newSearch:before {
 
 a.newSearch {
 			text-decoration: none;
-			text-transform: capitalize;
 			font-size: 12px;
 }
 
@@ -700,7 +699,6 @@ a#logout:before {
 
 a#logout {
 			text-decoration: none;
-			text-transform: capitalize;
 			font-size: 12px;
 			position: relative;
 			top: 4px;
@@ -720,7 +718,6 @@ a#showMoreOptions:before {
 
 a#showMoreOptions {
 			text-decoration: none;
-			text-transform: capitalize;
 			font-size: 12px;
 }
 
@@ -737,7 +734,6 @@ a#showMoreOptions:hover {
 
 #print-view a {
 			text-decoration: none;
-			text-transform: capitalize;
 			font-size: 12px;
 }
 
@@ -756,7 +752,6 @@ a.showDocuments:before {
 
 a.showDocuments {
 			text-decoration: none;
-			text-transform: capitalize;
 			font-size: 12px;
 }
 
@@ -773,7 +768,6 @@ a.showExpressions:before {
 
 a.showExpressions {
 			text-decoration: none;
-			text-transform: capitalize;
 			font-size: 12px;
 }
 
@@ -790,7 +784,6 @@ a.showAttachments:before {
 
 a.showAttachments {
 			text-decoration: none;
-			text-transform: capitalize;
 			font-size: 12px;
 }
 
@@ -807,7 +800,6 @@ a.showSFXProviders:before {
 
 a.showSFXProviders {
 	text-decoration: none;
-	text-transform: capitalize;
 	font-size: 12px;
 }
 
@@ -822,7 +814,6 @@ a#view-license:before {
 
 a#view-license {
 			text-decoration: none;
-			text-transform: capitalize;
 			font-size: 12px;
 }
 
@@ -840,7 +831,6 @@ a#view-doc:before {
 
 a#view-doc {
 			text-decoration: none;
-			text-transform: capitalize;
 			font-size: 12px;
 }
 
@@ -938,7 +928,6 @@ table.surroundBox table.noBorder {
 			background: #1b76a9;
 			border: none;
 			padding: 5px 10px;
-			text-transform: capitalize;
 }*/
 
 /*--- My Queue Page Side Menu ---*/
@@ -952,7 +941,6 @@ a#OutstandingTasks:before {
 
 a#OutstandingTasks {
 			text-decoration: none;
-			text-transform: capitalize;
 			font-size: 12px;
 }
 
@@ -969,7 +957,6 @@ a#SavedRequests:before {
 
 a#SavedRequests {
 			text-decoration: none;
-			text-transform: capitalize;
 			font-size: 12px;
 }
 
@@ -986,7 +973,6 @@ a#SubmittedRequests:before {
 
 a#SubmittedRequests {
 			text-decoration: none;
-			text-transform: capitalize;
 			font-size: 12px;
 }
 
@@ -1082,24 +1068,6 @@ div#searchResults > i {
 	left: 20px;
 }
 
-/*--- Capitalize All Links ---*/
-
-#div_displayDocuments a {
-	text-transform: capitalize;
-}
-
-.mainContent a {
-	text-transform: capitalize;
-}
-
-.thickboxTable a {
-	text-transform: capitalize;
-}
-
-.headerTable a {
-	text-transform: capitalize;
-}
-
 /*--- Form Modal Windows ---*/
 
 table.thickboxTable .headerText {
@@ -1125,7 +1093,6 @@ table.thickboxTable .headerText {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	margin-left: 5px;
 }
 
@@ -1141,7 +1108,6 @@ table.thickboxTable .headerText {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	margin-left: 5px;
 	position: relative;
 }
@@ -1210,7 +1176,6 @@ table.thickboxTable .headerText {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	margin-left: 5px;
 }
 
@@ -1226,7 +1191,6 @@ table.thickboxTable .headerText {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	margin-left: 5px;
 	float: left;
 }
@@ -1245,7 +1209,6 @@ table.thickboxTable .headerText {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	margin-left: 5px;
 }
 
@@ -1261,7 +1224,6 @@ table.thickboxTable .headerText {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	margin-left: 5px;
 	position: relative;
 }
@@ -1280,7 +1242,6 @@ table.thickboxTable .headerText {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	margin-left: 5px;
 }
 
@@ -1296,7 +1257,6 @@ table.thickboxTable .headerText {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	margin-left: 5px;
 	float: left;
 }
@@ -1315,7 +1275,6 @@ table.thickboxTable .headerText {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	margin-left: 5px;
 	float: left;
 }
@@ -1332,7 +1291,6 @@ table.thickboxTable .headerText {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	margin-left: 5px;
 	float: left;
 }
@@ -1349,7 +1307,6 @@ table.thickboxTable .headerText {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	margin-left: 5px;
 	position: relative;
 }
@@ -1366,7 +1323,6 @@ table.thickboxTable .headerText {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	margin-left: 5px;
 	float: left;
 }
@@ -1385,7 +1341,6 @@ table.thickboxTable .headerText {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	margin-left: 5px;
 }
 
@@ -1401,7 +1356,6 @@ table.thickboxTable .headerText {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	margin-left: 5px;
 	position: relative;
 	left: -120px;
@@ -1422,7 +1376,6 @@ table.thickboxTable .headerText {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	margin-left: 5px;
 	float: left;
 	width: 54px;
@@ -1442,7 +1395,6 @@ table.thickboxTable .headerText {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	margin-left: 5px;
 	float: left;
 }
@@ -1461,7 +1413,6 @@ table.thickboxTable .headerText {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	text-decoration: none;
 }
 
@@ -1479,7 +1430,6 @@ table.thickboxTable .headerText {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	text-decoration: none;
 	position: relative;
 	top: -5px;
@@ -1498,7 +1448,6 @@ table.thickboxTable .headerText {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	text-decoration: none;
 	position: relative;
 	top: -5px;
@@ -1517,7 +1466,6 @@ table.thickboxTable .headerText {
 	background: #1b76a9;
 	border: none;
 	padding: 5px 10px;
-	text-transform: capitalize;
 	text-decoration: none;
 	position: relative;
 	top: -5px;
@@ -1527,12 +1475,6 @@ table.thickboxTable .headerText {
 #div_expressionNotesForm a#closeButton:hover {
 	cursor: pointer;
 }*/
-
-/*--- Capitalize Add Links ---*/
-
-a#commitUpdate {
-	text-transform: capitalize;
-}
 
 /*--- Shorten Width of Select Dropdown for Signatures and Edit ---*/
 
@@ -1614,7 +1556,6 @@ select#lang {
     background: #1b76a9;
     border: none;
     padding: 5px 10px;
-    text-transform: capitalize;
     margin-left: 8px;
     min-width: 60px;
     margin-top: 10px;

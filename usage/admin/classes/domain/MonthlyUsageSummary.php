@@ -35,6 +35,8 @@ class MonthlyUsageSummary extends DatabaseObject {
 		$this->addAttribute('outlierID');
 		$this->addAttribute('ignoreOutlierInd');
 		$this->addAttribute('mergeInd');
+        $this->addAttribute('activityType');
+        $this->addAttribute('sectionType');
 	}
 
 }

@@ -51,10 +51,10 @@ if ($organization->name){
 
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<META HTTP-EQUIV="CACHE-CONTROL" CONTENT="public">
-
+	
 	<link rel="stylesheet" href="css/style.css" type="text/css" media="print" />
 	<link rel="stylesheet" href="css/style.css" type="text/css" media="screen" />
-	<script type="text/javascript" src="js/plugins/jquery.js"></script>
+	<script type="text/javascript" src="../js/plugins/jquery-1.4.4.js"></script>
 
 	</head>
 
@@ -68,7 +68,7 @@ if ($organization->name){
 
 		//fix company url in case http is missing
 		if ($organization->companyURL){
-			if (strpos(strtolower($organization->companyURL), 'http:') === false){
+			if (strpos($organization->companyURL, '://') === false){
 				$companyURL = "http://" . $organization->companyURL;
 			}else{
 				$companyURL = $organization->companyURL;
@@ -159,7 +159,7 @@ if ($organization->name){
 		if ($organization->companyURL){ ?>
 			<tr>
 			<td style='vertical-align:top;text-align:left;width:140px;'><?php echo _("Company URL:");?></td>
-			<td style='width:320px;'><a href='<?php echo $companyURL; ?>' target='_blank'><?php echo $organization->companyURL; ?></a></td>
+			<td style='width:320px; word-break: break-all;'><a href='<?php echo $companyURL; ?>' target='_blank'><?php echo $organization->companyURL; ?></a></td>
 			</tr>
 		<?php
 		}
@@ -194,7 +194,7 @@ if ($organization->name){
 
 		<?php
 
-
+	   	
 
 		$createUser = new User(new NamedArguments(array('primaryKey' => $organization->createLoginID)));
 		$updateUser = new User(new NamedArguments(array('primaryKey' => $organization->updateLoginID)));
@@ -318,7 +318,7 @@ if ($organization->name){
 		<?php
 		foreach ($contactArray as $contact){
 		?>
-
+			
 			<tr>
 			<th style='width:150px;vertical-align:top;text-align:left'>&nbsp;<?php echo $contact['contactRoles']; ?></th>
 			<th>
@@ -441,7 +441,7 @@ if ($organization->name){
 		<?php
 			foreach ($externalLoginArray as $externalLogin){
 			?>
-
+			
 			<tr>
 			<th style='width:150px;vertical-align:top;text-align:left;'>&nbsp;<?php echo $externalLogin['externalLoginTypeShortName']; ?></th>
 			<th>
@@ -451,8 +451,8 @@ if ($organization->name){
 			<?php if ($externalLogin['loginURL']) { ?>
 			<tr>
 			<td style='vertical-align:top;text-align:left;'><?php echo _("Login URL:");?></td>
-			<td><?php echo $externalLogin['loginURL'];
-				if (strpos($externalLogin['loginURL'], 'http') !== 0) {
+			<td style="word-break: break-all;"><?php echo $externalLogin['loginURL'];
+				if (strpos($externalLogin['loginURL'], '://') === false) {
 					$externalLogin['loginURL'] = "http://" . $externalLogin['loginURL'];
 				}
 			?>&nbsp;&nbsp;<a href='<?php echo $externalLogin['loginURL']; ?>' target='_blank'><img src='images/arrow-up-right.gif' alt='<?php echo _("Visit Login URL");?>' title='<?php echo _("Visit Login URL");?>' style='vertical-align:top;'></a></td>
@@ -533,7 +533,7 @@ if ($organization->name){
 		$charsToRemove = array("*", "_");
 
 		?>
-
+		
 		<br />
 		<table class='linedFormTable' style='width:440px;'>
 		<tr>
@@ -544,7 +544,7 @@ if ($organization->name){
 
 		if (count($issueLogArray) > 0){
 		?>
-
+		
 		<tr>
 		<th>&nbsp;<?php echo _("Date Added");?></th>
 		<th><?php echo _("Issue Date");?></th>
@@ -591,7 +591,7 @@ if ($organization->name){
 				</tr>
 
 
-				<?php
+				<?php				
 				if (count($licenseArray) > 0){ ?>
 					<tr>
 					<th>&nbsp;</th>

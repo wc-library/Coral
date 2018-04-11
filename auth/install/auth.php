@@ -24,7 +24,7 @@ function register_auth_provider()
 								"path" => $protected_module_data{"config_file_path"},
 							]
 						],
-						"function" => function($shared_module_info) use ($MODULE_VARS, $protected_module_data) {
+						"function" => function($shared_module_info) use ($MODULE_VARS, $protected_module_data, $version) {
 							$return = new stdClass();
 							$return->yield = new stdClass();
 							$return->yield->messages = [];
@@ -42,8 +42,7 @@ function register_auth_provider()
 
 
 							// Process sql files
-							$sql_files_to_process = ["auth/install/test_create.sql", "auth/install/create_tables_data.sql"];
-							$ret = $shared_module_info["provided"]["process_sql_files"]( $dbconnection, $sql_files_to_process, $MODULE_VARS["uid"] );
+							$ret = $shared_module_info["provided"]["process_sql_files"]( $dbconnection, $version, $MODULE_VARS["uid"] );
 							if (!$ret["success"])
 							{
 								$return->success = false;
@@ -314,10 +313,9 @@ function register_auth_provider()
 							$conf_data = parse_ini_file($protected_module_data["config_file_path"], true);
 
 							// Process sql files
-							$sql_files_to_process = ["auth/install/update_$version.sql"];
 							$db_name = $conf_data["database"]["name"];
 							$dbconnection = $shared_module_info["provided"]["get_db_connection"]( $db_name );
-							$ret = $shared_module_info["provided"]["process_sql_files"]( $dbconnection, $sql_files_to_process, $MODULE_VARS["uid"] );
+							$ret = $shared_module_info["provided"]["process_sql_files"]( $dbconnection, $version, $MODULE_VARS["uid"] );
 							if (!$ret["success"])
 							{
 								$return->success = false;
@@ -328,6 +326,17 @@ function register_auth_provider()
 							return $return;
 						}
 					];
+
+        case "3.0.0":
+            return [
+                "function" => function($shared_module_info) {
+                    $return = new stdClass();
+                    $return->yield = new stdClass();
+                    $return->success = true;
+                    $return->yield->title = _("Auth Module");
+                    return $return;
+                }
+            ];
 
 
 				/**
@@ -359,7 +368,7 @@ function register_auth_provider()
 				// 			],
 				// 			"database_name" => $conf_data["database"]["name"]
 				// 		],
-				// 		"function" => function($shared_module_info) use ($MODULE_VARS, $protected_module_data) {
+				// 		"function" => function($shared_module_info) use ($MODULE_VARS, $protected_module_data, $version) {
 				// 			// Standard setup of a return variable:
 				// 			$return = new stdClass();
 				// 			$return->yield = new stdClass();
@@ -374,8 +383,7 @@ function register_auth_provider()
 				// 			// Note the "db_tools" dependency above - it ensure we have the "provided" methods below...
 				// 			$db_name = $conf_data["database"]["name"];
 				// 			$dbconnection = $shared_module_info["provided"]["get_db_connection"]( $db_name );
-				// 			$sql_files_to_process = ["path/to/sql_file.sql"]; // Note that this should be in an array
-				// 			$ret = $shared_module_info["provided"]["process_sql_files"]($dbconnection, $sql_files_to_process, $MODULE_VARS["uid"]);
+				// 			$ret = $shared_module_info["provided"]["process_sql_files"]($dbconnection, $version, $MODULE_VARS["uid"]);
 				// 			// Handle failure to process sql files
 				// 			if (!$ret["success"])
 				// 			{

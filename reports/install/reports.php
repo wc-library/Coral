@@ -23,13 +23,13 @@ function register_reports_provider()
 								"path" => $protected_module_data["config_file_path"],
 							]
 						],
-						"function" => function($shared_module_info) use ($MODULE_VARS, $protected_module_data) {
+						"function" => function($shared_module_info) use ($MODULE_VARS, $protected_module_data, $version) {
 							$return = new stdClass();
 							$return->yield = new stdClass();
 							$return->success = false;
 							$return->yield->title = _("Reports Module");
+                            $return->yield->messages = [];
 							$return->yield->messages[] = "Incomplete Installer";
-
 
 							$this_db_name = $shared_module_info[ $MODULE_VARS["uid"] ]["db_name"];
 							$dbconnection = $shared_module_info["provided"]["get_db_connection"]( $this_db_name );
@@ -38,8 +38,7 @@ function register_reports_provider()
 							if ($result)
 								return $result;
 
-							$sql_files_to_process = ["reports/install/test_create.sql", "reports/install/create_tables_data.sql"];
-							$ret = $shared_module_info["provided"]["process_sql_files"]( $dbconnection, $sql_files_to_process, $MODULE_VARS["uid"] );
+							$ret = $shared_module_info["provided"]["process_sql_files"]( $dbconnection, $version, $MODULE_VARS["uid"] );
 							if (!$ret["success"])
 							{
 								$return->success = false;
@@ -96,6 +95,17 @@ function register_reports_provider()
 							return $return;
 						}
 					];
+
+        case "3.0.0":
+            return [
+                "function" => function($shared_module_info) {
+                    $return = new stdClass();
+                    $return->yield = new stdClass();
+                    $return->success = true;
+                    $return->yield->title = _("Reports Module");
+                    return $return;
+                }
+            ];
 
 
 				default:

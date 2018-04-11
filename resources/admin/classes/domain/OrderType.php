@@ -36,6 +36,13 @@ class OrderType extends DatabaseObject {
 
 	}
 
+    public function getAllOrderType() {
+        $query = "SELECT * FROM OrderType order by shortName";
+        $result = $this->db->processQuery($query, 'assoc');
+        return $result;
+
+    }
+
 
 }
 

@@ -81,7 +81,7 @@ class GeneralSubject extends DatabaseObject {
 	}
 
 	// Save the General subject.  Use this function since a record needs to be added to the linking table also.
-	public function save(){
+	public function save($new = 0){
 
 		if (isset($this->primaryKey)) {
 			// Update object
@@ -129,6 +129,15 @@ class GeneralSubject extends DatabaseObject {
 
 		return $result['inUse'];
 	}
+
+    public function getGeneralSubjectIDByName($name) {
+        $query = "SELECT generalSubjectID from GeneralSubject WHERE UPPER(shortName) = '" . str_replace( "'", "''", $name ) . "'";
+
+        $result = $this->db->processQuery($query, 'assoc');
+
+        return isset($result['generalSubjectID']) ? $result['generalSubjectID'] : false;
+
+    }
 
 }
 

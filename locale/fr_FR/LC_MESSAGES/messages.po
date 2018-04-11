@@ -2,14 +2,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: messages\n"
 "POT-Creation-Date: 2016-05-11 14:32-0600\n"
-"PO-Revision-Date: 2016-05-11 14:44-0600\n"
-"Last-Translator: \n"
+"PO-Revision-Date: 2018-03-13 11:53+0100\n"
+"Last-Translator: Paul Poulain <paul.poulain@biblibre.com>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.7\n"
+"X-Generator: Poedit 1.8.7.1\n"
 "X-Poedit-Basepath: ../../..\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -25,11 +25,11 @@ msgstr "Gestion des ressources électroniques"
 
 #: index.php:51
 msgid "Change language:"
-msgstr "Modifier la langue:"
+msgstr "Modifier la langue&nbsp;:"
 
 #: index.php:67
 msgid "Invalid translation route!"
-msgstr "Chemin d'accès aux traductions invalide!"
+msgstr "Chemin d'accès aux traductions invalide&nbsp;!"
 
 #: index.php:101 index.php:106
 msgid "Resources"
@@ -53,4 +53,4 @@ msgstr "Gestion"
 
 #: index.php:170
 msgid "Powered by"
-msgstr "Alimenté par"
+msgstr "Propulsé par"

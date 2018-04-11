@@ -137,9 +137,9 @@ switch ($_GET['action']) {
 		$createUser = new User(new NamedArguments(array('primaryKey' => $organization->createLoginID)));
 		$updateUser = new User(new NamedArguments(array('primaryKey' => $organization->updateLoginID)));
 
-		//fix company url in case http is missing
+		//add http if protocol is missing
 		if ($organization->companyURL){
-			if (strpos(strtolower($organization->companyURL), 'http') === false){
+			if (strpos($organization->companyURL, '://') === false){
 				$companyURL = "http://" . $organization->companyURL;
 			}else{
 				$companyURL = $organization->companyURL;
@@ -230,7 +230,9 @@ switch ($_GET['action']) {
 		if ($organization->companyURL){ ?>
 			<tr>
 			<td style='vertical-align:top;text-align:left;width:140px;'><?php echo _("Company URL:");?></td>
-			<td style='width:320px;'><a href='<?php echo $companyURL; ?>' target='_blank'><?php echo $organization->companyURL; ?></a></td>
+			<td style='width:320px; word-break: break-all;'>
+                <a href='<?php echo $companyURL; ?>' target='_blank' style="text-transform: none;"><?php echo $organization->companyURL; ?></a>
+            </td>
 			</tr>
 		<?php
 		}
@@ -255,6 +257,16 @@ switch ($_GET['action']) {
 			<tr>
 			<td style='vertical-align:top;text-align:left;width:140px;'><?php echo _("Notes:");?></td>
 			<td style='width:320px;'><?php echo nl2br($organization->noteText); ?></td>
+			</tr>
+		<?php
+		}
+
+        if ($organization->ilsID){ 
+            $ilsClient = (new ILSClientSelector())->select();
+        ?>
+			<tr>
+			<td style='vertical-align:top;text-align:left;width:140px;'><?php echo _("ILS:");?></td>
+			<td style='width:320px;'><a href="<?php echo $ilsClient->getVendorURL() . $organization->ilsID; ?>">Open vendor in <?php echo $ilsClient->getILSName(); ?></a></td>
 			</tr>
 		<?php
 		}
@@ -569,8 +581,8 @@ switch ($_GET['action']) {
 				<?php if ($externalLogin['loginURL']) { ?>
 				<tr>
 				<td style='vertical-align:top;text-align:left;'><?php echo _("Login URL:");?></td>
-				<td><?php echo $externalLogin['loginURL'];
-					if (strpos($externalLogin['loginURL'], 'http') !== 0) {
+				<td style="word-break: break-all;"><?php echo $externalLogin['loginURL'];
+					if (strpos($externalLogin['loginURL'], '://') === false) {
 						$externalLogin['loginURL'] = "http://" . $externalLogin['loginURL'];
 					}
 				?>&nbsp;&nbsp;<a href='<?php echo $externalLogin['loginURL']; ?>' target='_blank'><img src='images/arrow-up-right.gif' alt='<?php echo _("Visit Login URL");?>' title='<?php echo _("Visit Login URL");?>' style='vertical-align:top;'></a></td>

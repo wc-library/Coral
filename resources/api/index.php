@@ -1,31 +1,16 @@
 <?php
-require 'Flight/flight/Flight.php';
+require 'vendor/autoload.php';
 
 include_once '../directory.php';
-include_once '../admin/classes/common/NamedArguments.php';
-include_once '../admin/classes/common/Object.php';
-include_once '../admin/classes/common/DynamicObject.php';
-include_once '../admin/classes/common/Utility.php';
-include_once '../admin/classes/common/Configuration.php';
-include_once '../admin/classes/common/DBService.php';
-include_once '../admin/classes/common/DatabaseObject.php';
-include_once '../admin/classes/common/Email.php';
-include_once '../admin/classes/domain/Resource.php';
-include_once '../admin/classes/domain/ResourceType.php';
-include_once '../admin/classes/domain/AcquisitionType.php';
-include_once '../admin/classes/domain/ResourceFormat.php';
-include_once '../admin/classes/domain/NoteType.php';
-include_once '../admin/classes/domain/ResourceNote.php';
-include_once '../admin/classes/domain/ResourcePayment.php';
-include_once '../admin/classes/domain/AdministeringSite.php';
-include_once '../admin/classes/domain/ResourceAdministeringSiteLink.php';
-include_once '../admin/classes/domain/Status.php';
-include_once '../admin/classes/domain/User.php';
-include_once '../admin/classes/domain/Workflow.php';
-include_once '../admin/classes/domain/Step.php';
-include_once '../admin/classes/domain/ResourceStep.php';
-include_once '../admin/classes/domain/UserGroup.php';
-include_once '../admin/classes/domain/Fund.php';
+
+# We still need to manually include classes from other modules
+include_once '../../licensing/admin/classes/domain/License.php';
+include_once '../../licensing/admin/classes/domain/Document.php';
+include_once '../../licensing/admin/classes/domain/DocumentType.php';
+include_once '../../licensing/admin/classes/domain/Expression.php';
+include_once '../../licensing/admin/classes/domain/ExpressionNote.php';
+include_once '../../licensing/admin/classes/domain/ExpressionType.php';
+include_once '../../licensing/admin/classes/domain/Qualifier.php';
 
 if (!isAllowed()) {
     header('HTTP/1.0 403 Forbidden');
@@ -70,7 +55,7 @@ Flight::route('/proposeResource/', function(){
     $resource->mandatoryResource            = '';
     $resource->resourceID                   = null;
 
-    $fieldNames = array("titleText", "descriptionText", "providerText", "resourceURL", "resourceAltURL", "noteText", "resourceTypeID", "resourceFormatID", "acquisitionTypeID");
+    $fieldNames = array("titleText", "descriptionText", "providerText", "resourceURL", "resourceAltURL", "noteText", "resourceTypeID", "resourceFormatID");
     foreach ($fieldNames as $fieldName) {
         $resource->$fieldName = Flight::request()->data->$fieldName;
     }
@@ -79,12 +64,25 @@ Flight::route('/proposeResource/', function(){
         $resourceID = $resource->primaryKey;
         $resource = new Resource(new NamedArguments(array('primaryKey' => $resourceID)));
 
+		if (isset(Flight::request()->data->isbn)){
+		    $isbnIssnArray = (is_array(Flight::request()->data->isbn))? Flight::request()->data->isbn : array(Flight::request()->data->isbn);
+			$resource->setIsbnOrIssn($isbnIssnArray);
+		}
+
+		// Create the default order
+		$resourceAcquisition = new ResourceAcquisition();
+		$resourceAcquisition->resourceID = $resourceID;
+		$resourceAcquisition->subscriptionStartDate = date("Y-m-d");
+		$resourceAcquisition->subscriptionEndDate = date("Y-m-d");
+		$resourceAcquisition->acquisitionTypeID = Flight::request()->data->acquisitionTypeID;
+		$resourceAcquisition->save();
+
         //add administering site
         if (Flight::request()->data['administeringSiteID']) {
             foreach (Flight::request()->data['administeringSiteID'] as $administeringSiteID) {
                 $resourceAdministeringSiteLink = new ResourceAdministeringSiteLink();
                 $resourceAdministeringSiteLink->resourceAdministeringSiteLinkID = '';
-                $resourceAdministeringSiteLink->resourceID = $resourceID;
+                $resourceAdministeringSiteLink->resourceAcquisitionID = $resourceAcquisition->resourceAcquisitionID;
                 $resourceAdministeringSiteLink->administeringSiteID = $administeringSiteID;
                 try {
                     $resourceAdministeringSiteLink->save();
@@ -105,7 +103,7 @@ Flight::route('/proposeResource/', function(){
                 $resourceNote->updateDate       = date( 'Y-m-d' );
                 $resourceNote->noteTypeID       = $noteTypeID;
                 $resourceNote->tabName          = 'Product';
-                $resourceNote->resourceID       = $resourceID;
+                $resourceNote->entityID         = $resourceID;
                 $resourceNote->noteText         = Flight::request()->data[$key];
                 $resourceNote->save();
             }
@@ -113,8 +111,8 @@ Flight::route('/proposeResource/', function(){
 
         // General notes
         $noteText = '';
-        foreach (array("noteText" => "Note", "providerText" => "Provider", "publicationYear" => "Publication Year or order start date", "edition" => "Edition", "holdLocation" => "Hold location", "patronHold" => "Patron hold") as $key => $value) {
-            if (Flight::request()->data[$key]) {
+        foreach (array("noteText" => "Note", "providerText" => "Provider", "publicationYear" => "Publication Year or order start date", "edition" => "Edition", "holdLocation" => "Hold location", "patronHold" => "Patron hold", "neededByDate" => "Urgent") as $key => $value) {
+            if (isset(Flight::request()->data[$key])) {
                 $noteText .= $value . ": " . Flight::request()->data[$key] . "\n";
             }
 
@@ -128,7 +126,7 @@ Flight::route('/proposeResource/', function(){
             $resourceNote->updateDate       = date( 'Y-m-d' );
             $resourceNote->noteTypeID       = $noteTypeID;
             $resourceNote->tabName          = 'Product';
-            $resourceNote->resourceID       = $resourceID;
+            $resourceNote->entityID         = $resourceID;
             $resourceNote->noteText         = $noteText;
             $resourceNote->save();
         }
@@ -146,7 +144,7 @@ Flight::route('/proposeResource/', function(){
             $resourceNote->updateDate       = date( 'Y-m-d' );
             $resourceNote->noteTypeID       = $noteTypeID;
             $resourceNote->tabName          = 'Acquisitions';
-            $resourceNote->resourceID       = $resourceID;
+            $resourceNote->entityID         = $resourceAcquisition->resourceAcquisitionID;
             $resourceNote->noteText         = $noteText;
             $resourceNote->save();
         }
@@ -161,7 +159,7 @@ Flight::route('/proposeResource/', function(){
                 $resourceNote->updateDate       = date( 'Y-m-d' );
                 $resourceNote->noteTypeID       = $noteTypeID;
                 $resourceNote->tabName          = 'Product';
-                $resourceNote->resourceID       = $resourceID;
+                $resourceNote->entityID         = $resourceID;
                 $resourceNote->noteText         = $value . ": " . Flight::request()->data[$key];
                 $resourceNote->save();
             }
@@ -182,7 +180,7 @@ Flight::route('/proposeResource/', function(){
             $resourceNote->updateDate       = date( 'Y-m-d' );
             $resourceNote->noteTypeID       = $noteTypeID;
             $resourceNote->tabName          = 'Product';
-            $resourceNote->resourceID       = $resourceID;
+            $resourceNote->entityID         = $resourceID;
             $resourceNote->noteText         = $noteText;
             $resourceNote->save();
         }
@@ -198,7 +196,7 @@ Flight::route('/proposeResource/', function(){
             $rp->costDetailsID = '';
             $rp->costNote = '';
             $rp->invoiceNum = '';
-            $rp->resourceID = $resourceID;
+            $rp->resourceAcquisitionID = $resourceAcquisition->resourceAcquisitionID;
             $rp->paymentAmount = cost_to_integer(Flight::request()->data['cost']);
             $rp->currencyCode = 'USD';
             $rp->orderTypeID = 2;
@@ -225,7 +223,7 @@ Flight::route('/proposeResource/', function(){
         }
 
 
-      $resource->enterNewWorkflow();
+      $resourceAcquisition->enterNewWorkflow();
 
 
     } catch (Exception $e) {
@@ -283,6 +281,104 @@ Flight::route('/getAdministeringSite/@id', function($id) {
     Flight::json($as->shortName);
 });
 
+Flight::route('/getFundCodes/', function() {
+	$funds = new Fund();
+	$fundsArray = $funds->allAsArray();
+	Flight::json($fundsArray);
+});
+
+Flight::route('/getFund/@fundCode', function($fundCode) {
+	$fundObj = new Fund();
+	$fundID = $fundObj->getFundIDFromFundCode($fundCode);
+	$fund = new Fund(new NamedArguments(array('primaryKey' => $fundID)));
+	Flight::json($fund->shortName);
+});
+
+Flight::route('GET /resources/@id', function($id) {
+    $r = new Resource(new NamedArguments(array('primaryKey' => $id)));
+	Flight::json($r->asArray());
+
+});
+
+Flight::route('GET /resources/', function() {
+    $identifier = Flight::request()->query->identifier;
+    if ($identifier) {
+        $r = new Resource();
+        Flight::json(array_map(function($value) { return $value->asArray(); }, $r->getResourceByIsbnOrISSN($identifier)));
+    }
+});
+
+Flight::route('GET /resources/@id/packages', function($id) {
+    $r = new Resource(new NamedArguments(array('primaryKey' => $id)));
+	$parentResourceArray = array();
+	$parentResourceIDArray = array();
+	foreach ($r->getParentResources() as $instance) {
+	   foreach (array_keys($instance->attributeNames) as $attributeName) {
+			$sanitizedInstance[$attributeName] = $instance->$attributeName;
+		}
+		$sanitizedInstance[$instance->primaryKeyName] = $instance->primaryKey;
+		array_push($parentResourceIDArray, $sanitizedInstance);
+	}
+
+	foreach ($parentResourceIDArray as $parentResource){
+		$parentResourceObj = new Resource(new NamedArguments(array('primaryKey' => $parentResource['relatedResourceID'])));
+		array_push($parentResourceArray, $parentResourceObj->asArray());
+	}
+    Flight::json($parentResourceArray);
+});
+
+Flight::route('GET /resources/@id/titles', function($id) {
+    $r = new Resource(new NamedArguments(array('primaryKey' => $id)));
+	$childResourceArray = array();
+	$childResourceIDArray = array();
+	foreach ($r->getChildResources() as $instance) {
+	   foreach (array_keys($instance->attributeNames) as $attributeName) {
+			$sanitizedInstance[$attributeName] = $instance->$attributeName;
+		}
+		$sanitizedInstance[$instance->primaryKeyName] = $instance->primaryKey;
+		array_push($childResourceIDArray, $sanitizedInstance);
+	}
+
+	foreach ($childResourceIDArray as $childResource){
+		$childResourceObj = new Resource(new NamedArguments(array('primaryKey' => $childResource['resourceID'])));
+		array_push($childResourceArray, $childResourceObj->asArray());
+	}
+    Flight::json($childResourceArray);
+});
+
+Flight::route('GET /resources/@id/licenses', function($id) {
+    $db = DBService::getInstance();
+    $r = new Resource(new NamedArguments(array('primaryKey' => $id)));
+    $ras = $r->getResourceAcquisitions();
+    $licensesArray = array();
+    foreach ($ras as $ra) {
+        $rla = $ra->getLicenseArray();
+        $db->changeDb('licensingDatabaseName');
+        foreach($rla as $license) {
+            $l = new License(new NamedArguments(array('primaryKey' => $license['licenseID'])));
+            array_push($licensesArray, $l->asArray());
+        }
+        $db->changeDb();
+    }
+	Flight::json($licensesArray);
+});
+
+
+Flight::route('GET /organizations/@id', function($id) {
+    $config = new Configuration();
+    $db = DBService::getInstance();
+    if ($config->settings->organizationsModule == 'Y') {
+        include_once '../../organizations/admin/classes/domain/Organization.php';
+        $db->changeDb('organizationsDatabaseName');
+        $organization = new Organization(new NamedArguments(array('primaryKey' => $id)));
+        Flight::json($organization->asArray());
+        $db->changeDb();
+    } else {
+        include_once '../admin/classes/domain/Organization.php';
+        $organization = new Organization(new NamedArguments(array('primaryKey' => $id)));
+        Flight::json($organization->asArray());
+    }
+});
 
 Flight::start();
 

@@ -1,12 +1,19 @@
 <?php
+    $resourceAcquisitionID = isset($_GET['resourceAcquisitionID']) ? $_GET['resourceAcquisitionID'] : null;
 	$resourceID = $_GET['resourceID'];
+    $op = isset($_GET['op']) ? $_GET['op'] : null;
+	$resourceAcquisition = new ResourceAcquisition(new NamedArguments(array('primaryKey' => $resourceAcquisitionID)));
 	$resource = new Resource(new NamedArguments(array('primaryKey' => $resourceID)));
+    if ($resourceAcquisition->organizationID) {
+        $organization = $resourceAcquisition->getOrganization();
+        $organizationName = $organization['organization'];
+    }
 
 		//used to get default currency
 		$config = new Configuration();
 
-		$startDate = normalize_date($resource->currentStartDate);
-		$endDate = normalize_date($resource->currentEndDate);
+		$startDate = normalize_date($resourceAcquisition->subscriptionStartDate);
+		$endDate = normalize_date($resourceAcquisition->subscriptionEndDate);
 
 		//get all purchase sites for output in checkboxes
 		$purchaseSiteArray = array();
@@ -22,15 +29,17 @@
 		$sanitizedInstance = array();
 		$instance = new PurchaseSite();
 		$resourcePurchaseSiteArray = array();
-		foreach ($resource->getResourcePurchaseSites() as $instance) {
+		foreach ($resourceAcquisition->getPurchaseSites() as $instance) {
 			$resourcePurchaseSiteArray[] = $instance->purchaseSiteID;
 		}
 ?>
 		<div id='div_resourceForm'>
 		<form id='resourceForm'>
+		<input type='hidden' name='editResourceAcquisitionID' id='editResourceAcquisitionID' value='<?php echo $resourceAcquisitionID; ?>'>
 		<input type='hidden' name='editResourceID' id='editResourceID' value='<?php echo $resourceID; ?>'>
+		<input type='hidden' name='op' id='op' value='<?php echo $op; ?>'>
 
-		<div class='formTitle' style='width:420px; margin-bottom:5px;'><span class='headerText'><?php echo _("Edit Acquisitions Information");?></span></div>
+		<div class='formTitle' style='width:420px; margin-bottom:5px;'><span class='headerText'><?php echo ($op == 'clone') ? _("Clone Order") : _("Edit Order");?></span></div>
 
 		<span class='smallDarkRedText' id='span_errors'></span>
 
@@ -49,7 +58,7 @@
 				<option value=''></option>
 				<?php
 				foreach ($acquisitionTypeArray as $acquisitionType){
-					if (trim(strval($acquisitionType['acquisitionTypeID'])) == trim(strval($resource->acquisitionTypeID))){
+					if (trim(strval($acquisitionType['acquisitionTypeID'])) == trim(strval($resourceAcquisition->acquisitionTypeID))){
 						echo "<option value='" . $acquisitionType['acquisitionTypeID'] . "' selected>" . $acquisitionType['shortName'] . "</option>\n";
 					}else{
 						echo "<option value='" . $acquisitionType['acquisitionTypeID'] . "'>" . $acquisitionType['shortName'] . "</option>\n";
@@ -62,22 +71,30 @@
 
 				<tr>
 				<td style='vertical-align:top;text-align:left;font-weight:bold'><label for='orderNumber'><?php echo _("Order Number:");?></label></td>
-				<td><input type='text' id='orderNumber' name='orderNumber' value = '<?php echo $resource->orderNumber; ?>' style='width:95px;' class='changeInput' /></td>
+				<td><input type='text' id='orderNumber' name='orderNumber' value = '<?php echo $resourceAcquisition->orderNumber; ?>' style='width:95px;' class='changeInput' /></td>
 				</tr>
 
 				<tr>
 				<td style='vertical-align:top;text-align:left;font-weight:bold'><label for='systemNumber'><?php echo _("System Number:");?></label></td>
-				<td><input type='text' id='systemNumber' name='systemNumber' value = '<?php echo $resource->systemNumber; ?>' style='width:95px;' class='changeInput' /></td>
+				<td><input type='text' id='systemNumber' name='systemNumber' value = '<?php echo $resourceAcquisition->systemNumber; ?>' style='width:95px;' class='changeInput' /></td>
 				</tr>
 
 				<tr>
 				<td style='vertical-align:top;text-align:left;font-weight:bold'><label for='currentStartDate'><?php echo _("Sub Start:");?></label></td>
-				<td><input class='date-pick' id='currentStartDate' name='currentStartDate' value = '<?php echo $startDate; ?>' style='width:75px;' placeholder='mm/dd/yyyy' /></td>
+				<td><input class='date-pick' id='currentStartDate' name='currentStartDate' value = '<?php echo $startDate; ?>' style='width:75px;' /></td>
 				</tr>
 
 				<tr>
 				<td style='vertical-align:top;text-align:left;font-weight:bold'><label for='currentEndDate'><?php echo _("Current Sub End:");?></label></td>
-				<td><input class='date-pick' id='currentEndDate' name='currentEndDate' value = '<?php echo $endDate; ?>' style='width:75px;' placeholder='mm/dd/yyyy' />
+				<td><input class='date-pick' id='currentEndDate' name='currentEndDate' value = '<?php echo $endDate; ?>' style='width:75px;' />
+				</td>
+				</tr>
+
+                <tr>
+				<td style='vertical-align:top;text-align:left;font-weight:bold'><label for='organizationName'><?php echo _("Organization");?></label></td>
+				<td>
+                <input type='text' value='<?php if (isset($organizationName)) echo $organizationName; ?>' id="organizationName" class='changeAutocomplete organizationName' />
+                <input type='hidden' id="organizationID" class='organizationID' value = '<?php echo $resourceAcquisition->organizationID; ?>' />
 				</td>
 				</tr>
 
@@ -86,7 +103,7 @@
 				<td style='vertical-align:top;text-align:left;font-weight:bold'>&nbsp;</td>
 				<td>
 				<div class="checkboxes" style='text-align:left;'>
-					<label><input id='subscriptionAlertEnabledInd' type='checkbox' style='text-align:bottom' value='1' <?php if($resource->subscriptionAlertEnabledInd == 1) { echo "checked"; } ?> />&nbsp;<span><?php echo _("Enable Alert");?></span></label>
+					<label><input id='subscriptionAlertEnabledInd' type='checkbox' style='text-align:bottom' value='1' <?php if($resourceAcquisition->subscriptionAlertEnabledInd == 1) { echo "checked"; } ?> />&nbsp;<span><?php echo _("Enable Alert");?></span></label>
 				</div>
 				</td>
 				</tr>
@@ -104,8 +121,6 @@
 		</tr>
 		<tr>
 		<td>
-
-
 
 
 			<span class='surroundBoxTitle'>&nbsp;&nbsp;<label for='sitePurchaserID'><b><?php echo _("Purchasing Site(s)");?></b></label>&nbsp;&nbsp;</span>

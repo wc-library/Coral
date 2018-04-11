@@ -24,7 +24,15 @@ class Organization extends DatabaseObject {
 	protected function overridePrimaryKeyName() {}
 
 
-
+    public function asArray() {
+		$rarray = array();
+		foreach (array_keys($this->attributeNames) as $attributeName) {
+		if ($this->$attributeName != null) {
+			$rarray[$attributeName] = $this->$attributeName;
+			}
+		}
+		return $rarray;
+	}
 
 	//returns number of children for this particular contact role
 	public function getNumberOfChildren(){
@@ -48,6 +56,21 @@ class Organization extends DatabaseObject {
 		$result = $this->db->processQuery($query, 'assoc');
 		return $result['organizationID'];
   }
+
+    public function getOrganizationByEbscoKbId($ebscoKbId) {
+
+        $query = "SELECT organizationID
+			FROM Organization
+			WHERE ebscoKbID = $ebscoKbId
+			LIMIT 0,1";
+        $result = $this->db->processQuery($query, 'assoc');
+
+        if (isset($result['organizationID'])) {
+            return new Organization(new NamedArguments(array('primaryKey' => $result['organizationID'])));
+        } else {
+            return false;
+        }
+    }
 
 	public function getIssues($archivedOnly=false) {
 		$query = "SELECT i.*

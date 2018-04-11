@@ -60,7 +60,7 @@ include 'templates/header.php';
 				                echo "<br>"._("Invalid translation route!");
 				            }
 				            // Get language of navigator
-				            $defLang = substr($_SERVER["HTTP_ACCEPT_LANGUAGE"],0,5);
+				            $defLang = $lang_name->getBrowserLanguage();
 
 				            // Show an ordered list
 				            sort($lang);
@@ -101,7 +101,7 @@ include 'templates/header.php';
 <?php
 // get all reports for output in drop down
 
-$db = new DBService();
+$db = DBService::getInstance();
 foreach ( $db->query("SELECT reportID, reportName FROM Report ORDER BY 2, 1")->fetchRows(MYSQLI_ASSOC) as $report ){
 	echo "<option value='" . $report['reportID'] . "' ";
 	if (isset($report['reportID']) && isset($_GET['reportID']) && $report['reportID'] === $_GET['reportID']){

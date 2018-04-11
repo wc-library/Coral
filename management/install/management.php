@@ -23,7 +23,7 @@ function register_management_provider()
 								"path" => $protected_module_data["config_file_path"],
 							]
 						],
-						"function" => function($shared_module_info) use ($MODULE_VARS, $protected_module_data) {
+						"function" => function($shared_module_info) use ($MODULE_VARS, $protected_module_data, $version) {
 							$return = new stdClass();
 							$return->yield = new stdClass();
 							$return->success = true;
@@ -40,8 +40,7 @@ function register_management_provider()
 
 
 							// Process sql files
-							$sql_files_to_process = ["management/install/protected/test_create.sql", "management/install/protected/install.sql"];
-							$ret = $shared_module_info["provided"]["process_sql_files"]( $dbconnection, $sql_files_to_process, $MODULE_VARS["uid"] );
+                            $ret = $shared_module_info["provided"]["process_sql_files"]( $dbconnection, $version, $MODULE_VARS["uid"] );
 							if (!$ret["success"])
 							{
 								$return->success = false;
@@ -86,10 +85,9 @@ function register_management_provider()
 							$conf_data = parse_ini_file($protected_module_data["config_file_path"], true);
 
 							// Process sql files
-							$sql_files_to_process = ["management/install/protected/update_$version.sql"];
 							$db_name = $conf_data["database"]["name"];
 							$dbconnection = $shared_module_info["provided"]["get_db_connection"]( $db_name );
-							$ret = $shared_module_info["provided"]["process_sql_files"]( $dbconnection, $sql_files_to_process, $MODULE_VARS["uid"] );
+                            $ret = $shared_module_info["provided"]["process_sql_files"]( $dbconnection, $version, $MODULE_VARS["uid"] );
 							if (!$ret["success"])
 							{
 								$return->success = false;
@@ -100,6 +98,17 @@ function register_management_provider()
 							return $return;
 						}
 					];
+
+        case "3.0.0":
+            return [
+                "function" => function($shared_module_info) {
+                    $return = new stdClass();
+                    $return->yield = new stdClass();
+                    $return->success = true;
+                    $return->yield->title = _("Management Module");
+                    return $return;
+                }
+            ];
 
 
 				default:

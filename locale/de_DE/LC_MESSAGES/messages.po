@@ -1,0 +1,478 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Coral\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-03-27 16:12+0200\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Abteilung: BSZ - Abteilung Bibliothekssysteme\n"
+"Language: de_DE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 2.0.4\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+
+#: index.php:54
+msgid "eRM"
+msgstr "eRM"
+
+#: index.php:54
+msgid "eResource Management"
+msgstr "E-Ressourcen-Management"
+
+#: index.php:55
+msgid "Change language:"
+msgstr "Sprache ändern:"
+
+#: index.php:71
+msgid "Invalid translation route!"
+msgstr "Ungültige Übersetzung!"
+
+#: index.php:101
+msgid "Resources"
+msgstr "Ressourcen"
+
+#: index.php:101
+msgid "Licensing"
+msgstr "Lizenzen"
+
+#: index.php:101
+msgid "Organizations"
+msgstr "Organisationen"
+
+#: index.php:101
+msgid "Usage Statistics"
+msgstr "Nutzungsstatistik"
+
+#: index.php:101
+msgid "Management"
+msgstr "Management"
+
+#: index.php:132
+msgid "Powered by"
+msgstr "Powered by"
+
+#~ msgid "Users"
+#~ msgstr "Nutzer"
+
+#~ msgid "Processing..."
+#~ msgstr "Läd..."
+
+#~ msgid "Do you really want to delete this user?"
+#~ msgstr "Möchten Sie diesen Nutzer wirklich löschen?"
+
+#~ msgid "Refreshing Contents..."
+#~ msgstr "Inhalte aktuaisieren..."
+
+#~ msgid "remove"
+#~ msgstr "Löschen"
+
+#~ msgid " not set up!"
+#~ msgstr " nicht konfiguriert!"
+
+#~ msgid "cancel"
+#~ msgstr "Abbrechen"
+
+#~ msgid "Administration"
+#~ msgstr "Administration"
+
+#~ msgid "Loading..."
+#~ msgstr "Läd..."
+
+#~ msgid " record)"
+#~ msgstr " Datensatz)"
+
+#~ msgid " records)"
+#~ msgstr " Datensätze)"
+
+#~ msgid "Do you really want to delete this data?"
+#~ msgstr "Möchten Sie diese Daten wirklich löschen?"
+
+#~ msgid "The file has been successfully uploaded."
+#~ msgstr "Die Datei wurde erfolgreich hochgeladen."
+
+#~ msgid "Unable to upload the file"
+#~ msgstr "Upload der Datei ist nicht möglich"
+
+#~ msgid "Error: "
+#~ msgstr "Fehler: "
+
+#~ msgid "File selection"
+#~ msgstr "Dateiauswahl"
+
+#~ msgid "Import options"
+#~ msgstr "Importoptionen"
+
+#~ msgid "Upload"
+#~ msgstr "Upload"
+
+#~ msgid "edit"
+#~ msgstr "Bearbeiten"
+
+#~ msgid "Name"
+#~ msgstr "Name"
+
+#~ msgid "Status"
+#~ msgstr "Status"
+
+#~ msgid "(none)"
+#~ msgstr "(keine)"
+
+#~ msgid "Note Type"
+#~ msgstr "Art der Notiz"
+
+#~ msgid "Resources Module"
+#~ msgstr "Resourcenmodul"
+
+#~ msgid "Search"
+#~ msgstr "Suche"
+
+#~ msgid "new search"
+#~ msgstr "Neue Suche"
+
+#~ msgid "Name (contains)"
+#~ msgstr "Name (enthält)"
+
+#~ msgid "go!"
+#~ msgstr "Los!"
+
+#~ msgid "All"
+#~ msgstr "Alle"
+
+#~ msgid "Starts with"
+#~ msgstr "Beginnt mit"
+
+#~ msgid "Organization Role"
+#~ msgstr "Rolle der Organisation"
+
+#~ msgid "Contact Role"
+#~ msgstr "Rolle des Kontakts"
+
+#~ msgid "Alias Type"
+#~ msgstr "Art des Alias"
+
+#~ msgid "External Login Type"
+#~ msgstr "Art des externen Logins"
+
+#~ msgid "You do not have permissions to access this screen."
+#~ msgstr "Sie haben keine Berechtigung auf diese Seite zuzugreifen."
+
+#~ msgid "Must set a date."
+#~ msgstr "Es muss ein Datum ausgewählt werden."
+
+#~ msgid "Must set an end date."
+#~ msgstr "Es muss ein Enddatum ausgewählt werden."
+
+#~ msgid "New contact must have a name."
+#~ msgstr "Der neue Kontakt muss einen Namen haben."
+
+#~ msgid "CC must be a valid email."
+#~ msgstr "CC muss eine gültige E-Mail-Adresse sein."
+
+#~ msgid "Role(s):"
+#~ msgstr "Rolle(n):"
+
+#~ msgid "Organization Name"
+#~ msgstr "Name der Organisation"
+
+#~ msgid "User successfully saved."
+#~ msgstr "Nutzer erfolgreich gespeichert."
+
+#~ msgid "Add Contact"
+#~ msgstr "Neuer Kontakt"
+
+#~ msgid "Login Type:"
+#~ msgstr " Art des Logins:"
+
+#~ msgid "Print View"
+#~ msgstr "Printansicht"
+
+#~ msgid "Settings"
+#~ msgstr "Einstellungen"
+
+#~ msgid "Importing and deduping isbnOrISSN on the following columns: "
+#~ msgstr "Import oder Deduplizierung"
+
+#~ msgid "Resources import"
+#~ msgstr "Resourcen importieren"
+
+#~ msgid "Delimited File Import"
+#~ msgstr "CSV-Dateien importieren"
+
+#~ msgid "Unable to get columns headers from the file"
+#~ msgstr "Keine Spaltenüberschriften in der Datei gefunden"
+
+#~ msgid "Unable to open the uploaded file"
+#~ msgstr "Nicht möglich die hochgeladene Datei zu öffnen"
+
+#~ msgid "Please select the import configuration to load: "
+#~ msgstr "Bitte wählen Sie Importkonfiguration für das Laden: "
+
+#~ msgid "Select Configuration"
+#~ msgstr "Konfiguration auswählen"
+
+#~ msgid "Please choose columns from your CSV file:"
+#~ msgstr "Spalten in der CSV-Datei auswählen:"
+
+#~ msgid "Organization "
+#~ msgstr "Organisation"
+
+#~ msgid " could not be added."
+#~ msgstr "konnte nicht hinzugefügt werden."
+
+#~ msgid "Error: more than one organization is called "
+#~ msgstr "Fehler: Mehr als eine Organisation wird aufgerufen "
+
+#~ msgid ". Please consider deduping."
+#~ msgstr ". Bitte erwägen Sie zu deduplizieren."
+
+#~ msgid "Results"
+#~ msgstr "Treffer"
+
+#~ msgid "CSV File"
+#~ msgstr "CSV-Datei"
+
+#~ msgid "CSV delimiter"
+#~ msgstr "CSV-Trennzeichen"
+
+#~ msgid "(comma)"
+#~ msgstr "(Komma)"
+
+#~ msgid "(semicolon)"
+#~ msgstr "(Semikolon)"
+
+# ?
+#~ msgid "(pipe)"
+#~ msgstr "(Pipe)"
+
+#~ msgid "Resources Database"
+#~ msgstr "Resourcedatenbank"
+
+#~ msgid "Default Currency"
+#~ msgstr "Standard-Währung"
+
+#~ msgid "Enable Alerts"
+#~ msgstr "Warnungen aktivieren"
+
+#~ msgid "Catalog URL"
+#~ msgstr "Katalog-URL"
+
+#~ msgid "Feedback Email Address"
+#~ msgstr "E-Mail-Adresse für Feedback"
+
+#~ msgid "Please set up the following options for the resources module."
+#~ msgstr "Bitte konfigurieren Sie die folgenden Optionen für das Resourcenmodul."
+
+#~ msgid "rows have been processed."
+#~ msgstr "Zeilen wurden verarbeitet."
+
+#~ msgid "Import Funds"
+#~ msgstr "Konten importieren"
+
+#~ msgid "Select File"
+#~ msgstr "Datei auswählen"
+
+#~ msgid "import"
+#~ msgstr "Importieren"
+
+#~ msgid "Workflow / User Group"
+#~ msgstr "Workflow / Nutzergruppe"
+
+#~ msgid "Access Method"
+#~ msgstr "Zugriffsmethode"
+
+#~ msgid "Acquisition Type"
+#~ msgstr "Erwerbungsart"
+
+#~ msgid "Administering Site"
+#~ msgstr "Verwaltender Standort"
+
+#~ msgid "Alert Settings"
+#~ msgstr "Einstellungen für Warnungen"
+
+#~ msgid "Attachment Type"
+#~ msgstr "Art des Anhangs"
+
+#~ msgid "Authentication Type"
+#~ msgstr "Art der Authentifizierung"
+
+#~ msgid "Authorized Site"
+#~ msgstr "Zugriffsberechtigte Standorte"
+
+#~ msgid "Cataloging Status"
+#~ msgstr "Katalogisierungsstatus"
+
+#~ msgid "Cataloging Type"
+#~ msgstr "Art der Katalogisierung"
+
+#~ msgid "Cost Details"
+#~ msgstr "Kostendetails"
+
+#~ msgid "Currency"
+#~ msgstr "Währung"
+
+#~ msgid "Downtime Type"
+#~ msgstr "Art des Ausfalls"
+
+#~ msgid "Funds"
+#~ msgstr "Konten"
+
+#~ msgid "Import Configuration"
+#~ msgstr "Importkonfiguration"
+
+#~ msgid "License Status"
+#~ msgstr "Status der Lizenzierung"
+
+#~ msgid "Order Type"
+#~ msgstr "Bestelltyp"
+
+#~ msgid "Purchasing Site"
+#~ msgstr "Erwerbender Standort"
+
+#~ msgid "Resource Format"
+#~ msgstr "Format der Resource"
+
+#~ msgid "Resource Type"
+#~ msgstr "Art der Resource"
+
+#~ msgid "Storage Location"
+#~ msgstr "Aufbewahrungsort"
+
+#~ msgid "Subjects"
+#~ msgstr "Schlagwörter"
+
+#~ msgid "User Limit"
+#~ msgstr "Nutzerbegrenzung"
+
+#~ msgid "Refreshing..."
+#~ msgstr "Aktualisiert..."
+
+# request?
+#~ msgid "Do you really want to delete this request?"
+#~ msgstr "Möchten Sie diese Anfrage wirklich löschen?"
+
+#~ msgid "Number of days must be a number"
+#~ msgstr "Anzahl Tage muss eine Zahl sein"
+
+#~ msgid "Number of days should be between 1 and 365"
+#~ msgstr "Anzahl der Tage sollte zwischen 1 und 365 liegen"
+
+#~ msgid "Do you really want to remove this data?"
+#~ msgstr "Möchten Sie diese Daten wirklich löschen?"
+
+#~ msgid "Do you really want to remove this alert setting?"
+#~ msgstr "Möchten Sie diese Einstellung für Warnungen wirklich löschen?"
+
+#~ msgid "Do you really want to delete this currency?"
+#~ msgstr "Möchten Sie diese Währung wirklich löschen?"
+
+#~ msgid "more options..."
+#~ msgstr "weitere Optionen..."
+
+#~ msgid "Data action "
+#~ msgstr " Datenaktion"
+
+#~ msgid "ISBN/ISSN"
+#~ msgstr "ISBN/ISSN"
+
+#~ msgid "Fund"
+#~ msgstr "Konto"
+
+#~ msgid "Creator"
+#~ msgstr "Erzeuger"
+
+#~ msgid "General Subject"
+#~ msgstr "Allgemeines Schlagwort"
+
+#~ msgid "Detailed Subject"
+#~ msgstr "Detailliertes Schlagwort"
+
+#~ msgid "Note (contains)"
+#~ msgstr "Notiz (enthält)"
+
+#~ msgid "Date Created Between"
+#~ msgstr " "
+
+#~ msgid "and"
+#~ msgstr "und"
+
+#~ msgid "Purchase Site"
+#~ msgstr "Erwerbender Standort"
+
+#~ msgid "Workflow Step"
+#~ msgstr "Workflow-Schritt"
+
+#~ msgid "Code"
+#~ msgstr "Code"
+
+#~ msgid "add new currency"
+#~ msgstr "Neue Währung hinzufügen"
+
+#~ msgid "Catalog View"
+#~ msgstr "Katalogansicht"
+
+#~ msgid "Edit Currency"
+#~ msgstr "Währung bearbeiten"
+
+#~ msgid "Add Currency"
+#~ msgstr "Neue Währung"
+
+#~ msgid "Edit Contact"
+#~ msgstr "Kontakt bearbeiten"
+
+#~ msgid "Edit Account"
+#~ msgstr "Konto bearbeiten"
+
+#~ msgid "Add Account"
+#~ msgstr " Konto hinzufügen"
+
+#~ msgid " is due"
+#~ msgstr " ist fällig"
+
+#~ msgid "Alerts not enabled in configuration.ini file"
+#~ msgstr " Warnungen wurden in der configuration.ini nicht aktiviert"
+
+#~ msgid "A duplicate "
+#~ msgstr " Eine Dublette "
+
+#~ msgid " exists."
+#~ msgstr " existiert."
+
+#~ msgid "Import configuration successfully deleted."
+#~ msgstr "Importkonfiguration erfolgreich gelöscht."
+
+#~ msgid "There was a problem saving your file to "
+#~ msgstr "Es ist ein Problem aufgetreten beim Versuch Ihre Datei hier zu speichern:"
+
+#~ msgid ".  Please ensure your attachments directory is writable."
+#~ msgstr ". Bitte prüfen Sie, ob Ihr Verzeichnis für Anhänge beschreibbar ist."
+
+#~ msgid " rows have been processed. "
+#~ msgstr "Zeilen wurden verarbeitet. "
+
+#~ msgid " rows have been inserted."
+#~ msgstr "Zeilen wurden eingefügt."
+
+#~ msgid " organizations have been created"
+#~ msgstr "Organisationen wurden hinzugefügt"
+
+#~ msgid " resources have been attached to an existing organization."
+#~ msgstr " Ressourcen wurden an eine existierende Organisation angehängt."
+
+#~ msgid " resource types have been created"
+#~ msgstr " Resourcetypen wurden angelegt"
+
+#~ msgid " resource formats have been created"
+#~ msgstr " Formate für Ressourcen wurden angelegt"
+
+# Subjects? Schlagwörter? Themen?
+#~ msgid " general subjects have been created"
+#~ msgstr " allgemeine Schlagwörter wurden angelegt"
+
+#~ msgid " aliases have been created"
+#~ msgstr " Aliase wurden angelegt"
+
+#~ msgid " notes have been created"
+#~ msgstr " Notizen wurden angelegt"

@@ -24,8 +24,6 @@
 
 		$resource->resourceTypeID 		= $_POST['resourceTypeID'];
 		$resource->resourceFormatID 	= $_POST['resourceFormatID'];
-		$resource->acquisitionTypeID 	= $_POST['acquisitionTypeID'];
-
 		$resource->titleText 			= $_POST['titleText'];
 		$resource->descriptionText 		= $_POST['descriptionText'];
 		$resource->isbnOrISSN	 		= [];
@@ -57,6 +55,17 @@
 			echo $resource->primaryKey;
 			$resourceID=$resource->primaryKey;
 
+            // Create the default order
+            //first, remove existing order in case this was saved before
+            $resource->removeResourceAcquisitions();
+
+            $resourceAcquisition = new ResourceAcquisition();
+            $resourceAcquisition->resourceID = $resourceID;
+			$resourceAcquisition->acquisitionTypeID = $_POST['acquisitionTypeID'];
+			$resourceAcquisition->subscriptionStartDate = date("Y-m-d");
+            $resourceAcquisition->subscriptionEndDate = date("Y-m-d");
+            $resourceAcquisition->save();
+
 			//get the provider ID in case we insert what was entered in the provider text box as an organization link
 			$organizationRole = new OrganizationRole();
 			$organizationRoleID = $organizationRole->getProviderID();
@@ -75,7 +84,7 @@
 				$resourceNote->updateDate		= date( 'Y-m-d' );
 				$resourceNote->noteTypeID 		= $noteType->getInitialNoteTypeID();
 				$resourceNote->tabName 			= 'Product';
-				$resourceNote->resourceID 		= $resourceID;
+				$resourceNote->entityID 		= $resourceID;
 
 				//only insert provider as note if it's been submitted
 				if (($_POST['providerText']) && (!$_POST['organizationID']) && ($_POST['resourceStatus'] == 'progress')){
@@ -111,6 +120,8 @@
 			$costNoteArray      = array();  $costNoteArray      = explode(':::',$_POST['costNotes']);
 			$invoiceArray       = array();  $invoiceArray       = explode(':::',$_POST['invoices']);
 
+            // Is this really needed ?
+/*
 			//first remove all payment records, then we'll add them back
 			$resource->removeResourcePayments();
 
@@ -135,12 +146,12 @@
 					}
 				}
 			}
-
+*/
 
 
 			//next if the resource was submitted, enter into workflow
 			if ($statusID == $status->getIDFromName('progress')){
-				$resource->enterNewWorkflow();
+				$resourceAcquisition->enterNewWorkflow();
 			}
 
 

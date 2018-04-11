@@ -1,9 +1,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: messages\n"
-"POT-Creation-Date: 2016-10-04 09:23-0600\n"
-"PO-Revision-Date: 2016-10-16 20:18-0600\n"
-"Last-Translator: <>\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-03-12 11:30+0100\n"
+"PO-Revision-Date: 2018-03-13 12:00+0100\n"
+"Last-Translator: Paul Poulain <paul.poulain@biblibre.com>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "Language: fr_FR\n"
 "MIME-Version: 1.0\n"
@@ -12,62 +13,13 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Poedit-Basepath: ../../..\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.8.10\n"
+"X-Generator: Poedit 1.8.7.1\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: js/plugins/jquery.js\n"
 
 #: js/index.js:21
 msgid "Refreshing Contents..."
 msgstr "Rechargement des contenus..."
-
-#: admin/classes/domain/ReportNotes.php:53
-msgid "Platform Interface Notes (if available)"
-msgstr "Notes de l'interface de la plateforme (si disponible)"
-
-#: admin/classes/domain/ReportNotes.php:54
-msgid "Publisher Notes (if available)"
-msgstr "Notes de l'éditeur (si disponible)"
-
-#: admin/classes/domain/ReportTable.php:109
-msgid "Sorry, no rows were returned."
-msgstr "Désolé, aucune rangée dans les résultats."
-
-#: admin/classes/domain/ReportTable.php:183
-#: admin/classes/domain/ReportTable.php:185
-msgid "view related titles"
-msgstr "Voir les titres connexes"
-
-#: admin/classes/domain/ReportTable.php:190
-msgid "view in link resolver"
-msgstr "Afficher dans le résolveur de liens"
-
-#: index.php:38 report.php:117
-msgid "Usage Reports"
-msgstr "Rapports d'utilisation"
-
-#: index.php:41 report.php:120
-msgid "Powered by"
-msgstr "Alimenté par"
-
-#: index.php:60
-msgid "Invalid translation route!"
-msgstr "Chemin d'accès aux traductions invalide !"
-
-#: index.php:87
-msgid "Help"
-msgstr "Aide"
-
-#: index.php:97
-msgid "Select Report"
-msgstr "Sélectionnez un rapport"
-
-#: index.php:147
-msgid "Submit"
-msgstr "Envoyer"
-
-#: index.php:148
-msgid "Reset"
-msgstr "Réinitialiser"
 
 #: popup.php:66
 msgid "Frequently Asked Questions"
@@ -143,6 +95,79 @@ msgstr ""
 #: popup.php:85
 msgid "Invalid type!!"
 msgstr "Type non-valide !!"
+
+#: templates/header.php:72
+msgid ""
+"JavaScript must be enabled in order for you to use CORAL. However, it seems "
+"JavaScript is either disabled or not supported by your browser. To use "
+"CORAL, enable JavaScript by changing your browser options, then"
+msgstr ""
+"JavaScript doit être activé pour utiliser CORAL. Cepandant, il semble que "
+"JavaScript soit désactivé ou n'est pas supporté par votre navigateur web. "
+"Pour utiliser CORAL, activez JavaScript en modifiant les options de votre "
+"navigateur, puis"
+
+#: templates/header.php:72
+msgid "try again"
+msgstr "réessayez"
+
+#: index.php:38 report.php:117
+msgid "Usage Reports"
+msgstr "Rapports d'utilisation"
+
+#: index.php:41 report.php:120
+msgid "Powered by"
+msgstr "Alimenté par"
+
+#: index.php:60
+msgid "Invalid translation route!"
+msgstr "Chemin d'accès aux traductions invalide !"
+
+#: index.php:87
+msgid "Help"
+msgstr "Aide"
+
+#: index.php:97
+msgid "Select Report"
+msgstr "Sélectionnez un rapport"
+
+#: index.php:147
+msgid "Submit"
+msgstr "Envoyer"
+
+#: index.php:148
+msgid "Reset"
+msgstr "Réinitialiser"
+
+#: admin/classes/domain/ReportNotes.php:53
+msgid "Platform Interface Notes (if available)"
+msgstr "Notes de l'interface de la plateforme (si disponible)"
+
+#: admin/classes/domain/ReportNotes.php:54
+msgid "Publisher Notes (if available)"
+msgstr "Notes de l'éditeur (si disponible)"
+
+#: admin/classes/domain/ReportTable.php:109
+msgid "Sorry, no rows were returned."
+msgstr "Désolé, aucune rangée dans les résultats."
+
+#: admin/classes/domain/ReportTable.php:183
+#: admin/classes/domain/ReportTable.php:185
+msgid "view related titles"
+msgstr "Voir les titres connexes"
+
+#: admin/classes/domain/ReportTable.php:190
+msgid "view in link resolver"
+msgstr "Afficher dans le résolveur de liens"
+
+#: install/reports.php:9 install/reports.php:30 install/reports.php:94
+#: install/reports.php:105
+msgid "Reports Module"
+msgstr "Module rapports"
+
+#: install/reports.php:19
+msgid "Reports Database"
+msgstr "Base de données Rapports"
 
 #: report.php:74
 msgid "CORAL Usage Statistics Reporting"
@@ -231,21 +256,6 @@ msgstr ""
 #: report.php:305 report.php:327
 msgid "Color Background Key"
 msgstr "Légende des couleurs en arrière-plan"
-
-#: templates/header.php:72
-msgid ""
-"JavaScript must be enabled in order for you to use CORAL. However, it seems "
-"JavaScript is either disabled or not supported by your browser. To use "
-"CORAL, enable JavaScript by changing your browser options, then"
-msgstr ""
-"JavaScript doit être activé pour utiliser CORAL. Cepandant, il semble que "
-"JavaScript soit désactivé ou n'est pas supporté par votre navigateur web. "
-"Pour utiliser CORAL, activez JavaScript en modifiant les options de votre "
-"navigateur, puis"
-
-#: templates/header.php:72
-msgid "try again"
-msgstr "réessayez"
 
 #~ msgid ""
 #~ "Programmatically flagged as outlier using the following formula: Count is "

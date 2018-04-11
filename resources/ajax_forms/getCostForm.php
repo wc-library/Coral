@@ -2,6 +2,10 @@
 $resourceID = $_GET['resourceID'];
 $resource = new Resource(new NamedArguments(array('primaryKey' => $resourceID)));
 
+$resourceAcquisitionID = $_GET['resourceAcquisitionID'];
+$resourceAcquisition = new ResourceAcquisition(new NamedArguments(array('primaryKey' => $resourceAcquisitionID)));
+
+
 //used to get default currency
 $config = new Configuration();
 $enhancedCostFlag = ($config->settings->enhancedCostHistory == 'Y') ? 1 : 0;
@@ -25,7 +29,7 @@ $costDetailsArray = $costDetailsObj->allAsArray();
 $sanitizedInstance = array();
 $instance = new ResourcePayment();
 $paymentArray = array();
-foreach ($resource->getResourcePayments() as $instance)
+foreach ($resourceAcquisition->getResourcePayments() as $instance)
 {
 	foreach (array_keys($instance->attributeNames) as $attributeName)
 	{
@@ -48,6 +52,7 @@ if ($enhancedCostFlag){
 		<div id='div_resourceForm'>
 		<form id='resourceForm'>
 		<input type='hidden' name='editResourceID' id='editResourceID' value='<?php echo $resourceID; ?>'>
+		<input type='hidden' name='editResourceAcquisitionID' id='editResourceAcquisitionID' value='<?php echo $resourceAcquisitionID; ?>'>
 
 		<div class='formTitle' style='width:<?php echo $baseWidth + 46 ?>px; margin-bottom:5px;'><span class='headerText'><?php echo _("Edit Cost Information");?></span></div>
 
@@ -209,10 +214,10 @@ if ($enhancedCostFlag){
 									<input type='text' value='<?php echo $payment['year']; ?>' class='changeInput year costHistoryYear' />
 								</td>
 								<td>
-									<input type='text' value='<?php echo normalize_date($payment['subscriptionStartDate']); ?>' class='date-pick changeInput subscriptionStartDate costHistorySubStart' placeholder="mm/dd/yyyy" />
+									<input type='text' value='<?php echo normalize_date($payment['subscriptionStartDate']); ?>' class='date-pick changeInput subscriptionStartDate costHistorySubStart' />
 								</td>
 								<td>
-									<input type='text' value='<?php echo normalize_date($payment['subscriptionEndDate']); ?>' class='date-pick changeInput subscriptionEndDate costHistorySubEnd' placeholder="mm/dd/yyyy" />
+									<input type='text' value='<?php echo normalize_date($payment['subscriptionEndDate']); ?>' class='date-pick changeInput subscriptionEndDate costHistorySubEnd' />
 								</td>
 								<?php } ?>
 								<td>

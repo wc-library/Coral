@@ -18,7 +18,6 @@
 */
 
 
-session_start();
 
 include_once 'directory.php';
 
@@ -30,8 +29,11 @@ include 'templates/header.php';
 //except we don't want it to retain if they press the 'index' button
 //check what referring script is
 
-if ($_SESSION['ref_script'] != "orgDetail.php"){
+if (isset($_SESSION['ref_script']) && $_SESSION['ref_script'] != "orgDetail.php") {
 	$reset='Y';
+}
+else {
+  $reset = 'N';
 }
 
 $_SESSION['ref_script']=$currentPage;
@@ -56,8 +58,8 @@ $_SESSION['ref_script']=$currentPage;
 	<tr>
 	<td class='searchRow'><label for='searchName'><b><?php echo _("Name (contains)");?></b></label>
 	<br />
-	<input type='text' name='searchOrganizationName' id='searchOrganizationName' style='width:145px' value="<?php if ($reset != 'Y') echo $_SESSION['org_organizationName']; ?>" /><br />
-	<div id='div_searchName' style='<?php if ((!$_SESSION['org_organizationName']) || ($reset == 'Y')) echo "display:none;"; ?>margin-left:123px;'><input type='button' name='btn_searchOrganizationName' value='<?php echo _("go!");?>' class='searchButton' /></div>
+	<input type='text' name='searchOrganizationName' id='searchOrganizationName' style='width:145px' value="<?php if ($reset != 'Y' && isset($_SESSION['org_organizationName'])) echo $_SESSION['org_organizationName']; ?>" /><br />
+	<div id='div_searchName' style='<?php if ((!isset($_SESSION['org_organizationName'])) || ($reset == 'Y')) echo "display:none;"; ?>margin-left:123px;'><input type='button' name='btn_searchOrganizationName' value='<?php echo _("go!");?>' class='searchButton' /></div>
 	</td>
 	</tr>
 
@@ -73,12 +75,11 @@ $_SESSION['ref_script']=$currentPage;
 		$organizationRole = new OrganizationRole();
 
 		foreach($organizationRole->allAsArray() as $display) {
-			if (($_SESSION['org_organizationRoleID'] == $display['organizationRoleID']) && ($reset != 'Y')){
+			if ((isset($_SESSION['org_organizationRoleID'])) && ($_SESSION['org_organizationRoleID'] == $display['organizationRoleID']) && ($reset != 'Y')) {
 				echo "<option value='" . $display['organizationRoleID'] . "' selected>" . $display['shortName'] . "</option>";
 			}else{
 				echo "<option value='" . $display['organizationRoleID'] . "'>" . $display['shortName'] . "</option>";
 			}
-			if ($letter == "N") echo "<br />";
 		}
 
 	?>
@@ -90,8 +91,8 @@ $_SESSION['ref_script']=$currentPage;
 	<tr>
 	<td class='searchRow'><label for='searchContact'><b><?php echo _("Contact Name (contains)");?></b></label>
 	<br />
-	<input type='text' name='searchContactName' id='searchContactName' style='width:145px' value="<?php if ($reset != 'Y') echo $_SESSION['org_contactName']; ?>" /><br />
-	<div id='div_searchContact' style='<?php if ((!$_SESSION['org_contactName']) || ($reset == 'Y')) echo "display:none;"; ?>margin-left:123px;'><input type='button' name='btn_searchContactName' value='<?php echo _("go!");?>' class='searchButton' /></div>
+	<input type='text' name='searchContactName' id='searchContactName' style='width:145px' value="<?php if ($reset != 'Y' && isset($_SESSION['org_contactName'])) echo $_SESSION['org_contactName']; ?>" /><br />
+	<div id='div_searchContact' style='<?php if ((!isset($_SESSION['org_contactName'])) || ($reset == 'Y')) echo "display:none;"; ?>margin-left:123px;'><input type='button' name='btn_searchContactName' value='<?php echo _("go!");?>' class='searchButton' /></div>
 	</td>
 	</tr>
 
@@ -111,6 +112,7 @@ $_SESSION['ref_script']=$currentPage;
 			if ($letter == "N") echo "<br />";
 		}else{
 			echo "<span class='searchLetter'>" . $letter . "</span>";
+			if ($letter == "N") echo "<br />";
 		}
 	}
 
@@ -135,20 +137,20 @@ $_SESSION['ref_script']=$currentPage;
 <?php
   //used to default to previously selected values when back button is pressed
   //if the startWith is defined set it so that it will default to the first letter picked
-  if (($_SESSION['org_startWith']) && ($reset != 'Y')){
+  if ((isset($_SESSION['org_startWith'])) && ($reset != 'Y')){
 	  echo "startWith = '" . $_SESSION['org_startWith'] . "';";
 	  echo "$(\"#span_letter_" . $_SESSION['org_startWith'] . "\").removeClass('searchLetter').addClass('searchLetterSelected');";
   }
 
-  if (($_SESSION['org_pageStart']) && ($reset != 'Y')){
+  if ((isset($_SESSION['org_pageStart'])) && ($reset != 'Y')){
 	  echo "pageStart = '" . $_SESSION['org_pageStart'] . "';";
   }
 
-  if (($_SESSION['org_numberOfRecords']) && ($reset != 'Y')){
+  if ((isset($_SESSION['org_numberOfRecords'])) && ($reset != 'Y')){
 	  echo "numberOfRecords = '" . $_SESSION['org_numberOfRecords'] . "';";
   }
 
-  if (($_SESSION['org_orderBy']) && ($reset != 'Y')){
+  if ((isset($_SESSION['org_orderBy'])) && ($reset != 'Y')){
 	  echo "orderBy = \"" . $_SESSION['org_orderBy'] . "\";";
   }
 

@@ -36,6 +36,9 @@ class YearlyUsageSummary extends DatabaseObject {
 		$this->addAttribute('overrideTotalCount');
 		$this->addAttribute('overrideHTMLCount');
 		$this->addAttribute('overridePDFCount');
+        $this->addAttribute('mergeInd');
+        $this->addAttribute('activityType');
+        $this->addAttribute('sectionType');
 	}
 
 }

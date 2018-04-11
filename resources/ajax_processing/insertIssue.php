@@ -5,9 +5,11 @@ $contactIDs = $_POST['contactIDs'];
 $organizationID = $_POST['organizationID'];
 
 $sourceResourceID = $_POST['sourceResourceID'];
+$sourceResourceAcquisitionID = $_POST['sourceResourceAcquisitionID'];
 $sourceOrganizationID = $_POST['sourceOrganizationID'];
 
-$sourceResource = new Resource(new NamedArguments(array('primaryKey' => $sourceResourceID)));
+$sourceResource = new Resource(new NamedArguments(array('primaryKey' => $sourceResourceID))); 
+$sourceResourceAcquisition = new ResourceAcquisition(new NamedArguments(array('primaryKey' => $sourceResourceAcquisitionID))); 
 
 
 $issueEmails = array();
@@ -42,6 +44,7 @@ if ($organizationID) {
 	$newIssueRelationship = new IssueRelationship();
 	$newIssueRelationship->issueID = $newIssue->primaryKey;
 	$newIssueRelationship->entityID = $organizationID;
+    $newIssueRelationship->resourceAcquisitionID = $sourceResourceAcquisitionID;
 	$newIssueRelationship->entityTypeID = 1;
 	$newIssueRelationship->save();
 
@@ -58,6 +61,7 @@ if ($organizationID) {
 		$newIssueRelationship = new IssueRelationship();
 		$newIssueRelationship->issueID = $newIssue->primaryKey;
 		$newIssueRelationship->entityID = $resourceID;
+		$newIssueRelationship->resourceAcquisitionID = $sourceResourceAcquisitionID;
 		$newIssueRelationship->entityTypeID = 2;
 		$newIssueRelationship->save();
 		unset($newIssueRelationship);
@@ -83,12 +87,12 @@ if (count($contactIDs)) {
 		unset($newIssueContact);
 	}
 
-	$organizationContactsArray = $sourceResource->organizationContactsArray($sourceOrganizationID);
+	$organizationContactsArray = $sourceResourceAcquisition->getUnarchivedContacts();
 
 	//send emails to contacts
 	foreach ($organizationContactsArray as $contactData) {
 		if (in_array($contactData['contactID'],$contactIDs)) {
-			mail($email, "{$newIssue->subjectText}",$emailMessage,"From: {$user->emailAddress}\r\nReply-To: {$user->emailAddress}");
+			mail($contactData['emailAddress'], "{$newIssue->subjectText}",$emailMessage,"From: {$user->emailAddress}\r\nReply-To: {$user->emailAddress}");
 		}
 	}
 }
