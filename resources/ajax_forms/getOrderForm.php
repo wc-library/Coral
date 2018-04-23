@@ -80,6 +80,11 @@
 				</tr>
 
 				<tr>
+				<td style='vertical-align:top;text-align:left;font-weight:bold'><label for='libraryNumber'><?php echo _("Library Number:");?></label></td>
+				<td><input type='text' id='libraryNumber' name='libraryNumber' value = '<?php echo $resourceAcquisition->libraryNumber; ?>' style='width:95px;' class='changeInput' /></td>
+				</tr>
+
+				<tr>
 				<td style='vertical-align:top;text-align:left;font-weight:bold'><label for='currentStartDate'><?php echo _("Sub Start:");?></label></td>
 				<td><input class='date-pick' id='currentStartDate' name='currentStartDate' value = '<?php echo $startDate; ?>' style='width:75px;' /></td>
 				</tr>

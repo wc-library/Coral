@@ -23,6 +23,7 @@
     echo "<th>" . _("Subject") . "</th>";
     echo "<th>" . _("Acquisition Type") . "</th>";
     echo "<th>" . _("Payment amount") . "</th>";
+    echo "<th>" . _("Library number") . "</th>";
     echo "</tr></thead>";
     echo "<tbody>";
     $count = sizeof($results);
@@ -38,9 +39,10 @@
             echo "<td>" . $subject . "</td>";
             echo "<td>" . $result['acquisitionType'] . "</td>";
             echo "<td>" . $result['paymentAmount'] . "</td>";
+            echo "<td>" . $result['libraryNumber'] . "</td>";
             echo "</tr>";
         } else {
-            echo "<tr><td colspan='4'><b>";
+            echo "<tr><td colspan='5'><b>";
             if ($i == $count) { echo  _("Total"); } else { echo _("Sub-Total:") . " " . $result[$groupBy]; }
             echo "</b></td>";
             echo "<td><b>" . $result['paymentAmount']  . "</b></td>";

@@ -218,6 +218,7 @@ function submitOrderForm(){
                       acquisitionTypeID: $("#acquisitionTypeID").val(),
                       orderNumber: $("#orderNumber").val(),
                       systemNumber: $("#systemNumber").val(),
+                      libraryNumber: $("#libraryNumber").val(),
                       currentStartDate: $("#currentStartDate").val(),
                       currentEndDate: $("#currentEndDate").val(),
                       organizationID: $("#organizationID").val(),
