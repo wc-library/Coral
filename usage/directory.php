@@ -31,11 +31,11 @@ function watchString($string) {
 function usage_sidemenu($selected_link = '') {
   global $user;
   $links = array(
-    'imports' => 'seahorseicon',
-    'titles' => 'acquisitions',
-    'statistics' => 'xls',
-    'logins' => 'key',
-    'sushi' => 'arrow_sides',
+    'Imports' => 'seahorseicon',
+    'Titles' => 'acquisitions',
+    'Statistics' => 'xls',
+    'Logins' => 'key',
+    'Sushi' => 'arrow_sides',
   );
 
   foreach ($links as $key => $icon) {
