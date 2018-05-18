@@ -878,7 +878,7 @@ function bind_removes(){
              url:        "ajax_processing.php",
              cache:      false,
              data:       "action=deleteOrder&resourceAcquisitionID=" + $(this).attr("id"),
-             success:    function(html, ) {
+             success:    function(html) {
                  //post return message to index
                 postwith('resource.php?resourceID=' + $("#resourceID").val(), {message:html});
              }
