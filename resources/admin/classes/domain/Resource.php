@@ -699,19 +699,19 @@ class Resource extends DatabaseObject {
 
 
 		if ($search['authenticationTypeID'] == 'none') {
-			$whereAdd[] = "R.authenticationTypeID IS NULL";
+			$whereAdd[] = "RA.authenticationTypeID IS NULL";
 			$searchDisplay[] = _("Authentication Type: none");
 		}else if ($search['authenticationTypeID']) {
-			$whereAdd[] = "R.authenticationTypeID = '" . $resource->db->escapeString($search['authenticationTypeID']) . "'";
+			$whereAdd[] = "RA.authenticationTypeID = '" . $resource->db->escapeString($search['authenticationTypeID']) . "'";
 			$authenticationType = new AuthenticationType(new NamedArguments(array('primaryKey' => $search['authenticationTypeID'])));
 			$searchDisplay[] = _("Authentication Type: ") . $authenticationType->shortName;
 		}
 
 		if ($search['catalogingStatusID'] == 'none') {
-			$whereAdd[] = "(R.catalogingStatusID IS NULL)";
+			$whereAdd[] = "(RA.catalogingStatusID IS NULL)";
 			$searchDisplay[] = _("Cataloging Status: none");
 		} else if ($search['catalogingStatusID']) {
-			$whereAdd[] = "R.catalogingStatusID = '" . $resource->db->escapeString($search['catalogingStatusID']) . "'";
+			$whereAdd[] = "RA.catalogingStatusID = '" . $resource->db->escapeString($search['catalogingStatusID']) . "'";
 			$catalogingStatus = new CatalogingStatus(new NamedArguments(array('primaryKey' => $search['catalogingStatusID'])));
 			$searchDisplay[] = _("Cataloging Status: ") . $catalogingStatus->shortName;
 		}
@@ -815,12 +815,12 @@ class Resource extends DatabaseObject {
 									LEFT JOIN AcquisitionType AT ON RA.acquisitionTypeID = AT.acquisitionTypeID
 									LEFT JOIN Status S ON R.statusID = S.statusID
 									LEFT JOIN User CU ON R.createLoginID = CU.loginID
-									LEFT JOIN ResourcePurchaseSiteLink RPSL ON R.resourceID = RPSL.resourceID
-									LEFT JOIN ResourceAuthorizedSiteLink RAUSL ON R.resourceID = RAUSL.resourceID
-									LEFT JOIN ResourceAdministeringSiteLink RADSL ON R.resourceID = RADSL.resourceID
-									LEFT JOIN ResourcePayment RPAY ON R.resourceID = RPAY.resourceID
-									LEFT JOIN ResourceNote RN ON R.resourceID = RN.resourceID
-									LEFT JOIN ResourceStep RS ON R.resourceID = RS.resourceID
+									LEFT JOIN ResourcePurchaseSiteLink RPSL ON R.resourceID = RPSL.resourceAcquisitionID
+									LEFT JOIN ResourceAuthorizedSiteLink RAUSL ON R.resourceID = RAUSL.resourceAcquisitionID
+									LEFT JOIN ResourceAdministeringSiteLink RADSL ON R.resourceID = RADSL.resourceAcquisitionID
+									LEFT JOIN ResourcePayment RPAY ON RA.resourceAcquisitionID = RPAY.resourceAcquisitionID
+									LEFT JOIN ResourceNote RN ON RA.resourceAcquisitionID = RN.entityID
+									LEFT JOIN ResourceStep RS ON RA.resourceAcquisitionID = RS.resourceAcquisitionID
 									LEFT JOIN IsbnOrIssn I ON R.resourceID = I.resourceID
 									");
 
