@@ -803,10 +803,10 @@ class Resource extends DatabaseObject {
 		$table_matches = array();
 
 		// Build a list of tables that are referenced by the select and where statements in order to limit the number of joins performed in the search.
-		preg_match_all("/[A-Z]+(?=[.][A-Z]+)/i", $select, $table_matches);
+		preg_match_all("/[A-Z]+(?=[.][A-Z]+)/iu", $select, $table_matches);
 		$referenced_tables = array_unique($table_matches[0]);
 
-		preg_match_all("/[A-Z]+(?=[.][A-Z]+)/i", $whereStatement, $table_matches);
+		preg_match_all("/[A-Z]+(?=[.][A-Z]+)/iu", $whereStatement, $table_matches);
 		$referenced_tables = array_unique(array_merge($referenced_tables, $table_matches[0]));
 
 		// These join statements will only be included in the query if the alias is referenced by the select and/or where.
