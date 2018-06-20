@@ -40,6 +40,7 @@ function usage_sidemenu($selected_link = '') {
 
   foreach ($links as $key => $icon) {
     $name = ucfirst($key);
+    $selected_link = ucfirst($selected_link);
     if ($selected_link == $key) {
       $class = 'sidemenuselected';
       $image = "images/".$icon;
