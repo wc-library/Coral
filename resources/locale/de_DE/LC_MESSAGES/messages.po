@@ -3735,6 +3735,9 @@ msgstr "Bitte konfigurieren Sie die folgenden Optionen für das Resourcenmodul."
 msgid "Processing action "
 msgstr "Verarbeitungsaktion "
 
+msgid "Orders"
+msgstr "Bestellungen"
+
 msgid "Contacts"
 msgstr "Kontakte"
 
