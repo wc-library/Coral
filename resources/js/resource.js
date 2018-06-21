@@ -282,13 +282,7 @@ $(document).ready(function(){
 
 	$(".showAccounts").click(function () {
 	  $('.resource_tab_content').hide();
-		$('#div_product').hide();
-		$('#div_acquisitions').hide();
-		$('#div_access').hide();
-		$('#div_contacts').hide();
 		$('#div_accounts').show();
-		$('#div_attachments').hide();
-		$('#div_workflow').hide();
 		$('#div_fullRightPanel').show();
 		updateAccounts();
 		return false;
@@ -661,6 +655,7 @@ function submitCloseIssue() {
 }
 
 function updateAccounts(){
+  currentTab = "Accounts";
   $("#icon_accounts").html("<img src='images/littlecircle.gif' />");
   $.ajax({
 	 type:       "GET",
