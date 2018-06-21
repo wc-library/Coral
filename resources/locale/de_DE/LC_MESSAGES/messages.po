@@ -11,8 +11,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language-Abteilung: BSZ - Abteilung Bibliothekssysteme\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.0.4\n"
+"X-Generator: Poedit 1.8.11\n"
 "X-Poedit-SourceCharset: UTF-8\n"
+"Language-Team: \n"
 
 #: importHistory.php:9
 msgid "Import detail"
@@ -1689,7 +1690,7 @@ msgstr "Ressource wurde gelöscht."
 
 #: ajax_processing/deleteResource.php:10
 msgid "Resource not found. Error: "
-msgstr ""
+msgstr "Ressource nicht gefunden. Fehler: "
 
 #: ajax_processing/deleteResourceNote.php:7
 msgid "Note successfully deleted."
@@ -2048,7 +2049,7 @@ msgstr "(Pipe)"
 
 #: import.php:936
 msgid "tabulation"
-msgstr ""
+msgstr "Tabulator"
 
 #: import.php:939
 msgid "Upload"
@@ -2059,6 +2060,9 @@ msgid ""
 "PHP's extension mbstring doesn't seem to be installed or activated on your "
 "installation. Please install and activate mbstring to use the import tool."
 msgstr ""
+"Die PHP-Erweiterung mbstring scheint auf Ihrem System nicht installiert oder "
+"aktiviert zu sein. Bitte installieren und aktivieren Sie mbstring um das "
+"Importwerkzeug verwenden zu können."
 
 #: ajax_htmldata.php:25
 msgid "Data action "
@@ -3732,16 +3736,16 @@ msgid "Processing action "
 msgstr "Verarbeitungsaktion "
 
 msgid "Contacts"
-msgstr ""
+msgstr "Kontakte"
 
 msgid "Issues"
-msgstr ""
+msgstr "Probleme"
 
 msgid "Accounts"
-msgstr ""
+msgstr "Konten"
 
 msgid "Attachments"
-msgstr ""
+msgstr "Anhänge"
 
 #~ msgid " rows have been processed. "
 #~ msgstr "Zeilen wurden verarbeitet. "

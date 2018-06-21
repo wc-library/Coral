@@ -10,8 +10,9 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language-Abteilung: BSZ - Abteilung Bibliothekssysteme\n"
-"X-Generator: Poedit 2.0.4\n"
+"X-Generator: Poedit 1.8.11\n"
 "X-Poedit-SourceCharset: UTF-8\n"
+"Language-Team: \n"
 
 #: index.php:26 import.php:3 templates/header.php:167 templates/header.php:216
 msgid "Home"
@@ -363,7 +364,7 @@ msgstr " mehr als "
 #: ajax_htmldata.php:924
 #, php-format
 msgid "% over - displayed "
-msgstr ""
+msgstr "%% über - angezeigt "
 
 #: ajax_htmldata.php:929
 msgid ""
@@ -607,7 +608,7 @@ msgstr "Zähler über muss eine Zahl sein."
 #: js/admin.js:200
 #, javascript-format
 msgid "% over must be a number."
-msgstr ""
+msgstr "%% über muss eine Zahl sein."
 
 #: js/publisherPlatformList.js:35 js/reporting.js:35
 msgid "show Publisher list"
@@ -1724,7 +1725,7 @@ msgid "view / edit"
 msgstr "zeige / bearbeite"
 
 msgid "Statistics"
-msgstr ""
+msgstr "Statistik"
 
 msgid "Logins"
-msgstr ""
+msgstr "Logins"

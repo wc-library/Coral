@@ -11,8 +11,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language-Abteilung: BSZ - Abteilung Bibliothekssysteme\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.0.4\n"
+"X-Generator: Poedit 1.8.11\n"
 "X-Poedit-SourceCharset: UTF-8\n"
+"Language-Team: \n"
 
 #: index.php:54
 msgid "eRM"
@@ -263,8 +264,7 @@ msgstr "Powered by"
 #~ msgstr "E-Mail-Adresse für Feedback"
 
 #~ msgid "Please set up the following options for the resources module."
-#~ msgstr ""
-#~ "Bitte konfigurieren Sie die folgenden Optionen für das Resourcenmodul."
+#~ msgstr "Bitte konfigurieren Sie die folgenden Optionen für das Resourcenmodul."
 
 #~ msgid "rows have been processed."
 #~ msgstr "Zeilen wurden verarbeitet."
@@ -445,12 +445,10 @@ msgstr "Powered by"
 #~ msgstr "Importkonfiguration erfolgreich gelöscht."
 
 #~ msgid "There was a problem saving your file to "
-#~ msgstr ""
-#~ "Es ist ein Problem aufgetreten beim Versuch Ihre Datei hier zu speichern:"
+#~ msgstr "Es ist ein Problem aufgetreten beim Versuch Ihre Datei hier zu speichern:"
 
 #~ msgid ".  Please ensure your attachments directory is writable."
-#~ msgstr ""
-#~ ". Bitte prüfen Sie, ob Ihr Verzeichnis für Anhänge beschreibbar ist."
+#~ msgstr ". Bitte prüfen Sie, ob Ihr Verzeichnis für Anhänge beschreibbar ist."
 
 #~ msgid " rows have been processed. "
 #~ msgstr "Zeilen wurden verarbeitet. "
