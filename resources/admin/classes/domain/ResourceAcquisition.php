@@ -116,10 +116,10 @@ class ResourceAcquisition extends DatabaseObject {
   public function isCurrentWorkflowComplete() {
     $status = new Status();
     $statusID = $status->getIDFromName('complete');
-    if ($this->statusID == $statusID) {
+    $resource = new Resource(new NamedArguments(array('primaryKey' => $this->resourceID)));
+    if ($resource->statusID == $statusID) {
       return true;
     }
-
     $steps = $this->getCurrentWorkflowResourceSteps();
     foreach ($steps as $step) {
       if (!$step->isComplete()) return false;
