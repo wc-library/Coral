@@ -688,7 +688,7 @@
 							{
                                 if (isset($proceed)) {
                                     $noteObj = new ResourceNote();
-                                    $noteObj->resourceID = $resource->primaryKey;
+                                    $noteObj->entityID = $resource->primaryKey;
                                     $noteObj->noteTypeID = $note['noteType'];
                                     $noteObj->updateLoginID = '';
                                     $noteObj->updateDate = date('Y-m-d H:i:s');
