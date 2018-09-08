@@ -41,8 +41,8 @@ class SerialsSolutionsService extends Object {
 			$stringAppend = "&rft.issn=" . $this->issn;
 		}
 
-		//get the client identifier out of the config settings
-		$client_identifier = $this->config->settings->client_identifier;
+		//get the client identifier out of the config terms
+		$client_identifier = $this->config->terms->client_identifier;
 
 		$this->open_url = "http://" . $client_identifier . ".openurl.xml.serialssolutions.com/openurlxml?version=1.0&url_ver=Z39.88-2004" . $stringAppend;
 

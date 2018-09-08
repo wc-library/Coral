@@ -42,8 +42,8 @@ class SFXService extends Object {
 		}
 
 
-		//get the sfx open URL out of the config settings
-		$open_url = $this->config->settings->open_url;
+		//get the sfx open URL out of the config terms
+		$open_url = $this->config->terms->open_url;
 
 		//check if there is already a ? in the URL so that we don't add another when appending the parms
 		if (strpos($open_url, "?") > 0){
@@ -53,7 +53,7 @@ class SFXService extends Object {
 		}
 
 
-		$sid = $this->config->settings->sid;
+		$sid = $this->config->terms->sid;
 		if ($sid){
 			$open_url .= "rfr_id=info:sid/" . $sid;
 		}

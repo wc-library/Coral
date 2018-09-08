@@ -17,14 +17,36 @@
 */
 
 
-class Configuration extends DynamicObject {
 
-	public function init(NamedArguments $arguments) {
-		$arguments->setDefaultValueForArgumentName('filename', BASE_DIR . '/admin/configuration.ini');
-		$config = parse_ini_file($arguments->filename, true);
-		foreach ($config as $section => $entries) {
-			$this->$section = Utility::objectFromArray($entries);
+class TermsService extends Object {
+
+	protected $config;
+	protected $error;
+	protected $issn;
+	protected $isbn;
+
+	protected function init(NamedArguments $arguments) {
+		parent::init($arguments);
+		$this->issn = $arguments->issn;
+		$this->isbn = $arguments->isbn;
+		$this->config = new Configuration;
+	}
+
+
+	//returns one of the terms tool service objects depending on settings in config.
+	public function getTermsToolObj() {
+
+		//return correct object for terms tool
+		$className = $this->config->terms->resolver . "Service";
+
+		try{
+			$obj=new $className(new NamedArguments(array('issn' => $this->issn, 'isbn' => $this->isbn)));
+		}catch(Exception $e){
+			throw new Exception("configuration.ini is using an invalid resolver:  " . $this->config->settings->resolver);
 		}
+
+		return $obj;
+
 	}
 
 }
