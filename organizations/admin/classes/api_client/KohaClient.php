@@ -74,24 +74,13 @@ class KohaClient implements ILSClient {
     }
 
     /**
-     * Gets a vendor from the ILS
-     * @param name of the vendor in the ils
-     * @return key-value array with vendor description
-     */
-    function getVendorByExactName($name) {
-        $headers = $this->authenticate();
-        $response = Unirest\Request::get($this->api . "/acquisitions/vendors/?exactname=$name", $headers);
-        return $this->_vendorToCoral((array) $response->body);
-    }
-
-    /**
      * Does a vendor exist in the ILS?
      * @param name of the vendor in the ils
      * @return boolean
      */
     function vendorExists($name) {
         $headers = $this->authenticate();
-        $response = Unirest\Request::get($this->api . "/acquisitions/vendors/?exactname=$name");
+        $response = Unirest\Request::get($this->api . "/acquisitions/vendors/?name=$name");
         return (count((array) $response->body) > 0) ? true : false;
     }
 
