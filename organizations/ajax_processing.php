@@ -573,13 +573,10 @@ switch ($_GET['action']) {
         $exists = -1;
         if ($config->ils->ilsConnector) {
             $ilsClient = (new ILSClientSelector())->select();
-            if ($name && $ilsClient->vendorExists($name)) {
-                $exists = 1;
-            } else {
-                $exists = 0;
+            if ($name) {
+                echo $ilsClient->vendorExists($name);
             }
         }
-        echo $exists;
         break;
 
     default:
