@@ -37,6 +37,9 @@ class TermsService extends Object {
 	public function getTermsToolObj() {
 
 		//return correct object for terms tool
+        if (empty($$this->config->terms->resolver)) {
+            throw new Exception("Terms tool service is not configured. Please setup a terms tool service in the Licensing > Admin module");
+        }
 		$className = $this->config->terms->resolver . "Service";
 
 		try{
