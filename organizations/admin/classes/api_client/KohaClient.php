@@ -117,7 +117,7 @@ class KohaClient implements ILSClient {
      */
     function _checkForError($response) {
         $body = (array) $response->body;
-        if ($body['error']) {
+        if (array_key_exists("error", $body)) {
             return $body['error'];
         }
         return null;
