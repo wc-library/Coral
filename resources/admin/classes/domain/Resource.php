@@ -108,7 +108,7 @@ class Resource extends DatabaseObject {
     }
 
     public function getResourceAcquisitions() {
-        $query = "SELECT * from ResourceAcquisition WHERE resourceID = " . $this->resourceID;
+        $query = "SELECT * from ResourceAcquisition WHERE resourceID = " . $this->resourceID . " ORDER BY subscriptionStartDate DESC, subscriptionEndDate DESC";
 		$result = $this->db->processQuery($query, 'assoc');
         $objects = array();
 
