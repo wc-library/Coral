@@ -18,13 +18,6 @@
 
 include_once 'directory.php';
 
-function generate_qualifier_array($expression){
-}
-
-function get_icon_qualifier_type($qualiferArray) {
-
-}
-
 function get_effective_date($documentId) {
     $document = new Document(new NamedArguments(array('primaryKey' => $documentId)));
 
@@ -97,71 +90,75 @@ foreach($uniqueExpressionTypeArray as $expressionTypeId) {
 </head>
 <body>
 <div style="margin:10px auto; width: 900px; background: white; padding: 20px; text-align: left;">
-    <?php foreach($expressionTypes as $expressionType): ?>
-    <div class="darkShaded" style="width:664px; padding:8px; margin:0 0 7px 0;">
-        <h1>
-            <?php echo $expressionType->shortName; ?> Terms <small>for <?php echo $termsToolObj->getTitle(); ?></small>
-        </h1>
-    </div>
-    <div style="margin-left:5px;">
-        <?php foreach($expressionType->reorderTargets($targetsArray) as $i => $targetArray): ?>
-            <span class="titleText"><?php echo $targetArray['public_name']; ?></span>
+    <?php if(!empty($error)): ?>
+        <p><?php echo $error; ?></p>
+    <?php else: ?>
+        <?php foreach($expressionTypes as $expressionType): ?>
+        <div class="darkShaded" style="width:664px; padding:8px; margin:0 0 7px 0;">
+            <h1>
+                <?php echo $expressionType->shortName; ?> Terms <small>for <?php echo $termsToolObj->getTitle(); ?></small>
+            </h1>
+        </div>
+        <div style="margin-left:5px;">
+            <?php foreach($expressionType->reorderTargets($targetsArray) as $i => $targetArray): ?>
+                <span class="titleText"><?php echo $targetArray['public_name']; ?></span>
 
-            <?php $expressionArray = $expressionType->getExpressionsByResource($targetArray['public_name']); ?>
+                <?php $expressionArray = $expressionType->getExpressionsByResource($targetArray['public_name']); ?>
 
-            <?php if (empty($expressionArray)): ?>
-                <p>No <?php echo $expressionType->shortName; ?> terms are defined.</p>
-            <?php else: ?>
-                <?php foreach ($expressionArray as $expression): ?>
-                    <p>
-                        Terms as of <?php echo format_date($expression->getLastUpdateDate); ?> The following terms apply
-                        ONLY to articles accessed via <a href="<?php echo $targetArray['target_url']; ?>" target="_blank">
-                            <?php echo $targetArray['public_name']; ?>
-                        </a>
-                    </p>
-                    <div style="margin:0 0 30px 20px;">
-                        <div class="shaded" style="width:630px; padding:3px;">
-                            <?php
-                                $qualifierArray = array();
-                                // variables for permitted/prohibited qualifiers (this should match up with the available qualifiers in the license module)
-                                $permittedQualifier = 'Permitted';
-                                //prohibited terms will display red x
+                <?php if (empty($expressionArray)): ?>
+                    <p>No <?php echo $expressionType->shortName; ?> terms are defined.</p>
+                <?php else: ?>
+                    <?php foreach ($expressionArray as $expression): ?>
+                        <p>
+                            Terms as of <?php echo format_date($expression->getLastUpdateDate); ?> The following terms apply
+                            ONLY to articles accessed via <a href="<?php echo $targetArray['target_url']; ?>" target="_blank">
+                                <?php echo $targetArray['public_name']; ?>
+                            </a>
+                        </p>
+                        <div style="margin:0 0 30px 20px;">
+                            <div class="shaded" style="width:630px; padding:3px;">
+                                <?php
+                                    $qualifierArray = array();
+                                    // variables for permitted/prohibited qualifiers (this should match up with the available qualifiers in the license module)
+                                    $permittedQualifier = 'Permitted';
+                                    //prohibited terms will display red x
 
-                                $prohibitedQualifier = 'Prohibited';
-                                foreach ($expression->getQualifiers as $qualifier){
-                                    $qualifierArray[] = $qualifier->shortName;
-                                    //permitted terms will display green checkbox
-                                    if('PERMITTED' == strtoupper($qualifier->shortname)) {
-                                        $icon = 'images/icon_check.gif';
-                                    } else if ('PROHIBITED' == strtoupper($qualifier->shortname)) {
-                                        $icon = 'images/icon_x.gif';
-                                    } else {
-                                        $icon = false;
+                                    $prohibitedQualifier = 'Prohibited';
+                                    foreach ($expression->getQualifiers as $qualifier){
+                                        $qualifierArray[] = $qualifier->shortName;
+                                        //permitted terms will display green checkbox
+                                        if('PERMITTED' == strtoupper($qualifier->shortname)) {
+                                            $icon = 'images/icon_check.gif';
+                                        } else if ('PROHIBITED' == strtoupper($qualifier->shortname)) {
+                                            $icon = 'images/icon_x.gif';
+                                        } else {
+                                            $icon = false;
+                                        }
                                     }
-                                }
-                            ?>
-                            <strong> <?php echo $expressionType->shortName; ?> Notes:</strong> <?php if($icon): ?><img src="<?php echo $icon; ?>"><?php endif; ?>
-                            <ul style="margin-left: 20px;">
-                            <?php if (!empty($qualifierArray)): ?>
-                                <li>Qualifier: <?php echo implode(", ", $qualifierArray); ?></li>
-                            <?php endif; ?>
-                            <?php foreach ($expression->getExpressionNotes as $expressionNote): ?>
-                                <li> <?php $expressionNote->note; ?></li>
-                            <?php endforeach; ?>
-                            </ul>
-                        </div>
-                        <?php if ($expression->documentText): ?>
-                            <div style="width:600px;">
-                                <p><strong>From the license agreement <?php echo get_effective_date($expression->documentID); ?></strong></p>
-                                <p><em><?php echo nl2br($expression->documentText); ?></em></p>
+                                ?>
+                                <strong> <?php echo $expressionType->shortName; ?> Notes:</strong> <?php if($icon): ?><img src="<?php echo $icon; ?>"><?php endif; ?>
+                                <ul style="margin-left: 20px;">
+                                <?php if (!empty($qualifierArray)): ?>
+                                    <li>Qualifier: <?php echo implode(", ", $qualifierArray); ?></li>
+                                <?php endif; ?>
+                                <?php foreach ($expression->getExpressionNotes as $expressionNote): ?>
+                                    <li> <?php $expressionNote->note; ?></li>
+                                <?php endforeach; ?>
+                                </ul>
                             </div>
-                        <?php endif; ?>
-                    </div>
-                <?php endforeach; ?>
-            <?php endif; ?>
+                            <?php if ($expression->documentText): ?>
+                                <div style="width:600px;">
+                                    <p><strong>From the license agreement <?php echo get_effective_date($expression->documentID); ?></strong></p>
+                                    <p><em><?php echo nl2br($expression->documentText); ?></em></p>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </div>
         <?php endforeach; ?>
-    </div>
-    <?php endforeach; ?>
+    <?php endif; ?>
 </div>
 </body>
 </html>
