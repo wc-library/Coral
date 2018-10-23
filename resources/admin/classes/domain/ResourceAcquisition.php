@@ -80,9 +80,9 @@ class ResourceAcquisition extends DatabaseObject {
 	}
 
     public function getCurrentWorkflowID() {
-        $query = "SELECT Step.workflowID FROM Step, ResourceStep 
+        $query = "SELECT Step.workflowID FROM Step, ResourceStep
                     WHERE ResourceStep.resourceAcquisitionID = '" . $this->resourceAcquisitionID . "'
-                    AND ResourceStep.archivingDate IS NULL 
+                    AND ResourceStep.archivingDate IS NULL
                     AND ResourceStep.stepID = Step.stepID LIMIT 1";
 
 		$result = $this->db->processQuery($query, 'assoc');
@@ -113,13 +113,19 @@ class ResourceAcquisition extends DatabaseObject {
 
 	}
 
-    public function isCurrentWorkflowComplete() {
-        $steps = $this->getCurrentWorkflowResourceSteps(); 
-        foreach ($steps as $step) {
-            if (!$step->isComplete()) return false;
-        }
-        return true;
+  public function isCurrentWorkflowComplete() {
+    $status = new Status();
+    $statusID = $status->getIDFromName('complete');
+    $resource = new Resource(new NamedArguments(array('primaryKey' => $this->resourceID)));
+    if ($resource->statusID == $statusID) {
+      return true;
     }
+    $steps = $this->getCurrentWorkflowResourceSteps();
+    foreach ($steps as $step) {
+      if (!$step->isComplete()) return false;
+    }
+    return true;
+  }
 
 
     public function getDistinctWorkflows() {
@@ -553,10 +559,10 @@ class ResourceAcquisition extends DatabaseObject {
     public function cloneResourcePayments($source) {
         foreach ($source->getResourcePayments() as $srp) {
            $srp->resourcePaymentID = null;
-           $newRPID = $srp->saveAsNew(); 
+           $newRPID = $srp->saveAsNew();
            $query = "UPDATE ResourcePayment SET resourceAcquisitionID=" . $this->resourceAcquisitionID . " WHERE resourcePaymentID=" . $newRPID;
            $result = $this->db->processQuery($query);
-        } 
+        }
     }
 
     public function cloneAccess($source) {
@@ -587,7 +593,7 @@ class ResourceAcquisition extends DatabaseObject {
             $newID = $s->saveAsNew();
             $query = "UPDATE ResourceLicenseStatus SET resourceAcquisitionID=" . $this->resourceAcquisitionID . " WHERE resourceLicenseStatusID=" . $newID;
             $result = $this->db->processQuery($query);
-        } 
+        }
     }
 
     public function deleteResourcePayments() {
