@@ -69,7 +69,7 @@ class User extends DatabaseObject {
 	public function canEdit(){
 		$privilege = new Privilege(new NamedArguments(array('primaryKey' => $this->privilegeID)));
 
-		if ((mb_strtoupper($privilege->shortName) == 'ADD/EDIT') || (strtoupper($privilege->shortName) == 'ADMIN')){
+		if ((mb_strtoupper($privilege->shortName) == 'ADD/EDIT') || (mb_strtoupper($privilege->shortName) == 'ADMIN')){
 			return true;
 		}else{
 			return false;
