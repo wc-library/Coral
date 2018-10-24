@@ -205,6 +205,13 @@
 			<div id='configDiv'>
 				<?php include 'ajax_forms/getImportConfigForm.php';?>
 			</div>
+            <div id="saveCurrentMappingDiv">
+                <fieldset><legend><?php echo _('Save current mapping'); ?></legend>
+                <label for="saveName"><?php echo _("Configuration name:"); ?> </label> <input type="text" name="saveName" id="saveName" /> <input type="button" id="saveConfiguration" value="<?php echo _("Save configuration"); ?>" /><br /><br />
+                <div id='saveDiv'></div>
+                </fieldset>
+            </div>
+
 <?php
 			print "<input type=\"hidden\" name=\"delimiter\" value=\"$delimiter\" />";
 			print "<input type=\"hidden\" name=\"uploadfile\" value=\"$uploadfile\" />";
@@ -214,7 +221,25 @@
 
 
 			<script type='text/javascript'>
-				$('#config_form').submit(function () {
+                $('#saveConfiguration').click(function() {
+                    if ($('#saveName').val().trim() == '') {
+                        $("#saveDiv").html('<?php echo _("Configuration name cannot be empty"); ?>');
+                    } else {
+                        var currentConfig = createJsonFromPage();
+                        $.ajax({
+                            type:       "POST",
+                            url:        "ajax_processing.php?action=updateImportConfig",
+                            cache:      false,
+                            data:       { shortName: $('#saveName').val(), configuration: currentConfig['configuration'], orgNameImported: currentConfig['orgNameImported'], orgNameMapped: currentConfig['orgNameMapped']},
+                            success:    function(html) {
+                                $("#saveDiv").html(html == '' ? '<?php echo _('The import configuration has been successfully saved.'); ?>' : '<?php echo _('The import configuration could not be saved: '); ?>' + html);
+                            }
+                        });
+                    }
+                });
+                $('#config_form').submit(function() { createJsonFromPage() });
+
+                function createJsonFromPage() {
 			        var jsonData = {};
 				jsonData.configID = $('#importConfiguration').val();
 			        jsonData.title = $('#resource_titleCol').val();
@@ -246,6 +271,9 @@
 			        jsonData.acquisitionType = $("#acquisition_type").val();
 			        jsonData.fundCode = $("#fundCode").val();
 			        jsonData.cost = $("#cost").val();
+                    jsonData.currencyCode = $("#currency").val();
+                    jsonData.orderTypeID = $("#orderType").val();
+                    jsonData.sendemails = $("#sendemails").attr('checked');
 
 			        jsonData.subject = [];
 			        $('div.subject-record').each(function() {
@@ -300,7 +328,13 @@
 			        newinput.type = "hidden";
 			        newinput.value = orgNameMapped;
 			        document.getElementById("config_form").appendChild(newinput);
-				});
+
+                    var currentConfig = Object();
+                    currentConfig['configuration'] = configuration;
+                    currentConfig['orgNameImported'] = orgNameImported;
+                    currentConfig['orgNameMapped'] = orgNameMapped;
+                    return currentConfig;
+                }
 			</script>
 <?php
 		}
