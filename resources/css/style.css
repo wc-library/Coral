@@ -3256,3 +3256,12 @@ input#archiveInd {
 	margin-top: 0px !important;
 	overflow-x: hidden !important;
 }
+
+#resourceAcquisitionSelect {
+    max-width: 1000px;
+}
+
+#resourceAcquisitionSelectDiv {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}

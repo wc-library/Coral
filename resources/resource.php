@@ -51,19 +51,33 @@ if ($resource->titleText){
 	<td style='margin:0;padding:0;text-align:left;'>
 
 		<div style='vertical-align:top; width:100%; height:35px; margin-left:5px;padding:0;'>
-			<span class="headerText" id='span_resourceName' style='float:left;vertical-align:text-top;'><?php echo $resource->titleText; ?>&nbsp;</span>
+			<span class="headerText" id='span_resourceName' style='vertical-align:text-top;'><?php echo $resource->titleText; ?>&nbsp;</span>
             <?php
                 if ($resource->countResourceAcquisitions() > 1) {
             ?>
-            <label for="resourceAcquisitionSelect">Order: </label>
+            <div id="resourceAcquisitionSelectDiv">
+            <label for="resourceAcquisitionSelect">Order:&nbsp;</label>
             <select id="resourceAcquisitionSelect">
             <?php
+                    $selected = false;
                     foreach ($resourceAcquisitions as $resourceAcquisition) {
                         echo "<option value=\"$resourceAcquisition->resourceAcquisitionID\"";
-                        if ($resourceAcquisitionID == $resourceAcquisition->resourceAcquisitionID) echo " selected=\"selected\"";
-                        echo ">$resourceAcquisition->subscriptionStartDate - $resourceAcquisition->subscriptionEndDate</option>";
+                        if (!$selected) {
+                            if ($resourceAcquisitionID == $resourceAcquisition->resourceAcquisitionID ||
+                                (!$resourceAcquisitionID && $resourceAcquisition->isActiveToday())) {
+                                    $selected = true;
+                                    echo " selected=\"selected\"";
+                            }
+                        }
+                        echo ">$resourceAcquisition->subscriptionStartDate - $resourceAcquisition->subscriptionEndDate";
+                        $organization = $resourceAcquisition->getOrganization();
+                        if ($organization) {
+                            echo " - " . $organization['organization'];
+                        }
+                        echo "</option>";
                     }
                     echo "</select>";
+                    echo ("</div>");
                 } else {
                     echo '<input type="hidden" id="resourceAcquisitionSelect" value="'.$resourceAcquisitions[0]->resourceAcquisitionID .'" />';
                 }
