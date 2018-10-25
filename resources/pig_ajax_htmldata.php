@@ -24,6 +24,8 @@ include_once 'directory.php';
 $config = new Configuration();
 $util = new Utility();
 
+if ($config->settings->pIG != 'Y') { die(); }
+
 switch ($_GET['action']) {
 
     case 'getPigSearchResources':

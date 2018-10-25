@@ -24,6 +24,8 @@ include_once 'directory.php';
 $config = new Configuration();
 $util = new Utility();
 
+if ($config->settings->pIG != 'Y') { die(); }
+
 $search = array(
     "orderBy" => urldecode($_GET['orderBy']),
     "page" => urldecode($_GET['page']),

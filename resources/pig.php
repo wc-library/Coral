@@ -22,6 +22,9 @@ session_start();
 
 include_once 'directory.php';
 
+$config = new Configuration();
+if ($config->settings->pIG != 'Y') { die(_("Public Interface Generator is not enabled on this Coral installation. Please edit configuration.ini if you want to enable it.")); }
+
 //print header
 $pageTitle='PIG Home';
 $statusID = 4;  // This is the statusID for records we DO NOT want to view, example Archived;
