@@ -39,7 +39,7 @@ function usage_sidemenu($selected_link = '') {
   );
 
   foreach ($links as $key => $value) {
-    $name = ucfirst($key);
+    $name = mb_convert_case($key, MB_CASE_TITLE, "UTF-8");
     if ($selected_link == $key) {
       $class = 'sidemenuselected';
     } else {
