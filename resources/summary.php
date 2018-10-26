@@ -357,7 +357,7 @@ if ($resource->titleText){
 			</tr>
 		<?php
 		}
-		
+
 		if ($resource->descriptionText){ ?>
 			<tr>
 			<td style='vertical-align:top;width:150px;'><?php echo _("Description:");?></td>
@@ -468,17 +468,17 @@ if ($resource->titleText){
 	<?php } ?>
 
 
-	<?php if (!is_null_date($resource->currentStartDate)) { ?>
+	<?php if (!is_null_date($resource->subscriptionStartDate)) { ?>
 	<tr>
 	<td style='vertical-align:top;width:150px;'><?php echo _("Sub Start:");?></td>
-	<td><?php echo format_date($resource->currentStartDate); ?></td>
+	<td><?php echo format_date($resource->subscriptionStartDate); ?></td>
 	</tr>
 	<?php } ?>
 
-	<?php if (!is_null_date($resource->currentEndDate)) { ?>
+	<?php if (!is_null_date($resource->subscriptionEndDate)) { ?>
 	<tr>
 	<td style='vertical-align:top;width:150px;'><?php echo _("Current Sub End:");?></td>
-	<td><?php echo format_date($resource->currentEndDate); ?>&nbsp;&nbsp;
+	<td><?php echo format_date($resource->subscriptionEndDate); ?>&nbsp;&nbsp;
 	<?php if ($resource->subscriptionAlertEnabledInd == "1") { echo "<i>"._("Expiration Alert Enabled")."</i>"; } ?>
 	</td>
 	</tr>
@@ -495,7 +495,7 @@ if ($resource->titleText){
 	</tr>
 
 	<?php
-	if (count($paymentArray) > 0){ 
+	if (count($paymentArray) > 0){
             foreach ($paymentArray as $payment){ ?>
               <tr><td style='vertical-align:top;width:150px;' colspan='2'></td></tr>
             <?php if ($enhancedCostFlag){ ?>
@@ -806,7 +806,7 @@ if ($resource->titleText){
       		<td><?php echo $resourceAcquisition->bibSourceURL; ?></td>
     		</tr>
     	<?php } ?>
-    	<?php if ($resourceAcquisition->catalogingTypeID) { 
+    	<?php if ($resourceAcquisition->catalogingTypeID) {
     		$catalogingType = new CatalogingType(new NamedArguments(array('primaryKey' => $resourceAcquisition->catalogingTypeID)));
     		?>
     		<tr>
@@ -814,7 +814,7 @@ if ($resource->titleText){
       		<td><?php echo $catalogingType->shortName; ?></td>
     		</tr>
     	<?php } ?>
-    	<?php if ($resourceAcquisition->catalogingStatusID) { 
+    	<?php if ($resourceAcquisition->catalogingStatusID) {
     		$catalogingStatus = new CatalogingStatus(new NamedArguments(array('primaryKey' => $resourceAcquisition->catalogingStatusID)));
     		?>
     		<tr>
