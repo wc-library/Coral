@@ -10,9 +10,10 @@ SET
 RA.subscriptionStartDate=R.currentStartDate,
 RA.subscriptionEndDate=R.currentEndDate
 WHERE
-((R.currentStartDate IS NOT NULL) AND (R.currentStartDate <> "0000-00-00")
-  OR (R.currentEndDate IS NOT NULL) AND (R.currentEndDate <> "0000-00-00"))
-AND R.currentStartDate != R.currentEndDate
+(((R.currentStartDate IS NOT NULL) AND (R.currentStartDate <> "0000-00-00"))
+  OR ((R.currentEndDate IS NOT NULL) AND (R.currentEndDate <> "0000-00-00")))
+AND (R.currentStartDate != R.currentEndDate
+  OR (R.currentStartDate IS NULL OR R.currentEndDate IS NULL))
 AND RA.subscriptionStartDate = RA.subscriptionEndDate;
 
 # Drop the Resource currentStartDate and currentEndDate columns
