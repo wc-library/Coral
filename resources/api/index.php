@@ -40,8 +40,8 @@ Flight::route('/proposeResource/', function(){
     $resource->archiveLoginID               = '';
     $resource->workflowRestartDate          = '';
     $resource->workflowRestartLoginID       = '';
-    $resource->subscriptionStartDate        = '';
-    $resource->subscriptionEndDate          = '';
+    $resource->currentStartDate             = '';
+    $resource->currentEndDate               = '';
     $resource->subscriptionAlertEnabledInd  = '';
     $resource->authenticationTypeID         = '';
     $resource->accessMethodID               = '';
