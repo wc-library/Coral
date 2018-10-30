@@ -468,18 +468,18 @@ if ($resource->titleText){
 	<?php } ?>
 
 
-	<?php if (!is_null_date($resource->subscriptionStartDate)) { ?>
+	<?php if (!is_null_date($resourceAcquisition->subscriptionStartDate)) { ?>
 	<tr>
 	<td style='vertical-align:top;width:150px;'><?php echo _("Sub Start:");?></td>
-	<td><?php echo format_date($resource->subscriptionStartDate); ?></td>
+	<td><?php echo format_date($resourceAcquisition->subscriptionStartDate); ?></td>
 	</tr>
 	<?php } ?>
 
-	<?php if (!is_null_date($resource->subscriptionEndDate)) { ?>
+	<?php if (!is_null_date($resourceAcquisition->subscriptionEndDate)) { ?>
 	<tr>
 	<td style='vertical-align:top;width:150px;'><?php echo _("Current Sub End:");?></td>
-	<td><?php echo format_date($resource->subscriptionEndDate); ?>&nbsp;&nbsp;
-	<?php if ($resource->subscriptionAlertEnabledInd == "1") { echo "<i>"._("Expiration Alert Enabled")."</i>"; } ?>
+	<td><?php echo format_date($resourceAcquisition->subscriptionEndDate); ?>&nbsp;&nbsp;
+	<?php if ($resourceAcquisition->subscriptionAlertEnabledInd == "1") { echo "<i>"._("Expiration Alert Enabled")."</i>"; } ?>
 	</td>
 	</tr>
 	<?php } ?>
