@@ -36,16 +36,19 @@ function register_db_tools_provider()
                                   mysqli_free_result($result);
                                 }
 
-                                if (!mysqli_more_results($db->getDatabase())) {
-                                 break;
-                                }
-                                if(!mysqli_next_result($db->getDatabase()) || mysqli_errno($db->getDatabase())) {
+                                if(mysqli_errno($db->getDatabase())) {
                                         // report error
                                         $ret["messages"][] = mysqli_error($db->getDatabase()) .  "<br />For SQL file: " . $sql_file;
                                         $ret["success"] = false;
                                 }
+
                               } while (mysqli_next_result($db->getDatabase()));
 
+                                if(mysqli_errno($db->getDatabase())) {
+                                        // report error
+                                        $ret["messages"][] = mysqli_error($db->getDatabase()) .  "<br />For SQL file: " . $sql_file;
+                                        $ret["success"] = false;
+                                }
                             }else{
                               $ret["messages"][] = mysqli_error($db->getDatabase()) . "<br /> Occurred while trying to run mysqli_multi_query for SQL file: " . $sql_file;
                                   $ret["success"] = false;

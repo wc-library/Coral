@@ -1,6 +1,6 @@
 DROP PROCEDURE IF EXISTS add_missing_taxfield;
 
-CREATE DEFINER=CURRENT_USER PROCEDURE add_missing_taxfield(missing_taxfield TEXT)
+CREATE DEFINER=CURRENT_USER PROCEDURE add_missing_taxfield(missing_taxfield TEXT charset utf8)
 BEGIN
 DECLARE colName TEXT;
 SELECT column_name INTO colName
