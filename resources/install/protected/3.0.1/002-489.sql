@@ -16,8 +16,3 @@ AND (R.currentStartDate != R.currentEndDate
   OR (R.currentStartDate IS NULL OR R.currentEndDate IS NULL))
 AND RA.subscriptionStartDate = RA.subscriptionEndDate;
 
-# Drop the Resource currentStartDate and currentEndDate columns
-
-ALTER TABLE Resource
-  DROP COLUMN currentStartDate,
-  DROP COLUMN currentEndDate;
