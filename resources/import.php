@@ -903,9 +903,9 @@
 			}
 			print "<h2>"._("Results")."</h2>";
 			$verb = isset($proceed) ? _("have been") : _("will be");
-			print "<p>" . ($row - 1) . _(" rows $verb processed. ").$inserted._(" rows $verb inserted.")."</p>";
-			print "<p>".$parentInserted._(" parents $verb created. ").$parentAttached._(" resources $verb attached to an existing parent.")."</p>";
-			print "<p>".$organizationsInserted._(" organizations $verb created");
+			print "<p>" . ($row - 1) . _(" rows ") . $verb . _(" processed. ").$inserted._(" rows ") . $verb . _(" inserted.")."</p>";
+			print "<p>".$parentInserted._(" parents ") . $verb . _(" created. ").$parentAttached._(" resources ") . $verb . _(" attached to an existing parent.")."</p>";
+			print "<p>".$organizationsInserted._(" organizations ") . $verb . _(" created");
 			if (count($arrayOrganizationsCreated) > 0)
 			{
 				print "<ol>";
@@ -915,12 +915,12 @@
 				}
 				print "</ol>";
 			}
-			print ". $organizationsAttached" . _(" resources $verb attached to an existing organization.") . "</p>";
-			print "<p>" . $resourceTypeInserted . _(" resource types $verb created") . "</p>";
-			print "<p>" . $resourceFormatInserted . _(" resource formats $verb created") . "</p>";
-			print "<p>" . $generalSubjectInserted . _(" general subjects $verb created") . "</p>";
-			print "<p>" . $aliasInserted . _(" aliases $verb created") . "</p>";
-			print "<p>" . $noteInserted . _(" notes $verb created") . "</p>";
+			print ". $organizationsAttached" . _(" resources ") . $verb . _(" attached to an existing organization.") . "</p>";
+			print "<p>" . $resourceTypeInserted . _(" resource types ") . $verb . _(" created") . "</p>";
+			print "<p>" . $resourceFormatInserted . _(" resource formats ") . $verb . _(" created") . "</p>";
+			print "<p>" . $generalSubjectInserted . _(" general subjects ") . $verb . _(" created") . "</p>";
+			print "<p>" . $aliasInserted . _(" aliases ") . $verb . _(" created") . "</p>";
+			print "<p>" . $noteInserted . _(" notes ") . $verb . _(" created") . "</p>";
 		}
 
 		if (!isset($proceed)) {
