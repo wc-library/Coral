@@ -69,7 +69,16 @@ if ($resource->titleText){
                                     echo " selected=\"selected\"";
                             }
                         }
-                        echo ">$resourceAcquisition->subscriptionStartDate - $resourceAcquisition->subscriptionEndDate";
+                        echo ">";
+                        if ($resourceAcquisition->subscriptionStartDate && $resourceAcquisition->subscriptionEndDate) {
+                            echo "$resourceAcquisition->subscriptionStartDate - $resourceAcquisition->subscriptionEndDate";
+                        } elseif ($resourceAcquisition->subscriptionStartDate) {
+                            echo _("Start date") . ": " . $resourceAcquisition->subscriptionStartDate;
+                        } elseif ($resourceAcquisition->subscriptionEndDate) {
+                            echo _("End date") . ": " . $resourceAcquisition->subscriptionEndDate;
+                        } else {
+                            echo _("Order") . " " . $resourceAcquisition->resourceAcquisitionID;
+                        }
                         $organization = $resourceAcquisition->getOrganization();
                         if ($organization) {
                             echo " - " . $organization['organization'];
