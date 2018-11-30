@@ -38,6 +38,10 @@ class License extends DatabaseObject {
                 $expressionType = new ExpressionType(new NamedArguments(array('primaryKey' => $expression->expressionTypeID)));
                 if ($expressionType->noteType == "Display") {
                     $larray['documents'][$doccount]['expressions'][$exprcount]['content'] = $expression->asArray();
+                    foreach ($expression->getQualifiers() as $qualifier) {
+                        $larray['documents'][$doccount]['expressions'][$exprcount]['qualifiers'][] = $qualifier->shortName;
+                    }
+
                     $notescount = 0;
                     foreach ($expression->getExpressionNotes() as $expressionNote) {
                         $larray['documents'][$doccount]['expressions'][$exprcount]['notes'][$notescount] = $expressionNote->asArray();;
@@ -46,7 +50,7 @@ class License extends DatabaseObject {
                     $exprcount++;
                 }
             }
-            $doccount++; 
+            $doccount++;
         }
 		return $larray;
     }
@@ -98,7 +102,8 @@ class License extends DatabaseObject {
 				$resArray = array();
 
 				//first, get the resource name
-				$query = "SELECT resourceID, titleText FROM " . $dbName . ".Resource WHERE resourceID = " . $row['resourceID'];
+				$query = "SELECT r.resourceID, r.titleText FROM " . $dbName . ".ResourceAcquisition ra
+                    LEFT JOIN " . $dbName . ".Resource r ON r.resourceID=ra.resourceID WHERE ra.resourceAcquisitionID = " . $row['resourceAcquisitionID'];
 
 				$resResult = mysqli_query($this->db->getDatabase(), $query);
 				while($resRow = mysqli_fetch_assoc($resResult)) {

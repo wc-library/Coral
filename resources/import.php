@@ -72,7 +72,7 @@
     function showMappings($handle, $delimiter, $configuration, $config_array) {
         print "<h2>" . _("Mapping") . "</h2>";
         print "<table class=\"linedDataTable\">";
-        print "<tr><th>Coral field</th><th>File column</th></tr>";
+        print "<tr><th>" . _("Coral field") . "</th><th>" . _("File column") . "</th></tr>";
         $data = fgetcsv($handle, 0, $delimiter);
         foreach ($config_array as $key => $value) {
 			// Check for either multi-value fields or single-value fields.
@@ -104,7 +104,7 @@
 	include 'templates/header.php';
 ?>
 <div id="importPage"><h1><?php echo _("Delimited File Import");?></h1>
-<p><a href="importHistory.php">Imports history</a></p>
+<p><a href="importHistory.php"><?php echo _("Imports history"); ?></a></p>
 <?php
 
 	// CSV configuration
@@ -112,18 +112,19 @@
 
     // All fields available in an import configuration (code => name)
     $config_array = array(
-        'title' => 'Resource Title',
-        'description' => 'Description',
-        'alias' => 'Alias',
-        'url' => 'Resource URL',
-        'altUrl' => 'Alternate URL',
-        'parent' => 'Parent Resource',
-        'isbnOrIssn' => 'ISBN or ISSN',
-        'resourceFormat' => 'Resource Format',
-        'resourceType' => 'Resource Type',
-        'subject' => 'Subject',
-        'note' => 'Note',
-        'organization' => 'Organization'
+        'title' => _('Resource Title'),
+        'description' => _('Description'),
+        'alias' => _('Alias'),
+        'url' => _('Resource URL'),
+        'altUrl' => _('Alternate URL'),
+        'parent' => _('Parent Resource'),
+        'isbnOrIssn' => _('ISBN or ISSN'),
+        'resourceFormat' => _('Resource Format'),
+        'resourceType' => _('Resource Type'),
+        'subject' => _('Subject'),
+        'note' => _('Note'),
+        'organization' => _('Organization'),
+        'acquisitionType' => _('Acquisition Type')
         );
 
 	if (isset($_POST['submit']) || isset($_POST['submitback'])) {
@@ -205,6 +206,13 @@
 			<div id='configDiv'>
 				<?php include 'ajax_forms/getImportConfigForm.php';?>
 			</div>
+            <div id="saveCurrentMappingDiv">
+                <fieldset><legend><?php echo _('Save current mapping'); ?></legend>
+                <label for="saveName"><?php echo _("Configuration name:"); ?> </label> <input type="text" name="saveName" id="saveName" /> <input type="button" id="saveConfiguration" value="<?php echo _("Save configuration"); ?>" /><br /><br />
+                <div id='saveDiv'></div>
+                </fieldset>
+            </div>
+
 <?php
 			print "<input type=\"hidden\" name=\"delimiter\" value=\"$delimiter\" />";
 			print "<input type=\"hidden\" name=\"uploadfile\" value=\"$uploadfile\" />";
@@ -214,7 +222,25 @@
 
 
 			<script type='text/javascript'>
-				$('#config_form').submit(function () {
+                $('#saveConfiguration').click(function() {
+                    if ($('#saveName').val().trim() == '') {
+                        $("#saveDiv").html('<?php echo _("Configuration name cannot be empty"); ?>');
+                    } else {
+                        var currentConfig = createJsonFromPage();
+                        $.ajax({
+                            type:       "POST",
+                            url:        "ajax_processing.php?action=updateImportConfig",
+                            cache:      false,
+                            data:       { shortName: $('#saveName').val(), configuration: currentConfig['configuration'], orgNameImported: currentConfig['orgNameImported'], orgNameMapped: currentConfig['orgNameMapped']},
+                            success:    function(html) {
+                                $("#saveDiv").html(html == '' ? '<?php echo _('The import configuration has been successfully saved.'); ?>' : '<?php echo _('The import configuration could not be saved: '); ?>' + html);
+                            }
+                        });
+                    }
+                });
+                $('#config_form').submit(function() { createJsonFromPage() });
+
+                function createJsonFromPage() {
 			        var jsonData = {};
 				jsonData.configID = $('#importConfiguration').val();
 			        jsonData.title = $('#resource_titleCol').val();
@@ -246,6 +272,9 @@
 			        jsonData.acquisitionType = $("#acquisition_type").val();
 			        jsonData.fundCode = $("#fundCode").val();
 			        jsonData.cost = $("#cost").val();
+                    jsonData.currencyCode = $("#currency").val();
+                    jsonData.orderTypeID = $("#orderType").val();
+                    jsonData.sendemails = $("#sendemails").attr('checked');
 
 			        jsonData.subject = [];
 			        $('div.subject-record').each(function() {
@@ -300,7 +329,13 @@
 			        newinput.type = "hidden";
 			        newinput.value = orgNameMapped;
 			        document.getElementById("config_form").appendChild(newinput);
-				});
+
+                    var currentConfig = Object();
+                    currentConfig['configuration'] = configuration;
+                    currentConfig['orgNameImported'] = orgNameImported;
+                    currentConfig['orgNameMapped'] = orgNameMapped;
+                    return currentConfig;
+                }
 			</script>
 <?php
 		}
@@ -590,6 +625,7 @@
 
                         $resourceAcquisition = new ResourceAcquisition(); 
                         $resourceAcquisition->resourceID = $resource->resourceID;
+                        $resourceAcquisition->acquisitionTypeID = $acquisitionTypeID;
                         $resourceAcquisition->subscriptionStartDate = date('Y-m-d');
                         $resourceAcquisition->subscriptionEndDate = date('Y-m-d');
                         $resourceAcquisition->save();
@@ -688,7 +724,7 @@
 							{
                                 if (isset($proceed)) {
                                     $noteObj = new ResourceNote();
-                                    $noteObj->resourceID = $resource->primaryKey;
+                                    $noteObj->entityID = $resource->primaryKey;
                                     $noteObj->noteTypeID = $note['noteType'];
                                     $noteObj->updateLoginID = '';
                                     $noteObj->updateDate = date('Y-m-d H:i:s');
@@ -866,10 +902,10 @@
 				$row++;
 			}
 			print "<h2>"._("Results")."</h2>";
-			$verb = isset($proceed) ? "have been" : "will be";
-			print "<p>" . ($row - 1) . _(" rows $verb processed. ").$inserted._(" rows $verb inserted.")."</p>";
-			print "<p>".$parentInserted._(" parents $verb created. ").$parentAttached._(" resources $verb attached to an existing parent.")."</p>";
-			print "<p>".$organizationsInserted._(" organizations $verb created");
+			$verb = isset($proceed) ? _("have been") : _("will be");
+			print "<p>" . ($row - 1) . _(" rows ") . $verb . _(" processed. ").$inserted._(" rows ") . $verb . _(" inserted.")."</p>";
+			print "<p>".$parentInserted._(" parents ") . $verb . _(" created. ").$parentAttached._(" resources ") . $verb . _(" attached to an existing parent.")."</p>";
+			print "<p>".$organizationsInserted._(" organizations ") . $verb . _(" created");
 			if (count($arrayOrganizationsCreated) > 0)
 			{
 				print "<ol>";
@@ -879,12 +915,12 @@
 				}
 				print "</ol>";
 			}
-			print ". $organizationsAttached" . _(" resources $verb attached to an existing organization.") . "</p>";
-			print "<p>" . $resourceTypeInserted . _(" resource types $verb created") . "</p>";
-			print "<p>" . $resourceFormatInserted . _(" resource formats $verb created") . "</p>";
-			print "<p>" . $generalSubjectInserted . _(" general subjects $verb created") . "</p>";
-			print "<p>" . $aliasInserted . _(" aliases $verb created") . "</p>";
-			print "<p>" . $noteInserted . _(" notes $verb created") . "</p>";
+			print ". $organizationsAttached" . _(" resources ") . $verb . _(" attached to an existing organization.") . "</p>";
+			print "<p>" . $resourceTypeInserted . _(" resource types ") . $verb . _(" created") . "</p>";
+			print "<p>" . $resourceFormatInserted . _(" resource formats ") . $verb . _(" created") . "</p>";
+			print "<p>" . $generalSubjectInserted . _(" general subjects ") . $verb . _(" created") . "</p>";
+			print "<p>" . $aliasInserted . _(" aliases ") . $verb . _(" created") . "</p>";
+			print "<p>" . $noteInserted . _(" notes ") . $verb . _(" created") . "</p>";
 		}
 
 		if (!isset($proceed)) {
@@ -933,6 +969,7 @@
 					<option value=",">, <?php echo _("(comma)");?></option>
 					<option value=";">; <?php echo _("(semicolon)");?></option>
 					<option value="|">| <?php echo _("(pipe)");?></option>
+					<option value="&#9;"><?php echo _("tabulation");?></option>
 				</select>
 			</fieldset>
 			<input type="submit" name="submit" value="<?php echo _("Upload");?>" class="submit-button" />
