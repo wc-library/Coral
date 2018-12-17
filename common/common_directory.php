@@ -76,8 +76,14 @@ function format_date($mysqlDate) {
 	//make sure digit years matches for both directory.php and common.js
 
 	//SUGGESTED: "m/d/Y" or "d-m-Y"
-
-	return date("m/d/Y", strtotime($mysqlDate));
+    $config = new Configuration();
+    $config_date_format = $config->settings->date_format;
+    if (isset($config_date_format) && $config_date_format != '') {
+        $date_format = $config_date_format;
+    } else {
+        $date_format = "m/d/Y";
+    }
+    return date($date_format, strtotime($mysqlDate));
 
 }
 
