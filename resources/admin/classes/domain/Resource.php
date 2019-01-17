@@ -662,7 +662,7 @@ class Resource extends DatabaseObject {
 			$whereAdd[] = "(RNA.noteTypeID IS NULL) AND (RNA.noteText IS NOT NULL) AND (RNR.noteTypeID IS NULL) AND (RNR.noteText IS NOT NULL)";
 			$searchDisplay[] = _("Note Type: none");
 		}else if ($search['noteTypeID']) {
-			$whereAdd[] = "(RNA.noteTypeID = '" . $resource->db->escapeString($search['noteTypeID']) . "' AND RNA.tabName <> 'Product') OR (RNR.noteTypeID = '" . $resource->db->escapeString($search['noteTypeID']) . "' AND RNR.tabName = 'Product')";
+			$whereAdd[] = "((RNA.noteTypeID = '" . $resource->db->escapeString($search['noteTypeID']) . "' AND RNA.tabName <> 'Product') OR (RNR.noteTypeID = '" . $resource->db->escapeString($search['noteTypeID']) . "' AND RNR.tabName = 'Product'))";
 			$noteType = new NoteType(new NamedArguments(array('primaryKey' => $search['noteTypeID'])));
 			$searchDisplay[] = _("Note Type: ") . $noteType->shortName;
 		}
