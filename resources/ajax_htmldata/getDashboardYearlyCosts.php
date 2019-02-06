@@ -36,6 +36,7 @@
             echo "<th>" . $costDetail['shortName'] . " / $i</th>";
         }
     }
+    echo ("<th>" . _("All cost details") . "</th>");
     echo "</tr></thead>";
     echo "<tbody>";
     $count = sizeof($results);
@@ -57,6 +58,7 @@
                     echo "<td>" . $result[$costDetail['shortName'] . " / $i"] . "</td>";
                 }
             }
+            echo ("<td>" . $result['costDetailsSum']. "</td>");
             echo "</tr>";
         } else {
             echo "<tr><td colspan='5'><b>";
@@ -68,6 +70,7 @@
                     echo "<td><b>" . $result[$costDetail['shortName'] . " / $i"] . "</b></td>";
                 }
             }
+            echo "<td><b>" . $result['costDetailsSum'] . "</b></td>";
             echo "</tr></tfoot>";
         }
         $currentCount++;
