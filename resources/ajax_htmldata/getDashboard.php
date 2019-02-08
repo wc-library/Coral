@@ -10,10 +10,13 @@
     $orderTypeID = $_POST['orderTypeID'];
     $subjectID = $_POST['subjectID'];
     $costDetailsID = $_POST['costDetailsID'];
+    $fundID = $_POST['fundID'];
+    $organizationID = $_POST['organizationID'];
+    $roleID = $_POST['roleID'];
     $groupBy = $_POST['groupBy'];
 
     $dashboard = new Dashboard();
-    $query = $dashboard->getQuery($resourceTypeID, $year, $acquisitionTypeID, $orderTypeID, $subjectID, $costDetailsID, $groupBy);
+    $query = $dashboard->getQuery($resourceTypeID, $year, $acquisitionTypeID, $orderTypeID, $subjectID, $costDetailsID, $fundID, $organizationID, $roleID, $groupBy);
     $results = $dashboard->getResults($query);
     if ($groupBy == "GS.shortName") $groupBy = "generalSubject";
     echo "<table id='dashboard_table' class='dataTable' style='width:840px;margin-top:0'>";
@@ -22,8 +25,10 @@
     echo "<th>" . _("Resource Type") . "</th>";
     echo "<th>" . _("Subject") . "</th>";
     echo "<th>" . _("Acquisition Type") . "</th>";
-    echo "<th>" . _("Payment amount") . "</th>";
+    echo "<th>" . _("Fund") . "</th>";
     echo "<th>" . _("Library number") . "</th>";
+    echo "<th>" . _("Organizations") . "</th>";
+    echo "<th>" . _("Payment amount") . "</th>";
     echo "</tr></thead>";
     echo "<tbody>";
     $count = sizeof($results);
@@ -38,11 +43,13 @@
                 $result['generalSubject'] . $result['detailedSubject'];
             echo "<td>" . $subject . "</td>";
             echo "<td>" . $result['acquisitionType'] . "</td>";
-            echo "<td>" . $result['paymentAmount'] . "</td>";
+            echo "<td>" . $result['fundName'] . "</td>";
             echo "<td>" . $result['libraryNumber'] . "</td>";
+            echo "<td>" . $result['organizationName'] . "</td>";
+            echo "<td>" . $result['paymentAmount'] . "</td>";
             echo "</tr>";
         } else {
-            echo "<tr><td colspan='5'><b>";
+            echo "<tr><td colspan='7'><b>";
             if ($i == $count) { echo  _("Total"); } else { echo _("Sub-Total:") . " " . $result[$groupBy]; }
             echo "</b></td>";
             echo "<td><b>" . $result['paymentAmount']  . "</b></td>";

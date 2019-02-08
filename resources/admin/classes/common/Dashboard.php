@@ -1,7 +1,16 @@
 <?php
 class Dashboard {
 
-    public function getQuery($resourceTypeID, $year, $acquisitionTypeID, $orderTypeID, $subjectID, $costDetailsID, $groupBy) {
+    public function getQuery($resourceTypeID, $year, $acquisitionTypeID, $orderTypeID, $subjectID, $costDetailsID, $fundID, $organizationID, $roleID, $groupBy) {
+        $config = new Configuration();
+        if ($config->settings->organizationsModule == 'Y' && $config->settings->organizationsDatabaseName) {
+            $orgDB = $config->settings->organizationsDatabaseName;
+            $orgField = 'name';
+        } else {
+            $orgDB = $config->database->name;
+            $orgField = 'shortName';
+        }
+
         $query = "SELECT
                         R.resourceID,
                         R.titleText,
@@ -12,6 +21,8 @@ class Dashboard {
                         GS.shortName AS generalSubject,
                         DS.shortName AS detailedSubject,
                         RA.libraryNumber AS libraryNumber,
+                        F.shortName AS fundName,
+                        O.$orgField AS organizationName,
                         SUM(ROUND(COALESCE(RP.paymentAmount, 0) / 100, 2)) as paymentAmount
                         ";
 
@@ -27,6 +38,9 @@ class Dashboard {
                     LEFT JOIN GeneralDetailSubjectLink GDSL ON GDSL.generalDetailSubjectLinkID = RS.generalDetailSubjectLinkID
                     LEFT JOIN GeneralSubject GS ON GS.generalSubjectID = GDSL.generalSubjectID
                     LEFT JOIN DetailedSubject DS ON DS.detailedSubjectID = GDSL.detailedSubjectID
+                    LEFT JOIN Fund F ON RP.fundID = F.FundID
+                    LEFT JOIN ResourceOrganizationLink ROL ON ROL.resourceID = R.resourceID
+                    LEFT JOIN $orgDB.Organization O on O.organizationID = ROL.organizationID
                 ";
 
         $query .= " WHERE RP.year=$year";
@@ -35,6 +49,9 @@ class Dashboard {
         if ($acquisitionTypeID) $query .= " AND RA.acquisitionTypeID = $acquisitionTypeID";
         if ($orderTypeID) $query .= " AND RP.orderTypeID = $orderTypeID";
         if ($costDetailsID) $query .= " AND RP.costDetailsID = $costDetailsID";
+        if ($fundID) $query .= " AND F.fundID = $fundID";
+        if ($organizationID) $query .= " AND O.organizationID = $organizationID";
+        if ($roleID) $query .= " AND ROL.organizationRoleID = $roleID";
         if ($subjectID) {
             if (substr($subjectID, 0, 1) == "d") {
                 $query .= " AND GDSL.detailedSubjectID = " . substr($subjectID, 1);
@@ -48,8 +65,17 @@ class Dashboard {
         return $query;
     }
 
-    public function getQueryYearlyCosts($resourceTypeID, $startYear, $endYear, $acquisitionTypeID, $orderTypeID, $subjectID, $costDetailsID, $groupBy) {
-     $query = "SELECT
+    public function getQueryYearlyCosts($resourceTypeID, $startYear, $endYear, $acquisitionTypeID, $orderTypeID, $subjectID, $costDetailsID, $fundID, $organizationID, $roleID, $groupBy) {
+        $config = new Configuration();
+        if ($config->settings->organizationsModule == 'Y' && $config->settings->organizationsDatabaseName) {
+            $orgDB = $config->settings->organizationsDatabaseName;
+            $orgField = 'name';
+        } else {
+            $orgDB = $config->database->name;
+            $orgField = 'shortName';
+        }
+
+         $query = "SELECT
                         R.resourceID,
                         R.titleText,
                         RT.shortName AS resourceType,
@@ -57,7 +83,9 @@ class Dashboard {
                         CD.shortName AS costDetails,
                         GS.shortName AS generalSubject,
                         DS.shortName AS detailedSubject,
-                        RA.libraryNumber AS libraryNumber
+                        RA.libraryNumber AS libraryNumber,
+                        F.shortName as fundName,
+                        O.$orgField AS organizationName
                         ";
 
         $costDetails = new CostDetails();
@@ -91,6 +119,9 @@ class Dashboard {
                     LEFT JOIN GeneralDetailSubjectLink GDSL ON GDSL.generalDetailSubjectLinkID = RS.generalDetailSubjectLinkID
                     LEFT JOIN GeneralSubject GS ON GS.generalSubjectID = GDSL.generalSubjectID
                     LEFT JOIN DetailedSubject DS ON DS.detailedSubjectID = GDSL.detailedSubjectID
+                    LEFT JOIN Fund F ON RP.fundID = F.FundID
+                    LEFT JOIN ResourceOrganizationLink ROL ON ROL.resourceID = R.resourceID
+                    LEFT JOIN $orgDB.Organization O on O.organizationID = ROL.organizationID
                 ";
 
         $query_parts = array();
@@ -98,6 +129,9 @@ class Dashboard {
         if ($acquisitionTypeID) $query_parts[] = " RA.acquisitionTypeID = $acquisitionTypeID";
         if ($orderTypeID) $query_parts[] = " RP.orderTypeID = $orderTypeID";
         if ($costDetailsID) $query_parts[] = " RP.costDetailsID = $costDetailsID";
+        if ($fundID) $query_parts[] = " F.fundID = $fundID";
+        if ($organizationID) $query_parts[] .= " O.organizationID = $organizationID";
+        if ($roleID) $query_parts[] .= " ROL.organizationRoleID = $roleID";
         if ($subjectID) {
             if (substr($subjectID, 0, 1) == "d") {
                 $query_parts[] = " GDSL.detailedSubjectID = " . substr($subjectID, 1);
@@ -184,7 +218,7 @@ class Dashboard {
         echo '<select name="resourceTypeID" id="resourceTypeID" style="width:150px;">';
         echo "<option value=''>All</option>";
         foreach($resourceType->getAllResourceType() as $display) {
-            if ($display['resourceTypeID'] == $current) {
+            if ($display['resourceTypeID'] == $currentID) {
                 echo "<option value='" . $display['resourceTypeID'] . "' selected>" . $display['shortName'] . "</option>";
             } else {
                 echo "<option value='" . $display['resourceTypeID'] . "'>" . $display['shortName'] . "</option>";
@@ -199,7 +233,7 @@ class Dashboard {
         echo '<select name="acquisitionTypeID" id="acquisitionTypeID" style="width:150px;">';
         echo "<option value=''>All</option>";
         foreach($acquisitionType->allAsArray() as $display) {
-            if ($display['acquisitionTypeID'] == $current) {
+            if ($display['acquisitionTypeID'] == $currentID) {
                 echo "<option value='" . $display['acquisitionTypeID'] . "' selected>" . $display['shortName'] . "</option>";
             } else {
                 echo "<option value='" . $display['acquisitionTypeID'] . "'>" . $display['shortName'] . "</option>";
@@ -214,7 +248,7 @@ class Dashboard {
         echo '<select name="orderTypeID" id="orderTypeID" style="width:150px;">';
         echo "<option value=''>All</option>";
         foreach($orderType->getAllOrderType() as $display) {
-            if ($display['orderTypeID'] == $current) {
+            if ($display['orderTypeID'] == $currentID) {
                 echo "<option value='" . $display['orderTypeID'] . "' selected>" . $display['shortName'] . "</option>";
             } else {
                 echo "<option value='" . $display['orderTypeID'] . "'>" . $display['shortName'] . "</option>";
@@ -248,7 +282,7 @@ class Dashboard {
         echo '<select name="costDetailsID" id="costDetailsID" style="width:150px;">';
         echo "<option value=''>All</option>";
         foreach($costDetails->allAsArray() as $display) {
-            if ($display['costDetailsID'] == $current) {
+            if ($display['costDetailsID'] == $currentID) {
                 echo "<option value='" . $display['costDetailsID'] . "' selected>" . $display['shortName'] . "</option>";
             } else {
                 echo "<option value='" . $display['costDetailsID'] . "'>" . $display['shortName'] . "</option>";
@@ -258,7 +292,56 @@ class Dashboard {
 
     }
 
+    function getFundsAsDropdown($currentID = null) {
+        $display = array();
+        $funds = new Fund();
+        echo '<select name="fundID" id="fundID" style="width:150px;">';
+        echo "<option value=''>All</option>";
+        foreach($funds->allAsArray() as $display) {
+            if ($display['fundID'] == $currentID) {
+                echo "<option value='" . $display['fundID'] . "' selected>" . $display['shortName'] . "</option>";
+            } else {
+                echo "<option value='" . $display['fundID'] . "'>" . $display['shortName'] . "</option>";
+            }
+        }
+        echo '</select>';
 
+    }
+
+    function getOrganizationsAsDropdown($currentID = null) {
+        $resource = new Resource();
+        $organizations = $resource->getOrganizationList();
+
+        echo '<select name="organizationID" id="organizationID" style="width:150px;">';
+        echo "<option value=''>All</option>";
+
+        foreach ($organizations as $display) {
+            if ($display['organizationID'] == $currentID) {
+                echo "<option value='" . $display['organizationID'] . "' selected>" . $display['name'] . "</option>";
+            } else {
+                echo "<option value='" . $display['organizationID'] . "'>" . $display['name'] . "</option>";
+            }
+        }
+        echo '</select>';
+    }
+
+    function getOrganizationsRolesAsDropdown($currentID = null) {
+        $organizationRole = new OrganizationRole();
+        $roles = $organizationRole->getArray();
+
+        echo '<select name="roleID" id="roleID" style="width:150px;">';
+        echo "<option value=''>All</option>";
+
+        foreach ($roles as $roleID => $roleName) {
+            if ($roleID == $currentID) {
+                echo "<option value='" . $roleID . "' selected>" . $roleName . "</option>";
+            } else {
+                echo "<option value='" . $roleID . "'>" . $roleName. "</option>";
+            }
+        }
+        echo '</select>';
+
+    }
 
 }
 ?>

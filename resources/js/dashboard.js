@@ -21,6 +21,9 @@ function submitDashboard() {
                         "orderTypeID": $("#orderTypeID").val(),
                         "subjectID": $("#subjectID").val(),
                         "costDetailsID": $("#costDetailsID").val(),
+                        "fundID": $("#fundID").val(),
+                        "organizationID": $("#organizationID").val(),
+                        "roleID": $("#roleID").val(),
                         "groupBy": $("#groupBy").val(),
                     },
 		success:    function(html) {
@@ -42,6 +45,9 @@ function submitDashboardYearlyCosts() {
                         "orderTypeID": $("#orderTypeID").val(),
                         "subjectID": $("#subjectID").val(),
                         "costDetailsID": $("#costDetailsID").val(),
+                        "fundID": $("#fundID").val(),
+                        "organizationID": $("#organizationID").val(),
+                        "roleID": $("#roleID").val(),
                         "groupBy": $("#groupBy").val(),
                     },
 		success:    function(html) {
