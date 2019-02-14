@@ -49,6 +49,7 @@ function submitDashboardYearlyCosts() {
                     },
 		success:    function(html) {
             $("#dashboardTable").html(html);
+            $('#dashboard_table').DataTable();
 		}
 	});
 }
