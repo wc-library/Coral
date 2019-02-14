@@ -1,4 +1,6 @@
 $(document).ready(function(){
+
+
   $("#submitDashboard").live("click", function() {
         submitDashboard();
     });
@@ -25,6 +27,7 @@ function submitDashboard() {
                     },
 		success:    function(html) {
             $("#dashboardTable").html(html);
+            $('#dashboard_table').DataTable();
 		}
 	});
 }
