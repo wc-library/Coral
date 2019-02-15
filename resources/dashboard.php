@@ -3,9 +3,9 @@
 	$pageTitle=_('Dashboard');
     $customJSInclude =  '<script type="text/javascript" src="../js/plugins/jquery-1.8.0.js"></script>' . "\n";
     $customJSInclude .= '<script type="text/javascript" src="../js/plugins/datatables.min.js"></script>' . "\n";
+    $customJSInclude .= '<script type="text/javascript" src="../js/plugins/datatables_defaults.js"></script>' . "\n";
 	include 'templates/header.php';
     $dashboard = new Dashboard();
-
 
 ?>
 <link rel="stylesheet" type="text/css" href="../css/datatables.min.css"/>
