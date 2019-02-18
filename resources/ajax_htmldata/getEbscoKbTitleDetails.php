@@ -91,25 +91,13 @@ $title = $ebscoKb->getTitle($titleId);
             <div class="col-12" style="margin-top: 1em;">
                 <h2>Available in the following packages:</h2>
                 <div class="row">
-                    <div class="col-4">
-                        <label for="showAllPackages">
-                            <input type="checkbox" id="showAllPackages"> <?php echo _("Show all packages"); ?>
-                        </label>
-                    </div>
-                </div>
-                <div class="row">
                     <?php foreach($title->customerResourcesList as $resource): ?>
-                    <div class="col-12 packageOption <?php echo $resource->isSelected ? 'selectedPackage' : ''; ?>">
+                    <div class="col-12">
                         <div class="card" style="margin-top: 1em;">
                             <div class="card-header">
                                 <div class="row">
                                     <div class="col-8">
-                                        <h3 style="padding-left: 5px;">
-                                            <?php if($resource->isSelected): ?>
-                                                <i class="fa fa-check-square-o fa-lg text-success" title="<?php echo _("Selected in EBSCO Kb"); ?>" style="margin-left: -15px;"></i>
-                                            <?php else: ?>
-                                                <i class="fa fa-ban fa-lg text-danger" title="<?php echo _("Not selected in EBSCO Kb"); ?>" style="margin-left: -15px;"></i>
-                                            <?php endif; ?>
+                                        <h3>
                                             <?php echo $resource->packageName; ?>
                                         </h3>
                                     </div>
@@ -131,15 +119,37 @@ $title = $ebscoKb->getTitle($titleId);
                                 </div>
                             </div>
                             <div class="card-body">
-                                <p><?php echo _("Vendor"); ?>: <?php echo $resource->vendorName; ?></p>
-                                <dl>
-                                    <dt><?php echo _("Coverage Statement"); ?></dt>
-                                    <dd><?php echo $resource->coverageStatement; ?></dd>
-                                    <dt><?php echo _("Embargo"); ?></dt>
-                                    <dd><?php echo $resource->embargoStatement; ?></dd>
-                                    <dt><?php echo _("Resource Url"); ?></dt>
-                                    <dd><a href="<?php echo $resource->url; ?>"><?php echo $resource->url; ?></a></dd>
-                                </dl>
+                                <div class="row">
+                                    <div class="col-9">
+                                        <p><?php echo _("Vendor"); ?>: <?php echo $resource->vendorName; ?></p>
+                                        <dl>
+                                            <dt><?php echo _("Coverage Statement"); ?></dt>
+                                            <dd><?php echo $resource->coverageStatement; ?></dd>
+                                            <dt><?php echo _("Embargo"); ?></dt>
+                                            <dd><?php echo $resource->embargoStatement; ?></dd>
+                                            <dt><?php echo _("Resource Url"); ?></dt>
+                                            <dd><a href="<?php echo $resource->url; ?>"><?php echo $resource->url; ?></a></dd>
+                                        </dl>
+                                    </div>
+                                    <div class="col-3">
+                                        <div style="text-align: center; margin-top: 1em">
+                                            <?php if($resource->selected): ?>
+                                                <a href="#" class="btn btn-success">
+                                                    <i class="fa fa-check"></i> <?php echo _('selected'); ?>
+                                                </a>
+                                            <?php else: ?>
+                                                <a href="" class="btn">
+                                                    <?php echo _('select this title'); ?>
+                                                </a>
+                                                <div style="margin-top: 2em">
+                                                    <a href="" class="btn">
+                                                        <?php echo _('select entire package'); ?>
+                                                    </a>
+                                                </div>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

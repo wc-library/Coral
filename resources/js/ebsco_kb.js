@@ -64,15 +64,6 @@ $(document).ready(function(){
     resetSearch(updateSearch.bind(null, 1, updateSearchForm));
   });
 
-  $('#showAllPackages').live('change', function() {
-    if($(this).is(':checked')){
-      $('.packageOption').show();
-    } else {
-      $('.packageOption').hide();
-      $('.selectedPackage').show();
-    }
-  });
-
 });
 
 function resetSearch(callback) {

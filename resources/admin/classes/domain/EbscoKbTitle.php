@@ -67,6 +67,15 @@ class EbscoKbTitle extends EbscoKbResult {
         }
     }
 
+    public function getSelected()
+    {
+        foreach($this->customerResourcesList as $resource) {
+            if ($resource->isSelected) {
+                return true;
+            }
+        }
+    }
+
     public function getCoverageTextArray()
     {
 

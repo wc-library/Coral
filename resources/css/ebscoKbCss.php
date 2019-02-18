@@ -59,14 +59,6 @@
         border-bottom: 1px solid rgba(0,0,0,.125);
     }
 
-    .ebsco-layout .packageOption {
-        display: none;
-    }
-
-    .ebsco-layout .selectedPackage {
-        display: block;
-    }
-
     .ebsco-layout div[id^="providerOption-help"] {
         display: none;
     }

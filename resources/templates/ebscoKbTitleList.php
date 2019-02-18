@@ -2,9 +2,9 @@
     <thead>
         <tr>
             <th><?php echo _("Title"); ?></th>
-            <th><?php echo _("Imported?"); ?></th>
             <th><?php echo _("Resource Type"); ?></th>
             <th><?php echo _("ISXNs"); ?></th>
+            <th><?php echo _("Current Holdings"); ?></th>
             <th><?php echo _("Import"); ?></th>
         </tr>
     </thead>
@@ -18,13 +18,6 @@
                     class="thickbox">
                     <?php echo $item->titleName; ?>
                 </a>
-            </td>
-            <td style="text-align: center;">
-                <?php if($item->resource): ?>
-                    <a href="resource.php?resourceID=<?php echo $item->resource->primaryKey; ?>">
-                        <i class="fa fa-check text-success" title="<?php echo _('imported in Coral'); ?>"></i>
-                    </a>
-                <?php endif; ?>
             </td>
             <td>
                 <?php echo $item->pubType; ?>
@@ -51,11 +44,28 @@
                 </ul>
             </td>
             <td style="text-align: center;">
-                <a
-                    href="ajax_forms.php?action=getEbscoKbTitleImportForm&height=700&width=730&modal=true&titleId=<?php echo $item->titleId; ?>"
-                    class="thickbox btn btn-primary">
-                    <?php echo _('import'); ?>
-                </a>
+                <?php if($item->selected): ?>
+                    <a href="#" class="btn btn-success">
+                        <i class="fa fa-check"></i> <?php echo _('selected'); ?>
+                    </a>
+                <?php else: ?>
+                    <a href="ajax_htmldata.php?action=getEbscoKbTitleDetails&height=700&width=730&modal=true&titleId=<?php echo $item->titleId; ?>" class="thickbox btn">
+                        <?php echo _('not selected'); ?>
+                    </a>
+                <?php endif; ?>
+            </td>
+            <td style="text-align: center;">
+                <?php if($item->resource): ?>
+                    <a href="resource.php?resourceID=<?php echo $item->resource->primaryKey; ?>" class="btn btn-success">
+                        <i class="fa fa-check" title="<?php echo _('imported in Coral'); ?>"></i> View Resource
+                    </a>
+                <?php else: ?>
+                    <a
+                        href="ajax_forms.php?action=getEbscoKbTitleImportForm&height=700&width=730&modal=true&titleId=<?php echo $item->titleId; ?>"
+                        class="thickbox btn btn-primary">
+                        <?php echo _('import'); ?>
+                    </a>
+                <?php endif; ?>
             </td>
         </tr>
     <?php endforeach; ?>
