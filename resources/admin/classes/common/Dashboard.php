@@ -58,6 +58,7 @@ class Dashboard {
                 } else {
                     $query .= " AND GDSL.generalSubjectID = $sid";
                 }
+            }
         }
         $query .= " GROUP BY ";
         if ($groupBy != '') $query .= "$groupBy, ";
