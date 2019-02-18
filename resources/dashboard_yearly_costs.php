@@ -1,10 +1,14 @@
 <?php
     include_once 'directory.php';
     $pageTitle=_('Dashboard');
+    $customJSInclude =  '<script type="text/javascript" src="../js/plugins/jquery-1.8.0.js"></script>' . "\n";
+    $customJSInclude .= '<script type="text/javascript" src="../js/plugins/datatables.min.js"></script>' . "\n";
+    $customJSInclude .= '<script type="text/javascript" src="../js/plugins/datatables_defaults.js"></script>' . "\n";
     include 'templates/header.php';
     $dashboard = new Dashboard();
 
 ?>
+<link rel="stylesheet" type="text/css" href="../css/datatables.min.css"/>
 <script type="text/javascript" src="js/dashboard.js"></script>
 <div id="dashboardPage"><h1><?php echo _("Dashboard: yearly costs");?></h1>
 <div style='text-align:left;'>

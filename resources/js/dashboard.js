@@ -1,4 +1,6 @@
 $(document).ready(function(){
+
+
   $("#submitDashboard").live("click", function() {
         submitDashboard();
     });
@@ -28,6 +30,11 @@ function submitDashboard() {
                     },
 		success:    function(html) {
             $("#dashboardTable").html(html);
+            $('#dashboard_table').DataTable($.extend(true, {}, dataTablesDefaults, {
+            aLengthMenu: [
+                [25, 50, 100, 200, -1],
+                [25, 50, 100, 200, "All"]
+            ]}));
 		}
 	});
 }
@@ -52,6 +59,10 @@ function submitDashboardYearlyCosts() {
                     },
 		success:    function(html) {
             $("#dashboardTable").html(html);
+            $('#dashboard_table').DataTable({aLengthMenu: [
+                [25, 50, 100, 200, -1],
+                [25, 50, 100, 200, "All"]
+            ]});
 		}
 	});
 }

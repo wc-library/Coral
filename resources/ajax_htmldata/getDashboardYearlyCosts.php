@@ -68,9 +68,9 @@
             echo ("<td>" . $result['costDetailsSum']. "</td>");
             echo "</tr>";
         } else {
-            echo "<tr><td colspan='7'><b>";
+            echo "<tr><td><b>";
             if ($currentCount == $count) { echo  _("Total"); } else { echo _("Sub-Total:") . " " . $result[$groupBy]; }
-            echo "</b></td>";
+            echo "</b></td><td></td><td></td><td></td><td></td>";
             for ($i = $startYear; $i <= $endYear; $i++) {
                 foreach ($costDetailsArray as $costDetail) {
                     if ($costDetailsID && $costDetail['costDetailsID'] != $costDetailsID) continue;

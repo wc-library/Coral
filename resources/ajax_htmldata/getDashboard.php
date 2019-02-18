@@ -49,9 +49,9 @@
             echo "<td>" . $result['paymentAmount'] . "</td>";
             echo "</tr>";
         } else {
-            echo "<tr><td colspan='7'><b>";
+            echo "<tr><td><b>";
             if ($i == $count) { echo  _("Total"); } else { echo _("Sub-Total:") . " " . $result[$groupBy]; }
-            echo "</b></td>";
+            echo "</b></td><td></td><td></td><td></td><td></td>";
             echo "<td><b>" . $result['paymentAmount']  . "</b></td>";
             echo "</tr>";
         }
