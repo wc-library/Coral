@@ -49,7 +49,7 @@ $coralURL = $util->getCORALURL();
 <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
 <script type="text/javascript" src="../js/plugins/Gettext.js"></script>
 <script type="text/javascript" src="../js/plugins/translate.js"></script>
-<?php if ($customJSInclude) {
+<?php if (isset($customJSInclude)) {
     echo $customJSInclude;
 } else { ?>
     <script type="text/javascript" src="../js/plugins/jquery-1.4.4.js"></script>
