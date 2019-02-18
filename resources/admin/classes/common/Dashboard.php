@@ -63,6 +63,7 @@ class Dashboard {
         $costDetails = new CostDetails();
         $costDetailsArray = $costDetails->allAsArray();
         $sum_parts = array();
+        // Each cost detail
         for ($i = $startYear; $i <= $endYear; $i++) {
             foreach ($costDetailsArray as $costDetail) {
 
@@ -78,8 +79,25 @@ class Dashboard {
             }
         }
         $query_sum = join(",", $sum_parts);
-        if ($query_sum) $query .= "," . $query_sum;
 
+        // Sum of all cost details
+        if ($query_sum) {
+            $sum_parts = array();
+            for ($i = $startYear; $i <= $endYear; $i++) {
+                foreach ($costDetailsArray as $costDetail) {
+
+                    $sum_query = " SUM(if(RP.year = $i";
+                    $sum_query .= " AND RP.costDetailsID = " . $costDetail['costDetailsID'];
+
+                    if ($orderTypeID) $sum_query .= " AND RP.orderTypeID = $orderTypeID";
+
+                    $sum_query .= ", ROUND(COALESCE(RP.paymentAmount, 0) / 100, 2), 0))";
+                    $sum_parts[] = $sum_query;
+                }
+            }
+            $total_sum = "(" . join(" + ", $sum_parts) . ") AS costDetailsSum";
+        }
+        if ($query_sum) $query .= "," . $query_sum . "," . $total_sum;
         $query .= "
                  FROM Resource R
                     LEFT JOIN ResourceAcquisition RA ON RA.resourceID = R.resourceID
