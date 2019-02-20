@@ -16,7 +16,7 @@
  * *************************************************************************************************************************
  */
 
-require_once "common/Object.php";
+require_once "common/Base_Object.php";
 require_once "common/Config.php";
 class DBService extends Base_Object {
 	const ERR_COULD_NOT_SELECT_DATABASE = 10040;
