@@ -200,6 +200,9 @@ table.queueDataTable tr {
 
 /* following is all for admin and queue pages
 *************************/
+div.ImportElement{margin-top: 1px; margin-right: 8px;}
+div.addElement{margin-top: 3px; margin-right: 8px;}
+div.adminHeader {display: flex; justify-content: space-between;}
 div.adminRightHeader{font-size:135%; color:#3D545D; margin-bottom:5px; }
 div.adminMenuLink a {color:#707172;text-decoration:none;}
 div.adminMenuLink a:active {color:#3D545D;}
