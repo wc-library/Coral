@@ -90,6 +90,17 @@ table.titleTable {
 			height: 120px;
 }
 ---*/
+div.ImportElement{
+	margin-top: 1px; margin-right: 8px;
+}
+
+div.addElement{
+	margin-top: 3px; margin-right: 676px;
+}
+
+div.adminHeader {
+	display: flex; justify-content: space-between;
+}
 
 table.headerTable {
 	padding: 1px;

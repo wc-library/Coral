@@ -182,4 +182,3 @@ if ($config->settings->organizationsModule != 'Y'){ ?>
 
 include 'templates/footer.php';
 ?>
-
