@@ -570,6 +570,10 @@ table.borderedFormTable tr {vertical-align: top;}
 			display: none;
 }
 
+td.tableIcons{
+	text-align: center;
+}
+
 .noBorder > tbody > tr > td:nth-child(1) {
 	width: 130px !important;
 	padding-bottom: 20px;
@@ -684,6 +688,11 @@ a.setPage:hover {
 }
 
 /*--- Links with Icons ---*/
+
+img.AdminAddIcon{
+	vertical-align: -15%;
+}
+
 
 a.newSearch:before {
 	font-family: FontAwesome;
@@ -1176,6 +1185,12 @@ table.thickboxTable .headerText {
 #div_signatureForm table.thickboxTable {
 	background-image: none !important;
 }
+/*--- Adjust Ican in form ---*/
+img.signatureEditIcon{
+	padding-left: 20px;
+
+}
+
 
 /*--- Adjust Document Upload Form Modal Window ---*/
 
