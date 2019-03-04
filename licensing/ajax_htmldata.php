@@ -138,8 +138,8 @@ switch ($_GET['action']) {
 				echo "<tr>";
 				echo "<td>" . $document->shortName . "</td>";
 				echo "<td>" . $sfxProvider->shortName . "</td>";
-				echo "<td><a href='ajax_forms.php?action=getSFXForm&height=178&width=260&modal=true&licenseID=" . $licenseID . "&providerID=" . $sfxProvider->sfxProviderID . "' class='thickbox' id='editSFXProvider'>"._("edit")."</a></td>";
-				echo "<td><a href='javascript:deleteSFXProvider(\"" . $sfxProvider->sfxProviderID . "\");'>"._("remove")."</a></td>";
+				echo "<td><a href='ajax_forms.php?action=getSFXForm&height=178&width=260&modal=true&licenseID=" . $licenseID . "&providerID=" . $sfxProvider->sfxProviderID . "' class='thickbox' id='editSFXProvider'><img id='Edit' class='editIcon' src='images/edit.gif' title= '"._("Edit")."' /></a></td>";
+				echo "<td><a href='javascript:deleteSFXProvider(\"" . $sfxProvider->sfxProviderID . "\");'><img id='Remove' class='removeIcon' src='images/cross.gif' title= '"._("Remove")."' /></a></td>";
 				echo "</tr>";
 			}
 
@@ -231,7 +231,7 @@ switch ($_GET['action']) {
 				echo "</td>";
 
 				if ($user->canEdit()){
-					echo "<td><a href='ajax_forms.php?action=getAttachmentForm&height=398&width=305&modal=true&licenseID=" . $licenseID . "&attachmentID=" . $attachment->attachmentID . "' class='thickbox' id='editAttachment'>"._("edit")."</a>&nbsp;&nbsp;<a href='javascript:deleteAttachment(\"". $attachment->attachmentID . "\");'>"._("remove")."</a></td>";
+					echo "<td style='text-align: center;'><a href='ajax_forms.php?action=getAttachmentForm&height=398&width=305&modal=true&licenseID=" . $licenseID . "&attachmentID=" . $attachment->attachmentID . "' class='thickbox' id='editAttachment'><img id='Edit'  class='AdminEditIcon' src='images/edit.gif' title= '"._("Edit")."' /></a>&nbsp;&nbsp;<a href='javascript:deleteAttachment(\"". $attachment->attachmentID . "\");'><img id='Remove' class='AdminRemoveIcon' src='images/cross.gif' title= '"._("Remove")."' /></a></td>";
 				}
 
 				echo "</tr>";
@@ -1147,7 +1147,7 @@ switch ($_GET['action']) {
 
 
 						echo "</td>";
-						echo "<td class='alt'><a href='ajax_forms.php?action=getExpressionForm&licenseID=" . $licenseID . "&expressionID=" . $expressionIns['expressionID'] . "&height=420&width=345&modal=true' class='thickbox'>"._("edit")."</a>&nbsp;&nbsp;<a href='javascript:deleteExpression(" . $expressionIns['expressionID'] . ");'>"._("remove")."</a></td>";
+						echo "<td class='alt' style='text-align:center;'><a href='ajax_forms.php?action=getExpressionForm&licenseID=" . $licenseID . "&expressionID=" . $expressionIns['expressionID'] . "&height=420&width=345&modal=true' class='thickbox'><img id='Edit' src='images/edit.gif' title= '"._("Edit")."' /></a>&nbsp;&nbsp;<a href='javascript:deleteExpression(" . $expressionIns['expressionID'] . ");'><img id='Remove' class='removeIcon' src='images/cross.gif' title= '"._("Remove")."' /></a></td>";
 					}
 					echo "</tr>";
 

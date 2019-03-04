@@ -3268,3 +3268,25 @@ input#archiveInd {
     margin-top: 10px;
     margin-bottom: 10px;
 }
+
+/*--- Icons align in ProductsDetails ---*/
+.alignIcons{
+	display: flex;
+	justify-content: flex-end;
+
+}
+
+
+.removeIcon  {
+	padding: 3px;
+	vertical-align: 100%;
+}
+
+.editIcon  {
+	padding: 3px;
+	margin-left: 3px;
+}
+
+.addIcon {
+	vertical-align: -16px;
+}

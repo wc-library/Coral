@@ -158,19 +158,22 @@
 		?>
 			<table class='linedFormTable'>
 				<tr>
-				<th><?php echo _("Additional Notes");?></th>
+				<th><<?php echo _("Additional Notes");?></th>
 				<th>
+				<div class="alignIcons">
 				<?php if ($user->canEdit()){?>
-					<a href='ajax_forms.php?action=getNoteForm&height=233&width=410&tab=Access&entityID=<?php echo $resourceAcquisitionID; ?>&resourceNoteID=&modal=true' class='thickbox'><?php echo _("add new note");?></a>
+				<div><a class='addIcon' href='ajax_forms.php?action=getNoteForm&height=233&width=410&tab=Access&entityID=<?php echo $resourceAcquisitionID; ?>&resourceNoteID=&modal=true' class='thickbox'><?php echo _("add new note");?></a></div>
+				<?php }
+				if ($user->canEdit()){?>
+				<div><a class='editIcon' href='ajax_forms.php?action=getNoteForm&height=233&width=410&tab=Access&entityID=<?php echo $resourceAcquisitionID; ?>&resourceNoteID=<?php echo $resourceNote['resourceNoteID']; ?>&modal=true' class='thickbox'><img src='images/edit.gif' alt='<?php echo _("edit");?>' title='<?php echo _("edit note");?>'></a></div><div><a class='removeIcon' href='javascript:void(0);' class='removeNote' id='<?php echo $resourceNote['resourceNoteID']; ?>' tab='Access'><img src='images/cross.gif' alt='<?php echo _("remove note");?>' title='<?php echo _("remove note");?>'></a></div>
+			</div>
 				<?php } ?>
 				</th>
 				</tr>
 				<?php foreach ($noteArray as $resourceNote){ ?>
 					<tr>
 					<td style='width:150px;'><?php echo $resourceNote['noteTypeName']; ?><br />
-					<?php if ($user->canEdit()){?>
-					<a href='ajax_forms.php?action=getNoteForm&height=233&width=410&tab=Access&entityID=<?php echo $resourceAcquisitionID; ?>&resourceNoteID=<?php echo $resourceNote['resourceNoteID']; ?>&modal=true' class='thickbox'><img src='images/edit.gif' alt='<?php echo _("edit");?>' title='<?php echo _("edit note");?>'></a>  <a href='javascript:void(0);' class='removeNote' id='<?php echo $resourceNote['resourceNoteID']; ?>' tab='Access'><img src='images/cross.gif' alt='<?php echo _("remove note");?>' title='<?php echo _("remove note");?>'></a>
-					<?php } ?>
+
 					</td>
 					<td><?php echo nl2br($resourceNote['noteText']); ?><br /><i><?php echo format_date($resourceNote['updateDate']) . _(" by ") . $resourceNote['updateUser']; ?></i></td>
 					</tr>

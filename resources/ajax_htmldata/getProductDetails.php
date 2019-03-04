@@ -356,7 +356,7 @@
 
 							<td style='width:50px;'>
 							<?php if ($user->canEdit() && $canDelete) { ?>
-								<a href='javascript:void(0);'
+								<a style='margin-left:33px' href='javascript:void(0);'
 									tab='Product'
 									class='removeResourceSubjectRelationship'
 									generalDetailSubjectID='<?php echo $generalDetailSubjectID['generalDetailSubjectLinkID']; ?>'
@@ -434,17 +434,20 @@
 				<tr>
 				<th><?php echo _("Additional Notes");?></th>
 				<th>
+					<div class="alignIcons">
 				<?php if ($user->canEdit()){ ?>
-					<a href='ajax_forms.php?action=getNoteForm&height=233&width=410&tab=Product&entityID=<?php echo $resourceID; ?>&resourceNoteID=&modal=true' class='thickbox'><?php echo _("add new note");?></a>
+					<div><a class="addIcon" href='ajax_forms.php?action=getNoteForm&height=233&width=410&tab=Product&entityID=<?php echo $resourceID; ?>&resourceNoteID=&modal=true' class='thickbox'><?php echo _("add new note");?></a></div>
+					<?php if ($user->canEdit()){ ?>
+					<div><a href='ajax_forms.php?action=getNoteForm&height=233&width=410&tab=Product&entityID=<?php echo $resourceID; ?>&resourceNoteID=<?php echo $resourceNote['resourceNoteID']; ?>&modal=true' class='thickbox'><img class="editIcon" src='images/edit.gif' alt='<?php echo _("edit");?>' title='<?php echo _("edit note");?>'></div><div></a>  <a href='javascript:void(0);'class='removeNote' id='<?php echo $resourceNote['resourceNoteID']; ?>' tab='Product'><img class="removeIcon" src='images/cross.gif' alt='<?php echo _("remove note");?>' title='<?php echo _("remove note");?>'></a></div>
+					<?php } ?>
+				</div>
 				<?php } ?>
 				</th>
 				</tr>
 				<?php foreach ($noteArray as $resourceNote){ ?>
 					<tr>
 					<td style='width:115px;'><?php echo $resourceNote['noteTypeName']; ?><br />
-					<?php if ($user->canEdit()){ ?>
-					<a href='ajax_forms.php?action=getNoteForm&height=233&width=410&tab=Product&entityID=<?php echo $resourceID; ?>&resourceNoteID=<?php echo $resourceNote['resourceNoteID']; ?>&modal=true' class='thickbox'><img src='images/edit.gif' alt='<?php echo _("edit");?>' title='<?php echo _("edit note");?>'></a>  <a href='javascript:void(0);' class='removeNote' id='<?php echo $resourceNote['resourceNoteID']; ?>' tab='Product'><img src='images/cross.gif' alt='<?php echo _("remove note");?>' title='<?php echo _("remove note");?>'></a>
-					<?php } ?>
+
 					</td>
 					<td><?php echo nl2br($resourceNote['noteText']); ?><br /><i><?php echo format_date($resourceNote['updateDate']) . _(" by ") . $resourceNote['updateUser']; ?></i></td>
 					</tr>
@@ -455,9 +458,9 @@
 			if ($user->canEdit()){
 			?>
 				<a href='ajax_forms.php?action=getNoteForm&height=233&width=410&tab=Product&entityID=<?php echo $resourceID; ?>&resourceNoteID=&modal=true' class='thickbox'><?php echo _("add new note");?></a>
+
 			<?php
 			}
 		}
 
 ?>
-
