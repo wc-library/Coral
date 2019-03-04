@@ -3269,7 +3269,7 @@ input#archiveInd {
     margin-bottom: 10px;
 }
 
-/*--- Icons align in ProductDetails ---*/
+/*--- Icons align in ProductsDetails ---*/
 .alignIcons{
 	display: flex;
 	justify-content: flex-end;
