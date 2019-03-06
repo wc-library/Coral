@@ -3276,6 +3276,11 @@ input#archiveInd {
 
 }
 
+.alignIconLeftSide{
+	display: flex;
+	justify-content: space-around;
+}
+
 
 .removeIcon  {
 	padding: 3px;
@@ -3289,4 +3294,8 @@ input#archiveInd {
 
 .addIcon {
 	vertical-align: -16px;
+}
+
+.addIconTab {
+	text-align: right;
 }

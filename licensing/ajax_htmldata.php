@@ -156,7 +156,7 @@ switch ($_GET['action']) {
 		}
 
 		if ($user->canEdit()){
-			echo "<br /><br /><a href='ajax_forms.php?action=getSFXForm&licenseID=" . $licenseID . "&height=178&width=260&modal=true' class='thickbox' id='addSFXResource'>"._("add new terms tool resource link")."</a>";
+			echo "<br /><br /><a href='ajax_forms.php?action=getSFXForm&licenseID=" . $licenseID . "&height=178&width=260&modal=true' class='thickbox' id='addSFXResource'>"._("add terms tool resource link")."</a>";
 		}
 
 		break;
@@ -246,7 +246,7 @@ switch ($_GET['action']) {
 		}
 
 		if ($user->canEdit()){
-			echo "<br /><br /><a href='ajax_forms.php?action=getAttachmentForm&licenseID=" . $licenseID . "&height=380&width=305&modal=true' class='thickbox' id='attachment'>"._("add new attachment")."</a>";
+			echo "<br /><br /><a href='ajax_forms.php?action=getAttachmentForm&licenseID=" . $licenseID . "&height=380&width=305&modal=true' class='thickbox' id='attachment'>"._("add attachment")."</a>";
 		}
 
 		break;
@@ -851,7 +851,7 @@ switch ($_GET['action']) {
 				}else{
 					echo _("(none found)")."&nbsp";
 					if ($user->canEdit()){
-						echo "<a href='ajax_forms.php?action=getSignatureForm&height=170&width=460&modal=true&documentID=" . $document->documentID . "' class='thickbox' id='signatureForm'><img id='Add' class='SignatureAddIcon' src='images/plus.gif' title= '"._("Add signatures")."' /></a>";
+						echo "<a href='ajax_forms.php?action=getSignatureForm&height=170&width=460&modal=true&documentID=" . $document->documentID . "' class='thickbox' id='signatureForm'><img class='SignatureAddIcon' src='images/plus.gif' title= '"._("Add signatures")."' /></a>";
 					}
 				}
 
@@ -1197,7 +1197,7 @@ switch ($_GET['action']) {
 		}
 
 		if ($user->canEdit()){
-			echo "<br /><br /><a href='ajax_forms.php?action=getExpressionForm&licenseID=" . $licenseID . "&height=420&width=345&modal=true' class='thickbox' id='expression'>"._("add new expression")."</a>";
+			echo "<br /><br /><a href='ajax_forms.php?action=getExpressionForm&licenseID=" . $licenseID . "&height=420&width=345&modal=true' class='thickbox' id='expression'>"._("add expression")."</a>";
 		}
 
 
@@ -1283,8 +1283,8 @@ switch ($_GET['action']) {
 					if ($util->useTermsTool()){
 						echo "<td>" . $instance['emailAddressForTermsTool'] . "</td>";
 					}
-					echo "<td style='width:30px'><a href='ajax_forms.php?action=getAdminUserUpdateForm&loginID=" . $instance['loginID'] . "&height=210&width=295&modal=true' class='thickbox' id='expression'><img id='Update' class='AdminUpdateIcon' src='images/arrow_up.gif' title= '"._("update")."' /></a></td>";
-					echo "<td style='width:50px'><a href='javascript:deleteUser(\"" . $instance['loginID'] . "\")'><img id='Remove' class='AdminRemoveIcon' src='images/cross.gif' title= '"._("Remove")."' /></a></td>";
+					echo "<td><a href='ajax_forms.php?action=getAdminUserUpdateForm&loginID=" . $instance['loginID'] . "&height=210&width=295&modal=true' class='thickbox' id='expression'><img src='images/arrow_up.gif' title= '"._("update")."' /></a></td>";
+					echo "<td><a href='javascript:deleteUser(\"" . $instance['loginID'] . "\")'><img  src='images/cross.gif' title= '"._("Remove")."' /></a></td>";
 					echo "</tr>";
 				}
 

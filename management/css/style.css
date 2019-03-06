@@ -1937,3 +1937,7 @@ table.titleTable {
 .addIcon {
 	vertical-align: -3px;
 }
+
+.addIconTab {
+	text-align: center;
+}

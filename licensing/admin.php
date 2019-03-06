@@ -146,7 +146,7 @@ if ($config->settings->organizationsModule != 'Y'){ ?>
 	<table class="headerTable">
 	<tr><td>
 	<span class="headerText"><?php echo _("Consortia");?></span>&nbsp;&nbsp;<span id='span_Consortium_response'></span>
-	<br /><span id='span_newConsortium' class='adminAddInput'><a href='javascript:showAdd("Consortium");'><?php echo _("add new consortium");?></a></span>
+	<br /><span id='span_newConsortium' class='adminAddInput'><a href='javascript:showAdd("Consortium");'><?php echo _("add consortium");?></a></span>
 	<br /><br />
 	<div id='div_Consortium'>
 	<img src = "images/circle.gif"><?php echo _("Loading...");?>
@@ -160,7 +160,7 @@ if ($config->settings->organizationsModule != 'Y'){ ?>
 	<table class="headerTable">
 	<tr><td>
 	<span class="headerText"><?php echo _("Providers");?></span>&nbsp;&nbsp;<span id='span_Organization_response'></span>
-	<br /><span id='span_newOrganization' class='adminAddInput'><a href='javascript:showAdd("Organization");'><?php echo _("add new provider");?></a></span>
+	<br /><span id='span_newOrganization' class='adminAddInput'><a href='javascript:showAdd("Organization");'><?php echo _("add provider");?></a></span>
 	<br /><br />
 	<div id='div_Organization'>
 	<img src = "images/circle.gif"><?php echo _("Loading...");?>

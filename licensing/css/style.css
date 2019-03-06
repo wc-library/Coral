@@ -1819,3 +1819,10 @@ td.helpfulLinks {
 	margin-top: 0px !important;
 	overflow-x: hidden !important;
 }
+
+/*--- Icon Align ---*/
+
+
+.addIconTab {
+	text-align: right;
+}
