@@ -43,7 +43,7 @@
 		?>
 		<div class="adminHeader">
 			<div></div>
-			<div class="addElement" style= "padding-bottom: 8px;"><?php echo "<a href='ajax_forms.php?action=getAdminAlertDaysForm&alertDaysInAdvanceID=&height=128&width=260&modal=true' class='thickbox'><img id='addAlertDay' src='images/plus.gif' title='add day'/></a>";?></div>
+			<div class="addElement" style= "padding-bottom: 8px;"><?php echo "<a href='ajax_forms.php?action=getAdminAlertDaysForm&alertDaysInAdvanceID=&height=128&width=260&modal=true' class='thickbox'><img id='addAlertDay' src='images/plus.gif' title='"._("add day")."'/></a>";?></div>
 
 		</div>
 		<?php

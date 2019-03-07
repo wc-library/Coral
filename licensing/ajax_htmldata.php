@@ -203,7 +203,7 @@ switch ($_GET['action']) {
 				echo "<td><div id='attachment_short_" . $attachment->attachmentID . "'>" . substr($attachmentText, 0,200);
 
 				if (strlen($attachmentText) > 200){
-					echo "...&nbsp;&nbsp;<a href='javascript:showFullAtt		break;achmentText(\"" . $attachment->attachmentID . "\");'>"._("more...")."</a>";
+					echo "...&nbsp;&nbsp;<a href='javascript:showFullAttachmentText(\"" . $attachment->attachmentID . "\");'>"._("more...")."</a>";
 				}
 
 				echo "</div>";

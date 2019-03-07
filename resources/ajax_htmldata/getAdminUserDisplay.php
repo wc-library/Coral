@@ -18,7 +18,7 @@
 			?>
 			<div class="adminHeader">
 			<div class="adminRightHeader"><?php echo _("Users");?></div>
-			<div class="addElement" style="margin-right: 4px"><a href='ajax_forms.php?action=getAdminUserUpdateForm&loginID=&height=275&width=315&modal=true' class='thickbox' id='addUser'><img id='addUserGroup' src='images/plus.gif' title='add User' /></a></div>
+			<div class="addElement" style="margin-right: 4px"><?php echo "<a href='ajax_forms.php?action=getAdminUserUpdateForm&loginID=&height=275&width=315&modal=true' class='thickbox' id='addUser'><img id='addUserGroup' src='images/plus.gif' title='" . _("add") . "' />";?></a></div>
 			</div>
 			<table class='linedDataTable' style='width:570px;margin-bottom:5px;'>
 				<tr>
