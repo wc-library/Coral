@@ -437,7 +437,6 @@
 
 				<?php if ($user->canEdit()){ ?>
 					<a href='ajax_forms.php?action=getNoteForm&height=233&width=410&tab=Product&entityID=<?php echo $resourceID; ?>&resourceNoteID=&modal=true' class='thickbox'><?php echo "<div class='addIconTab' ><img id='Add' src='images/plus.gif' title= '"._("Add")."' /></div>";?></a></div>
-					<?php if ($user->canEdit()){ ?>
 
 
 				<?php } ?>
@@ -446,6 +445,7 @@
 				<?php foreach ($noteArray as $resourceNote){ ?>
 					<tr>
 					<td style="vertical-align: auto;"><?php echo $resourceNote['noteTypeName']; ?>
+						<?php if ($user->canEdit()){ ?>
 						<a href='ajax_forms.php?action=getNoteForm&height=233&width=410&tab=Product&entityID=<?php echo $resourceID; ?>&resourceNoteID=<?php echo $resourceNote['resourceNoteID']; ?>&modal=true' class='thickbox'><img  src='images/edit.gif' alt='<?php echo _("edit");?>' title='<?php echo _("edit note");?>'></a>
 						<a href='javascript:void(0);' class='removeNote' id='<?php echo $resourceNote['resourceNoteID']; ?>' tab='Product'><img src='images/cross.gif' alt='<?php echo _("remove note");?>' title='<?php echo _("remove note");?>'></a>
 						<?php } ?>
