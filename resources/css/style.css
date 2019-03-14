@@ -202,8 +202,9 @@ table.queueDataTable tr {
 *************************/
 div.ImportElement{margin-top: 1px; margin-right: 8px;}
 div.addElement{margin-top: 3px; margin-right: 8px;}
-div.adminHeader {display: flex; justify-content: space-between;}
-div.adminRightHeader{font-size:135%; color:#3D545D; margin-bottom:5px; }
+div.adminHeader {display: flex;}
+div.adminHeaderAlert {display: flex; flex-direction: column;}
+div.adminRightHeader{font-size:135%; color:#3D545D; margin-bottom:5px; padding-right: 10px;}
 div.adminMenuLink a {color:#707172;text-decoration:none;}
 div.adminMenuLink a:active {color:#3D545D;}
 div.adminMenuLink a:hover {color:#526972;text-decoration:underline;}
@@ -3298,4 +3299,8 @@ input#archiveInd {
 
 .addIconTab {
 	text-align: right;
+}
+
+.addIconAlert {
+	vertical-align: 3px;
 }
