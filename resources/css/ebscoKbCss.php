@@ -1,4 +1,5 @@
 <style>
+
     .ebsco-layout .container {
         margin: 1em 15px;
     }
@@ -116,6 +117,41 @@
         color: #666;
         max-height: 430px;
         overflow-y: scroll;
+    }
+
+    /* Dropdown */
+
+    .ebsco-select-dropdown {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+    }
+
+    .ebsco-select-dropdown .dd-content {
+        display: none;
+        position: absolute;
+        background-color: #f1f1f1;
+        text-align: left;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+    }
+
+    .ebsco-select-dropdown .dd-content.show {
+        display: block;
+    }
+
+
+
+    .ebsco-select-dropdown .dd-content a {
+        color: black;
+        padding: 7px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    .ebsco-select-dropdown .dd-content a:hover {
+        background-color: #ddd;
     }
 
 

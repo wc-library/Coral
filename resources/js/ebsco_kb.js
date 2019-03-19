@@ -64,6 +64,14 @@ $(document).ready(function(){
     resetSearch(updateSearch.bind(null, 1, updateSearchForm));
   });
 
+  // Close dropdowns when clicked outside of it
+  window.onclick = function(event) {
+    if (!event.target.matches('.dd-btn')) {
+      $('.dd-content').each(function() {
+        $(this).removeClass('show');
+      })
+    }
+  }
 });
 
 function resetSearch(callback) {
@@ -142,3 +150,9 @@ function setNumberOfRecords(recordsPerPageNumber){
   updateSearch();
 }
 
+
+function toggleEbscoSelectDropdown(target) {
+  $('.dd-content').not(target).removeClass('show');
+  $(target).toggleClass('show');
+
+}

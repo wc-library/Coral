@@ -15,16 +15,17 @@
             <td>
                 <?php echo $item->packageName; ?>
                 <br>
-                <small>(<?php echo $item->vendorName; ?>)</small> <a class="setPackage"
-                                                                     data-vendor-id="<?php echo $item->vendorId; ?>"
-                                                                     data-package-id="<?php echo $item->packageId; ?>"
-                                                                     data-package-name="<?php echo $item->packageName; ?>"><?php echo _("view titles"); ?></a>
+                <small>(<?php echo $item->vendorName; ?>)</small>
             </td>
             <td>
                 <?php echo $item->titleCount; ?>
+                <a href="javascript:void(0);" class="setPackage"
+                   data-vendor-id="<?php echo $item->vendorId; ?>"
+                   data-package-id="<?php echo $item->packageId; ?>"
+                   data-package-name="<?php echo $item->packageName; ?>"><?php echo '('._('view').')'; ?></a>
                 <?php if($item->selectedCount != $item->titleCount): ?>
-                <br>
-                <small>(<?php echo $item->selectedCount.' '._('selected'); ?>)</small>
+                    <br>
+                    <small>(<?php echo $item->selectedCount.' '._('selected'); ?>)</small>
                 <?php endif; ?>
             </td>
             <td>
@@ -52,18 +53,43 @@
                 <?php endif; ?>
             </td>
             <td style="text-align: center;">
-                <?php if($item->selectedCount): ?>
-                    <a href="#" class="btn btn-success">
-                        <i class="fa fa-check"></i> <?php echo _('Selected'); ?> <i class="fa fa-chevron-down"></i>
+                <?php
+
+                    $selectClass = '';
+                    $selectText = _('Not Selected');
+                    if ($item->selectedCount) {
+                        $selectClass = 'btn-success';
+                        $selectText = '<i class="fa fa-check"></i>'._('Selected');
+                    }
+                ?>
+                <div class="ebsco-select-dropdown">
+                    <a href="javascript:void(0);" class="btn dd-btn <?php echo $selectClass; ?>" onclick="toggleEbscoSelectDropdown('#<?php echo $item->packageId; ?>-dropdown')">
+                        <?php echo $selectText; ?> <i class="fa fa-chevron-down"></i>
                     </a>
-                <?php else: ?>
-                    <a href="#" class="btn">
-                        <?php echo _('Not Selected'); ?> <i class="fa fa-chevron-down"></i>
-                    </a>
-                <?php endif; ?>
+                    <div class="dd-content" id="<?php echo $item->packageId; ?>-dropdown">
+                        <a>Option 1</a>
+                        <a>Option 1</a>
+                        <a>Option 1</a>
+                        <a>Option 1</a>
+                    </div>
+                </div>
 
             </td>
         </tr>
     <?php endforeach; ?>
     </tbody>
 </table>
+
+
+<?php
+
+/*
+<?php if($item->selectedCount): ?>
+    <a href="#" class="btn btn-success">
+         <?php echo _('Selected'); ?>
+    </a>
+<?php else: ?>
+    <a href="#" class="btn">
+        <?php echo _('Not Selected'); ?> <i class="fa fa-chevron-down"></i>
+    </a>
+<?php endif; ?>
