@@ -32,9 +32,17 @@
             </td>
             <td style="text-align: center;">
                 <?php if($item->resource): ?>
-                    <a href="resource.php?resourceID=<?php echo $item->resource->primaryKey; ?>">
-                        <i class="fa fa-check text-success" title="<?php echo _('imported in Coral'); ?>"></i>
-                    </a>
+                    <?php if($item->selectedCount): ?>
+                        <a href="resource.php?resourceID=<?php echo $item->resource->primaryKey; ?>">
+                            <i class="fa fa-check text-success" title="<?php echo _('imported in Coral'); ?>"></i>
+                        </a>
+                    <?php else: ?>
+                        <i class="fa fa-exclamation-triangle text-warning" title="Imported but not selected"></i>
+                        <a href="ajax_forms.php?action=getDeleteConfirmationForm&height=700&width=730&modal=true&resourceID=<?php echo $item->resource->primaryKey; ?>"
+                            class="thickbox">
+                            <?php echo _('Delete from Coral'); ?>
+                        </a>
+                    <?php endif; ?>
                 <?php elseif ($item->selectedCount): ?>
                     <i class="fa fa-ban text-danger" title="Imported but not selected in EBSCO"></i>
                     <a href="ajax_forms.php?action=getEbscoKbPackageImportForm&height=700&width=730&modal=true&vendorId=<?php echo $item->vendorId; ?>&packageId=<?php echo $item->packageId; ?>"

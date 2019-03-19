@@ -21,7 +21,7 @@ class EbscoKbService {
         'count' => 20,
         'type' => 'titles',
         'searchfield' => 0,
-        'selection' => 1,
+        'selection' => 0,
         'resourcetype' => 0,
         'contenttype' => 0,
         'vendorId' => null,

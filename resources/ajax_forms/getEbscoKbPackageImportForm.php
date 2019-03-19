@@ -72,7 +72,6 @@ if ($orgModule) {
 }
 
 ?>
-<?php include_once __DIR__.'/../css/ebscoKbCss.php'; ?>
 <div class="ebsco-layout" style="width:745px; height: 650px;">
 
     <div id="div_ebscoKbPackageImportForm" class="ebsco-layout">
