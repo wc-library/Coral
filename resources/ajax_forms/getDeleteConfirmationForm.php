@@ -35,36 +35,7 @@ $childrenCount = count($resource->getChildResources());
 
 <script>
 
-    function processAjax(data) {
-      $.ajax({
-        type: "GET",
-        url: "ajax_processing.php",
-        cache: false,
-        data: jQuery.param(data),
-        success: function(html) {
-          tb_remove();
-          $('#ebscoKbSearchForm').submit();
-        },
-        error: function(html) {
-          $('#deleteError').html(html);
-        }
-      });
-    }
 
-    function deleteResource(id) {
-      var data = {
-        action: 'deleteResource',
-        resourceID: id
-      }
-      processAjax(data)
-    }
-
-    function deleteResourceAndChildren(id) {
-      var data = {
-        action: 'deleteResourceAndChildren',
-        resourceID: id
-      }
-    }
 
 
 </script>

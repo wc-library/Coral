@@ -150,9 +150,53 @@ function setNumberOfRecords(recordsPerPageNumber){
   updateSearch();
 }
 
+function processAjax(data) {
+  $.ajax({
+    type: "GET",
+    url: "ajax_processing.php",
+    cache: false,
+    data: jQuery.param(data),
+    success: function(html) {
+      console.log(html);
+      tb_remove();
+      $('#ebscoKbSearchForm').submit();
+    },
+    error: function(html) {
+      console.log(html);
+      $('#deleteError').html(html);
+    }
+  });
+}
+
+function deleteResource(id) {
+  var data = {
+    action: 'deleteResource',
+    resourceID: id
+  }
+  processAjax(data)
+}
+
+function deleteResourceAndChildren(id) {
+  var data = {
+    action: 'deleteResourceAndChildren',
+    resourceID: id
+  }
+}
+
 
 function toggleEbscoSelectDropdown(target) {
   $('.dd-content').not(target).removeClass('show');
   $(target).toggleClass('show');
 
+}
+
+function setEbscoSelection(selected, vendorId, packageId, titleId) {
+  var data = {
+    action: 'setEbscoKbSelection',
+    selected: selected,
+    vendorId: vendorId,
+    packageId: packageId,
+    titleId: titleId
+  }
+  processAjax(data)
 }

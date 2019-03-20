@@ -67,10 +67,17 @@
                         <?php echo $selectText; ?> <i class="fa fa-chevron-down"></i>
                     </a>
                     <div class="dd-content" id="<?php echo $item->packageId; ?>-dropdown">
-                        <a>Option 1</a>
-                        <a>Option 1</a>
-                        <a>Option 1</a>
-                        <a>Option 1</a>
+                        <?php if($item->selectedCount): ?>
+                            <a href="javascript:void(0);"
+                               onclick="setEbscoSelection(false, '<?php echo $item->vendorId; ?>','<?php echo $item->packageId; ?>')">
+                                <?php echo _('Deselect Package'); ?>
+                            </a>
+                        <?php else: ?>
+                            <a href="javascript:void(0);"
+                               onclick="setEbscoSelection(true, '<?php echo $item->vendorId; ?>','<?php echo $item->packageId; ?>')">
+                                <?php echo _('Select Package'); ?>
+                            </a>
+                        <?php endif; ?>
                     </div>
                 </div>
 
