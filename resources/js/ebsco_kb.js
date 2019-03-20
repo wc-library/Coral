@@ -157,7 +157,6 @@ function processAjax(data) {
     cache: false,
     data: jQuery.param(data),
     success: function(html) {
-      console.log(html);
       tb_remove();
       $('#ebscoKbSearchForm').submit();
     },
@@ -168,21 +167,23 @@ function processAjax(data) {
   });
 }
 
-function deleteResource(id) {
-  var data = {
-    action: 'deleteResource',
-    resourceID: id
+function deleteEbscoKbResource(resourceID, vendorId, packageId, titleId, children) {
+  var action = children ? 'deleteResourceAndChildren' : 'deleteResource';
+  var rData = {
+    action: action,
+    resourceID: resourceID
   }
-  processAjax(data)
-}
+  processAjax(rData);
 
-function deleteResourceAndChildren(id) {
-  var data = {
-    action: 'deleteResourceAndChildren',
-    resourceID: id
+  var eData = {
+    action: 'setEbscoKbSelection',
+    selected: false,
+    vendorId: vendorId,
+    packageId: packageId,
+    titleId: titleId
   }
+  processAjax(eData);
 }
-
 
 function toggleEbscoSelectDropdown(target) {
   $('.dd-content').not(target).removeClass('show');
@@ -191,12 +192,23 @@ function toggleEbscoSelectDropdown(target) {
 }
 
 function setEbscoSelection(selected, vendorId, packageId, titleId) {
-  var data = {
-    action: 'setEbscoKbSelection',
-    selected: selected,
-    vendorId: vendorId,
-    packageId: packageId,
-    titleId: titleId
+  var go = true
+  if (selected === false) {
+    if (titleId) {
+      var message = ''
+    } else {
+      var message = 'Are you sure you want to deselect this Package and all associated titles?'
+    }
+    go = confirm(message)
   }
-  processAjax(data)
+  if (go) {
+    var data = {
+      action: 'setEbscoKbSelection',
+      selected: selected,
+      vendorId: vendorId,
+      packageId: packageId,
+      titleId: titleId
+    }
+    processAjax(data)
+  }
 }

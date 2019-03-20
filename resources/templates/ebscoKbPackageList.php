@@ -39,7 +39,7 @@
                         </a>
                     <?php else: ?>
                         <i class="fa fa-exclamation-triangle text-warning" title="Imported but not selected"></i>
-                        <a href="ajax_forms.php?action=getDeleteConfirmationForm&height=700&width=730&modal=true&resourceID=<?php echo $item->resource->primaryKey; ?>"
+                        <a href="ajax_forms.php?action=getEbscoKbRemoveConfirmation&height=700&width=730&modal=true&resourceID=<?php echo $item->resource->primaryKey; ?>"
                             class="thickbox">
                             <?php echo _('Delete from Coral'); ?>
                         </a>
@@ -72,11 +72,23 @@
                                onclick="setEbscoSelection(false, '<?php echo $item->vendorId; ?>','<?php echo $item->packageId; ?>')">
                                 <?php echo _('Deselect Package'); ?>
                             </a>
+                            <?php if ($item->resource): ?>
+                                <a href="ajax_forms.php?action=getEbscoKbRemoveConfirmation&height=700&width=730&modal=true&vendorId=<?php echo $item->vendorId; ?>&packageId=<?php echo $item->packageId; ?>&resourceID=<?php echo $item->resource->primaryKey; ?>"
+                                   class="thickbox">
+                                    <?php echo _('Deselect Package & Delete from Coral'); ?>
+                                </a>
+                            <?php endif; ?>
                         <?php else: ?>
                             <a href="javascript:void(0);"
                                onclick="setEbscoSelection(true, '<?php echo $item->vendorId; ?>','<?php echo $item->packageId; ?>')">
                                 <?php echo _('Select Package'); ?>
                             </a>
+                            <?php if(!$item->resource): ?>
+                                <a href="ajax_forms.php?action=getEbscoKbPackageImportForm&height=700&width=730&modal=true&vendorId=<?php echo $item->vendorId; ?>&packageId=<?php echo $item->packageId; ?>&select=true"
+                                   class="thickbox">
+                                    <?php echo _('Select & Import Package'); ?>
+                                </a>
+                            <?php endif; ?>
                         <?php endif; ?>
                     </div>
                 </div>

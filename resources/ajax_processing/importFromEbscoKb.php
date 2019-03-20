@@ -33,6 +33,7 @@ $resourceFormatId = filter_input(INPUT_POST,'resourceFormatId', FILTER_SANITIZE_
 $acquisitionTypeId = filter_input(INPUT_POST,'acquisitionTypeId', FILTER_SANITIZE_NUMBER_INT);
 $noteText = filter_input(INPUT_POST,'noteText', FILTER_SANITIZE_STRING);
 $providerText = trim(filter_input(INPUT_POST,'providerText', FILTER_SANITIZE_STRING));
+$setAsSelected = filter_input(INPUT_POST,'setAsSelected', FILTER_VALIDATE_BOOLEAN);
 
 // Package
 $packageId = filter_input(INPUT_POST,'packageId', FILTER_SANITIZE_NUMBER_INT);
@@ -364,7 +365,8 @@ function importPackage($package){
            $resourceFormatId,
            $resourceTypeId,
            $providerText,
-           $noteText;
+           $noteText,
+           $ebscoKb;
 
     $resource = new Resource();
     $existingResource = $resource->getResourceByEbscoKbId($package->packageId);
@@ -412,6 +414,7 @@ function importPackage($package){
         // Create the default order
         $resource->enterNewWorkflow();
     }
+    $ebscoKb->setPackage($package->vendorId, $package->packageId, true);
     return $resource;
 
 }

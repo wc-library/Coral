@@ -2,6 +2,7 @@
 
 $packageId = filter_input(INPUT_GET, 'packageId', FILTER_SANITIZE_STRING);
 $vendorId = filter_input(INPUT_GET, 'vendorId', FILTER_SANITIZE_STRING);
+$setAsSelected = filter_input(INPUT_GET, 'setAsSelected', FILTER_VALIDATE_BOOLEAN);
 
 if(!isset($packageId) || !isset($vendorId)){
     echo '<p>Missing Package or Vendor ID</p>';
@@ -92,6 +93,9 @@ if ($orgModule) {
                 <input type="hidden" id="organizationId" name="organizationId" value="<?php echo empty($organization) ? '' : $organization->primaryKey; ?>" />
                 <input type="hidden" id="packageId" name="packageId" value="<?php echo $package->packageId; ?>" />
                 <input type="hidden" id="vendorId" name="vendorId" value="<?php echo $package->vendorId; ?>" />
+                <?php if($setAsSelected): ?>
+                    <input type="hidden" id="setAsSelected" name="setAsSelected" value="true" />
+                <?php endif; ?>
                 <input type="hidden" id="importType" name="importType" value="package" />
                 <div class="row">
                     <div class="col-6">
