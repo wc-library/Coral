@@ -1379,7 +1379,7 @@ switch ($_GET['action']) {
 					if ($util->useTermsTool()){
 						echo "<td>" . $instance['emailAddressForTermsTool'] . "</td>";
 					}
-					echo "<td style='width:30px'><a href='ajax_forms.php?action=getAdminUserUpdateForm&loginID=" . $instance['loginID'] . "&height=210&width=295&modal=true' class='thickbox' id='expression'><img id='Update' class='UpdateIcon' src='images/arrow_up.gif' title= '"._("Update")."' /></a></td>";
+					echo "<td style='width:30px'><a href='ajax_forms.php?action=getAdminUserUpdateForm&loginID=" . $instance['loginID'] . "&height=210&width=295&modal=true' class='thickbox' id='expression'><img id='Edit' class='EditIcon' src='images/edit.gif' title= '"._("Edit")."' /></a></td>";
 					echo "<td style='width:50px'><a href='javascript:deleteUser(\"" . $instance['loginID'] . "\")'><img id='Remove' class='removeIcon' src='images/cross.gif' title= '"._("Remove")."' /></a></td>";
 					echo "</tr>";
 				}

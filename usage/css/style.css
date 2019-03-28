@@ -2591,17 +2591,12 @@ table.titleTable {
 
 /*--- Icons align in Admin ---*/
 
-.removeIcon  {
-	padding-left: 22px;
+
+.icon{
+	text-align: center;
 }
 
-.editIcon  {
-	padding-left: 26px;
-}
 
-.updateIcon {
-		padding-left: 50px;
-}
 
 .addIcon {
 	vertical-align: -2px;

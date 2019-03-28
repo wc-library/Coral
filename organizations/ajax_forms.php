@@ -1094,8 +1094,8 @@ if ($issues) {
 					echo "<td>" . $instance['firstName'] . "</td>";
 					echo "<td>" . $instance['lastName'] . "</td>";
 					echo "<td>" . $instance['priv'] . "</td>";
-					echo "<td><a href='ajax_forms.php?action=getAdminUserUpdateForm&loginID=" . $instance['loginID'] . "&height=185&width=250&modal=true' class='thickbox' id='expression'><img id='Upload' src='images/arrow_up.gif' title= '"._("Update")."' /></a></td>";
-					echo "<td><a href='javascript:deleteUser(\"" . $instance['loginID'] . "\")'><img id='Remove' class='removeIcon' src='images/cross.gif' title= '"._("Remove")."' /></a></td>";
+					echo "<td><a href='ajax_forms.php?action=getAdminUserUpdateForm&loginID=" . $instance['loginID'] . "&height=185&width=250&modal=true' class='thickbox' id='expression'><img id='Edit' src='images/edit.gif' title= '"._("Edit")."' /></a></td>";
+					echo "<td class='icon'><a href='javascript:deleteUser(\"" . $instance['loginID'] . "\")'><img id='Remove'  src='images/cross.gif' title= '"._("Remove")."' /></a></td>";
 					echo "</tr>";
 				}
 

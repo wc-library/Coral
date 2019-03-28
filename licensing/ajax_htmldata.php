@@ -138,8 +138,8 @@ switch ($_GET['action']) {
 				echo "<tr>";
 				echo "<td>" . $document->shortName . "</td>";
 				echo "<td>" . $sfxProvider->shortName . "</td>";
-				echo "<td><a href='ajax_forms.php?action=getSFXForm&height=178&width=260&modal=true&licenseID=" . $licenseID . "&providerID=" . $sfxProvider->sfxProviderID . "' class='thickbox' id='editSFXProvider'><img id='Edit' class='editIcon' src='images/edit.gif' title= '"._("Edit")."' /></a></td>";
-				echo "<td><a href='javascript:deleteSFXProvider(\"" . $sfxProvider->sfxProviderID . "\");'><img id='Remove' class='removeIcon' src='images/cross.gif' title= '"._("Remove")."' /></a></td>";
+				echo "<td class='icon'><a href='ajax_forms.php?action=getSFXForm&height=178&width=260&modal=true&licenseID=" . $licenseID . "&providerID=" . $sfxProvider->sfxProviderID . "' class='thickbox' id='editSFXProvider'><img id='Edit' class='icon' src='images/edit.gif' title= '"._("Edit")."' /></a></td>";
+				echo "<td class='icon'><a href='javascript:deleteSFXProvider(\"" . $sfxProvider->sfxProviderID . "\");'><img id='Remove' src='images/cross.gif' title= '"._("Remove")."' /></a></td>";
 				echo "</tr>";
 			}
 
@@ -873,7 +873,7 @@ switch ($_GET['action']) {
 				echo "</td>";
 
 				if ($user->canEdit()){
-					echo "<td $classAdd><a href='ajax_forms.php?action=getUploadDocument&height=295&width=317&modal=true&licenseID=" . $licenseID . "&documentID=" . $document->documentID . "' class='thickbox' id='editDocument'><img id='Edit' class='signatureEditIcon' src='images/edit.gif' title= '"._("Edit")."' /></a> &nbsp &nbsp <a href='javascript:deleteDocument(\"" . $document->documentID . "\");'><img id='Remove' class='AdminRemoveIcon' src='images/cross.gif' title= '"._("Remove")."' /></a>";
+					echo "<td class='icon'$classAdd><a href='ajax_forms.php?action=getUploadDocument&height=295&width=317&modal=true&licenseID=" . $licenseID . "&documentID=" . $document->documentID . "' class='thickbox' id='editDocument'><img id='Edit'  src='images/edit.gif' title= '"._("Edit")."' /></a> &nbsp &nbsp <a href='javascript:deleteDocument(\"" . $document->documentID . "\");'><img id='Remove' src='images/cross.gif' title= '"._("Remove")."' /></a>";
 					echo "<br />" . $displayExpirationDate . "</td>";
 				}
 				echo "</tr>";
@@ -1226,8 +1226,8 @@ switch ($_GET['action']) {
 				foreach($resultArray as $result){
 					echo "<tr>";
 					echo "<td>" . $result['shortName'] . "</td>";
-					echo "<td style='width:70px'><a href='ajax_forms.php?action=getAdminUpdateForm&tableName=" . $className . "&updateID=" . $result[lcfirst($className) . 'ID'] . "&height=130&width=250&modal=true' class='thickbox' id='expression'><img id='Edit' class='AdminEditIcon' src='images/edit.gif' title= '"._("Edit")."' /></a></td>";
-					echo "<td style='width:50px'><a href='javascript:deleteData(\"" . $className . "\",\"" . $result[lcfirst($className) . 'ID'] . "\")'><img id='Remove' class='AdminRemoveIcon' src='images/cross.gif' title= '"._("Remove")."' /></a></td>";
+					echo "<td style='width:70px' class='icon'><a href='ajax_forms.php?action=getAdminUpdateForm&tableName=" . $className . "&updateID=" . $result[lcfirst($className) . 'ID'] . "&height=130&width=250&modal=true' class='thickbox' id='expression'><img id='Edit' src='images/edit.gif' title= '"._("Edit")."' /></a></td>";
+					echo "<td style='width:50px' class='icon'><a href='javascript:deleteData(\"" . $className . "\",\"" . $result[lcfirst($className) . 'ID'] . "\")'><img id='Remove'  src='images/cross.gif' title= '"._("Remove")."' /></a></td>";
 					echo "</tr>";
 				}
 
@@ -1283,8 +1283,8 @@ switch ($_GET['action']) {
 					if ($util->useTermsTool()){
 						echo "<td>" . $instance['emailAddressForTermsTool'] . "</td>";
 					}
-					echo "<td><a href='ajax_forms.php?action=getAdminUserUpdateForm&loginID=" . $instance['loginID'] . "&height=210&width=295&modal=true' class='thickbox' id='expression'><img src='images/arrow_up.gif' title= '"._("update")."' /></a></td>";
-					echo "<td><a href='javascript:deleteUser(\"" . $instance['loginID'] . "\")'><img  src='images/cross.gif' title= '"._("Remove")."' /></a></td>";
+					echo "<td class='icon'><a href='ajax_forms.php?action=getAdminUserUpdateForm&loginID=" . $instance['loginID'] . "&height=210&width=295&modal=true' class='thickbox' id='expression'><img src='images/edit.gif' title= '"._("edit")."' /></a></td>";
+					echo "<td class='icon'><a href='javascript:deleteUser(\"" . $instance['loginID'] . "\")'><img  src='images/cross.gif' title= '"._("Remove")."' /></a></td>";
 					echo "</tr>";
 				}
 
@@ -1331,8 +1331,8 @@ switch ($_GET['action']) {
 					echo "<tr>";
 					echo "<td>" . $instance['shortName'] . "</td>";
 					echo "<td>" . $instance['noteType'] . "</td>";
-					echo "<td style='width:30px'><a href='ajax_forms.php?action=getExpressionTypeForm&expressionTypeID=" . $instance['expressionTypeID'] . "&height=158&width=265&modal=true' class='thickbox'><img id='Update' class='AdminUpdateIcon' src='images/arrow_up.gif' title= '"._("update")."' /></a></td>";
-					echo "<td style='width:50px'><a href='javascript:deleteExpressionType(\"" . $instance['expressionTypeID'] . "\")'><img id='Remove' class='AdminRemoveIcon' src='images/cross.gif' title= '"._("Remove")."' /></a></td>";
+					echo "<td style='width:30px' class='icon'><a href='ajax_forms.php?action=getExpressionTypeForm&expressionTypeID=" . $instance['expressionTypeID'] . "&height=158&width=265&modal=true' class='thickbox'><img id='Edit' src='images/edit.gif' title= '"._("Edit")."' /></a></td>";
+					echo "<td style='width:50px' class='icon'><a href='javascript:deleteExpressionType(\"" . $instance['expressionTypeID'] . "\")'><img id='Remove'  src='images/cross.gif' title= '"._("Remove")."' /></a></td>";
 					echo "</tr>";
 				}
 
@@ -1409,7 +1409,7 @@ switch ($_GET['action']) {
 					echo "</td>";
 
 
-					echo "<td style='width:30px'><a href='ajax_forms.php?action=getCalendarSettingsForm&calendarSettingsID=" . $instance['calendarSettingsID'] . "&height=158&width=265&modal=true' class='thickbox'><img id='Edit' class='AdminEditIcon' src='images/edit.gif' title= '"._("Edit")."' /></a></td>";
+					echo "<td style='width:30px' class='icon'><a href='ajax_forms.php?action=getCalendarSettingsForm&calendarSettingsID=" . $instance['calendarSettingsID'] . "&height=158&width=265&modal=true' class='thickbox'><img id='Edit'  src='images/edit.gif' title= '"._("Edit")."' /></a></td>";
 					echo "</tr>";
 				}
 
@@ -1448,8 +1448,8 @@ switch ($_GET['action']) {
 					echo "<tr>";
 					echo "<td>" . $displayET . "</td>";
 					echo "<td>" . $qualifier->shortName . "</td>";
-					echo "<td style='width:70px'><a href='ajax_forms.php?action=getQualifierForm&qualifierID=" . $qualifier->qualifierID . "&height=158&width=295&modal=true' class='thickbox'><img id='Update' class='AdminUpdateIcon' src='images/arrow_up.gif' title= '"._("update")."' /></a></td>";
-					echo "<td style='width:50px'><a href='javascript:deleteQualifier(\"" . $qualifier->qualifierID . "\")'><img id='Remove' class='AdminRemoveIcon' src='images/cross.gif' title= '"._("Remove")."' /></td>";
+					echo "<td style='width:70px' class='icon'><a href='ajax_forms.php?action=getQualifierForm&qualifierID=" . $qualifier->qualifierID . "&height=158&width=295&modal=true' class='thickbox'><img id='Edit'  src='images/edit.gif' title= '"._("edit")."' /></a></td>";
+					echo "<td style='width:50px' class='icon'><a href='javascript:deleteQualifier(\"" . $qualifier->qualifierID . "\")'><img id='Remove'  src='images/cross.gif' title= '"._("Remove")."' /></td>";
 					echo "</tr>";
 					$i++;
 				}
