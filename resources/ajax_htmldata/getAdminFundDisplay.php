@@ -6,10 +6,9 @@
 		$instanceArray = $obj->allAsArray();
 		?>
 		<div class='adminHeader'>
-			<div style='width: 400px;''><?php echo "<div class='adminRightHeader'>" . _("Fund") . "</div>"; ?></div>
-			<div class='ImportElement'><?php echo "<a href='importFunds.php?action=getAdminFundUpdateForm&updateID=&height=175&width=300&modal=true' class='thickbox'><img id='ImportFund'src='images/arrow_down.gif' title='"._("import fund")."'/></a>"; ?></div>
+			<div><?php echo "<div class='adminRightHeader'>" . _("Fund") . "</div>"; ?></div>
 			<div class='addElement'><?php echo "<a href='ajax_forms.php?action=getAdminFundUpdateForm&updateID=&height=178&width=260&modal=true' class='thickbox'><img id='addFund' src='images/plus.gif' title='"._("add fund")."'/></a><br/>";?></div>
-
+			<div class='ImportElement'><?php echo "<a href='importFunds.php?action=getAdminFundUpdateForm&updateID=&height=175&width=300&modal=true' class='thickbox'><img id='ImportFund'src='images/import-fund.gif' title='"._("import fund")."'/></a>"; ?></div>
 
 		</div>
 

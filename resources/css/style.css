@@ -200,7 +200,7 @@ table.queueDataTable tr {
 
 /* following is all for admin and queue pages
 *************************/
-div.ImportElement{margin-top: 1px; margin-right: 8px;}
+div.ImportElement{margin-top: 5px; margin-right: 8px;}
 div.addElement{margin-top: 3px; margin-right: 8px;}
 div.adminHeader {display: flex;}
 div.adminHeaderAlert {display: flex; flex-direction: column;}
