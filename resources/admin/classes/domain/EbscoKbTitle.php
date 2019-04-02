@@ -4,6 +4,7 @@ class EbscoKbTitle extends EbscoKbResult {
 
     public $resource;
     public $inCoral;
+    public $packages;
 
     public function getIsPeerReviewed($value)
     {

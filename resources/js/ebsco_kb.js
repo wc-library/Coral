@@ -150,15 +150,16 @@ function setNumberOfRecords(recordsPerPageNumber){
   updateSearch();
 }
 
-function processAjax(data) {
+function processAjax(data, callback) {
   $.ajax({
     type: "GET",
     url: "ajax_processing.php",
     cache: false,
     data: jQuery.param(data),
     success: function(html) {
-      tb_remove();
-      $('#ebscoKbSearchForm').submit();
+      if (typeof(callback) === 'function') {
+        callback();
+      }
     },
     error: function(html) {
       console.log(html);
@@ -167,14 +168,12 @@ function processAjax(data) {
   });
 }
 
-function deleteEbscoKbResource(resourceID, vendorId, packageId, titleId, children) {
+function deleteEbscoKbResource(resourceID, vendorId, packageId, titleId, page, children) {
   var action = children ? 'deleteResourceAndChildren' : 'deleteResource';
   var rData = {
     action: action,
     resourceID: resourceID
   }
-  processAjax(rData);
-
   var eData = {
     action: 'setEbscoKbSelection',
     selected: false,
@@ -182,7 +181,14 @@ function deleteEbscoKbResource(resourceID, vendorId, packageId, titleId, childre
     packageId: packageId,
     titleId: titleId
   }
-  processAjax(eData);
+  processAjax(
+      rData,
+      processAjax.bind(
+          null,
+          eData,
+          updateSearch.bind(null, page, tb_remove)
+      )
+  );
 }
 
 function toggleEbscoSelectDropdown(target) {
@@ -191,14 +197,13 @@ function toggleEbscoSelectDropdown(target) {
 
 }
 
-function setEbscoSelection(selected, vendorId, packageId, titleId) {
-  var go = true
+function setEbscoSelection(selected, vendorId, packageId, titleId, callback) {
+  var go = true;
+  var message = 'Are you sure you want to deselect this Package and all associated titles?';
+  if (titleId) {
+    message = ''
+  }
   if (selected === false) {
-    if (titleId) {
-      var message = ''
-    } else {
-      var message = 'Are you sure you want to deselect this Package and all associated titles?'
-    }
     go = confirm(message)
   }
   if (go) {
@@ -209,6 +214,6 @@ function setEbscoSelection(selected, vendorId, packageId, titleId) {
       packageId: packageId,
       titleId: titleId
     }
-    processAjax(data)
+    processAjax(data, callback)
   }
 }

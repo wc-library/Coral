@@ -1,3 +1,9 @@
+<?php
+    if(empty($page)) {
+        $page = 1;
+    }
+?>
+
 <table id='resource_table' class='dataTable table-striped' style='width:840px'>
     <thead>
         <tr>
@@ -39,7 +45,7 @@
                         </a>
                     <?php else: ?>
                         <i class="fa fa-exclamation-triangle text-warning" title="Imported but not selected"></i>
-                        <a href="ajax_forms.php?action=getEbscoKbRemoveConfirmation&height=700&width=730&modal=true&resourceID=<?php echo $item->resource->primaryKey; ?>"
+                        <a href="ajax_forms.php?action=getEbscoKbRemoveConfirmation&height=700&width=730&modal=true&resourceID=<?php echo $item->resource->primaryKey; ?>&page=<?php echo $page ?>"
                             class="thickbox">
                             <?php echo _('Delete from Coral'); ?>
                         </a>
@@ -54,7 +60,6 @@
             </td>
             <td style="text-align: center;">
                 <?php
-
                     $selectClass = '';
                     $selectText = _('Not Selected');
                     if ($item->selectedCount) {
@@ -69,18 +74,18 @@
                     <div class="dd-content" id="<?php echo $item->packageId; ?>-dropdown">
                         <?php if($item->selectedCount): ?>
                             <a href="javascript:void(0);"
-                               onclick="setEbscoSelection(false, '<?php echo $item->vendorId; ?>','<?php echo $item->packageId; ?>')">
+                               onclick="setEbscoSelection(false, <?php echo $item->vendorId; ?>, <?php echo $item->packageId; ?>, null, updateSearch.bind(null, <?php echo $page; ?>))">
                                 <?php echo _('Deselect Package'); ?>
                             </a>
                             <?php if ($item->resource): ?>
-                                <a href="ajax_forms.php?action=getEbscoKbRemoveConfirmation&height=700&width=730&modal=true&vendorId=<?php echo $item->vendorId; ?>&packageId=<?php echo $item->packageId; ?>&resourceID=<?php echo $item->resource->primaryKey; ?>"
+                                <a href="ajax_forms.php?action=getEbscoKbRemoveConfirmation&height=700&width=730&modal=true&vendorId=<?php echo $item->vendorId; ?>&packageId=<?php echo $item->packageId; ?>&resourceID=<?php echo $item->resource->primaryKey; ?>&page=<?php echo $page ?>"
                                    class="thickbox">
                                     <?php echo _('Deselect Package & Delete from Coral'); ?>
                                 </a>
                             <?php endif; ?>
                         <?php else: ?>
                             <a href="javascript:void(0);"
-                               onclick="setEbscoSelection(true, '<?php echo $item->vendorId; ?>','<?php echo $item->packageId; ?>')">
+                               onclick="setEbscoSelection(true, <?php echo $item->vendorId; ?>, <?php echo $item->packageId; ?>, null, updateSearch.bind(null, <?php echo $page; ?>))">
                                 <?php echo _('Select Package'); ?>
                             </a>
                             <?php if(!$item->resource): ?>
@@ -92,23 +97,8 @@
                         <?php endif; ?>
                     </div>
                 </div>
-
             </td>
         </tr>
     <?php endforeach; ?>
     </tbody>
 </table>
-
-
-<?php
-
-/*
-<?php if($item->selectedCount): ?>
-    <a href="#" class="btn btn-success">
-         <?php echo _('Selected'); ?>
-    </a>
-<?php else: ?>
-    <a href="#" class="btn">
-        <?php echo _('Not Selected'); ?> <i class="fa fa-chevron-down"></i>
-    </a>
-<?php endif; ?>

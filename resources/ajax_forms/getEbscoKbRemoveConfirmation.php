@@ -3,11 +3,19 @@ $resourceID = filter_input(INPUT_GET, 'resourceID', FILTER_SANITIZE_NUMBER_INT);
 $vendorId = filter_input(INPUT_GET, 'vendorId', FILTER_SANITIZE_NUMBER_INT);
 $packageId = filter_input(INPUT_GET, 'packageId', FILTER_SANITIZE_NUMBER_INT);
 $titleId = filter_input(INPUT_GET, 'titleId', FILTER_SANITIZE_NUMBER_INT);
+$pageNumber = filter_input(INPUT_GET, 'page', FILTER_SANITIZE_NUMBER_INT);
+$page =
 $resource = new Resource(new NamedArguments(array('primaryKey' => $resourceID)));
 $childrenCount = count($resource->getChildResources());
 
 $jsTitleId = empty($titleId) ? 'null' : $titleId;
-$jsVars = [$resourceID, $vendorId, $packageId, $jsTitleId];
+$jsVars = [
+    empty($resourceID) ? 'null' : $resourceID,
+    empty($vendorId) ? 'null' : $vendorId,
+    empty($packageId) ? 'null' : $packageId,
+    empty($jsTitleId) ? 'null' : $jsTitleId,
+    empty($pageNumber) ? 1 : $pageNumber
+];
 
 $title = _('You are about to deselect the following resource from Ebsco and delete it from Coral');
 $option1 = _('deselect & delete');
@@ -31,13 +39,13 @@ if (empty($packageId)) {
         <p style="font-size: 1.3em;"><?php echo $resource->titleText ?></p>
         <div class="row" style="padding-top: 2em;">
             <div class="col-3">
-                <button class="btn btn-primary" onclick="deleteEbscoKbResource(<?php echo implode(',',$jsVars); ?>)">
+                <button class="btn btn-primary" onclick="deleteEbscoKbResource(<?php echo implode(',',$jsVars); ?>,false,<?php echo $pageNumber; ?>)">
                     <?php echo $option1; ?>
                 </button>
             </div>
             <div class="col-6">
                 <?php if($childrenCount > 0): ?>
-                    <button class="btn btn-primary" onclick="deleteEbscoKbResource(<?php echo implode(',',$jsVars); ?>,true)">
+                    <button class="btn btn-primary" onclick="deleteEbscoKbResource(<?php echo implode(',',$jsVars); ?>,true,<?php echo $pageNumber; ?>)">
                         <?php echo $option2; ?>
                     </button>
                 <?php endif; ?>

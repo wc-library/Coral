@@ -240,7 +240,7 @@ if($importType == 'title'){
     // can we access the package via Ebsco KB
     $title = $ebscoKb->getTitle($titleId);
     if(!empty($ebscoKb->error)){
-        send_errors([create_error('general', 'Could not get package from ebsco', $ebscoKb->error)]);
+        send_errors([create_error('general', 'Could not get title from ebsco', $ebscoKb->error)]);
     }
     $newWorkflow = true;
     $resource = importTitle($title);
