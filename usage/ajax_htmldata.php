@@ -898,14 +898,15 @@ switch ($action) {
 
 		foreach($logEmailAddresses->allAsArray as $logEmailAddress) {
 			echo "<tr><td>" . $logEmailAddress['emailAddress'] . "</td>";
-			echo "<td><a href='ajax_forms.php?action=getLogEmailAddressForm&height=122&width=248&logEmailAddressID=" . $logEmailAddress['logEmailAddressID'] . "&modal=true' class='thickbox'>" . _("edit") . "</a></td>";
-			echo "<td><a href='javascript:deleteLogEmailAddress(" . $logEmailAddress['logEmailAddressID'] . ");'>" . _("delete") . "</a></td></tr>";
+			echo "<td class='icon'><a  href='ajax_forms.php?action=getLogEmailAddressForm&height=122&width=248&logEmailAddressID=" . $logEmailAddress['logEmailAddressID'] . "&modal=true' class='thickbox'><img id='Edit'  src='images/edit.gif' title= '"._("Edit")."' /></a></td>";
+			echo "<td class='icon'><a href='javascript:deleteLogEmailAddress(" . $logEmailAddress['logEmailAddressID'] . ");'><img id='Remove'  src='images/cross.gif' title= '"._("Delete")."' /></a></td></tr>";
 		}
 
 		echo "</table>";
 		echo "<br />";
 
         break;
+
 
 
     case 'getOutlierTable':
@@ -1415,8 +1416,8 @@ switch ($action) {
 					echo "<td>" . $instance['firstName'] . "</td>";
 					echo "<td>" . $instance['lastName'] . "</td>";
 					echo "<td>" . $privilege->shortName . "</td>";
-					echo "<td style='width:30px'><a href='ajax_forms.php?action=getAdminUserUpdateForm&loginID=" . $instance['loginID'] . "&height=196&width=248&modal=true' class='thickbox' id='expression'>" . _("update") . "</a></td>";
-					echo "<td style='width:50px'><a href='javascript:deleteUser(\"" . $instance['loginID'] . "\")'>" . _("remove") . "</a></td>";
+					echo "<td style='width:30px' class='icon'><a href='ajax_forms.php?action=getAdminUserUpdateForm&loginID=" . $instance['loginID'] . "&height=196&width=248&modal=true' class='thickbox' id='expression'><img id='Edit'  src='images/edit.gif' title= '"._("Edit")."' /></a></td>";
+					echo "<td style='width:50px' class='icon'><a href='javascript:deleteUser(\"" . $instance['loginID'] . "\")'><img id='Remove' src='images/cross.gif' title= '"._("Remove")."' /></a></td>";
 					echo "</tr>";
 				}
 
