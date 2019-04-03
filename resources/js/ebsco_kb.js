@@ -41,6 +41,15 @@ $(document).ready(function(){
     );
   });
 
+  $('#showAllPackages').live('change', function() {
+    if($(this).is(':checked')){
+      $('.packageOption').show();
+    } else {
+      $('.packageOption').hide();
+      $('.selectedPackage').show();
+    }
+  });
+
   $('#selectType').change(function(){
     $('#searchType').val($(this).val());
     resetSearch(updateSearchForm.bind(null, 1));
@@ -157,6 +166,7 @@ function processAjax(data, callback) {
     cache: false,
     data: jQuery.param(data),
     success: function(html) {
+      console.log(html);
       if (typeof(callback) === 'function') {
         callback();
       }
@@ -168,7 +178,7 @@ function processAjax(data, callback) {
   });
 }
 
-function deleteEbscoKbResource(resourceID, vendorId, packageId, titleId, page, children) {
+function deleteEbscoKbResource(resourceID, vendorId, packageId, titleId, callback, children) {
   var action = children ? 'deleteResourceAndChildren' : 'deleteResource';
   var rData = {
     action: action,
@@ -179,14 +189,16 @@ function deleteEbscoKbResource(resourceID, vendorId, packageId, titleId, page, c
     selected: false,
     vendorId: vendorId,
     packageId: packageId,
-    titleId: titleId
+  }
+  if(titleId) {
+    eData.titleId = titleId;
   }
   processAjax(
       rData,
       processAjax.bind(
           null,
           eData,
-          updateSearch.bind(null, page, tb_remove)
+          callback
       )
   );
 }
@@ -201,7 +213,7 @@ function setEbscoSelection(selected, vendorId, packageId, titleId, callback) {
   var go = true;
   var message = 'Are you sure you want to deselect this Package and all associated titles?';
   if (titleId) {
-    message = ''
+    message = 'Are you sure you want to deselect this Title?'
   }
   if (selected === false) {
     go = confirm(message)
@@ -212,7 +224,9 @@ function setEbscoSelection(selected, vendorId, packageId, titleId, callback) {
       selected: selected,
       vendorId: vendorId,
       packageId: packageId,
-      titleId: titleId
+    }
+    if(titleId) {
+      data.titleId = titleId;
     }
     processAjax(data, callback)
   }

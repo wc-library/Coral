@@ -335,4 +335,11 @@ class EbscoKbService {
         $this->execute('PUT');
         return $this->response;
     }
+
+    public function setTitle($vendorId, $packageId, $titleId, $selected = true) {
+        $this->queryPath = ['vendors', $vendorId, 'packages', $packageId, 'titles', $titleId];
+        $this->queryParams = ['isSelected' => $selected];
+        $this->execute('PUT');
+        return $this->response;
+    }
 }

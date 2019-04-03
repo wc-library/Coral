@@ -1,3 +1,9 @@
+<?php
+if(empty($page)) {
+    $page = 1;
+}
+?>
+
 <table id='resource_table' class='dataTable table-striped' style='width:840px'>
     <thead>
         <tr>
@@ -46,20 +52,25 @@
             <td style="text-align: center;">
                 <?php if($item->selected): ?>
                     <span class="text-success"><i class="fa fa-check"></i>
-                        <?php if($item->resource): ?>
-                            Selected & Imported
-                        <?php else: ?>
-                            Selected
-                        <?php endif; ?>
+                        <?php
+                            if($item->resource){
+                                echo _('Selected & Imported');
+                            } else {
+                                echo _('Selected');
+                            }
+                        ?>
                     </span>
                 <?php else: ?>
                     <?php if($item->resource): ?>
-                        <?php endif; ?>
+                        <span class="text-warning"><i class="fa fa-warning"></i>
+                            <?php echo _('Imported but Not Selected'); ?>
+                        </span>
+                    <?php endif; ?>
                 <?php endif; ?>
             </td>
             <td style="text-align: center;">
                 <a
-                    href="ajax_htmldata.php?action=getEbscoKbTitleDetails&height=700&width=730&modal=true&titleId=<?php echo $item->titleId; ?>"
+                    href="ajax_htmldata.php?action=getEbscoKbTitleDetails&height=700&width=730&modal=true&titleId=<?php echo $item->titleId; ?>&page=<?php echo $page; ?>"
                     class="thickbox btn btn-primary">
                     <?php echo _('manage'); ?>
                 </a>

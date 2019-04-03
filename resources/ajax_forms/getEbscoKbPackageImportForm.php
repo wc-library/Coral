@@ -2,7 +2,14 @@
 
 $packageId = filter_input(INPUT_GET, 'packageId', FILTER_SANITIZE_STRING);
 $vendorId = filter_input(INPUT_GET, 'vendorId', FILTER_SANITIZE_STRING);
-$setAsSelected = filter_input(INPUT_GET, 'setAsSelected', FILTER_VALIDATE_BOOLEAN);
+$setAsSelected = filter_input(INPUT_GET, 'select', FILTER_VALIDATE_BOOLEAN);
+$fallbackTitleId = filter_input(INPUT_GET, 'fallbackTitleId', FILTER_SANITIZE_NUMBER_INT);
+
+if ($fallbackTitleId) {
+    $cancelJs = "tb_show(null,'ajax_htmldata.php?action=getEbscoKbTitleDetails&height=700&width=730&modal=true&titleId=$fallbackTitleId');";
+} else {
+    $cancelJs = 'tb_remove()';
+}
 
 if(!isset($packageId) || !isset($vendorId)){
     echo '<p>Missing Package or Vendor ID</p>';
@@ -345,7 +352,7 @@ if ($orgModule) {
                     <button class="btn btn-primary" onclick="processEbscoKbImport('progress','#ebscoKbPackageImportForm')">
                         <?php echo _("import");?>
                     </button>
-                    <button class="btn btn-primary ml-1" onclick="tb_remove()"><?php echo _("cancel");?></button>
+                    <button class="btn btn-primary ml-1" onclick="<?php echo $cancelJs; ?>"><?php echo _("cancel");?></button>
                 </div>
             </div>
         </div>

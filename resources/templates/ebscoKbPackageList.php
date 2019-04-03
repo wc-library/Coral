@@ -44,14 +44,14 @@
                             <i class="fa fa-check text-success" title="<?php echo _('imported in Coral'); ?>"></i>
                         </a>
                     <?php else: ?>
-                        <i class="fa fa-exclamation-triangle text-warning" title="Imported but not selected"></i>
+                        <i class="fa fa-exclamation-triangle text-warning" title="<?php echo _('Not selected in EBSCOhost'); ?>"></i>
                         <a href="ajax_forms.php?action=getEbscoKbRemoveConfirmation&height=700&width=730&modal=true&resourceID=<?php echo $item->resource->primaryKey; ?>&page=<?php echo $page ?>"
                             class="thickbox">
                             <?php echo _('Delete from Coral'); ?>
                         </a>
                     <?php endif; ?>
                 <?php elseif ($item->selectedCount): ?>
-                    <i class="fa fa-ban text-danger" title="Imported but not selected in EBSCO"></i>
+                    <i class="fa fa-ban text-danger" title="<?php echo _('Selected but not Imported'); ?>"></i>
                     <a href="ajax_forms.php?action=getEbscoKbPackageImportForm&height=700&width=730&modal=true&vendorId=<?php echo $item->vendorId; ?>&packageId=<?php echo $item->packageId; ?>"
                        class="thickbox">
                         <?php echo _('Import Package'); ?>
@@ -60,43 +60,16 @@
             </td>
             <td style="text-align: center;">
                 <?php
-                    $selectClass = '';
-                    $selectText = _('Not Selected');
-                    if ($item->selectedCount) {
-                        $selectClass = 'btn-success';
-                        $selectText = '<i class="fa fa-check"></i>'._('Selected');
-                    }
+                    unset($ebscoDropdownConfig);
+                    $ebscoDropdownConfig = [
+                        'vendorId' => $item->vendorId,
+                        'packageId' => $item->packageId,
+                        'selected' => $item->isSelected,
+                        'resourceID' => $item->resource ? $item->resource->primaryKey : null,
+                        'page' => $page,
+                    ];
+                    include 'ebscoKbPackageDropdown.php';
                 ?>
-                <div class="ebsco-select-dropdown">
-                    <a href="javascript:void(0);" class="btn dd-btn <?php echo $selectClass; ?>" onclick="toggleEbscoSelectDropdown('#<?php echo $item->packageId; ?>-dropdown')">
-                        <?php echo $selectText; ?> <i class="fa fa-chevron-down"></i>
-                    </a>
-                    <div class="dd-content" id="<?php echo $item->packageId; ?>-dropdown">
-                        <?php if($item->selectedCount): ?>
-                            <a href="javascript:void(0);"
-                               onclick="setEbscoSelection(false, <?php echo $item->vendorId; ?>, <?php echo $item->packageId; ?>, null, updateSearch.bind(null, <?php echo $page; ?>))">
-                                <?php echo _('Deselect Package'); ?>
-                            </a>
-                            <?php if ($item->resource): ?>
-                                <a href="ajax_forms.php?action=getEbscoKbRemoveConfirmation&height=700&width=730&modal=true&vendorId=<?php echo $item->vendorId; ?>&packageId=<?php echo $item->packageId; ?>&resourceID=<?php echo $item->resource->primaryKey; ?>&page=<?php echo $page ?>"
-                                   class="thickbox">
-                                    <?php echo _('Deselect Package & Delete from Coral'); ?>
-                                </a>
-                            <?php endif; ?>
-                        <?php else: ?>
-                            <a href="javascript:void(0);"
-                               onclick="setEbscoSelection(true, <?php echo $item->vendorId; ?>, <?php echo $item->packageId; ?>, null, updateSearch.bind(null, <?php echo $page; ?>))">
-                                <?php echo _('Select Package'); ?>
-                            </a>
-                            <?php if(!$item->resource): ?>
-                                <a href="ajax_forms.php?action=getEbscoKbPackageImportForm&height=700&width=730&modal=true&vendorId=<?php echo $item->vendorId; ?>&packageId=<?php echo $item->packageId; ?>&select=true"
-                                   class="thickbox">
-                                    <?php echo _('Select & Import Package'); ?>
-                                </a>
-                            <?php endif; ?>
-                        <?php endif; ?>
-                    </div>
-                </div>
             </td>
         </tr>
     <?php endforeach; ?>

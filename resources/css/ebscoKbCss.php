@@ -154,5 +154,13 @@
         background-color: #ddd;
     }
 
+    .ebsco-layout .packageOption {
+        display: none;
+    }
+
+    .ebsco-layout .selectedPackage {
+        display: block;
+    }
+
 
 </style>

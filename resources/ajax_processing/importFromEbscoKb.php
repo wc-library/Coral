@@ -242,6 +242,9 @@ if($importType == 'title'){
     if(!empty($ebscoKb->error)){
         send_errors([create_error('general', 'Could not get title from ebsco', $ebscoKb->error)]);
     }
+    if($setAsSelected) {
+        $ebscoKb->setTitle($vendorId, $packageId, $titleId, $selected);
+    }
     $newWorkflow = true;
     $resource = importTitle($title);
     header('Content-type: application/json');
@@ -260,6 +263,9 @@ if($importType == 'package') {
     $package = $ebscoKb->getPackage($vendorId, $packageId);
     if(!empty($ebscoKb->error)){
         send_errors([create_error('general', 'Could not get package from ebsco', $ebscoKb->error)]);
+    }
+    if($setAsSelected) {
+        $ebscoKb->setPackage($vendorId, $packageId, $selected);
     }
 
     // setup organization

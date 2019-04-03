@@ -1,5 +1,6 @@
 <?php
 $titleId = filter_input(INPUT_GET, 'titleId', FILTER_SANITIZE_STRING);
+$page = filter_input(INPUT_GET, 'page', FILTER_SANITIZE_NUMBER_INT);
 
 if(empty($titleId)){
     echo '<p>No title ID provided</p>';
@@ -87,12 +88,35 @@ $title->loadResource();
                         </dl>
                     </div>
                 </div>
+                <?php if($title->resource): ?>
+                    <h3 class="text-success">
+                        <i class="fa fa-info"></i> <?php echo _('This title has been imported into Coral'); ?>
+                    </h3>
+                    <p style="margin-top: 6px;">
+                        <a href="ajax_forms.php?action=getEbscoKbRemoveConfirmation&height=700&width=730&modal=true&resourceID=<?php echo $title->resource->primaryKey; ?>&fallbackTitleId=<?php echo $titleId; ?>"
+                           class="btn thickbox">
+                            <?php echo _('delete from Coral'); ?>
+                        </a>
+                    </p>
+                <?php endif; ?>
             </div>
             <div class="col-12" style="margin-top: 1em;">
                 <h2>Available in the following packages:</h2>
                 <div class="row">
+                    <div class="col-4">
+                        <label for="showAllPackages">
+                            <input type="checkbox" id="showAllPackages"> <?php echo _("Show all packages"); ?>
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
                     <?php foreach($title->customerResourcesList as $resource): ?>
-                    <div class="col-12">
+                    <?php
+                        $package = $ebscoKb->getPackage($resource->vendorId, $resource->packageId);
+                        $package->loadResource();
+                        $callback = "tb_show.bind(null,null,'ajax_htmldata.php?action=getEbscoKbTitleDetails&height=700&width=730&modal=true&titleId=$titleId')";
+                    ?>
+                    <div class="col-12 packageOption <?php echo $package->isSelected ? 'selectedPackage' : ''; ?>">
                         <div class="card" style="margin-top: 1em;">
                             <div class="card-header">
                                 <div class="row">
@@ -100,17 +124,50 @@ $title->loadResource();
                                         <h3>
                                             <?php echo $resource->packageName; ?>
                                         </h3>
+                                        <?php if($package->resource): ?>
+                                            <?php if($package->isSelected): ?>
+                                                <span class="text-success">
+                                                        <i class="fa fa-check"></i> <?php echo _('Package is Selected & Imported'); ?>
+                                                    </span>
+                                                <a href="resource.php?resourceID=<?php echo $package->resource->primaryKey; ?>" target="_blank">
+                                                    (<?php echo _('view in Coral'); ?>)
+                                                </a>
+                                            <?php else: ?>
+                                                <span class="text-warning">
+                                                        <i class="fa fa-exclamation-triangle text-warning"></i> <?php echo _('Package is NOT selected in EBSCOhost'); ?>
+                                                    </span>
+                                                <a href="ajax_forms.php?action=getEbscoKbRemoveConfirmation&height=700&width=730&modal=true&resourceID=<?php echo $package->resource->primaryKey; ?>&fallbackTitleId=<?php echo $titleId; ?>"
+                                                   class="thickbox">
+                                                    (<?php echo _('delete from Coral'); ?>)
+                                                </a>
+                                            <?php endif; ?>
+                                        <?php elseif ($package->selectedCount): ?>
+                                            <span class="text-danger">
+                                                    <i class="fa fa-ban"></i> <?php echo _('Package is Selected but not Imported '); ?>
+                                                </span>
+                                            <a href="ajax_forms.php?action=getEbscoKbPackageImportForm&height=700&width=730&modal=true&vendorId=<?php echo $package->vendorId; ?>&packageId=<?php echo $package->packageId; ?>&fallbackTitleId=<?php echo $titleId; ?>"
+                                               class="thickbox">
+                                                (<?php echo _('import package'); ?>)
+                                            </a>
+                                        <?php endif; ?>
                                     </div>
                                     <div class="col-4" style="text-align: right">
                                         <a href="javascript:void(0);"
                                                 class="setPackage btn btn-primary"
-                                                style="margin-right: 2em;"
+                                                style="margin: 6px 0;"
                                                 onclick="tb_remove();"
                                                 data-vendor-id="<?php echo $resource->vendorId; ?>"
                                                 data-package-id="<?php echo $resource->packageId; ?>"
                                                 data-package-name="<?php echo $resource->packageName; ?>">
-                                            <?php echo _("view titles"); ?>
+                                            <?php echo _("view package titles"); ?>
                                         </a>
+                                        <p>
+                                            <?php
+                                                if($package->isSelected) {
+                                                    echo _("$package->selectedCount of $package->titleCount titles selected");
+                                                }
+                                            ?>
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -129,52 +186,36 @@ $title->loadResource();
                                     </div>
                                     <div class="col-3">
                                         <div style="text-align: center; margin-top: 1em">
-                                            <strong>Title Options</strong>
-
-
-                                            <a
-                                                    href="ajax_forms.php?action=getEbscoKbPackageImportForm&height=700&width=730&modal=true&vendorId=<?php echo $resource->vendorId; ?>&packageId=<?php echo $resource->packageId; ?>"
-                                                    class="thickbox btn btn-primary">
-                                                <?php echo _('import package'); ?>
+                                            <p>
+                                                <?php if($resource->isSelected): ?>
+                                                    <strong class="text-succes"><?php echo _('Title Selected'); ?></strong>
+                                                <?php else: ?>
+                                                    <strong><?php echo _('Title Not Selected'); ?></strong>
+                                                <?php endif; ?>
+                                            </p>
+                                            <div style="margin-top: 6px;">
+                                                <a href="javascript:void(0);"
+                                                   class="btn <?php if(!$resource->isSelected) echo 'btn-primary'; ?>"
+                                                   onclick="setEbscoSelection(<?php echo implode(',', [$resource->isSelected ? 'false' : 'true',$resource->vendorId, $resource->packageId, $titleId, $callback]); ?>)">
+                                                    <?php echo _($resource->isSelected ? 'Deselect Title' : 'Select Title'); ?>
+                                                </a>
+                                            </div>
                                         </div>
                                         <div style="text-align: center; margin-top: 1em">
-                                            <strong>Package Options</strong>
-                                            <?php
-                                                $package = $ebscoKb->getPackage($resource->packageId);
-                                                if($item->selectedCount):
-                                            ?>
-                                            <a href="javascript:void(0);"
-                                               onclick="setEbscoSelection(false, '<?php echo $item->vendorId; ?>','<?php echo $item->packageId; ?>')">
-                                                <?php echo _('Deselect Package'); ?>
-                                            </a>
-
-
-                                            <div class="ebsco-select-dropdown">
-                                                <a href="javascript:void(0);" class="btn dd-btn <?php echo $selectClass; ?>" onclick="toggleEbscoSelectDropdown('#<?php echo $item->packageId; ?>-dropdown')">
-                                                    <?php echo $selectText; ?> <i class="fa fa-chevron-down"></i>
-                                                </a>
-                                                <div class="dd-content" id="<?php echo $item->packageId; ?>-dropdown">
-                                                    <?php if($item->selectedCount): ?>
-
-                                                        <?php if ($item->resource): ?>
-                                                            <a href="ajax_forms.php?action=getEbscoKbRemoveConfirmation&height=700&width=730&modal=true&vendorId=<?php echo $item->vendorId; ?>&packageId=<?php echo $item->packageId; ?>&resourceID=<?php echo $item->resource->primaryKey; ?>"
-                                                               class="thickbox">
-                                                                <?php echo _('Deselect Package & Delete from Coral'); ?>
-                                                            </a>
-                                                        <?php endif; ?>
-                                                    <?php else: ?>
-                                                        <a href="javascript:void(0);"
-                                                           onclick="setEbscoSelection(true, '<?php echo $item->vendorId; ?>','<?php echo $item->packageId; ?>')">
-                                                            <?php echo _('Select Package'); ?>
-                                                        </a>
-                                                        <?php if(!$item->resource): ?>
-                                                            <a href="ajax_forms.php?action=getEbscoKbPackageImportForm&height=700&width=730&modal=true&vendorId=<?php echo $item->vendorId; ?>&packageId=<?php echo $item->packageId; ?>&select=true"
-                                                               class="thickbox">
-                                                                <?php echo _('Select & Import Package'); ?>
-                                                            </a>
-                                                        <?php endif; ?>
-                                                    <?php endif; ?>
-                                                </div>
+                                            <p><strong><?php echo _('Package Options'); ?></strong></p>
+                                            <div style="margin-top: 6px;">
+                                                <?php
+                                                    unset($ebscoDropdownConfig);
+                                                    $ebscoDropdownConfig = [
+                                                        'vendorId' => $resource->vendorId,
+                                                        'packageId' => $resource->packageId,
+                                                        'titleId' => $resource->titleId,
+                                                        'selected' => $package->isSelected,
+                                                        'resourceID' => $package->resource ? $package->resource->primaryKey : null,
+                                                        'callback' => $callback
+                                                    ];
+                                                    include BASE_DIR . '/templates/ebscoKbPackageDropdown.php';
+                                                ?>
                                             </div>
                                         </div>
                                     </div>
@@ -195,7 +236,7 @@ $title->loadResource();
                     class="thickbox btn btn-primary">
                     <?php echo _('import'); ?>
                 </a>
-                <button onclick="tb_remove();" class="btn btn-primary ml-1"><?php echo _("cancel");?></button>
+                <button onclick="tb_remove();updateSearch(<?php echo empty($page) ? 1 : $page; ?>)" class="btn btn-primary ml-1"><?php echo _("cancel");?></button>
             </div>
         </div>
     </div>
