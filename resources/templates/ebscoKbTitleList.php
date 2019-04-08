@@ -50,23 +50,7 @@ if(empty($page)) {
                 </ul>
             </td>
             <td style="text-align: center;">
-                <?php if($item->selected): ?>
-                    <span class="text-success"><i class="fa fa-check"></i>
-                        <?php
-                            if($item->resource){
-                                echo _('Selected & Imported');
-                            } else {
-                                echo _('Selected');
-                            }
-                        ?>
-                    </span>
-                <?php else: ?>
-                    <?php if($item->resource): ?>
-                        <span class="text-warning"><i class="fa fa-warning"></i>
-                            <?php echo _('Imported but Not Selected'); ?>
-                        </span>
-                    <?php endif; ?>
-                <?php endif; ?>
+                <div class="title-status" data-title-id="<?php echo $item->titleId; ?>"><?php echo _('Processing'); ?>...</div>
             </td>
             <td style="text-align: center;">
                 <a

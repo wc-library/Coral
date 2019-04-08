@@ -105,6 +105,7 @@ function updateSearch(page, callback) {
       function(html) {
         $("#div_feedback").html("&nbsp;");
         $("#div_searchResults").html(html);
+        getTitleStatus();
         tb_reinit();
       }
   );
@@ -166,7 +167,6 @@ function processAjax(data, callback) {
     cache: false,
     data: jQuery.param(data),
     success: function(html) {
-      console.log(html);
       if (typeof(callback) === 'function') {
         callback();
       }
@@ -230,4 +230,12 @@ function setEbscoSelection(selected, vendorId, packageId, titleId, callback) {
     }
     processAjax(data, callback)
   }
+}
+
+function getTitleStatus() {
+  $('.title-status').each(function(){
+    var el = $(this);
+    var titleId = el.data('title-id');
+    el.load('ajax_htmldata.php?action=getEbscoKbTitleStatus&titleId='+titleId);
+  })
 }
