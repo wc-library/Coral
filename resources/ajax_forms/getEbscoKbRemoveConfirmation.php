@@ -3,17 +3,18 @@ $resourceID = filter_input(INPUT_GET, 'resourceID', FILTER_SANITIZE_NUMBER_INT);
 $vendorId = filter_input(INPUT_GET, 'vendorId', FILTER_SANITIZE_NUMBER_INT);
 $packageId = filter_input(INPUT_GET, 'packageId', FILTER_SANITIZE_NUMBER_INT);
 $titleId = filter_input(INPUT_GET, 'titleId', FILTER_SANITIZE_NUMBER_INT);
-$pageNumber = filter_input(INPUT_GET, 'page', FILTER_SANITIZE_NUMBER_INT);
+$page = filter_input(INPUT_GET, 'page', FILTER_SANITIZE_NUMBER_INT);
 $fallbackTitleId = filter_input(INPUT_GET, 'fallbackTitleId', FILTER_SANITIZE_NUMBER_INT);
 $resource = new Resource(new NamedArguments(array('primaryKey' => $resourceID)));
 $childrenCount = count($resource->getChildResources());
 
+$page = empty($page) ? 1 : $page;
+
 if ($fallbackTitleId) {
-    $href = "ajax_htmldata.php?action=getEbscoKbTitleDetails&height=700&width=730&modal=true&titleId=$fallbackTitleId";
+    $href = "ajax_htmldata.php?action=getEbscoKbTitleDetails&height=700&width=730&modal=true&titleId=$fallbackTitleId&page=$page";
     $callback = "tb_show.bind(null,null,'$href')";
     $cancelJs = "tb_show(null,'$href')";
 } else {
-    $page = empty($pageNumber) ? 1 : $pageNumber;
     $callback = "updateSearch.bind(null, $page, tb_remove)";
     $cancelJs = 'tb_remove()';
 }

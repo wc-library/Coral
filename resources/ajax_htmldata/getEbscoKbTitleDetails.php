@@ -93,7 +93,7 @@ $title->loadResource();
                         <i class="fa fa-info"></i> <?php echo _('This title has been imported into Coral'); ?>
                     </h3>
                     <p style="margin-top: 6px;">
-                        <a href="ajax_forms.php?action=getEbscoKbRemoveConfirmation&height=700&width=730&modal=true&resourceID=<?php echo $title->resource->primaryKey; ?>&fallbackTitleId=<?php echo $titleId; ?>"
+                        <a href="ajax_forms.php?action=getEbscoKbRemoveConfirmation&height=700&width=730&modal=true&resourceID=<?php echo $title->resource->primaryKey; ?>&fallbackTitleId=<?php echo $titleId; ?>&page=<?php echo $page; ?>"
                            class="btn thickbox">
                             <?php echo _('delete from Coral'); ?>
                         </a>
