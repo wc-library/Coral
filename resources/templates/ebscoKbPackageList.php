@@ -10,7 +10,7 @@
             <th><?php echo _("Name"); ?></th>
             <th><?php echo _("Title Count"); ?></th>
             <th><?php echo _("Content Type"); ?></th>
-            <th><?php echo _("Imported?"); ?></th>
+            <th><?php echo _("Current Status"); ?></th>
             <th><?php echo _("Current Holdings"); ?></th>
         </tr>
     </thead>
@@ -42,6 +42,7 @@
                     <?php if($item->selectedCount): ?>
                         <a href="resource.php?resourceID=<?php echo $item->resource->primaryKey; ?>">
                             <i class="fa fa-check text-success" title="<?php echo _('imported in Coral'); ?>"></i>
+                            <?php echo _('View in Coral'); ?>
                         </a>
                     <?php else: ?>
                         <i class="fa fa-exclamation-triangle text-warning" title="<?php echo _('Not selected in EBSCOhost'); ?>"></i>
