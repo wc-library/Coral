@@ -133,8 +133,8 @@ $title->loadResource();
                                                     (<?php echo _('view in Coral'); ?>)
                                                 </a>
                                             <?php else: ?>
-                                                <span class="text-warning">
-                                                        <i class="fa fa-exclamation-triangle text-warning"></i> <?php echo _('Package is NOT selected in EBSCOhost'); ?>
+                                                <span class="text-danger">
+                                                        <i class="fa fa-ban"></i> <?php echo _('Package is NOT selected in EBSCOhost'); ?>
                                                     </span>
                                                 <a href="ajax_forms.php?action=getEbscoKbRemoveConfirmation&height=700&width=730&modal=true&resourceID=<?php echo $package->resource->primaryKey; ?>&fallbackTitleId=<?php echo $titleId; ?>"
                                                    class="thickbox">
@@ -142,8 +142,8 @@ $title->loadResource();
                                                 </a>
                                             <?php endif; ?>
                                         <?php elseif ($package->selectedCount): ?>
-                                            <span class="text-danger">
-                                                    <i class="fa fa-ban"></i> <?php echo _('Package is Selected but not Imported '); ?>
+                                            <span class="text-warning">
+                                                    <i class="fa fa-exclamation-triangle"></i> <?php echo _('Package is Selected but not Imported '); ?>
                                                 </span>
                                             <a href="ajax_forms.php?action=getEbscoKbPackageImportForm&height=700&width=730&modal=true&vendorId=<?php echo $package->vendorId; ?>&packageId=<?php echo $package->packageId; ?>&fallbackTitleId=<?php echo $titleId; ?>"
                                                class="thickbox">
