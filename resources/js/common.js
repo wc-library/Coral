@@ -248,8 +248,8 @@ function validateDate(field,alerttxt) {
 
 
 function isAmount(pAmount){
-        pAmount = pAmount.replace('$','');
-	pAmount = pAmount.replace(',','');
+    pAmount = pAmount.replace('$','');
+    pAmount = pAmount.replace(/,\.\s/g,'');
 
 	if (isNaN(pAmount)){
 		return false;

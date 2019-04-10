@@ -23,9 +23,8 @@ class Dashboard {
                         RA.libraryNumber AS libraryNumber,
                         F.shortName AS fundName,
                         O.$orgField AS organizationName,
-                        SUM(DISTINCT(ROUND(COALESCE(RP.paymentAmount, 0) / 100, 2))) as paymentAmount
+                        FORMAT(SUM(DISTINCT(COALESCE(RP.paymentAmount, 0) / 100)), " . return_number_decimals() . ", " . return_sql_locale() . ") as paymentAmount
                         ";
-
         $query .= "
                  FROM Resource R
                     LEFT JOIN ResourceAcquisition RA ON RA.resourceID = R.resourceID
@@ -101,7 +100,10 @@ class Dashboard {
                 $sum_query = " SUM(DISTINCT(if(RP.year = $i";
                 $sum_query .= " AND RP.costDetailsID = " . $costDetail['costDetailsID'];
 
-                $sum_query .= ", ROUND(COALESCE(RP.paymentAmount, 0) / 100, 2), 0))) AS `" . $costDetail['shortName'] . " / $i`";
+                if ($orderTypeID) $sum_query .= " AND RP.orderTypeID = $orderTypeID";
+
+                $sum_query .= ", COALESCE(RP.paymentAmount, 0) / 100, 0)), " . return_number_decimals() . ", " . return_sql_locale() . ") AS `" . $costDetail['shortName'] . " / $i`";
+
                 $sum_parts[] = $sum_query;
             }
         }
@@ -156,7 +158,7 @@ class Dashboard {
                 }
             }
         }
-        $query_where .= join(" AND ", $query_parts);
+        $query_where = join(" AND ", $query_parts);
         if ($query_where) $query .= " WHERE " . $query_where;
 
         $query .= " GROUP BY ";
