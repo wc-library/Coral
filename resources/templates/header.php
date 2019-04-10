@@ -72,6 +72,11 @@ $coralURL = $util->getCORALURL();
 <script type="text/javascript" src="../js/plugins/jquery.datePicker-patched-for-i18n.js"></script>
 <script type="text/javascript" src="../js/common.js"></script>
 <script type="text/javascript" src="js/common.js"></script>
+<script type="text/javascript">
+const CORAL_DECIMAL_SEPARATOR='<?php echo return_number_decimal_separator(); ?>';
+const CORAL_NUMBER_LOCALE='<?php echo str_replace('_', '-', return_number_locale()); ?>';
+const CORAL_NUMBER_DECIMALS='<?php echo return_number_decimals(); ?>';
+</script>
 </head>
 <body>
 <noscript><font face='arial'><?php echo _("JavaScript must be enabled in order for you to use CORAL. However, it seems JavaScript is either disabled or not supported by your browser. To use CORAL, enable JavaScript by changing your browser options, then ");?><a href=""><?php echo _("try again");?></a>. </font></noscript>

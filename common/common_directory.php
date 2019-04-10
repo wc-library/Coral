@@ -74,6 +74,52 @@ function return_date_format() {
     return $date_format;
 }
 
+function return_sql_locale() {
+    $config = new Configuration();
+    $config_number_locale = $config->settings->number_locale;
+    if (isset($config_number_locale) && $config_number_locale != '') {
+        $number_locale = "'$config_number_locale'";
+    } else {
+        // If not set, setting to null will use MySQL/MariaDB default
+        $number_locale = "NULL";
+    }
+    return $number_locale;
+}
+
+function return_number_locale() {
+    $config = new Configuration();
+    $config_number_locale = $config->settings->number_locale;
+    if (isset($config_number_locale) && $config_number_locale != '') {
+        $number_locale = $config_number_locale;
+    } else {
+        $number_locale = 'en_US';
+    }
+    return $number_locale;
+}
+
+function return_number_decimals() {
+    $config = new Configuration();
+    $config_number_decimals = $config->settings->number_decimals;
+    if (isset($config_number_decimals) && $config_number_decimals != '') {
+        $number_decimals = $config_number_decimals;
+    } else {
+        $number_decimals = 2;
+    }
+    return $number_decimals;
+}
+
+function return_number_decimal_separator() {
+    $config = new Configuration();
+    $config_number_decimal_separator = $config->settings->number_decimal_separator;
+    if (isset($config_number_decimal_separator) && $config_number_decimal_separator != '') {
+        $number_decimal_separator = $config_number_decimal_separator;
+    } else {
+        $number_decimal_separator = '.';
+    }
+    return $number_decimal_separator;
+}
+
+
 function format_date($mysqlDate) {
 
 	//see http://php.net/manual/en/function.date.php for options

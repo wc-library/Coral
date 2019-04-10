@@ -36,6 +36,20 @@
 Date.firstDayOfWeek = 0;
 Date.format = 'mm/dd/yyyy';
 
+function parseFloatI18n(amount) {
+    if (CORAL_DECIMAL_SEPARATOR == '.') {
+        amount = amount.replace(/,\s/g,'');
+    }
+    else if (CORAL_DECIMAL_SEPARATOR == ',') {
+        amount = amount.replace(/\s/g,'');
+        amount = amount.replace(/,/g,'.');
+    }
+    return parseFloat(amount);
+}
+
+function numberFormat(amount) {
+    return new Intl.NumberFormat(CORAL_NUMBER_LOCALE, { style: 'decimal', maximumFractionDigits: CORAL_NUMBER_DECIMALS }).format(amount);
+}
 
 // 1 visible, 0 hidden
 function toggleDivState(divID, intDisplay) {
