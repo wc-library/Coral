@@ -25,8 +25,7 @@ require_once BASE_DIR . "../common/common_directory.php";
 //commonly used to convert price into integer for insert into database
 function cost_to_integer($price) {
     $nf = new NumberFormatter(return_number_locale(), NumberFormatter::DECIMAL);
-    $nf->setAttribute(NumberFormatter::MAX_FRACTION_DIGITS, return_number_decimals());
-    $parsed = $nf->parse($price);
+    $parsed = $nf->parse($price, NumberFormatter::TYPE_DOUBLE);
     return $parsed * 100;
 }
 
