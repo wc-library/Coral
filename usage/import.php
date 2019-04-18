@@ -48,6 +48,9 @@ include 'templates/header.php';
 			case 23:
 				$message = _("File has an incorrectly formatted name - try filename.txt!");
 				break;
+        case 24:
+            $message = _("The archive directory is not writable. Please check permissions.");
+            break;
       default:
         $message = _("Unknown upload error");
         break;
