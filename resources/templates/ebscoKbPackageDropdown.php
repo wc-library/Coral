@@ -65,7 +65,7 @@ if ($selected) {
 ?>
 <div class="ebsco-select-dropdown">
     <a href="javascript:void(0);" class="btn dd-btn <?php echo $selectClass; ?>" onclick="toggleEbscoSelectDropdown('#<?php echo $packageId; ?>-dropdown')">
-        <?php echo $selectText; ?> <i class="fa fa-chevron-down"></i>
+        <?php echo $selectText; ?> &#x25BE;
     </a>
     <div class="dd-content" id="<?php echo $packageId; ?>-dropdown">
         <?php if($selected): ?>
