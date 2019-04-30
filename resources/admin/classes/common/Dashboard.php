@@ -179,31 +179,34 @@ class Dashboard {
 
     public function displayExportParameters($resourceTypeID, $startYear, $endYear, $acquisitionTypeID, $orderTypeID, $subjectID, $costDetailsID, $groupBy) {
         $resourcesFilters = array();
-        if ($resourceTypeID) {
-            $resourceType = new ResourceType(new NamedArguments(array('primaryKey' => $resourceTypeID)));
-            $resourceFilters[] = _("Resource Type") . ": " . $resourceType->shortName;
+        if (is_array($resourceTypeID)) {
+            $resourceTypes = array_map(function ($a) { $o = new ResourceType(new NamedArguments(array('primaryKey' => $a))); return $o->shortName; }, $resourceTypeID);
+            $resourceFilters[] = _("Resource Type(s)") . ": " . join(" / ", $resourceTypes);
         }
-        if ($subjectID) {
-            if (substr($subjectID, 0, 1) == "d") {
-                $subject = new DetailedSubject(new NamedArguments(array('primaryKey' => substr($subjectID, 1))));
-            } else {
-                $subject = new GeneralSubject(new NamedArguments(array('primaryKey' => $subjectID)));
-            }
-            $resourceFilters[] = _("Subject") . ": " . $subject->shortName;
+        if (is_array($subjectID)) {
+            $subjects = array_map(function ($a) {
+                if (substr($a, 0, 1) == "d") {
+                    $subject = new DetailedSubject(new NamedArguments(array('primaryKey' => substr($a, 1))));
+                } else {
+                    $subject = new GeneralSubject(new NamedArguments(array('primaryKey' => $a)));
+                }
+                return $subject->shortName;
+            }, $subjectID);
+            $resourceFilters[] = _("Subject(s)") . ": " . join(" / ", $subjects);
         }
-        if ($acquisitionTypeID) {
-            $acquisitionType = new AcquisitionType(new NamedArguments(array('primaryKey' => $acquisitionTypeID)));
-            $resourceFilters[] = _("Acquisition Type") . ": " . $acquisitionType->shortName;
+        if (is_array($acquisitionTypeID)) {
+            $acquisitionTypes = array_map(function ($a) { $o = new AcquisitionType(new NamedArguments(array('primaryKey' => $a))); return $o->shortName; }, $acquisitionTypeID);
+            $resourceFilters[] = _("Acquisition Type(s)") . ": " . join(" / ", $acquisitionTypes);
         }
 
         $paymentFilters = array();
-        if ($orderTypeID) {
-            $orderType = new OrderType(new NamedArguments(array('primaryKey' => $orderTypeID)));
-            $paymentFilters[] = _("Order Type") . ": " . $orderType->shortName;
+        if (is_array($orderTypeID)) {
+            $orderTypes = array_map(function ($a) { $o = new OrderType(new NamedArguments(array('primaryKey' => $a))); return $o->shortName; }, $orderTypeID);
+            $paymentFilters[] = _("Order Type(s)") . ": " . join(" / ", $orderTypes);
         }
-        if ($costDetailsID) {
-            $costDetails = new CostDetails(new NamedArguments(array('primaryKey' => $costDetailsID)));
-            $paymentFilters[] = _("Cost Details") . ": " . $costDetails->shortName;
+        if (is_array($costDetailsID)) {
+            $costDetails = array_map(function ($a) { $o = new CostDetails(new NamedArguments(array('primaryKey' => $a))); return $o->shortName; }, $costDetailsID);
+            $paymentFilters[] = _("Cost Details") . ": " . join(" / ", $costDetails);
         }
 
         echo _("Filters on resources") . ":\r\n";
@@ -236,9 +239,9 @@ class Dashboard {
     function getResourceTypesAsDropdown($currentID = null) {
         $display = array();
         $resourceType = new ResourceType();
-        echo '<select multiple name="resourceTypeID" id="resourceTypeID" style="width:150px;">';
+        echo '<select multiple name="resourceTypeID[]" id="resourceTypeID[]" style="width:150px;">';
         foreach($resourceType->getAllResourceType() as $display) {
-            if ($display['resourceTypeID'] == $currentID) {
+            if (isset($current) && $display['resourceTypeID'] == $current) {
                 echo "<option value='" . $display['resourceTypeID'] . "' selected>" . $display['shortName'] . "</option>";
             } else {
                 echo "<option value='" . $display['resourceTypeID'] . "'>" . $display['shortName'] . "</option>";
@@ -250,9 +253,9 @@ class Dashboard {
     function getAcquisitionTypesAsDropdown($currentID = null) {
         $display = array();
         $acquisitionType = new AcquisitionType();
-        echo '<select multiple name="acquisitionTypeID" id="acquisitionTypeID" style="width:150px;">';
+        echo '<select multiple name="acquisitionTypeID[]" id="acquisitionTypeID[]" style="width:150px;">';
         foreach($acquisitionType->allAsArray() as $display) {
-            if ($display['acquisitionTypeID'] == $currentID) {
+            if (isset($current) && $display['acquisitionTypeID'] == $current) {
                 echo "<option value='" . $display['acquisitionTypeID'] . "' selected>" . $display['shortName'] . "</option>";
             } else {
                 echo "<option value='" . $display['acquisitionTypeID'] . "'>" . $display['shortName'] . "</option>";
@@ -264,9 +267,9 @@ class Dashboard {
     function getOrderTypesAsDropdown($currentID = null) {
         $display = array();
         $orderType = new OrderType();
-        echo '<select multiple name="orderTypeID" id="orderTypeID" style="width:150px;">';
+        echo '<select multiple name="orderTypeID[]" id="orderTypeID[]" style="width:150px;">';
         foreach($orderType->getAllOrderType() as $display) {
-            if ($display['orderTypeID'] == $currentID) {
+            if (isset($current) && $display['orderTypeID'] == $current) {
                 echo "<option value='" . $display['orderTypeID'] . "' selected>" . $display['shortName'] . "</option>";
             } else {
                 echo "<option value='" . $display['orderTypeID'] . "'>" . $display['shortName'] . "</option>";
@@ -282,7 +285,7 @@ class Dashboard {
         $detailedSubject = new DetailedSubject();
         $detailedSubjectArray = $detailedSubject->allAsArray();
 
-        echo '<select multiple name="subjectID" id="subjectID" style="width:150px;">';
+        echo '<select multiple name="subjectID[]" id="subjectID[]" style="width:150px;">';
         foreach($generalSubjectArray as $ug) {
             $generalSubject = new GeneralSubject(new NamedArguments(array('primaryKey' => $ug['generalSubjectID'])));
             echo "<option value='" . $ug['generalSubjectID'] . "'>" . $ug['shortName'] . "</option>";
@@ -296,7 +299,7 @@ class Dashboard {
     function getCostDetailsAsDropdown($currentID = null) {
         $display = array();
         $costDetails = new CostDetails();
-        echo '<select multiple name="costDetailsID" id="costDetailsID" style="width:150px;">';
+        echo '<select multiple name="costDetailsID[]" id="costDetailsID[]" style="width:150px;">';
         foreach($costDetails->allAsArray() as $display) {
             if ($display['costDetailsID'] == $currentID) {
                 echo "<option value='" . $display['costDetailsID'] . "' selected>" . $display['shortName'] . "</option>";
