@@ -97,7 +97,8 @@ $(function(){
     	pte = $(this).val();
     	taxRate = $(this).parent().next().children(".taxRate").val();
     	if (pte && taxRate) {
-      		amount = parseFloat(pte) + (pte * taxRate / 100);
+            amount = calcPriceTaxIncluded(pte, taxRate);
+            amount = numberFormat(amount);
       		$(this).parent().next().next().children(".priceTaxIncluded").val(amount);
       		$(this).parent().next().next().next().children(".paymentAmount").val(amount);
     	}
@@ -107,7 +108,8 @@ $(function(){
     	taxRate = $(this).val();
     	pte = $(this).parent().prev().children(".priceTaxExcluded").val();
     	if (pte && taxRate) {
-    	  	amount = parseFloat(pte) + (pte * taxRate / 100);
+            amount = calcPriceTaxIncluded(pte, taxRate);
+            amount = numberFormat(amount);
       		$(this).parent().next().children(".priceTaxIncluded").val(amount);
       		$(this).parent().next().next().children(".paymentAmount").val(amount);
 	    }
@@ -305,6 +307,12 @@ function submitCostForm()
 		$("#span_errors").html(_("Validation Failed"));
 		$("#submitCost").removeAttr("disabled");
 	}
+}
+
+function calcPriceTaxIncluded(priceTaxExcluded, taxRate) {
+    priceTaxExcluded = parseFloatI18n(priceTaxExcluded);
+    taxRate = parseFloatI18n(taxRate);
+    return priceTaxExcluded + (priceTaxExcluded * taxRate / 100);
 }
 
 function validateTable(objRows)
