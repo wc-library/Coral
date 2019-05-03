@@ -67,7 +67,7 @@ class Dashboard {
         for ($i = $startYear; $i <= $endYear; $i++) {
             foreach ($costDetailsArray as $costDetail) {
 
-                if ($costDetailsID && $costDetail['costDetailsID'] != $costDetailsID) continue;
+                if (is_array($costDetailsID) && !in_array($costDetail['costDetailsID'], $costDetailsID)) continue;
 
                 $sum_query = " SUM(if(RP.year = $i";
                 $sum_query .= " AND RP.costDetailsID = " . $costDetail['costDetailsID'];
