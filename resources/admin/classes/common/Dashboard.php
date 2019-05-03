@@ -96,7 +96,7 @@ class Dashboard {
         for ($i = $startYear; $i <= $endYear; $i++) {
             foreach ($costDetailsArray as $costDetail) {
 
-                if ($costDetailsID && $costDetail['costDetailsID'] != $costDetailsID) continue;
+                if (is_array($costDetailsID) && !in_array($costDetail['costDetailsID'], $costDetailsID)) continue;
 
                 $sum_query = " SUM(if(RP.year = $i";
                 $sum_query .= " AND RP.costDetailsID = " . $costDetail['costDetailsID'];
@@ -239,7 +239,7 @@ class Dashboard {
     function getResourceTypesAsDropdown($currentID = null) {
         $display = array();
         $resourceType = new ResourceType();
-        echo '<select multiple name="resourceTypeID[]" id="resourceTypeID[]" style="width:150px;">';
+        echo '<select multiple name="resourceTypeID[]" id="resourceTypeID" style="width:150px;">';
         foreach($resourceType->getAllResourceType() as $display) {
             if (isset($current) && $display['resourceTypeID'] == $current) {
                 echo "<option value='" . $display['resourceTypeID'] . "' selected>" . $display['shortName'] . "</option>";
@@ -253,7 +253,7 @@ class Dashboard {
     function getAcquisitionTypesAsDropdown($currentID = null) {
         $display = array();
         $acquisitionType = new AcquisitionType();
-        echo '<select multiple name="acquisitionTypeID[]" id="acquisitionTypeID[]" style="width:150px;">';
+        echo '<select multiple name="acquisitionTypeID[]" id="acquisitionTypeID" style="width:150px;">';
         foreach($acquisitionType->allAsArray() as $display) {
             if (isset($current) && $display['acquisitionTypeID'] == $current) {
                 echo "<option value='" . $display['acquisitionTypeID'] . "' selected>" . $display['shortName'] . "</option>";
@@ -267,7 +267,7 @@ class Dashboard {
     function getOrderTypesAsDropdown($currentID = null) {
         $display = array();
         $orderType = new OrderType();
-        echo '<select multiple name="orderTypeID[]" id="orderTypeID[]" style="width:150px;">';
+        echo '<select multiple name="orderTypeID[]" id="orderTypeID" style="width:150px;">';
         foreach($orderType->getAllOrderType() as $display) {
             if (isset($current) && $display['orderTypeID'] == $current) {
                 echo "<option value='" . $display['orderTypeID'] . "' selected>" . $display['shortName'] . "</option>";
@@ -285,7 +285,7 @@ class Dashboard {
         $detailedSubject = new DetailedSubject();
         $detailedSubjectArray = $detailedSubject->allAsArray();
 
-        echo '<select multiple name="subjectID[]" id="subjectID[]" style="width:150px;">';
+        echo '<select multiple name="subjectID[]" id="subjectID" style="width:150px;">';
         foreach($generalSubjectArray as $ug) {
             $generalSubject = new GeneralSubject(new NamedArguments(array('primaryKey' => $ug['generalSubjectID'])));
             echo "<option value='" . $ug['generalSubjectID'] . "'>" . $ug['shortName'] . "</option>";
@@ -299,7 +299,7 @@ class Dashboard {
     function getCostDetailsAsDropdown($currentID = null) {
         $display = array();
         $costDetails = new CostDetails();
-        echo '<select multiple name="costDetailsID[]" id="costDetailsID[]" style="width:150px;">';
+        echo '<select multiple name="costDetailsID[]" id="costDetailsID" style="width:150px;">';
         foreach($costDetails->allAsArray() as $display) {
             if ($display['costDetailsID'] == $currentID) {
                 echo "<option value='" . $display['costDetailsID'] . "' selected>" . $display['shortName'] . "</option>";

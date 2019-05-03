@@ -37,7 +37,7 @@
     echo "<th>" . _("Organizations") . "</th>";
     for ($i = $startYear; $i <= $endYear; $i++) {
         foreach ($costDetailsArray as $costDetail) {
-            if ($costDetailsID && $costDetail['costDetailsID'] != $costDetailsID) continue;
+            if (is_array($costDetailsID) && !in_array($costDetail['costDetailsID'], $costDetailsID)) continue;
             echo "<th>" . $costDetail['shortName'] . " / $i</th>";
         }
     }
@@ -61,7 +61,7 @@
             echo "<td>" . $result['organizationName'] . "</td>";
             for ($i = $startYear; $i <= $endYear; $i++) {
                 foreach ($costDetailsArray as $costDetail) {
-                    if ($costDetailsID && $costDetail['costDetailsID'] != $costDetailsID) continue;
+                    if (is_array($costDetailsID) && !in_array($costDetail['costDetailsID'], $costDetailsID)) continue;
                     echo "<td>" . $result[$costDetail['shortName'] . " / $i"] . "</td>";
                 }
             }
