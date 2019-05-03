@@ -27,11 +27,12 @@ function submitDashboard() {
                     },
 		success:    function(html) {
             $("#dashboardTable").html(html);
-            $('#dashboard_table').DataTable($.extend(true, {}, dataTablesDefaults, {
+            var dashtable = $('#dashboard_table').DataTable($.extend(true, {}, dataTablesDefaults, {
             aLengthMenu: [
                 [25, 50, 100, 200, -1],
-                [25, 50, 100, 200, "All"]
+                [25, 50, 100, 200, "All"],
             ]}));
+            new $.fn.dataTable.FixedHeader(dashtable, { } );
 		}
 	});
 }
@@ -53,10 +54,11 @@ function submitDashboardYearlyCosts() {
                     },
 		success:    function(html) {
             $("#dashboardTable").html(html);
-            $('#dashboard_table').DataTable({aLengthMenu: [
+            var dashtable = $('#dashboard_table').DataTable({aLengthMenu: [
                 [25, 50, 100, 200, -1],
                 [25, 50, 100, 200, "All"]
             ]});
+            new $.fn.dataTable.FixedHeader(dashtable, { } );
 		}
 	});
 }
