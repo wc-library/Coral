@@ -48,9 +48,9 @@ class Dashboard {
         if (is_array($acquisitionTypeID)) $query .= " AND (RA.acquisitionTypeID = " . join(" OR RA.acquisitionTypeID = ", $acquisitionTypeID) . ")";
         if (is_array($orderTypeID))       $query .= " AND (RP.orderTypeID = " . join(" OR RP.orderTypeID = ", $orderTypeID) . ")";
         if (is_array($costDetailsID))     $query .= " AND (RP.costDetailsID = " . join(" OR RP.costDetailsID = ", $costDetailsID) . ")";
-        if (is_array($fundID))            $query .= " AND (F.fundID = " . join(" OR F.fundID = ", $fundID) . ")";
-        if (is_array($organizationID))    $query .= " AND (O.organizationID = " . join(" OR O.organizationID = ", $organizationID) . ")";
-        if (is_array($roleID))            $query .= " AND (ROL.organizationRoleID = " . join(" OR ROL.organizationRoleID = ", $roleID) . ")";
+        if ($fundID) $query .= " AND F.fundID = $fundID";
+        if ($organizationID) $query .= " AND O.organizationID = $organizationID";
+        if ($roleID) $query .= " AND ROL.organizationRoleID = $roleID";
         if (is_array($subjectID)) {
             foreach ($subjectID as $sid) {
                 if (substr($sid, 0, 1) == "d") {
@@ -148,9 +148,9 @@ class Dashboard {
         if (is_array($acquisitionTypeID)) $query_parts[] = " (RA.acquisitionTypeID = " . join(" OR RA.acquisitionTypeID = ", $acquisitionTypeID) . ")";
         if (is_array($orderTypeID))       $query_parts[] = " (RP.orderTypeID = " . join(" OR RP.orderTypeID = ", $orderTypeID) . ")";
         if (is_array($costDetailsID))     $query_parts[] = " (RP.costDetailsID = " . join(" OR RP.costDetailsID = ", $costDetailsID) . ")";
-        if (is_array($fundID))            $query_parts[] = " (F.fundID = " . join(" OR F.fundID = ", $fundID) . ")";
-        if (is_array($organizationID))    $query_parts[] = " (O.organizationID = " . join(" OR O.organizationID = ", $organizationID) . ")";
-        if (is_array($roleID))            $query_parts[] = " (ROL.organizationRoleID = " . join(" OR ROL.organizationRoleID = ", $roleID) . ")";
+        if ($fundID) $query_parts[] = " F.fundID = $fundID";
+        if ($organizationID) $query_parts[] .= " O.organizationID = $organizationID";
+        if ($roleID) $query_parts[] .= " ROL.organizationRoleID = $roleID";
         if (is_array($subjectID)) {
             foreach ($subjectID as $sid) {
                 if (substr($sid, 0, 1) == "d") {
