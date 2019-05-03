@@ -26,7 +26,7 @@
     $costDetails = new CostDetails();
     $costDetailsArray = $costDetails->allAsArray();
 
-    echo "<table id='dashboard_table' class='dataTable' style='width:840px;margin-top:0'>";
+    echo "<table id='dashboard_table' class='dataTable display' style='width:840px;margin-top:0'>";
     echo "<thead><tr>";
     echo "<th>" . _("Name") . "</th>";
     echo "<th>" . _("Resource Type") . "</th>";
@@ -68,9 +68,14 @@
             echo ("<td>" . $result['costDetailsSum']. "</td>");
             echo "</tr>";
         } else {
-            echo "<tr><td><b>";
-            if ($currentCount == $count) { echo  _("Total"); } else { echo _("Sub-Total:") . " " . $result[$groupBy]; }
-            echo "</b></td><td></td><td></td><td></td><td></td><td></td><td></td>";
+            if ($currentCount == $count) {
+                echo "<tr class='dashboard_total'><td><b>";
+                echo  _("Total");
+            } else {
+                echo "<tr class='dashboard_subtotal'><td><b>";
+                echo _("Sub-Total:") . " " . $result[$groupBy];
+            }
+            echo "</b></td><td></td><td></td><td></td><td></td>";
             for ($i = $startYear; $i <= $endYear; $i++) {
                 foreach ($costDetailsArray as $costDetail) {
                     if ($costDetailsID && $costDetail['costDetailsID'] != $costDetailsID) continue;
