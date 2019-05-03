@@ -59,8 +59,13 @@
             }
             echo "</tr>";
         } else {
-            echo "<tr><td><b>";
-            if ($currentCount == $count) { echo  _("Total"); } else { echo _("Sub-Total:") . " " . $result[$groupBy]; }
+            if ($currentCount == $count) {
+                echo "<tr class='dashboard_total'><td><b>";
+                echo  _("Total");
+            } else {
+                echo "<tr class='dashboard_subtotal'><td><b>";
+                echo _("Sub-Total:") . " " . $result[$groupBy];
+            }
             echo "</b></td><td></td><td></td><td></td><td></td>";
             for ($i = $startYear; $i <= $endYear; $i++) {
                 foreach ($costDetailsArray as $costDetail) {
