@@ -509,7 +509,6 @@ table.dataTable td {
 	border-color: #e0dfe3;
 	-moz-border-radius: 0px;
 	vertical-align: middle;
-	background-color: #f3f3f3;
 }
 
 
@@ -520,7 +519,7 @@ table.dataTable td.alt {
 	border-width: 1px 1px 0 0;
 	border-style: solid;
 	border-color: #e0dfe3;
-	background-color: #fff;
+	background-color: #f3f3f3;
 	-moz-border-radius: 0px;
 	vertical-align: middle;
 }
@@ -546,6 +545,9 @@ table.dataTable th {
 }
 
 table.dataTable tr {vertical-align: top;}
+
+.dashboard_total td { background-color: #cccccc !important; }
+.dashboard_subtotal td { background-color: #dddddd !important; }
 
 table.sample {
 	padding:0px;
