@@ -1628,6 +1628,7 @@ a#login-link:hover {
 #dashboardPage legend {
     color: white;
     margin-bottom: 10px;
+    border-bottom: 1px solid white;
 }
 
 input#resourceTypeID {
