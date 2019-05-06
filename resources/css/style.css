@@ -546,6 +546,9 @@ table.dataTable th {
 
 table.dataTable tr {vertical-align: top;}
 
+.dashboard_total td { background-color: #cccccc !important; }
+.dashboard_subtotal td { background-color: #dddddd !important; }
+
 table.sample {
 	padding:0px;
 	margin:0px;

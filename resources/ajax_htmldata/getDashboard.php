@@ -43,10 +43,10 @@
             echo "</tr>";
         } else {
             if ($i == $count) {
-                echo "<tr class='dashboard_total><td><b>";
+                echo "<tr class='dashboard_total'><td><b>";
                 echo  _("Total");
             } else {
-                echo "<tr class='dashboard_subtotal><td><b>";
+                echo "<tr class='dashboard_subtotal'><td><b>";
                 echo _("Sub-Total:") . " " . $result[$groupBy];
             }
             echo "</b></td><td></td><td></td><td></td><td></td>";
