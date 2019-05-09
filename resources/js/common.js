@@ -247,17 +247,15 @@ function validateDate(field,alerttxt) {
 
 
 
-function isAmount(pAmount){
-    pAmount = pAmount.replace('$','');
-    pAmount = parseFloatI18n(pAmount);
+function isAmount(amount){
+    // We remove spaces commas and dots
+    amount = amount.replace(/\s/g,'');
+    amount = amount.replace(/\./g,'');
+    amount = amount.replace(/,/g,'');
 
-	if (isNaN(pAmount)){
-		return false;
-	}else{
-		return true;
-	}
-
-
+    // What is left must be digits only
+    var regex = RegExp('^[0-9]*$');
+    return regex.test(amount);
 }
 
 
