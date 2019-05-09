@@ -331,8 +331,8 @@ function validateTable(objRows)
 		var pAmount    = $(objRows[currentRow]).find('.paymentAmount').val();
 		var typeID     = $(objRows[currentRow]).find('.orderTypeID').val();
 		var detailsID  = $(objRows[currentRow]).find('.costDetailsID').val();
-		var pte        = $(objRows[currentRow]).find('.priceTaxIncluded').val();
-		var pti        = $(objRows[currentRow]).find('.priceTaxExcluded').val();
+		var pti        = $(objRows[currentRow]).find('.priceTaxIncluded').val();
+		var pte        = $(objRows[currentRow]).find('.priceTaxExcluded').val();
 		var cNote      = $(objRows[currentRow]).find('.costNote').val();
 		var invoiceNum = $(objRows[currentRow]).find('.invoiceNum').val();
 
@@ -348,7 +348,7 @@ function validateTable(objRows)
 		}
 		else if ((pAmount != '') && (pAmount != null) && (isAmount(pAmount) === false))
 		{
-			$(objRows[currentRow+1]).find('.div_errorPayment').html(_("Error - price is not numeric"));
+			$(objRows[currentRow+1]).find('.div_errorPayment').html(_("Error - Price (payment) is not numeric"));
 			hasNoErrors = false;
 		}
 		else if ((pte != '') && (pte != null) && (isAmount(pte) === false)){
