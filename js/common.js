@@ -47,7 +47,6 @@ function parseFloatI18n(amount) {
 }
 
 function numberFormat(amount) {
-    console.log(CORAL_NUMBER_DECIMALS);
     return new Intl.NumberFormat(CORAL_NUMBER_LOCALE, { style: 'decimal', minimumFractionDigits: CORAL_NUMBER_DECIMALS, maximumFractionDigits: CORAL_NUMBER_DECIMALS }).format(amount);
 }
 
