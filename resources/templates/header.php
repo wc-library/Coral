@@ -74,7 +74,6 @@ $coralURL = $util->getCORALURL();
 <script type="text/javascript" src="js/common.js"></script>
 <script type="text/javascript">
 Date.format = '<?php echo return_datepicker_date_format(); ?>';
-const CORAL_DECIMAL_SEPARATOR='<?php echo return_number_decimal_separator(); ?>';
 const CORAL_NUMBER_LOCALE='<?php echo str_replace('_', '-', return_number_locale()); ?>';
 const CORAL_NUMBER_DECIMALS='<?php echo return_number_decimals(); ?>';
 </script>

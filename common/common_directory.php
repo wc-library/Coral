@@ -119,17 +119,6 @@ function return_number_decimals() {
     return $number_decimals;
 }
 
-function return_number_decimal_separator() {
-    $config = new Configuration();
-    $config_number_decimal_separator = $config->settings->number_decimal_separator;
-    if (isset($config_number_decimal_separator) && $config_number_decimal_separator != '') {
-        $number_decimal_separator = $config_number_decimal_separator;
-    } else {
-        $number_decimal_separator = '.';
-    }
-    return $number_decimal_separator;
-}
-
 function format_date($mysqlDate) {
 
 	//see http://php.net/manual/en/function.date.php for options

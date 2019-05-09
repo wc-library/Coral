@@ -36,14 +36,13 @@
 Date.firstDayOfWeek = 0;
 
 function parseFloatI18n(amount) {
-    if (CORAL_DECIMAL_SEPARATOR == '.') {
-        amount = amount.replace(/,\s/g,'');
-    }
-    else if (CORAL_DECIMAL_SEPARATOR == ',') {
-        amount = amount.replace(/\s/g,'');
-        amount = amount.replace(/,/g,'.');
-    }
-    return parseFloat(amount);
+    var thousandSeparator = (1111).toLocaleString(CORAL_NUMBER_LOCALE).replace(/1/g, '');
+    var decimalSeparator = (1.1).toLocaleString(CORAL_NUMBER_LOCALE).replace(/1/g, '');
+
+    return parseFloat(amount
+        .replace(new RegExp('\\' + thousandSeparator, 'g'), '')
+        .replace(new RegExp('\\' + decimalSeparator), '.')
+    );
 }
 
 function numberFormat(amount) {
