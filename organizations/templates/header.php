@@ -75,7 +75,7 @@ $coralURL = $util->getCORALURL();
 <script type="text/javascript" src="../js/common.js"></script>
 <script type="text/javascript" src="js/common.js"></script>
 <script type="text/javascript">
-const CORAL_ILS_LINK=<?php echo $config->ils->ilsConnector ? 1 : 0; ?>
+const CORAL_ILS_LINK=<?php echo $config->ils->ilsConnector ? 1 : 0; ?>;
 Date.format = '<?php echo return_datepicker_date_format(); ?>';
 </script>
 
