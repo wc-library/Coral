@@ -600,7 +600,7 @@ class SushiService extends DatabaseObject {
         }
 
         $string = file_get_contents($fName);
-        $clean_xml = str_ireplace(['s:','SOAP-ENV:','SOAP:'],'',$string);
+        $clean_xml = str_ireplace(['s:','SOAP-ENV:','SOAP:','ns2:','ns3:'],'',$string);
         $xml = simplexml_load_string($clean_xml);
 
         $txtOut = "";
