@@ -78,8 +78,14 @@
             echo "</b></td><td></td><td></td><td></td><td></td><td></td><td></td>";
             for ($i = $startYear; $i <= $endYear; $i++) {
                 foreach ($costDetailsArray as $costDetail) {
-                    if ($costDetailsID && $costDetail['costDetailsID'] != $costDetailsID) continue;
-                    echo "<td><b>" . $result[$costDetail['shortName'] . " / $i"] . "</b></td>";
+                    if ($costDetailsID) {
+                        foreach ($costDetailsID as $costDetailID) {
+                            if ($costDetailID && $costDetail['costDetailsID'] != $costDetailID) continue;
+                            echo "<td><b>" . $result[$costDetail['shortName'] . " / $i"] . "</b></td>";
+                        }
+                    } else {
+                        echo "<td><b>" . $result[$costDetail['shortName'] . " / $i"] . "</b></td>";
+                    }
                 }
             }
             echo "<td><b>" . $result['costDetailsSum'] . "</b></td>";
