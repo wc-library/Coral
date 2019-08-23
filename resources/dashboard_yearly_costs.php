@@ -11,6 +11,7 @@
 <link rel="stylesheet" type="text/css" href="../css/datatables.min.css"/>
 <script type="text/javascript" src="js/dashboard.js"></script>
 <div id="dashboardPage"><h1><?php echo _("Dashboard: yearly costs");?></h1>
+<br />
 <div style='text-align:left;'>
 <table class="headerTable" style="background-image:url('images/header.gif');background-repeat:no-repeat;">
 <tr style='vertical-align:top;'>
