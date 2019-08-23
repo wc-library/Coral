@@ -545,6 +545,8 @@ table.dataTable th {
 }
 
 table.dataTable tr {vertical-align: top;}
+.dataTables_filter { float: left !important; margin-left:10px; }
+.dataTables_filter:before { content: "\2022"; margin-right:10px; }
 
 .dashboard_total td { background-color: #cccccc !important; }
 .dashboard_subtotal td { background-color: #dddddd !important; }
