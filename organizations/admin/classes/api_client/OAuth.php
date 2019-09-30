@@ -35,9 +35,14 @@ class OAuth {
         } else {
             $existingAccessToken = unserialize($_SESSION['oauthToken']);
             if ($existingAccessToken->hasExpired()) {
-                $newAccessToken = $provider->getAccessToken('refresh_token', [
-                    'refresh_token' => $existingAccessToken->getRefreshToken()
-                ]);
+                $refresh_token = $existingAccessToken->getRefreshToken();
+                if ($refresh_token != null) {
+                    $newAccessToken = $provider->getAccessToken('refresh_token', [
+                        'refresh_token' => $refresh_token
+                    ]);
+                } else {
+                    $newAccessToken = $provider->getAccessToken('client_credentials');
+                }
                 $accessToken = $newAccessToken;
             } else {
                 $accessToken = $existingAccessToken;
