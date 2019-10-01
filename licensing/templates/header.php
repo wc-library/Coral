@@ -41,6 +41,8 @@ if ((isset($_GET['editLicenseForm'])) && ($_GET['editLicenseForm'] == "Y")){
 //get CORAL URL for 'Change Module' and logout link
 $coralURL = $util->getCORALURL();
 
+$target = getTarget();
+
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -348,27 +350,27 @@ if ((file_exists($util->getCORALPath() . "index.php")) || ($config->settings->or
  -->        <li id="change-mod-menu"><span><?php echo _("Change Module");?></span><i class="fa fa-chevron-down"></i>
 			<ul class="coraldropdown">
 				<?php if (file_exists($util->getCORALPath() . "index.php")) {?>
-				<li class="change-mod-item"><a href="<?php echo $coralURL; ?>" target='_blank'><img src='images/change/icon-mod-main.png'><span><?php echo _("Main Menu");?></span></a></li>
+				<li class="change-mod-item"><a href="<?php echo $coralURL . '"' . $target; ?> title="<?php echo _("Main Menu"); ?>"><img src='images/change/icon-mod-main.png'><span><?php echo _("Main Menu");?></span></a></li>
 				<?php
 				}
 				if ($config->settings->resourcesModule == 'Y') {
 				?>
-				<li class="change-mod-item"><a href="<?php echo $coralURL; ?>resources/" target='_blank'><img src='images/change/icon-mod-resources.png'><span><?php echo _("Resources");?></span></a></li>
+                <li class="change-mod-item"><a href="<?php echo $coralURL . 'resources/"' . $target; ?> title="<?php echo _("Resources module"); ?>"><img src='images/change/icon-mod-resources.png'><span><?php echo _("Resources"); ?></span></a></li>
 				<?php
 				}
 				if ($config->settings->organizationsModule == 'Y') {
 				?>
-				<li class="change-mod-item"><a href="<?php echo $coralURL; ?>organizations/" target='_blank'><img src='images/change/icon-mod-organizations.png'><span><?php echo _("Organizations");?></span></a></li>
+				<li class="change-mod-item"><a href="<?php echo $coralURL . 'organizations/"' . $target; ?> title="<?php echo _("Organizations module"); ?>"><img src='images/change/icon-mod-organizations.png'><span><?php echo _("Organizations");?></span></a></li>
 				<?php
 				}
 				if ($config->settings->usageModule == 'Y') {
 				?>
-				<li class="change-mod-item"><a href="<?php echo $coralURL; ?>usage/" target='_blank'><img src='images/change/icon-mod-usage.png'><span><?php echo _("Usage Statistics");?></span></a></li>
+                <li class="change-mod-item"><a href="<?php echo $coralURL . 'usage/"' . $target; ?> title="<?php echo _("Usage Statistics module"); ?>"><img src='images/change/icon-mod-usage.png'><span><?php echo _("Usage Statistics");?></span></a></li>
 				<?php
 				}
 				if ($config->settings->managementModule == 'Y') {
 				?>
-				<li class="change-mod-item"><a href="<?php echo $coralURL; ?>management/" target='_blank'><img src='images/change/icon-mod-management.png'><span><?php echo _("Management");?></span></a></li>
+                <li class="change-mod-item"><a href="<?php echo $coralURL . 'management/"' . $target; ?> title="<?php echo _("Management module"); ?>"><img src='images/change/icon-mod-management.png'><span><?php echo _("Management");?></span></a></li>
 				<?php } ?>
 			</ul>
 		</li>
