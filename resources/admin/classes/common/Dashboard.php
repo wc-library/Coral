@@ -12,7 +12,7 @@ class Dashboard {
                         GS.shortName AS generalSubject,
                         DS.shortName AS detailedSubject,
                         RA.libraryNumber AS libraryNumber,
-                        SUM(ROUND(COALESCE(RP.paymentAmount, 0) / 100, 2)) as paymentAmount
+                        SUM(DISTINCT(ROUND(COALESCE(RP.paymentAmount, 0) / 100, 2))) as paymentAmount
                         ";
 
         $query .= "
@@ -68,12 +68,12 @@ class Dashboard {
 
                 if ($costDetailsID && $costDetail['costDetailsID'] != $costDetailsID) continue;
 
-                $sum_query = " SUM(if(RP.year = $i";
+                $sum_query = " SUM(DISTINCT(if(RP.year = $i";
                 $sum_query .= " AND RP.costDetailsID = " . $costDetail['costDetailsID'];
 
                 if ($orderTypeID) $sum_query .= " AND RP.orderTypeID = $orderTypeID";
 
-                $sum_query .= ", ROUND(COALESCE(RP.paymentAmount, 0) / 100, 2), 0)) AS `" . $costDetail['shortName'] . " / $i`";
+                $sum_query .= ", ROUND(COALESCE(RP.paymentAmount, 0) / 100, 2), 0))) AS `" . $costDetail['shortName'] . " / $i`";
                 $sum_parts[] = $sum_query;
             }
         }
