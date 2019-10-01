@@ -224,22 +224,22 @@ function submitCostForm()
 
 		priceTaxExcludedList ='';
 		$(".paymentTable").find(".priceTaxExcluded").each(function(id) {
-			priceTaxExcludedList += $(this).val() + ":::";
+			priceTaxExcludedList += $(this).val().replace(/\s/g,'') + ":::";
 		});
 
 		taxRateList ='';
 		$(".paymentTable").find(".taxRate").each(function(id) {
-			taxRateList += $(this).val() + ":::";
+			taxRateList += $(this).val().replace(/\s/g,'') + ":::";
 		});
 
 		priceTaxIncludedList ='';
 		$(".paymentTable").find(".priceTaxIncluded").each(function(id) {
-			priceTaxIncludedList += $(this).val() + ":::";
+			priceTaxIncludedList += $(this).val().replace(/\s/g,'') + ":::";
 		});
 
 		paymentAmountList ='';
 		$(".paymentTable").find(".paymentAmount").each(function(id) {
-			paymentAmountList += $(this).val() + ":::";
+			paymentAmountList += $(this).val().replace(/\s/g,'') + ":::";
 		});
 
 		currencyCodeList ='';
