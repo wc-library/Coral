@@ -248,10 +248,13 @@ function validateDate(field,alerttxt) {
 
 
 function isAmount(amount){
-    // We remove spaces commas and dots
+    var thousandSeparator = (1111).toLocaleString(CORAL_NUMBER_LOCALE).replace(/1/g, '');
+    var decimalSeparator = (1.1).toLocaleString(CORAL_NUMBER_LOCALE).replace(/1/g, '');
+
+    // We remove spaces, all thousand separators, and the first decimal separator
     amount = amount.replace(/\s/g,'');
-    amount = amount.replace(/\./g,'');
-    amount = amount.replace(/,/g,'');
+    amount = amount.replace(new RegExp('\\' + thousandSeparator, 'g'), '');
+    amount = amount.replace(new RegExp('\\' + decimalSeparator), '');
 
     // What is left must be digits only
     var regex = RegExp('^[0-9]*$');
