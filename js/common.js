@@ -40,6 +40,7 @@ function parseFloatI18n(amount) {
     var decimalSeparator = (1.1).toLocaleString(CORAL_NUMBER_LOCALE).replace(/1/g, '');
 
     return parseFloat(amount
+        .replace(/\s/g,'')
         .replace(new RegExp('\\' + thousandSeparator, 'g'), '')
         .replace(new RegExp('\\' + decimalSeparator), '.')
     );
