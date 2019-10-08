@@ -542,7 +542,7 @@ class Resource extends DatabaseObject {
 		//get where statements together (and escape single quotes)
 		if ($search['resourceISBNOrISSN']) {
 			$resourceISBNOrISSN = $resource->db->escapeString(str_replace("-","",$search['resourceISBNOrISSN']));
-            // (test) $whereAdd[] = "REPLACE(I.isbnOrIssn,'-','') = '" . $resourceISBNOrISSN . "'";
+            $whereAdd[] = "REPLACE(I.isbnOrIssn,'-','') = '" . $resourceISBNOrISSN . "'";
 			$searchDisplay[] = _("ISSN/ISBN: ") . $search['resourceISBNOrISSN'];
 		}
 
@@ -802,7 +802,7 @@ class Resource extends DatabaseObject {
             ),
             "RC" => array(
                 "stmt" => "LEFT JOIN Resource RC ON RC.resourceID = RRC.resourceID",
-                "requires" => "RCC"
+                "requires" => "RRC"
             ),
             "RNA" => array(
                 "stmt" => "LEFT JOIN ResourceNote RNA ON RA.resourceAcquisitionID = RNA.entityID",
