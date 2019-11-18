@@ -18,7 +18,7 @@
 
 
 
-class SFXService extends Object {
+class SFXService extends Base_Object {
 
 
 	protected $issn;
@@ -102,7 +102,7 @@ class SFXService extends Object {
 		    }
 		  }
 		}
-		
+
 		return $targetArray;
 
 	}

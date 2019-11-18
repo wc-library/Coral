@@ -18,7 +18,7 @@
 
 
 
-class TermsService extends Object {
+class TermsService extends Base_Object {
 
 	protected $config;
 	protected $error;
