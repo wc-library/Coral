@@ -391,18 +391,11 @@ class SushiService extends DatabaseObject {
 		$ppObj = $this->getPublisherOrPlatform();
 		$serviceProvider = str_replace('"','',$ppObj->reportDisplayName);
 
-		//if report layout is BR and Release is 3, change it to 1
-		if((preg_match('/BR/i', $reportLayout)) && ($this->releaseNumber == "3")){
-			$releaseNumber = '1';
-		}else{
-			$releaseNumber = $this->releaseNumber;
-		}
-
 		if (($this->wsdlURL == '') || (strtoupper($this->wsdlURL) == 'COUNTER')){
-			if ($this->releaseNumber == "4"){
-				$wsdl = 'http://www.niso.org/schemas/sushi/counter_sushi4_0.wsdl';
-			}else{
-				$wsdl = 'http://www.niso.org/schemas/sushi/counter_sushi3_0.wsdl';
+			switch ($this->releaseNumber) {
+        case "4":
+        default:
+				  $wsdl = 'http://www.niso.org/schemas/sushi/counter_sushi4_0.wsdl';
 			}
 		}else{
 			$wsdl=$this->wsdlURL;
@@ -505,7 +498,7 @@ class SushiService extends DatabaseObject {
 							)
 						),
 						'Name' => $reportLayout,
-						'Release' => $releaseNumber
+						'Release' => $this->releaseNumber
 					),
 					'Created' => $createDate,
 					'ID' => $id,
@@ -607,12 +600,13 @@ class SushiService extends DatabaseObject {
         }
 
         $string = file_get_contents($fName);
-        $clean_xml = str_ireplace(['s:','SOAP-ENV:','SOAP:'],'',$string);
+		// Gets rid of all namespace references
+        $clean_xml = $this->stripNamespaces($string);
         $xml = simplexml_load_string($clean_xml);
 
         $txtOut = "";
-        $startDateArr = explode("-", '2018-01-01');
-        $endDateArr = explode("-", '2018-02-28');
+        $startDateArr = explode("-", $this->startDate);
+        $endDateArr = explode("-", $this->endDate);
         $startYear = $startDateArr[0];
         $startMonth = $startDateArr[1];
         $endYear = $endDateArr[0];
@@ -817,6 +811,24 @@ class SushiService extends DatabaseObject {
 		$this->saveLogAndExit($layoutCode, $txtFile, true);
 	}
 
+	private function stripNamespaces($string) {
+        $sxe = new SimpleXMLElement($string);
+        $doc = new DOMDocument();
+        $doc->loadXML($string);
+
+
+        foreach ($sxe->getNamespaces(true) as $name => $uri) {
+        	if(!empty($name)){
+                $finder = new DOMXPath($doc);
+                $nodes = $finder->query("//*[namespace::{$name} and not(../namespace::{$name})]");
+                foreach ($nodes as $n) {
+                    $ns_uri = $n->lookupNamespaceURI($name);
+                    $n->removeAttributeNS($ns_uri, $name);
+                }
+			}
+        }
+        return $doc->saveXML(null, LIBXML_NOEMPTYTAG);
+	}
 }
 
 
