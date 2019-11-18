@@ -48,7 +48,6 @@ try{
     $termsServiceObj = new TermsService(new NamedArguments(array('issn' => $issn, 'isbn' => $isbn)));
     $termsToolObj = $termsServiceObj->getTermsToolObj();
     $targetsArray = $termsToolObj->getTargets();
-
 } catch(Exception $e) {
     $error = $e->getMessage() . "  Please verify your information in the configuration.ini file and try again.";
 }
@@ -142,7 +141,7 @@ foreach($uniqueExpressionTypeArray as $expressionTypeId) {
                                     <li>Qualifier: <?php echo implode(", ", $qualifierArray); ?></li>
                                 <?php endif; ?>
                                 <?php foreach ($expression->getExpressionNotes as $expressionNote): ?>
-                                    <li> <?php $expressionNote->note; ?></li>
+                                    <li><?php echo $expressionNote->note; ?></li>
                                 <?php endforeach; ?>
                                 </ul>
                             </div>
