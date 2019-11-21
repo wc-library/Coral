@@ -1,7 +1,6 @@
 <?php
 
     include_once 'directory.php';
-    include_once 'util.php';
 
     $year = $_POST['year'];
     if (!$year) $year = date('Y');

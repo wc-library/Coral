@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-24 17:17+0100\n"
+"POT-Creation-Date: 2019-02-15 11:42+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,42 +17,58 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: index.php:54
-msgid "eRM"
+#: js/plugins/datatables_defaults.js:1
+msgid "First"
 msgstr ""
 
-#: index.php:54
-msgid "eResource Management"
+#: js/plugins/datatables_defaults.js:2
+msgid "Last"
 msgstr ""
 
-#: index.php:55
-msgid "Change language:"
+#: js/plugins/datatables_defaults.js:3
+msgid "Next"
 msgstr ""
 
-#: index.php:71
-msgid "Invalid translation route!"
+#: js/plugins/datatables_defaults.js:4
+msgid "Previous"
 msgstr ""
 
-#: index.php:101
-msgid "Resources"
+#: js/plugins/datatables_defaults.js:5
+msgid "No data available in table"
 msgstr ""
 
-#: index.php:101
-msgid "Licensing"
+#: js/plugins/datatables_defaults.js:6
+msgid "Showing _START_ to _END_ of _TOTAL_"
 msgstr ""
 
-#: index.php:101
-msgid "Organizations"
+#: js/plugins/datatables_defaults.js:7
+msgid "No entries to show"
 msgstr ""
 
-#: index.php:101
-msgid "Usage Statistics"
+#: js/plugins/datatables_defaults.js:8
+msgid "(filtered from _MAX_ total entries)"
 msgstr ""
 
-#: index.php:101
-msgid "Management"
+#: js/plugins/datatables_defaults.js:9
+msgid "Show _MENU_ entries"
 msgstr ""
 
-#: index.php:132
-msgid "Powered by"
+#: js/plugins/datatables_defaults.js:10
+msgid "Loading..."
+msgstr ""
+
+#: js/plugins/datatables_defaults.js:11
+msgid "Processing..."
+msgstr ""
+
+#: js/plugins/datatables_defaults.js:12
+msgid "Search:"
+msgstr ""
+
+#: js/plugins/datatables_defaults.js:13
+msgid "No matching records found"
+msgstr ""
+
+#: js/plugins/datatables_defaults.js:14
+msgid "a an the"
 msgstr ""

@@ -30,7 +30,6 @@ $currentPage = $parts[count($parts) - 1];
 
 //get CORAL URL for 'Change Module' and logout link.
 $coralURL = $util->getCORALURL();
-
 ?>
 
 
@@ -48,12 +47,21 @@ $coralURL = $util->getCORALURL();
 <link rel="SHORTCUT ICON" href="images/favicon.ico" />
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
-<script type="text/javascript" src="../js/plugins/jquery-1.4.4.js"></script>
-<script type="text/javascript" src="../js/plugins/ajaxupload.3.5.js"></script>
-<script type="text/javascript" src="js/plugins/thickbox.js"></script>
-<script type="text/javascript" src="../js/plugins/jquery.autocomplete.js"></script>
 <script type="text/javascript" src="../js/plugins/Gettext.js"></script>
+<script type="text/javascript" src="../js/plugins/translate.js"></script>
+<?php if (isset($customJSInclude)) {
+    echo $customJSInclude;
+} else { ?>
+    <script type="text/javascript" src="../js/plugins/jquery-1.4.4.js"></script>
+    <script type="text/javascript" src="../js/plugins/ajaxupload.3.5.js"></script>
+    <script type="text/javascript" src="js/plugins/thickbox.js"></script>
+    <script type="text/javascript" src="../js/plugins/jquery.autocomplete.js"></script>
+    <script type="text/javascript" src="../js/plugins/datejs-patched-for-i18n.js"></script>
+    <script type="text/javascript" src="../js/plugins/jquery.datePicker-patched-for-i18n.js"></script>
+    <script type="text/javascript" src="../js/common.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>
 <?php
+}
     // Add translation for the JavaScript files
     global $http_lang;
     $str = substr($_SERVER["HTTP_ACCEPT_LANGUAGE"],0,5);
@@ -67,11 +75,9 @@ $coralURL = $util->getCORALURL();
             echo "<link rel='gettext' type='application/x-po' href='./locale/".$http_lang."/LC_MESSAGES/messages.po' />";
     }
 ?>
-<script type="text/javascript" src="../js/plugins/translate.js"></script>
-<script type="text/javascript" src="../js/plugins/datejs-patched-for-i18n.js"></script>
-<script type="text/javascript" src="../js/plugins/jquery.datePicker-patched-for-i18n.js"></script>
-<script type="text/javascript" src="../js/common.js"></script>
-<script type="text/javascript" src="js/common.js"></script>
+<script type="text/javascript">
+Date.format = '<?php echo return_datepicker_date_format(); ?>';
+</script>
 </head>
 <body>
 <noscript><font face='arial'><?php echo _("JavaScript must be enabled in order for you to use CORAL. However, it seems JavaScript is either disabled or not supported by your browser. To use CORAL, enable JavaScript by changing your browser options, then ");?><a href=""><?php echo _("try again");?></a>. </font></noscript>
