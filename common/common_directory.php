@@ -108,7 +108,7 @@ function create_php_date_format_from_js_format($input_string) {
   return preg_replace($js_formats, $php_formats, $input_string);
 }
 
-function create_date_from_js_format($formdate) {
+function create_date_from_js_format($input) {
   /*
    * see https://andy-carter.com/blog/php-date-formats for overview of different php date formatters
    * Coral utilizes strftime() and strtotime(), but strtotime expects dates to be formatted in US English
@@ -126,7 +126,7 @@ function create_date_from_js_format($formdate) {
 
   $datepicker_format = return_datepicker_date_format();
   $php_format = create_php_date_format_from_js_format($datepicker_format);
-  return date_create_from_format($php_format, $formdate);
+  return date_create_from_format($php_format, $input);
 
 }
 
