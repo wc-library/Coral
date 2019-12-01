@@ -98,6 +98,38 @@ function format_date($mysqlDate) {
 
 }
 
+function create_php_date_format_from_js_format($input_string) {
+
+  // Note the js format strings are specific to the datepicker plugin
+  $js_formats = array('/yyyy/','/yy/','/mmmm/','/mmm/','/mm/','/dd/');
+  // php format strings https://www.php.net/manual/en/function.date.php
+  $php_formats = array('Y','y','F','M','m','d');
+
+  return preg_replace($js_formats, $php_formats, $input_string);
+}
+
+function create_date_from_js_format($formdate) {
+  /*
+   * see https://andy-carter.com/blog/php-date-formats for overview of different php date formatters
+   * Coral utilizes strftime() and strtotime(), but strtotime expects dates to be formatted in US English
+   *
+   * Thus, while the above format_date() function works for mysql dates (which are stored as YYYY/MM/DD HH:MM:SS,
+   * it does not work for formatting form input dates, which are formatted via the datepiccker_date_format in common/configuration.ini
+   *
+   * E.g. a UK date of 26/11/2019 will return an error when using strtotime
+   *
+   * This function turns an input date into php Date object, which can then be utilized by strftime()
+   *
+   * To do so, it must convert datepicker format strings (e.g. 'dd' & 'mm') into php date format strings (e.g. 'd', 'm')
+   * using the create_php_date_format_from_js_format() function above
+   */
+
+  $datepicker_format = return_datepicker_date_format();
+  $php_format = create_php_date_format_from_js_format($datepicker_format);
+  return date_create_from_format($php_format, $formdate);
+
+}
+
 function debug($value) {
   echo '<pre>'.print_r($value, true).'</pre>';
 }
