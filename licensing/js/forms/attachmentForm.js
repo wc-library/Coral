@@ -81,7 +81,7 @@ function uploadFile() {
         data: form_data,
         success: function(result) {
             arrayLocation = URLArray.length;
-            URLArray.push(fileName);
+            URLArray.push(file_name);
             $("#div_file_success").append("<div id='div_" + arrayLocation + "'><img src='images/paperclip.gif'>" + file_name + _(" successfully uploaded.")+"  <a class='smallLink' href='javascript:removeFile(\"" + arrayLocation + "\");'>"+_("remove")+"</a><br /></div>");
             fileName = file_name;
         },
