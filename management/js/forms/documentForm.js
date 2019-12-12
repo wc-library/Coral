@@ -140,7 +140,7 @@ function uploadFile() {
             fileName = file_name;
         },
         error: function(result) {
-            $("#div_file_message").html("<font color='red'>" +  _("The file upload failed for the following reason: ") + result.status + " " + result.statusText + " / " + result.responseText + "</font>");
+            $("#div_file_message").html("<font color='red'>" +  _("The file upload failed for the following reason: ") + result.status + " " + result.statusText + " / " + $(result.responseText).text() + "</font>");
         }
     });
 }
