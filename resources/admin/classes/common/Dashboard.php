@@ -101,7 +101,6 @@ class Dashboard {
                 $sum_query .= " AND RP.costDetailsID = " . $costDetail['costDetailsID'];
 
                 $sum_query .= ", FORMAT(COALESCE(RP.paymentAmount, 0) / 100, " . return_number_decimals() . ", " . return_sql_locale() . "), 0))) AS `" . $costDetail['shortName'] . " / $i`";
-
                 $sum_parts[] = $sum_query;
             }
         }
