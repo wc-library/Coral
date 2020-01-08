@@ -97,10 +97,13 @@ class Dashboard {
 
                 if (is_array($costDetailsID) && !in_array($costDetail['costDetailsID'], $costDetailsID)) continue;
 
-                $sum_query = " SUM(DISTINCT(if(RP.year = $i";
+                $sum_query = " FORMAT(SUM(DISTINCT(if(RP.year = $i";
+                #$sum_query = " SUM(DISTINCT(if(RP.year = $i";
                 $sum_query .= " AND RP.costDetailsID = " . $costDetail['costDetailsID'];
 
-                $sum_query .= ", FORMAT(COALESCE(RP.paymentAmount, 0) / 100, " . return_number_decimals() . ", " . return_sql_locale() . "), 0))) AS `" . $costDetail['shortName'] . " / $i`";
+                $sum_query .= ", COALESCE(RP.paymentAmount / 100, 0), 0))), " . return_number_decimals() . ", " . return_sql_locale() . ") AS `" . $costDetail['shortName'] . " / $i`";
+                #$sum_query .= ", ROUND(COALESCE(RP.paymentAmount, 0) / 100, 2), 0))) AS `" . $costDetail['shortName'] . " / $i`";
+                #$sum_query .= ", ROUND(COALESCE(RP.paymentAmount / 100, 0), 2), 0))) AS `" . $costDetail['shortName'] . " / $i`";
                 $sum_parts[] = $sum_query;
             }
         }
@@ -115,11 +118,11 @@ class Dashboard {
                     $sum_query = " SUM(if(RP.year = $i";
                     $sum_query .= " AND RP.costDetailsID = " . $costDetail['costDetailsID'];
 
-                    $sum_query .= ", ROUND(COALESCE(RP.paymentAmount, 0) / 100, 2), 0))";
+                    $sum_query .= ", ROUND(COALESCE(RP.paymentAmount, 0) / 100, " . return_number_decimals() . "), 0))";
                     $sum_parts[] = $sum_query;
                 }
             }
-            $total_sum = "(" . join(" + ", $sum_parts) . ") AS costDetailsSum";
+            $total_sum = "FORMAT(" . join(" + ", $sum_parts) . ", " . return_number_decimals() . ", " . return_sql_locale() .") AS costDetailsSum";
         }
         if ($query_sum) $query .= "," . $query_sum . "," . $total_sum;
         $query .= "
