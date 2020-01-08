@@ -1,5 +1,11 @@
 <?php
 	$config = new Configuration();
+
+    if (!extension_loaded('intl')) {
+        echo "<p>" . _("PHP's extension php-intl doesn't seem to be installed or activated on your installation. Please install and activate php-intl to use cost history.") . "</p>";
+        return 1;
+    }
+
 	$enhancedCostFlag = ((isset($config->settings->enhancedCostHistory)) && (strtoupper($config->settings->enhancedCostHistory) == 'Y')) ? 1 : 0;
 	$enhancedCostFlag = (strtoupper($config->settings->enhancedCostHistory) == 'Y') ? 1 : 0;
 	if ($enhancedCostFlag){

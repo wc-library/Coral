@@ -23,9 +23,8 @@ class Dashboard {
                         RA.libraryNumber AS libraryNumber,
                         F.shortName AS fundName,
                         O.$orgField AS organizationName,
-                        SUM(DISTINCT(ROUND(COALESCE(RP.paymentAmount, 0) / 100, 2))) as paymentAmount
+                        FORMAT(SUM(DISTINCT(COALESCE(RP.paymentAmount, 0) / 100)), " . return_number_decimals() . ", " . return_sql_locale() . ") as paymentAmount
                         ";
-
         $query .= "
                  FROM Resource R
                     LEFT JOIN ResourceAcquisition RA ON RA.resourceID = R.resourceID
@@ -68,6 +67,9 @@ class Dashboard {
 
     public function getQueryYearlyCosts($resourceTypeID, $startYear, $endYear, $acquisitionTypeID, $orderTypeID, $subjectID, $costDetailsID, $fundID, $organizationID, $roleID, $groupBy) {
         $config = new Configuration();
+        $number_decimals = return_number_decimals();
+        $sql_locale = return_sql_locale();
+
         if ($config->settings->organizationsModule == 'Y' && $config->settings->organizationsDatabaseName) {
             $orgDB = $config->settings->organizationsDatabaseName;
             $orgField = 'name';
@@ -98,10 +100,10 @@ class Dashboard {
 
                 if (is_array($costDetailsID) && !in_array($costDetail['costDetailsID'], $costDetailsID)) continue;
 
-                $sum_query = " SUM(DISTINCT(if(RP.year = $i";
+                $sum_query = " FORMAT(SUM(DISTINCT(if(RP.year = $i";
                 $sum_query .= " AND RP.costDetailsID = " . $costDetail['costDetailsID'];
 
-                $sum_query .= ", ROUND(COALESCE(RP.paymentAmount, 0) / 100, 2), 0))) AS `" . $costDetail['shortName'] . " / $i`";
+                $sum_query .= ", COALESCE(RP.paymentAmount / 100, 0), 0))), " . $number_decimals . ", " . $sql_locale . ") AS `" . $costDetail['shortName'] . " / $i`";
                 $sum_parts[] = $sum_query;
             }
         }
@@ -116,11 +118,11 @@ class Dashboard {
                     $sum_query = " SUM(if(RP.year = $i";
                     $sum_query .= " AND RP.costDetailsID = " . $costDetail['costDetailsID'];
 
-                    $sum_query .= ", ROUND(COALESCE(RP.paymentAmount, 0) / 100, 2), 0))";
+                    $sum_query .= ", ROUND(COALESCE(RP.paymentAmount, 0) / 100, " . $number_decimals . "), 0))";
                     $sum_parts[] = $sum_query;
                 }
             }
-            $total_sum = "(" . join(" + ", $sum_parts) . ") AS costDetailsSum";
+            $total_sum = "FORMAT(" . join(" + ", $sum_parts) . ", " . $number_decimals . ", " . $sql_locale .") AS costDetailsSum";
         }
         if ($query_sum) $query .= "," . $query_sum . "," . $total_sum;
         $query .= "
@@ -156,7 +158,7 @@ class Dashboard {
                 }
             }
         }
-        $query_where .= join(" AND ", $query_parts);
+        $query_where = join(" AND ", $query_parts);
         if ($query_where) $query .= " WHERE " . $query_where;
 
         $query .= " GROUP BY ";
