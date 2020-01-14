@@ -25,6 +25,10 @@ $resource = new Resource(new NamedArguments(array('primaryKey' => $resourceID)))
 $status = new Status(new NamedArguments(array('primaryKey' => $resource->statusID)));
 $resourceAcquisitions = $resource->getResourceAcquisitions();
 
+$currentPage = $_SERVER["SCRIPT_NAME"];
+$parts = Explode('/', $currentPage);
+$currentPage = $parts[count($parts) - 1];
+
 
 //used to get default email address for feedback link in the right side panel
 $config = new Configuration();
@@ -34,7 +38,7 @@ $config = new Configuration();
 if ((isset($_GET['ref'])) && ($_GET['ref'] == 'new')){
   CoralSession::set('ref_script', 'new');
 }else{
-  CoralSession::set('ref_script', $currentPage = '');
+  CoralSession::set('ref_script', $currentPage);
 }
 
 //set this to turn off displaying the title header in header.php
