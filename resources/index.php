@@ -29,7 +29,6 @@ $currentPage = $parts[count($parts) - 1];
 //except we don't want it to retain if they press the 'index' button
 //check what referring script is
 
-error_log("ref_script " . CoralSession::get('ref_script'));
 if (CoralSession::get('ref_script') != "resource.php"){
 	Resource::resetSearch();
 }
