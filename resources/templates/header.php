@@ -30,6 +30,8 @@ $currentPage = $parts[count($parts) - 1];
 
 //get CORAL URL for 'Change Module' and logout link.
 $coralURL = $util->getCORALURL();
+
+$target = getTarget();
 ?>
 
 
@@ -123,7 +125,7 @@ Date.format = '<?php echo return_datepicker_date_format(); ?>';
                 ?>
                 </span><br />
 
-            <?php if($config->settings->authModule == 'Y'){ echo "<a href='" . $coralURL . "auth/?logout' id='logout' title='" . _("logout") . "'>" . _("logout") . "</a><span id='divider'> | </span><a href='http://docs.coral-erm.org/' id='help' target='_blank'>" . _("Help") . "</a><span id='divider'> | </span>"; } ?>
+            <?php if($config->settings->authModule == 'Y'){ echo "<a href='" . $coralURL . "auth/?logout' id='logout' title='" . _("logout") . "'>" . _("logout") . "</a><span id='divider'> | </span><a href='http://docs.coral-erm.org/' id='help' $target>" . _("Help") . "</a><span id='divider'> | </span>"; } ?>
 
                 <span id="setLanguage">
                     <select name="lang" id="lang" class="dropDownLang">
@@ -248,27 +250,27 @@ if ((file_exists($util->getCORALPath() . "index.php")) || ($config->settings->li
 	        <li id="change-mod-menu"><span><?php echo _("Change Module");?></span><i class="fa fa-chevron-down"></i>
 			<ul class="coraldropdown">
 				<?php if (file_exists($util->getCORALPath() . "index.php")) {?>
-				<li class="change-mod-item"><a href="<?php echo $coralURL; ?>" target='_blank' title="<?php echo _("Main Menu"); ?>"><img src='images/change/icon-mod-main.png'><span><?php echo _("Main Menu");?></span></a></li>
+				<li class="change-mod-item"><a href="<?php echo $coralURL . '"' . $target; ?> title="<?php echo _("Main Menu"); ?>"><img src='images/change/icon-mod-main.png'><span><?php echo _("Main Menu");?></span></a></li>
 				<?php
 				}
 				if ($config->settings->organizationsModule == 'Y') {
 				?>
-				<li class="change-mod-item"><a href="<?php echo $coralURL; ?>organizations/" target='_blank' title="<?php echo _("Organizations module"); ?>"><img src='images/change/icon-mod-organizations.png'><span><?php echo _("Organizations");?></span></a></li>
+				<li class="change-mod-item"><a href="<?php echo $coralURL . 'organizations/"' . $target; ?> title="<?php echo _("Organizations module"); ?>"><img src='images/change/icon-mod-organizations.png'><span><?php echo _("Organizations");?></span></a></li>
 				<?php
 				}
 				if ($config->settings->licensingModule == 'Y') {
 				?>
-				<li class="change-mod-item"><a href="<?php echo $coralURL; ?>licensing/" target='_blank' title="<?php echo _("Licensing module"); ?>"><img src='images/change/icon-mod-licensing.png'><span><?php echo _("Licensing");?></span></a></li>
+				<li class="change-mod-item"><a href="<?php echo $coralURL . 'licensing/"' . $target; ?> title="<?php echo _("Licensing module"); ?>"><img src='images/change/icon-mod-licensing.png'><span><?php echo _("Licensing");?></span></a></li>
 				<?php
 				}
 				if ($config->settings->usageModule == 'Y') {
 				?>
-				<li class="change-mod-item"><a href="<?php echo $coralURL; ?>usage/" target='_blank' title="<?php echo _("Usage Statistics module"); ?>"><img src='images/change/icon-mod-usage.png'><span><?php echo _("Usage Statistics");?></span></a></li>
+				<li class="change-mod-item"><a href="<?php echo $coralURL . 'usage/"' . $target; ?> title="<?php echo _("Usage Statistics module"); ?>"><img src='images/change/icon-mod-usage.png'><span><?php echo _("Usage Statistics");?></span></a></li>
 				<?php
 				}
 				if ($config->settings->managementModule == 'Y') {
 				?>
-				<li class="change-mod-item"><a href="<?php echo $coralURL; ?>management/" target='_blank' title="<?php echo _("Management module"); ?>"><img src='images/change/icon-mod-management.png'><span><?php echo _("Management");?></span></a></li>
+				<li class="change-mod-item"><a href="<?php echo $coralURL . 'management/"' . $target; ?> title="<?php echo _("Management module"); ?>"><img src='images/change/icon-mod-management.png'><span><?php echo _("Management");?></span></a></li>
 				<?php } ?>
 			</ul>
 		</li>
