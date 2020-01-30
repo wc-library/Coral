@@ -614,6 +614,7 @@ include 'templates/header.php';
 			<option value=''><?php echo _("All");?></option>
 			<option value='RRC'><?php echo _("Parent");?></option>
 			<option value='RRP'><?php echo _("Child");?></option>
+			<option value='None'><?php echo _("None");?></option>
 		</select>
 	</td>
 	</tr>
