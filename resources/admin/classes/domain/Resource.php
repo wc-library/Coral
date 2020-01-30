@@ -555,9 +555,12 @@ class Resource extends DatabaseObject {
 
 
 		if ($search['parent'] != null) {
-			$parentadd = "(" . $search['parent'] . ".relationshipTypeID = 1";
-			$parentadd .= ")";
-			$whereAdd[] = $parentadd;
+            if ($search['parent'] == 'None') {
+                $parentadd = "(RRP.relationshipTypeID IS NULL AND RRC.relationshipTypeID IS NULL)";
+            } else {
+                $parentadd = "(" . $search['parent'] . ".relationshipTypeID = 1)";
+            }
+            $whereAdd[] = $parentadd;
 		}
 
 
