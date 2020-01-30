@@ -134,8 +134,12 @@ include 'templates/header.php';
 				$fundCodeLength = strlen($fund['fundCode']) + 3;
 				$combinedLength = strlen($fund['shortName']) + $fundCodeLength;
 				$fundName = ($combinedLength <=50) ? $fund['shortName'] : substr($fund['shortName'],0,49-$fundCodeLength) . "&hellip;";
-				$fundName .= " [" . $fund['fundCode'] . "]</option>";
-				echo "<option value='" . $fund['fundID'] . "'>" . $fundName . "</option>";
+				$fundName .= " [" . $fund['fundCode'] . "]";
+                if (isset($search['fund']) && $search['fund'] == $fund['fundID']) {
+                    echo "<option value='" . $fund['fundID'] . "' selected='selected'>" . $fundName . "</option>";
+                } else {
+                    echo "<option value='" . $fund['fundID'] . "'>" . $fundName . "</option>";
+                }
 		}
 
 			?>
