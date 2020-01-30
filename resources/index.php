@@ -619,9 +619,9 @@ include 'templates/header.php';
 		<td class='searchRow'><label for='searchParents'><b>Relationship</b></label>
 		<select name='search[parent]' id='searchParents' style='width:150px'>
 			<option value=''><?php echo _("All");?></option>
-			<option value='RRC'><?php echo _("Parent");?></option>
-			<option value='RRP'><?php echo _("Child");?></option>
-			<option value='None'><?php echo _("None");?></option>
+			<option value='RRC'<?php if (isset($search['parent']) && $search['parent'] == 'RRC') { echo " selected='selected'"; }; echo ">" ._("Parent");?></option>
+			<option value='RRP'<?php if (isset($search['parent']) && $search['parent'] == 'RRP') { echo " selected='selected'"; }; echo ">" . _("Child");?></option>
+			<option value='None'<?php if (isset($search['parent']) && $search['parent'] == 'None') { echo " selected='selected'"; }; echo ">" . _("None");?></option>
 		</select>
 	</td>
 	</tr>
