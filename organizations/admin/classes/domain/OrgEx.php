@@ -231,22 +231,6 @@ class OrgEx extends DatabaseObject {
 
 
 
-  /*used for A-Z on search (index)
-  public function getAlphabeticalList() {
-    $alphArray = array();
-    echo "is there ever called?";
-    $result = $this->db->query("SELECT DISTINCT UPPER(SUBSTR(TRIM(LEADING 'The ' FROM titleText),1,1)) letter, COUNT(SUBSTR(TRIM(LEADING 'The ' FROM titleText),1,1)) letter_count
-                FROM Organization R
-                GROUP BY UPPER(SUBSTR(TRIM(LEADING 'The ' FROM titleText),1,1))
-                ORDER BY 1;");
-
-    while ($row = $result->fetch_assoc()) {
-      $alphArray[$row['letter']] = $row['letter_count'];
-    }
-
-    return $alphArray;
-  }*/
-
   //returns array based on search for excel output (export.php)
   public function export($whereAdd, $orderBy) {
     $distinct_Organization_id_query = "SELECT DISTINCT(organizationID) AS Organization_id FROM Organization;";
@@ -262,13 +246,6 @@ class OrgEx extends DatabaseObject {
     }else{
       $orgJoinAdd = "  LEFT JOIN Organization O ON O.organizationID = R.organizationID";
     }
-
-
-
-    //$status = new Status();
-    //also add to not retrieve saved records
-   // $savedStatusID = intval($status->getIDFromName('saved'));
-
 
     $whereStatement = "WHERE " . implode(" AND ", $whereAdd);
 
@@ -310,15 +287,6 @@ FROM Organization O
   Order BY
     O.name
   ; ";
-/*
-  LEFT JOIN Expression E ON E.documentID = D.documentID
-  LEFT JOIN ExpressionType ET ON ET.expressionTypeID = E.expressionTypeID
-  LEFT JOIN Qualifier Q ON Q.expressionTypeID = E.expressionTypeID
-  $orgJoinAdd
-  $whereStatement
-  "
-  
-  ";*/
 
     // This was determined by trial and error
     
@@ -332,14 +300,14 @@ FROM Organization O
       $list_of_ids = implode(",", $Organization_id_chunk);
       $chunked_query = str_replace("LIST_OF_IDS",$list_of_ids,$query);
       $result = $this->db->processQuery(stripslashes($chunked_query), 'assoc');
-      //echo "START". $result[1]. "THISE IS THE ARRAY IN ORGEX";
+
       //need to do this since it could be that there's only one result and this is how the dbservice returns result
       foreach ($result as $row) {
         array_push($searchArray, $row);
       }
-      //echo "START". gettype($searchArray[0]). "THISE IS THE ARRAY IN ORGEX\n";
-      if (is_string($searchArray[0])) {//isset($result['OrganizationID'])
-        //echo "i did it\n";
+
+      if (is_string($searchArray[0])) {
+
         $result = [$result];
         $searchArray = [];
         foreach ($result as $row) {

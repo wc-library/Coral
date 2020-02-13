@@ -44,7 +44,6 @@ $orderBy = $queryDetails["order"];
 $resourceObj = new OrgEx();
 $resourceArray = array();
 $resourceArray = $resourceObj->export($whereAdd, $orderBy);
-//echo $resourceArray[0] ."AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n";
 
 $replace = array("/", "-");
 $excelfile = "organization_export_" . str_replace( $replace, "_", format_date( date( 'Y-m-d' ) ) ).".csv";
