@@ -41,47 +41,7 @@ include 'templates/header.php';
 		                	<?php echo _("Powered by");?><img src="images/logo-coral.jpg" />
 		                </span>
 		            </div>
-					<span id="setLanguage">
-						<select name="lang" id="lang" class="dropDownLang">
-				           <?php
-				            // Get all translations on the 'locale' folder
-				            $route='locale';
-				            $lang[]="en_US"; // add default language
-				            if (is_dir($route)) {
-				                if ($dh = opendir($route)) {
-				                    while (($file = readdir($dh)) !== false) {
-				                        if (is_dir("$route/$file") && $file!="." && $file!=".."){
-				                            $lang[]=$file;
-				                        }
-				                    }
-				                    closedir($dh);
-				                }
-				            }else {
-				                echo "<br>"._("Invalid translation route!");
-				            }
-				            // Get language of navigator
-				            $defLang = $lang_name->getBrowserLanguage();
-
-				            // Show an ordered list
-				            sort($lang);
-				            for($i=0; $i<count($lang); $i++){
-				                if(isset($_COOKIE["lang"])){
-				                    if($_COOKIE["lang"]==$lang[$i]){
-				                        echo "<option value='".$lang[$i]."' selected='selected'>".$lang_name->getNameLang($lang[$i])."</option>";
-				                    }else{
-				                        echo "<option value='".$lang[$i]."'>".$lang_name->getNameLang($lang[$i])."</option>";
-				                    }
-				                }else{
-				                    if($defLang==substr($lang[$i],0,5)){
-				                        echo "<option value='".$lang[$i]."' selected='selected'>".$lang_name->getNameLang($lang[$i])."</option>";
-				                    }else{
-				                        echo "<option value='".$lang[$i]."'>".$lang_name->getNameLang($lang[$i])."</option>";
-				                    }
-				                }
-				            }
-				            ?>
-				        </select>
-					</span>
+                    <?php $lang_name->getLanguageSelector(); ?>
 					<span id="help-span">
 						<a href="https://js-erm-helps.bc.sirsidynix.net" target="_blank">
 							<?php echo _("Help");?>
