@@ -14,7 +14,7 @@ class LangCodes{
             'de_DE'=>'de_DE',
             'tr_TR'=>'tr_TR'
         );
-        return array_key_exists($code, $all_lang) ? $all_lang[$code] : "en_US";
+        return array_key_exists($code, $all_lang) ? $all_lang[$code] : null;
     }
     public function getNameLang($code_lang){
         $name_lang=array(
@@ -26,7 +26,7 @@ class LangCodes{
             'de_DE'=>'Deutsch',
             'tr_TR'=>'Türkçe'
         );
-        return array_key_exists($code_lang, $name_lang) ? $name_lang[$code_lang] : "English";
+        return array_key_exists($code_lang, $name_lang) ? $name_lang[$code_lang] : null;
     }
 
     public function getBrowserLanguage() {

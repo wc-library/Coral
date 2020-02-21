@@ -50,7 +50,7 @@ include 'templates/header.php';
 				            if (is_dir($route)) {
 				                if ($dh = opendir($route)) {
 				                    while (($file = readdir($dh)) !== false) {
-				                        if (is_dir("$route/$file") && $file!="." && $file!=".."){
+				                        if (is_dir("$route/$file") && $file!="." && $file!=".." && $lang_name->getLanguage($file) != null){
 				                            $lang[]=$file;
 				                        }
 				                    }
