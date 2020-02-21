@@ -34,7 +34,9 @@ function submitDashboard() {
             aLengthMenu: [
                 [25, 50, 100, 200, -1],
                 [25, 50, 100, 200, "All"],
-            ]}));
+            ],
+            aaSorting: []
+            }));
             new $.fn.dataTable.FixedHeader(dashtable, { } );
 		}
 	});
@@ -63,7 +65,9 @@ function submitDashboardYearlyCosts() {
             var dashtable = $('#dashboard_table').DataTable({aLengthMenu: [
                 [25, 50, 100, 200, -1],
                 [25, 50, 100, 200, "All"]
-            ]});
+            ],
+            aaSorting: []
+            });
             new $.fn.dataTable.FixedHeader(dashtable, { } );
 		}
 	});
