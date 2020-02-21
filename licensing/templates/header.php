@@ -131,48 +131,8 @@ Date.format = '<?php echo return_datepicker_date_format(); ?>';
 
             <?php if($config->settings->authModule == 'Y'){ echo "<a href='" . $coralURL . "auth/?logout' id='logout'>" . _("logout") . "</a><span id='divider'> | </span><a href='http://docs.coral-erm.org/' id='help' target='_blank'>" . _("Help") . "</a><span id='divider'> | </span>"; } ?>
 
-                <span id="setLanguage">
-                    <select name="lang" id="lang" class="dropDownLang">
-                       <?php
-                        // Get all translations on the 'locale' folder
-                        $route='locale';
-                        $lang[]="en_US"; // add default language
-                        if (is_dir($route)) {
-                            if ($dh = opendir($route)) {
-                                while (($file = readdir($dh)) !== false) {
-                                    if (is_dir("$route/$file") && $file!="." && $file!=".." && $lang_name->getLanguage($file) != null){
-                                        $lang[]=$file;
-                                    } 
-                                } 
-                                closedir($dh); 
-                            } 
-                        }else {
-                            echo "<br>"._("Invalid translation route!"); 
-                        }
-                        // Get language of navigator
-                        $defLang = $lang_name->getBrowserLanguage();
-                        
-                        // Show an ordered list
-                        sort($lang); 
-                        for($i=0; $i<count($lang); $i++){
-                            if(isset($_COOKIE["lang"])){
-                                if($_COOKIE["lang"]==$lang[$i]){
-                                    echo "<option value='".$lang[$i]."' selected='selected'>".$lang_name->getNameLang($lang[$i])."</option>";
-                                }else{
-                                    echo "<option value='".$lang[$i]."'>".$lang_name->getNameLang($lang[$i])."</option>";
-                                }
-                            }else{
-                                if($defLang==substr($lang[$i],0,5)){
-                                    echo "<option value='".$lang[$i]."' selected='selected'>".$lang_name->getNameLang($lang[$i])."</option>";
-                                }else{
-                                    echo "<option value='".$lang[$i]."'>".$lang_name->getNameLang($lang[$i])."</option>";
-                                }
-                            }
-                        }
-                        ?>
-                        
-                    </select>
-                </span>
+            <?php $lang_name->getLanguageSelector(); ?>
+
             </div>
 
         </td>
