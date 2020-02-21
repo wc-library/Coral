@@ -10,10 +10,13 @@
     $costDetailsID = $_POST['costDetailsID'];
     $subjectID = $_POST['subjectID'];
     $groupBy = $_POST['groupBy'];
+    $fundID = $_POST['fundID'];
+    $organizationID = $_POST['organizationID'];
+    $roleID = $_POST['roleID'];
     $csv = $_POST['csv'];
 
     $dashboard = new Dashboard();
-    $query = $dashboard->getQuery($resourceTypeID, $year, $acquisitionTypeID, $orderTypeID, $subjectID, $costDetailsID, $groupBy);
+    $query = $dashboard->getQuery($resourceTypeID, $year, $acquisitionTypeID, $orderTypeID, $subjectID, $costDetailsID, $fundID, $organizationID, $roleID, $groupBy);
     $results = $dashboard->getResults($query);
     if ($groupBy == "GS.shortName") $groupBy = "generalSubject";
 
