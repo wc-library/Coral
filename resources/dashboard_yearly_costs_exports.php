@@ -63,6 +63,7 @@
             $columnHeaders[] = $costDetail['shortName'] . " / $i";
         }
     }
+    $columnHeaders[] = _("All cost details");
     echo array_to_csv_row($columnHeaders);
 
     $count = sizeof($results);
@@ -89,7 +90,7 @@
                 $dashboardValues[] =  $result[$costDetail['shortName'] . " / $i"];
             }
         }
-
+        $dashboardValues[] = $result['costDetailsSum'];
         echo array_to_csv_row($dashboardValues);
         $currentCount++;
     }
