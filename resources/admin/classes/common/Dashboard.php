@@ -115,10 +115,10 @@ class Dashboard {
             for ($i = $startYear; $i <= $endYear; $i++) {
                 foreach ($costDetailsArray as $costDetail) {
 
-                    $sum_query = " SUM(if(RP.year = $i";
+                    $sum_query = " SUM(DISTINCT(if(RP.year = $i";
                     $sum_query .= " AND RP.costDetailsID = " . $costDetail['costDetailsID'];
 
-                    $sum_query .= ", ROUND(COALESCE(RP.paymentAmount, 0) / 100, " . $number_decimals . "), 0))";
+                    $sum_query .= ", ROUND(COALESCE(RP.paymentAmount, 0) / 100, " . $number_decimals . "), 0)))";
                     $sum_parts[] = $sum_query;
                 }
             }
