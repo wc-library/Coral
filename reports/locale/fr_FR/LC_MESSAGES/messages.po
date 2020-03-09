@@ -2,25 +2,26 @@ msgid ""
 msgstr ""
 "Project-Id-Version: messages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-24 16:34+0100\n"
-"PO-Revision-Date: 2018-03-13 12:00+0100\n"
-"Last-Translator: Paul Poulain <paul.poulain@biblibre.com>\n"
+"POT-Creation-Date: 2020-02-20 10:57+0100\n"
+"PO-Revision-Date: 2019-04-30 14:53+0000\n"
+"Last-Translator: camoroso <claire.amoroso@sirsidynix.com>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Pootle 2.8\n"
 "X-Poedit-Basepath: ../../..\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.8.7.1\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: js/plugins/jquery.js\n"
+"X-POOTLE-MTIME: 1556636025.793451\n"
 
 #: install/reports.php:9 install/reports.php:30 install/reports.php:94
 #: install/reports.php:105 install/reports.php:115
 msgid "Reports Module"
-msgstr "Module rapports"
+msgstr "Module des Rapports"
 
 #: install/reports.php:19
 msgid "Reports Database"
@@ -52,7 +53,7 @@ msgstr "Créer un nouveau rapport"
 
 #: report.php:187
 msgid "By Month and Resource"
-msgstr "Par mois et par ressource"
+msgstr "Par Mois et par ressource"
 
 #: report.php:190
 msgid "from an Archive"
@@ -61,7 +62,7 @@ msgstr "d'une Archive"
 #: report.php:195
 #, php-format
 msgid "Number of Successful Full-Text Article Requests %s"
-msgstr "Nombre de demandes réussies d'articles en texte intégral %s"
+msgstr "Nombre de demandes d'articles en texte intégral réussies %s"
 
 #: report.php:240 report.php:297
 msgid ""
@@ -122,7 +123,7 @@ msgstr ""
 msgid "Color Background Key"
 msgstr "Légende des couleurs en arrière-plan"
 
-#: templates/header.php:72
+#: templates/header.php:74
 msgid ""
 "JavaScript must be enabled in order for you to use CORAL. However, it seems "
 "JavaScript is either disabled or not supported by your browser. To use "
@@ -133,24 +134,24 @@ msgstr ""
 "Pour utiliser CORAL, activez JavaScript en modifiant les options de votre "
 "navigateur, puis"
 
-#: templates/header.php:72
+#: templates/header.php:74
 msgid "try again"
 msgstr "réessayez"
 
-#: popup.php:66
+#: popup.php:65
 msgid "Frequently Asked Questions"
 msgstr "Foire aux Questions"
 
-#: popup.php:67
+#: popup.php:66
 msgid ""
 "Q. Why isn't the HTML number double the PDF number for interfaces that "
 "automatically download HTML?"
 msgstr ""
-"Q. Pour les interfaces téléchargeant automatiquement les fichiers HTML, "
+"Q. Pour les interfaces téléchargeant automatiquement au format HTML, "
 "pourquoi est-ce que le nombre de fichiers HTML n'est-il pas le double du "
 "nombre de fichiers PDF ?"
 
-#: popup.php:69
+#: popup.php:68
 msgid ""
 "A. Frequently these sites do NOT automatically download HTML from the Table "
 "of Contents browse interface, so even platforms such as ScienceDirect "
@@ -158,10 +159,10 @@ msgid ""
 msgstr ""
 "R. Souvent ces sites NE téléchargent PAS automatiquement les fichiers HTML "
 "de l'interface de la Table des matières du navigateur, donc même les "
-"plateformes comme ScienceDirect ont parfois un nombre supérieur de fichiers "
-"PDF plutôt que de fichiers HTML."
+"plateformes comme ScienceDirect ont parfois un nombre supérieur "
+"d'utilisations au format PDF plutôt qu'au format HTML."
 
-#: popup.php:71
+#: popup.php:70
 msgid ""
 "Q. I thought COUNTER standards prevented double-counting of article "
 "downloads."
@@ -169,7 +170,7 @@ msgstr ""
 "Q. Je pensais que les normes COUNTER empêcheraient de compter deux fois le "
 "téléchargement des articles."
 
-#: popup.php:73
+#: popup.php:72
 msgid ""
 "A. COUNTER does require that duplicate clicks on HTML or PDF within a short "
 "period of time be counted once. But COUNTER specifically does not deny "
@@ -178,15 +179,16 @@ msgid ""
 "and/or print the PDF version, this interface significantly inflates total "
 "article usage."
 msgstr ""
-"R. COUNTER requiert effectivement que les clics dupliqués sur les fichiers "
-"HTML ou les PDF dans une courte période de temps ne soient comptés qu'une "
-"seule fois. Mais la norme COUNTER en elle-même n'empêche pas de compter deux "
-"les différents formats--HTML et PDF. Comme certains éditeurs choisissent le "
-"HTML pour les utilisateurs, et comme de nombreux utilisateurs préfèrent "
-"enregistrer/imprimer la version PDF, cette interface augmente "
-"considérablement la comptabilisation totale de l'utilisation des articles."
+"R. COUNTER requiert effectivement que les clics dupliqués sur des fichiers "
+"HTML ou PDF dans une courte période de temps ne soient comptés qu'une seule "
+"fois. Mais la norme COUNTER en elle-même n'empêche pas de compter deux fois "
+"les différents formats--HTML et PDF. Etant donné que certains éditeurs "
+"choisissent automatiquement le HTML pour les utilisateurs, et comme de "
+"nombreux utilisateurs préfèrent enregistrer/imprimer la version PDF, cette "
+"interface augmente considérablement le nombre total des utilisations des "
+"articles."
 
-#: popup.php:75
+#: popup.php:74
 msgid ""
 "Q. Why do some Highwire Press publishers have high HTML ratios to PDFs, but "
 "some appear to have a very low ratio?"
@@ -195,7 +197,7 @@ msgstr ""
 "fichiers HTML très élevés par rapport aux fichiers PDF, mais que certains "
 "éditeurs semblent avoir un ratio très bas ?"
 
-#: popup.php:77
+#: popup.php:76
 msgid ""
 "A. Some publishers have automatic HTML display on Highwire, and some do not. "
 "This is because the publisher is able to indicate a preferred linking page "
@@ -208,7 +210,7 @@ msgstr ""
 "cette plateforme comprend de nombreux éditeurs, l'impact sur l'interface "
 "n'est pas uniforme."
 
-#: popup.php:85
+#: popup.php:84
 msgid "Invalid type!!"
 msgstr "Type non-valide !!"
 
