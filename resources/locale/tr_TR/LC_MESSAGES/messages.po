@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: messages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-24 16:34+0100\n"
+"POT-Creation-Date: 2020-02-20 09:32+0100\n"
 "PO-Revision-Date: 2018-01-05 09:33+0300\n"
 "Last-Translator: <>\n"
 "Language-Team: Coral Türkiye <ozhansaglik@uludag.edu.tr>\n"
@@ -61,13 +61,13 @@ msgid "Add New Resource"
 msgstr "Yeni Kaynak Ekle"
 
 #: ajax_forms/getNewResourceForm.php:77
-#: ajax_forms/getEbscoKbTitleImportForm.php:31
-#: ajax_forms/getEbscoKbPackageImportForm.php:85
+#: ajax_forms/getEbscoKbTitleImportForm.php:38
+#: ajax_forms/getEbscoKbPackageImportForm.php:92
 msgid "required fields"
 msgstr "zorunlu alanlar"
 
 #: ajax_forms/getNewResourceForm.php:83 ajax_forms/getUpdateProductForm.php:81
-#: directory.php:87
+#: directory.php:74
 msgid "Product"
 msgstr "Ürün"
 
@@ -99,49 +99,49 @@ msgid "Alt URL:"
 msgstr "Alternatif URL:"
 
 #: ajax_forms/getNewResourceForm.php:123
-#: ajax_forms/getEbscoKbTitleImportForm.php:60
-#: ajax_forms/getEbscoKbPackageImportForm.php:249 export.php:59
+#: ajax_forms/getEbscoKbTitleImportForm.php:70
+#: ajax_forms/getEbscoKbPackageImportForm.php:259 export.php:59
 msgid "Format"
 msgstr "Biçim:"
 
 #: ajax_forms/getNewResourceForm.php:168 ajax_forms/getImportConfigForm.php:56
-#: ajax_forms/getEbscoKbTitleImportForm.php:88
-#: ajax_forms/getEbscoKbPackageImportForm.php:274
-#: dashboard_yearly_costs_exports.php:55 import.php:127 dashboard_export.php:49
-#: admin.php:55 export.php:84 dashboard_yearly_costs.php:69 index.php:146
+#: ajax_forms/getEbscoKbTitleImportForm.php:98
+#: ajax_forms/getEbscoKbPackageImportForm.php:284
+#: dashboard_yearly_costs_exports.php:55 import.php:127 dashboard_export.php:48
+#: admin.php:55 export.php:84 dashboard_yearly_costs.php:95 index.php:153
 #: ajax_htmldata/getOutstandingQueue.php:22
-#: ajax_htmldata/getAdminWorkflowDisplay.php:16
-#: ajax_htmldata/getDashboardYearlyCosts.php:31
-#: ajax_htmldata/getDashboard.php:24 ajax_htmldata/getSearchResources.php:117
-#: dashboard.php:69
+#: ajax_htmldata/getAdminWorkflowDisplay.php:32
+#: ajax_htmldata/getDashboardYearlyCosts.php:34
+#: ajax_htmldata/getDashboard.php:27 ajax_htmldata/getSearchResources.php:117
+#: dashboard.php:93
 msgid "Acquisition Type"
 msgstr "Sağlama Türü"
 
 #: ajax_forms/getNewResourceForm.php:215 ajax_forms/getImportConfigForm.php:55
-#: dashboard_yearly_costs_exports.php:53 templates/ebscoKbTitleList.php:6
-#: import.php:123 dashboard_export.php:47 admin.php:92
-#: dashboard_yearly_costs.php:67 index.php:256 ebsco_kb.php:156
-#: ajax_htmldata/getAdminWorkflowDisplay.php:18
-#: ajax_htmldata/getDashboardYearlyCosts.php:29
-#: ajax_htmldata/getDashboard.php:22 dashboard.php:67
+#: dashboard_yearly_costs_exports.php:53 templates/ebscoKbTitleList.php:11
+#: import.php:123 dashboard_export.php:46 admin.php:92
+#: dashboard_yearly_costs.php:93 index.php:263 ebsco_kb.php:157
+#: ajax_htmldata/getAdminWorkflowDisplay.php:34
+#: ajax_htmldata/getDashboardYearlyCosts.php:32
+#: ajax_htmldata/getDashboard.php:25 dashboard.php:91
 msgid "Resource Type"
 msgstr "Kaynak Türü"
 
 #: ajax_forms/getNewResourceForm.php:261
-#: ajax_forms/getEbscoKbTitleImportForm.php:112
-#: ajax_forms/getEbscoKbPackageImportForm.php:329
-#: ajax_htmldata/getAcquisitionsDetails.php:120
+#: ajax_forms/getEbscoKbTitleImportForm.php:122
+#: ajax_forms/getEbscoKbPackageImportForm.php:339
+#: ajax_htmldata/getAcquisitionsDetails.php:126
 msgid "Notes"
 msgstr "Notlar"
 
 #: ajax_forms/getNewResourceForm.php:270
-#: ajax_forms/getEbscoKbTitleImportForm.php:115
-#: ajax_forms/getEbscoKbPackageImportForm.php:332
+#: ajax_forms/getEbscoKbTitleImportForm.php:125
+#: ajax_forms/getEbscoKbPackageImportForm.php:342
 msgid "Include any additional information"
 msgstr "Ek bilgi içerir"
 
 #: ajax_forms/getNewResourceForm.php:286
-#: ajax_forms/getEbscoKbTitleImportForm.php:127
+#: ajax_forms/getEbscoKbTitleImportForm.php:137
 #: ajax_forms/getImportSaveCfgForm.php:27
 msgid "save"
 msgstr "kaydet"
@@ -161,7 +161,7 @@ msgstr "kaydet"
 #: ajax_forms/getAdminUserUpdateForm.php:66 ajax_forms/getAccessForm.php:254
 #: ajax_forms/getAdminImportConfigUpdateForm.php:40
 #: ajax_forms/getAccountForm.php:86
-#: ajax_forms/getEbscoKbTitleImportForm.php:130
+#: ajax_forms/getEbscoKbTitleImportForm.php:140
 #: ajax_forms/getNewIssueForm.php:135 ajax_forms/getAdminWorkflowForm.php:268
 #: ajax_forms/getNewDowntimeForm.php:135
 #: ajax_forms/getAdminCurrencyUpdateForm.php:38
@@ -185,17 +185,18 @@ msgstr "gönder"
 #: ajax_forms/getAdminUserGroupForm.php:149
 #: ajax_forms/getAdminUserUpdateForm.php:67 ajax_forms/getAccessForm.php:255
 #: ajax_forms/getAdminImportConfigUpdateForm.php:41
+#: ajax_forms/getEbscoKbRemoveConfirmation.php:67
 #: ajax_forms/getAccountForm.php:87
-#: ajax_forms/getEbscoKbTitleImportForm.php:132
+#: ajax_forms/getEbscoKbTitleImportForm.php:142
 #: ajax_forms/getNewIssueForm.php:136 ajax_forms/getNewIssueForm.php:145
 #: ajax_forms/getAdminWorkflowForm.php:269
-#: ajax_forms/getEbscoKbPackageImportForm.php:345
+#: ajax_forms/getEbscoKbPackageImportForm.php:355
 #: ajax_forms/getNewDowntimeForm.php:136 ajax_forms/getNewDowntimeForm.php:145
 #: ajax_forms/getImportSaveCfgForm.php:28
 #: ajax_forms/getAdminCurrencyUpdateForm.php:39
 #: ajax_forms/getLicenseForm.php:194 ajax_forms/getUpdateProductForm.php:430
 #: resources/cataloging_edit.php:106 importFunds.php:64
-#: ajax_htmldata/getEbscoKbTitleDetails.php:159
+#: ajax_htmldata/getEbscoKbTitleDetails.php:239
 msgid "cancel"
 msgstr "İptal et"
 
@@ -213,6 +214,8 @@ msgstr "Ayrıntılı Konu Adı"
 
 #: ajax_forms/getResourceSubjectForm.php:26
 #: ajax_forms/getResourceSubjectForm.php:33
+#: ajax_htmldata/getAdminUserDisplay.php:21
+#: ajax_htmldata/getAdminDisplay.php:15
 msgid "add"
 msgstr "ekle"
 
@@ -224,21 +227,24 @@ msgstr "ekle"
 #: ajax_forms/getUpdateProductForm.php:124
 #: ajax_forms/getUpdateProductForm.php:153
 #: ajax_forms/getUpdateProductForm.php:266
-#: ajax_forms/getUpdateProductForm.php:359
+#: ajax_forms/getUpdateProductForm.php:359 resources/cataloging.php:213
+#: ajax_htmldata/getProductDetails.php:439
+#: ajax_htmldata/getAccessDetails.php:165
+#: ajax_htmldata/getAcquisitionsDetails.php:303
 msgid "Add"
 msgstr "Ekle"
 
 #: ajax_forms/getResourceSubjectForm.php:44
-#: ajax_htmldata/getAdminWorkflowDisplay.php:62
-#: ajax_htmldata/getAdminWorkflowDisplay.php:113
-#: ajax_htmldata/getAdminAlertDisplay.php:35
-#: ajax_htmldata/getAdminAlertDisplay.php:65
-#: ajax_htmldata/getAdminUserDisplay.php:58
-#: ajax_htmldata/getAdminFundDisplay.php:44
-#: ajax_htmldata/getAdminSubjectDisplay.php:41
-#: ajax_htmldata/getAdminSubjectDisplay.php:81
-#: ajax_htmldata/getAdminSubjectDisplay.php:123
-#: ajax_htmldata/getAdminDisplay.php:38
+#: ajax_htmldata/getAdminWorkflowDisplay.php:78
+#: ajax_htmldata/getAdminWorkflowDisplay.php:134
+#: ajax_htmldata/getAdminAlertDisplay.php:38
+#: ajax_htmldata/getAdminAlertDisplay.php:73
+#: ajax_htmldata/getAdminUserDisplay.php:61
+#: ajax_htmldata/getAdminFundDisplay.php:51
+#: ajax_htmldata/getAdminSubjectDisplay.php:44
+#: ajax_htmldata/getAdminSubjectDisplay.php:86
+#: ajax_htmldata/getAdminSubjectDisplay.php:127
+#: ajax_htmldata/getAdminDisplay.php:41
 #: ajax_htmldata/getGeneralSubjectDisplay.php:35
 msgid "(none found)"
 msgstr "(hiçbiri bulunamadı)"
@@ -273,23 +279,23 @@ msgstr "Sermaye Ekle"
 
 #: ajax_forms/getAdminFundUpdateForm.php:25
 #: ajax_forms/getAdminCurrencyUpdateForm.php:24
-#: ajax_htmldata/getAdminCurrencyDisplay.php:14
-#: ajax_htmldata/getAdminFundDisplay.php:14
+#: ajax_htmldata/getAdminCurrencyDisplay.php:18
+#: ajax_htmldata/getAdminFundDisplay.php:21
 msgid "Code"
 msgstr "Kod"
 
 #: ajax_forms/getAdminFundUpdateForm.php:28
 #: ajax_forms/getAdminCurrencyUpdateForm.php:27
 #: ajax_forms/getCurrentWorkflowForm.php:36
-#: dashboard_yearly_costs_exports.php:52 templates/ebscoKbPackageList.php:4
-#: templates/ebscoKbVendorList.php:4 dashboard_export.php:46 export.php:57
+#: dashboard_yearly_costs_exports.php:52 templates/ebscoKbPackageList.php:10
+#: templates/ebscoKbVendorList.php:4 dashboard_export.php:45 export.php:57
 #: ajax_htmldata/getOutstandingQueue.php:20
-#: ajax_htmldata/getAdminImportConfigDisplay.php:13
-#: ajax_htmldata/getAdminCurrencyDisplay.php:15
+#: ajax_htmldata/getAdminImportConfigDisplay.php:16
+#: ajax_htmldata/getAdminCurrencyDisplay.php:19
 #: ajax_htmldata/getSavedQueue.php:18 ajax_htmldata/getSubmittedQueue.php:15
-#: ajax_htmldata/getAdminFundDisplay.php:15
-#: ajax_htmldata/getDashboardYearlyCosts.php:28
-#: ajax_htmldata/getDashboard.php:21 ajax_htmldata/getSearchResources.php:113
+#: ajax_htmldata/getAdminFundDisplay.php:22
+#: ajax_htmldata/getDashboardYearlyCosts.php:31
+#: ajax_htmldata/getDashboard.php:24 ajax_htmldata/getSearchResources.php:113
 msgid "Name"
 msgstr "Ad:"
 
@@ -336,7 +342,7 @@ msgid "Edit Order"
 msgstr "Kullanıcı Düzenleme"
 
 #: ajax_forms/getOrderForm.php:49 ajax_forms/getCurrentWorkflowForm.php:34
-#: resource.php:80 summary.php:430 ajax_htmldata/getOutstandingQueue.php:21
+#: resource.php:93 summary.php:430 ajax_htmldata/getOutstandingQueue.php:21
 #: ajax_htmldata/getOrdersDetails.php:29
 msgid "Order"
 msgstr "Sipariş"
@@ -373,6 +379,8 @@ msgstr "Mevcut Abn. Bitişi:"
 #: ajax_forms/getOrderForm.php:99 ajax_forms/getImportConfigForm.php:190
 #: ajax_forms/getImportConfigForm.php:202
 #: ajax_forms/getImportConfigForm.php:329 import.php:126
+#: dashboard_yearly_costs.php:49 dashboard_yearly_costs.php:98 dashboard.php:49
+#: dashboard.php:96
 msgid "Organization"
 msgstr "Yayıncı"
 
@@ -435,9 +443,9 @@ msgstr "Notlar:"
 msgid "Add / Edit Subject Relationships"
 msgstr "Konu İlişkileri Düzenle / Ekle"
 
-#: ajax_forms/getGeneralDetailSubjectForm.php:27 index.php:288
-#: ajax_htmldata/getAdminSubjectDisplay.php:9
-#: ajax_htmldata/getAdminSubjectDisplay.php:98
+#: ajax_forms/getGeneralDetailSubjectForm.php:27 index.php:295
+#: ajax_htmldata/getAdminSubjectDisplay.php:10
+#: ajax_htmldata/getAdminSubjectDisplay.php:102
 msgid "General Subject"
 msgstr "Genel Konu"
 
@@ -455,8 +463,8 @@ msgid "remove detailed subject"
 msgstr "ayrıntılı konuyu kaldır"
 
 #: ajax_forms/getGeneralDetailSubjectForm.php:109
-#: ajax_htmldata/getAdminSubjectDisplay.php:30
-#: ajax_htmldata/getAdminSubjectDisplay.php:71
+#: ajax_htmldata/getAdminSubjectDisplay.php:33
+#: ajax_htmldata/getAdminSubjectDisplay.php:76
 msgid "subject in use"
 msgstr "konu kullanılıyor"
 
@@ -469,59 +477,63 @@ msgid "Edit Cost Information"
 msgstr "Maliyet Bilgileri Düzenleme"
 
 #: ajax_forms/getCostForm.php:64 summary.php:493
-#: ajax_htmldata/getAcquisitionsDetails.php:93
+#: ajax_htmldata/getAcquisitionsDetails.php:99
 msgid "Cost History"
 msgstr "Maliyet Geçmişi"
 
 #: ajax_forms/getCostForm.php:72 export.php:69
-#: ajax_htmldata/getAcquisitionsDetails.php:102 dashboard.php:59
+#: ajax_htmldata/getAcquisitionsDetails.php:108 dashboard.php:83
 msgid "Year"
 msgstr "Yıl"
 
 #: ajax_forms/getCostForm.php:73 export.php:88
-#: ajax_htmldata/getAcquisitionsDetails.php:103
+#: ajax_htmldata/getAcquisitionsDetails.php:109
 msgid "Sub Start"
 msgstr "Abn. Başlangıcı"
 
-#: ajax_forms/getCostForm.php:74 ajax_htmldata/getAcquisitionsDetails.php:104
+#: ajax_forms/getCostForm.php:74 ajax_htmldata/getAcquisitionsDetails.php:110
 msgid "Sub End"
 msgstr "Abn. Bitişi"
 
-#: ajax_forms/getCostForm.php:76 index.php:118
-#: ajax_htmldata/getAdminFundDisplay.php:8
-#: ajax_htmldata/getAcquisitionsDetails.php:106
+#: ajax_forms/getCostForm.php:76 dashboard_yearly_costs.php:71
+#: dashboard_yearly_costs.php:96 index.php:121
+#: ajax_htmldata/getAdminFundDisplay.php:9
+#: ajax_htmldata/getDashboardYearlyCosts.php:35
+#: ajax_htmldata/getDashboard.php:28
+#: ajax_htmldata/getAcquisitionsDetails.php:112 dashboard.php:70
+#: dashboard.php:94
 msgid "Fund"
 msgstr "San."
 
-#: ajax_forms/getCostForm.php:78 ajax_htmldata/getAcquisitionsDetails.php:108
+#: ajax_forms/getCostForm.php:78 ajax_htmldata/getAcquisitionsDetails.php:114
 msgid "Tax Excl."
 msgstr "Vergi Hariç"
 
-#: ajax_forms/getCostForm.php:79 ajax_htmldata/getAcquisitionsDetails.php:109
+#: ajax_forms/getCostForm.php:79 ajax_htmldata/getAcquisitionsDetails.php:115
 msgid "Tax Rate"
 msgstr "Vergi Oranı"
 
-#: ajax_forms/getCostForm.php:80 ajax_htmldata/getAcquisitionsDetails.php:110
+#: ajax_forms/getCostForm.php:80 ajax_htmldata/getAcquisitionsDetails.php:116
 msgid "Tax Incl."
 msgstr "Vergi Dâhil"
 
 #: ajax_forms/getCostForm.php:82 export.php:75
-#: ajax_htmldata/getAcquisitionsDetails.php:112
+#: ajax_htmldata/getAcquisitionsDetails.php:118
 msgid "Payment"
 msgstr "Ödeme"
 
 #: ajax_forms/getCostForm.php:83 ajax_forms/getImportConfigForm.php:264
-#: admin.php:70 export.php:76 ajax_htmldata/getAdminCurrencyDisplay.php:8
+#: admin.php:70 export.php:76 ajax_htmldata/getAdminCurrencyDisplay.php:9
 msgid "Currency"
 msgstr "Para birimi"
 
 #: ajax_forms/getCostForm.php:84 export.php:58
-#: ajax_htmldata/getAcquisitionsDetails.php:116
+#: ajax_htmldata/getAcquisitionsDetails.php:122
 msgid "Type"
 msgstr "Tür"
 
-#: ajax_forms/getCostForm.php:86 admin.php:68 dashboard_yearly_costs.php:51
-#: dashboard.php:52
+#: ajax_forms/getCostForm.php:86 admin.php:68 dashboard_yearly_costs.php:77
+#: dashboard.php:76
 msgid "Cost Details"
 msgstr "Maliyet Ayrıntıları"
 
@@ -532,7 +544,7 @@ msgid "Note"
 msgstr "Not"
 
 #: ajax_forms/getCostForm.php:90 export.php:80
-#: ajax_htmldata/getAcquisitionsDetails.php:122
+#: ajax_htmldata/getAcquisitionsDetails.php:128
 msgid "Invoice"
 msgstr "Fatura"
 
@@ -561,7 +573,7 @@ msgid "Alternate URL"
 msgstr "Alternatif URL"
 
 #: ajax_forms/getImportConfigForm.php:54 import.php:122 admin.php:91
-#: index.php:232 ajax_htmldata/getAdminWorkflowDisplay.php:17
+#: index.php:239 ajax_htmldata/getAdminWorkflowDisplay.php:33
 msgid "Resource Format"
 msgstr "Kaynak Biçimi"
 
@@ -576,7 +588,7 @@ msgstr "Takma ad"
 
 #: ajax_forms/getImportConfigForm.php:63 ajax_forms/getImportConfigForm.php:77
 #: ajax_forms/getImportConfigForm.php:299
-#: ajax_forms/getEbscoKbPackageImportForm.php:143 admin.php:60
+#: ajax_forms/getEbscoKbPackageImportForm.php:153 admin.php:60
 msgid "Alias Type"
 msgstr "Takma ad Türü"
 
@@ -638,9 +650,9 @@ msgstr "Konu Setleri"
 #: ajax_forms/getImportConfigForm.php:133
 #: ajax_forms/getImportConfigForm.php:138
 #: ajax_forms/getImportConfigForm.php:317 dashboard_yearly_costs_exports.php:54
-#: import.php:124 dashboard_export.php:48 dashboard_yearly_costs.php:30
-#: dashboard_yearly_costs.php:68 ajax_htmldata/getDashboardYearlyCosts.php:30
-#: ajax_htmldata/getDashboard.php:23 dashboard.php:31 dashboard.php:68
+#: import.php:124 dashboard_export.php:47 dashboard_yearly_costs.php:34
+#: dashboard_yearly_costs.php:94 ajax_htmldata/getDashboardYearlyCosts.php:33
+#: ajax_htmldata/getDashboard.php:26 dashboard.php:34 dashboard.php:92
 msgid "Subject"
 msgstr "Konu"
 
@@ -654,7 +666,7 @@ msgstr "Not setleri"
 
 #: ajax_forms/getImportConfigForm.php:155
 #: ajax_forms/getImportConfigForm.php:169
-#: ajax_forms/getImportConfigForm.php:323 admin.php:77 index.php:381
+#: ajax_forms/getImportConfigForm.php:323 admin.php:77 index.php:388
 msgid "Note Type"
 msgstr "Not Türü"
 
@@ -717,7 +729,7 @@ msgstr "Şununla eşleştir."
 msgid "+ Add another mapping"
 msgstr "+ Başka bir eşleme ekle"
 
-#: ajax_forms/getImportConfigForm.php:249 directory.php:89
+#: ajax_forms/getImportConfigForm.php:249 directory.php:76
 #, fuzzy
 msgid "Acquisitions"
 msgstr "sağlamalar"
@@ -732,7 +744,7 @@ msgid "Cost"
 msgstr ""
 
 #: ajax_forms/getImportConfigForm.php:252 admin.php:78 export.php:78
-#: dashboard_yearly_costs.php:45 dashboard.php:46
+#: dashboard_yearly_costs.php:65 dashboard.php:64
 msgid "Order Type"
 msgstr "Sipariş Türü"
 
@@ -831,34 +843,34 @@ msgid "Add New User"
 msgstr "Yeni Kullanıcı Ekle"
 
 #: ajax_forms/getAdminUserUpdateForm.php:32
-#: ajax_htmldata/getAdminUserDisplay.php:22
+#: ajax_htmldata/getAdminUserDisplay.php:25
 msgid "Login ID"
 msgstr "Giriş kimliği"
 
 #: ajax_forms/getAdminUserUpdateForm.php:33
-#: ajax_htmldata/getAdminUserDisplay.php:23
+#: ajax_htmldata/getAdminUserDisplay.php:26
 msgid "First Name"
 msgstr "Ad"
 
 #: ajax_forms/getAdminUserUpdateForm.php:34
-#: ajax_htmldata/getAdminUserDisplay.php:24
+#: ajax_htmldata/getAdminUserDisplay.php:27
 msgid "Last Name"
 msgstr "Soyad"
 
 #: ajax_forms/getAdminUserUpdateForm.php:35
-#: ajax_htmldata/getAdminWorkflowDisplay.php:86
-#: ajax_htmldata/getAdminAlertDisplay.php:16
-#: ajax_htmldata/getAdminUserDisplay.php:27
+#: ajax_htmldata/getAdminWorkflowDisplay.php:107
+#: ajax_htmldata/getAdminAlertDisplay.php:19
+#: ajax_htmldata/getAdminUserDisplay.php:30
 msgid "Email Address"
 msgstr "E-posta Adresi"
 
 #: ajax_forms/getAdminUserUpdateForm.php:36
-#: ajax_htmldata/getAdminUserDisplay.php:25
+#: ajax_htmldata/getAdminUserDisplay.php:28
 msgid "Privilege"
 msgstr "Ayrıcalık"
 
 #: ajax_forms/getAdminUserUpdateForm.php:54
-#: ajax_htmldata/getAdminUserDisplay.php:26
+#: ajax_htmldata/getAdminUserDisplay.php:29
 msgid "View Accounts"
 msgstr "Hesapları Görüntüle"
 
@@ -866,7 +878,7 @@ msgstr "Hesapları Görüntüle"
 msgid "Edit Access"
 msgstr "Erişimi Düzenle"
 
-#: ajax_forms/getAccessForm.php:71 directory.php:90
+#: ajax_forms/getAccessForm.php:71 directory.php:77
 msgid "Access"
 msgstr "Erişim"
 
@@ -948,6 +960,28 @@ msgstr ""
 "kullanınız. Takma ad Türü, Not Türü ve Yayıncı Rolü Yönetici sayfasındaki "
 "eşleştirilmiş sütun ayarlarından atanabilir."
 
+#: ajax_forms/getEbscoKbRemoveConfirmation.php:32
+#, fuzzy
+msgid ""
+"You are about to deselect the following resource from Ebsco and delete it "
+"from Coral"
+msgstr "Bu kaynağı silmek istediğinizden emin misiniz?"
+
+#: ajax_forms/getEbscoKbRemoveConfirmation.php:33
+#, fuzzy
+msgid "deselect & delete"
+msgstr "Dosya Seç"
+
+#: ajax_forms/getEbscoKbRemoveConfirmation.php:37
+#, fuzzy
+msgid "Are you sure you want to delete the following resource from Coral?"
+msgstr "Bu kaynağı silmek istediğinizden emin misiniz?"
+
+#: ajax_forms/getEbscoKbRemoveConfirmation.php:38
+#, fuzzy
+msgid "yes, delete resource"
+msgstr "kaynak düzenle"
+
 #: ajax_forms/getAccountForm.php:17
 msgid "Edit Account"
 msgstr "Hesabı Düzenle"
@@ -964,27 +998,26 @@ msgstr "Giriş Türü:"
 msgid "Registered Email:"
 msgstr "Kayıtlı e-posta:"
 
-#: ajax_forms/getEbscoKbTitleImportForm.php:27
-#: ajax_forms/getEbscoKbPackageImportForm.php:80 templates/header.php:188
-#: templates/ebscoKbTitleList.php:8
+#: ajax_forms/getEbscoKbTitleImportForm.php:34
+#: ajax_forms/getEbscoKbPackageImportForm.php:87 templates/header.php:202
 #, fuzzy
 msgid "Import"
 msgstr "İçe aktar"
 
-#: ajax_forms/getEbscoKbTitleImportForm.php:27
-#: ajax_forms/getEbscoKbPackageImportForm.php:80
+#: ajax_forms/getEbscoKbTitleImportForm.php:34
+#: ajax_forms/getEbscoKbPackageImportForm.php:87
 msgid " from EBSCO Kb"
 msgstr ""
 
-#: ajax_forms/getEbscoKbTitleImportForm.php:34
-#: ajax_forms/getEbscoKbPackageImportForm.php:88
+#: ajax_forms/getEbscoKbTitleImportForm.php:41
+#: ajax_forms/getEbscoKbPackageImportForm.php:95
 #, fuzzy
 msgid "There was a problem importing this resource"
 msgstr "Veritabanıyla ilgili bir sorun oluştu."
 
-#: ajax_forms/getEbscoKbTitleImportForm.php:47
-#: ajax_forms/getEbscoKbTitleImportForm.php:50
-#: ajax_forms/getEbscoKbPackageImportForm.php:103
+#: ajax_forms/getEbscoKbTitleImportForm.php:57
+#: ajax_forms/getEbscoKbTitleImportForm.php:60
+#: ajax_forms/getEbscoKbPackageImportForm.php:113
 #, fuzzy
 msgid "Provider"
 msgstr "Sağlayıcı:"
@@ -1097,45 +1130,44 @@ msgstr "adım ekle"
 msgid "remove this step"
 msgstr "Bu adımı kaldır"
 
-#: ajax_forms/getEbscoKbPackageImportForm.php:30
+#: ajax_forms/getEbscoKbPackageImportForm.php:38
 msgid ""
 "The EBSCO Kb API only allows importing a maximum of 10,000 records. Only "
 "package information will be imported."
 msgstr ""
 
-#: ajax_forms/getEbscoKbPackageImportForm.php:32
+#: ajax_forms/getEbscoKbPackageImportForm.php:40
 msgid ""
 "Alternatively, you may import titles individually or via a manual import."
 msgstr ""
 
-#: ajax_forms/getEbscoKbPackageImportForm.php:177
+#: ajax_forms/getEbscoKbPackageImportForm.php:187
 msgid "Package Titles"
 msgstr ""
 
-#: ajax_forms/getEbscoKbPackageImportForm.php:188
+#: ajax_forms/getEbscoKbPackageImportForm.php:198
 #, php-format
 msgid "You have %d of %d title selected in EBSCO Kb"
 msgid_plural "You have %d of %d titles selected in EBSCO Kb"
 msgstr[0] ""
 
-#: ajax_forms/getEbscoKbPackageImportForm.php:194
+#: ajax_forms/getEbscoKbPackageImportForm.php:204
 #, fuzzy
 msgid "All titles not available"
 msgstr "ek yok"
 
-#: ajax_forms/getEbscoKbPackageImportForm.php:220
+#: ajax_forms/getEbscoKbPackageImportForm.php:230
 #, fuzzy
 msgid "Workflow Options"
 msgstr "İş Akışı Adımları"
 
-#: ajax_forms/getEbscoKbPackageImportForm.php:298
+#: ajax_forms/getEbscoKbPackageImportForm.php:308
 #, fuzzy
 msgid "Package Resource Type"
 msgstr "Kaynak Türü"
 
-#: ajax_forms/getEbscoKbPackageImportForm.php:343
-#: templates/ebscoKbTitleList.php:57 templates/ebscoKbPackageList.php:52
-#: importFunds.php:63 ajax_htmldata/getEbscoKbTitleDetails.php:157
+#: ajax_forms/getEbscoKbPackageImportForm.php:353 importFunds.php:63
+#: ajax_htmldata/getEbscoKbTitleDetails.php:237
 msgid "import"
 msgstr "İçe aktar"
 
@@ -1222,7 +1254,7 @@ msgstr "Lisans Durumu"
 
 #: ajax_forms/getLicenseForm.php:138 summary.php:220 summary.php:579
 #: ajax_htmldata/getProductDetails.php:101
-#: ajax_htmldata/getAcquisitionsDetails.php:207
+#: ajax_htmldata/getAcquisitionsDetails.php:213
 msgid "Status:"
 msgstr "Durum:"
 
@@ -1232,26 +1264,26 @@ msgstr "Geçmiş:"
 
 #: ajax_forms/getLicenseForm.php:168 summary.php:234 summary.php:260
 #: summary.php:415 summary.php:585 summary.php:660 summary.php:782
-#: summary.php:895 resources/cataloging.php:223
+#: summary.php:895 resources/cataloging.php:225
 #: ajax_htmldata/getProductDetails.php:120
 #: ajax_htmldata/getProductDetails.php:122
 #: ajax_htmldata/getProductDetails.php:145
 #: ajax_htmldata/getProductDetails.php:147
 #: ajax_htmldata/getProductDetails.php:169
 #: ajax_htmldata/getProductDetails.php:171
-#: ajax_htmldata/getProductDetails.php:449
+#: ajax_htmldata/getProductDetails.php:453
 #: ajax_htmldata/getWorkflowDetails.php:71
 #: ajax_htmldata/getWorkflowDetails.php:73
 #: ajax_htmldata/getWorkflowDetails.php:106
 #: ajax_htmldata/getWorkflowDetails.php:108
 #: ajax_htmldata/getAccessDetails.php:175
-#: ajax_htmldata/getAcquisitionsDetails.php:213
-#: ajax_htmldata/getAcquisitionsDetails.php:307
+#: ajax_htmldata/getAcquisitionsDetails.php:219
+#: ajax_htmldata/getAcquisitionsDetails.php:318
 msgid " by "
 msgstr "tarafından"
 
 #: ajax_forms/getLicenseForm.php:171 summary.php:588
-#: ajax_htmldata/getAcquisitionsDetails.php:216
+#: ajax_htmldata/getAcquisitionsDetails.php:222
 msgid "No license status information available."
 msgstr "Lisans durum bilgisi mevcut değil."
 
@@ -1284,8 +1316,9 @@ msgstr "ISBN ekle"
 msgid "remove Issn/Isbn"
 msgstr "ISSN/ISBN kaldır."
 
-#: ajax_forms/getUpdateProductForm.php:235 templates/header.php:244
-#: admin.php:86 export.php:68
+#: ajax_forms/getUpdateProductForm.php:235 templates/header.php:258
+#: admin.php:86 export.php:68 ajax_htmldata/getDashboardYearlyCosts.php:37
+#: ajax_htmldata/getDashboard.php:30
 msgid "Organizations"
 msgstr "Yayıncılar"
 
@@ -1331,28 +1364,28 @@ msgstr "Onay/Bildirim Grubu:"
 msgid "Action"
 msgstr "Yer:"
 
-#: resource.php:76
+#: resource.php:89
 #, fuzzy
 msgid "Start date"
 msgstr "Başlangıc Tarihi"
 
-#: resource.php:78
+#: resource.php:91
 msgid "End date"
 msgstr ""
 
-#: resource.php:97
+#: resource.php:110
 msgid "Success!"
 msgstr "Başarılı1"
 
-#: resource.php:98
+#: resource.php:111
 msgid "New resource added"
 msgstr "Yeni kaynak eklendi"
 
-#: resource.php:322
+#: resource.php:335
 msgid "Helpful Links"
 msgstr "Yardımcı bağlantılar"
 
-#: resource.php:332
+#: resource.php:345
 msgid "Send feedback on this resource"
 msgstr "Kaynakla ilgili geribildirim gönder"
 
@@ -1368,19 +1401,19 @@ msgstr "Hazırlanmadı"
 msgid "Dashboard Yearly Costs Export"
 msgstr ""
 
-#: dashboard_yearly_costs_exports.php:51 dashboard_export.php:45 export.php:56
+#: dashboard_yearly_costs_exports.php:51 dashboard_export.php:44 export.php:56
 msgid "Record ID"
 msgstr "Kayıt ID"
 
-#: dashboard_yearly_costs_exports.php:81 dashboard_export.php:71
-#: ajax_htmldata/getDashboardYearlyCosts.php:63
-#: ajax_htmldata/getDashboard.php:46
+#: dashboard_yearly_costs_exports.php:81 dashboard_export.php:70
+#: ajax_htmldata/getDashboardYearlyCosts.php:73
+#: ajax_htmldata/getDashboard.php:54
 msgid "Total"
 msgstr ""
 
-#: dashboard_yearly_costs_exports.php:81 dashboard_export.php:71
-#: ajax_htmldata/getDashboardYearlyCosts.php:63
-#: ajax_htmldata/getDashboard.php:46
+#: dashboard_yearly_costs_exports.php:81 dashboard_export.php:70
+#: ajax_htmldata/getDashboardYearlyCosts.php:76
+#: ajax_htmldata/getDashboard.php:57
 msgid "Sub-Total:"
 msgstr ""
 
@@ -1404,7 +1437,7 @@ msgstr ""
 msgid "Alerts not enabled in configuration.ini file"
 msgstr "configuration.ini dosyasında uyarılar etkinleştirilmemiş"
 
-#: templates/header.php:77 templates/pig_header.php:73
+#: templates/header.php:91 templates/pig_header.php:72
 msgid ""
 "JavaScript must be enabled in order for you to use CORAL. However, it seems "
 "JavaScript is either disabled or not supported by your browser. To use "
@@ -1414,143 +1447,212 @@ msgstr ""
 "tarayıcınız tarafından desteklenmediği veya etkin olmadığı görülmektedir. "
 "CORAL kullanmak için tarayıcı ayarlarınızdan JavaScript'i etkinleştiriniz."
 
-#: templates/header.php:77 templates/pig_header.php:73
+#: templates/header.php:91 templates/pig_header.php:72
 msgid "try again"
 msgstr "tekrar deneyin"
 
-#: templates/header.php:97 templates/pig_header.php:92
+#: templates/header.php:111 templates/pig_header.php:91
 #: ajax_htmldata/getDowntimeList.php:81 ajax_htmldata/getIssuesList.php:98
 msgid "Resources"
 msgstr "Kaynaklar"
 
-#: templates/header.php:98 templates/pig_header.php:93
+#: templates/header.php:112 templates/pig_header.php:92
 msgid "Powered by"
 msgstr "Tarafından Destekleniyor"
 
-#: templates/header.php:104
+#: templates/header.php:118
 msgid "Hello"
 msgstr "Merhaba"
 
-#: templates/header.php:114
+#: templates/header.php:128
 msgid "logout"
 msgstr "çıkış"
 
-#: templates/header.php:114
+#: templates/header.php:128
 msgid "Help"
 msgstr "Yardım"
 
-#: templates/header.php:132 templates/pig_header.php:116
+#: templates/header.php:146 templates/pig_header.php:115
 msgid "Invalid translation route!"
 msgstr "Geçersiz çeviri yolu!"
 
-#: templates/header.php:166 templates/header.php:169
-#: templates/pig_header.php:150 templates/pig_header.php:153 index.php:36
+#: templates/header.php:180 templates/header.php:183
+#: templates/pig_header.php:149 templates/pig_header.php:152 index.php:39
 msgid "Home"
 msgstr "Anasayfa"
 
-#: templates/header.php:174 templates/header.php:177
+#: templates/header.php:188 templates/header.php:191
 msgid "New Resource"
 msgstr "Yeni Kaynak"
 
-#: templates/header.php:181 templates/header.php:184 queue.php:26 queue.php:42
+#: templates/header.php:195 templates/header.php:198 queue.php:26 queue.php:42
 msgid "My Queue"
 msgstr "İş Sırası"
 
-#: templates/header.php:191
+#: templates/header.php:205
 msgid "File Import"
 msgstr "Dosyayı İçe Aktar"
 
-#: templates/header.php:195 templates/header.php:198
+#: templates/header.php:209 templates/header.php:212
 msgid "EBSCO Kb"
 msgstr ""
 
-#: templates/header.php:205 templates/header.php:208 dashboard_menu.php:3
+#: templates/header.php:219 templates/header.php:222 dashboard_menu.php:3
 #: dashboard_menu.php:7
 msgid "Dashboards"
 msgstr ""
 
-#: templates/header.php:214 templates/header.php:217
+#: templates/header.php:228 templates/header.php:231
 msgid "Admin"
 msgstr "Yönetici"
 
-#: templates/header.php:236
+#: templates/header.php:250
 msgid "Change Module"
 msgstr "Modül Değiştir"
 
-#: templates/header.php:239
+#: templates/header.php:253
 msgid "Main Menu"
 msgstr "Ana Menü"
 
-#: templates/header.php:244
+#: templates/header.php:258
 #, fuzzy
 msgid "Organizations module"
 msgstr "Yayıncı Modülü"
 
-#: templates/header.php:249
+#: templates/header.php:263
 #, fuzzy
 msgid "Licensing module"
 msgstr "Lisanslama Modülü"
 
-#: templates/header.php:249
+#: templates/header.php:263
 msgid "Licensing"
 msgstr "Lisanslama"
 
-#: templates/header.php:254
+#: templates/header.php:268
 #, fuzzy
 msgid "Usage Statistics module"
 msgstr "Kullanım İstatistikleri Modülü"
 
-#: templates/header.php:254
+#: templates/header.php:268
 msgid "Usage Statistics"
 msgstr "Kullanım İstatistikleri"
 
-#: templates/header.php:259
+#: templates/header.php:273
 #, fuzzy
 msgid "Management module"
 msgstr "Yönetim"
 
-#: templates/header.php:259
+#: templates/header.php:273
 msgid "Management"
 msgstr "Yönetim"
 
-#: templates/ebscoKbTitleList.php:4
+#: templates/ebscoKbTitleList.php:10
 #, fuzzy
 msgid "Title"
 msgstr "Başlık:"
 
-#: templates/ebscoKbTitleList.php:5 templates/ebscoKbPackageList.php:5
-#, fuzzy
-msgid "Imported?"
-msgstr "Sermaye bilgilerini içe aktar"
-
-#: templates/ebscoKbTitleList.php:7 ajax_htmldata/getEbscoKbTitleDetails.php:60
+#: templates/ebscoKbTitleList.php:12
+#: ajax_htmldata/getEbscoKbTitleDetails.php:61
 msgid "ISXNs"
 msgstr ""
 
-#: templates/ebscoKbTitleList.php:25 templates/ebscoKbPackageList.php:24
-msgid "imported in Coral"
-msgstr ""
+#: templates/ebscoKbTitleList.php:13 templates/ebscoKbPackageList.php:13
+#, fuzzy
+msgid "Current Status"
+msgstr "Mevcut CCler:"
 
-#: templates/ebscoKbPackageList.php:6
+#: templates/ebscoKbTitleList.php:53
+#, fuzzy
+msgid "Processing"
+msgstr "İşlem devam ediyor..."
+
+#: templates/ebscoKbTitleList.php:59
+#, fuzzy
+msgid "manage"
+msgstr "Yönetim"
+
+#: templates/ebscoKbPackageDropdown.php:59
+#, fuzzy
+msgid "Not Selected"
+msgstr "Seçildi:"
+
+#: templates/ebscoKbPackageDropdown.php:62
+#: ajax_htmldata/getEbscoKbTitleStatus.php:22
+#, fuzzy
+msgid "Selected"
+msgstr "Seçildi:"
+
+#: templates/ebscoKbPackageDropdown.php:74
+#, fuzzy
+msgid "Deselect Package"
+msgstr "Lisansı İncele"
+
+#: templates/ebscoKbPackageDropdown.php:79
+#, fuzzy
+msgid "Deselect Package & Delete from Coral"
+msgstr "Lisansı İncele"
+
+#: templates/ebscoKbPackageDropdown.php:85
+#, fuzzy
+msgid "Select Package"
+msgstr "Lisansı İncele"
+
+#: templates/ebscoKbPackageDropdown.php:90
+#, fuzzy
+msgid "Select & Import Package"
+msgstr "İçe aktar"
+
+#: templates/ebscoKbPackageList.php:11
 #, fuzzy
 msgid "Title Count"
 msgstr "Hesabı Düzenle"
 
-#: templates/ebscoKbPackageList.php:7 ebsco_kb.php:175
+#: templates/ebscoKbPackageList.php:12 ebsco_kb.php:176
 #, fuzzy
 msgid "Content Type"
 msgstr "Not Türü"
 
-#: templates/ebscoKbPackageList.php:32
+#: templates/ebscoKbPackageList.php:14
+#, fuzzy
+msgid "Current Holdings"
+msgstr "OCLC Abonelikleri"
+
+#: templates/ebscoKbPackageList.php:31
+#, fuzzy
+msgid "view"
+msgstr "Önceki yıl"
+
+#: templates/ebscoKbPackageList.php:34
 #, fuzzy
 msgid "selected"
 msgstr "Seçildi:"
 
+#: templates/ebscoKbPackageList.php:44
+msgid "imported in Coral"
+msgstr ""
+
 #: templates/ebscoKbPackageList.php:45
-#: ajax_htmldata/getEbscoKbTitleDetails.php:123
+msgid "View in Coral"
+msgstr ""
+
+#: templates/ebscoKbPackageList.php:48
 #, fuzzy
-msgid "View Titles"
-msgstr "Lisansı İncele"
+msgid "Not selected in EBSCOhost"
+msgstr "Seçildi:"
+
+#: templates/ebscoKbPackageList.php:51
+msgid "Delete from Coral"
+msgstr ""
+
+#: templates/ebscoKbPackageList.php:55
+#, fuzzy
+msgid "Selected but not Imported"
+msgstr "Sınırlandırılmış dosyaları içe aktarma"
+
+#: templates/ebscoKbPackageList.php:58
+#, fuzzy
+msgid "Import Package"
+msgstr "İçe aktar"
 
 #: templates/ebscoKbVendorList.php:5
 msgid "Packages"
@@ -1622,11 +1724,11 @@ msgstr ""
 " kullanımda. Lütfen bu bilgilerle herhangi bir kaynağın eşleştirilmediğinden "
 "emin olun."
 
-#: ajax_processing/uploadAttachment.php:29
+#: ajax_processing/uploadAttachment.php:30
 msgid "There was a problem saving your file to "
 msgstr "Kaydedilirken bir hata oluştu."
 
-#: ajax_processing/uploadAttachment.php:29
+#: ajax_processing/uploadAttachment.php:30
 msgid ".  Please ensure your attachments directory is writable."
 msgstr ". Lütfen ek dizininin yazılabilir olduğundan emin olun."
 
@@ -1918,46 +2020,46 @@ msgid ""
 "installation. Please install and activate mbstring to use the import tool."
 msgstr ""
 
-#: dashboard_export.php:40
+#: dashboard_export.php:39
 #, fuzzy
 msgid "Dashboard Statistics Export"
 msgstr "Kullanım İstatistikleri"
 
-#: dashboard_export.php:50 ajax_htmldata/getDashboard.php:25
+#: dashboard_export.php:49 ajax_htmldata/getDashboard.php:31
 #, fuzzy
 msgid "Payment amount"
 msgstr "Ödeme"
 
-#: directory.php:88
+#: directory.php:75
 #, fuzzy
 msgid "Orders"
 msgstr "Sipariş"
 
-#: directory.php:91 summary.php:793 resources/cataloging.php:103
+#: directory.php:78 summary.php:793 resources/cataloging.php:103
 msgid "Cataloging"
 msgstr "Kataloglama"
 
-#: directory.php:92
+#: directory.php:79
 #, fuzzy
 msgid "Contacts"
 msgstr "Muhatap:"
 
-#: directory.php:93
+#: directory.php:80
 #, fuzzy
 msgid "Accounts"
 msgstr "hesaplar"
 
-#: directory.php:94
+#: directory.php:81
 #, fuzzy
 msgid "Issues"
 msgstr "sorunlar"
 
-#: directory.php:95
+#: directory.php:82
 #, fuzzy
 msgid "Attachments"
 msgstr "ekler"
 
-#: directory.php:96
+#: directory.php:83
 #, fuzzy
 msgid "Workflow"
 msgstr "İş Akışını Düzenle"
@@ -1972,8 +2074,8 @@ msgstr ""
 msgid "Administration"
 msgstr "Yönetim"
 
-#: admin.php:52 ajax_htmldata/getAdminWorkflowDisplay.php:87
-#: ajax_htmldata/getAdminUserDisplay.php:19
+#: admin.php:52 ajax_htmldata/getAdminWorkflowDisplay.php:108
+#: ajax_htmldata/getAdminUserDisplay.php:20
 msgid "Users"
 msgstr "Kullanıcılar"
 
@@ -1985,11 +2087,11 @@ msgstr "İş Akışı / Kullanıcı Grubu"
 msgid "Access Method"
 msgstr "Erişim yöntemi"
 
-#: admin.php:56 index.php:503
+#: admin.php:56 index.php:510
 msgid "Administering Site"
 msgstr "Yönetim Alanı"
 
-#: admin.php:58 ajax_htmldata/getAdminAlertDisplay.php:10
+#: admin.php:58 ajax_htmldata/getAdminAlertDisplay.php:11
 msgid "Alert Settings"
 msgstr "Uyarı Ayarları"
 
@@ -1997,15 +2099,15 @@ msgstr "Uyarı Ayarları"
 msgid "Attachment Type"
 msgstr "Ek Türü"
 
-#: admin.php:62 export.php:95 index.php:533
+#: admin.php:62 export.php:95 index.php:540
 msgid "Authentication Type"
 msgstr "Doğrulama Türü"
 
-#: admin.php:63 index.php:471
+#: admin.php:63 index.php:478
 msgid "Authorized Site"
 msgstr "Yetki Alanı"
 
-#: admin.php:64 export.php:103 resources/cataloging_edit.php:58 index.php:563
+#: admin.php:64 export.php:103 resources/cataloging_edit.php:58 index.php:570
 msgid "Cataloging Status"
 msgstr "Kataloglama Durumu"
 
@@ -2033,7 +2135,7 @@ msgstr "Harici Giriş Türü"
 msgid "Funds"
 msgstr "Sermaye"
 
-#: admin.php:75 ajax_htmldata/getAdminImportConfigDisplay.php:7
+#: admin.php:75 ajax_htmldata/getAdminImportConfigDisplay.php:8
 msgid "Import Configuration"
 msgstr "İçe Aktarmayı Yapılandırma"
 
@@ -2049,7 +2151,7 @@ msgstr "Satın Alma Alanı"
 msgid "Storage Location"
 msgstr "Depolama Yeri"
 
-#: admin.php:94 ajax_htmldata/getEbscoKbTitleDetails.php:51
+#: admin.php:94 ajax_htmldata/getEbscoKbTitleDetails.php:52
 #: ajax_htmldata/getProductDetails.php:322
 msgid "Subjects"
 msgstr "Konular"
@@ -2095,7 +2197,7 @@ msgstr "Son Güncelleme:"
 msgid "User Updated"
 msgstr "Son Güncelleme:"
 
-#: export.php:64 index.php:169 ajax_htmldata/getSavedQueue.php:20
+#: export.php:64 index.php:176 ajax_htmldata/getSavedQueue.php:20
 #: ajax_htmldata/getSubmittedQueue.php:17
 #: ajax_htmldata/getSearchResources.php:118
 msgid "Status"
@@ -2131,7 +2233,7 @@ msgstr "Vergi Oranı"
 msgid "Tax included"
 msgstr "Vergi Dâhil"
 
-#: export.php:77 ajax_htmldata/getAcquisitionsDetails.php:118
+#: export.php:77 ajax_htmldata/getAcquisitionsDetails.php:124
 msgid "Details"
 msgstr "Ayrıntılar"
 
@@ -2357,19 +2459,19 @@ msgstr "Fatura No:"
 msgid "No payment information available."
 msgstr "Ödeme bilgisi mevcut değil."
 
-#: summary.php:574 ajax_htmldata/getAcquisitionsDetails.php:199
+#: summary.php:574 ajax_htmldata/getAcquisitionsDetails.php:205
 msgid "License"
 msgstr "Lisans"
 
-#: summary.php:585 ajax_htmldata/getAcquisitionsDetails.php:213
+#: summary.php:585 ajax_htmldata/getAcquisitionsDetails.php:219
 msgid " on "
 msgstr "etkin"
 
-#: summary.php:596 ajax_htmldata/getAcquisitionsDetails.php:226
+#: summary.php:596 ajax_htmldata/getAcquisitionsDetails.php:232
 msgid "Licenses:"
 msgstr "Lisanslar:"
 
-#: summary.php:605 ajax_htmldata/getAcquisitionsDetails.php:235
+#: summary.php:605 ajax_htmldata/getAcquisitionsDetails.php:241
 msgid "No associated licenses available."
 msgstr "İlişkili lisans yok."
 
@@ -2496,32 +2598,29 @@ msgstr "Kataloglama ayrıntılarını düzenle"
 
 #: resources/cataloging.php:209 ajax_htmldata/getProductDetails.php:435
 #: ajax_htmldata/getAccessDetails.php:161
-#: ajax_htmldata/getAcquisitionsDetails.php:293
+#: ajax_htmldata/getAcquisitionsDetails.php:299
 msgid "Additional Notes"
 msgstr "Ek Notlar"
 
-#: resources/cataloging.php:212 resources/cataloging.php:231
-#: ajax_htmldata/getProductDetails.php:438
-#: ajax_htmldata/getProductDetails.php:457
-#: ajax_htmldata/getAccessDetails.php:164
-#: ajax_htmldata/getAccessDetails.php:183
-#: ajax_htmldata/getAcquisitionsDetails.php:296
-#: ajax_htmldata/getAcquisitionsDetails.php:315
-msgid "add new note"
-msgstr "yeni not ekle"
-
-#: resources/cataloging.php:220 ajax_htmldata/getProductDetails.php:446
+#: resources/cataloging.php:221 ajax_htmldata/getProductDetails.php:449
 #: ajax_htmldata/getAccessDetails.php:172
-#: ajax_htmldata/getAcquisitionsDetails.php:304
+#: ajax_htmldata/getAcquisitionsDetails.php:315
 msgid "edit note"
 msgstr "Not düzenle"
 
-#: resources/cataloging.php:220 ajax_htmldata/getProductDetails.php:446
+#: resources/cataloging.php:222 ajax_htmldata/getProductDetails.php:450
 #: ajax_htmldata/getContactDetails.php:71
-#: ajax_htmldata/getAccessDetails.php:172
-#: ajax_htmldata/getAcquisitionsDetails.php:304
+#: ajax_htmldata/getAccessDetails.php:173
+#: ajax_htmldata/getAcquisitionsDetails.php:316
 msgid "remove note"
 msgstr "not kaldır"
+
+#: resources/cataloging.php:233 ajax_htmldata/getProductDetails.php:461
+#: ajax_htmldata/getAccessDetails.php:183
+#: ajax_htmldata/getAcquisitionsDetails.php:326
+#, fuzzy
+msgid "add note"
+msgstr "yeni not ekle"
 
 #: importHistory.php:9
 #, fuzzy
@@ -2537,52 +2636,76 @@ msgstr "Maliyet Geçmişi"
 msgid "Dashboard"
 msgstr ""
 
-#: dashboard_yearly_costs.php:9
+#: dashboard_yearly_costs.php:12
 msgid "Dashboard: yearly costs"
 msgstr ""
 
-#: dashboard_yearly_costs.php:24 dashboard.php:25
+#: dashboard_yearly_costs.php:27 dashboard.php:27
+#, fuzzy
+msgid "Filter on resources:"
+msgstr "kaynak düzenle"
+
+#: dashboard_yearly_costs.php:28 dashboard.php:28
 #, fuzzy
 msgid "Resource type"
 msgstr "Kaynak Türü"
 
-#: dashboard_yearly_costs.php:36 dashboard.php:37
+#: dashboard_yearly_costs.php:40 dashboard.php:40
 #, fuzzy
 msgid "Acquisition type"
 msgstr "Sağlama Türü"
 
-#: dashboard_yearly_costs.php:58
+#: dashboard_yearly_costs.php:48 dashboard.php:48
+#, fuzzy
+msgid "Filter on organizations:"
+msgstr "yayıncı"
+
+#: dashboard_yearly_costs.php:55 dashboard.php:55
+#, fuzzy
+msgid "Role"
+msgstr "Rol:"
+
+#: dashboard_yearly_costs.php:64 dashboard.php:63
+#, fuzzy
+msgid "Filter on payments:"
+msgstr "yayıncı"
+
+#: dashboard_yearly_costs.php:84
 msgid "Year (start)"
 msgstr ""
 
-#: dashboard_yearly_costs.php:59
+#: dashboard_yearly_costs.php:85
 msgid "Year (end)"
 msgstr ""
 
-#: dashboard_yearly_costs.php:64 dashboard.php:64
+#: dashboard_yearly_costs.php:90 dashboard.php:88
 #, fuzzy
 msgid "Group By"
 msgstr "Grup:"
 
-#: dashboard_yearly_costs.php:66 dashboard.php:66
+#: dashboard_yearly_costs.php:92 dashboard.php:90
 #, fuzzy
 msgid "Resource"
 msgstr "Kaynaklar"
 
-#: dashboard_yearly_costs.php:70 ajax_htmldata/getDashboardYearlyCosts.php:32
-#: dashboard.php:70
+#: dashboard_yearly_costs.php:97 ajax_htmldata/getDashboardYearlyCosts.php:36
+#: dashboard.php:95
 #, fuzzy
 msgid "Library Number"
 msgstr "Sipariş Numarası:"
 
-#: dashboard_yearly_costs.php:76 dashboard.php:76
+#: dashboard_yearly_costs.php:104 dashboard.php:102
 msgid "Display"
 msgstr ""
 
-#: dashboard_yearly_costs.php:78 dashboard.php:78
+#: dashboard_yearly_costs.php:106 dashboard.php:104
 #, fuzzy
 msgid "Export"
 msgstr "İçe aktar"
+
+#: dashboard_yearly_costs.php:107 dashboard.php:105
+msgid "Reset"
+msgstr ""
 
 #: importFunds.php:53
 msgid "rows have been processed."
@@ -2596,121 +2719,125 @@ msgstr "Sermaye bilgilerini içe aktar"
 msgid "Select File"
 msgstr "Dosya Seç"
 
-#: index.php:55
+#: index.php:58
 msgid "Search"
 msgstr "Ara"
 
-#: index.php:56 ebsco_kb.php:72
+#: index.php:59 ebsco_kb.php:73
 msgid "new search"
 msgstr "Yeni arama"
 
-#: index.php:65 ebsco_kb.php:126
+#: index.php:68 ebsco_kb.php:127
 msgid "Name (contains)"
 msgstr "Ad (içerir)"
 
-#: index.php:69 index.php:79 index.php:89 index.php:99 index.php:111
-#: index.php:415 index.php:432 ebsco_kb.php:197
+#: index.php:72 index.php:82 index.php:92 index.php:102 index.php:114
+#: index.php:422 index.php:439 ebsco_kb.php:198
 msgid "go!"
 msgstr "çalıştır!"
 
-#: index.php:76
+#: index.php:79
 #, fuzzy
 msgid "Publisher (contains)"
 msgstr "Ad (içerir)"
 
-#: index.php:86
+#: index.php:89
 #, fuzzy
 msgid "Platform (contains)"
 msgstr "Ad (içerir)"
 
-#: index.php:96
+#: index.php:99
 #, fuzzy
 msgid "Provider (contains)"
 msgstr "Not (içeriyor)"
 
-#: index.php:107
+#: index.php:110
 msgid "ISBN/ISSN"
 msgstr "ISBN/ISSN"
 
-#: index.php:121 index.php:149 index.php:172 index.php:203 index.php:235
-#: index.php:259 index.php:291 index.php:322 index.php:384 index.php:442
-#: index.php:474 index.php:506 index.php:536 index.php:566 index.php:593
-#: index.php:614
+#: index.php:124 index.php:156 index.php:179 index.php:210 index.php:242
+#: index.php:266 index.php:298 index.php:329 index.php:391 index.php:449
+#: index.php:481 index.php:513 index.php:543 index.php:573 index.php:600
+#: index.php:621
 msgid "All"
 msgstr "Hepsi"
 
-#: index.php:124 index.php:126 index.php:264 index.php:266 index.php:296
-#: index.php:298 index.php:327 index.php:329 index.php:388 index.php:390
-#: index.php:446 index.php:448 index.php:478 index.php:480 index.php:510
-#: index.php:512 index.php:540 index.php:542 index.php:569 index.php:571
+#: index.php:127 index.php:129 index.php:271 index.php:273 index.php:303
+#: index.php:305 index.php:334 index.php:336 index.php:395 index.php:397
+#: index.php:453 index.php:455 index.php:485 index.php:487 index.php:517
+#: index.php:519 index.php:547 index.php:549 index.php:576 index.php:578
 msgid "(none)"
 msgstr "(hiçbiri)"
 
-#: index.php:200 ajax_htmldata/getSearchResources.php:115
+#: index.php:207 ajax_htmldata/getSearchResources.php:115
 msgid "Creator"
 msgstr "Oluşturan"
 
-#: index.php:319 ajax_htmldata/getAdminSubjectDisplay.php:51
-#: ajax_htmldata/getAdminSubjectDisplay.php:99
+#: index.php:326 ajax_htmldata/getAdminSubjectDisplay.php:52
+#: ajax_htmldata/getAdminSubjectDisplay.php:103
 msgid "Detailed Subject"
 msgstr "Ayrıntılı Konu"
 
-#: index.php:350
+#: index.php:357
 msgid "Starts with"
 msgstr "Şununla başlayan"
 
-#: index.php:376 js/index.js:232
+#: index.php:383 js/index.js:232
 msgid "more options..."
 msgstr "daha fazla seçenek..."
 
-#: index.php:411
+#: index.php:418
 msgid "Note (contains)"
 msgstr "Not (içeriyor)"
 
-#: index.php:423
+#: index.php:430
 msgid "Date Created Between"
 msgstr "Tarihleri arasında oluşturuldu"
 
-#: index.php:425
+#: index.php:432
 msgid "and"
 msgstr "ve"
 
-#: index.php:439
+#: index.php:446
 msgid "Purchase Site"
 msgstr "Satın Alma Alanı"
 
-#: index.php:590 ajax_htmldata/getOutstandingQueue.php:23
+#: index.php:597 ajax_htmldata/getOutstandingQueue.php:23
 #, fuzzy
 msgid "Workflow Step"
 msgstr "İş Akışı Adımları"
 
-#: index.php:615
+#: index.php:622
 msgid "Parent"
 msgstr "Üst ögeler"
 
-#: index.php:616
+#: index.php:623
 msgid "Child"
 msgstr "Alt ögeler"
+
+#: index.php:624
+msgid "None"
+msgstr ""
 
 #: ebsco_kb.php:49
 msgid "EBSCO Knowledge Base"
 msgstr ""
 
-#: ebsco_kb.php:71
+#: ebsco_kb.php:72
 msgid "EBSCO Knowledge Base Search"
 msgstr ""
 
-#: ebsco_kb.php:80
+#: ebsco_kb.php:81
 #, fuzzy
 msgid "Search For"
 msgstr "Ara"
 
-#: ebsco_kb.php:121
+#: ebsco_kb.php:122
 #, fuzzy
 msgid "contains"
 msgstr "muhataplar"
 
-#: ebsco_kb.php:137
+#: ebsco_kb.php:138
 #, fuzzy
 msgid "Selection"
 msgstr "Dosya Seç"
@@ -2788,25 +2915,26 @@ msgstr "Gruptan çıkar"
 msgid "Group name must be entered to continue."
 msgstr "Devam etmek için bir grup adı giriniz."
 
-#: js/forms/costForm.js:147 js/forms/acquisitionsForm.js:170
+#: js/forms/costForm.js:149 js/forms/acquisitionsForm.js:170
 #: js/forms/acquisitionsForm.js:171
 msgid "remove this payment"
 msgstr "Bu ödemeyi kaldır"
 
-#: js/forms/costForm.js:305
+#: js/forms/costForm.js:307
 msgid "Validation Failed"
 msgstr "Doğrulama başarısız"
 
-#: js/forms/costForm.js:333 js/forms/acquisitionsForm.js:146
+#: js/forms/costForm.js:341 js/forms/acquisitionsForm.js:146
 msgid "Error - Either amount or fund is required"
 msgstr "Hata - Miktar ya da para birimi giriniz"
 
-#: js/forms/costForm.js:338 js/forms/acquisitionsForm.js:149
+#: js/forms/costForm.js:346 js/forms/acquisitionsForm.js:149
 msgid "Error - order type is a required field"
 msgstr "Hata - sipariş türü, zorunlu bir alandır"
 
-#: js/forms/costForm.js:343 js/forms/acquisitionsForm.js:152
-msgid "Error - price is not numeric"
+#: js/forms/costForm.js:351
+#, fuzzy
+msgid "Error - Price (payment) is not numeric"
 msgstr "Hata - fiyat sayısal değil"
 
 #: js/forms/workflowForm.js:185
@@ -2827,11 +2955,11 @@ msgstr "Bu iş akışını göndermeden önce ilk adıma Ekle düğmesini tıkla
 msgid "Please choose at least one role."
 msgstr "Lütfen en az bir rol tanımlayınız."
 
-#: js/forms/attachmentForm.js:94
+#: js/forms/attachmentForm.js:100
 msgid "File name is already being used..."
 msgstr "Dosya adı kullanımda..."
 
-#: js/forms/attachmentForm.js:98
+#: js/forms/attachmentForm.js:104
 msgid ""
 "File name may not contain special characters - ampersand, single quote, "
 "double quote or less than/greater than characters"
@@ -2839,25 +2967,33 @@ msgstr ""
 "Dosya adı özel karakter içermemelidir - ve işareti, tek tırnak, çift tırnak "
 "veya küçük, büyük işareti"
 
-#: js/forms/attachmentForm.js:102
+#: js/forms/attachmentForm.js:108
 msgid "The attachments directory is not writable."
 msgstr "Ek dizini yazılabilir değildir."
 
-#: js/forms/attachmentForm.js:124 js/forms/attachmentForm.js:146
+#: js/forms/attachmentForm.js:134
 msgid " successfully uploaded."
 msgstr "yükleme başarılı."
 
-#: js/forms/attachmentForm.js:159 js/forms/resourceUpdateForm.js:379
+#: js/forms/attachmentForm.js:138
+msgid "The file upload failed for the following reason: "
+msgstr ""
+
+#: js/forms/attachmentForm.js:154 js/forms/resourceUpdateForm.js:379
 msgid "Name must be entered to continue."
 msgstr "Devam etmek için bir ad giriniz."
 
-#: js/forms/attachmentForm.js:160
+#: js/forms/attachmentForm.js:155
 msgid "Attachment Type must be selected to continue."
 msgstr "Devam etmek için ek türünü giriniz."
 
-#: js/forms/attachmentForm.js:178
+#: js/forms/attachmentForm.js:173
 msgid "A file must be uploaded"
 msgstr "Dosya ekleyiniz"
+
+#: js/forms/acquisitionsForm.js:152
+msgid "Error - price is not numeric"
+msgstr "Hata - fiyat sayısal değil"
 
 #: js/forms/acquisitionsForm.js:272
 msgid "Error - acquisition type is a required field"
@@ -2896,7 +3032,7 @@ msgstr "Eşleşme yok!"
 msgid "Selected: "
 msgstr "Seçildi:"
 
-#: js/index.js:121 js/ebsco_kb.js:90
+#: js/index.js:121 js/ebsco_kb.js:98
 msgid "Processing..."
 msgstr "İşlem devam ediyor..."
 
@@ -3057,8 +3193,9 @@ msgstr "ID"
 msgid "Start Date"
 msgstr "Başlangıc Tarihi"
 
-#: ajax_htmldata/getAdminImportConfigDisplay.php:34
-msgid "add new import configuration"
+#: ajax_htmldata/getAdminImportConfigDisplay.php:9
+#, fuzzy
+msgid "add import configuration"
 msgstr "yeni içe aktarma ayarları ekle"
 
 #: ajax_htmldata/getDowntimeList.php:24
@@ -3082,73 +3219,74 @@ msgstr "Kurumsal düzeyde arıza yok."
 msgid "There are no order level downtimes."
 msgstr "Kaynak düzeyinde arıza yok."
 
-#: ajax_htmldata/getAdminCurrencyDisplay.php:25
-#: ajax_htmldata/getAdminWorkflowDisplay.php:51
-#: ajax_htmldata/getAdminWorkflowDisplay.php:103
+#: ajax_htmldata/getAdminCurrencyDisplay.php:10
+#, fuzzy
+msgid "add Currency"
+msgstr "Para birimi Ekle"
+
+#: ajax_htmldata/getAdminCurrencyDisplay.php:29
+#: ajax_htmldata/getAdminWorkflowDisplay.php:67
+#: ajax_htmldata/getAdminWorkflowDisplay.php:124
 #: ajax_htmldata/getSavedQueue.php:46 ajax_htmldata/getAttachmentDetails.php:37
 #: ajax_htmldata/getOrdersDetails.php:32 ajax_htmldata/getAccountDetails.php:46
 #: ajax_htmldata/getProductDetails.php:75
-#: ajax_htmldata/getProductDetails.php:446
-#: ajax_htmldata/getAdminAlertDisplay.php:25
-#: ajax_htmldata/getAdminAlertDisplay.php:55
-#: ajax_htmldata/getAdminUserDisplay.php:47
+#: ajax_htmldata/getProductDetails.php:449
+#: ajax_htmldata/getAdminAlertDisplay.php:28
+#: ajax_htmldata/getAdminAlertDisplay.php:63
+#: ajax_htmldata/getAdminUserDisplay.php:50
 #: ajax_htmldata/getContactDetails.php:70 ajax_htmldata/getAccessDetails.php:37
 #: ajax_htmldata/getAccessDetails.php:172
-#: ajax_htmldata/getAdminSubjectDisplay.php:66
-#: ajax_htmldata/getAdminSubjectDisplay.php:114
-#: ajax_htmldata/getAdminDisplay.php:28
+#: ajax_htmldata/getAdminSubjectDisplay.php:71
+#: ajax_htmldata/getAdminSubjectDisplay.php:118
+#: ajax_htmldata/getAdminDisplay.php:31
 #: ajax_htmldata/getGeneralSubjectDisplay.php:25
-#: ajax_htmldata/getAcquisitionsDetails.php:95
-#: ajax_htmldata/getAcquisitionsDetails.php:201
-#: ajax_htmldata/getAcquisitionsDetails.php:304
+#: ajax_htmldata/getAcquisitionsDetails.php:101
+#: ajax_htmldata/getAcquisitionsDetails.php:207
+#: ajax_htmldata/getAcquisitionsDetails.php:315
 msgid "edit"
 msgstr "düzenle"
 
-#: ajax_htmldata/getAdminCurrencyDisplay.php:26
-#: ajax_htmldata/getAdminWorkflowDisplay.php:53
-#: ajax_htmldata/getAdminWorkflowDisplay.php:104
-#: ajax_htmldata/getAdminAlertDisplay.php:26
-#: ajax_htmldata/getAdminAlertDisplay.php:56
-#: ajax_htmldata/getAdminUserDisplay.php:48
-#: ajax_htmldata/getAdminSubjectDisplay.php:28
-#: ajax_htmldata/getAdminSubjectDisplay.php:69
-#: ajax_htmldata/getAdminDisplay.php:29
+#: ajax_htmldata/getAdminCurrencyDisplay.php:30
+#: ajax_htmldata/getAdminWorkflowDisplay.php:69
+#: ajax_htmldata/getAdminWorkflowDisplay.php:125
+#: ajax_htmldata/getAdminAlertDisplay.php:29
+#: ajax_htmldata/getAdminAlertDisplay.php:64
+#: ajax_htmldata/getAdminUserDisplay.php:51
+#: ajax_htmldata/getAdminSubjectDisplay.php:31
+#: ajax_htmldata/getAdminSubjectDisplay.php:74
+#: ajax_htmldata/getAdminDisplay.php:32
 #: ajax_htmldata/getGeneralSubjectDisplay.php:26
 msgid "remove"
 msgstr "kaldır"
 
-#: ajax_htmldata/getAdminCurrencyDisplay.php:38
-msgid "add new currency"
-msgstr "yeni para birimi ekle"
-
-#: ajax_htmldata/getAdminWorkflowDisplay.php:10
+#: ajax_htmldata/getAdminWorkflowDisplay.php:13
 msgid "Workflow Setup"
 msgstr "İş Akışı Yükle"
 
-#: ajax_htmldata/getAdminWorkflowDisplay.php:52
+#: ajax_htmldata/getAdminWorkflowDisplay.php:20
+msgid "add workflow"
+msgstr "iş akışı ekle"
+
+#: ajax_htmldata/getAdminWorkflowDisplay.php:22
+msgid "You must set up at least one user group before you can add workflows"
+msgstr "İş akışı eklemeden önce bir kullanıcı grubu belirlemelisiniz"
+
+#: ajax_htmldata/getAdminWorkflowDisplay.php:68
 #, fuzzy
 msgid "duplicate"
 msgstr "Mükerrer "
 
-#: ajax_htmldata/getAdminWorkflowDisplay.php:67
-msgid "add workflow"
-msgstr "iş akışı ekle"
-
-#: ajax_htmldata/getAdminWorkflowDisplay.php:69
-msgid "You must set up at least one user group before you can add workflows"
-msgstr "İş akışı eklemeden önce bir kullanıcı grubu belirlemelisiniz"
-
-#: ajax_htmldata/getAdminWorkflowDisplay.php:79
+#: ajax_htmldata/getAdminWorkflowDisplay.php:92
 msgid "User Group Setup"
 msgstr "Kullanıcı Grubu Ayarları"
 
-#: ajax_htmldata/getAdminWorkflowDisplay.php:85
-msgid "Group Name"
-msgstr "Grup Adı"
-
-#: ajax_htmldata/getAdminWorkflowDisplay.php:117
+#: ajax_htmldata/getAdminWorkflowDisplay.php:97
 msgid "add user group"
 msgstr "kullanıcı grubu ekle"
+
+#: ajax_htmldata/getAdminWorkflowDisplay.php:106
+msgid "Group Name"
+msgstr "Grup Adı"
 
 #: ajax_htmldata/getSavedQueue.php:6
 msgid "Saved Requests"
@@ -3183,7 +3321,8 @@ msgid "No attachments available"
 msgstr "ek yok"
 
 #: ajax_htmldata/getAttachmentDetails.php:74
-msgid "add new attachment"
+#, fuzzy
+msgid "add attachment"
 msgstr "yeni ek ekle"
 
 #: ajax_htmldata/getOrdersDetails.php:41 ajax_htmldata/getOrdersDetails.php:42
@@ -3342,74 +3481,117 @@ msgstr "Yayıncı düzeyinde sorunlar yok."
 msgid "There are no order level issues."
 msgstr "Kaynak düzeyinde sorunlar yok"
 
-#: ajax_htmldata/getEbscoKbTitleDetails.php:16
+#: ajax_htmldata/getEbscoKbTitleDetails.php:17
 msgid "EBSCO Kb Title Details"
 msgstr ""
 
-#: ajax_htmldata/getEbscoKbTitleDetails.php:34
+#: ajax_htmldata/getEbscoKbTitleDetails.php:35
 #, fuzzy
 msgid "Publication Type"
 msgstr "Doğrulama Türü"
 
-#: ajax_htmldata/getEbscoKbTitleDetails.php:38
+#: ajax_htmldata/getEbscoKbTitleDetails.php:39
 #, fuzzy
 msgid "Edition"
 msgstr "Düzenle"
 
-#: ajax_htmldata/getEbscoKbTitleDetails.php:42
+#: ajax_htmldata/getEbscoKbTitleDetails.php:43
 msgid "Peer Reviewed"
 msgstr ""
 
-#: ajax_htmldata/getEbscoKbTitleDetails.php:45
+#: ajax_htmldata/getEbscoKbTitleDetails.php:46
 msgid "Publisher"
 msgstr ""
 
-#: ajax_htmldata/getEbscoKbTitleDetails.php:68
+#: ajax_htmldata/getEbscoKbTitleDetails.php:69
 msgid " (Print)"
 msgstr ""
 
-#: ajax_htmldata/getEbscoKbTitleDetails.php:71
+#: ajax_htmldata/getEbscoKbTitleDetails.php:72
 msgid " (Electronic)"
 msgstr ""
 
-#: ajax_htmldata/getEbscoKbTitleDetails.php:84
+#: ajax_htmldata/getEbscoKbTitleDetails.php:85
 msgid "Contributors"
 msgstr ""
 
-#: ajax_htmldata/getEbscoKbTitleDetails.php:96
+#: ajax_htmldata/getEbscoKbTitleDetails.php:93
+msgid "This title has been imported into Coral"
+msgstr ""
+
+#: ajax_htmldata/getEbscoKbTitleDetails.php:98
+#: ajax_htmldata/getEbscoKbTitleDetails.php:141
+msgid "delete from Coral"
+msgstr ""
+
+#: ajax_htmldata/getEbscoKbTitleDetails.php:108
 msgid "Show all packages"
 msgstr ""
 
-#: ajax_htmldata/getEbscoKbTitleDetails.php:109
+#: ajax_htmldata/getEbscoKbTitleDetails.php:130
 #, fuzzy
-msgid "Selected in EBSCO Kb"
-msgstr "Seçildi:"
+msgid "Package is Selected & Imported"
+msgstr "Sınırlandırılmış dosyaları içe aktarma"
 
-#: ajax_htmldata/getEbscoKbTitleDetails.php:111
-msgid "Not selected in EBSCO Kb"
+#: ajax_htmldata/getEbscoKbTitleDetails.php:133
+msgid "view in Coral"
 msgstr ""
 
-#: ajax_htmldata/getEbscoKbTitleDetails.php:128
+#: ajax_htmldata/getEbscoKbTitleDetails.php:137
+#, fuzzy
+msgid "Package is NOT selected in EBSCOhost"
+msgstr "Seçildi:"
+
+#: ajax_htmldata/getEbscoKbTitleDetails.php:146
+#, fuzzy
+msgid "Package is Selected but not Imported "
+msgstr "Sınırlandırılmış dosyaları içe aktarma"
+
+#: ajax_htmldata/getEbscoKbTitleDetails.php:150
 #, fuzzy
 msgid "import package"
 msgstr "İçe aktar"
 
-#: ajax_htmldata/getEbscoKbTitleDetails.php:134
+#: ajax_htmldata/getEbscoKbTitleDetails.php:162
+#, fuzzy
+msgid "view package titles"
+msgstr "Lisansı İncele"
+
+#: ajax_htmldata/getEbscoKbTitleDetails.php:177
 msgid "Vendor"
 msgstr ""
 
-#: ajax_htmldata/getEbscoKbTitleDetails.php:136
+#: ajax_htmldata/getEbscoKbTitleDetails.php:179
 msgid "Coverage Statement"
 msgstr ""
 
-#: ajax_htmldata/getEbscoKbTitleDetails.php:138
+#: ajax_htmldata/getEbscoKbTitleDetails.php:181
 msgid "Embargo"
 msgstr ""
 
-#: ajax_htmldata/getEbscoKbTitleDetails.php:140
+#: ajax_htmldata/getEbscoKbTitleDetails.php:183
 #, fuzzy
 msgid "Resource Url"
 msgstr "Kaynak URL"
+
+#: ajax_htmldata/getEbscoKbTitleDetails.php:191
+#, fuzzy
+msgid "Title Selected"
+msgstr "Seçildi:"
+
+#: ajax_htmldata/getEbscoKbTitleDetails.php:193
+#, fuzzy
+msgid "Title Not Selected"
+msgstr "Seçilenlere uygula"
+
+#: ajax_htmldata/getEbscoKbTitleDetails.php:200
+#, fuzzy
+msgid "Deselect Title"
+msgstr "Dosya Seç"
+
+#: ajax_htmldata/getEbscoKbTitleDetails.php:205
+msgid "Package Options"
+msgstr ""
 
 #: ajax_htmldata/getSubmittedQueue.php:5
 msgid "Submitted Requests"
@@ -3462,39 +3644,68 @@ msgid "remove subject"
 msgstr "konuyu kaldır"
 
 #: ajax_htmldata/getProductDetails.php:388
-msgid "add new subject"
+#, fuzzy
+msgid "add subject"
 msgstr "yeni konu ekle"
 
-#: ajax_htmldata/getAdminAlertDisplay.php:38
-msgid "add email address"
-msgstr "e-posta adresi ekle"
+#: ajax_htmldata/getAdminAlertDisplay.php:12
+#, fuzzy
+msgid "Add an email:"
+msgstr "gün ekle"
+
+#: ajax_htmldata/getAdminAlertDisplay.php:12
+#, fuzzy
+msgid "add Email"
+msgstr "E-posta:"
 
 #: ajax_htmldata/getAdminAlertDisplay.php:46
+#, fuzzy
+msgid "Add a day:"
+msgstr "gün ekle"
+
+#: ajax_htmldata/getAdminAlertDisplay.php:46
+#, fuzzy
+msgid "add day"
+msgstr "gün ekle"
+
+#: ajax_htmldata/getAdminAlertDisplay.php:54
 msgid "Days in advance of expiration"
 msgstr "Bitime kalan günler"
 
-#: ajax_htmldata/getAdminAlertDisplay.php:71
-msgid "add days"
-msgstr "gün ekle"
-
-#: ajax_htmldata/getAdminUserDisplay.php:47
+#: ajax_htmldata/getAdminUserDisplay.php:50
 msgid "edit user"
 msgstr "kullanıcıyı düzenle"
 
-#: ajax_htmldata/getAdminUserDisplay.php:54
-#: ajax_htmldata/getAdminUserDisplay.php:58
+#: ajax_htmldata/getAdminUserDisplay.php:61
 msgid "add new user"
 msgstr "yeni kullanıcı ekle"
 
-#: ajax_htmldata/getAdminFundDisplay.php:46
-msgid "add new fund"
+#: ajax_htmldata/getAdminFundDisplay.php:10
+#, fuzzy
+msgid "add fund"
 msgstr "yeni sermaye ekle"
 
-#: ajax_htmldata/getAdminFundDisplay.php:47
-msgid "import funds"
+#: ajax_htmldata/getAdminFundDisplay.php:11
+#, fuzzy
+msgid "import fund"
 msgstr "sermaye bilgisini içe aktar"
 
-#: ajax_htmldata/getDashboard.php:26
+#: ajax_htmldata/getDashboardYearlyCosts.php:44
+#, fuzzy
+msgid "All cost details"
+msgstr "Maliyet Ayrıntıları"
+
+#: ajax_htmldata/getEbscoKbTitleStatus.php:20
+#, fuzzy
+msgid "Selected & Imported"
+msgstr "Sınırlandırılmış dosyaları içe aktarma"
+
+#: ajax_htmldata/getEbscoKbTitleStatus.php:29
+#, fuzzy
+msgid "Imported but Not Selected"
+msgstr "Seçilenlere uygula"
+
+#: ajax_htmldata/getDashboard.php:29
 msgid "Library number"
 msgstr ""
 
@@ -3676,21 +3887,24 @@ msgstr "Erişim bilgisi yok"
 msgid "edit access information"
 msgstr "Erişim bilgisi düzenle"
 
-#: ajax_htmldata/getAdminSubjectDisplay.php:15
-#: ajax_htmldata/getAdminSubjectDisplay.php:57
-#: ajax_htmldata/getAdminDisplay.php:19
+#: ajax_htmldata/getAdminSubjectDisplay.php:11
+#, fuzzy
+msgid "add new general subject"
+msgstr "yeni konu ekle"
+
+#: ajax_htmldata/getAdminSubjectDisplay.php:18
+#: ajax_htmldata/getAdminSubjectDisplay.php:62
+#: ajax_htmldata/getAdminDisplay.php:22
 #: ajax_htmldata/getGeneralSubjectDisplay.php:16
 msgid "Value"
 msgstr "Değer"
 
-#: ajax_htmldata/getAdminSubjectDisplay.php:44
-#: ajax_htmldata/getAdminSubjectDisplay.php:84
-#: ajax_htmldata/getAdminDisplay.php:41
-#: ajax_htmldata/getGeneralSubjectDisplay.php:38
-msgid "add new "
-msgstr "yeni ekle"
+#: ajax_htmldata/getAdminSubjectDisplay.php:53
+#, fuzzy
+msgid "add new detailed subject"
+msgstr "ayrıntılı konu ekle"
 
-#: ajax_htmldata/getAdminSubjectDisplay.php:92
+#: ajax_htmldata/getAdminSubjectDisplay.php:96
 msgid "Subject Relationships"
 msgstr "Konu İlişkileri"
 
@@ -3726,29 +3940,39 @@ msgstr "Kullanım İstatistikleri Modülü"
 msgid "Get Statistics"
 msgstr "İstatisistik Al"
 
-#: ajax_htmldata/getAcquisitionsDetails.php:95
-#: ajax_htmldata/getAcquisitionsDetails.php:190
+#: ajax_htmldata/getGeneralSubjectDisplay.php:38
+msgid "add new "
+msgstr "yeni ekle"
+
+#: ajax_htmldata/getAcquisitionsDetails.php:5
+msgid ""
+"PHP's extension php-intl doesn't seem to be installed or activated on your "
+"installation. Please install and activate php-intl to use cost history."
+msgstr ""
+
+#: ajax_htmldata/getAcquisitionsDetails.php:101
+#: ajax_htmldata/getAcquisitionsDetails.php:196
 msgid "edit cost history"
 msgstr "maliyet geçmişini düzenle"
 
-#: ajax_htmldata/getAcquisitionsDetails.php:184
+#: ajax_htmldata/getAcquisitionsDetails.php:190
 msgid "No payment information available"
 msgstr "Ödeme bilgisi yok"
 
-#: ajax_htmldata/getAcquisitionsDetails.php:201
+#: ajax_htmldata/getAcquisitionsDetails.php:207
 #, fuzzy
 msgid "edit license"
 msgstr "lisans"
 
-#: ajax_htmldata/getAcquisitionsDetails.php:232
+#: ajax_htmldata/getAcquisitionsDetails.php:238
 msgid "View License"
 msgstr "Lisansı İncele"
 
-#: ajax_htmldata/getAcquisitionsDetails.php:249
+#: ajax_htmldata/getAcquisitionsDetails.php:255
 msgid "edit license and status"
 msgstr "lisans ve lisans durumu düzenle"
 
-#: ajax_htmldata/getAcquisitionsDetails.php:251
+#: ajax_htmldata/getAcquisitionsDetails.php:257
 msgid "edit license status"
 msgstr "lisans durumunu düzenle"
 
@@ -3784,7 +4008,7 @@ msgstr "mevcut/muhtemel arızaları görüntüle"
 msgid "view archived downtime"
 msgstr "arşivlenen arızaları görüntüle"
 
-#: dashboard.php:10
+#: dashboard.php:12
 #, fuzzy
 msgid "Dashboard: Statistics"
 msgstr "Kullanım İstatistikleri"
@@ -3796,6 +4020,20 @@ msgid ""
 msgstr ""
 "LDAP Bağlantısı çalışmıyor veya zaman aşımına uğramış. Doğrulamak için "
 "configuration.ini dosyasını kontrol edin."
+
+#, fuzzy
+#~ msgid "Imported?"
+#~ msgstr "Sermaye bilgilerini içe aktar"
+
+#, fuzzy
+#~ msgid "View Titles"
+#~ msgstr "Lisansı İncele"
+
+#~ msgid "add new currency"
+#~ msgstr "yeni para birimi ekle"
+
+#~ msgid "add email address"
+#~ msgstr "e-posta adresi ekle"
 
 #~ msgid "Sunday"
 #~ msgstr "Pazar"
@@ -4060,3 +4298,15 @@ msgstr ""
 
 #~ msgid "Report an issue"
 #~ msgstr "Sorun bildir"
+
+#, fuzzy
+#~ msgid "add new note"
+#~ msgstr "yeni ekle"
+
+#, fuzzy
+#~ msgid "Selected in EBSCO Kb"
+#~ msgstr "Seçildi:"
+
+#, fuzzy
+#~ msgid "add new fund"
+#~ msgstr "yeni ekle"

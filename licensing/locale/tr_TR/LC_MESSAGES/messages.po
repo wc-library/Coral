@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: messages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-24 16:34+0100\n"
+"POT-Creation-Date: 2020-02-20 10:57+0100\n"
 "PO-Revision-Date: 2019-01-29 10:06+0000\n"
 "Last-Translator: ozhansa <ozhansaglik@uludag.edu.tr>\n"
 "Language-Team: CORAL Türkiye <ozhansaglik@uludag.edu.tr>\n"
@@ -17,8 +17,9 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-POOTLE-MTIME: 1548756374.799902\n"
 
-#: install/licensing.php:9 install/licensing.php:31 install/licensing.php:104
-#: install/licensing.php:130 install/licensing.php:140
+#: install/licensing.php:9 install/licensing.php:31 install/licensing.php:112
+#: install/licensing.php:138 install/licensing.php:148
+#: install/licensing.php:167
 #, fuzzy
 msgid "Licensing Module"
 msgstr "Lisanslama Modülü versiyonu"
@@ -32,8 +33,8 @@ msgstr "Lisanslama"
 msgid "Use Terms Tool Functionality"
 msgstr ""
 
-#: compare.php:22 templates/header.php:203 templates/header.php:258
-#: templates/header.php:306
+#: compare.php:22 templates/header.php:210 templates/header.php:265
+#: templates/header.php:313
 msgid "Expression Comparison"
 msgstr "Açıklama Kıyaslaması"
 
@@ -41,8 +42,8 @@ msgstr "Açıklama Kıyaslaması"
 msgid "Limit by Expression Type:"
 msgstr "Açıklama Türüne göre Sınırlandır:"
 
-#: in_progress.php:23 templates/header.php:182 templates/header.php:237
-#: templates/header.php:285 calendar.php:21 index.php:23
+#: in_progress.php:23 templates/header.php:189 templates/header.php:244
+#: templates/header.php:292 calendar.php:21 calendar2.php:21 index.php:23
 msgid "Home"
 msgstr "Anasayfa"
 
@@ -54,9 +55,9 @@ msgstr "İşlemdeki Lisanslar"
 msgid "Browse All"
 msgstr "Hepsini Göz At"
 
-#: in_progress.php:38 admin.php:39 admin.php:56 admin.php:70 admin.php:83
-#: admin.php:97 admin.php:112 admin.php:132 admin.php:153 admin.php:167
-#: license.php:70 license.php:112 license.php:131 license.php:151
+#: in_progress.php:38 admin.php:41 admin.php:57 admin.php:71 admin.php:84
+#: admin.php:97 admin.php:111 admin.php:131 admin.php:152 admin.php:166
+#: admin.php:188 license.php:80 license.php:122 license.php:141 license.php:161
 msgid "Loading..."
 msgstr "Yükleniyor..."
 
@@ -84,17 +85,19 @@ msgstr "Belge için"
 msgid "Resource"
 msgstr "Kaynak"
 
-#: ajax_htmldata.php:141 ajax_htmldata.php:234 ajax_htmldata.php:1150
-#: ajax_htmldata.php:1229 ajax_htmldata.php:1412 ajax_forms.php:457
-#: ajax_forms.php:727
-msgid "edit"
-msgstr "düzenle"
+#: ajax_htmldata.php:141 ajax_htmldata.php:234 ajax_htmldata.php:876
+#: ajax_htmldata.php:1150 ajax_htmldata.php:1229 ajax_htmldata.php:1334
+#: ajax_htmldata.php:1412 ajax_forms.php:860 ajax_forms.php:865
+#: ajax_forms.php:899 ajax_forms.php:982 ajax_forms.php:1024
+#: ajax_forms.php:1133
+msgid "Edit"
+msgstr "Düzenle"
 
-#: ajax_htmldata.php:142 ajax_htmldata.php:234 ajax_htmldata.php:1150
-#: ajax_htmldata.php:1230 ajax_htmldata.php:1287 ajax_htmldata.php:1335
-#: ajax_htmldata.php:1452 ajax_forms.php:458 ajax_forms.php:728
-#: ajax_forms.php:815 js/forms/attachmentForm.js:84
-msgid "remove"
+#: ajax_htmldata.php:142 ajax_htmldata.php:234 ajax_htmldata.php:876
+#: ajax_htmldata.php:1150 ajax_htmldata.php:1230 ajax_htmldata.php:1287
+#: ajax_htmldata.php:1335 ajax_htmldata.php:1477
+#, fuzzy
+msgid "Remove"
 msgstr "kaldır"
 
 #: ajax_htmldata.php:155 ajax_htmldata.php:245 ajax_htmldata.php:852
@@ -105,7 +108,8 @@ msgid "(none found)"
 msgstr "(bulunamadı)"
 
 #: ajax_htmldata.php:159
-msgid "add new terms tool resource link"
+#, fuzzy
+msgid "add terms tool resource link"
 msgstr "kaynak kullanım şartları bağlantısı ekle"
 
 #: ajax_htmldata.php:182 ajax_forms.php:408
@@ -133,7 +137,8 @@ msgid "view attachment "
 msgstr "eki görüntüle"
 
 #: ajax_htmldata.php:249
-msgid "add new attachment"
+#, fuzzy
+msgid "add attachment"
 msgstr "yeni ek ekle"
 
 #: ajax_htmldata.php:322
@@ -199,8 +204,7 @@ msgstr "görüntüle / düzenle"
 msgid " notes"
 msgstr "notlar"
 
-#: ajax_htmldata.php:535 ajax_htmldata.php:537 ajax_htmldata.php:863
-#: ajax_htmldata.php:981
+#: ajax_htmldata.php:535 ajax_htmldata.php:537 ajax_htmldata.php:981
 msgid "view document"
 msgstr "belgeyi görüntüle"
 
@@ -276,21 +280,18 @@ msgstr "(tarih yok)"
 msgid "add/view details"
 msgstr "ayrıntıları ekle/görüntüle"
 
-#: ajax_htmldata.php:854 ajax_htmldata.php:972
-msgid "add signatures"
+#: ajax_htmldata.php:854
+#, fuzzy
+msgid "Add signatures"
 msgstr "imzaları ekle"
+
+#: ajax_htmldata.php:863
+msgid "View"
+msgstr ""
 
 #: ajax_htmldata.php:870 ajax_htmldata.php:987
 msgid "view expressions"
 msgstr "açıklamaları görüntüle"
-
-#: ajax_htmldata.php:876 ajax_htmldata.php:993
-msgid "edit document"
-msgstr "belge düzenle"
-
-#: ajax_htmldata.php:876 ajax_htmldata.php:993
-msgid "remove document"
-msgstr "belgeyi kaldır"
 
 #: ajax_htmldata.php:886 ajax_htmldata.php:888
 msgid "This document has "
@@ -322,6 +323,18 @@ msgstr "Bu üst ögede alt belgeleri gizle"
 msgid "archive document"
 msgstr "belgeyi arşivle"
 
+#: ajax_htmldata.php:972
+msgid "add signatures"
+msgstr "imzaları ekle"
+
+#: ajax_htmldata.php:993
+msgid "edit document"
+msgstr "belge düzenle"
+
+#: ajax_htmldata.php:993
+msgid "remove document"
+msgstr "belgeyi kaldır"
+
 #: ajax_htmldata.php:1031
 msgid " archive(s) available."
 msgstr "arşiv(ler) mevcut"
@@ -338,7 +351,7 @@ msgstr "yeni belge yükle"
 msgid "For Document:"
 msgstr "Belge için"
 
-#: ajax_htmldata.php:1086 ajax_htmldata.php:1439 ajax_forms.php:1144
+#: ajax_htmldata.php:1086 ajax_htmldata.php:1464 ajax_forms.php:1144
 #: ajax_forms.php:1167 index.php:205
 msgid "Qualifier"
 msgstr "Nitelendirici:"
@@ -355,9 +368,9 @@ msgstr "(hiçbiri)"
 msgid "add/view "
 msgstr "ekle/görüntüle"
 
-#: ajax_htmldata.php:1200
-msgid "add new expression"
-msgstr "yeni açıklama ekle"
+#: ajax_htmldata.php:1200 ajax_forms.php:592
+msgid "add expression"
+msgstr "açıklama ekle"
 
 #: ajax_htmldata.php:1258 ajax_forms.php:911
 msgid "Login ID"
@@ -379,10 +392,10 @@ msgstr "Ayrıcalık"
 msgid "Terms Tool Update Email"
 msgstr "Terimler Aracını Güncelleme E-Postası"
 
-#: ajax_htmldata.php:1286 ajax_htmldata.php:1334 ajax_htmldata.php:1451
-#: ajax_forms.php:865
-msgid "update"
-msgstr "güncelle"
+#: ajax_htmldata.php:1286 ajax_htmldata.php:1476 admin.php:184
+#: ajax_forms.php:457 ajax_forms.php:727
+msgid "edit"
+msgstr "düzenle"
 
 #: ajax_htmldata.php:1324 ajax_forms.php:993 ajax_forms.php:994 index.php:180
 msgid "Expression Type"
@@ -401,23 +414,23 @@ msgstr "Ayar"
 msgid "Value"
 msgstr "Değer"
 
-#: ajax_htmldata.php:1438 ajax_forms.php:1146
+#: ajax_htmldata.php:1463 ajax_forms.php:1146
 msgid "For Expression Type"
 msgstr "Açıklama Türü için"
 
-#: ajax_htmldata.php:1488
+#: ajax_htmldata.php:1513
 msgid "Limit by Qualifier:"
 msgstr "Niteleyiciler ile Sınırlandır:"
 
-#: ajax_htmldata.php:1572
+#: ajax_htmldata.php:1597
 msgid "Resources Module"
 msgstr "Kaynaklar Modülü"
 
-#: ajax_htmldata.php:1590 ajax_processing.php:1172 ajax_forms.php:1194
+#: ajax_htmldata.php:1615 ajax_processing.php:1200 ajax_forms.php:1256
 msgid "Action "
 msgstr "Eylem"
 
-#: ajax_htmldata.php:1590 ajax_processing.php:1172 ajax_forms.php:1194
+#: ajax_htmldata.php:1615 ajax_processing.php:1200 ajax_forms.php:1256
 msgid " not set up!"
 msgstr " kurulmadı!"
 
@@ -426,7 +439,7 @@ msgid ""
 "Both license name and organization must be filled out.  Please try again."
 msgstr "Hem lisans hem yayıncı adı doldurulmalı. Lütfen tekrar deneyin."
 
-#: templates/header.php:86
+#: templates/header.php:93
 msgid ""
 "JavaScript must be enabled in order for you to use CORAL. However, it seems "
 "JavaScript is either disabled or not supported by your browser. To use "
@@ -436,76 +449,96 @@ msgstr ""
 "JavaScript desteklemiyor ya da devre dışı bırakılmış olabilir. CORAL "
 "kullanmak için tarayıcınızdan JavaScript'i etkinleştirin."
 
-#: templates/header.php:86
+#: templates/header.php:93
 msgid "try again"
 msgstr "tekrar deneyin"
 
-#: templates/header.php:108
+#: templates/header.php:115
 msgid "Licensing"
 msgstr "Lisanslama"
 
-#: templates/header.php:109
+#: templates/header.php:116
 msgid "Powered by"
 msgstr "Tarafından destekleniyor"
 
-#: templates/header.php:115
+#: templates/header.php:122
 msgid "Hello"
 msgstr "Merhaba"
 
-#: templates/header.php:125
+#: templates/header.php:132
 msgid "logout"
 msgstr "çıkış"
 
-#: templates/header.php:125
+#: templates/header.php:132
 msgid "Help"
 msgstr "Yardım"
 
-#: templates/header.php:143
+#: templates/header.php:150
 msgid "Invalid translation route!"
 msgstr "Geçersiz çeviri yolu!"
 
-#: templates/header.php:189 templates/header.php:244 templates/header.php:292
+#: templates/header.php:196 templates/header.php:251 templates/header.php:299
 msgid "New License"
 msgstr "Yeni Lisans"
 
-#: templates/header.php:196 templates/header.php:251 templates/header.php:299
+#: templates/header.php:203 templates/header.php:258 templates/header.php:306
 msgid "License In Progress"
 msgstr "İşlemdeki Lisanslar"
 
-#: templates/header.php:211 templates/header.php:266 templates/header.php:314
-#: calendar.php:34
+#: templates/header.php:218 templates/header.php:273 templates/header.php:321
+#: calendar.php:34 calendar2.php:34
 msgid "Calendar"
 msgstr "Takvim"
 
-#: templates/header.php:219 templates/header.php:274 templates/header.php:322
+#: templates/header.php:226 templates/header.php:281 templates/header.php:329
 msgid "ONIX-PL File Import"
 msgstr "ONIX-PL Dosyası İçe Aktarma"
 
-#: templates/header.php:226
+#: templates/header.php:233
 msgid "Admin"
 msgstr "Yönetici"
 
-#: templates/header.php:343
+#: templates/header.php:350
 msgid "Change Module"
 msgstr "Değişim Modülü"
 
-#: templates/header.php:346
+#: templates/header.php:353
 msgid "Main Menu"
 msgstr "Ana Menü"
 
-#: templates/header.php:351
+#: templates/header.php:358
+#, fuzzy
+msgid "Resources module"
+msgstr "Kaynaklar Modülü"
+
+#: templates/header.php:358
 msgid "Resources"
 msgstr "Kaynaklar"
 
-#: templates/header.php:356
+#: templates/header.php:363
+#, fuzzy
+msgid "Organizations module"
+msgstr "Yayıncılar"
+
+#: templates/header.php:363
 msgid "Organizations"
 msgstr "Yayıncılar"
 
-#: templates/header.php:361
+#: templates/header.php:368
+#, fuzzy
+msgid "Usage Statistics module"
+msgstr "Kullanım İstatistikleri"
+
+#: templates/header.php:368
 msgid "Usage Statistics"
 msgstr "Kullanım İstatistikleri"
 
-#: templates/header.php:366
+#: templates/header.php:373
+#, fuzzy
+msgid "Management module"
+msgstr "Yönetim"
+
+#: templates/header.php:373
 msgid "Management"
 msgstr "Yönetim"
 
@@ -525,7 +558,7 @@ msgstr "Lisans veritabanı bulunamadı."
 msgid "Could not find Resource database."
 msgstr "Kaynak veritabanı bulunamadı."
 
-#: calendar.php:49
+#: calendar.php:49 calendar2.php:44
 msgid ""
 "There was an error with the CalendarSettings Table please verify the table "
 "has been created."
@@ -533,48 +566,49 @@ msgstr ""
 "Takvim Ayarları Tablosunda bir hata var. Lütfen oluşturduğunuz tabloyu "
 "kontrol edin."
 
-#: calendar.php:83
+#: calendar.php:83 calendar2.php:78
 msgid "There was an error with the CalendarSettings Configuration."
 msgstr "Takvim Ayarları Yapılandırmasında bir hata var."
 
-#: calendar.php:109
+#: calendar.php:109 calendar2.php:105
 #, fuzzy
 msgid "Bad Query Failure: "
 msgstr "Sorgu Başarısız"
 
-#: calendar.php:116
+#: calendar.php:116 calendar2.php:112
 msgid "Upcoming License Renewals"
 msgstr "Bekleyen Lisans Yenilemeleri"
 
-#: calendar.php:146
-msgid "Bad Query Failure"
+#: calendar.php:148
+#, fuzzy
+msgid "Bad Query2 Failure"
 msgstr "Sorgu Başarısız"
 
-#: calendar.php:204
+#: calendar.php:205 calendar2.php:208
 msgid "No associated licenses available."
 msgstr "İlişkili lisans mevcut değil."
 
-#: calendar.php:210
+#: calendar.php:211 calendar2.php:214
 msgid "Expired "
 msgstr "Süresi doldu"
 
-#: calendar.php:210
+#: calendar.php:211 calendar2.php:214
 msgid " days ago"
 msgstr " gün önce"
 
-#: calendar.php:212
+#: calendar.php:213 calendar2.php:216
 msgid "- Expires in "
 msgstr "- sona erecek"
 
-#: calendar.php:215
+#: calendar.php:216 calendar2.php:219
 msgid " days)"
 msgstr "günler)"
 
-#: calendar.php:217
+#: calendar.php:218 calendar2.php:221
 msgid " days "
 msgstr "günler"
 
-#: calendar.php:228
+#: calendar.php:229 calendar2.php:232
 msgid "Participants:  "
 msgstr "Katılımcılar:"
 
@@ -654,75 +688,86 @@ msgstr "Yükle"
 msgid "Administration"
 msgstr "Yönetim"
 
-#: admin.php:35
+#: admin.php:37
 msgid "Users"
 msgstr "Kullanıcılar"
 
-#: admin.php:36
-msgid "add new user"
+#: admin.php:37
+#, fuzzy
+msgid "add User"
 msgstr "yeni kullanıcı ekle"
 
-#: admin.php:52
+#: admin.php:54
 msgid "Document Types"
 msgstr "Belge Türleri"
 
-#: admin.php:53
-msgid "add new document type"
-msgstr "yeni belge türü ekle"
+#: admin.php:54 ajax_forms.php:195
+msgid "add document type"
+msgstr "doküman türü ekle"
 
-#: admin.php:66
+#: admin.php:67
 msgid "Expression Types"
 msgstr "Açıklama Türleri"
 
 #: admin.php:67
-msgid "add new expression type"
+#, fuzzy
+msgid "add expression type"
 msgstr "yeni açıklama türü ekle"
 
-#: admin.php:79
+#: admin.php:80
 msgid "Qualifiers"
 msgstr "Yeterlilikler"
 
 #: admin.php:80
-msgid "add new qualifier"
+#, fuzzy
+msgid "add qualifier"
 msgstr "yeni yeterlilik ekle"
 
-#: admin.php:93
+#: admin.php:94
 msgid "Signature Types"
 msgstr "İmza Türleri"
 
 #: admin.php:94
-msgid "add new signature type"
-msgstr "yeni imza türü ekle"
+#, fuzzy
+msgid "add signature"
+msgstr "imzaları ekle"
 
 #: admin.php:108
 msgid "License Statuses"
 msgstr "Lisans Durumları"
 
-#: admin.php:109
-msgid "add new license status"
-msgstr "Yeni lisans durumu ekle"
+#: admin.php:108
+#, fuzzy
+msgid "add License statuses"
+msgstr "Lisans Durumları"
 
-#: admin.php:129 ajax_forms.php:1033
+#: admin.php:128 ajax_forms.php:1033
 msgid "Calendar Settings"
 msgstr "Takvim Ayarları"
 
-#: admin.php:149
+#: admin.php:148
 msgid "Consortia"
 msgstr "Konsorsiyum"
 
-#: admin.php:150
-msgid "add new consortium"
-msgstr "Yeni konsorsiyum ekle"
+#: admin.php:149 ajax_forms.php:106
+msgid "add consortium"
+msgstr "konsorsiyum ekle"
 
-#: admin.php:163
+#: admin.php:162
 msgid "Providers"
 msgstr "Sağlayıcılar"
 
-#: admin.php:164
-msgid "add new provider"
+#: admin.php:163
+#, fuzzy
+msgid "add provider"
 msgstr "yeni sağlayıcı ekle"
 
-#: admin.php:180
+#: admin.php:183
+#, fuzzy
+msgid "Terms Tool Settings"
+msgstr "Terimler Aracı"
+
+#: admin.php:201
 msgid "You don't have permission to access this page"
 msgstr "Bu sayfaya erişim yetkiniz yok."
 
@@ -730,106 +775,107 @@ msgstr "Bu sayfaya erişim yetkiniz yok."
 msgid "License successfully deleted."
 msgstr "Lisans başarıyla silindi."
 
-#: ajax_processing.php:172 ajax_processing.php:957
+#: ajax_processing.php:168 ajax_processing.php:956
 msgid "success uploading!"
 msgstr "yükleme başarılı!"
 
-#: ajax_processing.php:175 ajax_processing.php:960
-msgid "There was a problem saving your file to"
+#: ajax_processing.php:171 ajax_processing.php:959
+#, fuzzy
+msgid "There was a problem saving your file to "
 msgstr "Dosyanızı kaydederken bir hata oluştu"
 
-#: ajax_processing.php:236
+#: ajax_processing.php:234
 msgid "Document Saved Successfully."
 msgstr "Belge Başarıyla Kaydedildi."
 
-#: ajax_processing.php:250
+#: ajax_processing.php:248
 msgid "Signature Deleted Successfully."
 msgstr "İmza Başarıyla Silindi."
 
-#: ajax_processing.php:312
+#: ajax_processing.php:310
 msgid "Expression Removed Successfully."
 msgstr "Açıklama Başarıyla Kaldırıldı."
 
-#: ajax_processing.php:335
+#: ajax_processing.php:333
 msgid ""
 "An expression in the licensing module has been approved for terms tool use."
 msgstr ""
 "Lisanslama modlündeki açıklama terimler aracında kullanılmak üzere kabul "
 "edildi."
 
-#: ajax_processing.php:336
+#: ajax_processing.php:334
 msgid "License:  "
 msgstr "Lisans: "
 
-#: ajax_processing.php:337
+#: ajax_processing.php:335
 msgid "View License Record:  "
 msgstr "Lisans Kaydını Göster:"
 
-#: ajax_processing.php:341
+#: ajax_processing.php:339
 msgid "Licensing - expression set to production use"
 msgstr "Lisanslama - ürünün kullanımı için açıklama oluşturun"
 
-#: ajax_processing.php:346
+#: ajax_processing.php:344
 msgid "Approved for terms tool display."
 msgstr "Terimler aracının gösterimi için onaylandı."
 
-#: ajax_processing.php:348
+#: ajax_processing.php:346
 msgid "Removed from terms tool display."
 msgstr "Terimler aracının görüntülenmesi için kaldırıldı."
 
-#: ajax_processing.php:375
+#: ajax_processing.php:373
 msgid "Expression Note Updated Successfully."
 msgstr "Açıklama Notu Başarıyla Kaydedildi."
 
-#: ajax_processing.php:391
+#: ajax_processing.php:389
 msgid "Expression Note Added Successfully."
 msgstr "Açıklama Notu Başarıyla Eklendi."
 
-#: ajax_processing.php:415
+#: ajax_processing.php:413
 msgid "Note Removed Successfully."
 msgstr "Not Başarıyla Kaldırıldı."
 
-#: ajax_processing.php:452
+#: ajax_processing.php:450
 msgid "Terms Tool Resource Link successfully deleted"
 msgstr "Kaynakları Kullanma Şartları Bağlantısı başarıyla silindi"
 
-#: ajax_processing.php:468
+#: ajax_processing.php:466
 msgid "License Updated Successfully."
 msgstr "Lisans Başarıyla Yüklendi."
 
-#: ajax_processing.php:477
+#: ajax_processing.php:475
 msgid "License Added Successfully."
 msgstr "Lisans Başarıyla Eklendi."
 
-#: ajax_processing.php:477
+#: ajax_processing.php:475
 msgid "Please continue to upload documents and add expressions or emails."
 msgstr "Belge yüklemeye devam edin ve açıklama ya da e-posta gönderin."
 
-#: ajax_processing.php:505 ajax_processing.php:517 ajax_processing.php:530
+#: ajax_processing.php:503 ajax_processing.php:515 ajax_processing.php:528
 #: ajax_forms.php:305
 msgid "Continue"
 msgstr "Devam et"
 
-#: ajax_processing.php:514 ajax_processing.php:527
+#: ajax_processing.php:512 ajax_processing.php:525
 msgid "SQL Insert Failed."
 msgstr "SQL eklenmesi başarısız."
 
-#: ajax_processing.php:514 ajax_processing.php:527
+#: ajax_processing.php:512 ajax_processing.php:525
 msgid "Please make sure everything is filled out correctly."
 msgstr "Her şeyin doğru doldurulduğundan emin olun."
 
-#: ajax_processing.php:772
+#: ajax_processing.php:770
 msgid "Unable to delete  - this "
 msgstr "Silme başarısız"
 
-#: ajax_processing.php:772
+#: ajax_processing.php:770
 msgid ""
 " is in use.  Please make sure no licenses are set up with this information."
 msgstr ""
 "Kullanımda. Lütfen bu bilgiler kullanılarak bir lisans oluşturulmadığından "
 "emin olun."
 
-#: ajax_processing.php:778
+#: ajax_processing.php:776
 msgid ""
 "Unable to delete.  Please make sure no licenses are set up with this "
 "information."
@@ -837,15 +883,15 @@ msgstr ""
 "Silinemedi. Lütfen bu bilgiler kullanılarak bir lisans oluşturulmadığından "
 "emin olun."
 
-#: ajax_processing.php:1027
+#: ajax_processing.php:1028
 msgid "Attachment successfully deleted"
 msgstr "Ek başarıyla silindi"
 
-#: ajax_processing.php:1041
+#: ajax_processing.php:1042
 msgid "Attachment file successfully deleted"
 msgstr "Ek dosyası başarıyla silindi"
 
-#: ajax_processing.php:1062
+#: ajax_processing.php:1063
 msgid "Status has been updated"
 msgstr "Durum güncellendi"
 
@@ -857,18 +903,13 @@ msgstr "Lisans Adı"
 msgid "Consortium:"
 msgstr "Konsorsiyum:"
 
-#: ajax_forms.php:106
-msgid "add consortium"
-msgstr "konsorsiyum ekle"
-
 #: ajax_forms.php:113 ajax_forms.php:270 ajax_forms.php:369 ajax_forms.php:639
 #: ajax_forms.php:831
 msgid "submit"
 msgstr "gönder"
 
 #: ajax_forms.php:114 ajax_forms.php:271 ajax_forms.php:370 ajax_forms.php:640
-#: ajax_forms.php:832 ajax_forms.php:963 ajax_forms.php:1009
-#: ajax_forms.php:1117 ajax_forms.php:1171
+#: ajax_forms.php:832 ajax_forms.php:1233
 msgid "cancel"
 msgstr "iptal"
 
@@ -883,10 +924,6 @@ msgstr "Geçerli Tarih:"
 #: ajax_forms.php:174
 msgid "Document Type:"
 msgstr "Doküman Türü:"
-
-#: ajax_forms.php:195
-msgid "add document type"
-msgstr "doküman türü ekle"
 
 #: ajax_forms.php:203
 msgid "Parent:"
@@ -932,18 +969,24 @@ msgstr "İmzalayan"
 msgid "commit update"
 msgstr "işlemi güncelle"
 
+#: ajax_forms.php:458 ajax_forms.php:728 ajax_forms.php:815
+#: js/forms/attachmentForm.js:85
+msgid "remove"
+msgstr "kaldır"
+
 #: ajax_forms.php:480 ajax_forms.php:743 js/forms/licenseForm.js:172
 #: js/forms/signatureForm.js:115 js/forms/expressionForm.js:78
-#: js/forms/documentForm.js:188 js/admin.js:357
+#: js/forms/documentForm.js:197 js/admin.js:385
 msgid "add"
 msgstr "ekle"
 
-#: ajax_forms.php:490 ajax_forms.php:753
+#: ajax_forms.php:490 ajax_forms.php:753 ajax_forms.php:870 ajax_forms.php:963
+#: ajax_forms.php:1009 ajax_forms.php:1117 ajax_forms.php:1171
 msgid "Close"
 msgstr "Kapat"
 
-#: ajax_forms.php:546 license.php:63 license.php:105 license.php:125
-#: license.php:144
+#: ajax_forms.php:546 license.php:73 license.php:115 license.php:135
+#: license.php:154
 msgid "Expressions"
 msgstr "Açıklamalar"
 
@@ -955,10 +998,6 @@ msgstr "Belge:"
 msgid "Expression Type:"
 msgstr "Açıklama Türü:"
 
-#: ajax_forms.php:592
-msgid "add expression"
-msgstr "açıklama ekle"
-
 #: ajax_forms.php:599
 msgid "Qualifier:"
 msgstr "Nitelendirici:"
@@ -967,8 +1006,8 @@ msgstr "Nitelendirici:"
 msgid "For Document Text:"
 msgstr "Belge Türü için:"
 
-#: ajax_forms.php:789 license.php:65 license.php:107 license.php:127
-#: license.php:146
+#: ajax_forms.php:789 license.php:75 license.php:117 license.php:137
+#: license.php:156
 msgid "Attachments"
 msgstr "Ekler"
 
@@ -984,17 +1023,10 @@ msgstr "Ayrıntılar:"
 msgid "Attachments:"
 msgstr "Ekler:"
 
-#: ajax_forms.php:860 ajax_forms.php:899 ajax_forms.php:982 ajax_forms.php:1133
-msgid "Update"
-msgstr "Güncelle"
-
-#: ajax_forms.php:870
-msgid "close"
-msgstr "kapat"
-
 #: ajax_forms.php:902 ajax_forms.php:985 ajax_forms.php:1136
-msgid "Add New"
-msgstr "Yeni Ekle"
+#, fuzzy
+msgid "Add"
+msgstr "ekle"
 
 #: ajax_forms.php:910
 msgid "User"
@@ -1051,29 +1083,54 @@ msgstr "Görünüm"
 msgid "Note type of display allows for terms tool use"
 msgstr "Terimler aracı kullanımında görünüme dair notlar türünü göster"
 
-#: ajax_forms.php:1024
-msgid "Edit"
-msgstr "Düzenle"
-
 #: ajax_forms.php:1038 ajax_forms.php:1068 ajax_forms.php:1101
 msgid "Variable Name"
 msgstr "Değişken Ad"
 
-#: license.php:62 license.php:104 license.php:124 license.php:143
+#: ajax_forms.php:1199
+#, fuzzy
+msgid "Update Terms Tool Settings"
+msgstr "Terimler Aracı"
+
+#: ajax_forms.php:1220
+msgid "Open URL"
+msgstr ""
+
+#: ajax_forms.php:1232
+msgid "Save"
+msgstr ""
+
+#: ajax_forms.php:1242
+msgid "Api Key"
+msgstr ""
+
+#: ajax_forms.php:1243
+msgid "Customer ID"
+msgstr ""
+
+#: ajax_forms.php:1243
+msgid "Client ID"
+msgstr ""
+
+#: license.php:72 license.php:114 license.php:134 license.php:153
 msgid "Documents"
 msgstr "Belgeler"
 
-#: license.php:64 license.php:106 license.php:126 license.php:145
+#: license.php:74 license.php:116 license.php:136 license.php:155
 msgid "Terms Tool"
 msgstr "Terimler Aracı"
 
-#: license.php:79
+#: license.php:89
 msgid "Helpful Links"
 msgstr "Yardımcı Bağlantılar"
 
-#: license.php:87
+#: license.php:97
 msgid "Send feedback on this resource"
 msgstr "Bu kaynakla ilgili geribildirim gönder"
+
+#: calendar2.php:150
+msgid "Bad Query Failure"
+msgstr "Sorgu Başarısız"
 
 #: not_available.php:21
 msgid "Not Available"
@@ -1148,7 +1205,7 @@ msgstr "Devam edebilmek için bir belge seçiniz."
 msgid "Terms Tool Resource must be entered to continue."
 msgstr "Devam etmek için Kaynak Kullanım Şartları doldurulmalıdır."
 
-#: js/forms/licenseForm.js:34 js/forms/documentForm.js:38
+#: js/forms/licenseForm.js:34 js/forms/documentForm.js:41
 msgid "This name is already being used!"
 msgstr "Bu ad daha önce alınmış!"
 
@@ -1180,20 +1237,24 @@ msgstr "Bu imzayı silmek istediğinizden emin misiniz?"
 msgid "SignatureType has been added"
 msgstr "İmza Türü eklendi"
 
-#: js/forms/attachmentForm.js:41 js/forms/attachmentForm.js:54
-#: js/forms/documentForm.js:102
+#: js/forms/attachmentForm.js:39 js/forms/attachmentForm.js:52
+#: js/forms/documentForm.js:105
 msgid "File name is already being used..."
 msgstr "Dosya adı kullanımda..."
 
-#: js/forms/attachmentForm.js:46
+#: js/forms/attachmentForm.js:44
 msgid "The attachments directory is not writable."
 msgstr "Ek dizini yazılabilir değil."
 
-#: js/forms/attachmentForm.js:84 js/forms/documentForm.js:134 js/license.js:457
+#: js/forms/attachmentForm.js:85 js/forms/documentForm.js:141
 msgid " successfully uploaded."
 msgstr "yükleme başarılı."
 
-#: js/forms/attachmentForm.js:101 js/forms/attachmentForm.js:109
+#: js/forms/attachmentForm.js:89 js/forms/documentForm.js:146
+msgid "The file upload failed for the following reason: "
+msgstr ""
+
+#: js/forms/attachmentForm.js:95 js/forms/attachmentForm.js:103
 msgid "Do you really want to delete this attachment?"
 msgstr "Bu eki silmek istediğinizden emin misiniz?"
 
@@ -1201,7 +1262,7 @@ msgstr "Bu eki silmek istediğinizden emin misiniz?"
 msgid "ExpressionType has been added"
 msgstr "Açıklama Türü eklendi"
 
-#: js/forms/documentForm.js:106
+#: js/forms/documentForm.js:109
 msgid ""
 "File name may not contain special characters - ampersand, single quote, "
 "double quote or less than/greater than characters"
@@ -1209,36 +1270,36 @@ msgstr ""
 "Dosya adı özel karakter içermemelidir - ve işareti, tek tırnak, çift tırnak "
 "veya küçük, büyük işareti"
 
-#: js/forms/documentForm.js:110
+#: js/forms/documentForm.js:113
 msgid "The documents directory is not writable."
 msgstr "Belgeler dizini yazılabilir değil."
 
-#: js/forms/documentForm.js:176
+#: js/forms/documentForm.js:185
 msgid "Document Type is required."
 msgstr "Belge tipi zorunludur."
 
-#: js/forms/documentForm.js:177
+#: js/forms/documentForm.js:186
 msgid "Short Name is required."
 msgstr "Kısa ad gerekli."
 
-#: js/forms/documentForm.js:207
+#: js/forms/documentForm.js:216
 msgid "DocumentType has been added"
 msgstr "Doküman Türü eklendi"
 
-#: js/index.js:43 js/admin.js:122 js/admin.js:257 js/admin.js:282
-#: js/admin.js:308 js/admin.js:335
+#: js/index.js:43 js/admin.js:132 js/admin.js:285 js/admin.js:310
+#: js/admin.js:336 js/admin.js:363
 msgid "Processing..."
 msgstr "İşlem devam ediyor..."
 
-#: js/admin.js:255 js/admin.js:333
+#: js/admin.js:283 js/admin.js:361
 msgid "Do you really want to delete this data?"
 msgstr "Bu veriyi silmek istediğinizden emin misiniz?"
 
-#: js/admin.js:280
+#: js/admin.js:308
 msgid "Do you really want to delete this user?"
 msgstr "Bu kullanıcıyı silmek istediğinizden emin misiniz?"
 
-#: js/admin.js:306
+#: js/admin.js:334
 msgid ""
 "Do you really want to delete this expression type?  Any associated "
 "Qualifiers will be deleted as well."
@@ -1297,9 +1358,36 @@ msgid "Do you really want to delete this terms tool resource link?"
 msgstr ""
 "Kaynak Kullanım Şartları bağlantısını silmek istediğinizden emin misiniz?"
 
-#: js/license.js:425 js/license.js:455
+#: js/license.js:425
 msgid "File name is already being used."
 msgstr "Dosya adı kullanımda..."
+
+#~ msgid "add new expression"
+#~ msgstr "yeni açıklama ekle"
+
+#~ msgid "update"
+#~ msgstr "güncelle"
+
+#~ msgid "add new document type"
+#~ msgstr "yeni belge türü ekle"
+
+#~ msgid "add new signature type"
+#~ msgstr "yeni imza türü ekle"
+
+#~ msgid "add new license status"
+#~ msgstr "Yeni lisans durumu ekle"
+
+#~ msgid "add new consortium"
+#~ msgstr "Yeni konsorsiyum ekle"
+
+#~ msgid "Update"
+#~ msgstr "Güncelle"
+
+#~ msgid "close"
+#~ msgstr "kapat"
+
+#~ msgid "Add New"
+#~ msgstr "Yeni Ekle"
 
 #~ msgid "Sunday"
 #~ msgstr "Pazar"

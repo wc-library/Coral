@@ -7,15 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-24 17:17+0100\n"
-"PO-Revision-Date: 2019-01-30 10:24+0100\n"
-"Last-Translator: Admin User Coral <help@coral-erm.org>\n"
+"POT-Creation-Date: 2020-02-20 10:57+0100\n"
+"PO-Revision-Date: 2019-11-28 15:30+0000\n"
+"Last-Translator: Andronikos Panayiotou <andy.panayiotou@sirsidynix.com>\n"
 "Language-Team: English (British)\n"
 "Language: en_GB\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ASCII\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 2.8\n"
+"X-POOTLE-MTIME: 1574955044.061918\n"
 
 #: install/usage.php:9 install/usage.php:30 install/usage.php:113
 #: install/usage.php:124 install/usage.php:134
@@ -42,23 +44,23 @@ msgstr "Please set up the following options for the Usage module."
 msgid "Import History for "
 msgstr "Import History for "
 
-#: ajax_htmldata.php:62 ajax_htmldata.php:1147
+#: ajax_htmldata.php:62 ajax_htmldata.php:1148
 msgid "Import Date"
 msgstr "Import Date"
 
-#: ajax_htmldata.php:63 ajax_htmldata.php:1148
+#: ajax_htmldata.php:63 ajax_htmldata.php:1149
 msgid "Imported By"
 msgstr "Imported By"
 
-#: ajax_htmldata.php:64 ajax_htmldata.php:1149
+#: ajax_htmldata.php:64 ajax_htmldata.php:1150
 msgid "Import Summary"
 msgstr "Import Summary"
 
-#: ajax_htmldata.php:76 ajax_htmldata.php:1168
+#: ajax_htmldata.php:76 ajax_htmldata.php:1169
 msgid "view log"
 msgstr "view log"
 
-#: ajax_htmldata.php:77 ajax_htmldata.php:1169
+#: ajax_htmldata.php:77 ajax_htmldata.php:1170
 msgid "view archive"
 msgstr "view archive"
 
@@ -88,20 +90,20 @@ msgid "Login Notes"
 msgstr "Login Notes"
 
 #: ajax_htmldata.php:128 ajax_htmldata.php:189 ajax_htmldata.php:351
-#: ajax_htmldata.php:420 ajax_htmldata.php:901 ajax_htmldata.php:925
-#: uploadComplete.php:366
+#: ajax_htmldata.php:420 ajax_htmldata.php:926 ajax_forms.php:770
+#: ajax_forms.php:777 ajax_forms.php:784 uploadComplete.php:366
 msgid "edit"
 msgstr "edit"
 
 #: ajax_htmldata.php:128 ajax_htmldata.php:189 ajax_htmldata.php:351
-#: ajax_htmldata.php:420 ajax_htmldata.php:1419
+#: ajax_htmldata.php:420
 msgid "remove"
 msgstr "remove"
 
 #: ajax_htmldata.php:138 ajax_htmldata.php:199 ajax_htmldata.php:359
 #: ajax_htmldata.php:428 ajax_htmldata.php:478 ajax_htmldata.php:638
-#: ajax_htmldata.php:665 ajax_htmldata.php:699 ajax_htmldata.php:1428
-#: ajax_htmldata.php:1536
+#: ajax_htmldata.php:665 ajax_htmldata.php:699 ajax_htmldata.php:1429
+#: ajax_htmldata.php:1537
 msgid "(none found)"
 msgstr "(none found)"
 
@@ -115,7 +117,7 @@ msgstr "Interface Logins"
 
 #: ajax_htmldata.php:217
 msgid "Organization Accounts"
-msgstr "Organization Accounts"
+msgstr "Organisation Accounts"
 
 #: ajax_htmldata.php:237
 msgid "For "
@@ -123,7 +125,7 @@ msgstr "For "
 
 #: ajax_htmldata.php:237 ajax_htmldata.php:261
 msgid "view organization"
-msgstr "view organization"
+msgstr "view organisation"
 
 #: ajax_htmldata.php:240
 msgid "Login Type"
@@ -143,11 +145,11 @@ msgstr "No login information stored for "
 
 #: ajax_htmldata.php:266
 msgid "change associated organization"
-msgstr "change associated organization"
+msgstr "change associated organisation"
 
 #: ajax_htmldata.php:275
 msgid "link to associated organization"
-msgstr "link to associated organization"
+msgstr "link to associated organisation"
 
 #: ajax_htmldata.php:300
 msgid "Login Credentials are also available for the following publishers:"
@@ -306,17 +308,17 @@ msgid "Title"
 msgstr "Title"
 
 #: ajax_htmldata.php:719 ajax_htmldata.php:794 spreadsheet.php:63
-#: spreadsheet.php:83 ajax_forms.php:871 titles_spreadsheet.php:49
+#: spreadsheet.php:83 ajax_forms.php:870 titles_spreadsheet.php:49
 #: titles_spreadsheet.php:53
 msgid "DOI"
 msgstr "DOI"
 
 #: ajax_htmldata.php:720 ajax_htmldata.php:796 spreadsheet.php:86
-#: ajax_forms.php:867 titles_spreadsheet.php:55
+#: ajax_forms.php:866 titles_spreadsheet.php:55
 msgid "ISSN"
 msgstr "ISSN"
 
-#: ajax_htmldata.php:721 ajax_forms.php:868
+#: ajax_htmldata.php:721 ajax_forms.php:867
 msgid "eISSN"
 msgstr "eISSN"
 
@@ -332,7 +334,7 @@ msgstr "view in link resolver"
 msgid "Books - Associated Titles and ISBNs"
 msgstr "Books - Associated Titles and ISBNs"
 
-#: ajax_htmldata.php:795 spreadsheet.php:85 ajax_forms.php:869
+#: ajax_htmldata.php:795 spreadsheet.php:85 ajax_forms.php:868
 #: titles_spreadsheet.php:54
 msgid "ISBN"
 msgstr "ISBN"
@@ -345,28 +347,35 @@ msgstr "Database Titles"
 msgid "Current Email Addresses"
 msgstr "Current Email Addresses"
 
+#: ajax_htmldata.php:901 ajax_htmldata.php:1419 ajax_forms.php:39
+#: ajax_forms.php:167 ajax_forms.php:222 ajax_forms.php:256 ajax_forms.php:353
+#: ajax_forms.php:420 ajax_forms.php:485 ajax_forms.php:977
+msgid "Edit"
+msgstr ""
+
 #: ajax_htmldata.php:902
-msgid "delete"
+#, fuzzy
+msgid "Delete"
 msgstr "delete"
 
-#: ajax_htmldata.php:921
+#: ajax_htmldata.php:922
 msgid "Current Outlier Parameters"
 msgstr "Current Outlier Parameters"
 
-#: ajax_htmldata.php:924 uploadComplete.php:121
+#: ajax_htmldata.php:925 uploadComplete.php:121
 msgid "Level "
 msgstr "Level "
 
-#: ajax_htmldata.php:924 uploadComplete.php:121
+#: ajax_htmldata.php:925 uploadComplete.php:121
 msgid " over plus "
 msgstr " over plus "
 
-#: ajax_htmldata.php:924
+#: ajax_htmldata.php:925
 #, php-format
 msgid "% over - displayed "
 msgstr "% over - displayed "
 
-#: ajax_htmldata.php:929
+#: ajax_htmldata.php:930
 msgid ""
 "Outliers are currently disabled in the configuration file.  Contact your "
 "technical support to enable them."
@@ -374,167 +383,170 @@ msgstr ""
 "Outliers are currently disabled in the configuration file.  Contact your "
 "technical support to enable them."
 
-#: ajax_htmldata.php:961 ajax_forms.php:686 ajax_forms.php:762
+#: ajax_htmldata.php:962 ajax_forms.php:685 ajax_forms.php:761
 msgid "None currently"
 msgstr "None currently"
 
-#: ajax_htmldata.php:968 ajax_forms.php:693
+#: ajax_htmldata.php:969
 msgid "update override"
 msgstr "update override"
 
-#: ajax_htmldata.php:969 ajax_forms.php:693
+#: ajax_htmldata.php:970 ajax_forms.php:692
 msgid "ignore outlier"
 msgstr "ignore outlier"
 
-#: ajax_htmldata.php:1010 ajax_forms.php:768
+#: ajax_htmldata.php:1011 ajax_forms.php:767
 msgid "Total"
 msgstr "Total"
 
-#: ajax_htmldata.php:1013 ajax_htmldata.php:1020 ajax_htmldata.php:1027
-#: ajax_htmldata.php:1418 ajax_forms.php:222 ajax_forms.php:771
-#: ajax_forms.php:778 ajax_forms.php:785
+#: ajax_htmldata.php:1014 ajax_htmldata.php:1021 ajax_htmldata.php:1028
 msgid "update"
 msgstr "update"
 
-#: ajax_htmldata.php:1017 ajax_forms.php:775
+#: ajax_htmldata.php:1018 ajax_forms.php:774
 msgid "PDF"
 msgstr "PDF"
 
-#: ajax_htmldata.php:1055 ajax_htmldata.php:1080 reporting.php:36
+#: ajax_htmldata.php:1056 ajax_htmldata.php:1081 reporting.php:36
 #: reporting.php:59
 msgid "edit report display name"
 msgstr "edit report display name"
 
-#: ajax_htmldata.php:1106
+#: ajax_htmldata.php:1107
 msgid "No imports found."
 msgstr "No imports found."
 
-#: ajax_htmldata.php:1112 ajax_htmldata.php:1472
+#: ajax_htmldata.php:1113 ajax_htmldata.php:1473
 msgid "Displaying "
 msgstr "Displaying "
 
-#: ajax_htmldata.php:1112 ajax_htmldata.php:1472
+#: ajax_htmldata.php:1113 ajax_htmldata.php:1473
 msgid " to "
 msgstr " to "
 
-#: ajax_htmldata.php:1112 ajax_htmldata.php:1472
+#: ajax_htmldata.php:1113 ajax_htmldata.php:1473
 msgid " of "
 msgstr " of "
 
-#: ajax_htmldata.php:1112
+#: ajax_htmldata.php:1113
 msgid " Records"
 msgstr " Records"
 
-#: ajax_htmldata.php:1228 ajax_htmldata.php:1280 ajax_htmldata.php:1337
+#: ajax_htmldata.php:1229 ajax_htmldata.php:1281 ajax_htmldata.php:1338
 msgid "Platform/Publisher"
 msgstr "Platform/Publisher"
 
-#: ajax_htmldata.php:1229
+#: ajax_htmldata.php:1230
 msgid "Import Run Date"
 msgstr "Import Run Date"
 
-#: ajax_htmldata.php:1230
+#: ajax_htmldata.php:1231
 msgid "Details"
 msgstr "Details"
 
-#: ajax_htmldata.php:1254
+#: ajax_htmldata.php:1255
 msgid "view to process"
 msgstr "view to process"
 
-#: ajax_htmldata.php:1255
+#: ajax_htmldata.php:1256
 msgid "delete import"
 msgstr "delete import"
 
-#: ajax_htmldata.php:1260
+#: ajax_htmldata.php:1261
 msgid "(no outstanding imports found)"
 msgstr "(no outstanding imports found)"
 
-#: ajax_htmldata.php:1281 ajax_htmldata.php:1340 ajax_htmldata.php:1517
+#: ajax_htmldata.php:1282 ajax_htmldata.php:1341 ajax_htmldata.php:1518
 msgid "Latest Run"
 msgstr "Latest Run"
 
-#: ajax_htmldata.php:1282 ajax_htmldata.php:1341 ajax_htmldata.php:1518
+#: ajax_htmldata.php:1283 ajax_htmldata.php:1342 ajax_htmldata.php:1519
 msgid "Latest Status"
 msgstr "Latest Status"
 
-#: ajax_htmldata.php:1308
+#: ajax_htmldata.php:1309
 msgid "view full log"
 msgstr "view full log"
 
-#: ajax_htmldata.php:1309 ajax_htmldata.php:1372
+#: ajax_htmldata.php:1310 ajax_htmldata.php:1373
 msgid "run now"
 msgstr "run now"
 
-#: ajax_htmldata.php:1310 ajax_htmldata.php:1373
+#: ajax_htmldata.php:1311 ajax_htmldata.php:1374
 msgid "change/test connection"
 msgstr "change/test connection"
 
-#: ajax_htmldata.php:1317
+#: ajax_htmldata.php:1318
 msgid "(no failed imports found)"
 msgstr "(no failed imports found)"
 
-#: ajax_htmldata.php:1338
+#: ajax_htmldata.php:1339
 msgid "Report(s)"
 msgstr "Report(s)"
 
-#: ajax_htmldata.php:1339 ajax_htmldata.php:1516
+#: ajax_htmldata.php:1340 ajax_htmldata.php:1517
 msgid "Next Run"
 msgstr "Next Run"
 
-#: ajax_htmldata.php:1380
+#: ajax_htmldata.php:1381
 msgid "(no sushi services set up)"
 msgstr "(no sushi services set up)"
 
-#: ajax_htmldata.php:1402 ajax_forms.php:989
+#: ajax_htmldata.php:1403 ajax_forms.php:988
 msgid "Login ID"
 msgstr "Login ID"
 
-#: ajax_htmldata.php:1403 ajax_forms.php:990
+#: ajax_htmldata.php:1404 ajax_forms.php:989
 msgid "First Name"
 msgstr "First Name"
 
-#: ajax_htmldata.php:1404 ajax_forms.php:991
+#: ajax_htmldata.php:1405 ajax_forms.php:990
 msgid "Last Name"
 msgstr "Last Name"
 
-#: ajax_htmldata.php:1405 ajax_forms.php:992
+#: ajax_htmldata.php:1406 ajax_forms.php:991
 msgid "Privilege"
 msgstr "Privilege"
 
-#: ajax_htmldata.php:1468
+#: ajax_htmldata.php:1420
+#, fuzzy
+msgid "Remove"
+msgstr "remove"
+
+#: ajax_htmldata.php:1469
 msgid "Sorry, no platforms or publishers fit your query"
 msgstr "Sorry, no platforms or publishers fit your query"
 
-#: ajax_htmldata.php:1472
+#: ajax_htmldata.php:1473
 msgid " Platform Records"
 msgstr " Platform Records"
 
-#: ajax_htmldata.php:1514 ajax_forms.php:822
+#: ajax_htmldata.php:1515 ajax_forms.php:821
 msgid "Platform Name"
 msgstr "Platform Name"
 
-#: ajax_htmldata.php:1515
+#: ajax_htmldata.php:1516
 msgid "Publishers"
 msgstr "Publishers"
 
-#: ajax_htmldata.php:1519
+#: ajax_htmldata.php:1520
 msgid "By"
 msgstr "By"
 
-#: ajax_htmldata.php:1541 publisherPlatformList.php:32 reporting.php:41
+#: ajax_htmldata.php:1542 publisherPlatformList.php:32 reporting.php:41
 #: js/index.js:133
 msgid "show publisher list"
 msgstr "show publisher list"
 
-#: ajax_htmldata.php:1620
+#: ajax_htmldata.php:1621
 msgid "records per page"
 msgstr "records per page"
 
-#: ajax_htmldata.php:1639 ajax_processing.php:598 ajax_forms.php:1042
+#: ajax_htmldata.php:1640 ajax_processing.php:598 ajax_forms.php:1041
 msgid "Function "
 msgstr "Function "
 
-#: ajax_htmldata.php:1639 ajax_processing.php:598 ajax_forms.php:1042
+#: ajax_htmldata.php:1640 ajax_processing.php:598 ajax_forms.php:1041
 msgid " not set up!"
 msgstr " not set up!"
 
@@ -552,11 +564,11 @@ msgid ""
 msgstr ""
 "Please contact your Administrator for access to the Usage Statistics Module."
 
-#: templates/header.php:40 templates/header.php:92
+#: templates/header.php:42 templates/header.php:96
 msgid "Usage Statistics"
 msgstr "Usage Statistics"
 
-#: templates/header.php:72
+#: templates/header.php:76
 msgid ""
 "JavaScript must be enabled in order for you to use CORAL. However, it seems "
 "JavaScript is either disabled or not supported by your browser. To use "
@@ -566,75 +578,95 @@ msgstr ""
 "JavaScript is either disabled or not supported by your browser. To use "
 "CORAL, enable JavaScript by changing your browser options, then "
 
-#: templates/header.php:72
+#: templates/header.php:76
 msgid "try again"
 msgstr "try again"
 
-#: templates/header.php:93
+#: templates/header.php:97
 msgid "Powered by"
 msgstr "Powered by"
 
-#: templates/header.php:99
+#: templates/header.php:103
 msgid "Hello"
 msgstr "Hello"
 
-#: templates/header.php:109
+#: templates/header.php:113
 msgid "logout"
 msgstr "logout"
 
-#: templates/header.php:109
+#: templates/header.php:113
 msgid "Help"
 msgstr "Help"
 
-#: templates/header.php:127
+#: templates/header.php:131
 msgid "Invalid translation route!"
 msgstr "Invalid translation route!"
 
-#: templates/header.php:167 templates/header.php:216 import.php:3 index.php:26
+#: templates/header.php:171 templates/header.php:220 import.php:3 index.php:26
 msgid "Home"
 msgstr "Home"
 
-#: templates/header.php:174 templates/header.php:223
+#: templates/header.php:178 templates/header.php:227
 msgid "File Import"
 msgstr "File Import"
 
-#: templates/header.php:181 templates/header.php:230
+#: templates/header.php:185 templates/header.php:234
 msgid "SUSHI"
 msgstr "SUSHI"
 
-#: templates/header.php:188
+#: templates/header.php:192
 msgid "Admin"
 msgstr "Admin"
 
-#: templates/header.php:195 templates/header.php:237 reporting.php:2
+#: templates/header.php:199 templates/header.php:241 reporting.php:2
 msgid "Report Options"
 msgstr "Report Options"
 
-#: templates/header.php:204 templates/header.php:246
+#: templates/header.php:208 templates/header.php:250
 msgid "Usage Reports"
 msgstr "Usage Reports"
 
-#: templates/header.php:265
+#: templates/header.php:269
 msgid "Change Module"
 msgstr "Change Module"
 
-#: templates/header.php:268
+#: templates/header.php:272
 msgid "Main Menu"
 msgstr "Main Menu"
 
-#: templates/header.php:273
+#: templates/header.php:277
+#, fuzzy
+msgid "Resources module"
+msgstr "Resources"
+
+#: templates/header.php:277
 msgid "Resources"
 msgstr "Resources"
 
-#: templates/header.php:278
-msgid "Organizations"
+#: templates/header.php:282
+#, fuzzy
+msgid "Organizations module"
 msgstr "Organizations"
 
-#: templates/header.php:283
+#: templates/header.php:282
+msgid "Organizations"
+msgstr "Organisations"
+
+#: templates/header.php:287
+#, fuzzy
+msgid "Licensing module"
+msgstr "Licensing"
+
+#: templates/header.php:287
 msgid "Licensing"
 msgstr "Licensing"
 
-#: templates/header.php:288
+#: templates/header.php:292
+#, fuzzy
+msgid "Management module"
+msgstr "Management"
+
+#: templates/header.php:292
 msgid "Management"
 msgstr "Management"
 
@@ -659,60 +691,90 @@ msgid "Usage Statistics Import"
 msgstr "Usage Statistics Import"
 
 #: import.php:25
-msgid "Incorrect File format, must be .txt!"
-msgstr "Incorrect File format, must be .txt!"
+msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
+msgstr ""
 
 #: import.php:28
 msgid ""
-"There was an error uploading the file.  Please verify the size is not over "
-"5MB and try again!"
+"The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
+"the HTML form"
 msgstr ""
-"There was an error uploading the file.  Please verify the size is not over "
-"5MB and try again!"
 
 #: import.php:31
+msgid "The uploaded file was only partially uploaded"
+msgstr ""
+
+#: import.php:34
+msgid "No file was uploaded"
+msgstr ""
+
+#: import.php:37
+msgid "Missing a temporary folder"
+msgstr ""
+
+#: import.php:40
+msgid "Failed to write file to disk"
+msgstr ""
+
+#: import.php:43
+msgid "File upload stopped by extension"
+msgstr ""
+
+#: import.php:46
+msgid "Incorrect File format, must be .txt!"
+msgstr "Incorrect File format, must be .txt!"
+
+#: import.php:49
 msgid "File has an incorrectly formatted name - try filename.txt!"
 msgstr "File has an incorrectly formatted name - try filename.txt!"
 
-#: import.php:43
+#: import.php:52
+msgid "The archive directory is not writable. Please check permissions."
+msgstr ""
+
+#: import.php:55
+msgid "Unknown upload error"
+msgstr ""
+
+#: import.php:68
 msgid "File:"
 msgstr "File:"
 
-#: import.php:48
+#: import.php:73
 msgid "Layout:"
 msgstr "Layout:"
 
-#: import.php:57
+#: import.php:82
 msgid "Override previous month verification"
 msgstr "Override previous month verification"
 
-#: import.php:58
+#: import.php:83
 msgid "Upload"
 msgstr "Upload"
 
-#: import.php:68
+#: import.php:93
 msgid "Instructions:"
 msgstr "Instructions:"
 
-#: import.php:70
+#: import.php:95
 msgid "Save file as .txt files in tab delimited format"
 msgstr "Save file as .txt files in tab delimited format"
 
-#: import.php:71
+#: import.php:96
 msgid "File may not be larger than 5MB"
 msgstr "File may not be larger than 5MB"
 
-#: import.php:72
+#: import.php:97
 msgid ""
 "Ensure column headers conform to Counter's standards for the report type"
 msgstr ""
 "Ensure column headers conform to Counter's standards for the report type"
 
-#: import.php:73
+#: import.php:98
 msgid "More info: "
 msgstr "More info: "
 
-#: import.php:82
+#: import.php:107
 msgid "Recent Imports"
 msgstr "Recent Imports"
 
@@ -724,7 +786,7 @@ msgstr "Publisher"
 msgid "Platform"
 msgstr "Platform"
 
-#: spreadsheet.php:64 spreadsheet.php:84 ajax_forms.php:872
+#: spreadsheet.php:64 spreadsheet.php:84 ajax_forms.php:871
 msgid "Proprietary ID"
 msgstr "Proprietary ID"
 
@@ -837,7 +899,8 @@ msgid "Users"
 msgstr "Users"
 
 #: admin.php:13
-msgid "add new user"
+#, fuzzy
+msgid "Add user"
 msgstr "add new user"
 
 #: admin.php:16 admin.php:31 admin.php:46 js/publisherPlatform.js:139
@@ -850,7 +913,8 @@ msgid "Email addresses for logs"
 msgstr "Email addresses for logs"
 
 #: admin.php:28
-msgid "add new email address"
+#, fuzzy
+msgid "Add mail adress"
 msgstr "add new email address"
 
 #: admin.php:43
@@ -873,13 +937,8 @@ msgstr "Default display list has been updated"
 msgid "Publisher Reporting Display Name has been updated"
 msgstr "Publisher Reporting Display Name has been updated"
 
-#: ajax_forms.php:39 ajax_forms.php:167 ajax_forms.php:256 ajax_forms.php:353
-#: ajax_forms.php:420 ajax_forms.php:485 ajax_forms.php:978
-msgid "Update"
-msgstr "Update"
-
 #: ajax_forms.php:43 ajax_forms.php:256 ajax_forms.php:362 ajax_forms.php:426
-#: ajax_forms.php:489
+#: ajax_forms.php:489 ajax_forms.php:980
 msgid "Add"
 msgstr "Add"
 
@@ -887,9 +946,10 @@ msgstr "Add"
 msgid "Email Address"
 msgstr "Email Address"
 
-#: ajax_forms.php:64 ajax_forms.php:228
-msgid "close"
-msgstr "close"
+#: ajax_forms.php:64 ajax_forms.php:228 ajax_forms.php:701 ajax_forms.php:795
+#: ajax_forms.php:952 ajax_forms.php:1022
+msgid "Close"
+msgstr "Close"
 
 #: ajax_forms.php:105
 msgid "SUSHI Service for"
@@ -920,8 +980,7 @@ msgid "submit for processing"
 msgstr "submit for processing"
 
 #: ajax_forms.php:128 ajax_forms.php:168 ajax_forms.php:325 ajax_forms.php:394
-#: ajax_forms.php:461 ajax_forms.php:627 ajax_forms.php:831 ajax_forms.php:885
-#: ajax_forms.php:1023
+#: ajax_forms.php:461 ajax_forms.php:626 ajax_forms.php:830 ajax_forms.php:884
 msgid "cancel"
 msgstr "cancel"
 
@@ -930,7 +989,8 @@ msgid "No Sushi Service passed in!"
 msgstr "No Sushi Service passed in!"
 
 #: ajax_forms.php:162
-msgid "Update Outlier"
+#, fuzzy
+msgid "Edit Outlier"
 msgstr "Update Outlier"
 
 #: ajax_forms.php:162
@@ -946,7 +1006,8 @@ msgid "% Over prior 12 months"
 msgstr "% Over prior 12 months"
 
 #: ajax_forms.php:217
-msgid "Update Report Display Name"
+#, fuzzy
+msgid "Edit Report Display Name"
 msgstr "Update Report Display Name"
 
 #: ajax_forms.php:298 ajax_forms.php:376
@@ -973,8 +1034,8 @@ msgstr "No"
 msgid "Interface Notes:"
 msgstr "Interface Notes:"
 
-#: ajax_forms.php:324 ajax_forms.php:393 ajax_forms.php:460 ajax_forms.php:626
-#: ajax_forms.php:830 ajax_forms.php:884
+#: ajax_forms.php:324 ajax_forms.php:393 ajax_forms.php:460 ajax_forms.php:625
+#: ajax_forms.php:829 ajax_forms.php:883
 msgid "submit"
 msgstr "submit"
 
@@ -986,7 +1047,7 @@ msgstr "Publisher Notes:"
 msgid "Username:"
 msgstr "Username:"
 
-#: ajax_forms.php:444 ajax_forms.php:549
+#: ajax_forms.php:444 ajax_forms.php:548
 msgid "Password:"
 msgstr "Password:"
 
@@ -1026,107 +1087,104 @@ msgstr "separate report types with semi-colon, e.g. JR1;BR1"
 msgid "COUNTER Release:"
 msgstr "COUNTER Release:"
 
-#: ajax_forms.php:528
+#: ajax_forms.php:527
 msgid "Requestor ID:"
 msgstr "Requestor ID:"
 
-#: ajax_forms.php:532
+#: ajax_forms.php:531
 msgid "Customer ID:"
 msgstr "Customer ID:"
 
-#: ajax_forms.php:536
+#: ajax_forms.php:535
 msgid "Security Type:"
 msgstr "Security Type:"
 
-#: ajax_forms.php:538 ajax_forms.php:544 ajax_forms.php:551 ajax_forms.php:559
+#: ajax_forms.php:537 ajax_forms.php:543 ajax_forms.php:550 ajax_forms.php:558
 msgid "(optional)"
 msgstr "(optional)"
 
-#: ajax_forms.php:538
+#: ajax_forms.php:537
 msgid "can be: HTTP Basic, WSSE Authentication"
 msgstr "can be: HTTP Basic, WSSE Authentication"
 
-#: ajax_forms.php:542
+#: ajax_forms.php:541
 msgid "Login:"
 msgstr "Login:"
 
-#: ajax_forms.php:544 ajax_forms.php:551
+#: ajax_forms.php:543 ajax_forms.php:550
 msgid "only needed for HTTP or WSSE Authentication"
 msgstr "only needed for HTTP or WSSE Authentication"
 
-#: ajax_forms.php:557
+#: ajax_forms.php:556
 msgid "Service Day:"
 msgstr "Service Day:"
 
-#: ajax_forms.php:559
+#: ajax_forms.php:558
 msgid "number indicating the day of month the service should run"
 msgstr "number indicating the day of month the service should run"
 
-#: ajax_forms.php:559
+#: ajax_forms.php:558
 msgid "(e.g. 27 will run 27th of every month)"
 msgstr "(e.g. 27 will run 27th of every month)"
 
-#: ajax_forms.php:563
+#: ajax_forms.php:562
 msgid "Sushi Notes:"
 msgstr "Sushi Notes:"
 
-#: ajax_forms.php:611
+#: ajax_forms.php:610
 msgid "Link Associated Organization"
-msgstr "Link Associated Organization"
+msgstr "Link Associated Organisation"
 
-#: ajax_forms.php:615
+#: ajax_forms.php:614
 msgid "Organization:"
-msgstr "Organization:"
+msgstr "Organisation:"
 
-#: ajax_forms.php:702 ajax_forms.php:796 ajax_forms.php:953
-msgid "Close"
-msgstr "Close"
+#: ajax_forms.php:692
+#, fuzzy
+msgid "edit override"
+msgstr "update override"
 
-#: ajax_forms.php:753
+#: ajax_forms.php:752
 msgid "(showing only titles for which there were outliers during the year)"
 msgstr "(showing only titles for which there were outliers during the year)"
 
-#: ajax_forms.php:821
+#: ajax_forms.php:820
 msgid "Add New Platform for SUSHI Connection"
 msgstr "Add New Platform for SUSHI Connection"
 
-#: ajax_forms.php:863
+#: ajax_forms.php:862
 msgid "Add Identifier"
 msgstr "Add Identifier"
 
-#: ajax_forms.php:864
+#: ajax_forms.php:863
 msgid "Identifier Type"
 msgstr "Identifier Type"
 
-#: ajax_forms.php:870
+#: ajax_forms.php:869
 msgid "eISBN"
 msgstr "eISBN"
 
-#: ajax_forms.php:876
+#: ajax_forms.php:875
 msgid "Identifier"
 msgstr "Identifier"
 
-#: ajax_forms.php:918
+#: ajax_forms.php:917
 msgid "Associated Titles and Identifiers"
 msgstr "Associated Titles and Identifiers"
 
-#: ajax_forms.php:981
-msgid "Add New"
-msgstr "Add New"
-
-#: ajax_forms.php:988
+#: ajax_forms.php:987
 msgid " User"
 msgstr " User"
 
-#: ajax_forms.php:996
+#: ajax_forms.php:995
 msgid "Add/Edit users have access to everything"
 msgstr "Add/Edit users have access to everything"
 
-#: ajax_forms.php:996
+#: ajax_forms.php:995
 msgid "except the Admin tab and admin users"
 msgstr "except the Admin tab and admin users"
 
-#: ajax_forms.php:996
+#: ajax_forms.php:995
 msgid "have access to everything"
 msgstr "have access to everything"
 
@@ -1254,49 +1312,49 @@ msgstr " has been uploaded successfully."
 msgid "Please confirm the following data:"
 msgstr "Please confirm the following data:"
 
-#: uploadConfirmation.php:135
+#: uploadConfirmation.php:138
 msgid "Upload Process Confirmation"
 msgstr "Upload Process Confirmation"
 
-#: uploadConfirmation.php:185 uploadConfirmation.php:249
+#: uploadConfirmation.php:188 uploadConfirmation.php:252
 msgid " for "
 msgstr " for "
 
-#: uploadConfirmation.php:232
+#: uploadConfirmation.php:235
 msgid "Looking for "
 msgstr "Looking for "
 
-#: uploadConfirmation.php:232
+#: uploadConfirmation.php:235
 msgid " in column "
 msgstr " in column "
 
-#: uploadConfirmation.php:232
+#: uploadConfirmation.php:235
 msgid "but found "
 msgstr "but found "
 
-#: uploadConfirmation.php:307
+#: uploadConfirmation.php:310
 msgid "Error with Format"
 msgstr "Error with Format"
 
-#: uploadConfirmation.php:307
+#: uploadConfirmation.php:310
 msgid "Report format is set to "
 msgstr "Report format is set to "
 
-#: uploadConfirmation.php:307
+#: uploadConfirmation.php:310
 msgid ""
 " but does not match the column names listed in layouts.ini for this format"
 msgstr ""
 " but does not match the column names listed in layouts.ini for this format"
 
-#: uploadConfirmation.php:307
+#: uploadConfirmation.php:310
 msgid "Expecting columns: "
 msgstr "Expecting columns: "
 
-#: uploadConfirmation.php:307
+#: uploadConfirmation.php:310
 msgid "Found columns: "
 msgstr "Found columns: "
 
-#: uploadConfirmation.php:307
+#: uploadConfirmation.php:310
 msgid ""
 "If problems persist you can copy an existing header that works into this "
 "file."
@@ -1304,25 +1362,25 @@ msgstr ""
 "If problems persist you can copy an existing header that works into this "
 "file."
 
-#: uploadConfirmation.php:312
+#: uploadConfirmation.php:315
 msgid "Error with Setup:  This report format is not set up in layouts.ini."
 msgstr "Error with Setup:  This report format is not set up in layouts.ini."
 
-#: uploadConfirmation.php:317
+#: uploadConfirmation.php:320
 msgid ""
 "Error with Format:  The line preceding the first should start with 'Total'."
 msgstr ""
 "Error with Format:  The line preceding the first should start with 'Total'."
 
-#: uploadConfirmation.php:322
+#: uploadConfirmation.php:325
 msgid "Error with Year:  Year listed in header"
 msgstr "Error with Year:  Year listed in header"
 
-#: uploadConfirmation.php:322
+#: uploadConfirmation.php:325
 msgid "may not be ahead of current year.  Please correct and submit again."
 msgstr "may not be ahead of current year.  Please correct and submit again."
 
-#: uploadConfirmation.php:327
+#: uploadConfirmation.php:330
 msgid ""
 "File is flagged to override verifications of previous month data.  If this "
 "is incorrect use 'Cancel' to fix."
@@ -1330,33 +1388,33 @@ msgstr ""
 "File is flagged to override verifications of previous month data.  If this "
 "is incorrect use 'Cancel' to fix."
 
-#: uploadConfirmation.php:334 uploadComplete.php:101
+#: uploadConfirmation.php:337 uploadComplete.php:101
 msgid "Report Format: "
 msgstr "Report Format: "
 
-#: uploadConfirmation.php:334
-msgid ""
-"If this is incorrect, please use 'Cancel' to go back and fix the headers of "
-"the file."
-msgstr ""
-"If this is incorrect, please use 'Cancel' to go back and fix the headers of "
-"the file."
-
 #: uploadConfirmation.php:337
 msgid ""
+"If this is incorrect, please use 'Cancel' to go back and fix the headers of "
+"the file."
+msgstr ""
+"If this is incorrect, please use 'Cancel' to go back and fix the headers of "
+"the file."
+
+#: uploadConfirmation.php:340
+msgid ""
 "File has been imported from SUSHI. The default behavior for imported SUSHI "
 "files is to overwrite previously imported data. If this is incorrect, please "
 "contact a system administrator."
 msgstr ""
-"File has been imported from SUSHI. The default behavior for imported SUSHI "
+"File has been imported from SUSHI. The default behaviour for imported SUSHI "
 "files is to overwrite previously imported data. If this is incorrect, please "
 "contact a system administrator."
 
-#: uploadConfirmation.php:354
+#: uploadConfirmation.php:357
 msgid "Confirm"
 msgstr "Confirm"
 
-#: uploadConfirmation.php:357
+#: uploadConfirmation.php:360
 msgid "Cancel"
 msgstr "Cancel"
 
@@ -1441,11 +1499,11 @@ msgstr "Identifier must be valid format."
 
 #: js/forms/organizationForm.js:34
 msgid "This organization doesn't exist in the CORAL Organizations module."
-msgstr "This organization doesn't exist in the CORAL Organizations module."
+msgstr "This organisation doesn't exist in the CORAL Organisations module."
 
 #: js/forms/organizationForm.js:97
 msgid "This organization doesn't exist in the CORAL Organizations Module."
-msgstr "This organization doesn't exist in the CORAL Organizations Module."
+msgstr "This organisation doesn't exist in the CORAL Organisations Module."
 
 #: js/forms/outlierSubmitForm.js:94
 msgid ""
@@ -1682,3 +1740,19 @@ msgstr "Process completed."
 #: uploadComplete.php:1052
 msgid "Summary:"
 msgstr "Summary:"
+
+#~ msgid ""
+#~ "There was an error uploading the file.  Please verify the size is not "
+#~ "over 5MB and try again!"
+#~ msgstr ""
+#~ "There was an error uploading the file.  Please verify the size is not "
+#~ "over 5MB and try again!"
+
+#~ msgid "Update"
+#~ msgstr "Update"
+
+#~ msgid "close"
+#~ msgstr "close"
+
+#~ msgid "Add New"
+#~ msgstr "Add New"
