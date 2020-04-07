@@ -45,8 +45,7 @@ $coralURL = $util->getCORALURL();
 <link rel="SHORTCUT ICON" href="images/favicon.ico" />
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
-<script type="text/javascript" src="../js/plugins/jquery-1.4.4.js"></script>
-<script type="text/javascript" src="../js/plugins/ajaxupload.3.5.js"></script>
+<script type="text/javascript" src="../js/plugins/jquery-1.8.0.js"></script>
 <script type="text/javascript" src="js/plugins/thickbox.js"></script>
 <script type="text/javascript" src="../js/plugins/jquery.autocomplete.js"></script>
 <script type="text/javascript" src="../js/plugins/Gettext.js"></script>
@@ -96,49 +95,7 @@ $coralURL = $util->getCORALURL();
             <div id="menu-login" style='margin-top:1px;'>
                 <span class='smallText' style='color:#526972;'>
                 </span><br />
-
-                <span id="setLanguage">
-                    <select name="lang" id="lang" class="dropDownLang">
-                       <?php
-                        // Get all translations on the 'locale' folder
-                        $route='locale';
-                        $lang[]="en_US"; // add default language
-                        if (is_dir($route)) {
-                            if ($dh = opendir($route)) {
-                                while (($file = readdir($dh)) !== false) {
-                                    if (is_dir("$route/$file") && $file!="." && $file!=".."){
-                                        $lang[]=$file;
-                                    }
-                                }
-                                closedir($dh);
-                            }
-                        }else {
-                            echo "<br>"._("Invalid translation route!");
-                        }
-                        // Get language of navigator
-                        $defLang = $lang_name->getBrowserLanguage();
-
-                        // Show an ordered list
-                        sort($lang);
-                        for($i=0; $i<count($lang); $i++){
-                            if(isset($_COOKIE["lang"])){
-                                if($_COOKIE["lang"]==$lang[$i]){
-                                    echo "<option value='".$lang[$i]."' selected='selected'>".$lang_name->getNameLang($lang[$i])."</option>";
-                                }else{
-                                    echo "<option value='".$lang[$i]."'>".$lang_name->getNameLang($lang[$i])."</option>";
-                                }
-                            }else{
-                                if($defLang==substr($lang[$i],0,5)){
-                                    echo "<option value='".$lang[$i]."' selected='selected'>".$lang_name->getNameLang($lang[$i])."</option>";
-                                }else{
-                                    echo "<option value='".$lang[$i]."'>".$lang_name->getNameLang($lang[$i])."</option>";
-                                }
-                            }
-                        }
-                        ?>
-
-                    </select>
-                </span>
+                <?php $lang_name->getLanguageSelector(); ?>
             </div>
 
         </td>

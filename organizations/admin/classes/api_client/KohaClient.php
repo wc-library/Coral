@@ -45,7 +45,9 @@ class KohaClient implements ILSClient {
     function addVendor($vendor) {
         $headers = array("Accept" => "application/json");
         $headers = $this->authenticate($headers);
-        $body = Unirest\Request\Body::json($this->_vendorToKoha($vendor));
+        $parameters = $this->_vendorToKoha($vendor);
+        $parameters['active'] = true;
+        $body = Unirest\Request\Body::json($parameters);
         $response = Unirest\Request::post($this->api . "/acquisitions/vendors", $headers, $body);
         return ($response->body->id) ? $response->body->id : null;
         //return ($response->body->id) ? $response->body->id : $response->raw_body;

@@ -21,6 +21,9 @@
 
 include_once 'directory.php';
 
+$currentPage = $_SERVER["SCRIPT_NAME"];
+$parts = Explode('/', $currentPage);
+$currentPage = $parts[count($parts) - 1];
 
 //used for creating a "sticky form" for back buttons
 //except we don't want it to retain if they press the 'index' button
@@ -131,8 +134,12 @@ include 'templates/header.php';
 				$fundCodeLength = strlen($fund['fundCode']) + 3;
 				$combinedLength = strlen($fund['shortName']) + $fundCodeLength;
 				$fundName = ($combinedLength <=50) ? $fund['shortName'] : substr($fund['shortName'],0,49-$fundCodeLength) . "&hellip;";
-				$fundName .= " [" . $fund['fundCode'] . "]</option>";
-				echo "<option value='" . $fund['fundID'] . "'>" . $fundName . "</option>";
+				$fundName .= " [" . $fund['fundCode'] . "]";
+                if (isset($search['fund']) && $search['fund'] == $fund['fundID']) {
+                    echo "<option value='" . $fund['fundID'] . "' selected='selected'>" . $fundName . "</option>";
+                } else {
+                    echo "<option value='" . $fund['fundID'] . "'>" . $fundName . "</option>";
+                }
 		}
 
 			?>
@@ -612,8 +619,9 @@ include 'templates/header.php';
 		<td class='searchRow'><label for='searchParents'><b>Relationship</b></label>
 		<select name='search[parent]' id='searchParents' style='width:150px'>
 			<option value=''><?php echo _("All");?></option>
-			<option value='RRC'><?php echo _("Parent");?></option>
-			<option value='RRP'><?php echo _("Child");?></option>
+			<option value='RRC'<?php if (isset($search['parent']) && $search['parent'] == 'RRC') { echo " selected='selected'"; }; echo ">" ._("Parent");?></option>
+			<option value='RRP'<?php if (isset($search['parent']) && $search['parent'] == 'RRP') { echo " selected='selected'"; }; echo ">" . _("Child");?></option>
+			<option value='None'<?php if (isset($search['parent']) && $search['parent'] == 'None') { echo " selected='selected'"; }; echo ">" . _("None");?></option>
 		</select>
 	</td>
 	</tr>

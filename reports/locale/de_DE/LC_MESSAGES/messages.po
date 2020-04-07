@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Coral\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-24 16:34+0100\n"
+"POT-Creation-Date: 2020-02-20 10:57+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: BSZ - Abteilung Bibliothekssysteme\n"
 "Language-Team: \n"
@@ -118,7 +118,7 @@ msgstr ""
 msgid "Color Background Key"
 msgstr "Farbschlüssel Hintergrund"
 
-#: templates/header.php:72
+#: templates/header.php:74
 msgid ""
 "JavaScript must be enabled in order for you to use CORAL. However, it seems "
 "JavaScript is either disabled or not supported by your browser. To use "
@@ -128,15 +128,15 @@ msgstr ""
 "ist entweder deaktiviert oder wird von Ihrem Browser nicht unterstützt. Um "
 "CORAL zu benutzen, aktivieren Sie JavaScript in Ihrer Browser-Einstellung und"
 
-#: templates/header.php:72
+#: templates/header.php:74
 msgid "try again"
 msgstr "versuchen Sie es erneut"
 
-#: popup.php:66
+#: popup.php:65
 msgid "Frequently Asked Questions"
 msgstr "FAQ"
 
-#: popup.php:67
+#: popup.php:66
 msgid ""
 "Q. Why isn't the HTML number double the PDF number for interfaces that "
 "automatically download HTML?"
@@ -144,7 +144,7 @@ msgstr ""
 "Q. Warum ist bei Schnittstellen, die automatisch HTML herunterladen, die "
 "Zahl der HTML-Einträge nicht doppelt so hoch wie die Zahl der PDFs?"
 
-#: popup.php:69
+#: popup.php:68
 msgid ""
 "A. Frequently these sites do NOT automatically download HTML from the Table "
 "of Contents browse interface, so even platforms such as ScienceDirect "
@@ -154,7 +154,7 @@ msgstr ""
 "zum Durchstöbern der Inhaltsverzeichnissen herunter, so dass sogar "
 "Plattformen wie ScienceDirect höhere PDF- als HTML-Zahlen ausweisen."
 
-#: popup.php:71
+#: popup.php:70
 msgid ""
 "Q. I thought COUNTER standards prevented double-counting of article "
 "downloads."
@@ -162,7 +162,7 @@ msgstr ""
 "Q. Ich dachte der COUNTER Standard verhindert das doppelte Zählen von "
 "Aufsatzdownloads."
 
-#: popup.php:73
+#: popup.php:72
 msgid ""
 "A. COUNTER does require that duplicate clicks on HTML or PDF within a short "
 "period of time be counted once. But COUNTER specifically does not deny "
@@ -178,7 +178,7 @@ msgstr ""
 "Version zu speichern oder zu drucken, werden die Nutzungszahlen für Aufsätze "
 "signifikant in die Höhe getrieben."
 
-#: popup.php:75
+#: popup.php:74
 msgid ""
 "Q. Why do some Highwire Press publishers have high HTML ratios to PDFs, but "
 "some appear to have a very low ratio?"
@@ -186,7 +186,7 @@ msgstr ""
 "Q. Warum haben einige Highwire Press Verlage eine hohe HTML-zu-PDF-Quote, "
 "während andere eine sehr niedrige Quote haben?"
 
-#: popup.php:77
+#: popup.php:76
 msgid ""
 "A. Some publishers have automatic HTML display on Highwire, and some do not. "
 "This is because the publisher is able to indicate a preferred linking page "
@@ -199,7 +199,7 @@ msgstr ""
 "unterschiedliche Verlage umfasst, sind die Auswirkungen auf die Oberfläche "
 "nicht konsistent."
 
-#: popup.php:85
+#: popup.php:84
 msgid "Invalid type!!"
 msgstr "Ungültige Auswahl!"
 
